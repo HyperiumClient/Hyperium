@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.keystrokes.keys.impl;
@@ -84,7 +84,9 @@ public class CustomKey extends IKey {
             bottom = y + yOffset + 22;
         }
 
-        Gui.drawRect(left, top, right, bottom, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        if (mod.getSettings().isKeyBackgroundEnabled()) {
+            Gui.drawRect(left, top, right, bottom, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        }
 
         hitbox.setLeft(left);
         hitbox.setTop(top);
@@ -114,7 +116,7 @@ public class CustomKey extends IKey {
         } else if (this.type == 0 || this.type == 1) {
             this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + this.yOffset + 5, pressed ? pressedColor : colorN);
         } else {
-            this.mc.fontRendererObj.drawString(name, (left + right) / 2 - fontRendererObj.getStringWidth(name), (int) yPos, pressed ? pressedColor : colorN);
+            this.mc.fontRendererObj.drawString(name, (left + right) / 2 - fontRendererObj.getStringWidth(name) / 2, (int) yPos, pressed ? pressedColor : colorN);
         }
     }
 

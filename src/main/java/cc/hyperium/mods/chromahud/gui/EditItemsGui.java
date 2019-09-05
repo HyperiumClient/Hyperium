@@ -1,23 +1,22 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.chromahud.gui;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.chromahud.DisplayElement;
@@ -28,30 +27,19 @@ import cc.hyperium.mods.chromahud.api.StringConfig;
 import cc.hyperium.mods.chromahud.api.TextConfig;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class EditItemsGui extends GuiScreen {
     private final DisplayElement element;
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private final ChromaHUD mod;
     private DisplayItem modifying;
     private int tmpId;
@@ -59,7 +47,6 @@ public class EditItemsGui extends GuiScreen {
     public EditItemsGui(DisplayElement element, ChromaHUD mod) {
         this.element = element;
         this.mod = mod;
-        boolean mouseLock = Mouse.isButtonDown(0);
     }
 
     private int nextId() {
@@ -68,40 +55,35 @@ public class EditItemsGui extends GuiScreen {
 
     @Override
     public void initGui() {
-        reg("add", new GuiButton(nextId(), 2, 2, 100, 20, "Add Items"), (guiButton) -> {
-            //On click
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new AddItemsGui(mod, element));
-        }, (guiButton) -> {
+        reg(new GuiButton(nextId(), 2, 2, 100, 20, "Add Items"), button ->
+            mc.displayGuiScreen(new AddItemsGui(mod, element)));
 
-        });
-        reg("Remove", new GuiButton(nextId(), 2, 23, 100, 20, "Remove Item"), (guiButton) -> {
-            //On click
+        reg(new GuiButton(nextId(), 2, 23, 100, 20, "Remove Item"), button -> {
             if (modifying != null) {
                 element.removeDisplayItem(modifying.getOrdinal());
-                if (modifying.getOrdinal() >= element.getDisplayItems().size())
+
+                if (modifying.getOrdinal() >= element.getDisplayItems().size()) {
                     modifying = null;
+                }
             }
-        }, (guiButton) -> guiButton.enabled = modifying != null);
-        reg("Move Up", new GuiButton(nextId(), 2, 23 + 21, 100, 20, "Move Up"), (guiButton) -> {
-            //On click
+        });
+
+        reg(new GuiButton(nextId(), 2, 23 + 21, 100, 20, "Move Up"), button -> {
             if (modifying != null) {
-                int i = modifying.getOrdinal();
                 Collections.swap(element.getDisplayItems(), modifying.getOrdinal(), modifying.getOrdinal() - 1);
                 element.adjustOrdinal();
             }
-        }, (guiButton) -> guiButton.enabled = modifying != null && this.modifying.getOrdinal() > 0);
-        reg("Move Down", new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Move Down"), (guiButton) -> {
-            //On click
+        });
+
+        reg(new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Move Down"), button -> {
             if (modifying != null) {
-                int i = modifying.getOrdinal();
                 Collections.swap(element.getDisplayItems(), modifying.getOrdinal(), modifying.getOrdinal() + 1);
                 element.adjustOrdinal();
             }
-        }, (guiButton) -> guiButton.enabled = modifying != null && this.modifying.getOrdinal() < this.element.getDisplayItems().size() - 1);
-
-
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new DisplayElementConfig(element, mod)), (guiButton) -> {
         });
+
+        reg(new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), button ->
+            mc.displayGuiScreen(new DisplayElementConfig(element, mod)));
 
     }
 
@@ -114,17 +96,15 @@ public class EditItemsGui extends GuiScreen {
 
     }
 
-    private void reg(String name, GuiButton button, Consumer<GuiButton> consumer) {
-        reg(name, button, consumer, button1 -> {
+    private void reg(GuiButton button, Consumer<GuiButton> consumer) {
+        buttonList.removeIf(button1 -> button1.id == button.id);
+        clicks.keySet().removeIf(button1 -> button1.id == button.id);
 
-        });
-    }
-
-    private void reg(String name, GuiButton button, Consumer<GuiButton> consumer, Consumer<GuiButton> tick) {
         this.buttonList.add(button);
-        this.clicks.put(button, consumer);
-        this.updates.put(button, tick);
-        this.nameMap.put(name, button);
+
+        if (consumer != null) {
+            this.clicks.put(button, consumer);
+        }
     }
 
     @Override
@@ -135,10 +115,7 @@ public class EditItemsGui extends GuiScreen {
             if (guiButtonConsumer != null) {
                 guiButtonConsumer.accept(guiButton);
             }
-
         }
-
-
     }
 
     @Override
@@ -263,7 +240,7 @@ public class EditItemsGui extends GuiScreen {
             drawRect(xPosition, yPosition, xPosition + width, yPosition + height, this.modifying != null && this.modifying.getOrdinal() == displayItem.getOrdinal() || hovered ? otherColor.getRGB() : defaultColor.getRGB());
             int j = Color.RED.getRGB();
             String displayString = ChromaHUDApi.getInstance().getName(displayItem.getType());
-            fontrenderer.drawString(displayString, (xPosition + width / 2 - fontrenderer.getStringWidth(displayString) / 2), yPosition + (height - 8) / 2, j, false);
+            fontrenderer.drawString(displayString, (xPosition + (width >> 1) - (fontrenderer.getStringWidth(displayString) >> 1)), yPosition + (height - 8) / 2, j, false);
             yPosition += 23;
         }
         if (modifying != null) {

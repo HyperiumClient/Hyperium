@@ -5,8 +5,8 @@ import cc.hyperium.event.EventBus
 import cc.hyperium.event.InitializationEvent
 import cc.hyperium.event.InvokeEvent
 import cc.hyperium.event.PreInitializationEvent
-import cc.hyperium.mixins.renderer.IMixinRenderLivingEntity
-import cc.hyperium.mixinsimp.renderer.IMixinRenderManager
+import cc.hyperium.mixins.client.renderer.entity.IMixinRendererLivingEntity
+import cc.hyperium.mixinsimp.client.renderer.entity.IMixinRenderManager
 import cc.hyperium.mods.sk1ercommon.Multithreading
 import com.chattriggers.ctjs.commands.CTCommand
 import com.chattriggers.ctjs.engine.ModuleManager
@@ -47,7 +47,7 @@ object CTJS {
         pictures.mkdirs()
         assetsDir = pictures
 
-        Multithreading.runAsync(thread {   loadConfig() })
+        Multithreading.runAsync(thread { loadConfig() })
 
         AnnotationHandler.subscribeAutomatic()
 
@@ -67,7 +67,7 @@ object CTJS {
         })
 
         (Client.getMinecraft().renderManager as IMixinRenderManager).skinMap.values.forEach {
-            (it as IMixinRenderLivingEntity<*>).callAddLayer(LayerCape(it))
+            (it as IMixinRendererLivingEntity<*>).callAddLayer(LayerCape(it))
         }
     }
 
@@ -80,9 +80,9 @@ object CTJS {
         try {
             val parser = JsonParser()
             val obj = parser.parse(
-                    FileReader(
-                            File(this.configLocation, "ChatTriggers.json")
-                    )
+                FileReader(
+                    File(this.configLocation, "ChatTriggers.json")
+                )
             ).asJsonObject
 
             Config.load(obj)
@@ -102,12 +102,12 @@ object CTJS {
         Hyperium.INSTANCE.handlers.hyperiumCommandHandler.registerCommand(CTCommand)
 
         Runtime.getRuntime().addShutdownHook(
-                Thread { TriggerType.GAME_UNLOAD::triggerAll }
+            Thread { TriggerType.GAME_UNLOAD::triggerAll }
         )
     }
 
     @JvmStatic
     fun loadIntoJVM() {
-        
+
     }
 }

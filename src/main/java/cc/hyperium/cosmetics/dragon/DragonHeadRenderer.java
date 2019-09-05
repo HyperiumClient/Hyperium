@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.cosmetics.dragon;
@@ -45,10 +45,8 @@ public class DragonHeadRenderer extends ModelBase {
     private Minecraft mc;
     private ModelRenderer jaw;
     private ModelRenderer head;
-    private boolean playerUsesFullHeight;
     private DragonCosmetic dragonCosmetic;
     private ResourceLocation selectedLoc;
-    private HashMap<UUID, JumpState> timeMap = new HashMap<>();
 
     public DragonHeadRenderer(DragonCosmetic cosmetic) {
         this.dragonCosmetic = cosmetic;
@@ -90,11 +88,6 @@ public class DragonHeadRenderer extends ModelBase {
         this.jaw.addBox("jaw", -6.0F, 0.0F, -16.0F, 12, 4, 16);
         this.head.addChild(this.jaw);
 
-    }
-
-    @InvokeEvent
-    public void onWorldSwitch(WorldChangeEvent event) {
-        timeMap.clear();
     }
 
     @InvokeEvent
@@ -167,8 +160,8 @@ public class DragonHeadRenderer extends ModelBase {
         GL11.glScaled(.5, .5, .5);
         this.head.render(.1F);
 
-        GL11.glCullFace(1029);
-        GL11.glDisable(2884);
+        GL11.glCullFace(GL11.GL_BACK);
+        GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glColor3f(255.0f, 255.0f, 255.0f);
     }
 
@@ -178,10 +171,5 @@ public class DragonHeadRenderer extends ModelBase {
             f += 360.0f;
         }
         return f;
-    }
-
-    private class JumpState {
-        private boolean onground = true;
-        private long lastOnGround = System.currentTimeMillis();
     }
 }

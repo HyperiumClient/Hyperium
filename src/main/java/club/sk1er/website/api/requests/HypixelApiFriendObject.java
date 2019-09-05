@@ -21,7 +21,7 @@ import cc.hyperium.utils.JsonHolder;
 
 public class HypixelApiFriendObject {
     private final JsonHolder data;
-    private int ord = -1;
+    private int ord;
 
     public HypixelApiFriendObject(JsonHolder data) {
         this.data = data;

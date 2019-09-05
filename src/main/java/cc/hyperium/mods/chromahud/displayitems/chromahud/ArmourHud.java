@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.chromahud.displayitems.chromahud;
@@ -35,10 +35,9 @@ import java.util.List;
  */
 public class ArmourHud extends DisplayItem {
     private List<ItemStack> list = new ArrayList<>();
-    private int ordinal;
-    private boolean dur = false;
-    private boolean hand = false;
-    private boolean armourOnTop = false;
+    private boolean dur;
+    private boolean hand;
+    private boolean armourOnTop;
 
     public ArmourHud(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
@@ -59,7 +58,7 @@ public class ArmourHud extends DisplayItem {
     public void draw(int starX, double startY, boolean isConfig) {
         list.clear();
         if (isConfig) {
-            if (isArmourOnTop()) {
+            if (armourOnTop) {
                 list.add(new ItemStack(Item.getItemById(310), 1));
                 list.add(new ItemStack(Item.getItemById(311), 1));
                 list.add(new ItemStack(Item.getItemById(312), 1));
@@ -95,7 +94,7 @@ public class ArmourHud extends DisplayItem {
     }
 
     private int getArmourHeight() {
-        return list.size() * 16;
+        return list.size() * 13;
     }
 
     private List<ItemStack> itemsToRender() {

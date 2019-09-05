@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui.hyperium;
 
 import cc.hyperium.Hyperium;
@@ -10,10 +27,9 @@ import cc.hyperium.gui.MaterialTextField;
 import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
 import cc.hyperium.gui.hyperium.tabs.ShopTab;
-import cc.hyperium.gui.hyperium.tabs.UpdateTab;
 import cc.hyperium.handlers.handlers.SettingsHandler;
-import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
+import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -25,15 +41,12 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -43,9 +56,8 @@ import java.util.function.Supplier;
 public class HyperiumMainGui extends HyperiumGui {
 
     public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
-    private static int tabIndex = 0; // save tab position
-    public boolean show = false;
-    private int initialGuiScale;
+    private static int tabIndex; // save tab position
+    public boolean show;
     private HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
     private HashMap<Field, List<Consumer<Object>>> callbacks = new HashMap<>();
     private List<Object> settingsObjects = new ArrayList<>();
@@ -57,10 +69,9 @@ public class HyperiumMainGui extends HyperiumGui {
     private List<RGBFieldSet> rgbFields = new ArrayList<>();
     private Alert currentAlert;
     private MaterialTextField searchField;
-
     private Queue<Alert> alerts = new ArrayDeque<>();
 
-    public HyperiumMainGui() {
+    private HyperiumMainGui() {
         smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F, 0, 1.0F);
         font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F, 0, 1.0F);
         title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F, 0, 1.0F);
@@ -68,7 +79,7 @@ public class HyperiumMainGui extends HyperiumGui {
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getMotionBlur());
-        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getDisplayManager().getMasterConfig());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getGlintcolorizer().getColors());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getChunkAnimator().getConfig());
         SettingsHandler settingsHandler = Hyperium.INSTANCE.getHandlers().getSettingsHandler();
@@ -99,10 +110,9 @@ public class HyperiumMainGui extends HyperiumGui {
 
         tabs = Arrays.asList(
             new SettingsTab(this),
-            new UpdateTab(this),
             new ShopTab(this)
         );
-        scollMultiplier = 2;
+        scrollMultiplier = 2;
         setTab(tabIndex);
 
     }
@@ -121,10 +131,6 @@ public class HyperiumMainGui extends HyperiumGui {
 
     public List<Object> getSettingsObjects() {
         return settingsObjects;
-    }
-
-    public Queue<Alert> getAlerts() {
-        return alerts;
     }
 
     @Override
@@ -171,8 +177,8 @@ public class HyperiumMainGui extends HyperiumGui {
         searchField.render(mouseX, mouseY);
         GlStateModifier.INSTANCE.reset();
 
-        title.drawCenteredString(I18n.format(currentTab.getTitle()), this.width / 2,
-            yg + (yg / 2 - 8), 0xFFFFFF);
+        title.drawCenteredString(I18n.format(currentTab.getTitle()), this.width >> 1,
+            yg + ((yg >> 1) - 8), 0xFFFFFF);
 
         /* Render Body */
         currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());
@@ -200,15 +206,6 @@ public class HyperiumMainGui extends HyperiumGui {
         if (currentAlert != null) {
             currentAlert.render(font, this.width, height);
         }
-
-        if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata
-            .isDevelopment() && !((UpdateTab) tabs.get(1)).isBusy()) {
-            System.out.println("[Update Notifications] Sending alert...");
-            Alert alert = new Alert(Icons.ERROR.getResource(), () -> setTab(2),
-                I18n.format("alert.update.message"));
-            alerts.add(alert);
-            show = true;
-        }
     }
 
     @Override
@@ -219,10 +216,6 @@ public class HyperiumMainGui extends HyperiumGui {
 
     @Override
     public void show() {
-        // Set user's GUI scale to normal whilst the GUI is open.
-        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
-        Minecraft.getMinecraft().gameSettings.guiScale = 2;
-
         super.show();
     }
 
@@ -291,21 +284,13 @@ public class HyperiumMainGui extends HyperiumGui {
         if (Settings.BACKGROUND.equalsIgnoreCase("default")) {
             drawDefaultBackground();
         } else {
-            if (customImage.exists() && bgDynamicTexture != null && customBackground) {
-                Minecraft.getMinecraft().getTextureManager().bindTexture(bgDynamicTexture);
-            } else {
-                Minecraft.getMinecraft().getTextureManager().bindTexture(background);
-            }
-
+            Minecraft.getMinecraft().getTextureManager().bindTexture(background);
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(0.0D, (double) sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D)
-                .endVertex();
-            worldrenderer.pos((double) sr.getScaledWidth(), (double) sr.getScaledHeight(), -90.0D)
-                .tex(1.0D, 1.0D).endVertex();
-            worldrenderer.pos((double) sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D)
-                .endVertex();
+            worldrenderer.pos(0.0D, sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+            worldrenderer.pos(sr.getScaledWidth(), sr.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+            worldrenderer.pos(sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
             worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
             tessellator.draw();
         }
@@ -329,18 +314,12 @@ public class HyperiumMainGui extends HyperiumGui {
         currentTab = tabs.get(i);
     }
 
-    public boolean isLatestVersion() {
-        return Hyperium.INSTANCE.isLatestVersion;
-    }
-
     @Override
     public void onGuiClosed() {
         super.onGuiClosed();
 
         // Save all settings.
         Hyperium.CONFIG.save();
-
-        Minecraft.getMinecraft().gameSettings.guiScale = initialGuiScale;
     }
 
     @Override
@@ -363,7 +342,7 @@ public class HyperiumMainGui extends HyperiumGui {
         private ResourceLocation icon;
         private Runnable action;
         private String title;
-        private int step = 0;
+        private int step;
 
         public Alert(ResourceLocation icon, Runnable action, String title) {
             this.icon = icon;
@@ -376,7 +355,7 @@ public class HyperiumMainGui extends HyperiumGui {
             GlStateManager.translate(0, (20 - step), 0);
             drawRect(width / 4, height - 20, width - width / 4, height,
                 new Color(0, 0, 0, 40).getRGB());
-            fr.drawString(title, width / 4 + 20, height - 20 + (20 - fr.FONT_HEIGHT) / 2, 0xffffff);
+            fr.drawString(title, (width >> 2) + 20, height - 20 + ((20 - fr.FONT_HEIGHT) >> 1), 0xffffff);
             if (icon != null) {
                 GlStateManager.enableBlend();
                 GlStateManager.color(1f, 1f, 1f);

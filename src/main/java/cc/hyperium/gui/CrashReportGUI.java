@@ -1,15 +1,30 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
-import cc.hyperium.installer.InstallerMain;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.LaunchUtil;
-import cc.hyperium.utils.UpdateUtils;
 import com.google.gson.JsonParser;
 import me.cubxity.utils.DeobfStack;
 import me.cubxity.utils.Mapping;
@@ -23,23 +38,12 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
@@ -50,11 +54,9 @@ import java.util.concurrent.atomic.AtomicReference;
 public class CrashReportGUI extends JDialog {
     private CrashReport report;
 
-    private UpdateUtils update = UpdateUtils.INSTANCE;
+    private int handle; // 0 - // Force stop, 1 - Soft shutdown, 2 - Restart
 
-    private int handle = 0; // 0 - // Force stop, 1 - Soft shutdown, 2 - Restart
-
-    CrashReportGUI(CrashReport report) {
+    private CrashReportGUI(CrashReport report) {
         super();
         this.report = report;
 
@@ -89,19 +91,19 @@ public class CrashReportGUI extends JDialog {
 
     public static void main(String[] args) {
         // For testing
-        handle(CrashReport.makeCrashReport(null, "Developer Debug"));
+        handle(CrashReport.makeCrashReport(new Throwable(), "Developer Debug"));
     }
 
     public static String haste(String txt) {
         try {
             HttpClient hc = HttpClients.createDefault();
-            HttpPost post = new HttpPost("https://hastebin.com/documents");
+            HttpPost post = new HttpPost("https://hasteb.in/documents");
             post.setEntity(new StringEntity(txt));
 
             HttpResponse response = hc.execute(post);
 
             String result = EntityUtils.toString(response.getEntity());
-            return "https://hastebin.com/" + new JsonParser().parse(result).getAsJsonObject().get("key").getAsString();
+            return "https://hasteb.in/" + new JsonParser().parse(result).getAsJsonObject().get("key").getAsString();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -115,7 +117,7 @@ public class CrashReportGUI extends JDialog {
 
         Font f;
         try {
-            f = Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(12.0F);
+            f = Font.createFont(Font.TRUETYPE_FONT, CrashReportGUI.class.getResourceAsStream("/assets/hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(12.0F);
         } catch (FontFormatException | IOException e) {
             f = Font.getFont("Arial"); //backup
             e.printStackTrace();
@@ -170,22 +172,17 @@ public class CrashReportGUI extends JDialog {
         report.setFocusPainted(false);
         report.setBounds(2, 208, 196, 20);
         report.addActionListener(e -> Multithreading.runAsync(() -> {
-            // Need a better solution, we miss a lot of valid reports
-            // And it'd be better to get as much info as possible
-            if (false) { //!update.isSupported() || !Metadata.isDevelopment()) {
-                report.setText("Outdated Build");
-            } else {
+            report.setEnabled(false);
+            report.setText("REPORTING...");
+            // Copy Report to clipboard anyways
+            boolean copied = copyReport();
+            if (sendReport()) {
                 report.setEnabled(false);
-                report.setText("REPORTING...");
-                if (sendReport()) {
-                    report.setEnabled(false);
-                    report.setText("REPORTED");
-                } else if (copyReport()) {
-                    report.setEnabled(false);
-                    report.setText("COPIED TO CLIPBOARD");
-                } else {
-                    report.setText("FAILED TO REPORT");
-                }
+                report.setText("REPORTED & COPIED");
+            } else if (copied) {
+                report.setEnabled(false);
+            } else {
+                report.setText("FAILED TO REPORT");
             }
         }));
 
@@ -272,6 +269,9 @@ public class CrashReportGUI extends JDialog {
                         .put("hyperium", Metadata.getVersion() + " - " + Metadata.getVersionID())
                         .put("addons", addons.toString())
                 )));
+
+            Desktop.getDesktop().browse(URI.create(hurl));
+
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();

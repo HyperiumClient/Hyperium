@@ -11,17 +11,13 @@ class PotionEffect(private val effect: MCPotionEffect) {
 
     fun getDuration(): Int = this.effect.duration
 
-    fun getID(): Int {
-        return this.effect.potionID
-    }
+    fun getID(): Int = this.effect.potionID
 
     fun isAmbient(): Boolean = this.effect.isAmbient
 
     fun isDurationMax(): Boolean = this.effect.isPotionDurationMax
 
-    fun showsParticles(): Boolean {
-        return this.effect.isShowParticles
-    }
+    fun showsParticles(): Boolean = this.effect.isShowParticles
 
     override fun toString() = this.effect.toString()
 }

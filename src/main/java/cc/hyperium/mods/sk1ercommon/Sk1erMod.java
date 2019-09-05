@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.sk1ercommon;
@@ -27,7 +27,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,8 +39,8 @@ public class Sk1erMod {
         Dabbing intensifies
      */
     private static Sk1erMod instance;
-    private String modid = "";
-    private String version = "";
+    private String modid;
+    private String version;
     private boolean enabled = true;
     private String apiKey = "";
     private JsonHolder en = new JsonHolder();
@@ -75,22 +75,24 @@ public class Sk1erMod {
     }
 
     public JsonObject getPlayer(String name) {
-        return new JsonParser().parse(rawWithAgent("https://sk1er.club/data/" + name + "/" + getApIKey())).getAsJsonObject();
+        return new JsonParser().parse(rawWithAgent("https://sk1er.club/data/" + name + "/" + apiKey)).getAsJsonObject();
     }
 
     public void checkStatus() {
-        Multithreading.schedule(() -> {
-            en = new JsonHolder(rawWithAgent("https://sk1er.club/genkey?name=" + Minecraft.getMinecraft().getSession().getProfile().getName()
-                + "&uuid=" + Minecraft.getMinecraft().getSession().getPlayerID().replace("-", "")
-                + "&mcver=" + Minecraft.getMinecraft().getVersion()
-                + "&modver=" + version
-                + "&mod=" + modid
-            ));
-            if (callback != null)
-                callback.call(en);
-            enabled = en.optBoolean("enabled");
-            apiKey = en.optString("key");
-        }, 0, 5, TimeUnit.MINUTES);
+        if (Minecraft.getMinecraft().gameSettings.snooperEnabled) {
+            Multithreading.schedule(() -> {
+                en = new JsonHolder(rawWithAgent("https://sk1er.club/genkey?name=" + Minecraft.getMinecraft().getSession().getProfile().getName()
+                    + "&uuid=" + Minecraft.getMinecraft().getSession().getPlayerID().replace("-", "")
+                    + "&mcver=" + Minecraft.getMinecraft().getVersion()
+                    + "&modver=" + version
+                    + "&mod=" + modid
+                ));
+                if (callback != null)
+                    callback.call(en);
+                enabled = en.optBoolean("enabled");
+                apiKey = en.optString("key");
+            }, 0, 5, TimeUnit.MINUTES);
+        }
     }
 
     public String rawWithAgent(String url) {
@@ -108,7 +110,7 @@ public class Sk1erMod {
             connection.setConnectTimeout(15000);
             connection.setDoOutput(true);
             InputStream is = connection.getInputStream();
-            return IOUtils.toString(is, Charset.forName("UTF-8"));
+            return IOUtils.toString(is, StandardCharsets.UTF_8);
 
         } catch (Exception e) {
             e.printStackTrace();

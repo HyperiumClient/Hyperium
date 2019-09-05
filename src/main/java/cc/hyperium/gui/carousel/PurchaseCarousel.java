@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui.carousel;
 
 import cc.hyperium.gui.GuiBlock;
@@ -11,8 +28,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
@@ -22,11 +38,10 @@ public class PurchaseCarousel {
     private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 60);
     private int index;
     private CarouselItem[] items;
-    private SimpleAnimValue anim = new SimpleAnimValue((long) 1, 0, 1);
     private SimpleAnimValue larrow = new SimpleAnimValue(0L, 0.5f, 0.5f);
     private SimpleAnimValue rarrow = new SimpleAnimValue(0L, 0.5f, 0.5f);
-    private boolean lhover = false;
-    private boolean rhover = false;
+    private boolean lhover;
+    private boolean rhover;
     private GuiBlock activeBlock;
 
     private PurchaseCarousel(int index, CarouselItem[] items) {
@@ -34,10 +49,6 @@ public class PurchaseCarousel {
             throw new IllegalArgumentException("Items must have at least 1 item in it");
         this.index = index;
         this.items = items;
-
-        ScaledResolution current = ResolutionUtil.current();
-        int totalWidth = current.getScaledWidth() / 3;
-        int panel = totalWidth / 5;
     }
 
     public static PurchaseCarousel create(int index, CarouselItem... items) {

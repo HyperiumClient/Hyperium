@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mixins.client.resources;
@@ -33,10 +33,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(AbstractResourcePack.class)
 public abstract class MixinAbstractResourcePack implements IResourcePack {
 
-    private static final int IconSize = 64;
-
-    @Shadow
-    public abstract InputStream getInputStream(ResourceLocation location) throws IOException;
+    @Shadow public abstract InputStream getInputStream(ResourceLocation location) throws IOException;
 
     private HyperiumAbstractResourcePack hyperiumAbstractResourcePack = new HyperiumAbstractResourcePack((AbstractResourcePack) (Object) this);
 
@@ -46,6 +43,6 @@ public abstract class MixinAbstractResourcePack implements IResourcePack {
      */
     @Overwrite
     public BufferedImage getPackImage() throws IOException {
-        return hyperiumAbstractResourcePack.getPackImage(IconSize);
+        return hyperiumAbstractResourcePack.getPackImage(64);
     }
 }

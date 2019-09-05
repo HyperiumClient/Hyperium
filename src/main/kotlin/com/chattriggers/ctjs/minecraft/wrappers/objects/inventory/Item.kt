@@ -16,12 +16,6 @@ import net.minecraft.nbt.NBTTagCompound
 import org.lwjgl.opengl.GL11
 import net.minecraft.item.Item as MCItem
 
-
-//#if MC>10809
-//$$ import net.minecraft.client.util.ITooltipFlag
-//$$ import com.chattriggers.ctjs.minecraft.wrappers.World
-//#endif
-
 @External
 class Item {
     val item: MCItem
@@ -29,11 +23,7 @@ class Item {
 
     /* Constructors */
     constructor(itemStack: ItemStack?) {
-        //#if MC<=10809
         if (itemStack == null) {
-        //#else
-        //$$ if (itemStack == null || itemStack == ItemStack.EMPTY) {
-        //#endif
             this.item = ItemBlock(Block(0).block)
             this.itemStack = ItemStack(item)
         } else {
@@ -58,13 +48,8 @@ class Item {
     }
 
     constructor(entityItem: EntityItem) {
-        //#if MC<=10809
         this.item = entityItem.entityItem.item
         this.itemStack = entityItem.entityItem
-        //#else
-        //$$ this.item = entityItem.item.item;
-        //$$ this.itemStack = entityItem.item;
-        //#endif
     }
 
     /**
@@ -75,13 +60,8 @@ class Item {
      */
     constructor(entity: Entity) {
         if (entity.entity is EntityItem) {
-            //#if MC<=10809
             this.item = entity.entity.entityItem.item
             this.itemStack = entity.entity.entityItem
-            //#else
-            //$$ this.item = entity.entity.item.item;
-            //$$ this.itemStack = entity.entity.item;
-            //#endif
         } else {
             throw IllegalArgumentException("Entity is not of type EntityItem")
         }
@@ -94,13 +74,7 @@ class Item {
         itemStack = ItemStack(item, stackSize)
     }
 
-    fun getStackSize(): Int {
-        //#if MC<=10809
-        return this.itemStack.stackSize
-        //#else
-        //$$ return this.itemStack.count
-        //#endif
-    }
+    fun getStackSize(): Int = this.itemStack.stackSize
 
     /**
      * Gets the item's unlocalized name.<br>
@@ -116,9 +90,7 @@ class Item {
      *
      * @return the item's registry name
      */
-    fun getRegistryName(): String {
-        return MCItem.itemRegistry.getNameForObject(item).toString()
-    }
+    fun getRegistryName(): String = MCItem.itemRegistry.getNameForObject(item).toString()
 
     /**
      * Gets the item's stack display name.<br>
@@ -131,7 +103,7 @@ class Item {
     fun getEnchantments(): Map<String, Int> {
         return EnchantmentHelper.getEnchantments(itemStack).mapKeys {
             Enchantment.getEnchantmentById(
-               it.key
+                it.key
             ).name.replace("enchantment.", "")
         }
     }
@@ -146,9 +118,7 @@ class Item {
 
     fun canPlaceOn(block: Block): Boolean = itemStack.canPlaceOn(block.block)
 
-    fun canHarvest(block: Block): Boolean {
-        return this.itemStack.canHarvestBlock(block.block)
-    }
+    fun canHarvest(block: Block): Boolean = this.itemStack.canHarvestBlock(block.block)
 
     fun canDestroy(block: Block): Boolean = itemStack.canDestroy(block.block)
 
@@ -169,13 +139,8 @@ class Item {
 
     fun isDamagable(): Boolean = itemStack.isItemStackDamageable
 
-    fun getLore(): List<String> {
-        //#if MC<=10809
-        return itemStack.getTooltip(Player.getPlayer(), Client.getMinecraft().gameSettings.advancedItemTooltips)
-        //#else
-        //$$ return itemStack.getTooltip(Player.getEntity(), ITooltipFlag.TooltipFlags.ADVANCED);
-        //#endif
-    }
+    fun getLore(): List<String> =
+        itemStack.getTooltip(Player.getPlayer(), Client.getMinecraft().gameSettings.advancedItemTooltips)
 
     /**
      * Renders the item icon to the client's overlay.
@@ -212,9 +177,9 @@ class Item {
      */
     override fun equals(other: Any?): Boolean {
         return other is Item &&
-            getID() == other.getID() &&
-            getStackSize() == other.getStackSize() &&
-            getDamage() == other.getDamage()
+                getID() == other.getID() &&
+                getStackSize() == other.getStackSize() &&
+                getDamage() == other.getDamage()
     }
 
     override fun hashCode(): Int {

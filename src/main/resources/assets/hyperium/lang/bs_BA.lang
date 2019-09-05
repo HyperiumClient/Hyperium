@@ -31,24 +31,8 @@ menu.profile.credits=%s Krediti
 
 # Hyperium Tabs
 tabs.searchbar=Traži...
-tab.news.name=Vijesti
 tab.settings.name=Postavci
-tab.update.name=Update-uj
 tab.shop.name=Trgovina
-
-# Hyperium Tabs Attributes
-tab.update.noupdates=Nema novih update-ova
-tab.update.autorestart=Po završetku updateovanja, Minecraft će se automatski pokrenuti
-tab.update.changelog=Lista update-ova dolazi uskoro
-tab.update.update=Update-uj
-tab.update.updating=Updateujem...
-tab.update.downloading=Downloadujem...
-tab.update.installer.state.starting=Pokrećem instalacijski program
-tab.update.installer.state.loading=Pokrećem instalacijski program
-tab.update.installer.state.restarting=Restartujem
-tab.update.installer.state.unknown=W: nepoznato stanje
-tab.update.installer.state.manualupdate.api=E: Molim vas updatujte ručno, API: %s
-tab.update.installer.state.manualupdate=E: Molim vas updatujte ručno, API
 
 # Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Korisnici:
@@ -56,10 +40,6 @@ gui.ingamemenu.playercount.now=Online sada: %s
 gui.ingamemenu.playercount.lastday=Zadnji dan: %s
 gui.ingamemenu.playercount.lastweek=Prošli tjedan: %s
 gui.ingamemenu.playercount.alltime=Sve vrijeme: %s
-
-
-# Hyperium Alerts
-alert.update.message=Hyperium Update! Kliknite ovdje za download.
 
 # Hyperium Change Background Text
 gui.changebackground.line1=Unesite URL ispod da biste promijenili pozadinu ili Odaberite datoteku.
@@ -134,9 +114,6 @@ gui.settings.armorprojectileprotpotentional=Show Armor Projectile Protection in 
 gui.settings.hidecrosshairinf5=Hide crosshair when in Third Person
 gui.settings.critparticlefix=Crit čestice poprav
 gui.settings.holdperspectivekey=Držite tipku za perspektivu
-gui.settings.optimizeditemrenderer=Optimiziran stavki Renderer (BETA)
-gui.settings.optimizedtextureloading=Optimiziran opterećenje teksture (BETA)
-gui.settings.optimizedfontrenderer=Optimiziran krstionica Renderer (BETA)
 gui.settings.windowedfullscreen=Prozorčić cijelog zaslona
 gui.settings.bossbartextonly=Bossbar - samo tekst
 gui.settings.staticfov=Statičlki FOV
@@ -144,7 +121,6 @@ gui.settings.uploadscreenshots=Prenesi snimke zaslona (zadano)
 gui.settings.blurredguibackground=Zamagljen GUI pozadina
 gui.settings.chromahudonallservers=ChromaHUD - na svim poslužiteljima
 gui.settings.screenshotonkill=Screenshot na ubijanje
-gui.settings.showspotifycontrols=Pokaži Spotify kontrole
 gui.settings.welcometothehypixelzoo="Dobro došli u Hypixel zoološkom vrtu!"
 gui.settings.showparticleauras=Pokaži aura čestica
 gui.settings.showcosmeticseverywhere=Pokaži kozmetiku svugdje
@@ -175,7 +151,6 @@ gui.settings.showconfirmationpopup=Pokaži popup potvrde
 gui.settings.persistentchatmessages=Uporne chat poruke
 gui.settings.friendsfirstintab=Prijatelji prvi u kartici
 gui.settings.onlineindicator=Online pokazatelj
-gui.settings.showplayersasblocks=Pokaži igrači kao blokovi
 gui.settings.pingondm=Ping na DM
 gui.settings.sprintbypassstaticfov=Zaobići sprint statički FOV
 gui.settings.sprintandperspectivemessages=Sprint i perspektive poruke
@@ -186,8 +161,6 @@ gui.settings.wingsscale=Razmjera krila
 gui.settings.showchromahud=Pokaži ChromaHUD
 gui.settings.mainmenustyle=Glavni stil izbornika
 gui.settings.pausemenustyle=Pauzirati stil izbornik
-gui.settings.spotifynotifications=Spotify obavijesti
-gui.settings.forcespotifytoneverload=Snažite Spotify da nikada ne učita
 gui.settings.updatenotificationsinhyperiumsettings=Obavijesti ažuriranje u Hyperium postavke
 gui.settings.fastworldswitching=Brzo svjetsko prebacivanje (Može povećati potrošnje memorije)
 gui.settings.maxworldparticles=Maximalne svijet čestice
@@ -195,9 +168,6 @@ gui.settings.showparticlein1stperson=Prikaži čestice u prvoj osobi
 gui.settings.showhitdistances=Prikaži udaljenost udara
 gui.settings.motionblurenabled=Omogućeno
 gui.settings.motionblurintensity=Motion Blur Intenzitet
-gui.settings.autofriendenabled=Omogućeno
-gui.settings.showfriendmessages=Pokaži prijateljne poruke
-gui.settings.fortnitecompassenabled=Omogućeno
 gui.settings.showbackground=Pokaži pozadina
 gui.settings.chroma=Chroma
 gui.settings.shadow=Sjena
@@ -225,7 +195,6 @@ gui.settings.buttonred=Button Outline (Red)
 gui.settings.buttongreen=Button Outline (Green)
 gui.settings.buttonblue=Button Outline (Blue)
 gui.settings.buttontype=Color Type
-gui.settings.chromahudprefixsquarebrace=Use square brace prefix
 gui.settings.disableenchantglint=Disable Enchantment Glint
 gui.settings.disabletitles=Disable Titles
 gui.settings.thankwatchdog=Thank Watchdog
@@ -238,6 +207,11 @@ gui.settings.disableitemframes=Disable Item Frames
 gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit
 gui.settings.hotbarkeys=Hotbar Keys
+gui.settings.clearglass=Clear Glass
+gui.settings.portalsounds=Disable Portal Sounds
+gui.settings.disableachievements=Disable Achievements
+gui.settings.disableshadowtext=Disable Shadowed Text
+gui.settings.shinypotions.matchcolor=Shiny Potions - Match Potion Color
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Početna igra...

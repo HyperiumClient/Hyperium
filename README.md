@@ -12,35 +12,33 @@
 Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popular features, in addition to suggestions and ideas from the community, in order to provide a unique experience designed for Hypixel.
 
 ## Features ##
-- [1.7 Animations](https://www.youtube.com/watch?v=9-LoFff-3fI)
-- [AutoGG](https://www.youtube.com/watch?v=1eETPGuSQWA)
-- [AutoWho](https://www.youtube.com/watch?v=osJW53GA_1I)
-- [BlockOverlay](https://www.youtube.com/watch?v=_ELFA5jtNQM)
-- [Bossbar Mod](https://github.com/SiroQ)
-- [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
-- [ChunkAnimator](https://minecraft.curseforge.com/projects/chunk-animator)
-- [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)  
-- Custom GUI  
-- Custom Main-Menu Screen  
-- [FastChat](https://www.youtube.com/watch?v=vsibdTVYTB4)
-- [GlintColorizer](https://www.youtube.com/watch?v=80foSiVvUiI)
-- [Ingame Browser](https://github.com/montoyo/mcef)  
-- [Keystrokes v4](https://www.youtube.com/watch?v=tA1SmI8nfY4)
-- [Levelhead](https://sk1er.club/levelhead)
-- [MemoryFix](https://prplz.io/memoryfix)
-- [MotionBlur](https://www.youtube.com/watch?v=x21aLjDbCRw)
-- [MouseDelayFix](https://prplz.io/mousedelayfix)
-- [NoCloseMyChat](https://hypixel.net/threads/1260752/)
-- [NoNameTags](https://github.com/WesJD/NoNameTags)
-- [Performia](https://github.com/Sk1er/Performia)
-- [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
-- [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
-- ShinyPots
+- Bossbar Mod (Custom)
+- Discord Rich Presence (Custom)
+- Old Animations (Custom)
+- Reach Display (Custom)
+- Togglesprint (Custom)
+- [360 Degrees Perspective](https://www.youtube.com/watch?v=7FdMMpzNdUk)
+- [AutoFriend](https://2pi.pw/mods/autofriend)
+- [AutoGG](https://2pi.pw/mods/autogg)
+- [BlockOverlay](https://aycy.github.io/)
+- [ChromaHud](https://sk1er.club/mods/tayber50k)
+- [Chunk Animator](https://www.curseforge.com/minecraft/mc-mods/chunk-animator)
+- [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)
+- [Fortnite Compass](https://www.youtube.com/watch?v=Anwxqk2EAlE)
+- [Glint Colorizer](https://www.youtube.com/watch?v=80foSiVvUiI)
+- [Ingame Browser](https://github.com/montoyo/mcef)
+- [Item Physics](https://www.curseforge.com/minecraft/mc-mods/itemphysic)
+- [Keystrokes](https://sk1er.club/mods/keystrokesmod)
+- [Levelhead](https://sk1er.club/mods/level_head)
+- [MemoryFix](https://prplz.io/memoryfix/)
+- [MotionBlur](https://2pi.pw/mods/motionblur)
+- [MouseDelayFix](https://prplz.io/mousedelayfix/)
+- [NickHider](https://sk1er.club/mods/nick_hider)
 - [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
-- [TimeChanger](https://www.youtube.com/watch?v=PbhXIPecOSA)
-- [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
-- [Victory Royale Mod](https://www.youtube.com/watch?v=g4pZTX8ooqI)
-- [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
+- [TabToggle](https://aycy.github.io/)
+- [TimeChanger](https://2pi.pw/mods/timechanger)
+- [ToggleChat](https://2pi.pw/mods/togglechat)
+- [Victory Royale](https://sk1er.club/mods/victory_royale)
 
 ### Beta Test the Client ###  
 You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://hyperium.cc/discord), or for beta versions, head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
@@ -54,10 +52,6 @@ Q: When is the official release?
 
 A: It is currently released!  Come download it on our [Discord](https://hyperium.cc/discord)!
 
-Q: Can I beta test Hyperium?
-
-A: Yes! [See this section](#beta-test-the-client) for more info.  
-
 Q: Is there a tutorial to create addons?
 
 A: Yes, simply [follow this nice video](https://www.youtube.com/watch?v=RXTIFdoNA8c).
@@ -68,18 +62,15 @@ A: Join the [Discord](https://hyperium.cc/discord) and run `-new` in the command
 
 Q: My game keeps crashing!
 
-A: If you have reported the issue using the automatic prompt, join the [Discord](https://hyperium.cc/discord) and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
+A: Join the [Discord](https://hyperium.cc/discord) and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
 
 ### Addons ###
-Addons are available for download in the addons channel of the [Hyperium Discord](https://hyperium.cc/discord).
+Addons are Hyperium's system of mods, like Forge, except they're done using the Addon Workspace / Addon API. The selection to currently available addons is low, so if you wish to make some, feel free to share it with other Hyperium members.
 
 ### License ###  
 Hyperium is licensed under the GNU Lesser General Public License. You can view it [here](./LICENSE).
 
 ## Developer Resources ##
-
-### Code Style ###
-We use [Google's Java Code style](https://google.github.io/styleguide/javaguide.html) for Hyperium. It would be appreciated if you followed this as well.
 	
 ### Building the Project with IntelliJ ###
 If you don't know how, then you shouldn't try. Join our beta in [Discord](https://hyperium.cc/discord), or wait for releases!
@@ -90,12 +81,13 @@ To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/
 Follow [this tutorial](https://www.youtube.com/watch?v=RXTIFdoNA8c) to get started.
 
 ### Developers ###
-[![Sk1er](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
-[![CoalOres](https://cdn.discordapp.com/avatars/248159137370734601/667cb334d3a85c850d9890e786cbf50c.png?size=128)](https://github.com/CoalCoding)
-[![KevinPriv](https://cdn.discordapp.com/avatars/247785387919933440/e8f6af129f0d6d4db93d8c7360aac15a.png)](https://github.com/KevinPriv)
-[![Cubxity](https://cdn.discordapp.com/avatars/290921387655430144/90e89028a4ffbde5ebff833709863c39.png?size=128)](https://github.com/Cubxity)
+[![Sk1er](https://avatars1.githubusercontent.com/u/18709703?s=128&v=4)](https://github.com/Sk1er)
+[![CoalOres](https://avatars0.githubusercontent.com/u/12765568?s=128&v=4)](https://github.com/CoalCoding)
+[![KevinPriv](https://avatars3.githubusercontent.com/u/31252471?s=128&v=4)](https://github.com/KevinPriv)
+[![Cubxity](https://avatars1.githubusercontent.com/u/27609129?s=128&v=4)](https://github.com/Cubxity)
 [![boomboompower](https://avatars1.githubusercontent.com/u/12974350?s=128&v=4)](https://github.com/boomboompower)
-[![FalseHonesty](https://cdn.discordapp.com/avatars/148248069148770304/a_c292ca845b0462bfd4ad5c3d0f89ba28.gif?size=128&f=.gif)](https://github.com/FalseHonesty)
+[![FalseHonesty](https://avatars2.githubusercontent.com/u/20765494?s=128&v=4)](https://github.com/FalseHonesty)
+[![asbyth](https://avatars1.githubusercontent.com/u/36578995?s=128&v=4)](https://github.com/asbyth)
 
 ## Special Thanks ##
 [![YourKit Java Profiler](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/)

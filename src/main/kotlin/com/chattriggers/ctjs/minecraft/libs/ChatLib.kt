@@ -2,7 +2,7 @@ package com.chattriggers.ctjs.minecraft.libs
 
 import cc.hyperium.Hyperium
 import cc.hyperium.event.ServerChatEvent
-import cc.hyperium.mixins.gui.IMixinGuiNewChat
+import cc.hyperium.mixins.client.gui.IMixinGuiNewChat
 import com.chattriggers.ctjs.engine.ModuleManager
 import com.chattriggers.ctjs.minecraft.libs.renderer.Renderer
 import com.chattriggers.ctjs.minecraft.listeners.ChatListener
@@ -140,9 +140,7 @@ object ChatLib {
      * @return the unformatted string
      */
     @JvmStatic
-    fun removeFormatting(text: String): String {
-        return text.replace("[\\u00a7&][0-9a-fklmnor]".toRegex(), "")
-    }
+    fun removeFormatting(text: String): String = text.replace("[\\u00a7&][0-9a-fklmnor]".toRegex(), "")
 
     /**
      * Replaces Minecraft formatted text with normal formatted text
@@ -151,9 +149,7 @@ object ChatLib {
      * @return the unformatted string
      */
     @JvmStatic
-    fun replaceFormatting(text: String): String {
-        return text.replace("\\u00a7(?![^0-9a-fklmnor]|$)".toRegex(), "&")
-    }
+    fun replaceFormatting(text: String): String = text.replace("\\u00a7(?![^0-9a-fklmnor]|$)".toRegex(), "&")
 
     /**
      * Get a message that will be perfectly centered in chat.
@@ -181,8 +177,10 @@ object ChatLib {
         }
 
         return stringBuilder.deleteCharAt(
-                if (left) 0 else stringBuilder.length - 1).toString().replace(removeFormatting(text),
-                text
+            if (left) 0 else stringBuilder.length - 1
+        ).toString().replace(
+            removeFormatting(text),
+            text
         )
     }
 
@@ -204,11 +202,12 @@ object ChatLib {
         val flags = (if (ignoreCase) Pattern.CASE_INSENSITIVE else 0) or if (multiline) Pattern.MULTILINE else 0
         val pattern = Pattern.compile(regexp["source"] as String, flags)
 
-        editChat({
-            val matcher = pattern.matcher(it.getChatMessage().unformattedText)
-            if (global) matcher.find() else matcher.matches()
-        },
-                *replacements
+        editChat(
+            {
+                val matcher = pattern.matcher(it.getChatMessage().unformattedText)
+                if (global) matcher.find() else matcher.matches()
+            },
+            *replacements
         )
     }
 
@@ -221,10 +220,10 @@ object ChatLib {
     @JvmStatic
     fun editChat(toReplace: String, vararg replacements: Message) {
         editChat(
-                {
-                    removeFormatting(it.getChatMessage().unformattedText) == toReplace
-                },
-                *replacements
+            {
+                removeFormatting(it.getChatMessage().unformattedText) == toReplace
+            },
+            *replacements
         )
     }
 
@@ -237,10 +236,13 @@ object ChatLib {
     @JvmStatic
     fun editChat(toReplace: Message, vararg replacements: Message) {
         editChat(
-                {
-                    toReplace.getChatMessage().formattedText == it.getChatMessage().formattedText.replaceFirst("\\u00a7r".toRegex(), "")
-                },
-                *replacements
+            {
+                toReplace.getChatMessage().formattedText == it.getChatMessage().formattedText.replaceFirst(
+                    "\\u00a7r".toRegex(),
+                    ""
+                )
+            },
+            *replacements
         )
     }
 
@@ -253,10 +255,10 @@ object ChatLib {
     @JvmStatic
     fun editChat(chatLineId: Int, vararg replacements: Message) {
         editChat(
-                { message ->
-                    message.getChatLineId() == chatLineId
-                },
-                *replacements
+            { message ->
+                message.getChatLineId() == chatLineId
+            },
+            *replacements
         )
     }
 
@@ -280,14 +282,18 @@ object ChatLib {
         editChatLineList(drawnChatLines, toReplace, *replacements)
     }
 
-    private fun editChatLineList(lineList: MutableList<ChatLine>, toReplace: (Message) -> Boolean, vararg replacements: Message) {
+    private fun editChatLineList(
+        lineList: MutableList<ChatLine>,
+        toReplace: (Message) -> Boolean,
+        vararg replacements: Message
+    ) {
         val chatLineIterator = lineList.listIterator()
 
         while (chatLineIterator.hasNext()) {
             val chatLine = chatLineIterator.next()
 
             val result = toReplace(
-                    Message(chatLine.chatComponent).setChatLineId(chatLine.chatLineID)
+                Message(chatLine.chatComponent).setChatLineId(chatLine.chatLineID)
             )
 
             if (!result) {
@@ -344,9 +350,8 @@ object ChatLib {
      * @return the formatted message
      */
     @JvmStatic
-    fun addColor(message: String?): String {
-        return message.toString().replace("(?:(?<!\\\\))&(?![^0-9a-fklmnor]|$)".toRegex(), "\u00a7")
-    }
+    fun addColor(message: String?): String =
+        message.toString().replace("(?:(?<!\\\\))&(?![^0-9a-fklmnor]|$)".toRegex(), "\u00a7")
 
     // helper method to make sure player exists before putting something in chat
     fun isPlayer(out: String): Boolean {

@@ -1,24 +1,22 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.chromahud.gui;
 
-
-import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.chromahud.DisplayElement;
@@ -29,13 +27,12 @@ import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.JsonHolder;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,15 +45,14 @@ public class AddItemsGui extends GuiScreen {
     private final DisplayElement element;
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private final List<DisplayElement> all = new ArrayList<>();
     private final DisplayElement target;
-    private int tmpId = 0;
+    private int tmpId;
     private boolean adding = true;
-    private int offset = 0;
+    private int offset;
     private boolean mouseLock;
 
-    public AddItemsGui(ChromaHUD mod, DisplayElement element) {
+    AddItemsGui(ChromaHUD mod, DisplayElement element) {
         this.mod = mod;
         this.element = element;
         //Make all parsers so we can access them
@@ -84,39 +80,33 @@ public class AddItemsGui extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        reg("Add", new GuiButton(nextId(), 2, 2, 100, 20, "Add"), (guiButton) -> {
-            //On click
+        reg(new GuiButton(nextId(), 2, 2, 100, 20, "Add"), button -> {
             adding = true;
             offset = 0;
-        }, (guiButton) -> guiButton.enabled = !adding);
-        reg("Explore", new GuiButton(nextId(), 2, 23, 100, 20, "Explore"), (guiButton) -> {
-            //On click
+        });
+
+        reg(new GuiButton(nextId(), 2, 23, 100, 20, "Explore"), button -> {
             adding = false;
             offset = 0;
-        }, (guiButton) -> guiButton.enabled = adding);
-
-        reg("Down", new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Scroll Down"), (guiButton) -> {
-            //On click
-            offset += 50;
-        }, (guiButton) -> {
-        });
-        reg("Up", new GuiButton(nextId(), 2, 23 + 21 * 1, 100, 20, "Scroll Up"), (guiButton) -> {
-            //On click
-            offset -= 50;
-        }, (guiButton) -> {
         });
 
+        reg(new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Scroll Down"), button -> offset -= 50);
+        reg(new GuiButton(nextId(), 2, 23 + 21, 100, 20, "Scroll Up"), button -> offset += 50);
 
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new EditItemsGui(element, mod)), (guiButton) -> {
-        });
+        reg(new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), button ->
+            mc.displayGuiScreen(new EditItemsGui(element, mod)));
 
     }
 
-    private void reg(String name, GuiButton button, Consumer<GuiButton> consumer, Consumer<GuiButton> tick) {
+    private void reg(GuiButton button, Consumer<GuiButton> consumer) {
+        buttonList.removeIf(button1 -> button1.id == button.id);
+        clicks.keySet().removeIf(button1 -> button1.id == button.id);
+
         this.buttonList.add(button);
-        this.clicks.put(button, consumer);
-        this.updates.put(button, tick);
-        this.nameMap.put(name, button);
+
+        if (consumer != null) {
+            this.clicks.put(button, consumer);
+        }
     }
 
     @Override
@@ -125,7 +115,6 @@ public class AddItemsGui extends GuiScreen {
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);
         }
-
     }
 
     @Override
@@ -149,9 +138,9 @@ public class AddItemsGui extends GuiScreen {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
         if (i < 0) {
-            offset += 10;
-        } else if (i > 0) {
             offset -= 10;
+        } else if (i > 0 && offset < 0) {
+            offset += 10;
         }
     }
 
@@ -182,7 +171,7 @@ public class AddItemsGui extends GuiScreen {
                     int j = Color.RED.getRGB();
                     int width = 160;
                     int height = 20;
-                    mc.fontRendererObj.drawString(text1, (current.getScaledWidth() / 2 - 80 + width / 2 - mc.fontRendererObj.getStringWidth(text1) / 2), cursorY + (height - 8) / 2, j, false);
+                    mc.fontRendererObj.drawString(text1, ((current.getScaledWidth() >> 1) - 80 + (width >> 1) - (mc.fontRendererObj.getStringWidth(text1) >> 1)), cursorY + (height - 8) / 2, j, false);
                     int i = ResolutionUtil.current().getScaledHeight() - (Mouse.getY() / current.getScaleFactor());
                     if (Mouse.isButtonDown(0) && !mouseLock)
                         if (i >= cursorY && i <= cursorY + 23) {
@@ -191,13 +180,10 @@ public class AddItemsGui extends GuiScreen {
                                 DisplayItem item = ChromaHUDApi.getInstance().parse(s, 0, new JsonHolder().put("type", s));
                                 element.getDisplayItems().add(item);
                                 element.adjustOrdinal();
-                                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new EditItemsGui(element, mod));
-
+                                mc.displayGuiScreen(new EditItemsGui(element, mod));
                             }
                         }
                     cursorY += 23;
-
-
                 }
 
             }
@@ -230,20 +216,13 @@ public class AddItemsGui extends GuiScreen {
                     displayElement.drawForConfig();
                     mc.fontRendererObj.drawString(text1, (float) ((current.getScaledWidth() - totalWidth) / 2), cursorY, Color.RED.getRGB(), true);
                     cursorY += dimensions.getHeight() + 5;
-
                 }
-
             }
         }
         ElementRenderer.endDrawing(target);
     }
 
     private DisplayElement find(String key) {
-        for (DisplayElement displayElement : all) {
-            if (displayElement.getDisplayItems().get(0).getType().equalsIgnoreCase(key)) {
-                return displayElement;
-            }
-        }
-        return null;
+        return all.stream().filter(displayElement -> displayElement.getDisplayItems().get(0).getType().equalsIgnoreCase(key)).findFirst().orElse(null);
     }
 }

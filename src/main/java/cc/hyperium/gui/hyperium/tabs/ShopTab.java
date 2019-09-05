@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui.hyperium.tabs;
 
 import cc.hyperium.Hyperium;
@@ -14,9 +31,8 @@ import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
-import net.minecraft.client.Minecraft;
 
-import java.awt.Desktop;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,9 +42,8 @@ import java.util.Objects;
 
 public class ShopTab extends AbstractTab {
 
-    private JsonHolder personData = null;
-    private JsonHolder cosmeticCallback = null;
-    private boolean purchasing = false;
+    private JsonHolder personData;
+    private JsonHolder cosmeticCallback;
 
     public ShopTab(HyperiumMainGui gui) {
         super(gui, "tab.shop.name");
@@ -42,7 +57,6 @@ public class ShopTab extends AbstractTab {
             cosmeticCallback = PurchaseApi.getInstance()
                 .get("https://api.hyperium.cc/cosmetics/" + Objects.requireNonNull(UUIDUtil
                     .getClientUUID()).toString().replace("-", ""));
-            purchasing = false;
             components.clear();
             addComponents();
         });
@@ -109,7 +123,6 @@ public class ShopTab extends AbstractTab {
                 }
 
                 System.out.println("Attempting to purchase " + key);
-                purchasing = true;
                 NettyClient client = NettyClient.getClient();
                 if (client != null) {
                     client.write(ServerCrossDataPacket

@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui.main.components;
 
 import cc.hyperium.gui.ColourOptions;
@@ -14,7 +31,7 @@ import java.util.function.Consumer;
 public class OverlayToggle extends OverlayComponent {
     private boolean toggle;
     private Consumer<Boolean> callback;
-    private float step = 0f;
+    private float step;
     private float colorStep = 0.5f;
 
     public OverlayToggle(String label, boolean toggle, Consumer<Boolean> callback, boolean enabled) {
@@ -23,9 +40,7 @@ public class OverlayToggle extends OverlayComponent {
         this.toggle = toggle;
         this.callback = callback;
 
-        if (enabled) {
-            this.toggle = toggle;
-        } else {
+        if (!enabled) {
             this.toggle = false;
         }
     }
@@ -40,7 +55,6 @@ public class OverlayToggle extends OverlayComponent {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             int color = GraphicsUtil.INSTANCE.transitionOfHueRange(colorStep, 1, getHue(ColourOptions.accent_r, ColourOptions.accent_g, ColourOptions.accent_b), 0.7F, 0.7F).getRGB();
-            //int color = GraphicsUtil.INSTANCE.transitionOfHueRange(colorStep, 1, 88, 0.7F, 0.7F).getRGB();
             RenderUtils
                 .drawSmoothRect(overlayX + w - 30, overlayY + 5, overlayX + w - 5, overlayY + h - 5,
                     color);
@@ -97,7 +111,7 @@ public class OverlayToggle extends OverlayComponent {
             return 0;
         }
 
-        float hue = 0f;
+        float hue;
         if (max == red) {
             hue = (green - blue) / (max - min);
 

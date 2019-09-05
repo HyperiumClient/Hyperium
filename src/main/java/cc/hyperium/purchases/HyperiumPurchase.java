@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.purchases;
@@ -30,7 +30,7 @@ public class HyperiumPurchase {
     private final List<AbstractHyperiumPurchase> purchases = new ArrayList<>();
     private final JsonHolder response;
     private JsonHolder purchaseSettings = new JsonHolder();
-    private boolean everything = false;
+    private boolean everything;
     private PurchaseSettings cachedSettings = new PurchaseSettings(new JsonHolder());
 
     public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
@@ -41,7 +41,7 @@ public class HyperiumPurchase {
         everything = (response.optLong("everything") > System.currentTimeMillis());
 
         purchaseSettings = PurchaseApi.getInstance().get("https://api.hyperium.cc/purchaseSettings/" + (playerUUID.toString()));
-        cachedSettings = new PurchaseSettings(getPurchaseSettings());
+        cachedSettings = new PurchaseSettings(purchaseSettings);
         for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
             String asString = nicePackages.getAsString();
             EnumPurchaseType parse = EnumPurchaseType.parse(asString);
@@ -68,7 +68,7 @@ public class HyperiumPurchase {
     }
 
     public void refreshCachedSettings() {
-        this.cachedSettings = new PurchaseSettings(getPurchaseSettings());
+        this.cachedSettings = new PurchaseSettings(purchaseSettings);
     }
 
     public PurchaseSettings getCachedSettings() {
@@ -86,14 +86,14 @@ public class HyperiumPurchase {
     public boolean hasPurchased(EnumPurchaseType type) {
         if (type == EnumPurchaseType.UNKNOWN)
             return false;
-        if (isEverything())
+        if (everything)
             return true;
         return getPurchase(type) != null;
     }
 
     public boolean hasPurchased(String key) {
 
-        if (isEverything())
+        if (everything)
             return true;
         for (JsonElement element : response.optJSONArray("hyperium")) {
             if (element instanceof JsonPrimitive && element.getAsString().equalsIgnoreCase(key))
@@ -123,11 +123,6 @@ public class HyperiumPurchase {
     }
 
     public AbstractHyperiumPurchase getPurchase(EnumPurchaseType type) {
-        for (AbstractHyperiumPurchase purchase : purchases) {
-            if (purchase.getType() == type) {
-                return purchase;
-            }
-        }
-        return null;
+        return purchases.stream().filter(purchase -> purchase.getType() == type).findFirst().orElse(null);
     }
 }

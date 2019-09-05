@@ -10,13 +10,13 @@ import net.minecraft.util.ResourceLocation
 import java.awt.image.BufferedImage
 
 object CapeHandler {
-    var special: Special
+    private var special: Special
 
     init {
         try {
             this.special = Gson().fromJson(
-                    FileLib.getUrlContent("http://167.99.3.229/tracker/special.json"),
-                    Special::class.java
+                FileLib.getUrlContent("http://167.99.3.229/tracker/special.json"),
+                Special::class.java
             )
 
             bindTexture("http://167.99.3.229/assets/images/supporter_cape.png", "capes/ct/supporter")
@@ -36,9 +36,7 @@ object CapeHandler {
 
     private fun bindTexture(url: String, resource: String) {
         val iib = object : IImageBuffer {
-            override fun parseUserSkin(var1: BufferedImage): BufferedImage {
-                return parseCape(var1)
-            }
+            override fun parseUserSkin(var1: BufferedImage): BufferedImage = parseCape(var1)
 
             override fun skinAvailable() {}
         }

@@ -1,6 +1,6 @@
 package com.chattriggers.ctjs.minecraft.objects
 
-import cc.hyperium.mixins.gui.MixinGuiScreenBook
+import cc.hyperium.mixins.client.gui.IMixinGuiScreenBook
 import com.chattriggers.ctjs.minecraft.objects.gui.GuiHandler
 import com.chattriggers.ctjs.minecraft.objects.message.Message
 import com.chattriggers.ctjs.minecraft.wrappers.Client
@@ -18,12 +18,7 @@ import net.minecraft.nbt.NBTTagString
 @External
 class Book(bookName: String) {
     private var bookScreen: GuiScreenBook? = null
-    private val book: ItemStack
-            //#if MC<=10809
-            = ItemStack(Items.written_book)
-            //#else
-            //$$ = ItemStack(Items.WRITTEN_BOOK)
-            //#endif
+    private val book: ItemStack = ItemStack(Items.written_book)
     private val bookData: NBTTagCompound = NBTTagCompound()
 
     init {
@@ -43,11 +38,13 @@ class Book(bookName: String) {
     fun addPage(message: Message) = apply {
         val pages = bookData["pages"] as NBTTagList
 
-        pages.appendTag(NBTTagString(
+        pages.appendTag(
+            NBTTagString(
                 TextComponentSerializer.componentToJson(
-                        message.getChatMessage()
+                    message.getChatMessage()
                 )
-        ))
+            )
+        )
 
         updateBookScreen(pages)
     }
@@ -72,11 +69,13 @@ class Book(bookName: String) {
     fun setPage(pageNumber: Int, message: Message) = apply {
         val pages = bookData.getTag("pages") as NBTTagList
 
-        pages.set(pageNumber, NBTTagString(
+        pages.set(
+            pageNumber, NBTTagString(
                 TextComponentSerializer.componentToJson(
-                        message.getChatMessage()
+                    message.getChatMessage()
                 )
-        ))
+            )
+        )
 
         updateBookScreen(pages)
     }
@@ -86,7 +85,7 @@ class Book(bookName: String) {
         bookData["pages"] = pages
         book.tagCompound = bookData
 
-        (bookScreen as? MixinGuiScreenBook)?.bookPages = pages
+        (bookScreen as? IMixinGuiScreenBook)?.bookPages = pages
     }
 
     @JvmOverloads
@@ -95,24 +94,18 @@ class Book(bookName: String) {
             bookScreen = GuiScreenBook(Player.getPlayer(), book, false)
         }
 
-        (bookScreen as? MixinGuiScreenBook)?.currPage = page
+        (bookScreen as? IMixinGuiScreenBook)?.currPage = page
 
         GuiHandler.openGui(bookScreen ?: return)
     }
 
-    fun isOpen(): Boolean {
-        return Client.getMinecraft().currentScreen === bookScreen
-    }
+    fun isOpen(): Boolean = Client.getMinecraft().currentScreen === bookScreen
 
-    fun getCurrentPage(): Int {
-        return if (!isOpen()) -1 else (bookScreen as MixinGuiScreenBook).currPage
-    }
+    fun getCurrentPage(): Int = if (!isOpen()) -1 else (bookScreen as IMixinGuiScreenBook).currPage
 
     operator fun NBTTagCompound.set(tag: String, value: NBTBase) {
         this.setTag(tag, value)
     }
 
-    operator fun NBTTagCompound.get(tag: String): NBTBase {
-        return this.getTag(tag)
-    }
+    operator fun NBTTagCompound.get(tag: String): NBTBase = this.getTag(tag)
 }

@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.chromahud;
@@ -45,9 +45,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChromaHUD extends AbstractMod {
-    public static final String MODID = "ChromaHUD";
+    private static final String MODID = "ChromaHUD";
     public static final String VERSION = "3.0";
     /**
      * The metadata of ChromaHUD
@@ -56,11 +57,7 @@ public class ChromaHUD extends AbstractMod {
     private File suggestedConfigurationFile;
 
     public ChromaHUD() {
-        Metadata metadata = new Metadata(this, "ChromaHUD", "3.0", "Sk1er");
-
-        metadata.setDisplayName(ChatColor.AQUA + "ChromaHUD");
-
-        this.meta = metadata;
+        this.meta = new Metadata(this, MODID, VERSION, "Sk1er");
     }
 
     public AbstractMod init() {
@@ -68,12 +65,12 @@ public class ChromaHUD extends AbstractMod {
         ChromaHUDApi.getInstance();
         ChromaHUDApi.getInstance().register(new DefaultChromaHUDParser());
         ChromaHUDApi.getInstance().register(new HyperiumChromaHudParser());
-        ChromaHUDApi.getInstance().registerButtonConfig("CORDS", new ButtonConfig((guiButton, displayItem) -> {
+        ChromaHUDApi.getInstance().registerButtonConfig("COORDS", new ButtonConfig((guiButton, displayItem) -> {
             CordsDisplay displayItem1 = (CordsDisplay) displayItem;
             displayItem1.state = displayItem1.state == 1 ? 0 : 1;
             guiButton.displayString = EnumChatFormatting.RED.toString() + "Make " + (((CordsDisplay) displayItem).state == 1 ? "Horizontal" : "Vertical");
-        }, new GuiButton(0, 0, 0, "Cords State"), (guiButton, displayItem) -> guiButton.displayString = EnumChatFormatting.RED.toString() + "Make " + (((CordsDisplay) displayItem).state == 1 ? "Horizontal" : "Vertical")));
-        ChromaHUDApi.getInstance().registerButtonConfig("CORDS", new ButtonConfig((guiButton, displayItem) -> {
+        }, new GuiButton(0, 0, 0, "Coords State"), (guiButton, displayItem) -> guiButton.displayString = EnumChatFormatting.RED.toString() + "Make " + (((CordsDisplay) displayItem).state == 1 ? "Horizontal" : "Vertical")));
+        ChromaHUDApi.getInstance().registerButtonConfig("COORDS", new ButtonConfig((guiButton, displayItem) -> {
             CordsDisplay displayItem1 = (CordsDisplay) displayItem;
             displayItem1.precision += 1;
             if (displayItem1.precision > 4)
@@ -173,13 +170,7 @@ public class ChromaHUD extends AbstractMod {
             }
             FileReader fr = new FileReader(suggestedConfigurationFile);
             BufferedReader br = new BufferedReader(fr);
-            StringBuilder builder = new StringBuilder();
-            String line = null;
-            while ((line = br.readLine()) != null)
-                builder.append(line);
-
-            String done = builder.toString();
-            data = new JsonHolder(done);
+            data = new JsonHolder(br.lines().collect(Collectors.joining()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -225,7 +216,5 @@ public class ChromaHUD extends AbstractMod {
         } catch (Exception ignored) {
 
         }
-
     }
-
 }

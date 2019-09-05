@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.chromahud.gui;
@@ -60,8 +60,8 @@ public class DisplayElementConfig extends GuiScreen {
     private int saturation = -1;
     private int brightness = 5;
     private ChromaHUD mod;
-    private int lastWidth = 0;
-    private int lastHeight = 0;
+    private int lastWidth;
+    private int lastHeight;
     private boolean mouseLock;
 
 
@@ -93,11 +93,7 @@ public class DisplayElementConfig extends GuiScreen {
 
             }
             texture2 = new DynamicTexture(image1);
-
-
         }
-
-
     }
 
     private void reg(String name, GuiButton button, Consumer<GuiButton> consumer) {
@@ -284,7 +280,6 @@ public class DisplayElementConfig extends GuiScreen {
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);
         }
-
     }
 
     @Override
@@ -351,10 +346,6 @@ public class DisplayElementConfig extends GuiScreen {
                     }
             }
         }
-
-        //Coords within the box they clicked adjusted for scale
-
-
     }
 
     @Override
@@ -403,10 +394,8 @@ public class DisplayElementConfig extends GuiScreen {
             return;
 
         apply(mouseX, mouseY);
-//
         GlStateManager.bindTexture(texture.getGlTextureId());
         GlStateManager.enableTexture2D();
-//        //    public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height)
         GL11.glPushMatrix();
         GL11.glTranslatef(left, top, 0);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);//
@@ -420,12 +409,9 @@ public class DisplayElementConfig extends GuiScreen {
             drawTexturedModalRect(0, 0, 0, 0, 15, 256);
         }
         GlStateManager.scale(285F / size, 285F / size, 0);
-//
         GL11.glPopMatrix();
         if (lastX != 0 && lastY != 0)
             drawCircle(lastX, lastY);
-//
-
     }
 
 

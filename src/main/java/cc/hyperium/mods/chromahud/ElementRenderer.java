@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.chromahud;
@@ -21,6 +21,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -49,9 +50,9 @@ public class ElementRenderer {
     private static String cValue;
     private final ChromaHUD mod;
     private final Minecraft minecraft;
-    boolean last = false;
-    private boolean rLast = false;
-    private boolean mLast = false;
+    private boolean last;
+    private boolean rLast;
+    private boolean mLast;
 
     public ElementRenderer(ChromaHUD mod) {
         this.mod = mod;
@@ -99,13 +100,13 @@ public class ElementRenderer {
 
             if (current.isHighlighted()) {
                 int stringWidth = fontRendererObj.getStringWidth(string);
-                RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                RenderUtils.drawRect((int) ((x - 1) / currentScale - shift), (int) ((ty - 1) / currentScale), (int) ((x + 1) / currentScale) + stringWidth - shift, (int) ((ty + 1) / currentScale) + 8, new Color(0, 0, 0, 120).getRGB());
             }
 
             if (current.isChroma()) {
                 drawChromaString(string, x - shift, (int) ty);
             } else {
-                fontRendererObj.drawString(string, (int) (x / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
+                fontRendererObj.drawString(string, (int) (x / currentScale - shift), (int) (ty / currentScale), getColor(color, x), current.isShadow());
             }
             ty += 10D * currentScale;
         }
@@ -124,8 +125,8 @@ public class ElementRenderer {
             float ff = current.isStaticChroma() ? 1000.0F : 2000.0F;
             int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
             String tmp = String.valueOf(c);
-            renderer.drawString(tmp, (float) ((double) x / getCurrentScale()), (float) ((double) y / getCurrentScale()), i, current.isShadow());
-            x += (double) renderer.getCharWidth(c) * getCurrentScale();
+            renderer.drawString(tmp, (float) ((double) x / currentScale), (float) ((double) y / currentScale), i, current.isShadow());
+            x += (double) renderer.getCharWidth(c) * currentScale;
         }
     }
 
@@ -165,10 +166,10 @@ public class ElementRenderer {
         for (ItemStack stack : itemStacks) {
             if (stack.getMaxDamage() == 0)
                 continue;
-            String dur = (stack.getMaxDamage() - stack.getItemDamage()) + "/" + stack.getMaxDamage();
-            renderItem.renderItemAndEffectIntoGUI(stack, (int) (x / ElementRenderer.getCurrentScale() - (current.isRightSided() ? (showDurability ? 16 + (double) 20 * currentScale + fontRendererObj.getStringWidth(dur) : -16) : 0)), (int) ((y + (16 * line * ElementRenderer.getCurrentScale())) / ElementRenderer.getCurrentScale()));
+            String dur = stack.getMaxDamage() - stack.getItemDamage() + "";
+            renderItem.renderItemAndEffectIntoGUI(stack, (int) (x / ElementRenderer.getCurrentScale() - (current.isRightSided() ? (showDurability ? currentScale + fontRendererObj.getStringWidth(dur) : -8) : 0)), (int) ((y + (16 * line * ElementRenderer.getCurrentScale())) / ElementRenderer.getCurrentScale()));
             if (showDurability) {
-                ElementRenderer.draw((int) (x + (double) 20 * currentScale), y + (16 * line) + 8, dur);
+                ElementRenderer.draw((int) (x + (double) 20 * currentScale), y + (16 * line) + 4, dur);
             }
             line++;
         }
@@ -210,21 +211,21 @@ public class ElementRenderer {
         return mClicks.size();
     }
 
-    /* Until Sk1er fixes the old one causing an NPE, keep it like this */
     @InvokeEvent
     public void tick(TickEvent event) {
-        if (Minecraft.getMinecraft().inGameHasFocus)
+        if (Minecraft.getMinecraft().inGameHasFocus) {
             cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
+        }
     }
 
     // Right CPS Counter
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
-
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
+
         if (!Settings.SHOW_CHROMAHUD)
             return;
 

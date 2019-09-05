@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.chromahud.displayitems.chromahud;
@@ -42,14 +42,10 @@ public class PingDisplay extends DisplayItem {
         if (Minecraft.getMinecraft().theWorld != null && !Minecraft.getMinecraft().theWorld.isRemote && !isConfig)
             return;
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-        String string = "";
+        String string;
         if (thePlayer != null) {
             NetworkPlayerInfo playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID());
-            if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
-                string = "Ping: " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
-            } else {
-                string = "[Ping] " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
-            }
+            string = "Ping: " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
             ElementRenderer.draw(starX, startY, string);
             this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
         }

@@ -15,9 +15,8 @@ object MathLib {
      * @return the re-mapped number
      */
     @JvmStatic
-    fun map(number: Float, in_min: Float, in_max: Float, out_min: Float, out_max: Float): Float {
-        return (number - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
-    }
+    fun map(number: Float, in_min: Float, in_max: Float, out_min: Float, out_max: Float): Float =
+        (number - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
     /**
      * Clamps a floating number between two values.
@@ -28,9 +27,8 @@ object MathLib {
      * @return the clamped number
      */
     @JvmStatic
-    fun clampFloat(number: Float, min: Float, max: Float): Float {
-        return if (number < min) min else if (number > max) max else number
-    }
+    fun clampFloat(number: Float, min: Float, max: Float): Float =
+        if (number < min) min else if (number > max) max else number
 
 
     /**
@@ -42,7 +40,5 @@ object MathLib {
      * @return the clamped number
      */
     @JvmStatic
-    fun clamp(number: Int, min: Int, max: Int): Int {
-        return if (number < min) min else if (number > max) max else number
-    }
+    fun clamp(number: Int, min: Int, max: Int): Int = if (number < min) min else if (number > max) max else number
 }

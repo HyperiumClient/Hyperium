@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.internal.addons
 
 import cc.hyperium.Hyperium.LOGGER
@@ -48,7 +65,7 @@ object AddonBootstrap {
     /**
      * All the filtered jars inside of the {@link #modDirectory} folder,
      */
-    private lateinit var jars: ArrayList<File>
+    private var jars: ArrayList<File>
 
     /**
      * Method of loading all the valid addonManifests to the classloader
@@ -65,9 +82,9 @@ object AddonBootstrap {
      * at a certain phase
      */
     internal val translators = arrayListOf(
-            InstanceTranslator(),
-            MixinTranslator(),
-            TransformerTranslator()
+        InstanceTranslator(),
+        MixinTranslator(),
+        TransformerTranslator()
     )
 
     /**
@@ -91,8 +108,8 @@ object AddonBootstrap {
         }
 
         jars = modDirectory.listFiles()!!
-                .filter { it.name.toLowerCase().endsWith(".jar") }
-                .toCollection(ArrayList())
+            .filter { it.name.toLowerCase().endsWith(".jar") }
+            .toCollection(ArrayList())
 
     }
 
@@ -112,7 +129,6 @@ object AddonBootstrap {
         phase = Phase.PREINIT
         Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonBootstrap")
         Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonManifest")
-        Launch.classLoader.addClassLoaderExclusion("me.kbrewster.blazeapi.internal.addons.translate.")
 
         with(addonManifests) {
             val workspaceAddon = loadWorkspaceAddon()
@@ -153,7 +169,7 @@ object AddonBootstrap {
      */
     private fun loadAddons(loader: AddonLoaderStrategy): List<AddonManifest> {
         val addons = ArrayList<AddonManifest>()
-        var pendings = if(pendingDirectory.exists()) pendingDirectory.listFiles() else arrayOf()
+        val pendings = if (pendingDirectory.exists()) pendingDirectory.listFiles() else arrayOf()
         try {
             if (pendingDirectory.exists())
                 pendings.forEach { pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest()) }
@@ -172,7 +188,7 @@ object AddonBootstrap {
             }
         }
         pendingManifests.clear()
-        for(jar in pendings) {
+        for (jar in pendings) {
             val dest = File(modDirectory, jar.name)
             FileUtils.moveFile(jar, dest)
             try {
@@ -196,9 +212,7 @@ object AddonBootstrap {
      * @return returns the addon manifest
      */
     @Throws(Exception::class)
-    private fun loadAddon(loader: AddonLoaderStrategy, addon: File?): AddonManifest? {
-        return loader.load(addon)
-    }
+    private fun loadAddon(loader: AddonLoaderStrategy, addon: File?): AddonManifest? = loader.load(addon)
 
     /**
      * Phase the bootstrap is currently in

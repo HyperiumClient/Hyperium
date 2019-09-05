@@ -95,7 +95,7 @@ abstract class Display {
 
 
     fun setLine(index: Int, line: Any): Display {
-        while (this.lines.size -1 < index) this.lines.add(createDisplayLine(""))
+        while (this.lines.size - 1 < index) this.lines.add(createDisplayLine(""))
         this.lines[index] = when (line) {
             is String -> createDisplayLine(line)
             is DisplayLine -> line
@@ -125,11 +125,13 @@ abstract class Display {
 
     fun addLines(vararg lines: Any): Display {
         lines.forEach {
-            this.lines.add(when (it) {
-                is String -> createDisplayLine(it)
-                is DisplayLine -> it
-                else -> createDisplayLine("")
-            })
+            this.lines.add(
+                when (it) {
+                    is String -> createDisplayLine(it)
+                    is DisplayLine -> it
+                    else -> createDisplayLine("")
+                }
+            )
         }
         return this
     }
@@ -196,9 +198,30 @@ abstract class Display {
 
     private fun drawLine(line: DisplayLine, x: Float, y: Float, maxWidth: Float) {
         when (this.align) {
-            DisplayHandler.Align.LEFT -> line.drawLeft(x, y, maxWidth, this.background, this.backgroundColor, this.textColor)
-            DisplayHandler.Align.RIGHT -> line.drawRight(x, y, maxWidth, this.background, this.backgroundColor, this.textColor)
-            DisplayHandler.Align.CENTER -> line.drawCenter(x, y, maxWidth, this.background, this.backgroundColor, this.textColor)
+            DisplayHandler.Align.LEFT -> line.drawLeft(
+                x,
+                y,
+                maxWidth,
+                this.background,
+                this.backgroundColor,
+                this.textColor
+            )
+            DisplayHandler.Align.RIGHT -> line.drawRight(
+                x,
+                y,
+                maxWidth,
+                this.background,
+                this.backgroundColor,
+                this.textColor
+            )
+            DisplayHandler.Align.CENTER -> line.drawCenter(
+                x,
+                y,
+                maxWidth,
+                this.background,
+                this.backgroundColor,
+                this.textColor
+            )
             else -> return
         }
     }
@@ -206,13 +229,13 @@ abstract class Display {
     internal abstract fun createDisplayLine(text: String): DisplayLine
 
     override fun toString() =
-            "Display{" +
-                    "shouldRender=$shouldRender, " +
-                    "renderX=$renderX, renderY=$renderY, " +
-                    "background=$background, backgroundColor=$backgroundColor, " +
-                    "textColor=$textColor, align=$align, order=$order, " +
-                    "minWidth=$minWidth, width=$width, height=$height, " +
-                    "lines=$lines" +
-                    "}"
+        "Display{" +
+                "shouldRender=$shouldRender, " +
+                "renderX=$renderX, renderY=$renderY, " +
+                "background=$background, backgroundColor=$backgroundColor, " +
+                "textColor=$textColor, align=$align, order=$order, " +
+                "minWidth=$minWidth, width=$width, height=$height, " +
+                "lines=$lines" +
+                "}"
 
 }

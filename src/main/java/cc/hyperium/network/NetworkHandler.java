@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.network;
 
 import cc.hyperium.C;
@@ -6,8 +23,8 @@ import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.PostConfigHandler;
 import cc.hyperium.config.PreSaveHandler;
 import cc.hyperium.gui.CapesGui;
-import cc.hyperium.gui.CustomLevelheadConfigurer;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.mods.levelhead.guis.CustomLevelheadConfigurer;
 import cc.hyperium.netty.INetty;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
@@ -25,8 +42,8 @@ import java.util.UUID;
 public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler {
 
     @ConfigOpt
-    public boolean log = false;
-    private boolean post = false;
+    public boolean log;
+    private boolean post;
     private List<String> verboseLogs = new ArrayList<>();
 
     public boolean isLog() {
@@ -74,10 +91,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
     @Override
     public void handleCrossClientData(UUID uuid, JsonHolder jsonHolder) {
         String type = jsonHolder.optString("type");
-        if (type.equalsIgnoreCase("fortnite_default_dance")) {
-            Hyperium.INSTANCE.getHandlers().getFortniteDefaultDance().startAnimation(uuid);
-            Hyperium.INSTANCE.getHandlers().getFortniteDefaultDance().getStates().put(uuid, System.currentTimeMillis());
-        } else if (type.equalsIgnoreCase("yeet")) {
+        if (type.equalsIgnoreCase("yeet")) {
             Hyperium.INSTANCE.getHandlers().getYeetHandler().yeet(uuid);
         } else if (type.equalsIgnoreCase("twerk_dance")) {
             Hyperium.INSTANCE.getHandlers().getTwerkDance().startAnimation(uuid);

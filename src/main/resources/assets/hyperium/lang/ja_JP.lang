@@ -31,24 +31,8 @@ menu.profile.credits=%s クレジット
 
 # Hyperium Tabs
 tabs.searchbar=検索...
-tab.news.name=ニュース
 tab.settings.name=設定
-tab.update.name=アップデート
 tab.shop.name=Shop
-
-# Hyperium Tabs Attributes
-tab.update.noupdates=利用可能なアップデートはありません
-tab.update.autorestart=アップデートが完了したあと、Minecraftは自動で再起動します。
-tab.update.changelog=変更履歴はまもなく実装されます
-tab.update.update=アップデート
-tab.update.updating=アップデート中...
-tab.update.downloading=ダウンロード中...
-tab.update.installer.state.starting=インストーラーを起動中
-tab.update.installer.state.loading=インストーラーを読み込み中
-tab.update.installer.state.restarting=再起動中
-tab.update.installer.state.unknown=W: 不明な状態
-tab.update.installer.state.manualupdate.api=E: アップデートを手動で行ってください。 API: %s
-tab.update.installer.state.manualupdate=E: アップデートを手動で行ってください
 
 # Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperiumユーザー数:
@@ -56,10 +40,6 @@ gui.ingamemenu.playercount.now=現在オンライン: %s
 gui.ingamemenu.playercount.lastday=昨日: %s
 gui.ingamemenu.playercount.lastweek=先週: %s
 gui.ingamemenu.playercount.alltime=いままで: %s
-
-
-# Hyperium Alerts
-alert.update.message=Hyperiumのアップデートが見つかりました！ここをクリックすると更新を開始します。
 
 # Hyperium Change Background Text
 gui.changebackground.line1=URLを入力するか、ファイルを選択して背景を変更できます
@@ -134,9 +114,6 @@ gui.settings.armorprojectileprotpotentional=Show Armor Projectile Protection in 
 gui.settings.hidecrosshairinf5=Hide Crosshair when in Third Person
 gui.settings.critparticlefix=Crit Particle Fix
 gui.settings.holdperspectivekey=Hold Perspective Key
-gui.settings.optimizeditemrenderer=Optimized Item Renderer (BETA)
-gui.settings.optimizedtextureloading=Optimized Texture Loading (BETA)
-gui.settings.optimizedfontrenderer=Optimized Font Renderer (BETA)
 gui.settings.windowedfullscreen=Windowed Fullscreen
 gui.settings.bossbartextonly=Bossbar - Text Only
 gui.settings.staticfov=Static FOV
@@ -144,7 +121,6 @@ gui.settings.uploadscreenshots=Upload Screenshots (by default)
 gui.settings.blurredguibackground=Blurred GUI Background
 gui.settings.chromahudonallservers=Chromahud - On All Servers
 gui.settings.screenshotonkill=Screenshot On Kill
-gui.settings.showspotifycontrols=Show Spotify Controls
 gui.settings.welcometothehypixelzoo="Welcome to the Hypixel Zoo!"
 gui.settings.showparticleauras=Show Particle Auras
 gui.settings.showcosmeticseverywhere=Show Cosmetics Everywhere
@@ -175,7 +151,6 @@ gui.settings.showconfirmationpopup=Show Confirmation Popup
 gui.settings.persistentchatmessages=Persistent Chat Messages
 gui.settings.friendsfirstintab=Friends First In Tab
 gui.settings.onlineindicator=Online Indicator
-gui.settings.showplayersasblocks=Show Players As Blocks
 gui.settings.pingondm=Ping On DM
 gui.settings.sprintbypassstaticfov=Sprint Bypass Static FOV
 gui.settings.sprintandperspectivemessages=Sprint And Perspective Messages
@@ -186,8 +161,6 @@ gui.settings.wingsscale=Wings Scale
 gui.settings.showchromahud=Show ChromaHUD
 gui.settings.mainmenustyle=Main Menu Style
 gui.settings.pausemenustyle=Pause Menu Style
-gui.settings.spotifynotifications=Spotify Notifications
-gui.settings.forcespotifytoneverload=Force Spotify to Never Load
 gui.settings.updatenotificationsinhyperiumsettings=Update Notifications in Hyperium Settings
 gui.settings.fastworldswitching=Fast World Switching (May increase memory usage)
 gui.settings.maxworldparticles=Max World Particles
@@ -195,9 +168,6 @@ gui.settings.showparticlein1stperson=Show particle in 1st person
 gui.settings.showhitdistances=Show Hit Distances
 gui.settings.motionblurenabled=Enabled
 gui.settings.motionblurintensity=Motion Blur Intensity
-gui.settings.autofriendenabled=Enabled
-gui.settings.showfriendmessages=Show Friend Messages
-gui.settings.fortnitecompassenabled=Enabled
 gui.settings.showbackground=Show Background
 gui.settings.chroma=Chroma
 gui.settings.shadow=Shadow
@@ -225,7 +195,6 @@ gui.settings.buttonred=Button Outline (Red)
 gui.settings.buttongreen=Button Outline (Green)
 gui.settings.buttonblue=Button Outline (Blue)
 gui.settings.buttontype=Color Type
-gui.settings.chromahudprefixsquarebrace=Use square brace prefix
 gui.settings.disableenchantglint=Disable Enchantment Glint
 gui.settings.disabletitles=Disable Titles
 gui.settings.thankwatchdog=Thank Watchdog
@@ -238,6 +207,11 @@ gui.settings.disableitemframes=Disable Item Frames
 gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit
 gui.settings.hotbarkeys=Hotbar Keys
+gui.settings.clearglass=Clear Glass
+gui.settings.portalsounds=Disable Portal Sounds
+gui.settings.disableachievements=Disable Achievements
+gui.settings.disableshadowtext=Disable Shadowed Text
+gui.settings.shinypotions.matchcolor=Shiny Potions - Match Potion Color
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...
@@ -266,4 +240,3 @@ message.alreadypurchased=Already purchased %s
 message.invalidparticle=Invalid current particle type
 message.invalidanimation=Invalid animation type
 message.purchase=Purchase %s
-

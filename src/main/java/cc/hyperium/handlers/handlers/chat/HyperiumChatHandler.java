@@ -1,29 +1,28 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.utils.JsonHolder;
+import net.minecraft.util.IChatComponent;
 
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import net.minecraft.util.IChatComponent;
 
 /**
  * @author Sk1er
@@ -49,19 +48,19 @@ public abstract class HyperiumChatHandler {
     }
 
     public enum ChatRegexType {
-        SKYWARS_RATING, //
-        PRIVATE_MESSAGE_TO, //
-        PRIVATE_MESSAGE_FROM, //
-        FRIEND_REQUEST, //
-        GUILD_CHAT, //
-        PARTY_CHAT, //
-        PARTY_INVITE, //
-        SKYWARS_KILL, //
-        BEDWARS_KILL, //
-        MEGAWALLS_KILL, //
-        BLITZ_KILL, //
-        QUEST_COMPLETE, //
-        WIN //
+        SKYWARS_RATING,
+        PRIVATE_MESSAGE_TO,
+        PRIVATE_MESSAGE_FROM,
+        FRIEND_REQUEST,
+        GUILD_CHAT,
+        PARTY_CHAT,
+        PARTY_INVITE,
+        SKYWARS_KILL,
+        BEDWARS_KILL,
+        MEGAWALLS_KILL,
+        BLITZ_KILL,
+        QUEST_COMPLETE,
+        WIN
     }
 
 }

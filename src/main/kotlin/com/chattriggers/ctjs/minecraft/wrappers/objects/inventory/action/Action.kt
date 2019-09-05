@@ -5,10 +5,6 @@ import com.chattriggers.ctjs.minecraft.wrappers.Player
 import com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.Inventory
 import com.chattriggers.ctjs.utils.kotlin.External
 
-//#if MC>10809
-//$$ import com.chattriggers.ctjs.utils.kotlin.MCClickType
-//#endif
-
 @External
 abstract class Action(var slot: Int, var windowId: Int) {
     fun setSlot(slot: Int) = apply {
@@ -21,11 +17,7 @@ abstract class Action(var slot: Int, var windowId: Int) {
 
     abstract fun complete()
 
-    //#if MC<=10809
     protected fun doClick(button: Int, mode: Int) {
-    //#else
-    //$$ protected fun doClick(button: Int, mode: MCClickType) {
-    //#endif
         Client.getMinecraft().playerController.windowClick(
             windowId,
             slot,
@@ -39,7 +31,7 @@ abstract class Action(var slot: Int, var windowId: Int) {
         /**
          * Creates a new action.
          * The Inventory must be a container, see {@link Inventory#isContainer()}.
-         * The slot can be -999 for outside of the gui
+         * The slot can be -999 for outside of the Gui
          *
          * @param inventory the inventory to complete the action on
          * @param slot the slot to complete the action on

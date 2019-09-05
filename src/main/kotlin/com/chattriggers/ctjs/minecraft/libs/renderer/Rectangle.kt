@@ -5,11 +5,12 @@ import org.lwjgl.util.vector.Vector2f
 
 @External
 class Rectangle(
-        private var color: Int,
-        private var x: Float,
-        private var y: Float,
-        private var width: Float,
-        private var height: Float) {
+    private var color: Int,
+    private var x: Float,
+    private var y: Float,
+    private var width: Float,
+    private var height: Float
+) {
 
     private var shadow = Shadow(this)
     private var outline = Outline(this)
@@ -39,6 +40,7 @@ class Rectangle(
         this.shadow.offset.x = x
         this.shadow.offset.y = y
     }
+
     fun setShadowOffsetX(x: Float) = apply { this.shadow.offset.x = x }
     fun setShadowOffsetY(y: Float) = apply { this.shadow.offset.y = y }
 
@@ -73,39 +75,44 @@ class Rectangle(
     }
 
     private class Shadow(
-            val rect: Rectangle,
-            var on: Boolean = false,
-            var color: Int = 0x50000000,
-            var offset: Vector2f = Vector2f(5f, 5f)) {
+        val rect: Rectangle,
+        var on: Boolean = false,
+        var color: Int = 0x50000000,
+        var offset: Vector2f = Vector2f(5f, 5f)
+    ) {
         fun draw() {
             if (!this.on) return
-            Renderer.drawRect(this.color,
-                    this.rect.x + this.offset.x,
-                    this.rect.y + this.rect.height,
-                    this.rect.width,
-                    this.offset.y
+            Renderer.drawRect(
+                this.color,
+                this.rect.x + this.offset.x,
+                this.rect.y + this.rect.height,
+                this.rect.width,
+                this.offset.y
             )
-            Renderer.drawRect(this.color,
-                    this.rect.x + this.rect.width,
-                    this.rect.y + this.offset.y,
-                    this.offset.x,
-                    this.rect.height - this.offset.y
+            Renderer.drawRect(
+                this.color,
+                this.rect.x + this.rect.width,
+                this.rect.y + this.offset.y,
+                this.offset.x,
+                this.rect.height - this.offset.y
             )
         }
     }
 
     private class Outline(
-            val rect: Rectangle,
-            var on: Boolean = false,
-            var color: Int = 0xff000000.toInt(),
-            var thickness: Float = 5f) {
+        val rect: Rectangle,
+        var on: Boolean = false,
+        var color: Int = 0xff000000.toInt(),
+        var thickness: Float = 5f
+    ) {
         fun draw() {
             if (!this.on) return
-            Renderer.drawRect(this.color,
-                    this.rect.x - this.thickness,
-                    this.rect.y - this.thickness,
-                    this.rect.width + this.thickness * 2,
-                    this.rect.height + this.thickness * 2
+            Renderer.drawRect(
+                this.color,
+                this.rect.x - this.thickness,
+                this.rect.y - this.thickness,
+                this.rect.width + this.thickness * 2,
+                this.rect.height + this.thickness * 2
             )
         }
     }

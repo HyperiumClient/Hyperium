@@ -13,36 +13,29 @@ abstract class ConfigOption {
     var hidden: Boolean = false
 
     internal var resetButton = GuiButton(
-            0,
-            Renderer.screen.getWidth() / 2 - 100 + this.x + 185,
-            this.y - 2,
-            14, 12, ""
+        0,
+        Renderer.Screen.getWidth() / 2 - 100 + this.x + 185,
+        this.y - 2,
+        14, 12, ""
     )
 
     open fun init() {
-        this.resetButton = GuiButton(0,
-                Renderer.screen.getWidth() / 2 - 100 + this.x + 185, this.y - 2,
-                14, 12, "")
+        this.resetButton = GuiButton(
+            0,
+            Renderer.Screen.getWidth() / 2 - 100 + this.x + 185, this.y - 2,
+            14, 12, ""
+        )
     }
 
     open fun draw(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        //#if MC<=10809
-        this.resetButton.xPosition = Renderer.screen.getWidth() / 2 - 100 + this.x + 185
-        //#else
-        //$$ this.resetButton.x = Renderer.screen.getWidth() / 2 - 100 + this.x + 185;
-        //#endif
-
-        //#if MC<=10809
+        this.resetButton.xPosition = Renderer.Screen.getWidth() / 2 - 100 + this.x + 185
         this.resetButton.drawButton(Client.getMinecraft(), mouseX, mouseY)
-        //#else
-        //$$ this.resetButton.drawButton(Client.getMinecraft(), mouseX, mouseY, partialTicks);
-        //#endif
 
-        Text("\u21BA", (Renderer.screen.getWidth() / 2 - 100 + this.x + 189).toFloat(), (this.y - 4).toFloat())
-                .setScale(2f)
-                .setColor(-0x1)
-                .setShadow(true)
-                .draw()
+        Text("\u21BA", (Renderer.Screen.getWidth() / 2 - 100 + this.x + 189).toFloat(), (this.y - 4).toFloat())
+            .setScale(2f)
+            .setColor(-0x1)
+            .setShadow(true)
+            .draw()
     }
 
     abstract fun mouseClicked(mouseX: Int, mouseY: Int)

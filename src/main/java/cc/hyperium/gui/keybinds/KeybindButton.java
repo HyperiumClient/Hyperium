@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui.keybinds;
 
 import cc.hyperium.Hyperium;
@@ -5,6 +22,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -16,7 +34,7 @@ import java.awt.Color;
 
 public class KeybindButton extends GuiButton {
 
-    private boolean listening = false;
+    private boolean listening;
     private HyperiumBind btnBind;
 
     public KeybindButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText, HyperiumBind bind) {
@@ -35,9 +53,9 @@ public class KeybindButton extends GuiButton {
         this.listening = listening;
 
         if (!listening) {
-            setText(getName(btnBind.getKeyCode()));
+            displayString = getName(btnBind.getKeyCode());
         } else {
-            setText("LISTENING...");
+            displayString = ChatColor.YELLOW + "LISTENING...";
         }
     }
 
@@ -66,7 +84,7 @@ public class KeybindButton extends GuiButton {
 
     private void setBindKey(int key) {
         listening = false;
-        setText(getName(key));
+        displayString = getName(key);
         this.btnBind.setKeyCode(key);
         detectConflicts();
     }

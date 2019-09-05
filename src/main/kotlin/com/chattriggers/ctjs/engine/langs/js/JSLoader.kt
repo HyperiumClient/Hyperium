@@ -43,11 +43,12 @@ object JSLoader : ILoader {
         scriptEngine = instanceScriptEngine(jars)
 
         val script = saveResource(
-                "/providedLibs.js",
-                File(modulesFolder.parentFile,
-                        "chattriggers-provided-libs.js"
-                ),
-                true
+            "/providedLibs.js",
+            File(
+                modulesFolder.parentFile,
+                "chattriggers-provided-libs.js"
+            ),
+            true
         )
 
         try {
@@ -73,8 +74,8 @@ object JSLoader : ILoader {
 
     override fun load(module: Module) {
         if (cachedModules.map {
-            it.name
-        }.contains(module.name)) return
+                it.name
+            }.contains(module.name)) return
 
         cachedModules.add(module)
 
@@ -110,9 +111,7 @@ object JSLoader : ILoader {
         }
     }
 
-    override fun eval(code: String): Any? {
-        return scriptEngine.eval(code)
-    }
+    override fun eval(code: String): Any? = scriptEngine.eval(code)
 
     override fun addTrigger(trigger: OnTrigger) {
         triggers.add(trigger)
@@ -126,9 +125,7 @@ object JSLoader : ILoader {
         triggers.clear()
     }
 
-    override fun getLanguageName(): String {
-        return "js"
-    }
+    override fun getLanguageName(): String = "js"
 
     override fun trigger(trigger: OnTrigger, method: Any, vararg args: Any?) {
         try {
@@ -147,9 +144,7 @@ object JSLoader : ILoader {
         toRemove.add(trigger)
     }
 
-    override fun getModules(): List<Module> {
-        return cachedModules
-    }
+    override fun getModules(): List<Module> = cachedModules
 
     private fun callActualMethod(method: Any, vararg args: Any?) {
         val som: ScriptObjectMirror = if (method is ScriptObjectMirror) {

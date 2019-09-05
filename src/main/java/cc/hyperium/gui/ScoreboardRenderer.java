@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui;
 
 import cc.hyperium.config.ConfigOpt;
@@ -55,9 +72,9 @@ public class ScoreboardRenderer {
             }
 
             int i1 = collection.size() * this.getFontRenderer().FONT_HEIGHT;
-            int j1 = (int) (resolution.getScaledHeight_double() * getyLocation()) + i1 / 3;
+            int j1 = (int) (resolution.getScaledHeight_double() * yLocation) + i1 / 3;
             int k1 = 3;
-            int l1 = (int) (resolution.getScaledWidth_double() * getxLocation()) - i - k1;
+            int l1 = (int) (resolution.getScaledWidth_double() * xLocation) - i - k1;
             int j = 0;
 
             for (Score score1 : collection) {
@@ -66,7 +83,7 @@ public class ScoreboardRenderer {
                 String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName());
                 String s2 = EnumChatFormatting.RED.toString() + score1.getScorePoints();
                 int k = j1 - j * this.getFontRenderer().FONT_HEIGHT;
-                int l = (int) (resolution.getScaledWidth_double() * getxLocation()) - k1 + 2;
+                int l = (int) (resolution.getScaledWidth_double() * xLocation) - k1 + 2;
                 RenderUtils.drawRect(l1 - 2, k, l, k + this.getFontRenderer().FONT_HEIGHT, 1342177280);
                 this.getFontRenderer().drawString(s1, l1, k, 553648127);
                 this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
@@ -85,19 +102,15 @@ public class ScoreboardRenderer {
     public double getxLocation() {
         return xLocation;
     }
-
     public void setxLocation(double xLocation) {
         this.xLocation = xLocation;
     }
-
     public double getyLocation() {
         return yLocation;
     }
-
     public void setyLocation(double yLocation) {
         this.yLocation = yLocation;
     }
-
     private FontRenderer getFontRenderer() {
         return Minecraft.getMinecraft().fontRendererObj;
     }

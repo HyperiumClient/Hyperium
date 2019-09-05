@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.handlers.handlers.keybinds;
@@ -45,8 +45,8 @@ public class HyperiumBind {
 
     private boolean wasPressed;
 
-    private boolean conflicted = false;
-    protected boolean conflictExempt = false;
+    private boolean conflicted;
+    protected boolean conflictExempt;
 
     public HyperiumBind(String description, int key) {
         this(description, key, "Hyperium");
@@ -165,9 +165,9 @@ public class HyperiumBind {
     }
 
     public void detectConflicts() {
-        setConflicted(false);
+        conflicted = false;
 
-        int currentKeyCode = this.getKeyCode();
+        int currentKeyCode = this.key;
 
         if (currentKeyCode == 0 || conflictExempt) {
             // Allow multiple binds to be set to NONE.
@@ -183,21 +183,15 @@ public class HyperiumBind {
 
             if (currentKeyCode == keyCode) {
                 // There is a conflict!
-                setConflicted(true);
+                conflicted = true;
             }
         }
 
         // Check for conflicts with other Hyperium binds.
-        for (HyperiumBind hyperiumBind : otherBinds) {
-            if (hyperiumBind.conflictExempt) {
-                continue;
-            }
-            int keyCode = hyperiumBind.getKeyCode();
-
-            if (currentKeyCode == keyCode) {
-                // There is a conflict!
-                setConflicted(true);
-            }
+        // There is a conflict!
+        if (otherBinds.stream().filter(hyperiumBind ->
+            !hyperiumBind.conflictExempt).mapToInt(hyperiumBind -> hyperiumBind.key).anyMatch(keyCode -> currentKeyCode == keyCode)) {
+            conflicted = true;
         }
     }
 }

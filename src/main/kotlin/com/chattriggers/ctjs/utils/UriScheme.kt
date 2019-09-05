@@ -11,20 +11,20 @@ import java.net.ServerSocket
 import java.util.stream.Collectors
 
 object UriScheme {
-    private val PORT = 21965
-    private val QUOTE = "\""
+    private const val PORT = 21965
+    private const val QUOTE = "\""
 
     fun installUriScheme() {
         try {
             regAdd(
-                    " /f /ve /d " + quote("URL:chattriggers Protocol")
+                " /f /ve /d " + quote("URL:chattriggers Protocol")
             )
 
             regAdd(
-                    " /f /v " +
-                            quote("URL Protocol") +
-                            " /d " +
-                            quote("")
+                " /f /v " +
+                        quote("URL Protocol") +
+                        " /d " +
+                        quote("")
             )
 
             val cp = CTJS.configLocation.absolutePath
@@ -32,16 +32,16 @@ object UriScheme {
             val javaProgram = System.getProperty("java.home") + sep + "bin" + sep + "javaw.exe"
 
             ILoader.saveResource(
-                    "/UriScheme.class",
-                    File("$cp${sep}com${sep}chattriggers${sep}ctjs${sep}loader${sep}UriScheme.class"),
-                    true
+                "/UriScheme.class",
+                File("$cp${sep}com${sep}chattriggers${sep}ctjs${sep}loader${sep}UriScheme.class"),
+                true
             )
 
             val value = """\"$javaProgram\" -cp \"$cp\" com.chattriggers.ctjs.loader.UriScheme \"%1\""""
 
             regAdd(
-                    ("\\shell\\open\\command /f /ve /d " +
-                            "\"" + value + "\"")
+                ("\\shell\\open\\command /f /ve /d " +
+                        "\"" + value + "\"")
             )
         } catch (e: Exception) {
             e.printStackTrace()
@@ -53,9 +53,7 @@ object UriScheme {
         Thread(Runnable { socketListener() }, "CTJSSocketListener").start()
     }
 
-    private fun quote(toQuote: String): String {
-        return QUOTE + toQuote + QUOTE
-    }
+    private fun quote(toQuote: String): String = QUOTE + toQuote + QUOTE
 
     @Throws(IOException::class, InterruptedException::class)
     private fun regAdd(args: String) {
@@ -73,7 +71,7 @@ object UriScheme {
                         serverSocket.accept().use { clientSocket ->
                             val inputStream = clientSocket.getInputStream()
                             val module = BufferedReader(InputStreamReader(inputStream))
-                                    .lines().collect(Collectors.joining("\n"))
+                                .lines().collect(Collectors.joining("\n"))
                             ModuleManager.importModule(module)
                         }
                     } catch (e: Exception) {

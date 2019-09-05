@@ -5,6 +5,7 @@ import cc.hyperium.event.MouseButtonEvent
 import cc.hyperium.event.RenderHUDEvent
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.utils.kotlin.KotlinListener
+import kotlin.math.roundToInt
 
 @KotlinListener
 object CPS {
@@ -49,11 +50,17 @@ object CPS {
         }
     }
 
-    @JvmStatic fun getLeftClicksMax(): Int = leftClicksMax
-    @JvmStatic fun getRightClicksMax(): Int = rightClicksMax
+    @JvmStatic
+    fun getLeftClicksMax(): Int = leftClicksMax
 
-    @JvmStatic fun getLeftClicks(): Int = leftClicks.size
-    @JvmStatic fun getRightClicks(): Int = rightClicks.size
+    @JvmStatic
+    fun getRightClicksMax(): Int = rightClicksMax
+
+    @JvmStatic
+    fun getLeftClicks(): Int = leftClicks.size
+
+    @JvmStatic
+    fun getRightClicks(): Int = rightClicks.size
 
     @JvmStatic
     fun getLeftClicksAverage(): Int {
@@ -61,7 +68,7 @@ object CPS {
 
         var clicks = 0.0
         for (click in leftClicksAverage) clicks += click
-        return Math.round(clicks / leftClicksAverage.size).toInt()
+        return (clicks / leftClicksAverage.size).roundToInt()
     }
 
     @JvmStatic
@@ -70,7 +77,7 @@ object CPS {
 
         var clicks = 0.0
         for (click in rightClicksAverage) clicks += click
-        return Math.round(clicks / rightClicksAverage.size).toInt()
+        return (clicks / rightClicksAverage.size).roundToInt()
     }
 
     private fun limitAverage(average: MutableList<Double>) {

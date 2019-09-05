@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.addons.sidebar.gui.screen;
@@ -36,7 +36,7 @@ public class GuiScreenBackground extends GuiScreenSidebar {
     private GuiSlider sliderChromaSpeed;
     private GuiButton buttonChromaType;
 
-    public GuiScreenBackground(final GuiScreen parent, final SidebarAddon addon) {
+    GuiScreenBackground(final GuiScreen parent, final SidebarAddon addon) {
         super(addon);
         this.byte0 = -16;
         this.parent = parent;
@@ -54,10 +54,9 @@ public class GuiScreenBackground extends GuiScreenSidebar {
         this.setSlidersVisibility();
     }
 
-    public int getRowPos(final int rowNumber) {
+    private int getRowPos(final int rowNumber) {
         return this.height / 4 + (24 * rowNumber - 24) + this.byte0;
     }
-
     public int getCenter() {
         return this.width / 2;
     }
@@ -109,4 +108,5 @@ public class GuiScreenBackground extends GuiScreenSidebar {
     private String getSuffix(final boolean enabled) {
         return enabled ? (EnumChatFormatting.GREEN + "Enabled") : (EnumChatFormatting.RED + "Disabled");
     }
+
 }

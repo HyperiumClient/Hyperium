@@ -37,12 +37,12 @@ abstract class Gui : GuiScreen() {
 
     fun isOpen(): Boolean = Client.getMinecraft().currentScreen === this
 
-    fun isControlDown(): Boolean = GuiScreen.isCtrlKeyDown()
-    fun isShiftDown(): Boolean = GuiScreen.isShiftKeyDown()
-    fun isAltDown(): Boolean = GuiScreen.isAltKeyDown()
+    fun isControlDown(): Boolean = isCtrlKeyDown()
+    fun isShiftDown(): Boolean = isShiftKeyDown()
+    fun isAltDown(): Boolean = isAltKeyDown()
 
     /**
-     * Registers a method to be ran while gui is open.<br></br>
+     * Registers a method to be ran while Gui is open.<br></br>
      * Registered method runs on draw.<br></br>
      * Arguments passed through to method:<br></br>
      * int mouseX<br></br>
@@ -58,7 +58,7 @@ abstract class Gui : GuiScreen() {
     }
 
     /**
-     * Registers a method to be ran while gui is open.<br></br>
+     * Registers a method to be ran while Gui is open.<br></br>
      * Registered method runs on mouse click.<br></br>
      * Arguments passed through to method:<br></br>
      * int mouseX<br></br>
@@ -74,7 +74,7 @@ abstract class Gui : GuiScreen() {
     }
 
     /**
-     * Registers a method to be ran while gui is open.<br></br>
+     * Registers a method to be ran while Gui is open.<br></br>
      * Registered method runs on key input.<br></br>
      * Arguments passed through to method:<br></br>
      * char typed character<br></br>
@@ -89,7 +89,7 @@ abstract class Gui : GuiScreen() {
     }
 
     /**
-     * Registers a method to be ran while gui is open.<br></br>
+     * Registers a method to be ran while Gui is open.<br></br>
      * Registered method runs on key input.<br></br>
      * Arguments passed through to method:<br></br>
      * mouseX<br></br>
@@ -106,7 +106,7 @@ abstract class Gui : GuiScreen() {
     }
 
     /**
-     * Registers a method to be ran while gui is open.<br></br>
+     * Registers a method to be ran while Gui is open.<br></br>
      * Registered method runs on mouse release.<br></br>
      * Arguments passed through to method:<br></br>
      * mouseX<br></br>
@@ -122,7 +122,7 @@ abstract class Gui : GuiScreen() {
     }
 
     /**
-     * Registers a method to be ran while gui is open.<br></br>
+     * Registers a method to be ran while Gui is open.<br></br>
      * Registered method runs when an action is performed (clicking a button)<br></br>
      * Arguments passed through to method:<br></br>
      * the button that is clicked
@@ -210,10 +210,11 @@ abstract class Gui : GuiScreen() {
      * Internal method to run trigger. Not meant for public use
      */
     override fun doesGuiPauseGame() = this.doesPauseGame
+
     fun setDoesPauseGame(doesPauseGame: Boolean) = apply { this.doesPauseGame = doesPauseGame }
 
     /**
-     * Add a base Minecraft button to the gui
+     * Add a base Minecraft button to the Gui
      *
      * @param buttonId   id for the button
      * @param x          X position of the button
@@ -225,7 +226,7 @@ abstract class Gui : GuiScreen() {
     }
 
     /**
-     * Add a base Minecraft button to the gui
+     * Add a base Minecraft button to the Gui
      *
      * @param buttonId   id for the button
      * @param x          X position of the button

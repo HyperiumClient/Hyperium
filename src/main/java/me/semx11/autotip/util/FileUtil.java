@@ -75,7 +75,7 @@ public class FileUtil {
             return firstDate;
         }
         try {
-            return firstDate = Files.list(this.getStatsDir())
+            return firstDate = Files.list(this.statsDir)
                     .map(this::getDateFromPath)
                     .filter(Objects::nonNull)
                     .findFirst()

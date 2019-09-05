@@ -1,6 +1,6 @@
 package com.chattriggers.ctjs.minecraft.wrappers
 
-import cc.hyperium.mixinsimp.gui.HyperiumGuiIngame
+import cc.hyperium.mixinsimp.client.gui.HyperiumGuiIngame
 import net.minecraft.scoreboard.ScorePlayerTeam
 
 object Scoreboard {
@@ -94,15 +94,11 @@ object Scoreboard {
                     scoreboard.removeObjectiveFromEntity(it.playerName, sidebarObjective)
                 }
             }
-
-            //#if MC<=10809
             val theScore = scoreboard.getValueFromObjective(line, sidebarObjective)
-            //#else
-            //$$ val theScore = scoreboard.getOrCreateScore(line, sidebarObjective);
-            //#endif
 
             theScore.scorePoints = score
-        } catch (ignored: Exception) { }
+        } catch (ignored: Exception) {
+        }
     }
 
     @JvmStatic
@@ -127,7 +123,8 @@ object Scoreboard {
             scoreboardNames = scores.map {
                 Score(it)
             }.toMutableList()
-        } catch (ignored: Exception) { }
+        } catch (ignored: Exception) {
+        }
     }
 
     @JvmStatic
@@ -150,8 +147,8 @@ object Scoreboard {
          * @return the display name
          */
         fun getName(): String = ScorePlayerTeam.formatPlayerName(
-                World.getWorld()!!.scoreboard.getPlayersTeam(score.playerName),
-                score.playerName
+            World.getWorld()!!.scoreboard.getPlayersTeam(score.playerName),
+            score.playerName
         )
 
         override fun toString(): String = getName()

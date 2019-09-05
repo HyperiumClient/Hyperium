@@ -1,23 +1,23 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.utils.mods;
 
-
+import cc.hyperium.Hyperium;
 import cc.hyperium.utils.ChatColor;
 import com.chattriggers.ctjs.triggers.TriggerType;
 import com.chattriggers.ctjs.utils.Cancellable;
@@ -28,7 +28,6 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
-import org.apache.logging.log4j.LogManager;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -58,37 +57,41 @@ public class AsyncScreenshotSaver implements Runnable {
         this.upload = upload;
     }
 
-    private static File getTimestampedPNGFileForDirectory(final File gameDirectory) {
-        final String s = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date());
-        int i = 1;
-        File file1;
+    private static File getTimestampedPNGFileForDirectory(File gameDirectory) {
+        String dateFormatting = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date());
+        int screenshotCount = 1;
+        File screenshot;
+
         while (true) {
-            file1 = new File(gameDirectory, s + ((i == 1) ? "" : ("_" + i)) + ".png");
-            if (!file1.exists()) {
+            screenshot = new File(gameDirectory, dateFormatting + ((screenshotCount == 1) ? "" : ("_" + screenshotCount)) + ".png");
+            if (!screenshot.exists()) {
                 break;
             }
-            ++i;
+
+            ++screenshotCount;
         }
-        return file1;
+
+        return screenshot;
     }
 
-    private static void processPixelValues(final int[] p_147953_0_, final int p_147953_1_, final int p_147953_2_) {
-        final int[] aint = new int[p_147953_1_];
-        for (int i = p_147953_2_ / 2, j = 0; j < i; ++j) {
-            System.arraycopy(p_147953_0_, j * p_147953_1_, aint, 0, p_147953_1_);
-            System.arraycopy(p_147953_0_, (p_147953_2_ - 1 - j) * p_147953_1_, p_147953_0_, j * p_147953_1_, p_147953_1_);
-            System.arraycopy(aint, 0, p_147953_0_, (p_147953_2_ - 1 - j) * p_147953_1_, p_147953_1_);
+    private static void processPixelValues(final int[] pixels, final int displayWidth, final int displayHeight) {
+        final int[] aint = new int[displayWidth];
+        for (int yValues = displayHeight / 2, val = 0; val < yValues; ++val) {
+            System.arraycopy(pixels, val * displayWidth, aint, 0, displayWidth);
+            System.arraycopy(pixels, (displayHeight - 1 - val) * displayWidth, pixels, val * displayWidth, displayWidth);
+            System.arraycopy(aint, 0, pixels, (displayHeight - 1 - val) * displayWidth, displayWidth);
         }
     }
 
     @Override
     public void run() {
-        processPixelValues(this.pixelValues, this.width, this.height);
-        BufferedImage bufferedimage = null;
-        final File file2 = getTimestampedPNGFileForDirectory(this.screenshotDir);
+        processPixelValues(pixelValues, width, height);
+
+        BufferedImage image;
+        File screenshot = getTimestampedPNGFileForDirectory(screenshotDir);
 
         Cancellable cancellable = new Cancellable();
-        TriggerType.SCREENSHOT_TAKEN.triggerAll(file2, cancellable);
+        TriggerType.SCREENSHOT_TAKEN.triggerAll(screenshot, cancellable);
 
         if (cancellable.isCancelled()) {
             return;
@@ -96,29 +99,34 @@ public class AsyncScreenshotSaver implements Runnable {
 
         try {
             if (OpenGlHelper.isFramebufferEnabled()) {
-                bufferedimage = new BufferedImage(this.frameBuffer.framebufferWidth, this.frameBuffer.framebufferHeight, 1);
-                int k;
-                for (int j = k = this.frameBuffer.framebufferTextureHeight - this.frameBuffer.framebufferHeight; k < this.frameBuffer.framebufferTextureHeight; ++k) {
-                    for (int l = 0; l < this.frameBuffer.framebufferWidth; ++l) {
-                        bufferedimage.setRGB(l, k - j, this.pixelValues[k * this.frameBuffer.framebufferTextureWidth + l]);
+                image = new BufferedImage(frameBuffer.framebufferWidth, frameBuffer.framebufferHeight, 1);
+
+                int texHeight;
+
+                for (int heightSize = texHeight = frameBuffer.framebufferTextureHeight - frameBuffer.framebufferHeight;
+                     texHeight < frameBuffer.framebufferTextureHeight; ++texHeight) {
+                    for (int widthSize = 0; widthSize < frameBuffer.framebufferWidth; ++widthSize) {
+                        image.setRGB(widthSize, texHeight - heightSize, pixelValues[texHeight * frameBuffer.framebufferTextureWidth + widthSize]);
                     }
                 }
             } else {
-                bufferedimage = new BufferedImage(this.width, this.height, 1);
-                bufferedimage.setRGB(0, 0, this.width, this.height, this.pixelValues, 0, this.width);
+                image = new BufferedImage(width, height, 1);
+                image.setRGB(0, 0, width, height, pixelValues, 0, width);
             }
-            ImageIO.write(bufferedimage, "png", file2);
+
+            ImageIO.write(image, "png", screenshot);
+
             if (!upload) {
-                IChatComponent ichatcomponent = new ChatComponentText(
-                    ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Captured to " + ChatColor.UNDERLINE + file2.getName());
-                ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getCanonicalPath()));
-                Minecraft.getMinecraft().thePlayer.addChatMessage(ichatcomponent);
+                IChatComponent chatComponent = new ChatComponentText(
+                    ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Captured to " + ChatColor.UNDERLINE + screenshot.getName());
+                chatComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, screenshot.getCanonicalPath()));
+                Minecraft.getMinecraft().thePlayer.addChatMessage(chatComponent);
             } else {
-                new ImgurUploader("649f2fb48e59767", file2).run();
+                new ImgurUploader("649f2fb48e59767", screenshot).run();
             }
-        } catch (Exception exception) {
-            LogManager.getLogger().warn("Couldn't save screenshot", exception);
-            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("screenshot.failure", exception.getMessage()));
+        } catch (Exception e) {
+            Hyperium.LOGGER.warn("Couldn't save {} : {}", screenshot, e);
+            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("screenshot.failure", e.getMessage()));
         }
     }
 }

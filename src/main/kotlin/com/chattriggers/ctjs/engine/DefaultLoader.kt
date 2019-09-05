@@ -78,9 +78,7 @@ object DefaultLoader {
         return null
     }
 
-    private fun doImport(name: String): Boolean {
-        return downloadModule(name, true)
-    }
+    private fun doImport(name: String): Boolean = downloadModule(name, true)
 
     private fun loadAssets() {
         val toCopy = CTJS.assetsDir
@@ -115,7 +113,7 @@ object DefaultLoader {
 
         if (metadataFile.exists()) {
             try {
-                metadata = Gson().fromJson<ModuleMetadata>(FileLib.read(metadataFile), ModuleMetadata::class.java)
+                metadata = Gson().fromJson(FileLib.read(metadataFile), ModuleMetadata::class.java)
                 metadata.fileName = dir.name
             } catch (exception: Exception) {
                 ModuleManager.generalConsole.printStackTrace(exception)
@@ -129,13 +127,15 @@ object DefaultLoader {
 
                     val newMetadataFile = File(dir, "updateMeta.json")
 
-                    val connection = URL("https://www.chattriggers.com/downloads/metadata/${metadata.fileName}").openConnection()
+                    val connection =
+                        URL("https://www.chattriggers.com/downloads/metadata/${metadata.fileName}").openConnection()
                     connection.setRequestProperty("User-Agent", "Mozilla/5.0")
                     FileUtils.copyInputStreamToFile(connection.getInputStream(), newMetadataFile)
 
                     val currVersion = metadata.version
 
-                    val newMetadata = Gson().fromJson<ModuleMetadata>(newMetadataFile.readText(), ModuleMetadata::class.java)
+                    val newMetadata =
+                        Gson().fromJson(newMetadataFile.readText(), ModuleMetadata::class.java)
                     val newVersion = newMetadata.version
                     val name = metadata.fileName
 
@@ -153,18 +153,20 @@ object DefaultLoader {
             }
 
             modules.addAll(
-                    getRequiredModules(metadata, updateCheck)
+                getRequiredModules(metadata, updateCheck)
             )
         } catch (exception: Exception) {
             ModuleManager.generalConsole.out.println("Error loading module from $dir")
             ModuleManager.generalConsole.printStackTrace(exception)
         }
 
-        modules.add(Module(
+        modules.add(
+            Module(
                 dir.name,
                 metadata,
                 dir
-        ))
+            )
+        )
 
         return modules
     }
@@ -212,7 +214,7 @@ object DefaultLoader {
                 }
 
                 modules.addAll(
-                        newModules
+                    newModules
                 )
             } else {
                 val newModules = importModule(it.name, false, isRequired = true)

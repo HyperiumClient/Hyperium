@@ -83,9 +83,7 @@ open class Entity(val entity: MCEntity) {
             Entity(this.entity.riddenByEntity)
     }
 
-    fun getRiders(): List<Entity> {
-        return listOf()
-    }
+    fun getRiders(): List<Entity> = listOf()
 
     /**
      * Checks whether or not the entity is dead.

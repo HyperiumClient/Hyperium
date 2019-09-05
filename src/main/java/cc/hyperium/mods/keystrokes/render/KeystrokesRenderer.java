@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.keystrokes.render;
@@ -20,10 +20,7 @@ package cc.hyperium.mods.keystrokes.render;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
-import cc.hyperium.mods.keystrokes.keys.impl.CPSKey;
-import cc.hyperium.mods.keystrokes.keys.impl.Key;
-import cc.hyperium.mods.keystrokes.keys.impl.MouseButton;
-import cc.hyperium.mods.keystrokes.keys.impl.SpaceKey;
+import cc.hyperium.mods.keystrokes.keys.impl.*;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenColor;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
 import net.minecraft.client.Minecraft;
@@ -45,6 +42,7 @@ public class KeystrokesRenderer {
     private final KeystrokesMod mod;
     private final Key[] movementKeys = new Key[4];
     private final CPSKey[] cpsKeys = new CPSKey[1];
+    private final FPSKey[] fpsKeys = new FPSKey[1];
     private final SpaceKey[] spaceKey = new SpaceKey[1];
     private final MouseButton[] mouseButtons = new MouseButton[2];
     private final SpaceKey[] sneakKeys = new SpaceKey[1];
@@ -59,6 +57,8 @@ public class KeystrokesRenderer {
         this.movementKeys[3] = new Key(mod, this.mc.gameSettings.keyBindRight, 50, 26);
 
         this.cpsKeys[0] = new CPSKey(mod, 2, 110);
+
+        fpsKeys[0] = new FPSKey(mod, 2, 110 + 18);
 
         this.spaceKey[0] = new SpaceKey(mod, this.mc.gameSettings.keyBindJump, 2, 92, "SPACE");
 
@@ -106,6 +106,7 @@ public class KeystrokesRenderer {
             boolean showingCPS = this.mod.getSettings().isShowingCPS();
             boolean showingCPSOnButtons = this.mod.getSettings().isShowingCPSOnButtons();
             boolean showingSneak = mod.getSettings().isShowingSneak();
+            boolean showingFPS = mod.getSettings().isShowingFPS();
             ScaledResolution res = new ScaledResolution(this.mc);
 
             int width = this.mod.getSettings().getWidth();
@@ -152,6 +153,10 @@ public class KeystrokesRenderer {
                 drawSpacebar(x, y);
             }
 
+            if (showingFPS) {
+                drawFPS(x, y);
+            }
+
             y += 130;
             if (!mod.getSettings().isShowingMouseButtons()) {
                 y -= 24;
@@ -166,7 +171,11 @@ public class KeystrokesRenderer {
             }
 
             if (!showingCPS || showingCPSOnButtons) {
-                y = -18;
+                y -= 18;
+            }
+
+            if (!showingFPS) {
+               y -= 18;
             }
 
             for (CustomKeyWrapper key : customKeys) {
@@ -208,6 +217,12 @@ public class KeystrokesRenderer {
     private void drawMouseButtons(int x, int y) {
         for (MouseButton button : this.mouseButtons) {
             button.renderKey(x, y);
+        }
+    }
+
+    private void drawFPS(int x, int y) {
+        for (FPSKey key : fpsKeys) {
+            key.renderKey(x, y);
         }
     }
 }

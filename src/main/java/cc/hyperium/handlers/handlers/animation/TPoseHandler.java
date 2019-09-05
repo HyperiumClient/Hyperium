@@ -1,8 +1,25 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
-import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
+import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
+import cc.hyperium.mixinsimp.client.model.IMixinModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 
@@ -48,29 +65,6 @@ public class TPoseHandler extends AbstractPreCopyAnglesAnimationHandler {
 
         player.getBipedRightUpperArm().rotateAngleY = 0;
         player.getBipedRightUpperArmwear().rotateAngleY = 0;
-
-//        player.getBipedRightUpperArm().rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
-//        player.getBipedRightUpperArm().rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
-//
-//        player.getBipedRightUpperArmwear().rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
-//        player.getBipedRightUpperArmwear().rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
-//
-//        player.getBipedLeftUpperArm().rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
-//        player.getBipedLeftUpperArm().rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
-//        player.getBipedLeftUpperArm().rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
-//
-//        player.getBipedLeftUpperArmwear().rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
-//        player.getBipedLeftUpperArmwear().rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
-//        player.getBipedLeftUpperArmwear().rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
-//
-//        final float rotationX = entity.rotationPitch;
-//        final float rotationY = entity.renderYawOffset - entity.rotationYaw;
-//
-//        player.getBipedHead().rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
-//        player.getBipedHead().rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(35.0f * heldPercent - rotationY);
-//
-//        player.getBipedHeadwear().rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
-//        player.getBipedHeadwear().rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(35.0f * heldPercent - rotationY);
     }
 
     @Override
@@ -82,17 +76,5 @@ public class TPoseHandler extends AbstractPreCopyAnglesAnimationHandler {
         player.getBipedRightUpperArm().rotateAngleZ = (float) Math.toRadians(90.0f * heldPercent);
         player.getBipedRightUpperArm().rotateAngleY = 0;
         player.getBipedRightUpperArm().rotateAngleX = 0;
-
-//        player.getBipedRightUpperArm().rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
-//        player.getBipedRightUpperArm().rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
-//        player.getBipedLeftUpperArm().rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
-//        player.getBipedLeftUpperArm().rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
-//        player.getBipedLeftUpperArm().rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
-//        final float rotationX = entity.rotationPitch;
-//        player.getBipedHead().rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
-//        final float rotationY = entity.renderYawOffset - entity.rotationYaw;
-//        player.getBipedHead().rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(35.0f * heldPercent - rotationY);
-//        player.getBipedHeadwear().rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-//        player.getBipedHeadwear().rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
     }
 }

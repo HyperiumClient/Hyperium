@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
@@ -19,6 +36,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SettingsHandler {
     private HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
@@ -52,19 +71,10 @@ public class SettingsHandler {
             customStates.put(hats, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 if (self != null) {
-                    List<String> pur = new ArrayList<>();
-                    for (int i = 0; i < hat2.length; i++) {
-                        if (self.hasPurchased(hat2[i])) {
-                            pur.add(hats1[i]);
-                        }
-                    }
+                    List<String> pur = IntStream.range(0, hat2.length).filter(i -> self.hasPurchased(hat2[i])).mapToObj(i -> hats1[i]).collect(Collectors.toList());
                     if (pur.size() > 0) {
                         pur.add("NONE");
-                        String[] tmp = new String[pur.size()];
-                        for (int i = 0; i < pur.size(); i++) {
-                            tmp[i] = pur.get(i);
-                        }
-                        return tmp;
+                        return pur.toArray(new String[0]);
                     }
                 }
                 return new String[]{"NOT PURCHASED"};
@@ -101,11 +111,7 @@ public class SettingsHandler {
                 for (EnumPurchaseType type : types) {
                     vals.add(type.getDisplayName());
                 }
-                String[] tmp = new String[vals.size()];
-                for (int i = 0; i < vals.size(); i++) {
-                    tmp[i] = vals.get(i);
-                }
-                return tmp;
+                return vals.toArray(new String[0]);
             });
             registerCallback(companion_type, o -> {
                 NettyClient client = NettyClient.getClient();
@@ -157,6 +163,7 @@ public class SettingsHandler {
                 }
 
             });
+
             Field max_particle_string = Settings.class.getField("MAX_PARTICLE_STRING");
             customStates.put(max_particle_string, () -> {
                 ParticleOverlay overlay = ParticleOverlay.getOverlay();
@@ -238,23 +245,16 @@ public class SettingsHandler {
                 }
             });
 
-            registerCallback(Settings.class.getField("MAX_WORLD_PARTICLES_STRING"), o -> {
-                try {
-                    Settings.MAX_WORLD_PARTICLES_INT = Integer.valueOf(o.toString());
-                } catch (Exception ignored) {
-
-                }
-            });
             registerCallback(max_particle_string, o -> {
                 try {
-                    Settings.MAX_PARTICLES = Integer.valueOf(o.toString());
+                    Settings.MAX_PARTICLES = Integer.parseInt(o.toString());
                 } catch (Exception ignored) {
 
                 }
             });
             registerCallback(Settings.class.getField("HEAD_SCALE_FACTOR_STRING"), o -> {
                 try {
-                    Settings.HEAD_SCALE_FACTOR = Double.valueOf(o.toString());
+                    Settings.HEAD_SCALE_FACTOR = Double.parseDouble(o.toString());
                 } catch (Exception ignored) {
 
                 }
@@ -301,7 +301,7 @@ public class SettingsHandler {
         }
     }
 
-    public void registerCallback(Field field, Consumer<Object> callback) {
+    private void registerCallback(Field field, Consumer<Object> callback) {
         this.callbacks.computeIfAbsent(field, tmp -> new ArrayList<>()).add(callback);
     }
 

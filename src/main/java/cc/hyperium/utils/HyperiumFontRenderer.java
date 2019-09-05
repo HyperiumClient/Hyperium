@@ -1,23 +1,22 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.utils;
 
-import cc.hyperium.installer.InstallerMain;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.StringUtils;
 import org.lwjgl.opengl.GL11;
@@ -134,7 +133,7 @@ public class HyperiumFontRenderer {
     }
 
     private Font getFontFromInput(String path) throws IOException, FontFormatException {
-        return Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream(path));
+        return Font.createFont(Font.TRUETYPE_FONT, HyperiumFontRenderer.class.getResourceAsStream(path));
     }
 
     public void drawStringScaled(String text, int givenX, int givenY, int color, double givenScale) {
@@ -205,12 +204,9 @@ public class HyperiumFontRenderer {
         }
 
         GL11.glScaled(2.0F, 2.0F, 2.0F);
-        if (texture)
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-        if (lighting)
-            GL11.glEnable(GL11.GL_LIGHTING);
-        if (!blend)
-            GL11.glDisable(GL11.GL_BLEND);
+        if (texture) GL11.glEnable(GL11.GL_TEXTURE_2D);
+        if (lighting) GL11.glEnable(GL11.GL_LIGHTING);
+        if (!blend) GL11.glDisable(GL11.GL_BLEND);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
         return (int) x / 2;
@@ -222,7 +218,7 @@ public class HyperiumFontRenderer {
     }
 
     public void drawCenteredString(String text, float x, float y, int color) {
-        drawString(text, x - (int) getWidth(text) / 2, y, color);
+        drawString(text, x - ((int) getWidth(text) >> 1), y, color);
     }
 
     /**

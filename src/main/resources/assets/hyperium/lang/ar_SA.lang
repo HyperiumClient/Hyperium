@@ -31,24 +31,8 @@ menu.profile.credits=الرصيد %s
 
 # Hyperium Tabs
 tabs.searchbar=بحث...
-tab.news.name=الأخبار
 tab.settings.name=الإعدادات
-tab.update.name=تحديث
 tab.shop.name=متجر
-
-# Hyperium Tabs Attributes
-tab.update.noupdates=لا توجد تحديثات متاحة
-tab.update.autorestart=بمجرد الانتهاء من التحديث ، سيتم إعادة تشغيل Minecraft تلقائيًا
-tab.update.changelog=التغييرات ستأتي قريبا
-tab.update.update=تحديث
-tab.update.updating=جاري التحديث...
-tab.update.downloading=جاري التحميل...
-tab.update.installer.state.starting=بدء المثبت
-tab.update.installer.state.loading=جاري تحميل المثبت
-tab.update.installer.state.restarting=جاري إعادة تشغيل
-tab.update.installer.state.unknown=العرض: حالة مجهولة
-tab.update.installer.state.manualupdate.api=يرجى التحديث يدويًا ، واجهة برمجة التطبيقات: %s
-tab.update.installer.state.manualupdate=E: الرجاء التحديث يدوياً
 
 # Hyperium Ingame Menu
 gui.ingamemenu.playercount=عدد لاعبي Hyperium:
@@ -56,10 +40,6 @@ gui.ingamemenu.playercount.now=المتاحون الآن: %s
 gui.ingamemenu.playercount.lastday=اليوم الأخير: %s
 gui.ingamemenu.playercount.lastweek=الأسبوع الماضي: %s
 gui.ingamemenu.playercount.alltime=كل الوقت: %s
-
-
-# Hyperium Alerts
-alert.update.message=تحديث Hyperium! اضغط هنا للتحميل.
 
 # Hyperium Change Background Text
 gui.changebackground.line1=اكتب الرابط في الاسفل لتغيير الخلفية او اختر ملف.
@@ -134,9 +114,6 @@ gui.settings.armorprojectileprotpotentional=Show Armor Projectile Protection in 
 gui.settings.hidecrosshairinf5=Hide crosshair when in Third Person
 gui.settings.critparticlefix=إصلاح الجسيمات الحرجة
 gui.settings.holdperspectivekey=واصل الضغت على مفتاح المشهد
-gui.settings.optimizeditemrenderer=عارض العناصر المحسن (بيتا)
-gui.settings.optimizedtextureloading=محسن تحميل التراكيب (بيتا)
-gui.settings.optimizedfontrenderer=محسن عارض شكل الحروف (بيتا)
 gui.settings.windowedfullscreen=ملء الشاشة مع اطار
 gui.settings.bossbartextonly=عمود الوحوش - كتابة فقط
 gui.settings.staticfov=المتحكم بمدى الرؤية
@@ -144,7 +121,6 @@ gui.settings.uploadscreenshots=نشر الصور المأخوذة (بعد الت
 gui.settings.blurredguibackground=خلفية ضبابية
 gui.settings.chromahudonallservers=على كل السيرفرات - ChromaHud
 gui.settings.screenshotonkill=لقطة شاشه على القتل
-gui.settings.showspotifycontrols=إضهار اعدادات Spotify
 gui.settings.welcometothehypixelzoo="مرحبا بكم في حديقة حيوانات Hypixel!"
 gui.settings.showparticleauras=إظهار الهالات الجسيمات
 gui.settings.showcosmeticseverywhere=اشهر الجماليات بكل مكان
@@ -175,7 +151,6 @@ gui.settings.showconfirmationpopup=تظهر رسالة تأكيد المنبثق
 gui.settings.persistentchatmessages=رسائل المحادثة مستمرة
 gui.settings.friendsfirstintab=أصدقاء أولاً في علامة التبويب
 gui.settings.onlineindicator=مؤشر على الإنترنت
-gui.settings.showplayersasblocks=إظهار اللاعبين ككتل
 gui.settings.pingondm=بينغ على مارك ألماني
 gui.settings.sprintbypassstaticfov=السباق تجاوز ثابتة فوف
 gui.settings.sprintandperspectivemessages=السباق ومنظور رسائل
@@ -186,8 +161,6 @@ gui.settings.wingsscale=مقياس أجنحة
 gui.settings.showchromahud=إظهار ChromaHud
 gui.settings.mainmenustyle=نمط القائمة الرئيسية
 gui.settings.pausemenustyle=نمط القائمة وقفه
-gui.settings.spotifynotifications=إخطارات Spotify
-gui.settings.forcespotifytoneverload=قوة Spotify لتحميل ابدأ
 gui.settings.updatenotificationsinhyperiumsettings=تحديث الإشعارات في إعدادات Hyperium
 gui.settings.fastworldswitching=سريع "التحول العالمي" (قد زيادة استخدام الذاكرة)
 gui.settings.maxworldparticles=جسيمات العالم ماكس
@@ -195,9 +168,6 @@ gui.settings.showparticlein1stperson=تظهر الجسيمات في 1 شخص
 gui.settings.showhitdistances=إظهار المسافات ضرب
 gui.settings.motionblurenabled=مفعل
 gui.settings.motionblurintensity=الحركة طمس كثافة
-gui.settings.autofriendenabled=مفعل
-gui.settings.showfriendmessages=إظهار رسائل صديق
-gui.settings.fortnitecompassenabled=مفعل
 gui.settings.showbackground=أظهر الخلفية
 gui.settings.chroma=ملون
 gui.settings.shadow=الظل
@@ -225,7 +195,6 @@ gui.settings.buttonred=Button Outline (Red)
 gui.settings.buttongreen=Button Outline (Green)
 gui.settings.buttonblue=Button Outline (Blue)
 gui.settings.buttontype=Color Type
-gui.settings.chromahudprefixsquarebrace=Use square brace prefix
 gui.settings.disableenchantglint=Disable Enchantment Glint
 gui.settings.disabletitles=Disable Titles
 gui.settings.thankwatchdog=Thank Watchdog
@@ -238,6 +207,11 @@ gui.settings.disableitemframes=Disable Item Frames
 gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit
 gui.settings.hotbarkeys=Hotbar Keys
+gui.settings.clearglass=Clear Glass
+gui.settings.portalsounds=Disable Portal Sounds
+gui.settings.disableachievements=Disable Achievements
+gui.settings.disableshadowtext=Disable Shadowed Text
+gui.settings.shinypotions.matchcolor=Shiny Potions - Match Potion Color
 
 # Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...

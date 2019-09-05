@@ -32,37 +32,15 @@ menu.profile.credits=%s Credits
 
 #Hyperium Tabs
 tabs.searchbar=Search...
-tab.news.name=News
 tab.settings.name=Settings
-tab.update.name=Update
 tab.shop.name=Shop
-
-#Hyperium Tabs Attributes
-tab.update.noupdates=No updates available
-tab.update.autorestart=Once update is done, Minecraft will automatically restart
-tab.update.changelog=Changelog coming soon
-tab.update.update=Update
-tab.update.updating=Updating...
-tab.update.downloading=Downloading...
-tab.update.installer.state.starting=Starting Installer
-tab.update.installer.state.loading=Loading Installer
-tab.update.installer.state.restarting=Restarting
-tab.update.installer.state.unknown=W: Unknown State
-tab.update.installer.state.manualupdate.api=E: Please update manually, API: %s
-tab.update.installer.state.manualupdate=E: Please update manually
 
 #Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Player Count:
 gui.ingamemenu.playercount.now=Online Now: %s
-gui.ingamemenu.playercount.lastday=Last Day: %s
-gui.ingamemenu.playercount.lastweek=Last Week: %s
+gui.ingamemenu.playercount.lastday=Past Day: %s
+gui.ingamemenu.playercount.lastweek=Past Week: %s
 gui.ingamemenu.playercount.alltime=All Time: %s
-
-#Hyperium Splash Progress
-#splash.progress.
-
-#Hyperium Alerts
-alert.update.message=Hyperium Update! Click here to download.
 
 #Hyperium Change Background Text
 gui.changebackground.line1=Enter a URL below to change the background or choose file.
@@ -137,9 +115,6 @@ gui.settings.armorprojectileprotpotentional=Show Armor Projectile Protection in 
 gui.settings.hidecrosshairinf5=Hide Crosshair when in Third Person
 gui.settings.critparticlefix=Crit Particle Fix
 gui.settings.holdperspectivekey=Hold Perspective Key
-gui.settings.optimizeditemrenderer=Optimized Item Renderer (BETA)
-gui.settings.optimizedtextureloading=Optimized Texture Loading (BETA)
-gui.settings.optimizedfontrenderer=Optimized Font Renderer (BETA)
 gui.settings.windowedfullscreen=Windowed Fullscreen
 gui.settings.bossbartextonly=Bossbar - Text Only
 gui.settings.staticfov=Static FOV
@@ -147,7 +122,6 @@ gui.settings.uploadscreenshots=Upload Screenshots (by default)
 gui.settings.blurredguibackground=Blurred GUI Background
 gui.settings.chromahudonallservers=Chromahud - On All Servers
 gui.settings.screenshotonkill=Screenshot On Kill
-gui.settings.showspotifycontrols=Show Spotify Controls
 gui.settings.welcometothehypixelzoo="Welcome to the Hypixel Zoo!"
 gui.settings.showparticleauras=Show Particle Auras
 gui.settings.showcosmeticseverywhere=Show Cosmetics Everywhere
@@ -178,7 +152,6 @@ gui.settings.showconfirmationpopup=Show Confirmation Popup
 gui.settings.persistentchatmessages=Persistent Chat Messages
 gui.settings.friendsfirstintab=Friends First In Tab
 gui.settings.onlineindicator=Online Indicator
-gui.settings.showplayersasblocks=Show Players As Blocks
 gui.settings.pingondm=Ping On DM
 gui.settings.sprintbypassstaticfov=Sprint Bypass Static FOV
 gui.settings.sprintandperspectivemessages=Sprint And Perspective Messages
@@ -189,8 +162,6 @@ gui.settings.wingsscale=Wings Scale
 gui.settings.showchromahud=Show ChromaHUD
 gui.settings.mainmenustyle=Main Menu Style
 gui.settings.pausemenustyle=Pause Menu Style
-gui.settings.spotifynotifications=Spotify Notifications
-gui.settings.forcespotifytoneverload=Force Spotify to Never Load
 gui.settings.updatenotificationsinhyperiumsettings=Update Notifications in Hyperium Settings
 gui.settings.fastworldswitching=Fast World Switching (May increase memory usage)
 gui.settings.maxworldparticles=Max World Particles
@@ -198,9 +169,6 @@ gui.settings.showparticlein1stperson=Show particle in 1st person
 gui.settings.showhitdistances=Show Hit Distances
 gui.settings.motionblurenabled=Enabled
 gui.settings.motionblurintensity=Motion Blur Intensity
-gui.settings.autofriendenabled=Enabled
-gui.settings.showfriendmessages=Show Friend Messages
-gui.settings.fortnitecompassenabled=Enabled
 gui.settings.showbackground=Show Background
 gui.settings.chroma=Chroma
 gui.settings.shadow=Shadow
@@ -228,7 +196,6 @@ gui.settings.buttonred=Button Outline (Red)
 gui.settings.buttongreen=Button Outline (Green)
 gui.settings.buttonblue=Button Outline (Blue)
 gui.settings.buttontype=Color Type
-gui.settings.chromahudprefixsquarebrace=Use square brace prefix
 gui.settings.disableenchantglint=Disable Enchantment Glint
 gui.settings.disabletitles=Disable Titles
 gui.settings.thankwatchdog=Thank Watchdog
@@ -241,6 +208,11 @@ gui.settings.disableitemframes=Disable Item Frames
 gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit
 gui.settings.hotbarkeys=Hotbar Keys
+gui.settings.clearglass=Clear Glass
+gui.settings.portalsounds=Disable Portal Sounds
+gui.settings.disableachievements=Disable Achievements
+gui.settings.disableshadowtext=Disable Shadowed Text
+gui.settings.shinypotions.matchcolor=Shiny Potions - Match Potion Color
 
 #Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...

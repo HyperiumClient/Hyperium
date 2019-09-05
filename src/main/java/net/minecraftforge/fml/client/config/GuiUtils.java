@@ -36,13 +36,9 @@ import java.util.List;
  * @author bspkrs
  */
 public class GuiUtils {
-    public static final String UNDO_CHAR = "\u21B6";
-    public static final String RESET_CHAR = "\u2604";
-    public static final String VALID = "\u2714";
-    public static final String INVALID = "\u2715";
 
-    public static final int[] colorCodes = new int[]{0, 170, 43520, 43690, 11141120, 11141290, 16755200, 11184810, 5592405, 5592575, 5635925, 5636095, 16733525, 16733695, 16777045, 16777215,
-            0, 42, 10752, 10794, 2752512, 2752554, 2763264, 2763306, 1381653, 1381695, 1392405, 1392447, 4134165, 4134207, 4144917, 4144959};
+    public static final int[] colorCodes = {0, 170, 43520, 43690, 11141120, 11141290, 16755200, 11184810, 5592405, 5592575, 5635925, 5636095, 16733525, 16733695, 16777045, 16777215,
+        0, 42, 10752, 10794, 2752512, 2752554, 2763264, 2763306, 1381653, 1381695, 1392405, 1392447, 4134165, 4134207, 4144917, 4144959};
 
     public static int getColorCode(char c, boolean isLighter) {
         return colorCodes[isLighter ? "0123456789abcdef".indexOf(c) : "0123456789abcdef".indexOf(c) + 16];
@@ -195,16 +191,16 @@ public class GuiUtils {
     }
 
     /**
-     * Draws a tooltip box on the screen with text in it.
+     * Draws a tooltip box on the Screen with text in it.
      * Automatically positions the box relative to the mouse to match Mojang's implementation.
-     * Automatically wraps text when there is not enough space on the screen to display the text without wrapping.
+     * Automatically wraps text when there is not enough space on the Screen to display the text without wrapping.
      * Can have a maximum width set to avoid creating very wide tooltips.
      *
      * @param textLines    the lines of text to be drawn in a hovering tooltip box.
      * @param mouseX       the mouse X position
      * @param mouseY       the mouse Y position
-     * @param screenWidth  the available screen width for the tooltip to drawn in
-     * @param screenHeight the available  screen height for the tooltip to drawn in
+     * @param screenWidth  the available Screen width for the tooltip to drawn in
+     * @param screenHeight the available  Screen height for the tooltip to drawn in
      * @param maxTextWidth the maximum width of the text in the tooltip box.
      *                     Set to a negative number to have no max width.
      * @param font         the font for drawing the text in the tooltip box
@@ -231,7 +227,7 @@ public class GuiUtils {
             int tooltipX = mouseX + 12;
             if (tooltipX + tooltipTextWidth + 4 > screenWidth) {
                 tooltipX = mouseX - 16 - tooltipTextWidth;
-                if (tooltipX < 4) // if the tooltip doesn't fit on the screen
+                if (tooltipX < 4) // if the tooltip doesn't fit on the Screen
                 {
                     if (mouseX > screenWidth / 2) {
                         tooltipTextWidth = mouseX - 12 - 8;
@@ -334,8 +330,8 @@ public class GuiUtils {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.shadeModel(7425);
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        GlStateManager.shadeModel(GL11.GL_SMOOTH);
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -346,7 +342,7 @@ public class GuiUtils {
         worldrenderer.pos(right, bottom, zLevel).color(endRed, endGreen, endBlue, endAlpha).endVertex();
         tessellator.draw();
 
-        GlStateManager.shadeModel(7424);
+        GlStateManager.shadeModel(GL11.GL_FLAT);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
         GlStateManager.enableTexture2D();

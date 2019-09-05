@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.handlers.handlers.hud;
 
 import cc.hyperium.config.Settings;
@@ -27,8 +44,12 @@ import net.minecraft.world.WorldSettings;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class VanillaEnhancementsHud {
 
@@ -37,7 +58,6 @@ public class VanillaEnhancementsHud {
     Most of code adapted from Orange Marshall's Vanilla Enhancements
      */
     private Minecraft mc = Minecraft.getMinecraft();
-    private String lastMessage = "";
 
     public VanillaEnhancementsHud() {
         EventBus.INSTANCE.register(new NetworkInfo());
@@ -51,13 +71,8 @@ public class VanillaEnhancementsHud {
                 ItemStack heldItem = thePlayer.getHeldItem();
                 if (heldItem != null) {
                     if (heldItem.getUnlocalizedName().equalsIgnoreCase("item.bow")) {
-                        int c = 0;
-                        for (ItemStack is : thePlayer.inventory.mainInventory) {
-                            if (is != null) {
-                                if (is.getUnlocalizedName().equalsIgnoreCase("item.arrow"))
-                                    c += is.stackSize;
-                            }
-                        }
+                        int c = Arrays.stream(thePlayer.inventory.mainInventory).filter(Objects::nonNull).filter(is ->
+                            is.getUnlocalizedName().equalsIgnoreCase("item.arrow")).mapToInt(is -> is.stackSize).sum();
                         ScaledResolution current = ResolutionUtil.current();
                         FontRenderer fontRendererObj = mc.fontRendererObj;
                         final int offset = (mc.playerController.getCurrentGameType() == WorldSettings.GameType.CREATIVE) ? 10 : 0;
@@ -123,7 +138,6 @@ public class VanillaEnhancementsHud {
                 ScaledResolution res = new ScaledResolution(mc);
                 int white = 16777215;
                 String message = this.getArmorString();
-                lastMessage = message;
                 mc.currentScreen.drawString(mc.fontRendererObj, message, 10, res.getScaledHeight() - 16, white);
             }
         }
@@ -143,12 +157,8 @@ public class VanillaEnhancementsHud {
     }
 
     private String getAttackDamageString(final ItemStack stack) {
-        for (final String entry : stack.getTooltip(this.mc.thePlayer, true)) {
-            if (entry.endsWith("Attack Damage")) {
-                return entry.split(" ", 2)[0].substring(2);
-            }
-        }
-        return "";
+        return stack.getTooltip(this.mc.thePlayer, true).stream().filter(entry ->
+            entry.endsWith("Attack Damage")).findFirst().map(entry -> entry.split(" ", 2)[0].substring(2)).orElse("");
     }
 
     private String getPotionEffectString(final ItemStack heldItemStack) {
@@ -173,39 +183,32 @@ public class VanillaEnhancementsHud {
     }
 
     private String getEnchantmentString(final ItemStack heldItemStack) {
-        final StringBuilder enchantBuilder = new StringBuilder();
+        final String enchantBuilder;
         final Map<Integer, Integer> en = EnchantmentHelper.getEnchantments(heldItemStack);
-        for (final Map.Entry<Integer, Integer> entry : en.entrySet()) {
-            enchantBuilder.append(EnumChatFormatting.BOLD.toString());
-            enchantBuilder.append(cc.hyperium.handlers.handlers.hud.Maps.ENCHANTMENT_SHORT_NAME.get(entry.getKey()));
-            enchantBuilder.append(" ");
-            enchantBuilder.append(entry.getValue());
-            enchantBuilder.append(" ");
-        }
-        return enchantBuilder.toString().trim();
+        enchantBuilder = en.entrySet().stream().map(entry ->
+            EnumChatFormatting.BOLD.toString() +
+                Maps.ENCHANTMENT_SHORT_NAME.get(entry.getKey()) + " " + entry.getValue() + " ").collect(Collectors.joining());
+        return enchantBuilder.trim();
     }
 
     private String getArmorString() {
-        double ap = roundDecimals(getArmorPotentional(false), 2);
-        double app = roundDecimals(getArmorPotentional(true), 2);
+        double ap = roundDecimals(getArmorPotentional(false));
+        double app = roundDecimals(getArmorPotentional(true));
         if (Settings.ARMOR_PROT_POTENTIONAL || Settings.ARMOR_PROJ_POTENTIONAL) {
-            String lastMessage;
-            String str = Settings.ARMOR_PROT_POTENTIONAL ? (lastMessage = ap + "%") : (lastMessage = app + "%");
-            this.lastMessage = lastMessage;
-            return str;
+            return Settings.ARMOR_PROT_POTENTIONAL ? ap + "%" : app + "%";
         }
         if (ap == app) {
-            return this.lastMessage = ap + "%";
+            return ap + "%";
         }
-        return this.lastMessage = ap + "% | " + app + "%";
+        return ap + "% | " + app + "%";
     }
 
-    private double roundDecimals(double num, int a) {
+    private double roundDecimals(double num) {
         if (num == 0.0) {
             return num;
         }
-        num = (int) (num * Math.pow(10.0, a));
-        num /= Math.pow(10.0, a);
+        num = (int) (num * Math.pow(10.0, 2));
+        num /= Math.pow(10.0, 2);
         return num;
     }
 
@@ -241,10 +244,7 @@ public class VanillaEnhancementsHud {
     }
 
     private double calcProtection(int armorEpf) {
-        double protection = 0.0;
-        for (int i = 50; i <= 100; ++i) {
-            protection += ((Math.ceil(armorEpf * i / 100.0) < 20.0) ? Math.ceil(armorEpf * i / 100.0) : 20.0);
-        }
+        double protection = IntStream.rangeClosed(50, 100).mapToDouble(i -> ((Math.ceil(armorEpf * i / 100.0) < 20.0) ? Math.ceil(armorEpf * i / 100.0) : 20.0)).sum();
         return protection / 51.0;
     }
 

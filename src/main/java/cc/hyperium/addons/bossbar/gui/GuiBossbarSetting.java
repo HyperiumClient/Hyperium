@@ -1,23 +1,30 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.addons.bossbar.gui;
 
-import cc.hyperium.addons.bossbar.BossbarAddon;
 import cc.hyperium.addons.bossbar.config.BossbarConfig;
-import cc.hyperium.addons.sidebar.gui.screen.GuiScreenBackground;
-import cc.hyperium.config.ConfigOpt;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fml.client.config.GuiSlider;
 
 import java.io.IOException;
 
 public class GuiBossbarSetting extends GuiScreen {
-    private BossbarAddon addon;
-    private GuiSlider sliderScale;
-
-    public GuiBossbarSetting(BossbarAddon addon) {
-        this.addon = addon;
-    }
 
     @Override
     public void initGui() {
@@ -50,7 +57,7 @@ public class GuiBossbarSetting extends GuiScreen {
                 button.displayString = "Bar: " + this.getSuffix(BossbarConfig.barEnabled);
                 break;
             case 3:
-                mc.displayGuiScreen(new GuiBossbarPosition(this, this.addon));
+                mc.displayGuiScreen(new GuiBossbarPosition(this));
                 break;
             case 4:
                 BossbarConfig.bossBarEnabled = true;
@@ -62,14 +69,12 @@ public class GuiBossbarSetting extends GuiScreen {
         super.actionPerformed(button);
     }
 
-    public int getRowPos(final int rowNumber) {
+    private int getRowPos(final int rowNumber) {
         return this.height / 4 + (24 * rowNumber - 24) - 16;
     }
-
     public int getCenter() {
         return this.width / 2;
     }
-
     private String getSuffix(final boolean enabled) {
         return enabled ? (EnumChatFormatting.GREEN + "Enabled") : (EnumChatFormatting.RED + "Disabled");
     }

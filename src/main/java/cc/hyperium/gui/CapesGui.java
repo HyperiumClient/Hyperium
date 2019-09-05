@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
@@ -19,8 +36,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 
 import javax.imageio.ImageIO;
-import java.awt.Color;
-import java.awt.Desktop;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +54,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     private Map<String, DynamicTexture> textures = new ConcurrentHashMap<>();
     private Map<String, BufferedImage> texturesImage = new ConcurrentHashMap<>();
     private JsonHolder cosmeticCallback = new JsonHolder();
-    private boolean purchasing = false;
+    private boolean purchasing;
     private HashMap<Integer, Runnable> ids = new HashMap<>();
     private int initialGuiScale;
     private HashMap<String, Integer> intMap = new HashMap<>();
@@ -52,7 +68,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
         }
 
         guiScale = 2;
-        scollMultiplier = 2;
+        scrollMultiplier = 2;
         updatePurchases();
         Multithreading.runAsync(() -> {
             JsonHolder capeAtlas = PurchaseApi.getInstance().getCapeAtlas();
@@ -113,7 +129,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                 purchaseSettings.put("cape", new JsonHolder());
             }
             purchaseSettings.optJSONObject("cape").put("type", "default");
-            Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
+            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("You may need to switch worlds to update your cape.");
         }, guiButton -> {
 
         });
@@ -209,7 +225,6 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                     pos = 1;
                     row++;
                 }
-//                int thisBlocksCenter = pos == 1 ? scaledWidth / 2 - 8 - blockWidth / 2 : scaledWidth / 2 + 8 + blockWidth / 2;
                 int thisBlocksCenter = (int) (scaledWidth / 2 - ((blocksPerLine / 2) - pos + .5) * (blockWidth + 16));
                 int thisTopY = printY + row * (16 + blockHeight);
                 RenderUtils.drawSmoothRect(thisBlocksCenter - blockWidth / 2, thisTopY,
@@ -237,7 +252,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
                 if (cosmeticCallback.getKeys().size() == 0 || purchasing) {
                     String string = "Loading";
-                    fontRendererObj.drawString(string, thisBlocksCenter - fontRendererObj.getStringWidth(string), (thisTopY - 8 + blockHeight / 2 + 64 + 48), new Color(91, 102, 249).getRGB(), true);
+                    fontRendererObj.drawString(string, thisBlocksCenter - fontRendererObj.getStringWidth(string), (thisTopY - 8 + (blockHeight >> 1) + 64 + 48), new Color(91, 102, 249).getRGB(), true);
                     return;
                 }
                 JsonHolder jsonHolder = cosmeticCallback.optJSONObject(s);
@@ -274,7 +289,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                             if (client != null) {
                                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("set_cape", true).put("value", s)));
                             }
-                            Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
+                            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("You may need to switch worlds to update your cape.");
                         });
                         GlStateManager.scale(2F, 2F, 2F);
 

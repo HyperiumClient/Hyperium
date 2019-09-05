@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
@@ -41,17 +58,13 @@ import java.util.Objects;
 public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
     private HashMap<Integer, Runnable> ids = new HashMap<>();
-    private int purchaseIds = 0;
+    private int purchaseIds;
     private HyperiumOverlay overlay;
     private PurchaseCarousel particleType;
     private PurchaseCarousel particleAnimation;
     private int credits;
-    private GuiBlock previewBlock = null;
-    private boolean queueBuild = false;
-
-    public ParticleGui() {
-
-    }
+    private GuiBlock previewBlock;
+    private boolean queueBuild;
 
     @Override
     public void confirmClicked(boolean result, int id) {
@@ -81,9 +94,6 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
     private void rebuild() {
         EnumParticleType[] values = EnumParticleType.values();
-        if (values == null) {
-            return;
-        }
 
         int length = values.length;
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
@@ -205,7 +215,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
         ParticleAuraHandler particleAuraHandler = Hyperium.INSTANCE.getHandlers().getParticleAuraHandler();
         HashMap<String, AbstractAnimation> animations = particleAuraHandler.getAnimations();
-        String[] keys = new String[]{"Double Twirl", "Tornado", "Double Helix", "Triple Twirl", "Quad Twirl", "Static Trail", "Explode", "Vortex of doom"};
+        String[] keys = {"Double Twirl", "Tornado", "Double Helix", "Triple Twirl", "Quad Twirl", "Static Trail", "Explode", "Vortex of doom"};
         CarouselItem[] animationItems = new CarouselItem[animations.size()];
         int c = 0;
         int g = 0;

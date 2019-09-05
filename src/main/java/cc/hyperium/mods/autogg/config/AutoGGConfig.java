@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.mods.autogg.config;
 
 import cc.hyperium.Hyperium;
@@ -16,19 +33,19 @@ public class AutoGGConfig {
 
     @ConfigOpt
     @ToggleSetting(name = "Hide GG's at end of game", mods = true, category = AUTO_GG)
-    public boolean ANTI_GG = false;
+    public boolean ANTI_GG;
     @ConfigOpt
-    @SliderSetting(name = "Delay", min = 0, max = 5, round = true, isInt = true, category = Category.AUTO_GG, mods = true)
+    @SliderSetting(name = "Delay", min = 0, max = 5, isInt = true, category = Category.AUTO_GG, mods = true)
     public int delay = 1;
     @ConfigOpt
     @ToggleSetting(name = "Enable", mods = true, category = Category.AUTO_GG)
     public boolean toggled = true;
     @ConfigOpt
     @ToggleSetting(name = "Say Good Game instead of GG", mods = true, category = AUTO_GG)
-    public boolean sayGoodGameInsteadOfGG = false;
+    public boolean sayGoodGameInsteadOfGG;
     @ConfigOpt
     @ToggleSetting(name = "Say Lowercase", mods = true, category = AUTO_GG)
-    public boolean lowercase = false;
+    public boolean lowercase;
 
     public AutoGGConfig() {
         Hyperium.CONFIG.register(this);

@@ -54,9 +54,7 @@ object FileLib {
      * @return the string in the file
      */
     @JvmStatic
-    fun read(fileLocation: String): String? {
-        return read(File(fileLocation))
-    }
+    fun read(fileLocation: String): String? = read(File(fileLocation))
 
     /**
      * Reads a file from anywhere on the system using java.io.File.
@@ -80,7 +78,8 @@ object FileLib {
      * @param userAgent the user agent to use in the connection
      * @return the string stored in the url content
      */
-    @JvmStatic @JvmOverloads
+    @JvmStatic
+    @JvmOverloads
     fun getUrlContent(theUrl: String, userAgent: String? = "Mozilla/5.0"): String {
         val conn = URL(theUrl).openConnection()
         conn.setRequestProperty("User-Agent", userAgent)

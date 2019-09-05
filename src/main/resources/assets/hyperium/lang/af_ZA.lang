@@ -31,24 +31,8 @@ menu.profile.credits=%s Krediete
 
 # Hyperium Tabs
 tabs.searchbar=Soek...
-tab.news.name=Nuus
 tab.settings.name=Instellings
-tab.update.name=Opdateer
 tab.shop.name=Winkel
-
-# Hyperium Tabs Attributes
-tab.update.noupdates=Geen opdaterings beskikbaar nie
-tab.update.autorestart=Sodra die opdatering gedoen is, sal Minecraft outomaties herlaai
-tab.update.changelog=Changelog kom binnekort
-tab.update.update=Opdateer
-tab.update.updating=Opdatering...
-tab.update.downloading=Aflaai...
-tab.update.installer.state.starting=Begin Installer
-tab.update.installer.state.loading=Laai Installer
-tab.update.installer.state.restarting=Herlaai
-tab.update.installer.state.unknown=W: onbekende staat
-tab.update.installer.state.manualupdate.api=E: Werk asseblief handmatig by, API: %s
-tab.update.installer.state.manualupdate=E: Werk asseblief handmatig op
 
 # Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Speler Telling:
@@ -56,10 +40,6 @@ gui.ingamemenu.playercount.now=Nou aanlyn: %s
 gui.ingamemenu.playercount.lastday=Laaste dag: %s
 gui.ingamemenu.playercount.lastweek=Laaste week: %s
 gui.ingamemenu.playercount.alltime=Alle tyd: %s
-
-
-# Hyperium Alerts
-alert.update.message=Hyperium Update! Klik hier om af te laai.
 
 # Hyperium Change Background Text
 gui.changebackground.line1=Tik 'n URL of kies 'n lêer om die agtergrond te verander.
@@ -134,9 +114,6 @@ gui.settings.armorprojectileprotpotentional=Show Armor Projectile Protection in 
 gui.settings.hidecrosshairinf5=Hide crosshair when in Third Person
 gui.settings.critparticlefix=Crit deeltjie los
 gui.settings.holdperspectivekey=Hou perspektief sleutel
-gui.settings.optimizeditemrenderer=Geoptimaliseerde Item Renderer (BETA)
-gui.settings.optimizedtextureloading=New tekstuur laai (BETA)
-gui.settings.optimizedfontrenderer=New Font Vertoning (BETA)
 gui.settings.windowedfullscreen=Geboksde volskerm
 gui.settings.bossbartextonly=Bossbar - net teks
 gui.settings.staticfov=Statiese FOV
@@ -144,7 +121,6 @@ gui.settings.uploadscreenshots=Laai skermkiekies op (standaard)
 gui.settings.blurredguibackground=Versteurde GUI agtergrond
 gui.settings.chromahudonallservers=Chromahud - op alle bedieners
 gui.settings.screenshotonkill=Skermskoot op doodmaak
-gui.settings.showspotifycontrols=Wys Spotify kontrole
 gui.settings.welcometothehypixelzoo="Welkom by die Hypixel dieretuin!"
 gui.settings.showparticleauras=Wys deeltjie Auras
 gui.settings.showcosmeticseverywhere=Wys bykomstighede orals
@@ -175,7 +151,6 @@ gui.settings.showconfirmationpopup=Wys bevestiging Opwipvenster
 gui.settings.persistentchatmessages=Aanhoudende Chat boodskappe
 gui.settings.friendsfirstintab=Vriende eers In Tab
 gui.settings.onlineindicator=Aanlyn aanwyser
-gui.settings.showplayersasblocks=Wys spelers As blokke
 gui.settings.pingondm=Ping op DM
 gui.settings.sprintbypassstaticfov=Sprint omseil statiese FOV
 gui.settings.sprintandperspectivemessages=Sprint en perspektief boodskappe
@@ -186,8 +161,6 @@ gui.settings.wingsscale=Vlerke skaal
 gui.settings.showchromahud=Wys ChromaHUD
 gui.settings.mainmenustyle=Hoofkieslys styl
 gui.settings.pausemenustyle=Laat wag kieslysstyl
-gui.settings.spotifynotifications=Spotify kennisgewings
-gui.settings.forcespotifytoneverload=Krag Spotify om nooit las
 gui.settings.updatenotificationsinhyperiumsettings=Bywerking kennisgewings in Hyperium instellings
 gui.settings.fastworldswitching=Vinnige wêreld oorskakeling (verhoog geheuegebruik)
 gui.settings.maxworldparticles=Max wêreld deeltjies
@@ -195,9 +168,6 @@ gui.settings.showparticlein1stperson=Wys deeltjie in 1ste persoon
 gui.settings.showhitdistances=Skou getref afstande
 gui.settings.motionblurenabled=Geaktiveer
 gui.settings.motionblurintensity=Motion Blur intensiteit
-gui.settings.autofriendenabled=Geaktiveer
-gui.settings.showfriendmessages=Wys vriend boodskappe
-gui.settings.fortnitecompassenabled=Enabled
 gui.settings.showbackground=Show Background
 gui.settings.chroma=Chroma
 gui.settings.shadow=Shadow
@@ -225,7 +195,6 @@ gui.settings.buttonred=Button Outline (Red)
 gui.settings.buttongreen=Button Outline (Green)
 gui.settings.buttonblue=Button Outline (Blue)
 gui.settings.buttontype=Color Type
-gui.settings.chromahudprefixsquarebrace=Use square brace prefix
 gui.settings.disableenchantglint=Disable Enchantment Glint
 gui.settings.disabletitles=Disable Titles
 gui.settings.thankwatchdog=Thank Watchdog
@@ -238,6 +207,11 @@ gui.settings.disableitemframes=Disable Item Frames
 gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit
 gui.settings.hotbarkeys=Hotbar Keys
+gui.settings.clearglass=Clear Glass
+gui.settings.portalsounds=Disable Portal Sounds
+gui.settings.disableachievements=Disable Achievements
+gui.settings.disableshadowtext=Disable Shadowed Text
+gui.settings.shinypotions.matchcolor=Shiny Potions - Match Potion Color
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...

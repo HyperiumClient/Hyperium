@@ -1,14 +1,31 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui;
 
-import cc.hyperium.styles.GuiStyle;
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.playerrenderer.GuiPlayerRenderer;
 import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.styles.GuiStyle;
+import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.JsonHolder;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -16,32 +33,21 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import javax.imageio.ImageIO;
-import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.awt.*;
 
 public class GuiHyperiumScreen extends GuiScreen {
 
-    public static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
-    public static boolean customBackground = false;
-    public static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
-    public static ResourceLocation bgDynamicTexture = null;
-    public static BufferedImage bgBr = null;
+    public static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/" + Settings.BACKGROUND + ".png");
     public static HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
-    public static HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
-    public static DynamicTexture viewportTexture;
+    private static HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private static float swing;
-    public GuiButton hypixelButton;
+    GuiButton hypixelButton;
 
     public static void drawScaledCustomSizeModalRect(int x, int y, float u, float v, int uWidth, int vHeight, int width, int height, float tileWidth, float tileHeight) {
         float f = 1.0F / tileWidth;
@@ -55,10 +61,10 @@ public class GuiHyperiumScreen extends GuiScreen {
         GL11.glHint(GL11.GL_POINT_SMOOTH_HINT, GL11.GL_FASTEST);
 
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos((double) x, (double) (y + height), 0.0D).tex((double) (u * f), (double) ((v + (float) vHeight) * f1)).endVertex();
-        worldrenderer.pos((double) (x + width), (double) (y + height), 0.0D).tex((double) ((u + (float) uWidth) * f), (double) ((v + (float) vHeight) * f1)).endVertex();
-        worldrenderer.pos((double) (x + width), (double) y, 0.0D).tex((double) ((u + (float) uWidth) * f), (double) (v * f1)).endVertex();
-        worldrenderer.pos((double) x, (double) y, 0.0D).tex((double) (u * f), (double) (v * f1)).endVertex();
+        worldrenderer.pos(x, y + height, 0.0D).tex(u * f, (v + (float) vHeight) * f1).endVertex();
+        worldrenderer.pos(x + width, y + height, 0.0D).tex((u + (float) uWidth) * f, (v + (float) vHeight) * f1).endVertex();
+        worldrenderer.pos(x + width, y, 0.0D).tex((u + (float) uWidth) * f, v * f1).endVertex();
+        worldrenderer.pos(x, y, 0.0D).tex(u * f, v * f1).endVertex();
         tessellator.draw();
 
         GL11.glDisable(GL11.GL_BLEND);
@@ -67,28 +73,6 @@ public class GuiHyperiumScreen extends GuiScreen {
 
     public static ResourceLocation getBackground() {
         return background;
-    }
-
-    public static void setBackground(ResourceLocation givenBackground) {
-        background = givenBackground;
-    }
-
-    public static void setCustomBackground(boolean givenBoolean) {
-        customBackground = givenBoolean;
-    }
-
-    public void initGui() {
-        customBackground = Settings.BACKGROUND.equalsIgnoreCase("CUSTOM");
-        if (customImage.exists() && customBackground) {
-            try {
-                bgBr = ImageIO.read(new FileInputStream(customImage));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (bgBr != null)
-                bgDynamicTexture = mc.getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bgBr));
-        }
-
     }
 
     @Override
@@ -108,36 +92,19 @@ public class GuiHyperiumScreen extends GuiScreen {
         return GuiStyle.valueOf(Minecraft.getMinecraft().theWorld == null ? Settings.MENU_STYLE : Settings.PAUSE_STYLE);
     }
 
-    public void renderHyperiumBackground(ScaledResolution p_180476_1_) {
+    public void renderHyperiumBackground(ScaledResolution resolution) {
         GlStateManager.disableDepth();
         GlStateManager.depthMask(false);
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableAlpha();
-        if (customImage.exists() && bgDynamicTexture != null && customBackground) {
-            Minecraft.getMinecraft().getTextureManager().bindTexture(bgDynamicTexture);
-            Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(0.0D, (double) p_180476_1_.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-            worldrenderer.pos((double) p_180476_1_.getScaledWidth(), (double) p_180476_1_.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-            worldrenderer.pos((double) p_180476_1_.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
-            worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
-            tessellator.draw();
-
-            GlStateManager.depthMask(true);
-            GlStateManager.enableDepth();
-            GlStateManager.enableAlpha();
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            return;
-        }
         Minecraft.getMinecraft().getTextureManager().bindTexture(background);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos(0.0D, (double) p_180476_1_.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-        worldrenderer.pos((double) p_180476_1_.getScaledWidth(), (double) p_180476_1_.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-        worldrenderer.pos((double) p_180476_1_.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+        worldrenderer.pos(0.0D, resolution.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+        worldrenderer.pos(resolution.getScaledWidth(), resolution.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+        worldrenderer.pos(resolution.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
         worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
         tessellator.draw();
         GlStateManager.depthMask(true);
@@ -198,14 +165,14 @@ public class GuiHyperiumScreen extends GuiScreen {
 
         ScissorState.scissor(width - 153, 0, 145, 49, true);
 
-        if (!Hyperium.INSTANCE.isDevEnv()) {
+        if (Minecraft.getMinecraft().thePlayer != null) {
             GuiPlayerRenderer.renderPlayerWithRotation(width - 118, -4, val);
         }
 
         ScissorState.endScissor();
 
         /* Render Hyperium version number */
-        fr.drawStringScaled("Hyperium v" + (Hyperium.INSTANCE.isLatestVersion ? ChatFormatting.GREEN : ChatFormatting.RED) + Metadata.getVersion(), width - 152, 39, 0xFFFFFF, .75);
+        fr.drawStringScaled("Hyperium v" + (Hyperium.INSTANCE.isLatestVersion ? ChatColor.GREEN : ChatColor.RED) + Metadata.getVersion(), width - 152, 39, 0xFFFFFF, .75);
 
         /* Display copyright disclaimers at bottom of screen */
         sfr.drawString(I18n.format("menu.left").toUpperCase(), 1, height - 7, 0x55FFFFFF);
@@ -220,6 +187,7 @@ public class GuiHyperiumScreen extends GuiScreen {
         if (!Settings.BACKGROUND.equals("DEFAULT")) {
             GlStateManager.disableAlpha();
             this.renderHyperiumBackground(new ScaledResolution(mc));
+            GlStateManager.enableAlpha();
         }
 
         ParticleOverlay.getOverlay().render(mouseX, mouseY, 0, 0, 0, 0);
@@ -231,15 +199,17 @@ public class GuiHyperiumScreen extends GuiScreen {
         GlStateManager.scale(4F, 4F, 1F);
         this.drawCenteredString(fontRendererObj, Metadata.getModid(), width / 8, 40 / 4, 0xFFFFFF);
         GlStateManager.popMatrix();
+
         String s = String.format("%s %s", Metadata.getModid(), Metadata.getVersion());
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
-        String s1 = I18n.format("menu.right");
-        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
-        String s3 = "Made by Sk1er, Kevin,";
-        this.drawString(this.fontRendererObj, s3, this.width - this.fontRendererObj.getStringWidth(s3) - 2, this.height - 30, -1);
 
-        String s4 = "Cubxity, CoalOres and boomboompower";
-        this.drawString(this.fontRendererObj, s4, this.width - this.fontRendererObj.getStringWidth(s4) - 2, this.height - 20, -1);
+        String s1 = I18n.format("menu.right");
+        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 30, -1);
+        s1 = "Made by Sk1er, Kevin, Cubxity, CoalOres,";
+        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 20, -1);
+        s1 = "boomboompower, FalseHonesty, and asbyth.";
+        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
+
         GuiButton hypixelButton = this.hypixelButton;
         if (hypixelButton != null)
             hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? I18n.format("button.ingame.fixhypixelsession") : I18n.format("button.ingame.joinhypixel");

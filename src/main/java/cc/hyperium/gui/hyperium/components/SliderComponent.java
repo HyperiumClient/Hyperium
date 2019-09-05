@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui.hyperium.components;
 
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -24,11 +41,8 @@ public class SliderComponent extends AbstractTabComponent {
     private boolean isInteger;
     private boolean round;
     private double currentValue;
-    private SliderComponent sliderComponent;
     private int width;
-    private int x;
-    private int y;
-    private boolean wasDown = false;
+    private boolean wasDown;
 
     public SliderComponent(AbstractTab tab, List<String> tags, String label, Field field, Object parentObj, float minVal, float maxVal, boolean isInteger, boolean round) {
         super(tab, tags);
@@ -85,8 +99,6 @@ public class SliderComponent extends AbstractTabComponent {
     @Override
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         HyperiumFontRenderer font = tab.gui.getFont();
-        this.x = x;
-        this.y = y;
         lines.clear();
         lines = font.splitString(label, (width) / 4); //16 for icon, 3 for render offset and then some more
 

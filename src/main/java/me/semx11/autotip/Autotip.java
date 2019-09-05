@@ -57,7 +57,7 @@ public class Autotip {
     private final List<Event> events = new ArrayList<>();
     private final List<CommandAbstract> commands = new ArrayList<>();
 
-    private boolean initialized = false;
+    private boolean initialized;
 
     private Minecraft minecraft;
     private MinecraftVersion mcVersion;

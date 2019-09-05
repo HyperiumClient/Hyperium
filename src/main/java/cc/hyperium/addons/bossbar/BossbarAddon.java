@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.addons.bossbar;
 
 import cc.hyperium.Hyperium;
@@ -9,21 +26,16 @@ import cc.hyperium.addons.bossbar.gui.GuiBossbarSetting;
 public class BossbarAddon extends AbstractAddon {
     private BossbarConfig bossbarConfig;
     private GuiBossbarSetting guiBossBarSetting;
-    private CommandBossbar commandBossbar;
 
     public GuiBossbarSetting getGuiBossBarSetting() {
         return guiBossBarSetting;
     }
 
-    public CommandBossbar getCommandBossbar() {
-        return commandBossbar;
-    }
-
     @Override
     public AbstractAddon init() {
         bossbarConfig = new BossbarConfig();
-        guiBossBarSetting = new GuiBossbarSetting(this);
-        commandBossbar = new CommandBossbar(this);
+        guiBossBarSetting = new GuiBossbarSetting();
+        CommandBossbar commandBossbar = new CommandBossbar(this);
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(commandBossbar);
         return this;
     }
@@ -34,7 +46,7 @@ public class BossbarAddon extends AbstractAddon {
 
     @Override
     public Metadata getAddonMetadata() {
-        AbstractAddon.Metadata metadata = new AbstractAddon.Metadata(this, "BossbarAddon", "1.0", "SiroQ");
+        Metadata metadata = new Metadata(this, "BossbarAddon", "1.0", "SiroQ");
         metadata.setDescription("Allows for full bossbar customization");
         return metadata;
     }

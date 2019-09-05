@@ -10,11 +10,16 @@ import kotlin.properties.Delegates
 import kotlin.reflect.KMutableProperty
 
 open class ConfigStringSelector
-(private val prop: KMutableProperty<String>, name: String = "", private val values: Array<String> = emptyArray(), x: Int = 0, y: Int = 0)
-    : ConfigOption() {
+    (
+    private val prop: KMutableProperty<String>,
+    name: String = "",
+    private val values: Array<String> = emptyArray(),
+    x: Int = 0,
+    y: Int = 0
+) : ConfigOption() {
 
     private var value: Int by Delegates.observable(
-            values.indexOf(prop.getter.call(Config))
+        values.indexOf(prop.getter.call(Config))
     ) { _, _, new ->
         prop.setter.call(Config, values[new])
     }
@@ -48,52 +53,45 @@ open class ConfigStringSelector
         super.init()
 
         this.leftArrowButton = GuiButton(
-                0,
-                Renderer.screen.getWidth() / 2 - 100 + this.x,
-                this.y + 15,
-                30,
-                20,
-                "<"
+            0,
+            Renderer.Screen.getWidth() / 2 - 100 + this.x,
+            this.y + 15,
+            30,
+            20,
+            "<"
         )
 
         this.rightArrowButton = GuiButton(
-                0,
-                Renderer.screen.getWidth() / 2 + 70 + this.x,
-                this.y + 15,
-                30,
-                20,
-                ">"
+            0,
+            Renderer.Screen.getWidth() / 2 + 70 + this.x,
+            this.y + 15,
+            30,
+            20,
+            ">"
         )
     }
 
     override fun draw(mouseX: Int, mouseY: Int, partialTicks: Float) {
         if (this.hidden) return
 
-        val middle = Renderer.screen.getWidth() / 2
+        val middle = Renderer.Screen.getWidth() / 2
 
         Rectangle(-0x80000000, (middle - 105 + this.x).toFloat(), (this.y - 5).toFloat(), 210f, 45f)
-                .setShadow(-0x30000000, 3f, 3f)
-                .draw()
+            .setShadow(-0x30000000, 3f, 3f)
+            .draw()
         Text(this.name!!, (middle - 100 + this.x).toFloat(), this.y.toFloat()).draw()
 
-        Text(getValue(),
-                (middle + this.x - Renderer.getStringWidth(getValue()) / 2).toFloat(),
-                (this.y + 20).toFloat()
+        Text(
+            getValue(),
+            (middle + this.x - Renderer.getStringWidth(getValue()) / 2).toFloat(),
+            (this.y + 20).toFloat()
         ).draw()
 
-        //#if MC<=10809
         this.leftArrowButton!!.xPosition = middle - 100 + this.x
         this.rightArrowButton!!.xPosition = middle + 70 + this.x
 
         this.leftArrowButton!!.drawButton(Client.getMinecraft(), mouseX, mouseY)
         this.rightArrowButton!!.drawButton(Client.getMinecraft(), mouseX, mouseY)
-        //#else
-        //$$ this.leftArrowButton!!.x = middle - 100 + this.x
-        //$$ this.rightArrowButton!!.x = middle + 70 + this.x
-        //$$
-        //$$ this.leftArrowButton!!.drawButton(Client.getMinecraft(), mouseX, mouseY, partialTicks)
-        //$$ this.rightArrowButton!!.drawButton(Client.getMinecraft(), mouseX, mouseY, partialTicks)
-        //#endif
 
         super.draw(mouseX, mouseY, partialTicks)
     }
@@ -121,10 +119,26 @@ open class ConfigStringSelector
 }
 
 class ConsoleThemeSelector
-(prop: KMutableProperty<String>, name: String = "", x: Int = 0, y: Int = 0)
-    : ConfigStringSelector(prop, name,
-        arrayOf("default.dark", "ashes.dark", "atelierforest.dark", "isotope.dark", "codeschool.dark", "gotham", "hybrid", "3024.light", "chalk.light", "blue", "slate", "red", "green", "aids"),
-        x, y) {
+    (prop: KMutableProperty<String>, name: String = "", x: Int = 0, y: Int = 0) : ConfigStringSelector(
+    prop, name,
+    arrayOf(
+        "default.dark",
+        "ashes.dark",
+        "atelierforest.dark",
+        "isotope.dark",
+        "codeschool.dark",
+        "gotham",
+        "hybrid",
+        "3024.light",
+        "chalk.light",
+        "blue",
+        "slate",
+        "red",
+        "green",
+        "aids"
+    ),
+    x, y
+) {
     override fun draw(mouseX: Int, mouseY: Int, partialTicks: Float) {
         hidden = Config.customTheme
 

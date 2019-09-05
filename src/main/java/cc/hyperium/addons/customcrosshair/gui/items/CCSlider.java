@@ -1,28 +1,27 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.addons.customcrosshair.gui.items;
 
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
-
-import java.awt.Color;
-
 import net.minecraft.client.gui.GuiScreen;
+
+import java.awt.*;
 
 public class CCSlider extends CCGuiItem {
     private double minValue;
@@ -36,9 +35,9 @@ public class CCSlider extends CCGuiItem {
 
     private Runnable callback;
 
-    public static final String README = "I'd like to thank boomboompower for fixing this class for me. " +
-                                        "Go sub to him: https://www.youtube.com/channel/UC63_abmxSPyoGneeDPsVpmQ " +
-                                        "His twitter: https://twitter.com/xBOOMBOOMPOWERx";
+        /*"I'd like to thank boomboompower for fixing this class for me. " +
+        "Go sub to him: https://www.youtube.com/channel/UC63_abmxSPyoGneeDPsVpmQ " +
+        "His twitter: https://twitter.com/xBOOMBOOMPOWERx";*/
 
     public CCSlider(final GuiScreen screen) {
         this(screen, -1, "no name", 0, 0, 100, 10, 0, 100);
@@ -90,7 +89,7 @@ public class CCSlider extends CCGuiItem {
             this.setCurrentPosition(x - this.getPosX());
         }
         CustomCrosshairGraphics
-            .drawBorderedRectangle((int) x, this.getPosY() + 1, (int) x + this.boxWidth, this.getPosY() + this.getHeight() - 1, this.getBoxColour(), borderColour);
+            .drawBorderedRectangle((int) x, this.getPosY() + 1, (int) x + this.boxWidth, this.getPosY() + this.getHeight() - 1, this.boxColour, borderColour);
         CustomCrosshairGraphics
             .drawString(this.getDisplayText() + ": " + this.getValue(), this.getPosX() + this.getWidth() + 3, this.getPosY() + this.getHeight() / 2 - 3, 16777215);
     }

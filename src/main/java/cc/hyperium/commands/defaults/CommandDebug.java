@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.commands.defaults;
@@ -32,7 +32,7 @@ import cc.hyperium.utils.JsonHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.util.List;
 
@@ -72,20 +72,10 @@ public class CommandDebug implements BaseCommand {
             builder.append("Hypixel: ").append(HypixelDetector.getInstance().isHypixel()).append("\n");
             builder.append("Remote Status: ").append(Sk1erMod.getInstance().isEnabled()).append("\n");
             builder.append("Local Stats: ").append(HypixelDetector.getInstance().isHypixel()).append("\n");
-            builder.append("Header State: ").append(Hyperium.INSTANCE.getModIntegration().getLevelhead().getHeaderConfig()).append("\n");
-            builder.append("Footer State: ").append(Hyperium.INSTANCE.getModIntegration().getLevelhead().getFooterConfig()).append("\n");
             builder.append("Callback: ").append(Sk1erMod.getInstance().getResponse()).append("\n");
+            builder.append("Callback_types: ").append(Levelhead.getInstance().getTypes()).append("\n");
         } catch (Exception e) {
             builder.append("Levelhead: Error");
-        }
-    }
-
-
-    private static void tryLocation(StringBuilder builder) {
-        try {
-            builder.append("Location: ").append(Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation());
-        } catch (Exception e) {
-            builder.append("Location: Error");
         }
     }
 
@@ -164,6 +154,5 @@ public class CommandDebug implements BaseCommand {
         String haste = CrashReportGUI.haste(message);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(haste), null);
         GeneralChatHandler.instance().sendMessage("Link copied (" + haste + ")");
-
     }
 }

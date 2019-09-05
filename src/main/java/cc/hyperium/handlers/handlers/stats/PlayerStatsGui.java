@@ -1,35 +1,29 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.handlers.handlers.stats;
 
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
-import cc.hyperium.handlers.handlers.quests.PlayerQuestsGui;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
-import cc.hyperium.handlers.handlers.stats.fields.ArcadeStats;
-import cc.hyperium.handlers.handlers.stats.fields.ArenaStats;
-import cc.hyperium.handlers.handlers.stats.fields.BedWarsStats;
-import cc.hyperium.handlers.handlers.stats.fields.BlitzStats;
-import cc.hyperium.handlers.handlers.stats.fields.BuildBattleStats;
-import cc.hyperium.handlers.handlers.stats.fields.CVCStats;
-import cc.hyperium.handlers.handlers.stats.fields.CrazyWallsStats;
-import cc.hyperium.handlers.handlers.stats.fields.DuelsStats;
-import cc.hyperium.handlers.handlers.stats.fields.GeneralStats;
-import cc.hyperium.handlers.handlers.stats.fields.MegaWallsStats;
-import cc.hyperium.handlers.handlers.stats.fields.MurderMysteryStats;
-import cc.hyperium.handlers.handlers.stats.fields.PaintballStats;
-import cc.hyperium.handlers.handlers.stats.fields.QuakecraftStats;
-import cc.hyperium.handlers.handlers.stats.fields.SkyClashStats;
-import cc.hyperium.handlers.handlers.stats.fields.SkyWarsStats;
-import cc.hyperium.handlers.handlers.stats.fields.SmashHeroesStats;
-import cc.hyperium.handlers.handlers.stats.fields.SpeedUHCStats;
-import cc.hyperium.handlers.handlers.stats.fields.TKRStats;
-import cc.hyperium.handlers.handlers.stats.fields.TNTGamesStats;
-import cc.hyperium.handlers.handlers.stats.fields.UHCStats;
-import cc.hyperium.handlers.handlers.stats.fields.VampireZStats;
-import cc.hyperium.handlers.handlers.stats.fields.WallsStats;
-import cc.hyperium.handlers.handlers.stats.fields.WarlordsStats;
-import cc.hyperium.mixinsimp.client.GlStateModifier;
+import cc.hyperium.handlers.handlers.stats.fields.*;
+import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.RenderUtils;
@@ -41,8 +35,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 
 import javax.imageio.ImageIO;
-import java.awt.Color;
-import java.awt.Desktop;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -158,18 +151,6 @@ public class PlayerStatsGui extends HyperiumGui {
                 }
             }
         }, button -> {
-
-        });
-
-        reg("VIEW_GUILD", new GuiButton(nextId(), 1, 22, "View Guild"), button -> {
-            new GuildStatsGui(player.getGuild()).show();
-        }, button -> {
-            button.visible = player.getGuild().isLoaded() && player.getGuild().isValid();
-        });
-        reg("VIEW_FRIENDS", new GuiButton(nextId(), 1, 22 + 21, "View Friends"), button -> {
-//TODO
-//   new FriendsGui(player.getFriends()).show();
-        }, button -> {
         });
     }
 
@@ -190,7 +171,7 @@ public class PlayerStatsGui extends HyperiumGui {
             return;
         }
         boolean isInGuild = guild.isLoaded() && guild.isValid();
-        drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 30, 3, Color.WHITE.getRGB(), true, true);
+        drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 30, 2, Color.WHITE.getRGB(), true, true);
         if (focused == null) {
             final int blockWidth = 64 + 32;
             int blocksPerLine = (int) (current.getScaledWidth() / (1.2D * blockWidth));
@@ -209,9 +190,6 @@ public class PlayerStatsGui extends HyperiumGui {
                     y++;
                 }
                 if (dynamicTexture != null) {
-                    //Render Image
-
-
                     int y1 = 100 + y * blockWidth - 10 - offset;
                     if (y1 < 70)
                         continue;
@@ -252,16 +230,16 @@ public class PlayerStatsGui extends HyperiumGui {
                 if (rightSide > current.getScaledWidth()) {
                     xOffset = rightSide - current.getScaledWidth();
                 }
-                float scale = 2.0F;
+                float scale = 1.0F;
                 GlStateManager.scale(scale, scale, scale);
-                int left = block.getRight() - xOffset + yRenderOffset;
+                int left = block.getRight() - xOffset + yRenderOffset - 8;
                 int top = block.getTop();
                 int printY = 0;
                 if (top + height * 2 > current.getScaledHeight()) {
                     top = current.getScaledHeight() - height * 2 - 50;
                 }
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
-                    new Color(0, 0, 0, 175).getRGB());
+                    new Color(0, 0, 0, 220).getRGB());
 
                 for (StatsDisplayItem statsDisplayItem : preview) {
                     statsDisplayItem.draw((int) (left / scale), (int) ((top) / scale) + printY);
@@ -270,8 +248,6 @@ public class PlayerStatsGui extends HyperiumGui {
                 GlStateManager.scale(1 / scale, 1 / scale, 1 / scale);
             }
         } else {
-            List<StatsDisplayItem> deepStats = focused.getDeepStats(player);
-
             DynamicTexture dynamicTexture = logos.get(focused);
             GlStateManager.resetColor();
             GlStateManager.pushMatrix();
@@ -287,19 +263,13 @@ public class PlayerStatsGui extends HyperiumGui {
             Icons.EXTENSION.bind();
             GlStateModifier.INSTANCE.reset();
             Icons.EXIT.bind();
-            float scale = 4.0F;
+            float scale = 2.0F;
             GlStateManager.scale(scale, scale, scale);
             GlStateManager.translate(current.getScaledWidth() / 2 / scale - 90 / scale, (73) / scale, 0);
             GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);
             GlStateManager.translate(-16, -16, 0);
             drawScaledCustomSizeModalRect(0, 0, 0, 0, 64, 64, 16, 16, 64, 64);
             GlStateManager.popMatrix();
-            int printY = 55 - offset;
-
-            PlayerQuestsGui.print(current, deepStats, printY);
         }
-
     }
-
-
 }

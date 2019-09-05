@@ -10,8 +10,7 @@ class OnCommandTrigger(method: Any, loader: ILoader) : OnTrigger(method, Trigger
     private var command: Command? = null
 
     override fun trigger(vararg args: Any?) {
-        if (args::javaClass == Array<String>::javaClass) throw IllegalArgumentException("Arguments must be string array")
-
+        require(args::javaClass != Array<String>::javaClass) { "Arguments must be string array" }
         callMethod(*args)
     }
 

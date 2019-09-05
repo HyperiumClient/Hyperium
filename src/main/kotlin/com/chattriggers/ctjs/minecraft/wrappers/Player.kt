@@ -24,9 +24,7 @@ object Player {
      * @return The Minecraft EntityPlayerSP object representing the user
      */
     @JvmStatic
-    fun getPlayer(): EntityPlayerSP? {
-        return Client.getMinecraft().thePlayer
-    }
+    fun getPlayer(): EntityPlayerSP? = Client.getMinecraft().thePlayer
 
     @JvmStatic
     fun getX(): Double = getPlayer()?.posX ?: 0.0
@@ -70,12 +68,7 @@ object Player {
      * @return the player's camera pitch
      */
     @JvmStatic
-    fun getPitch(): Float = MathHelper.
-            //#if MC<=10809
-            wrapAngleTo180_float(getPlayer()?.rotationPitch ?: 0f)
-            //#else
-            //$$ wrapDegrees(getEntity()?.rotationPitch ?: 0f);
-            //#endif
+    fun getPitch(): Float = MathHelper.wrapAngleTo180_float(getPlayer()?.rotationPitch ?: 0f)
 
     /**
      * Gets the player's camera yaw.
@@ -83,12 +76,7 @@ object Player {
      * @return the player's camera yaw
      */
     @JvmStatic
-    fun getYaw(): Float = MathHelper.
-            //#if MC<=10809
-            wrapAngleTo180_float(getPlayer()?.rotationYaw ?: 0f)
-            //#else
-            //$$ wrapDegrees(getEntity()?.rotationYaw ?: 0f);
-            //#endif
+    fun getYaw(): Float = MathHelper.wrapAngleTo180_float(getPlayer()?.rotationYaw ?: 0f)
 
     /**
      * Gets the player's yaw rotation without wrapping.
@@ -146,11 +134,7 @@ object Player {
 
         val chunk = world.getChunkFromBlockCoords(player.position)
 
-        //#if MC<=10809
         val biome = chunk.getBiome(player.position, world.worldChunkManager)
-        //#else
-        //$$ val biome = chunk.getBiome(player.position, world.biomeProvider)
-        //#endif
 
         return biome.biomeName
     }
@@ -208,10 +192,10 @@ object Player {
     @JvmStatic
     fun getActivePotionEffects(): List<PotionEffect> {
         return getPlayer()?.activePotionEffects
-                ?.stream()
-                ?.map { PotionEffect(it) }
-                ?.collect(Collectors.toList())
-                ?: listOf()
+            ?.stream()
+            ?.map { PotionEffect(it) }
+            ?.collect(Collectors.toList())
+            ?: listOf()
     }
 
     /**

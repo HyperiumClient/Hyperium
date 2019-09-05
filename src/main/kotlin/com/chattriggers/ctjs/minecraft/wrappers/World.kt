@@ -24,9 +24,7 @@ object World {
      * @return The Minecraft WorldClient object
      */
     @JvmStatic
-    fun getWorld(): WorldClient? {
-        return Client.getMinecraft().theWorld
-    }
+    fun getWorld(): WorldClient? = Client.getMinecraft().theWorld
 
     @JvmStatic
     fun isLoaded(): Boolean = getWorld() != null
@@ -63,7 +61,7 @@ object World {
      * @param title    title text
      * @param subtitle subtitle text
      * @param fadeIn   time to fade in
-     * @param time     time to stay on screen
+     * @param time     time to stay on Screen
      * @param fadeOut  time to fade out
      */
     @JvmStatic
@@ -93,9 +91,7 @@ object World {
     fun getSeed(): Long = getWorld()?.seed ?: -1L
 
     @JvmStatic
-    fun getType(): String {
-        return getWorld()?.worldType?.worldTypeName.toString()
-    }
+    fun getType(): String = getWorld()?.worldType?.worldTypeName.toString()
 
     /**
      * Gets the [Block] at a location in the world.
@@ -134,8 +130,8 @@ object World {
     @Throws(IllegalArgumentException::class)
     fun getPlayerByName(name: String): PlayerMP {
         return PlayerMP(
-                getWorld()?.getPlayerEntityByName(name)
-                        ?: throw IllegalArgumentException()
+            getWorld()?.getPlayerEntityByName(name)
+                ?: throw IllegalArgumentException()
         )
     }
 
@@ -145,9 +141,9 @@ object World {
     @JvmStatic
     fun getChunk(x: Int, y: Int, z: Int): Chunk {
         return Chunk(
-                getWorld()!!.getChunkFromBlockCoords(
-                        BlockPos(x, y, z)
-                )
+            getWorld()!!.getChunkFromBlockCoords(
+                BlockPos(x, y, z)
+            )
         )
     }
 
@@ -271,7 +267,15 @@ object World {
          * @return the newly spawned particle for further configuration
          */
         @JvmStatic
-        fun spawnParticle(particle: String, x: Double, y: Double, z: Double, xSpeed: Double, ySpeed: Double, zSpeed: Double): Particle? {
+        fun spawnParticle(
+            particle: String,
+            x: Double,
+            y: Double,
+            z: Double,
+            xSpeed: Double,
+            ySpeed: Double,
+            zSpeed: Double
+        ): Particle? {
             val particleType = EnumParticleTypes.valueOf(particle)
 
             val fx = RenderGlobal::class.declaredMemberFunctions.firstOrNull {
@@ -279,38 +283,12 @@ object World {
             }?.let {
                 it.isAccessible = true
                 it.call(
-                        Client.getMinecraft().renderGlobal,
-                        particleType.particleID,
-                        particleType.shouldIgnoreRange,
-                        x, y, z, xSpeed, ySpeed, zSpeed, intArrayOf()
-                ) as MCParticle
-            }!!
-
-            /*val method = ReflectionHelper.findMethod(
-                    RenderGlobal::class.java,
-                    //#if MC<=10809
                     Client.getMinecraft().renderGlobal,
-                    arrayOf("spawnEntityFX", "func_174974_b"),
-                    //#else
-                    //$$ "spawnEntityFX",
-                    //$$ "func_174974_b",
-                    //#endif
-                    Int::class.javaPrimitiveType,
-                    Boolean::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    IntArray::class.java
-            )
-
-            val fx = method.invoke(Client.getMinecraft().renderGlobal,
                     particleType.particleID,
                     particleType.shouldIgnoreRange,
                     x, y, z, xSpeed, ySpeed, zSpeed, intArrayOf()
-            ) as MCParticle*/
+                ) as MCParticle
+            }!!
 
             return Particle(fx)
         }

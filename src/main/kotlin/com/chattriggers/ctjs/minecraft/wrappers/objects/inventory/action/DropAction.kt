@@ -2,10 +2,6 @@ package com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.action
 
 import com.chattriggers.ctjs.utils.kotlin.External
 
-//#if MC>10809
-//$$ import com.chattriggers.ctjs.utils.kotlin.MCClickType
-//#endif
-
 @External
 class DropAction(slot: Int, windowId: Int) : Action(slot, windowId) {
     private var holdingCtrl = false
@@ -24,11 +20,7 @@ class DropAction(slot: Int, windowId: Int) : Action(slot, windowId) {
     override fun complete() {
         doClick(
             if (holdingCtrl) 1 else 0,
-            //#if MC<=10809
             4
-            //#else
-            //$$ MCClickType.THROW
-            //#endif
         )
     }
 }

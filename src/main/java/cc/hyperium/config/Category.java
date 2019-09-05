@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.config;
 
 public enum Category {
@@ -7,13 +24,13 @@ public enum Category {
     IMPROVEMENTS("Improvements"),
     INTEGRATIONS("Integrations"),
     COSMETICS("Cosmetics"),
-    SPOTIFY("Spotify"),
     ANIMATIONS("Animations"),
     MISC("Misc"),
     MODS("Mods"),
     HYPIXEL("Hypixel"),
     BUTTONS("Buttons"),
     MENUS("Menus"),
+    ADDONS("Addons"),
 
     // Mods
     AUTOTIP("Autotip"),
@@ -31,7 +48,9 @@ public enum Category {
     ITEM_PHYSIC("Item Physics"),
     VICTORYROYALE("Victory Royale"),
     TOGGLESPRINT("Toggle Sprint"),
-    CHUNK_ANIMATOR("Chunk Animator");
+    CHUNK_ANIMATOR("Chunk Animator"),
+    LEVELHEAD("Levelhead"),
+    OTHER("Other");
 
     private String display;
 

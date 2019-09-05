@@ -1,11 +1,30 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.utils;
 
 import cc.hyperium.utils.staff.StaffSettings;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.minecraft.util.HttpUtil;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -13,7 +32,7 @@ public class StaffUtils {
     private static final HashMap<UUID, StaffSettings> STAFF_CACHE = new HashMap<>();
 
     public static boolean isStaff(UUID uuid) {
-        return STAFF_CACHE.keySet().contains(uuid);
+        return STAFF_CACHE.containsKey(uuid);
     }
 
     public static DotColour getColor(UUID uuid) {
@@ -22,7 +41,7 @@ public class StaffUtils {
 
     private static HashMap<UUID, StaffSettings> getStaff() throws IOException {
         HashMap<UUID, StaffSettings> staff = new HashMap<>();
-        String content = InstallerUtils.getRaw("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/staff.json");
+        String content = HttpUtil.get(new URL("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/staff.json"));
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(content).getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {

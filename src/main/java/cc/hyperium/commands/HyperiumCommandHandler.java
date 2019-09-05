@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.commands;
@@ -61,7 +61,7 @@ public class HyperiumCommandHandler {
 
     private String[] latestAutoComplete;
 
-    public boolean runningCommand = false;
+    public boolean runningCommand;
 
     public HyperiumCommandHandler() {
         this.mc = Minecraft.getMinecraft();
@@ -100,11 +100,10 @@ public class HyperiumCommandHandler {
         // Check if arguments are provided.
         if (commandLine.contains(" ")) {
             String[] syntax = commandLine.split(" ");
-            commandName = syntax[0];
+            commandName = syntax[0].toLowerCase();
             args = Arrays.copyOfRange(syntax, 1, syntax.length);
-            // SpotifyInformation: If command is "/print hello 2", commandName will equal "print" and args will equal ["hello","2"]
         } else {
-            commandName = commandLine;
+            commandName = commandLine.toLowerCase();
         }
 
         // Disabled commands will be ignored
@@ -239,14 +238,8 @@ public class HyperiumCommandHandler {
         String s = astring[0];
 
         if (astring.length == 1) {
-            List<String> list = Lists.newArrayList();
-
-            for (Entry<String, BaseCommand> entry : this.commands.entrySet()) {
-                if (CommandBase.doesStringStartWith(s, entry.getKey())) {
-                    list.add(entry.getKey());
-                }
-            }
-
+            List<String> list = this.commands.keySet().stream().filter(baseCommand ->
+                CommandBase.doesStringStartWith(s, baseCommand)).collect(Collectors.toList());
             return list;
         } else {
             BaseCommand command = this.commands.get(s);
@@ -302,12 +295,16 @@ public class HyperiumCommandHandler {
         } catch (IOException ignored) {
 
         }
-        disabledCommands.add("l");
-        disabledCommands.add("lobby");
-        disabledCommands.add("hub");
-        disabledCommands.add("spawn");
 
-
+        try {
+            Class.forName("co.bugg.quickplay.Quickplay");
+            Hyperium.LOGGER.info("Found Quickplay, disabling lobby commands/aliases");
+            disabledCommands.add("l");
+            disabledCommands.add("lobby");
+            disabledCommands.add("hub");
+            disabledCommands.add("spawn");
+        } catch (Exception ignored)  {
+        }
     }
 
     public void saveDisabledCommands() {

@@ -89,9 +89,9 @@ class TextComponent {
 
     private fun reInstance() {
         this.chatComponentText = BaseTextComponent(
-                        if (this.formatted) ChatLib.addColor(this.text)
-                        else this.text
-                )
+            if (this.formatted) ChatLib.addColor(this.text)
+            else this.text
+        )
 
         reInstanceClick()
         reInstanceHover()
@@ -101,33 +101,25 @@ class TextComponent {
         if (this.clickAction == null || this.clickValue == null) return
 
         this.chatComponentText.getStyling()
-                //#if MC<=10809
-                .chatClickEvent =
-                //#else
-                //$$ .clickEvent =
-                //#endif
-                TextClickEvent(
-                        ClickEventAction.getValueByCanonicalName(this.clickAction),
-                        if (this.formatted) ChatLib.addColor(this.clickValue)
-                        else this.clickValue
-                )
+            .chatClickEvent =
+            TextClickEvent(
+                ClickEventAction.getValueByCanonicalName(this.clickAction),
+                if (this.formatted) ChatLib.addColor(this.clickValue)
+                else this.clickValue
+            )
     }
 
     private fun reInstanceHover() {
         if (this.hoverAction == null || this.hoverValue == null) return
 
         this.chatComponentText.getStyling()
-                //#if MC<=10809
-                .chatHoverEvent =
-                //#else
-                //$$ .hoverEvent =
-                //#endif
-                TextHoverEvent(
-                        HoverEventAction.getValueByCanonicalName(this.hoverAction),
-                        BaseTextComponent(
-                                if (this.formatted) ChatLib.addColor(this.hoverValue)
-                                else this.hoverValue
-                        )
+            .chatHoverEvent =
+            TextHoverEvent(
+                HoverEventAction.getValueByCanonicalName(this.hoverAction),
+                BaseTextComponent(
+                    if (this.formatted) ChatLib.addColor(this.hoverValue)
+                    else this.hoverValue
                 )
+            )
     }
 }

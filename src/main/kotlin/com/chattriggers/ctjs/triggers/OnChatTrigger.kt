@@ -30,7 +30,7 @@ class OnChatTrigger(method: Any, type: TriggerType, loader: ILoader) : OnTrigger
     fun setChatCriteria(chatCriteria: String) = apply {
         this.chatCriteria = chatCriteria
 
-        val replacedCriteria = chatCriteria.replace("\n", "->newLine<-").let(Pattern::quote)
+        val replacedCriteria = chatCriteria.replace("\n", "->newLine<-").let { Pattern.quote(it) }
             .replace("\\$\\{[^*]+?}".toRegex(), "\\\\E(.+)\\\\Q")
             .replace("\\$\\{\\*?}".toRegex(), "\\\\E(?:.+)\\\\Q")
 
@@ -106,9 +106,9 @@ class OnChatTrigger(method: Any, type: TriggerType, loader: ILoader) : OnTrigger
 
     // helper method to get the proper chat message based on the presence of color codes
     private fun getChatMessage(chatEvent: ServerChatEvent, chatMessage: String) =
-            if (this.chatCriteria.contains("&"))
-                chatEvent.chat.formattedText.replace("\u00a7", "&")
-            else chatMessage
+        if (this.chatCriteria.contains("&"))
+            chatEvent.chat.formattedText.replace("\u00a7", "&")
+        else chatMessage
 
     // helper method to get the variables to pass through
     private fun getVariables(chatMessage: String) =
@@ -163,11 +163,11 @@ class OnChatTrigger(method: Any, type: TriggerType, loader: ILoader) : OnTrigger
         START("<s>", "<start>", "s", "start"),
         END("<e>", "<end>", "e", "end");
 
-        var names: List<String> = Arrays.asList(*names)
+        var names: List<String> = listOf(*names)
 
         companion object {
             fun getParameterByName(name: String): Parameter? {
-                for (parameter in Parameter.values()) {
+                for (parameter in values()) {
                     for (paramName in parameter.names) {
                         if (paramName.equals(name, ignoreCase = true)) return parameter
                     }

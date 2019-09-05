@@ -15,7 +15,7 @@ object DisplayHandler {
     @InvokeEvent
     fun renderDisplays(event: RenderHUDEvent) {
         GL11.glPushMatrix()
-        this.displays.forEach(Display::render)
+        this.displays.forEach { it.render() }
         GL11.glPopMatrix()
     }
 

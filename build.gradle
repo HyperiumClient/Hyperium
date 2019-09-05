@@ -1,23 +1,22 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// For those who want the bleeding edge
 buildscript {
-    ext.kotlin_version = '1.2.61'
+    ext.kotlin_version = '1.3.50'
     repositories {
         mavenCentral()
         jcenter()
@@ -59,48 +58,46 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
-version = "1.0"
+version = "1.1 (Public Beta)"
 group = "cc.hyperium"
 archivesBaseName = "Hyperium"
 
 minecraft {
     version = "1.8.9"
     tweakClass = "cc.hyperium.launch.HyperiumTweaker"
-    mappings = "stable_20"
+    mappings = "stable_22"
     runDir = 'run'
     clientJvmArgs = ["-XX:-DisableExplicitGC"] // fast world loading
     makeObfSourceJar = false
 }
+
 dependencies {
 
-    embed('org.spongepowered:mixin:0.7.7-SNAPSHOT') {
+    embed('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'launchwrapper'
         exclude module: 'guava'
         exclude module: 'gson'
         exclude module: 'commons-io'
-        //exclude module: 'log4j-core'
     }
     embed "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     embed "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
-    embed 'com.github.Vatuu:discord-rpc:1.6.0'
+    embed 'com.github.jagrosh:DiscordIPC:e29d6d8'
 
     embed 'com.github.FalseHonesty:reflections:855f40b80b'
-    embed 'com.github.ben-manes.caffeine:caffeine:2.6.2'
+    embed 'com.github.ben-manes.caffeine:caffeine:2.8.0'
 
-    embed group: 'com.google.guava', name: 'guava', version: '17.0'
-    embed group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
+    embed ('org.slick2d:slick2d-core:1.0.2') {
+        exclude module: 'lwjgl'
+    }
 
-    embed group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
-    embed group: 'com.nativelibs4java', name: 'bridj', version: '0.7.0'
-
-    embed "com.github.KevinPriv:MojangAPI:1.0"
+    embed ("com.github.KevinPriv:MojangAPI:1.0") {
+        exclude module: "gson"
+    }
+    
     embed 'com.github.Cubxity:DeobfStack:1.2'
-    embed 'com.github.HyperiumClient:Installer:1.8'
 
-    embed fileTree(dir: 'libs', include: 'Netty Client.jar')
-    compile fileTree(dir: 'libs', include: '*.jar')
-
+    embed fileTree(dir: 'libs', include: '*.jar')
 }
 
 mixin {
@@ -140,17 +137,20 @@ jar {
 
 jar {
     manifest.attributes(
-            //"MixinConfigs": 'mixins.hyperium.json, mixins.ctjs.json',
             "MixinConfigs": 'mixins.hyperium.json',
             "TweakClass": 'cc.hyperium.launch.HyperiumTweaker',
             "TweakOrder": 0,
-            "Manifest-Version": 1.0,
-            'Main-Class': 'cc.hyperium.installer.InstallerStart'
+            "Manifest-Version": 1.0
     )
+
     configurations.embed.each { dep ->
         from(project.zipTree(dep)) {
             exclude 'META-INF', 'META-INF/**'
             exclude 'org/jetbrains/annotations', 'org/jetbrains/annotations/**'
         }
     }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.10.3'
 }

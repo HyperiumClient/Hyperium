@@ -19,12 +19,12 @@ class GuiConfig : GuiScreen() {
             }?.let { ann ->
                 val opt = ann as ConfigOpt
                 configOptions.add(
-                        opt.type.constructors.first().call(
-                                prop,
-                                opt.name,
-                                opt.x,
-                                opt.y
-                        ) as ConfigOption
+                    opt.type.constructors.first().call(
+                        prop,
+                        opt.name,
+                        opt.x,
+                        opt.y
+                    ) as ConfigOption
                 )
             }
         }

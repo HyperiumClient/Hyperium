@@ -1,47 +1,54 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.handlers.handlers.animation;
 
-import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
-import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
+import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
+import cc.hyperium.mixinsimp.client.model.IMixinModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 
 public class DabHandler extends AbstractPreCopyAnglesAnimationHandler {
 
-    private int dabs;
-
-    @Override
-    public void onRender() {
-        if (state == 100 && get(Minecraft.getMinecraft().thePlayer.getUniqueID()).isAnimating())
-            incDabs();
-    }
+    private long systemTime;
 
     @Override
     public float modifyState() {
-        return HyperiumGui.clamp(
-            HyperiumGui.easeOut(
-                this.state,
-                this.asc ? 100.0f : 0.0f,
-                0.01f,
-                5
-            ),
-            0.0f,
-            100.0f
-        );
-    }
+        if (systemTime == 0) systemTime = Minecraft.getSystemTime();
 
-    public int getDabs() {
-        return dabs;
-    }
+        while (systemTime < Minecraft.getSystemTime() + (1000 / 120)) {
+            state = HyperiumGui.clamp(HyperiumGui.easeOut(state, asc ? 100.0f : 0.0f, 0.01f, 5), 0.0f, 100.0f);
 
-    public void incDabs() {
-        dabs++;
+            systemTime += (1000 / 120);
+
+            if (state <= 0) {
+                asc = true;
+                right = !right;
+            } else if (state >= 100) {
+                asc = false;
+            }
+        }
+
+        return state;
     }
 
     @Override
     public void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent) {
-
         if (right) {
             player.getBipedRightUpperArm().rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
             player.getBipedRightUpperArm().rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);

@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.purchases;
 
 import cc.hyperium.config.Settings;
@@ -20,8 +37,7 @@ public class PurchaseSettings {
         this.buttDisabled = source.optJSONObject("butt").optBoolean("disabled");
         this.wingsDisabled = source.optJSONObject("wings").optBoolean("disabled");
         this.wingsType = source.optJSONObject("wings").optString("type");
-        this.wingsScale = source.optJSONObject("wings")
-            .optDouble("scale", Settings.WINGS_SCALE);
+        this.wingsScale = source.optJSONObject("wings").optDouble("scale", Settings.WINGS_SCALE);
         dragonHeadDisabled = source.optJSONObject("dragon").optBoolean("disabled");
         this.currentHatType = EnumPurchaseType.parse(source.optJSONObject("hat").optString("current_type"));
         this.companion = EnumPurchaseType.parse(source.optJSONObject("companion").optString("type"));
@@ -34,11 +50,9 @@ public class PurchaseSettings {
     public double getWingsScale() {
         return wingsScale;
     }
-
     public String getWingsType() {
         return wingsType;
     }
-
     public boolean isWingsDisabled() {
         return wingsDisabled;
     }
@@ -47,11 +61,9 @@ public class PurchaseSettings {
         return buttDisabled;
     }
 
-
     public EnumPurchaseType getCurrentHatType() {
         return currentHatType;
     }
-
     public EnumPurchaseType getCurrentCompanion() {
         return companion;
     }

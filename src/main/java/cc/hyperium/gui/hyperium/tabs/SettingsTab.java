@@ -1,5 +1,26 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui.hyperium.tabs;
 
+import cc.hyperium.Hyperium;
+import cc.hyperium.addons.bossbar.gui.GuiBossbarSetting;
+import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditCrosshair;
+import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSettings;
 import cc.hyperium.config.Category;
 import cc.hyperium.config.SelectorSetting;
 import cc.hyperium.config.SliderSetting;
@@ -8,6 +29,10 @@ import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.hyperium.RGBFieldSet;
 import cc.hyperium.gui.hyperium.components.*;
+import cc.hyperium.gui.keybinds.GuiKeybinds;
+import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
+import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
+import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
 import net.minecraft.client.resources.I18n;
 
 import java.lang.reflect.Field;
@@ -65,6 +90,26 @@ public class SettingsTab extends AbstractTab {
         // Link to capes GUI.
         apply(new LinkComponent(this, Collections.emptyList(), "Youtuber Capes", new CapesGui()), false, Category.COSMETICS, items);
 
+        // Link to sidebar mod's gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Sidebar Mod", new GuiScreenSettings(Hyperium.INSTANCE.getInternalAddons().getSidebarAddon())), true, Category.OTHER, items);
+
+        // Link to keystrokes gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Keystrokes", new GuiScreenKeystrokes(Hyperium.INSTANCE.getModIntegration().getKeystrokesMod())), true, Category.OTHER, items);
+
+        // Link to togglechat gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Togglechat", new ToggleChatMainGui(Hyperium.INSTANCE.getModIntegration().getToggleChat(), 0)), true, Category.OTHER, items);
+
+        // Link to keybinds gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Keybinds", new GuiKeybinds()), false, Category.GENERAL, items);
+
+        // Link to bossbar addon gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Bossbar Addon", new GuiBossbarSetting()), true, Category.OTHER, items);
+
+        // Link to custom crosshair gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Custom Crosshair", new GuiCustomCrosshairEditCrosshair(Hyperium.INSTANCE.getInternalAddons().getCustomCrosshairAddon())), true, Category.OTHER, items);
+
+        // Link to chromahud gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Chroma HUD", new GeneralConfigGui(Hyperium.INSTANCE.getModIntegration().getChromaHUD())), true, Category.CHROMAHUD, items);
 
         for (RGBFieldSet rgbFieldSet : gui.getRgbFields()) {
             apply(new RGBComponent(this, rgbFieldSet), rgbFieldSet.isMods(), rgbFieldSet.getCategory(), items);

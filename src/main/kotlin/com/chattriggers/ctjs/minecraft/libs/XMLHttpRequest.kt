@@ -110,7 +110,7 @@ abstract class XMLHttpRequest {
 
     private fun sendPost(vararg parameters: String) {
         try {
-            val paramList = Arrays.asList(*parameters)
+            val paramList = listOf(*parameters)
 
             val data = StringBuilder()
 
@@ -144,7 +144,8 @@ abstract class XMLHttpRequest {
             this.statusText = conn?.responseMessage
 
             val input = BufferedReader(
-                    InputStreamReader(conn?.inputStream))
+                InputStreamReader(conn?.inputStream)
+            )
             var inputLine = input.readLine()
             val response = StringBuilder()
 

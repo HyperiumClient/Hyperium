@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.config.Settings;
@@ -5,8 +22,8 @@ import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.WorldChangeEvent;
-import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
-import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
+import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
+import cc.hyperium.mixinsimp.client.model.IMixinModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelRenderer;
@@ -17,13 +34,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class AbstractAnimationHandler {
 
 
-    public static boolean reset = false;
+    public static boolean reset;
     private final ConcurrentHashMap<UUID, AnimationState> animationStates = new ConcurrentHashMap<>();
 
-    protected float state = 0;
+    protected float state;
     protected boolean right = true;
     protected boolean asc = true;
-    private long systemTime = 0;
+    private long systemTime;
 
     @InvokeEvent
     public void onRender(RenderEvent e) {
@@ -178,22 +195,22 @@ public abstract class AbstractAnimationHandler {
 
     protected void resetAnimation(IMixinModelBiped player) {
         resetModelRenderers(
-            player.getBipedHead(), player.getBipedHeadwear(), //
-            player.getBipedBody(), //
-            player.getBipedRightUpperLeg(), player.getBipedRightLowerLeg(), //
-            player.getBipedLeftUpperLeg(), player.getBipedLeftLowerLeg(), //
-            player.getBipedRightUpperArm(), player.getBipedRightForeArm(), //
-            player.getBipedLeftUpperArm(), player.getBipedLeftForeArm() //
+            player.getBipedHead(), player.getBipedHeadwear(),
+            player.getBipedBody(),
+            player.getBipedRightUpperLeg(), player.getBipedRightLowerLeg(),
+            player.getBipedLeftUpperLeg(), player.getBipedLeftLowerLeg(),
+            player.getBipedRightUpperArm(), player.getBipedRightForeArm(),
+            player.getBipedLeftUpperArm(), player.getBipedLeftForeArm()
         );
 
         if (player instanceof IMixinModelPlayer) {
             IMixinModelPlayer modelPlayer = (IMixinModelPlayer) player;
             resetModelRenderers(
-                modelPlayer.getBipedBodywear(), //
-                modelPlayer.getBipedRightUpperLegwear(), modelPlayer.getBipedRightLowerLegwear(), //
-                modelPlayer.getBipedLeftUpperLegwear(), modelPlayer.getBipedLeftLowerLegwear(), //
-                modelPlayer.getBipedRightUpperArmwear(), modelPlayer.getBipedRightForeArmwear(), //
-                modelPlayer.getBipedLeftUpperArmwear(), modelPlayer.getBipedLeftForeArmwear() //
+                modelPlayer.getBipedBodywear(),
+                modelPlayer.getBipedRightUpperLegwear(), modelPlayer.getBipedRightLowerLegwear(),
+                modelPlayer.getBipedLeftUpperLegwear(), modelPlayer.getBipedLeftLowerLegwear(),
+                modelPlayer.getBipedRightUpperArmwear(), modelPlayer.getBipedRightForeArmwear(),
+                modelPlayer.getBipedLeftUpperArmwear(), modelPlayer.getBipedLeftForeArmwear()
             );
         }
     }
@@ -210,8 +227,8 @@ public abstract class AbstractAnimationHandler {
         }
     }
 
-    public class AnimationState {
-        public int frames = 0;
+    public static class AnimationState {
+        public int frames;
         private long systemTime;
         private boolean toggled;
 

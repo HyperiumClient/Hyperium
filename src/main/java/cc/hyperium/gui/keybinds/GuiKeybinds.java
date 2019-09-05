@@ -1,8 +1,24 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -10,11 +26,12 @@ import net.minecraft.client.gui.GuiButton;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GuiKeybinds extends HyperiumGui {
 
@@ -23,10 +40,8 @@ public class GuiKeybinds extends HyperiumGui {
     private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private GuiButton resetButton;
     private GuiButton backButton;
-    private HyperiumMainGui prevGui;
 
     private int scrollOffset;
-    private int buttonWidth = 70;
     private int buttonHeight = 20;
     private int numColumns = 2;
 
@@ -34,14 +49,6 @@ public class GuiKeybinds extends HyperiumGui {
     private int leftGui;
     private int rightGui;
     private int bottomGui;
-
-    private int initialGuiScale;
-
-    public GuiKeybinds() {
-
-        // Change the GUI scale to the intended one.
-        Minecraft.getMinecraft().gameSettings.guiScale = 3;
-    }
 
     @Override
     public void initGui() {
@@ -75,6 +82,7 @@ public class GuiKeybinds extends HyperiumGui {
         fixedWidth *= widthScaleFactor;
 
 
+        int buttonWidth = 70;
         if (fixedWidth < 2 * (150 + buttonWidth)) {
             numColumns = 1;
         }
@@ -88,8 +96,6 @@ public class GuiKeybinds extends HyperiumGui {
         calculatedGap = difference / 2;
         topGui = calculatedGap;
         bottomGui = height - calculatedGap;
-
-        prevGui = HyperiumMainGui.INSTANCE;
 
         // Get keybinds.
         binds = new ArrayList<>(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values());
@@ -155,10 +161,8 @@ public class GuiKeybinds extends HyperiumGui {
     }
 
     private List<List<KeybindEntry>> divideList(List<KeybindEntry> inputList, int number) {
-        List<List<KeybindEntry>> partitions = new ArrayList<>(number);
-        for (int i = 0; i < number; i++) {
-            partitions.add(new ArrayList<>());
-        }
+        List<List<KeybindEntry>> partitions = IntStream.range(0, number).<List<KeybindEntry>>mapToObj(i ->
+            new ArrayList<>()).collect(Collectors.toCollection(() -> new ArrayList<>(number)));
 
         int counter = 0;
         for (KeybindEntry entry : inputList) {
@@ -175,19 +179,17 @@ public class GuiKeybinds extends HyperiumGui {
 
     @Override
     public void show() {
-        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
-        Minecraft.getMinecraft().gameSettings.guiScale = 2;
         super.show();
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (mouseX > 10 && mouseY < height - 10) {
             if (resetButton.mousePressed(mc, mouseX, mouseY)) {
                 resetAll();
                 return;
             } else if (backButton.mousePressed(mc, mouseX, mouseY)) {
-                openPreviousGui();
+                Minecraft.getMinecraft().displayGuiScreen(null);
                 return;
             }
 
@@ -244,18 +246,10 @@ public class GuiKeybinds extends HyperiumGui {
         }
     }
 
-    private void openPreviousGui() {
-        prevGui.show();
-    }
-
     @Override
     public void onGuiClosed() {
-        // Reset back to the user's normal GUI scale.
-        Minecraft.getMinecraft().gameSettings.guiScale = initialGuiScale;
         Hyperium.CONFIG.save();
-
         super.onGuiClosed();
-        openPreviousGui();
     }
 
     public void detectAllConflicts() {
@@ -266,13 +260,7 @@ public class GuiKeybinds extends HyperiumGui {
     }
 
     private boolean areKeysListening() {
-        for (KeybindEntry entry : keybindEntries) {
-            KeybindButton btn = entry.getKeybindButton();
-            if (btn.isListening()) {
-                return true;
-            }
-        }
-        return false;
+        return keybindEntries.stream().map(KeybindEntry::getKeybindButton).anyMatch(KeybindButton::isListening);
     }
 
     @Override

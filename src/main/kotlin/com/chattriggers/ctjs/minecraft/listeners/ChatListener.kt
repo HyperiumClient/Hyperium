@@ -16,9 +16,7 @@ object ChatListener {
     fun onReceiveChat(event: ServerChatEvent) {
         if (event.isCancelled) return
 
-        val type = event.type.toInt()
-
-        when (type) {
+        when (event.type.toInt()) {
             in 0..1 -> {
                 // save to chatHistory
                 chatHistory += ChatLib.getChatMessage(event, true)
@@ -29,7 +27,14 @@ object ChatListener {
 
                 // print to console
                 if (Config.printChatToConsole) {
-                    ModuleManager.generalConsole.out.println("[CHAT] " + ChatLib.replaceFormatting(ChatLib.getChatMessage(event, true)))
+                    ModuleManager.generalConsole.out.println(
+                        "[CHAT] " + ChatLib.replaceFormatting(
+                            ChatLib.getChatMessage(
+                                event,
+                                true
+                            )
+                        )
+                    )
                 }
             }
             2 -> TriggerType.ACTION_BAR.triggerAll(ChatLib.getChatMessage(event, false), event)

@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.addons;
@@ -27,7 +27,7 @@ public abstract class AbstractAddon {
 
     public abstract Metadata getAddonMetadata();
 
-    public class Metadata {
+    public static class Metadata {
         private final AbstractAddon addon;
         private final String author;
         private final String name;
@@ -35,8 +35,6 @@ public abstract class AbstractAddon {
 
         private String description;
         private String displayName;
-
-        private String overlayClassPath;
 
         public Metadata(AbstractAddon addon, String name) {
             this(addon, name, "1.0");
@@ -83,20 +81,12 @@ public abstract class AbstractAddon {
             return this.description != null ? this.description : "";
         }
 
-        public String getOverlayClassPath() {
-            return this.overlayClassPath;
-        }
-
         public void setDisplayName(String name) {
             this.displayName = name;
         }
 
         public void setDescription(String description) {
             this.description = description;
-        }
-
-        public void setOverlayClassPath(String classPath) {
-            this.overlayClassPath = classPath;
         }
     }
 }

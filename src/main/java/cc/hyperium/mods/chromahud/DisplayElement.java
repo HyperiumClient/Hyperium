@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.chromahud;
@@ -24,13 +24,9 @@ import com.google.gson.JsonArray;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 
 /**
  * Created by Mitchell Katz on 5/25/2017.
@@ -38,20 +34,20 @@ import net.minecraft.client.renderer.RenderHelper;
 public class DisplayElement extends Dimension {
     private final JsonHolder data;
     private double xloc, yloc;
-    private List<DisplayItem> displayItems = new ArrayList<>();
-    private double scale = 1;
+    private List<DisplayItem> displayItems;
+    private double scale;
     private int color;
     private boolean shadow;
     private boolean highlighted;
-    private boolean rightSided = false;
-    // Used for rainbox rendering
+    private boolean rightSided;
+    // Used for rainbow rendering
     private boolean selected;
     private boolean chroma;
     private boolean rgb;
     private boolean color_pallet;
     private boolean static_chroma;
 
-    public DisplayElement(JsonHolder object) {
+    DisplayElement(JsonHolder object) {
         this.data = object;
         xloc = object.optDouble("x");
         this.yloc = object.optDouble("y");
@@ -70,7 +66,6 @@ public class DisplayElement extends Dimension {
         this.displayItems = items;
         this.shadow = object.optBoolean("shadow");
         this.highlighted = object.optBoolean("highlighted");
-        double brightness = data.optDouble("brightness");
         this.color = data.optInt("color");
         this.chroma = data.optBoolean("chroma");
         this.rightSided = data.optBoolean("right_side");
@@ -114,9 +109,9 @@ public class DisplayElement extends Dimension {
     }
 
     public void recalculateColor() {
-        if (isChroma()) {
+        if (chroma) {
             color = 0;
-        } else if (isRGB()) {
+        } else if (rgb) {
             this.color = new Color(data.optInt("red"), data.optInt("green"), data.optInt("blue")).getRGB();
         }
     }
@@ -125,14 +120,6 @@ public class DisplayElement extends Dimension {
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
         int x = (int) (xloc * resolution.getScaledWidth_double());
         double y = (int) (yloc * resolution.getScaledHeight_double());
-//        if (this.isHighlighted()) {
-//            Gui.drawRect(
-//                    x - 2,
-//                    (int) y - 2,
-//                    (int) (x + getDimensions().getWidth()) + 2,
-//                    (int) (y + getDimensions().getHeight()),
-//                    new Color(0, 0, 0, 120).getRGB());
-//        }
 
         for (DisplayItem iDisplayItem : displayItems) {
             try {
@@ -215,7 +202,7 @@ public class DisplayElement extends Dimension {
     public void renderEditView() {
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
         int x = (int) (.8 * resolution.getScaledWidth_double());
-        if (isRightSided()) {
+        if (rightSided) {
             x += getDimensions().getWidth();
             if (x > resolution.getScaledWidth())
                 x = resolution.getScaledWidth();

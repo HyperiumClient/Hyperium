@@ -1,44 +1,25 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeypressEvent;
-import cc.hyperium.event.KeyreleaseEvent;
-import cc.hyperium.event.MouseButtonEvent;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.DabKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FlipKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FlossKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FortniteDefaultDanceKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiDanceKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.RearCamKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.TPoseKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.TwerkDanceKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.UploadScreenshotKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ViewStatsKeybind;
+import cc.hyperium.event.*;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -50,17 +31,17 @@ public class KeyBindHandler {
     public final HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
-
+            System.out.println("debug keybind pressed");
         }
 
         @Override
         public void onRelease() {
+            System.out.println("debug keybind released");
         }
     };
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
     private final Map<String, HyperiumBind> keybinds = new HashMap<>();
-    private ToggleSprintKeybind toggleSprintKeybind;
 
     public KeyBindHandler() {
         this.keyBindConfig = new KeyBindConfig(this, Hyperium.folder);
@@ -73,10 +54,8 @@ public class KeyBindHandler {
         registerKeyBinding(new FlipKeybind());
         registerKeyBinding(new ViewStatsKeybind());
         registerKeyBinding(new FlossKeybind());
-        registerKeyBinding(new ToggleSpotifyKeybind());
-        registerKeyBinding(toggleSprintKeybind = new ToggleSprintKeybind());
+        registerKeyBinding(new ToggleSprintKeybind());
         registerKeyBinding(new TogglePerspectiveKeybind());
-        registerKeyBinding(new FortniteDefaultDanceKeybind());
         registerKeyBinding(new TwerkDanceKeybind());
         registerKeyBinding(new TPoseKeybind());
         registerKeyBinding(new GuiDanceKeybind());
@@ -84,7 +63,7 @@ public class KeyBindHandler {
         registerKeyBinding(new RearCamKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < keybinds.size(); i++) {
             mouseBinds.put(i, -100 + i);
         }
 
@@ -211,10 +190,6 @@ public class KeyBindHandler {
      */
     public Map<String, HyperiumBind> getKeybinds() {
         return this.keybinds;
-    }
-
-    public ToggleSprintKeybind getToggleSprintBind() {
-        return toggleSprintKeybind;
     }
 
     public void releaseAllKeybinds() {

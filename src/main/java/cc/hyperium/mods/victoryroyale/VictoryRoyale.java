@@ -1,3 +1,20 @@
+/*
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.mods.victoryroyale;
 
 import cc.hyperium.config.Settings;
@@ -29,7 +46,7 @@ public class VictoryRoyale extends AbstractMod {
     private ResourceLocation texture = new ResourceLocation("textures/material/victoryroyale/victory_royale.png");
     private ConcurrentLinkedQueue<WhiteLine> points = new ConcurrentLinkedQueue<>();
 
-    private long start = 0;
+    private long start;
 
     public static VictoryRoyale getInstance() {
         return INSTANCE;
@@ -110,24 +127,24 @@ public class VictoryRoyale extends AbstractMod {
                     worldRenderer.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
 
                     if (side == 1) {
-                        worldRenderer.pos((double) trueX, (double) trueY, 0.0D).endVertex(); // x
+                        worldRenderer.pos(trueX, trueY, 0.0D).endVertex(); // x
                         worldRenderer.pos((double) px + 0, (double) py + point.width, 0.0D).endVertex(); // y
-                        worldRenderer.pos((double) px, (double) py, 0.0D).endVertex(); // z
+                        worldRenderer.pos(px, py, 0.0D).endVertex(); // z
 
                     } else if (side == 3) {
-                        worldRenderer.pos((double) trueX, (double) trueY, 0.0D).endVertex();
-                        worldRenderer.pos((double) px, (double) py, 0.0D).endVertex();
-                        worldRenderer.pos((double) px + 10, (double) py, 0.0D).endVertex();
+                        worldRenderer.pos(trueX, trueY, 0.0D).endVertex();
+                        worldRenderer.pos(px, py, 0.0D).endVertex();
+                        worldRenderer.pos((double) px + 10, py, 0.0D).endVertex();
 
                     } else if (side == 2) {
-                        worldRenderer.pos((double) trueX, (double) trueY, 0.0D).endVertex();
-                        worldRenderer.pos((double) px, (double) py, 0.0D).endVertex();
-                        worldRenderer.pos((double) px + 10, (double) py, 0.0D).endVertex();
+                        worldRenderer.pos(trueX, trueY, 0.0D).endVertex();
+                        worldRenderer.pos(px, py, 0.0D).endVertex();
+                        worldRenderer.pos((double) px + 10, py, 0.0D).endVertex();
 
                     } else {
-                        worldRenderer.pos((double) trueX, (double) trueY, 0.0D).endVertex();
-                        worldRenderer.pos((double) px + 10, (double) py, 0.0D).endVertex();
-                        worldRenderer.pos((double) px, (double) py, 0.0D).endVertex();
+                        worldRenderer.pos(trueX, trueY, 0.0D).endVertex();
+                        worldRenderer.pos((double) px + 10, py, 0.0D).endVertex();
+                        worldRenderer.pos(px, py, 0.0D).endVertex();
                     }
                     renderer.draw();
                     GlStateManager.enableTexture2D();
@@ -195,11 +212,11 @@ public class VictoryRoyale extends AbstractMod {
         return new Metadata(this, "Victory Royale", "1.0", "Sk1er");
     }
 
-    class WhiteLine {
+    static class WhiteLine {
         private double xPercent, yPercent;
         private int width;
 
-        public WhiteLine(double xPercent, double yPercent, int width) {
+        WhiteLine(double xPercent, double yPercent, int width) {
             this.xPercent = xPercent;
             this.yPercent = yPercent;
             this.width = width;

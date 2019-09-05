@@ -113,8 +113,8 @@ public class Pet {
     }
 
     public String name = "";
-    public int level = 0;
-    public int xp = 0;
+    public int level;
+    public int xp;
 
     public Pet(JsonHolder tmp) {
         this.xp = tmp.optInt("experience");

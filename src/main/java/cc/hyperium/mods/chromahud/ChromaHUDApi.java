@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mods.chromahud;
@@ -25,10 +25,7 @@ import cc.hyperium.mods.chromahud.api.TextConfig;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -44,7 +41,7 @@ public class ChromaHUDApi {
     private final Map<String, ArrayList<ButtonConfig>> buttonConfigs = new HashMap<>();
     private final Map<String, ArrayList<TextConfig>> textConfigs = new HashMap<>();
     private final Map<String, ArrayList<StringConfig>> stringConfigs = new HashMap<>();
-    private boolean posted = false;
+    private boolean posted;
     private JsonHolder config = new JsonHolder();
 
     private ChromaHUDApi() {
@@ -131,13 +128,13 @@ public class ChromaHUDApi {
     }
 
     /**
-     * <p>Add a parser to the ChromaHUD runtime. Must be done before FMLPostInitialization event</p>
+     * <p>Add a parser to the ChromaHUD runtime. Must be done before InitializationEvent event</p>
      *
      * @param parser A valid ChromaHUDParser object for an addon.
      */
     public void register(ChromaHUDParser parser) {
         if (posted)
-            throw new IllegalStateException("Cannot register parser after FMLPostInitialization event");
+            throw new IllegalStateException("Cannot register parser after InitializationEvent");
         parsers.add(parser);
         names.putAll(parser.getNames());
     }
@@ -177,15 +174,8 @@ public class ChromaHUDApi {
      * @return StatsDisplayItem instance created, null if the system was unable to resolve type
      */
     public DisplayItem parse(String type, int ord, JsonHolder item) {
-        for (ChromaHUDParser parser : parsers) {
-            DisplayItem parsed = parser.parse(type, ord, item);
-            if (parsed != null) {
-
-                return parsed;
-            }
-        }
+        return parsers.stream().map(parser -> parser.parse(type, ord, item)).filter(Objects::nonNull).findFirst().orElse(null);
         //No parsers could parse -> return null
-        return null;
     }
 
     /**
