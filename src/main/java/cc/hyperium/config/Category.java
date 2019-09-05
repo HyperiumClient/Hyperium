@@ -30,6 +30,7 @@ public enum Category {
     HYPIXEL("Hypixel"),
     BUTTONS("Buttons"),
     MENUS("Menus"),
+    ADDONS("Addons"),
 
     // Mods
     AUTOTIP("Autotip"),

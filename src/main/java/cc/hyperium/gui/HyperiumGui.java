@@ -27,17 +27,12 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,11 +40,7 @@ import java.util.function.Consumer;
 
 public abstract class HyperiumGui extends GuiScreen {
 
-    public static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
-    protected static ResourceLocation bgDynamicTexture;
-    protected static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
-    protected static boolean customBackground;
-    private static BufferedImage bgBr;
+    public static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/" + Settings.BACKGROUND + ".png");
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
     private final Map<String, GuiButton> nameMap = new HashMap<>();
@@ -59,7 +50,7 @@ public abstract class HyperiumGui extends GuiScreen {
     private int idIteration;
     private int alpha = 100;
     private ScaledResolution lastResolution;
-    public double scrollMultiplier = 1;
+    protected double scrollMultiplier = 1;
 
     public HyperiumGui() {
         lastResolution = ResolutionUtil.current();
@@ -213,8 +204,6 @@ public abstract class HyperiumGui extends GuiScreen {
     public void initGui() {
         super.initGui();
         rePack();
-
-        loadCustomBackground();
     }
 
     @Override
@@ -275,22 +264,6 @@ public abstract class HyperiumGui extends GuiScreen {
     }
 
     protected abstract void pack();
-
-    private void loadCustomBackground() {
-        customBackground = Settings.BACKGROUND.equalsIgnoreCase("CUSTOM");
-
-        if (customImage.exists() && customBackground) {
-            try {
-                bgBr = ImageIO.read(new FileInputStream(customImage));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (bgBr != null) {
-                bgDynamicTexture = mc.getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bgBr));
-            }
-
-        }
-    }
 
     protected void drawScaledText(String text, int trueX, int trueY, double scaleFac, int color, boolean shadow, boolean centered) {
         GlStateManager.pushMatrix();

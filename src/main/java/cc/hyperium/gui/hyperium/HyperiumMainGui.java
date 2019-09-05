@@ -28,8 +28,8 @@ import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
 import cc.hyperium.gui.hyperium.tabs.ShopTab;
 import cc.hyperium.handlers.handlers.SettingsHandler;
-import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
+import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -284,21 +284,13 @@ public class HyperiumMainGui extends HyperiumGui {
         if (Settings.BACKGROUND.equalsIgnoreCase("default")) {
             drawDefaultBackground();
         } else {
-            if (customImage.exists() && bgDynamicTexture != null && customBackground) {
-                Minecraft.getMinecraft().getTextureManager().bindTexture(bgDynamicTexture);
-            } else {
-                Minecraft.getMinecraft().getTextureManager().bindTexture(background);
-            }
-
+            Minecraft.getMinecraft().getTextureManager().bindTexture(background);
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(0.0D, sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D)
-                .endVertex();
-            worldrenderer.pos(sr.getScaledWidth(), sr.getScaledHeight(), -90.0D)
-                .tex(1.0D, 1.0D).endVertex();
-            worldrenderer.pos(sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D)
-                .endVertex();
+            worldrenderer.pos(0.0D, sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+            worldrenderer.pos(sr.getScaledWidth(), sr.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+            worldrenderer.pos(sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
             worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
             tessellator.draw();
         }

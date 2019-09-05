@@ -33,31 +33,21 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 public class GuiHyperiumScreen extends GuiScreen {
 
-    public static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
-    public static boolean customBackground;
-    public static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
-    public static ResourceLocation bgDynamicTexture;
-    public static BufferedImage bgBr;
+    public static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/" + Settings.BACKGROUND + ".png");
     public static HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
-    public static HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
+    private static HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private static float swing;
-    public GuiButton hypixelButton;
+    GuiButton hypixelButton;
 
     public static void drawScaledCustomSizeModalRect(int x, int y, float u, float v, int uWidth, int vHeight, int width, int height, float tileWidth, float tileHeight) {
         float f = 1.0F / tileWidth;
@@ -85,27 +75,6 @@ public class GuiHyperiumScreen extends GuiScreen {
         return background;
     }
 
-    public static void setBackground(ResourceLocation givenBackground) {
-        background = givenBackground;
-    }
-
-    public static void setCustomBackground(boolean givenBoolean) {
-        customBackground = givenBoolean;
-    }
-
-    public void initGui() {
-        customBackground = Settings.BACKGROUND.equalsIgnoreCase("CUSTOM");
-        if (customImage.exists() && customBackground) {
-            try {
-                bgBr = ImageIO.read(new FileInputStream(customImage));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (bgBr != null)
-                bgDynamicTexture = mc.getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bgBr));
-        }
-    }
-
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         switch (getStyle()) {
@@ -129,23 +98,6 @@ public class GuiHyperiumScreen extends GuiScreen {
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableAlpha();
-        if (customImage.exists() && bgDynamicTexture != null && customBackground) {
-            Minecraft.getMinecraft().getTextureManager().bindTexture(bgDynamicTexture);
-            Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(0.0D, resolution.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-            worldrenderer.pos(resolution.getScaledWidth(), resolution.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-            worldrenderer.pos(resolution.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
-            worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
-            tessellator.draw();
-
-            GlStateManager.depthMask(true);
-            GlStateManager.enableDepth();
-            GlStateManager.enableAlpha();
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            return;
-        }
         Minecraft.getMinecraft().getTextureManager().bindTexture(background);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();

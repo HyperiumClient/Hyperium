@@ -161,8 +161,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                 break;
         }
 
-        if (button.id == 17)
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new ChangeBackgroundGui(this));
         if (button.id == 100) {
             HyperiumMainGui.INSTANCE.setTab(1);
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(HyperiumMainGui.INSTANCE);
@@ -175,7 +173,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         this.buttonList.add(new GuiButton(2, this.width / 2 - getIntendedWidth(175), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(15, this.width / 2 + getIntendedWidth(65), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(100, this.width / 2 - 100, this.height / 2 - getIntendedHeight(-60), I18n.format("button.menu.cosmeticshop")));
-        this.buttonList.add(new GuiButton(17, this.width / 2 - 100, this.height / 2 - getIntendedHeight(-95), I18n.format("button.menu.changebackground")));
     }
 
     public void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
@@ -195,8 +192,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     public void addDefaultStyleOptionsButton(int j) {
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 56 + 12 + 24 - 5, 98, 20, I18n.format("menu.options")));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 56 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
-        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, j + 78 + 12 + 24 - 5, 98, 20, I18n.format("button.menu.cosmeticshop")));
-        this.buttonList.add(new GuiButton(17, this.width / 2 + 2, j + 78 + 12 + 24 - 5, 98, 20, I18n.format("button.menu.changebackground")));
+        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, j + 78 + 12 + 24 - 5, 200, 20, I18n.format("button.menu.cosmeticshop")));
     }
 
     @Override
@@ -220,12 +216,5 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(195), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
 
         GlStateManager.popMatrix();
-    }
-
-    @Override
-    protected void keyTyped(char typedChar, int keyCode) {
-        if (keyCode == Keyboard.KEY_B) {
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new ChangeBackgroundGui(this));
-        }
     }
 }
