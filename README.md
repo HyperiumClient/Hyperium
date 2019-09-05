@@ -54,7 +54,7 @@ A: Yes, simply [follow this nice video](https://www.youtube.com/watch?v=RXTIFdoN
 
 Q: I found a bug. Where do I report it?
 
-A: Join the [Discord](https://hyperium.cc/discord) and explain your issue in as much detail as you can in the `#commands` channel and wait for a staff member to assist you!
+A: Join the [Discord](https://hyperium.cc/discord) and explain your issue in as much detail as you can in the `#support` channel and wait for a staff member to assist you!
 
 Q: My game keeps crashing!
 
