@@ -18,15 +18,12 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - Reach Display (Custom)
 - Togglesprint (Custom)
 - [360 Degrees Perspective](https://www.youtube.com/watch?v=7FdMMpzNdUk)
-- [AutoFriend](https://2pi.pw/mods/autofriend)
 - [AutoGG](https://2pi.pw/mods/autogg)
 - [BlockOverlay](https://aycy.github.io/)
 - [ChromaHud](https://sk1er.club/mods/tayber50k)
 - [Chunk Animator](https://www.curseforge.com/minecraft/mc-mods/chunk-animator)
 - [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)
-- [Fortnite Compass](https://www.youtube.com/watch?v=Anwxqk2EAlE)
 - [Glint Colorizer](https://www.youtube.com/watch?v=80foSiVvUiI)
-- [Ingame Browser](https://github.com/montoyo/mcef)
 - [Item Physics](https://www.curseforge.com/minecraft/mc-mods/itemphysic)
 - [Keystrokes](https://sk1er.club/mods/keystrokesmod)
 - [Levelhead](https://sk1er.club/mods/level_head)
@@ -35,7 +32,6 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [MouseDelayFix](https://prplz.io/mousedelayfix/)
 - [NickHider](https://sk1er.club/mods/nick_hider)
 - [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
-- [TabToggle](https://aycy.github.io/)
 - [TimeChanger](https://2pi.pw/mods/timechanger)
 - [ToggleChat](https://2pi.pw/mods/togglechat)
 - [Victory Royale](https://sk1er.club/mods/victory_royale)
@@ -58,7 +54,7 @@ A: Yes, simply [follow this nice video](https://www.youtube.com/watch?v=RXTIFdoN
 
 Q: I found a bug. Where do I report it?
 
-A: Join the [Discord](https://hyperium.cc/discord) and run `-new` in the commands channel.  Then explain your issue and a staff member will further contact you!
+A: Join the [Discord](https://hyperium.cc/discord) and explain your issue in as much detail as you can in the `#commands` channel and wait for a staff member to assist you!
 
 Q: My game keeps crashing!
 
