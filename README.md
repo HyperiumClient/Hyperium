@@ -50,7 +50,7 @@ A: It is currently released!  Come download it on our [Discord](https://hyperium
 
 Q: Is there a tutorial to create addons?
 
-A: Yes, simply [follow this nice video](https://www.youtube.com/watch?v=RXTIFdoNA8c).
+A: Yes, simply [follow this nice video](https://www.youtube.com/watch?v=RXTIFdoNA8c). 
 
 Q: I found a bug. Where do I report it?
 
