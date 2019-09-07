@@ -64,7 +64,7 @@ A: Join the [Discord](https://hyperium.cc/discord) and ask a member of the staff
 Addons are Hyperium's system of mods, like Forge, except they're done using the Addon Workspace / Addon API. The selection to currently available addons is low, so if you wish to make some, feel free to share it with other Hyperium members.
 
 ### License ###  
-Hyperium is licensed under the GNU Lesser General Public License. You can view it [here](./LICENSE). 
+Hyperium is licensed under the GNU Lesser General Public License. You can view it [here](./LICENSE).
 
 ## Developer Resources ##
 	
