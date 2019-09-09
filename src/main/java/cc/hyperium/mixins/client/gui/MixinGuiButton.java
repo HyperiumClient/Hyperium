@@ -17,42 +17,56 @@
 
 package cc.hyperium.mixins.client.gui;
 
-import cc.hyperium.mixinsimp.client.gui.HyperiumGuiButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.util.ResourceLocation;
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.client.renderer.GlStateManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+
+import java.awt.*;
 
 @SuppressWarnings("unused")
 @Mixin(GuiButton.class)
 public abstract class MixinGuiButton extends Gui {
 
-    @Shadow @Final protected static ResourceLocation buttonTextures;
     @Shadow public boolean visible;
+    @Shadow protected boolean hovered;
     @Shadow public int xPosition;
     @Shadow public int yPosition;
-    @Shadow public String displayString;
-    @Shadow protected boolean hovered;
     @Shadow protected int width;
     @Shadow protected int height;
     @Shadow protected abstract void mouseDragged(Minecraft mc, int mouseX, int mouseY);
+    @Shadow public boolean enabled;
+    @Shadow public String displayString;
 
-    private float selectPercent;
-
-    private long systemTime = Minecraft.getSystemTime();
-
-    private HyperiumGuiButton hyperiumButton = new HyperiumGuiButton((GuiButton) (Object) this);
+    private double hoverFade;
+    private long prevDeltaTime;
 
     /**
-     * @author Cubxity
-     * @reason Custom buttons
+     * @author asbyth
+     * @reason Custom Hyperium buttons
      */
     @Overwrite
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        hyperiumButton.drawButton(mc, mouseX, mouseY);
+        if (prevDeltaTime == 0) {
+            prevDeltaTime = System.currentTimeMillis();
+        }
+
+        if (visible) {
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+            double hoverInc = (System.currentTimeMillis() - prevDeltaTime) / 2F;
+            hoverFade = hovered ? Math.min(100, hoverFade + hoverInc) : Math.max(0, hoverInc - hoverInc);
+
+            drawRect(xPosition, yPosition, xPosition + width, yPosition + height, new Color(0, 0, 0, (int) (100 - (hoverFade / 2))).getRGB());
+            mouseDragged(mc, mouseX, mouseY);
+
+            int textColor = enabled ? 255 : 180;
+            drawCenteredString(mc.fontRendererObj, displayString, xPosition + width / 2, yPosition + (height - 8) / 2,
+                new Color(textColor, textColor, textColor, 255).getRGB());
+            prevDeltaTime = System.currentTimeMillis();
+        }
     }
 }

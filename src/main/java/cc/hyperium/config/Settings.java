@@ -18,8 +18,6 @@
 package cc.hyperium.config;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.styles.ButtonStyle;
-import cc.hyperium.styles.ButtonType;
 import cc.hyperium.styles.GuiStyle;
 
 import static cc.hyperium.config.Category.*;
@@ -440,13 +438,6 @@ public class Settings {
     public static boolean BETTERF1;
 
     @ConfigOpt
-    @SelectorSetting(name = "gui.settings.buttonstyle", category = BUTTONS, items = {
-        "HYPERIUM",
-        "HYPERIUM 2"
-    })
-    public static String BUTTON_STYLE = ButtonStyle.HYPERIUM.name();
-
-    @ConfigOpt
     @SliderSetting(name = "gui.settings.buttonred", isInt = true, min = 0, max = 255, category = BUTTONS)
     public static int BUTTON_RED = 255;
 
@@ -457,14 +448,6 @@ public class Settings {
     @ConfigOpt
     @SliderSetting(name = "gui.settings.buttonblue", isInt = true, min = 0, max = 255, category = BUTTONS)
     public static int BUTTON_BLUE = 255;
-
-    @ConfigOpt
-    @SelectorSetting(name = "gui.settings.buttontype", category = BUTTONS, items = {
-        "DEFAULT",
-        "RGB",
-        "CHROMA"
-    })
-    public static String BUTTON_TYPE = ButtonType.DEFAULT.name();
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
