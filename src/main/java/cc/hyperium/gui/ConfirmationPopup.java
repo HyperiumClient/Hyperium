@@ -23,6 +23,7 @@ import cc.hyperium.event.HypixelPartyInviteEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.event.RenderHUDEvent;
+import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -35,7 +36,8 @@ import java.util.Queue;
 import java.util.function.Consumer;
 
 public class ConfirmationPopup {
-    public final Queue<Confirmation> confirmations = new LinkedList<>();
+
+    private final Queue<Confirmation> confirmations = new LinkedList<>();
     private Confirmation currentConfirmation;
     private String acceptFrom = "";
 
@@ -45,7 +47,7 @@ public class ConfirmationPopup {
             displayConfirmation("Friend request from " + e.getFrom(), accept -> {
                 Minecraft.getMinecraft().thePlayer.sendChatMessage((accept ? "/friend accept " : "/friend deny ") + e.getFrom());
                 currentConfirmation.framesLeft = 0;
-            }, 5);
+            });
         }
     }
 
@@ -58,7 +60,7 @@ public class ConfirmationPopup {
                 }
 
                 currentConfirmation.framesLeft = 0;
-            }, 5);
+            });
         }
     }
 
@@ -84,12 +86,9 @@ public class ConfirmationPopup {
         }
     }
 
-    public Confirmation displayConfirmation(String text, Consumer<Boolean> callback, int seconds) {
-
-        Confirmation c = new Confirmation(seconds * 60, seconds * 60, text, callback);
-        if (Settings.SHOW_INGAME_CONFIRMATION_POPUP)
-            confirmations.add(c);
-        return c;
+    private void displayConfirmation(String text, Consumer<Boolean> callback) {
+        Confirmation c = new Confirmation(5 * 60, 5 * 60, text, callback);
+        if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) confirmations.add(c);
     }
 
     public void setAcceptFrom(String acceptFrom) {
@@ -105,7 +104,7 @@ public class ConfirmationPopup {
         private float percentComplete;
         private long systemTime;
 
-        public Confirmation(long framesLeft, long frames, String text, Consumer<Boolean> callback) {
+        Confirmation(long framesLeft, long frames, String text, Consumer<Boolean> callback) {
             this.framesLeft = framesLeft;
             this.text = text;
             this.callback = callback;
@@ -156,7 +155,7 @@ public class ConfirmationPopup {
                 50,
                 middle + currWidth,
                 95,
-                new Color(30, 30, 30).getRGB()
+                new Color(27, 27, 27).getRGB()
             );
 
             if (this.percentComplete == 1.0F) {
@@ -170,13 +169,13 @@ public class ConfirmationPopup {
                     93,
                     (int) (middle - currWidth + (210 * progress)),
                     95,
-                    new Color(149, 201, 144).getRGB()
+                    new Color(128, 226, 126).getRGB()
                 );
 
                 fr.drawString(text, sr.getScaledWidth() / 2 - fr.getStringWidth(text) / 2, 58, 0xFFFFFF);
 
-                String s = "[Y] Accept [N] Deny";
-                fr.drawString(s, sr.getScaledWidth() / 2 - fr.getStringWidth(s) / 2, 70, new Color(170, 170, 170).getRGB());
+                String s = ChatColor.GREEN + "[Y] Accept " + ChatColor.RED + "[N] Deny";
+                fr.drawString(s, sr.getScaledWidth() / 2 - fr.getStringWidth(s) / 2, 70, -1);
             }
 
             return false;
