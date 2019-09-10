@@ -18,6 +18,7 @@
 package cc.hyperium.mixinsimp.client;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.Metadata;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.*;
@@ -299,22 +300,12 @@ public class HyperiumMinecraft {
 
     public void displayCrashReport(CrashReport crashReportIn) {
         // Separate Hyperium crash reports.
-        String data = crashReportIn.getCauseStackTraceOrString();
         File crashReportDir;
-        String crashReportPrefix = "crash-";
-        if (data.contains("hyperium")) {
-            crashReportDir = new File(Minecraft.getMinecraft().mcDataDir, "hyperium-crash-reports");
-            if (!crashReportDir.exists()) {
-                crashReportDir.mkdir();
-            }
-            crashReportPrefix = "hyperium-crash-";
-        } else {
-            crashReportDir = new File(Minecraft.getMinecraft().mcDataDir, "crash-reports");
-        }
+        crashReportDir = new File(Minecraft.getMinecraft().mcDataDir, "crash-reports");
 
         File crashReportFile = new File(crashReportDir,
-            crashReportPrefix + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
-                + "-client.txt");
+            "hyperium-crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
+                + "-client-version" + Metadata.getVersion() + ".txt");
 
         crashReportIn.saveToFile(crashReportFile);
         Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());

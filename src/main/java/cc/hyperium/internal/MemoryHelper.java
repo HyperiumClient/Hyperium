@@ -71,7 +71,7 @@ public class MemoryHelper {
         }
 
         removes.forEach(this::deleteSkin);
-//        locations.forEach(this::deleteSkin);
+        locations.forEach(this::deleteSkin);
 
         int del = 0;
         for (RenderPlayer value : ((IMixinRenderManager) Minecraft.getMinecraft().getRenderManager()).getSkinMap().values()) {
