@@ -51,8 +51,12 @@ object CTJS {
 
         AnnotationHandler.subscribeAutomatic()
 
-        UriScheme.installUriScheme()
-        UriScheme.createSocketListener()
+        try {
+//            UriScheme.installUriScheme()
+//            UriScheme.createSocketListener()
+        } catch (e: Exception) {
+            println("Failed to install URI scheme, probably not on Windows.")
+        }
     }
 
     @InvokeEvent

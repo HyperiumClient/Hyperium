@@ -20,7 +20,6 @@ package cc.hyperium.event;
 import com.google.common.reflect.TypeToken;
 import net.minecraft.client.Minecraft;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -146,7 +145,7 @@ public class EventBus {
                 Minecraft.getMinecraft().mcProfiler.startSection(sub.getMethodName());
             }
             try {
-                sub.getMethod().invoke(sub.getInstance(), event);
+                sub.invoke(event);
             } catch (Exception InvocationTargetException) {
                 InvocationTargetException.printStackTrace();
             }

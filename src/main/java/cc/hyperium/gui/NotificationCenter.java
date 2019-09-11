@@ -60,21 +60,21 @@ public class NotificationCenter extends Gui {
     }
 
     @InvokeEvent
-    private void tick(TickEvent ev) {
+    public void tick(TickEvent ev) {
         if (currentNotification == null || currentNotification.tick()) {
             currentNotification = notifications.poll();
         }
     }
 
     @InvokeEvent
-    private void onRenderTick(RenderHUDEvent event) {
+    public void onRenderTick(RenderHUDEvent event) {
         if (currentNotification != null) {
             currentNotification.render();
         }
     }
 
     @InvokeEvent
-    private void onClick(GuiClickEvent event) {
+    public void onClick(GuiClickEvent event) {
         if (currentNotification != null && currentNotification.clickedCallback != null) {
             final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
             final int left = currentNotification.getX(sr);
