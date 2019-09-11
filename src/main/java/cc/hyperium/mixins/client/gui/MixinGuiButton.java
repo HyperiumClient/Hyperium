@@ -21,6 +21,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -40,6 +42,7 @@ public abstract class MixinGuiButton extends Gui {
     @Shadow protected abstract void mouseDragged(Minecraft mc, int mouseX, int mouseY);
     @Shadow public boolean enabled;
     @Shadow public String displayString;
+    @Shadow @Final protected static ResourceLocation buttonTextures;
 
     private double hoverFade;
     private long prevDeltaTime;
@@ -55,6 +58,7 @@ public abstract class MixinGuiButton extends Gui {
         }
 
         if (visible) {
+            mc.getTextureManager().bindTexture(buttonTextures);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
             double hoverInc = (System.currentTimeMillis() - prevDeltaTime) / 2F;
