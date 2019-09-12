@@ -66,52 +66,52 @@ public class GuiScreenKeystrokes extends GuiScreen {
         KeystrokesSettings settings = this.mod.getSettings();
 
 
-        buttonList.add(buttonEnabled = new GuiButton(0, width / 2 - 155, calculateHeight(0), 150, 20,
+        buttonList.add(buttonEnabled = new GuiButton(0, width / 2 - 155, calculateHeight(-1), 150, 20,
             "Keystrokes: " + (settings.isEnabled() ? "On" : "Off")));
 
-        buttonList.add(buttonShowMouseButtons = new GuiButton(1, width / 2 + 5, calculateHeight(0), 150, 20,
+        buttonList.add(buttonShowMouseButtons = new GuiButton(1, width / 2 + 5, calculateHeight(-1), 150, 20,
             "Show mouse buttons: " + (settings.isShowingMouseButtons() ? "On" : "Off")));
 
-        buttonList.add(buttonShowSpacebar = new GuiButton(2, width / 2 - 155, calculateHeight(1), 150, 20,
+        buttonList.add(buttonShowSpacebar = new GuiButton(2, width / 2 - 155, calculateHeight(0), 150, 20,
             "Show spacebar: " + (settings.isShowingSpacebar() ? "On" : "Off")));
 
-        buttonList.add(buttonShowCPS = new GuiButton(3, width / 2 + 5, calculateHeight(1), 150, 20,
+        buttonList.add(buttonShowCPS = new GuiButton(3, width / 2 + 5, calculateHeight(0), 150, 20,
             "Show CPS counter: " + (settings.isShowingCPS() ? "On" : "Off")));
 
-        buttonList.add(buttonShowCPSOnButton = new GuiButton(4, width / 2 - 155, calculateHeight(2), 150, 20,
+        buttonList.add(buttonShowCPSOnButton = new GuiButton(4, width / 2 - 155, calculateHeight(1), 150, 20,
             "Show CPS on buttons: " + (settings.isShowingCPSOnButtons() ? "On" : "Off")));
 
-        buttonList.add(buttonToggleChroma = new GuiButton(5, width / 2 + 5, calculateHeight(2), 150, 20,
+        buttonList.add(buttonToggleChroma = new GuiButton(5, width / 2 + 5, calculateHeight(1), 150, 20,
             "Chroma: " + (settings.isChroma() ? "On" : "Off")));
 
-        buttonList.add(buttonRightClick = new GuiButton(6, width / 2 - 155, calculateHeight(3), 150, 20,
+        buttonList.add(buttonRightClick = new GuiButton(6, width / 2 - 155, calculateHeight(2), 150, 20,
             "Click Counter: " + (settings.isLeftClick() ? "Left" : "Right")));
 
-        buttonList.add(buttonShowSneak = new GuiButton(7, width / 2 + 5, calculateHeight(3), 150, 20,
+        buttonList.add(buttonShowSneak = new GuiButton(7, width / 2 + 5, calculateHeight(2), 150, 20,
             "Show sneak: " + (settings.isShowingSneak() ? "On" : "Off")));
 
-        buttonList.add(buttonShowFPS = new GuiButton(8, width / 2 - 155, calculateHeight(4), 150, 20,
+        buttonList.add(buttonShowFPS = new GuiButton(8, width / 2 - 155, calculateHeight(3), 150, 20,
             "Show FPS: " + (settings.isShowingFPS() ? "On" : "Off")));
 
-        buttonList.add(buttonBackground = new GuiButton(9, width / 2 + 5, calculateHeight(4), 150, 20,
+        buttonList.add(buttonBackground = new GuiButton(9, width / 2 + 5, calculateHeight(3), 150, 20,
             "Key background: " + (settings.isKeyBackgroundEnabled() ? "On" : "Off")));
 
-        buttonList.add(buttonTextColor = new GuiButton(10, width / 2 - 155, calculateHeight(5), 150, 20,
+        buttonList.add(buttonTextColor = new GuiButton(10, width / 2 - 155, calculateHeight(4), 150, 20,
             "Edit text color"));
 
-        buttonList.add(buttonPressedColor = new GuiButton(11, width / 2 + 5, calculateHeight(5), 150, 20,
+        buttonList.add(buttonPressedColor = new GuiButton(11, width / 2 + 5, calculateHeight(4), 150, 20,
             "Edit pressed text color"));
 
-        buttonList.add(new GuiSliderScale(mod, 12, width / 2 - 155, calculateHeight(6), 150, 20, this));
-        buttonList.add(new GuiSliderFadeTime(mod, 13, width / 2 + 5, calculateHeight(6), 150, 20, this));
+        buttonList.add(new GuiSliderScale(mod, 12, width / 2 - 155, calculateHeight(5), 150, 20, this));
+        buttonList.add(new GuiSliderFadeTime(mod, 13, width / 2 + 5, calculateHeight(5), 150, 20, this));
 
-        buttonList.add(buttonShowWASD = new GuiButton(14, width / 2 - 155, calculateHeight(7), 150, 20,
+        buttonList.add(buttonShowWASD = new GuiButton(14, width / 2 - 155, calculateHeight(6), 150, 20,
             "Show WASD: " + (settings.isShowingWASD() ? "On": "Off")));
-        buttonList.add(buttonLiteralKeys = new GuiButton(15, width / 2 + 5, calculateHeight(7), 150, 20,
+        buttonList.add(buttonLiteralKeys = new GuiButton(15, width / 2 + 5, calculateHeight(6), 150, 20,
             "Literal Keys: " + (settings.isUsingLiteralKeys() ? "On": "Off")));
 
-        buttonList.add(new GuiButton(16, width / 2 - 155, calculateHeight(8), 150, 20, "Edit Custom Keys"));
-        buttonList.add(new GuiSliderOpacity(mod, 17, width / 2 + 5, calculateHeight(8), 150, 20, this));
+        buttonList.add(new GuiButton(16, width / 2 - 155, calculateHeight(7), 150, 20, "Edit Custom Keys"));
+        buttonList.add(new GuiSliderOpacity(mod, 17, width / 2 + 5, calculateHeight(7), 150, 20, this));
     }
 
     @Override

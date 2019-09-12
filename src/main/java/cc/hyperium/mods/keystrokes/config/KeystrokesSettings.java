@@ -26,7 +26,6 @@ import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import javafx.scene.layout.Pane;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -345,7 +344,7 @@ public class KeystrokesSettings {
             height -= 18;
         }
 
-        if (!showCPS) {
+        if (!showCPS || showCPSOnButtons) {
             height -= 18;
         }
 

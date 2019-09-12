@@ -39,16 +39,16 @@ public class MotionBlurMod extends AbstractMod {
     private Minecraft mc;
     private Map domainResourceManagers;
 
-    public static boolean isFastRenderEnabled() {
+    static boolean isFastRenderEnabled() {
         try {
             Field fastRender = GameSettings.class.getDeclaredField("ofFastRender");
-            return fastRender.getBoolean(Minecraft.getMinecraft());
+            return fastRender.getBoolean(Minecraft.getMinecraft().gameSettings);
         } catch (Exception var1) {
             return false;
         }
     }
 
-    public static void applyShader() {
+    static void applyShader() {
         HyperiumEntityRenderer.INSTANCE.loadShader(new ResourceLocation("motionblur", "motionblur"));
     }
 
