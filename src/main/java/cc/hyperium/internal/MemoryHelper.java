@@ -21,13 +21,13 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.WorldUnloadEvent;
-import cc.hyperium.mixins.client.renderer.texture.IMixinTextureManager;
 import cc.hyperium.mixins.client.renderer.IMixinThreadDownloadImageData;
-import cc.hyperium.mixinsimp.client.renderer.entity.IMixinRenderManager;
+import cc.hyperium.mixins.client.renderer.texture.IMixinTextureManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -36,6 +36,8 @@ import net.minecraft.launchwrapper.LaunchClassLoader;
 import net.minecraft.util.ResourceLocation;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,65 +55,87 @@ public class MemoryHelper {
 
     @InvokeEvent
     public void worldEvent(WorldUnloadEvent event) {
-        TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
-        Map<ResourceLocation, ITextureObject> mapTextureObjects = ((IMixinTextureManager) textureManager).getMapTextureObjects();
-        List<ResourceLocation> removes = new ArrayList<>();
+        try {
+            TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+            Map<ResourceLocation, ITextureObject> mapTextureObjects = ((IMixinTextureManager) textureManager).getMapTextureObjects();
+            List<ResourceLocation> removes = new ArrayList<>();
 
-        for (ResourceLocation resourceLocation : mapTextureObjects.keySet()) {
-            ITextureObject iTextureObject = mapTextureObjects.get(resourceLocation);
-            if (iTextureObject instanceof ThreadDownloadImageData) {
-                IImageBuffer imageBuffer = ((IMixinThreadDownloadImageData) iTextureObject).getImageBuffer();
-                Class<? extends IImageBuffer> aClass = imageBuffer.getClass();
+            for (ResourceLocation resourceLocation : mapTextureObjects.keySet()) {
+                ITextureObject iTextureObject = mapTextureObjects.get(resourceLocation);
 
-                // Optifine
-                if (aClass.getName().equalsIgnoreCase("CapeImageBuffer")) {
-                    removes.add(resourceLocation);
+                if (iTextureObject instanceof ThreadDownloadImageData) {
+                    IImageBuffer imageBuffer = ((IMixinThreadDownloadImageData) iTextureObject).getImageBuffer();
+
+                    if (imageBuffer == null) continue;
+
+                    Class<? extends IImageBuffer> aClass = imageBuffer.getClass();
+                    // Optifine
+                    if (aClass.getName().equalsIgnoreCase("CapeImageBuffer")) {
+                        removes.add(resourceLocation);
+                    }
                 }
             }
-        }
 
-        removes.forEach(this::deleteSkin);
-        locations.forEach(this::deleteSkin);
+            removes.forEach(this::deleteSkin);
+//            locations.forEach(this::deleteSkin);
 
-        int del = 0;
-        for (RenderPlayer value : ((IMixinRenderManager) Minecraft.getMinecraft().getRenderManager()).getSkinMap().values()) {
-            ModelPlayer mainModel = value.getMainModel();
-            Class<?> superClass = mainModel.getClass().getSuperclass();
-            for (Field field : superClass.getDeclaredFields()) {
-                field.setAccessible(true);
-                try {
-                    Object o = field.get(mainModel);
-                    if (o != null) {
-                        try {
-                            Field entityIn = o.getClass().getSuperclass().getDeclaredField("entityIn");
-                            entityIn.setAccessible(true);
-                            Object o1 = entityIn.get(o);
-                            if (o1 != null) {
-                                entityIn.set(o, null);
-                                del++;
-                            }
-                        } catch (IllegalAccessException | NoSuchFieldException ignored) {
-                        }
+            int size = locations.size();
+            locations.clear();
+
+            int del = 0;
+
+            RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
+            try {
+                Method getSkinMap = renderManager.getClass().getMethod("getSkinMap");
+                Object invoke = getSkinMap.invoke(renderManager);
+                Map<String, RenderPlayer> skinMap = (Map<String, RenderPlayer>) invoke;
+
+                for (RenderPlayer value : skinMap.values()) {
+                    ModelPlayer mainModel = value.getMainModel();
+
+                    Class<?> superClass = mainModel.getClass().getSuperclass();
+
+                    for (Field field : superClass.getDeclaredFields()) {
+                        field.setAccessible(true);
 
                         try {
-                            Field clientPlayer = o.getClass().getSuperclass().getDeclaredField("clientPlayer");
-                            clientPlayer.setAccessible(true);
-                            Object o1 = clientPlayer.get(o);
-                            if (o1 != null) {
-                                clientPlayer.set(o, null);
-                                del++;
+                            Object o = field.get(mainModel);
+                            if (o != null) {
+                                try {
+                                    Field entityIn = o.getClass().getSuperclass().getDeclaredField("entityIn");
+                                    entityIn.setAccessible(true);
+                                    Object o1 = entityIn.get(o);
+                                    if (o1 != null) {
+                                        entityIn.set(o, null);
+                                        del++;
+                                    }
+                                } catch (IllegalAccessException | NoSuchFieldException ignored) {
+                                }
+
+                                try {
+                                    Field clientPlayer = o.getClass().getSuperclass().getDeclaredField("clientPlayer");
+                                    clientPlayer.setAccessible(true);
+                                    Object o1 = clientPlayer.get(o);
+                                    if (o1 != null) {
+                                        clientPlayer.set(o, null);
+                                        del++;
+                                    }
+                                } catch (IllegalAccessException | NoSuchFieldException ignored) {
+                                }
                             }
-                        } catch (IllegalAccessException | NoSuchFieldException ignored) {
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
                         }
                     }
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
                 }
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
             }
-        }
 
-        Hyperium.LOGGER.info("Deleted " + (removes.size() + locations.size() + del) + " cosmetic items / skins");
-        locations.clear();
+            Hyperium.LOGGER.info("Deleted " + (removes.size() + size + del) + " cosmetic items / skins");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @InvokeEvent
