@@ -18,7 +18,7 @@
 package cc.hyperium.mods.keystrokes.keys.impl;
 
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
-import cc.hyperium.mods.keystrokes.keys.IKey;
+import cc.hyperium.mods.keystrokes.keys.AbstractKey;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -28,7 +28,7 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
-public class Key extends IKey {
+public class Key extends AbstractKey {
 
     private final KeyBinding key;
     private boolean wasPressed;
@@ -74,7 +74,8 @@ public class Key extends IKey {
         }
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
-            Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 22, y + yOffset + 22, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+            Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 22, y + yOffset + 22,
+                new Color(0, 0, 0, mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
         }
 
         int keyWidth = 22;
@@ -100,7 +101,7 @@ public class Key extends IKey {
             xPos = (x + xOffset) * scaleFactorRec + 1.0f;
             yPos *= scaleFactorRec;
         } else if (name.length() > 1) {
-            xPos -= stringWidth / 4;
+            xPos -= stringWidth >> 2;
         }
 
         if (mod.getSettings().isChroma()) {

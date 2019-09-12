@@ -107,6 +107,7 @@ public class KeystrokesRenderer {
             boolean showingCPSOnButtons = this.mod.getSettings().isShowingCPSOnButtons();
             boolean showingSneak = mod.getSettings().isShowingSneak();
             boolean showingFPS = mod.getSettings().isShowingFPS();
+            boolean showingWASD = mod.getSettings().isShowingWASD();
             ScaledResolution res = new ScaledResolution(this.mc);
 
             int width = this.mod.getSettings().getWidth();
@@ -135,8 +136,6 @@ public class KeystrokesRenderer {
                 GlStateManager.scale(this.mod.getSettings().getScale(), this.mod.getSettings().getScale(), 1.0);
             }
 
-            this.drawMovementKeys(x, y);
-
             if (showingMouseButtons) {
                 drawMouseButtons(x, y);
             }
@@ -155,6 +154,10 @@ public class KeystrokesRenderer {
 
             if (showingFPS) {
                 drawFPS(x, y);
+            }
+
+            if (showingWASD) {
+                drawMovementKeys(x, y);
             }
 
             y += 130;
@@ -176,6 +179,10 @@ public class KeystrokesRenderer {
 
             if (!showingFPS) {
                y -= 18;
+            }
+
+            if (!showingWASD) {
+                y -= 18;
             }
 
             for (CustomKeyWrapper key : customKeys) {

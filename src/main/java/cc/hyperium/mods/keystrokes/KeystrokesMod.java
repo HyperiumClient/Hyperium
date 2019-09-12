@@ -34,11 +34,13 @@ public class KeystrokesMod extends AbstractMod {
     private KeystrokesSettings config;
     private KeystrokesRenderer renderer;
 
+    public String VERSION = "7.0";
+
     /**
      * Default constructor, this will load the mods metadata
      */
     public KeystrokesMod() {
-        this.metaData = new Metadata(this, "KeystrokesMod", "6.0", "Fyu, boomboompower, Sk1er, asbyth");
+        this.metaData = new Metadata(this, "KeystrokesMod", VERSION, "Fyu, boomboompower, Sk1er, asbyth");
     }
 
     /**
@@ -51,7 +53,7 @@ public class KeystrokesMod extends AbstractMod {
         this.config = new KeystrokesSettings(this, Hyperium.folder);
         this.config.load();
 
-        new Sk1erMod("keystrokesmod", "6.0").checkStatus();
+        new Sk1erMod("keystrokesmod", VERSION).checkStatus();
 
         this.renderer = new KeystrokesRenderer(this);
 
@@ -83,5 +85,9 @@ public class KeystrokesMod extends AbstractMod {
      */
     public KeystrokesRenderer getRenderer() {
         return this.renderer;
+    }
+
+    public String getVersion() {
+        return VERSION;
     }
 }

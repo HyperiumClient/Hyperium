@@ -26,6 +26,7 @@ import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import javafx.scene.layout.Pane;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -59,6 +60,9 @@ public class KeystrokesSettings {
     private boolean showingSneak;
     private boolean showingFPS;
     private boolean keyBackground = true;
+    private boolean showingWASD = true;
+    private boolean literalKeys;
+    private int keyBackgroundOpacity = 120;
     private List<CustomKeyWrapper> configWrappers = new ArrayList<>();
 
     public KeystrokesSettings(KeystrokesMod mod, File directory) {
@@ -128,6 +132,9 @@ public class KeystrokesSettings {
             object.addProperty("showSneak", showingSneak);
             object.addProperty("showFps", showingFPS);
             object.addProperty("keyBackground", keyBackground);
+            object.addProperty("showingWASD", showingWASD);
+            object.addProperty("literalKeys", literalKeys);
+            object.addProperty("keyBackgroundOpacity", keyBackgroundOpacity);
             final JsonArray keys = new JsonArray();
             for (CustomKeyWrapper wrapper : theMod.getRenderer().getCustomKeys()) {
                 JsonHolder holder = new JsonHolder();
@@ -166,6 +173,9 @@ public class KeystrokesSettings {
         showingSneak = object.optBoolean("showSneak");
         showingFPS = object.optBoolean("showFps");
         keyBackground = object.optBoolean("keyBackground", true);
+        showingWASD = object.optBoolean("showingWASD", true);
+        literalKeys = object.optBoolean("literalKeys");
+        keyBackgroundOpacity = object.optInt("keyBackgroundOpacity", 120);
         JsonObject data = object.getData();
         if (data.has("custom")) {
             JsonArray custom = data.getAsJsonArray("custom");
@@ -292,20 +302,55 @@ public class KeystrokesSettings {
     public void setKeyBackgroundEnabled(boolean keyBackground) {
         this.keyBackground = keyBackground;
     }
+    public boolean isShowingWASD() {
+        return showingWASD;
+    }
+    public void setShowingWASD(boolean showingWASD) {
+        this.showingWASD = showingWASD;
+    }
+    public boolean isUsingLiteralKeys() {
+        return literalKeys;
+    }
+    public void setUsingLiteralKeys(boolean literalKeys) {
+        this.literalKeys = literalKeys;
+    }
+    public int getKeyBackgroundOpacity() {
+        return keyBackgroundOpacity;
+    }
+    public void setKeyBackgroundOpacity(int keyBackgroundOpacity) {
+        this.keyBackgroundOpacity = keyBackgroundOpacity;
+    }
 
+    // spaghetti code because it doesnt work otherwise ( why :-( )
     public int getHeight() {
         int height = 50;
 
-        if (showCPS) {
-            height += 18;
+        if (showCPS || showSpacebar || showingFPS) {
+            height += 24;
         }
 
         if (mouseButtons) {
             height += 24;
         }
 
-        if (showSpacebar) {
-            height += 18;
+        if (showingWASD) {
+            height += 48;
+        }
+
+        if (!showingFPS) {
+            height -= 18;
+        }
+
+        if (!showingSneak) {
+            height -= 18;
+        }
+
+        if (!showCPS) {
+            height -= 18;
+        }
+
+        if (!showSpacebar) {
+            height -= 18;
         }
 
         return height;
@@ -332,6 +377,6 @@ public class KeystrokesSettings {
     }
 
     private double capDouble(double valueIn, double minValue, double maxValue) {
-        return (valueIn < minValue) ? minValue : ((valueIn > maxValue) ? maxValue : valueIn);
+        return (valueIn < minValue) ? minValue : (Math.min(valueIn, maxValue));
     }
 }

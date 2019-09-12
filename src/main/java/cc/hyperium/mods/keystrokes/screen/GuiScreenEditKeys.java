@@ -44,12 +44,14 @@ public class GuiScreenEditKeys extends GuiScreen {
     private GuiButton changeType;
     private GuiButton delete;
     private boolean listeningForNewKey;
+    private int previousOpacity;
 
-    public GuiScreenEditKeys(KeystrokesMod mod) {
+    GuiScreenEditKeys(KeystrokesMod mod) {
         this.selected = null;
         this.currentlyDragging = null;
         this.listeningForNewKey = false;
         this.mod = mod;
+        previousOpacity = mod.getSettings().getKeyBackgroundOpacity();
     }
 
     @Override
@@ -61,7 +63,7 @@ public class GuiScreenEditKeys extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 1:
                 CustomKeyWrapper key = new CustomKeyWrapper(new CustomKey(mod, 30, 1), 10, 10);
@@ -132,6 +134,7 @@ public class GuiScreenEditKeys extends GuiScreen {
         if (selected != null) {
             GuiBlock hitbox = selected.getKey().getHitbox().multiply(mod.getSettings().getScale());
             drawRect(hitbox.getLeft(), hitbox.getTop(), hitbox.getRight(), hitbox.getBottom(), Color.WHITE.getRGB());
+            mod.getSettings().setKeyBackgroundOpacity(120);
         }
 
         mod.getRenderer().renderKeystrokes();
@@ -181,6 +184,7 @@ public class GuiScreenEditKeys extends GuiScreen {
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
         currentlyDragging = null;
+        mod.getSettings().setKeyBackgroundOpacity(previousOpacity);
     }
 
     public List<CustomKeyWrapper> getKeys() {

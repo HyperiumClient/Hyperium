@@ -19,7 +19,7 @@ package cc.hyperium.mods.keystrokes.keys.impl;
 
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
-import cc.hyperium.mods.keystrokes.keys.IKey;
+import cc.hyperium.mods.keystrokes.keys.AbstractKey;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -30,7 +30,7 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
-public class CustomKey extends IKey {
+public class CustomKey extends AbstractKey {
 
     private int key;
     private boolean wasPressed;
@@ -85,7 +85,7 @@ public class CustomKey extends IKey {
         }
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
-            Gui.drawRect(left, top, right, bottom, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+            Gui.drawRect(left, top, right, bottom, new Color(0, 0, 0, mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
         }
 
         hitbox.setLeft(left);

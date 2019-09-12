@@ -18,12 +18,12 @@
 package cc.hyperium.mods.keystrokes.keys.impl;
 
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
-import cc.hyperium.mods.keystrokes.keys.IKey;
+import cc.hyperium.mods.keystrokes.keys.AbstractKey;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;
 
-public class FPSKey extends IKey {
+public class FPSKey extends AbstractKey {
 
     public FPSKey(KeystrokesMod mod, int xOffset, int yOffset) {
         super(mod, xOffset, yOffset);
@@ -49,10 +49,14 @@ public class FPSKey extends IKey {
             yOffset -= 24;
         }
 
+        if (!mod.getSettings().isShowingWASD()) {
+            yOffset -= 48;
+        }
+
         int textColor = getColor();
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
-            drawRect(x + xOffset, y + yOffset, x + xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, 120).getRGB());
+            drawRect(x + xOffset, y + yOffset, x + xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, mod.getSettings().getKeyBackgroundOpacity()).getRGB());
         }
 
         String name = (Minecraft.getDebugFPS()) + " FPS";

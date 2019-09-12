@@ -21,6 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.config.KeystrokesSettings;
 import cc.hyperium.mods.keystrokes.screen.impl.GuiSliderFadeTime;
+import cc.hyperium.mods.keystrokes.screen.impl.GuiSliderOpacity;
 import cc.hyperium.mods.keystrokes.screen.impl.GuiSliderScale;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -45,6 +46,8 @@ public class GuiScreenKeystrokes extends GuiScreen {
     private GuiButton buttonShowSneak;
     private GuiButton buttonShowFPS;
     private GuiButton buttonBackground;
+    private GuiButton buttonShowWASD;
+    private GuiButton buttonLiteralKeys;
 
     private boolean dragging;
     private boolean updated;
@@ -85,7 +88,7 @@ public class GuiScreenKeystrokes extends GuiScreen {
             "Click Counter: " + (settings.isLeftClick() ? "Left" : "Right")));
 
         buttonList.add(buttonShowSneak = new GuiButton(7, width / 2 + 5, calculateHeight(3), 150, 20,
-            "Show sneak: " + (settings.isChroma() ? "On" : "Off")));
+            "Show sneak: " + (settings.isShowingSneak() ? "On" : "Off")));
 
         buttonList.add(buttonShowFPS = new GuiButton(8, width / 2 - 155, calculateHeight(4), 150, 20,
             "Show FPS: " + (settings.isShowingFPS() ? "On" : "Off")));
@@ -101,8 +104,14 @@ public class GuiScreenKeystrokes extends GuiScreen {
 
         buttonList.add(new GuiSliderScale(mod, 12, width / 2 - 155, calculateHeight(6), 150, 20, this));
         buttonList.add(new GuiSliderFadeTime(mod, 13, width / 2 + 5, calculateHeight(6), 150, 20, this));
-        buttonList.add(new GuiButton(14, width / 2 - 155, calculateHeight(7), 150, 20, "Edit Custom Keys"));
 
+        buttonList.add(buttonShowWASD = new GuiButton(14, width / 2 - 155, calculateHeight(7), 150, 20,
+            "Show WASD: " + (settings.isShowingWASD() ? "On": "Off")));
+        buttonList.add(buttonLiteralKeys = new GuiButton(15, width / 2 + 5, calculateHeight(7), 150, 20,
+            "Literal Keys: " + (settings.isUsingLiteralKeys() ? "On": "Off")));
+
+        buttonList.add(new GuiButton(16, width / 2 - 155, calculateHeight(8), 150, 20, "Edit Custom Keys"));
+        buttonList.add(new GuiSliderOpacity(mod, 17, width / 2 + 5, calculateHeight(8), 150, 20, this));
     }
 
     @Override
@@ -110,7 +119,7 @@ public class GuiScreenKeystrokes extends GuiScreen {
         drawDefaultBackground();
         this.mod.getRenderer().renderKeystrokes();
 
-        drawCenteredString(mc.fontRendererObj, "Keystrokes v6.0 - Created by Sk1er LLC", width / 2, 5, 16777215);
+        drawCenteredString(mc.fontRendererObj, "Keystrokes v" + mod.getVersion() +" - Created by Sk1er LLC", width / 2, 5, 16777215);
 
         this.buttonTextColor.enabled = !this.mod.getSettings().isChroma();
         this.buttonPressedColor.enabled = !this.mod.getSettings().isChroma();
@@ -258,6 +267,17 @@ public class GuiScreenKeystrokes extends GuiScreen {
                 break;
 
             case 14:
+                settings.setShowingWASD(!settings.isShowingWASD());
+                buttonShowWASD.displayString = "Show WASD: " + (settings.isShowingWASD() ? "On" : "Off");
+                updated = true;
+                break;
+            case 15:
+                settings.setUsingLiteralKeys(!settings.isUsingLiteralKeys());
+                buttonLiteralKeys.displayString = "Literal Keys: " + (settings.isUsingLiteralKeys() ? "On" : "Off");
+                updated = true;
+                break;
+
+            case 16:
                 mc.displayGuiScreen(new GuiScreenEditKeys(mod));
                 break;
         }

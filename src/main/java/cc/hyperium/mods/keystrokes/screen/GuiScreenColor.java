@@ -45,15 +45,6 @@ public class GuiScreenColor extends GuiScreen {
         this.scrollable4 = null;
     }
 
-    GuiScreenColor(KeystrokesMod mod, IScrollable scrollable1, IScrollable scrollable2, IScrollable scrollable3, IScrollable scrollable4) {
-        this.mod = mod;
-
-        this.scrollable1 = scrollable1;
-        this.scrollable2 = scrollable2;
-        this.scrollable3 = scrollable3;
-        this.scrollable4 = scrollable4;
-    }
-
     @Override
     public void initGui() {
         this.buttonList.add(new GuiSlider(0, this.width / 2 - 100, this.height / 2 - 32, 200, 20, "Red: ", "", 0, 255, this.scrollable1.getAmount(), false, true) {
