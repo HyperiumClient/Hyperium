@@ -21,7 +21,6 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -30,7 +29,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +41,6 @@ public class ElementRenderer {
 
     private static final List<Long> clicks = new ArrayList<>();
     private static final List<Long> rClicks = new ArrayList<>();
-    private static final List<Long> mClicks = new ArrayList<>();
     private static double currentScale = 1.0;
     private static int color;
     private static DisplayElement current;
@@ -52,7 +50,6 @@ public class ElementRenderer {
     private final Minecraft minecraft;
     private boolean last;
     private boolean rLast;
-    private boolean mLast;
 
     public ElementRenderer(ChromaHUD mod) {
         this.mod = mod;
@@ -67,7 +64,7 @@ public class ElementRenderer {
         return currentScale;
     }
 
-    public static int getColor(int c, int x) {
+    public static int getColor(int c) {
         return c;
     }
 
@@ -75,20 +72,6 @@ public class ElementRenderer {
         List<String> tmp = new ArrayList<>();
         tmp.add(string);
         draw(x, y, tmp);
-    }
-
-    public static int RGBtoHEX(Color color) {
-        String hex = Integer.toHexString(color.getRGB() & 0xffffff);
-        if (hex.length() < 6) {
-            if (hex.length() == 5)
-                hex = "0" + hex;
-            if (hex.length() == 4)
-                hex = "00" + hex;
-            if (hex.length() == 3)
-                hex = "000" + hex;
-        }
-        hex = "#" + hex;
-        return Integer.decode(hex);
     }
 
     public static void draw(int x, double y, List<String> list) {
@@ -106,15 +89,14 @@ public class ElementRenderer {
             if (current.isChroma()) {
                 drawChromaString(string, x - shift, (int) ty);
             } else {
-                fontRendererObj.drawString(string, (int) (x / currentScale - shift), (int) (ty / currentScale), getColor(color, x), current.isShadow());
+                fontRendererObj.drawString(string, (int) (x / currentScale - shift), (int) (ty / currentScale), getColor(color), current.isShadow());
             }
             ty += 10D * currentScale;
         }
     }
 
-
     // Don't shift, by the time it is here it is already shifted
-    public static void drawChromaString(String text, int xIn, int y) {
+    private static void drawChromaString(String text, int xIn, int y) {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         int x = xIn;
         for (char c : text.toCharArray()) {
@@ -130,10 +112,6 @@ public class ElementRenderer {
         }
     }
 
-
-    private static boolean isChromaInt(int e) {
-        return e >= 0 && e <= 1;
-    }
 
     public static int maxWidth(List<String> list) {
         int max = 0;
@@ -203,14 +181,6 @@ public class ElementRenderer {
         return rClicks.size();
     }
 
-    public static int getMiddleCPS() {
-        Iterator<Long> iterator = mClicks.iterator();
-        while (iterator.hasNext())
-            if (System.currentTimeMillis() - iterator.next() > 1000L)
-                iterator.remove();
-        return mClicks.size();
-    }
-
     @InvokeEvent
     public void tick(TickEvent event) {
         if (Minecraft.getMinecraft().inGameHasFocus) {
@@ -234,10 +204,7 @@ public class ElementRenderer {
 
     }
 
-    // Middle CPS Counter
-
-    public void renderElements() {
-
+    private void renderElements() {
         if (fontRendererObj == null)
             fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
 
@@ -247,15 +214,6 @@ public class ElementRenderer {
             last = m;
             if (m) {
                 clicks.add(System.currentTimeMillis());
-            }
-        }
-
-        // Mouse Button Middle
-        boolean mm = Mouse.isButtonDown(2);
-        if (mm != mLast) {
-            mLast = mm;
-            if (mm) {
-                mClicks.add(System.currentTimeMillis());
             }
         }
 
@@ -269,7 +227,6 @@ public class ElementRenderer {
         }
 
         // Others
-
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         List<DisplayElement> elementList = mod.getDisplayElements();

@@ -24,7 +24,6 @@ import cc.hyperium.mods.chromahud.DisplayElement;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.ChatColor;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -36,7 +35,7 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
@@ -65,7 +64,7 @@ public class DisplayElementConfig extends GuiScreen {
     private boolean mouseLock;
 
 
-    public DisplayElementConfig(DisplayElement element, ChromaHUD mod) {
+    DisplayElementConfig(DisplayElement element, ChromaHUD mod) {
         if (element == null) {
             throw new NullPointerException("Display element is null!");
         }
@@ -75,7 +74,7 @@ public class DisplayElementConfig extends GuiScreen {
         mouseLock = Mouse.isButtonDown(0);
     }
 
-    public void regenImage() {
+    private void regenImage() {
         int dim = 256;
         BufferedImage image = new BufferedImage(dim, dim, BufferedImage.TYPE_INT_RGB);
         for (int x = 0; x < dim; x++) {
@@ -317,14 +316,13 @@ public class DisplayElementConfig extends GuiScreen {
             return;
         if (!element.isColorPallet())
             return;
-        ScaledResolution current = ResolutionUtil.current();
         float scale = scale();
         int left = posX(1);
         int right = posX(2);
         int top = posY(1);
         int bottom = posY(3);
-        float x = 0;
-        float y = 0;
+        float x;
+        float y;
         if (mouseX > left && mouseX < right) {
             if (mouseY > top && mouseY < bottom) {
                 x = mouseX - left;
@@ -381,7 +379,6 @@ public class DisplayElementConfig extends GuiScreen {
         int top = posY(2);
         int right = posX(2);
         int size = right - left;
-        int bottom = posY(3);
         if (element.isRGB()) {
             int start_y = Math.max((int) (current.getScaledHeight_double() * .1) - 20, 5) + 22 * 8 + 25;
 
@@ -416,7 +413,7 @@ public class DisplayElementConfig extends GuiScreen {
 
 
     //Method vars to make things nice and easy
-    public int availableSpace() {
+    private int availableSpace() {
         ScaledResolution current = ResolutionUtil.current();
         int yMin = current.getScaledHeight() - 15 - startY();
         if (yMin + 20 > current.getScaledWidth())
