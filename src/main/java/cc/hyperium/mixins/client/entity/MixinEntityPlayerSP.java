@@ -36,7 +36,6 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(EntityPlayerSP.class)
 public class MixinEntityPlayerSP extends AbstractClientPlayer {
 
-    @Shadow protected Minecraft mc;
     @Shadow public float prevTimeInPortal;
     @Shadow public float timeInPortal;
 
@@ -77,8 +76,8 @@ public class MixinEntityPlayerSP extends AbstractClientPlayer {
     }
 
     /**
-     * @reason Fix MC-7519
      * @author SiroQ
+     * @reason Fix MC-7519
      */
     @Override
     public void removePotionEffectClient(int potionId) {

@@ -196,9 +196,6 @@ public class ElementRenderer {
             return;
         }
 
-        if (!Settings.SHOW_CHROMAHUD)
-            return;
-
         renderElements();
         GlStateManager.resetColor();
 

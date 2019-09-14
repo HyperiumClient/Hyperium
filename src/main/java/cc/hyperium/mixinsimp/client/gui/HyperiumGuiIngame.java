@@ -37,6 +37,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class HyperiumGuiIngame {
     public static boolean renderScoreboard = true;
 
+    public static boolean renderHealth = true;
+    public static boolean renderFood = true;
+    public static boolean renderArmor = true;
+
     private GuiIngame parent;
 
     public HyperiumGuiIngame(GuiIngame parent) {

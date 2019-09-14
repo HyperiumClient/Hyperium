@@ -323,10 +323,6 @@ public class Settings {
     public static boolean DISABLE_DANCES;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.showchromahud", category = CHROMAHUD, mods = true)
-    public static boolean SHOW_CHROMAHUD = true;
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.directionhudshort", category = CHROMAHUD, mods = true)
     public static boolean SHORT_DIRECTION_HUD;
 

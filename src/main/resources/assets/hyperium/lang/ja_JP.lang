@@ -158,7 +158,6 @@ gui.settings.showdragonhead=Show Dragon Head
 gui.settings.wingsheight=Wings Height
 gui.settings.showwings=Show Wings
 gui.settings.wingsscale=Wings Scale
-gui.settings.showchromahud=Show ChromaHUD
 gui.settings.mainmenustyle=Main Menu Style
 gui.settings.pausemenustyle=Pause Menu Style
 gui.settings.updatenotificationsinhyperiumsettings=Update Notifications in Hyperium Settings

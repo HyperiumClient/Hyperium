@@ -158,7 +158,6 @@ gui.settings.showdragonhead=Pokazi glavu zmaja
 gui.settings.wingsheight=Visina krila
 gui.settings.showwings=Pokaži krila
 gui.settings.wingsscale=Razmjera krila
-gui.settings.showchromahud=Pokaži ChromaHUD
 gui.settings.mainmenustyle=Glavni stil izbornika
 gui.settings.pausemenustyle=Pauzirati stil izbornik
 gui.settings.updatenotificationsinhyperiumsettings=Obavijesti ažuriranje u Hyperium postavke

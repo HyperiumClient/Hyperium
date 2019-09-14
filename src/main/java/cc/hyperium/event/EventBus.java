@@ -109,14 +109,6 @@ public class EventBus {
      *
      * @param event Event that is being posted
      */
-
-
-    /**
-     * Invokes all of the methods which are inside of the classes
-     * registered to the event
-     *
-     * @param event Event that is being posted
-     */
     public void post(Object event) {
         if (event == null) {
             return;

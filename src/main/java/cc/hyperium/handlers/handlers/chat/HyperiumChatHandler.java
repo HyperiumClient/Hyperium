@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 public abstract class HyperiumChatHandler {
 
     // Resource *should* be loaded by then so
-    protected static Map<ChatRegexType, Pattern> regexPatterns;
+    static Map<ChatRegexType, Pattern> regexPatterns;
 
     public Hyperium getHyperium() {
         return Hyperium.INSTANCE;

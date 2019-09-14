@@ -17,7 +17,6 @@
 
 package cc.hyperium.mods.chromahud.displayitems.hyperium;
 
-import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -58,6 +57,5 @@ public class PlayerDisplay extends DisplayItem {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableDepth();
         GlStateManager.popMatrix();
-        ElementRenderer.draw(x, y, "");
     }
 }

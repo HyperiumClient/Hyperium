@@ -46,8 +46,6 @@ public class HyperiumTweaker implements ITweaker {
     private boolean isRunningOptifine = Launch.classLoader.getTransformers().stream()
         .anyMatch(p -> p.getClass().getName().contains("optifine"));
 
-    private boolean OPTIFINE;
-
     public HyperiumTweaker() {
         INSTANCE = this;
     }
@@ -81,7 +79,6 @@ public class HyperiumTweaker implements ITweaker {
         Mixins.addConfiguration("mixins.hyperium.json");
 
         if (this.isRunningOptifine) {
-            this.OPTIFINE = true;
 
             environment.setObfuscationContext("notch"); // Switch's to notch mappings
         }
@@ -101,7 +98,7 @@ public class HyperiumTweaker implements ITweaker {
 
     @Override
     public String[] getLaunchArguments() {
-        if (OPTIFINE) {
+        if (isRunningOptifine) {
             return new String[0];
         } else {
             return args.toArray(new String[]{});
@@ -121,6 +118,6 @@ public class HyperiumTweaker implements ITweaker {
     }
 
     public boolean isUsingOptifine() {
-        return OPTIFINE;
+        return isRunningOptifine;
     }
 }

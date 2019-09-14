@@ -158,7 +158,6 @@ gui.settings.showdragonhead=إظهار رأس التنين
 gui.settings.wingsheight=ارتفاع أجنحة
 gui.settings.showwings=إظهار الأجنحة
 gui.settings.wingsscale=مقياس أجنحة
-gui.settings.showchromahud=إظهار ChromaHud
 gui.settings.mainmenustyle=نمط القائمة الرئيسية
 gui.settings.pausemenustyle=نمط القائمة وقفه
 gui.settings.updatenotificationsinhyperiumsettings=تحديث الإشعارات في إعدادات Hyperium

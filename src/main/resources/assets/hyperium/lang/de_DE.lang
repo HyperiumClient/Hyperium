@@ -158,7 +158,6 @@ gui.settings.showdragonhead=Drachenkopf anzeigen
 gui.settings.wingsheight=Flügelhöhe
 gui.settings.showwings=Flügel anzeigen
 gui.settings.wingsscale=Flügelgröße
-gui.settings.showchromahud=ChromaHUD anzeigen
 gui.settings.mainmenustyle=Hauptmenü-Style
 gui.settings.pausemenustyle=Pausenmenü-Style
 gui.settings.updatenotificationsinhyperiumsettings=Benachrichtigungen in den Hyperium-Einstellungen aktualisieren
