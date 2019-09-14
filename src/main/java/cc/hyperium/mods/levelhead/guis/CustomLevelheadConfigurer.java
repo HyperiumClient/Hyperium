@@ -80,6 +80,7 @@ public class CustomLevelheadConfigurer extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
         header.drawTextBox();
         level.drawTextBox();
@@ -152,6 +153,11 @@ public class CustomLevelheadConfigurer extends GuiScreen {
         if (consumer != null) {
             clicks.put(button, consumer);
         }
+    }
+
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
     }
 
     public int nextId() {
