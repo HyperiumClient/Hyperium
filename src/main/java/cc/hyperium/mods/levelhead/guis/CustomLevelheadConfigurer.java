@@ -57,8 +57,8 @@ public class CustomLevelheadConfigurer extends GuiScreen {
         });
         Multithreading.runAsync(() -> levelheadPropose = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/levelhead_propose" + mc.getSession().getProfile().getId().toString().replace("-", ""))));
         Multithreading.runAsync(() -> {
-            LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/levelhead" + mc.getSession().getProfile().getId().toString().replace("-", "")));
-            if (!jsonHolder.optBoolean("levelhead")) {
+            LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelheadv5/" + mc.getSession().getProfile().getId().toString().replace("-", "") + "/LEVEL"));
+            if (!jsonHolder.has("uuid")) {
                 if (mc.currentScreen instanceof CustomLevelheadConfigurer) {
                     mc.displayGuiScreen(null);
                     Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("You must purchase Custom Levelhead to use this!");
