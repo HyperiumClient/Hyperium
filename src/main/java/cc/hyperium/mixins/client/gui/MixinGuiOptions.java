@@ -32,7 +32,7 @@ public class MixinGuiOptions extends GuiScreen {
     private HyperiumGuiOptions hyperiumGuiOptions = new HyperiumGuiOptions((GuiOptions) (Object) this);
 
     /**
-     * @reason Snap done to bottom of the screen
+     * @reason Snap done under the other top buttons
      */
     @Inject(method = "initGui", at = @At(value = "RETURN"))
     private void initGui(CallbackInfo c) {
