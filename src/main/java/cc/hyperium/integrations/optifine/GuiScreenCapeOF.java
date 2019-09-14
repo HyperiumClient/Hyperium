@@ -19,8 +19,8 @@ public class GuiScreenCapeOF extends GuiScreen {
     @Override
     public void initGui() {
         buttonList.clear();
-        buttonList.add(new GuiButton(0, width / 2 - 155, calculateHeight(4), 155, 20, I18n.format("gui.optifinecape.opencape")));
-        buttonList.add(new GuiButton(1, width / 2 + 5, calculateHeight(4), 155, 20, I18n.format("gui.done")));
+        buttonList.add(new GuiButton(0, width / 2 - 155, calculateHeight(), 155, 20, I18n.format("gui.optifinecape.opencape")));
+        buttonList.add(new GuiButton(1, width / 2 + 5, calculateHeight(), 155, 20, I18n.format("gui.done")));
     }
 
     @Override
@@ -49,7 +49,6 @@ public class GuiScreenCapeOF extends GuiScreen {
                     Minecraft.getMinecraft().getSessionService().joinServer(gameProfile, accessToken, serverId);
                     String urlStr = "https://optifine.net/capeChange?u=" + userId + "&n=" + username + "&s=" + serverId;
                     Desktop.getDesktop().browse(new URL(urlStr).toURI());
-                    drawCenteredString(mc.fontRendererObj, I18n.format("gui.optifinecape.openedbrowser"), width / 2, calculateHeight(3), -1);
                 } catch (AuthenticationException | URISyntaxException e) {
                     e.printStackTrace();
                 }
@@ -62,7 +61,7 @@ public class GuiScreenCapeOF extends GuiScreen {
         }
     }
 
-    private int calculateHeight(int row) {
-        return 55 + row * 23;
+    private int calculateHeight() {
+        return 55 + 4 * 23;
     }
 }

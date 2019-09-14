@@ -244,4 +244,3 @@ message.purchase=Purchase %s
 #Optifine Integration
 gui.optifinecape.opencape=Open Cape Editor
 gui.optifinecape.capebutton=Optifine Cape
-gui.optifinecape.openedbrowser=Opened in Browser

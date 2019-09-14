@@ -239,3 +239,7 @@ message.alreadypurchased=Already purchased %s
 message.invalidparticle=Invalid current particle type
 message.invalidanimation=Invalid animation type
 message.purchase=Purchase %s
+
+# Optifine Integration
+gui.optifinecape.opencape=Open Cape Editor
+gui.optifinecape.capebutton=Optifine Cape
