@@ -22,6 +22,13 @@ import java.awt.image.BufferedImage;
 
 public class HyperiumCapeUtils {
 
+    /**
+     * Create a more performance-favoring cape parser that allows for
+     * high-definition images to be applied
+     *
+     * @param img the buffered image
+     * @return the cape image
+     */
     public static BufferedImage parseCape(final BufferedImage img) {
         int imageWidth = 64;
         int imageHeight = 32;

@@ -24,13 +24,29 @@ import java.lang.reflect.Field;
 
 public class GlStateModifier implements IGlStateModifier {
 
+    // Create an instance to be used in other classes
     public static final IGlStateModifier INSTANCE = new GlStateModifier();
+
+    // Array of fields and such that are retrieved through Reflection
     private Object[] theArray;
+
+    // textureName in GlStateManager
     private Field textureNamefield;
+
+    // redColor in GlStateManager
     private Field redColorField;
+
+    // colorState in GlStateManager
     private Object colorStateObject;
+
+    // activeTextureUnit in GlStateManager
     private Field activeTextureUnitField;
 
+    /**
+     * Get textureName through reflection to allow for accessibility
+     *
+     * @param id Texture ic
+     */
     public void setTexture(int id) {
         if (theArray == null) {
             try {
@@ -84,6 +100,9 @@ public class GlStateModifier implements IGlStateModifier {
 
     }
 
+    /**
+     * Reset the color
+     */
     @Override
     public void resetColor() {
         if (colorStateObject == null) {
@@ -140,6 +159,9 @@ public class GlStateModifier implements IGlStateModifier {
         }
     }
 
+    /**
+     * Reset the texture
+     */
     public void reset() {
         setTexture(-1);
     }

@@ -23,6 +23,11 @@ import net.minecraft.network.play.client.C01PacketChatMessage;
 
 public class ChatUtil {
 
+    /**
+     * Send a message using the C01PacketChatMessage
+     *
+     * @param msg a string that the user inputs
+     */
     public static void sendMessage(String msg) {
         final C01PacketChatMessage packet = new C01PacketChatMessage(msg);
         ((MixinC01PacketChatMessage) packet).setMessage(msg);
