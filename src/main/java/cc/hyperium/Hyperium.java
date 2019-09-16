@@ -49,7 +49,6 @@ import cc.hyperium.netty.UniversalNetty;
 import cc.hyperium.network.LoginReplyHandler;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
-import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.CompactChat;
@@ -232,22 +231,12 @@ public class Hyperium {
             // Set the window title
             Display.setTitle("Hyperium " + Metadata.getVersion());
 
-            // Create a tray item
-            TrayManager trayManager = new TrayManager();
-            SplashProgress.setProgress(8, I18n.format("splashprogress.initializingtrayicon"));
-            try {
-                trayManager.init();
-            } catch (Exception e) {
-                e.printStackTrace();
-                LOGGER.warn("[Tray] Failed to hookup TrayIcon");
-            }
-
-            SplashProgress.setProgress(9, I18n.format("splashprogress.registeringconfiguration"));
+            SplashProgress.setProgress(8, I18n.format("splashprogress.registeringconfiguration"));
 
             // Register the settings
             Settings.register();
             CONFIG.register(new ColourOptions());
-            SplashProgress.setProgress(10, I18n.format("splashprogress.registeringcommands"));
+            SplashProgress.setProgress(9, I18n.format("splashprogress.registeringcommands"));
 
             // Register all the default commands
             registerCommands();
@@ -255,7 +244,7 @@ public class Hyperium {
             // Initialize the Purchase API
             EventBus.INSTANCE.register(PurchaseApi.getInstance());
 
-            SplashProgress.setProgress(11, I18n.format("splashprogress.loadingintegrations"));
+            SplashProgress.setProgress(10, I18n.format("splashprogress.loadingintegrations"));
 
             // Register mods & addons
             modIntegration = new HyperiumModIntegration();
@@ -280,7 +269,7 @@ public class Hyperium {
                 sk1erMod.checkStatus();
             }
 
-            SplashProgress.setProgress(12, I18n.format("splashprogress.finishing"));
+            SplashProgress.setProgress(11, I18n.format("splashprogress.finishing"));
 
             // Load the previous chat session
             loadPreviousChatFile();

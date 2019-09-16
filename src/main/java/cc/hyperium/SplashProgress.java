@@ -33,11 +33,22 @@ import java.awt.Font;
 
 public class SplashProgress {
 
-    private static final int DEFAULT_MAX = 12;
+    // Max amount of progress updates
+    private static final int DEFAULT_MAX = 11;
+
+    // Current progress
     private static int PROGRESS;
+
+    // Currently displayed progress text
     private static String CURRENT = "";
+
+    // Background texture
     private static ResourceLocation splash;
+
+    // Texture manager
     private static TextureManager ctm;
+
+    // Font renderer
     private static HyperiumFontRenderer sfr;
 
     /**
