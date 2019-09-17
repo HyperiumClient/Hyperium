@@ -21,6 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Category;
 import cc.hyperium.config.Settings;
+import cc.hyperium.gui.GuiHyperiumScreen;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.MaterialTextField;
@@ -28,18 +29,14 @@ import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
 import cc.hyperium.gui.hyperium.tabs.ShopTab;
 import cc.hyperium.handlers.handlers.SettingsHandler;
-import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.io.IOException;
@@ -148,7 +145,16 @@ public class HyperiumMainGui extends HyperiumGui {
         int xg = (width / 11);   // X grid
 
         if (Minecraft.getMinecraft().theWorld == null) {
-            renderHyperiumBackground(ResolutionUtil.current());
+            GlStateManager.disableDepth();
+            GlStateManager.depthMask(false);
+            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.disableAlpha();
+            GuiHyperiumScreen.renderBackgroundImage();
+            GlStateManager.depthMask(true);
+            GlStateManager.enableDepth();
+            GlStateManager.enableAlpha();
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         }
 
         GlStateModifier.INSTANCE.reset();
@@ -164,13 +170,10 @@ public class HyperiumMainGui extends HyperiumGui {
         Icons.LIGHTBULB_SOLID.bind();
         drawRect(x1 - 3, 0, x1 + w + 3, yg, new Color(0, 0, 0, 50).getRGB());
 
+        /* Render shadowed bar at top of screen */
         drawScaledCustomSizeModalRect(x1, 0, 0, 0, 88, 128, w,
             yg, 88, 128);
-        /* Render shadowed bar at top of screen */
-        if (Minecraft.getMinecraft().theWorld == null) {
-            this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
-            this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
-        }
+
         /* Render Header */
         drawRect(xg, yg, xg * 10, yg * 2, new Color(0, 0, 0, Settings.SETTINGS_ALPHA).getRGB());
         drawRect(xg, yg * 2, xg * 10, yg * 9, new Color(0, 0, 0, Settings.SETTINGS_ALPHA / 2).getRGB());
@@ -272,33 +275,6 @@ public class HyperiumMainGui extends HyperiumGui {
             }
         }
         searchField.onClick(mouseX, mouseY, mouseButton);
-    }
-
-    private void renderHyperiumBackground(ScaledResolution sr) {
-        GlStateManager.disableDepth();
-        GlStateManager.depthMask(false);
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.disableAlpha();
-
-        if (Settings.BACKGROUND.equalsIgnoreCase("default")) {
-            drawDefaultBackground();
-        } else {
-            Minecraft.getMinecraft().getTextureManager().bindTexture(background);
-            Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(0.0D, sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-            worldrenderer.pos(sr.getScaledWidth(), sr.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-            worldrenderer.pos(sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
-            worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
-            tessellator.draw();
-        }
-
-        GlStateManager.depthMask(true);
-        GlStateManager.enableDepth();
-        GlStateManager.enableAlpha();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     public HyperiumFontRenderer getFont() {

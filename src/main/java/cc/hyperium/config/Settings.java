@@ -225,7 +225,7 @@ public class Settings {
             "4",
             "5",
             "6",
-            "DEFAULT"
+            "CUSTOM"
         }
     )
     public static String BACKGROUND = "4";
@@ -494,8 +494,16 @@ public class Settings {
     public static boolean DISABLE_SHADOW_TEXT;
 
     @ConfigOpt
-    @ToggleSetting(name ="gui.settings.shinypotions.matchcolor", category = ANIMATIONS)
-    public static boolean SHINY_POTS_MATCH_COLOR = false;
+    @ToggleSetting(name = "gui.settings.shinypotions.matchcolor", category = ANIMATIONS)
+    public static boolean SHINY_POTS_MATCH_COLOR;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.automyposition.enabled", category = AUTOMYPOSITION, mods = true)
+    public static boolean AUTO_MY_POSITION;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.automyposition.delay", min = 0, max = 5, category = AUTOMYPOSITION, mods = true)
+    public static int AUTO_MY_POSITION_DELAY = 2;
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);

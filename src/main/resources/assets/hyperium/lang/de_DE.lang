@@ -211,6 +211,8 @@ gui.settings.portalsounds=Disable Portal Sounds
 gui.settings.disableachievements=Disable Achievements
 gui.settings.disableshadowtext=Disable Shadowed Text
 gui.settings.shinypotions.matchcolor=Shiny Potions - Match Potion Color
+gui.settings.automyposition.enabled=Auto MyPosition
+gui.settings.automyposition.delay=Delay
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Spiel wird gestartet...

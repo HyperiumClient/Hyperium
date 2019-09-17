@@ -50,6 +50,7 @@ public enum Category {
     TOGGLESPRINT("Toggle Sprint"),
     CHUNK_ANIMATOR("Chunk Animator"),
     LEVELHEAD("Levelhead"),
+    AUTOMYPOSITION("Auto MyPosition"),
     OTHER("Other");
 
     private String display;
