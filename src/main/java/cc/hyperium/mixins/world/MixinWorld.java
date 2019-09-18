@@ -18,11 +18,15 @@
 package cc.hyperium.mixins.world;
 
 import cc.hyperium.config.Settings;
+import cc.hyperium.event.EntityJoinWorldEvent;
+import cc.hyperium.event.EventBus;
 import cc.hyperium.mixinsimp.world.HyperiumWorld;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldInfo;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,11 +35,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Collection;
+import java.util.List;
+
 @Mixin(World.class)
 public abstract class MixinWorld {
 
-    @Shadow
-    protected WorldInfo worldInfo;
+    @Shadow protected WorldInfo worldInfo;
+    @Shadow @Final public List<Entity> loadedEntityList;
+    @Shadow protected abstract void onEntityAdded(Entity entityIn);
 
     private HyperiumWorld hyperiumWorld = new HyperiumWorld();
 
@@ -97,6 +105,34 @@ public abstract class MixinWorld {
     private void setLightValueInt(CallbackInfoReturnable<Integer> cir) {
         if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) {
             cir.setReturnValue(15);
+        }
+    }
+
+    @Inject(method = "joinEntityInSurroundings", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", shift = At.Shift.BEFORE))
+    private void joinEntityInSurroundings(Entity entityIn, CallbackInfo ci) {
+        EventBus.INSTANCE.post(new EntityJoinWorldEvent(Minecraft.getMinecraft().theWorld.init(), entityIn));
+    }
+
+    @Inject(method = "spawnEntityInWorld", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/World;getChunkFromChunkCoords(II)Lnet/minecraft/world/chunk/Chunk;", shift = At.Shift.BEFORE))
+    private void spawnEntityInWorld(Entity entityIn, CallbackInfoReturnable<Boolean> cir) {
+        EventBus.INSTANCE.post(new EntityJoinWorldEvent(Minecraft.getMinecraft().theWorld.init(), entityIn));
+    }
+
+    /**
+     * @author asbyth
+     * @reason Post event
+     */
+    @Overwrite
+    public void loadEntities(Collection<Entity> entityCollection) {
+        for (Entity entity : entityCollection) {
+            EntityJoinWorldEvent event = new EntityJoinWorldEvent(Minecraft.getMinecraft().theWorld.init(), entity);
+            EventBus.INSTANCE.post(event);
+
+            if (!event.isCancelled()) {
+                loadedEntityList.add(entity);
+                onEntityAdded(entity);
+            }
         }
     }
 }
