@@ -108,15 +108,15 @@ public abstract class MixinWorld {
         }
     }
 
-    @Inject(method = "joinEntityInSurroundings", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", shift = At.Shift.BEFORE))
+    @Inject(method = "joinEntityInSurroundings", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER))
     private void joinEntityInSurroundings(Entity entityIn, CallbackInfo ci) {
-        EventBus.INSTANCE.post(new EntityJoinWorldEvent(Minecraft.getMinecraft().theWorld.init(), entityIn));
+        EventBus.INSTANCE.post(new EntityJoinWorldEvent((World) (Object) this, entityIn));
     }
 
     @Inject(method = "spawnEntityInWorld", at = @At(value = "INVOKE",
-        target = "Lnet/minecraft/world/World;getChunkFromChunkCoords(II)Lnet/minecraft/world/chunk/Chunk;", shift = At.Shift.BEFORE))
+        target = "Lnet/minecraft/world/World;getChunkFromChunkCoords(II)Lnet/minecraft/world/chunk/Chunk;", shift = At.Shift.AFTER))
     private void spawnEntityInWorld(Entity entityIn, CallbackInfoReturnable<Boolean> cir) {
-        EventBus.INSTANCE.post(new EntityJoinWorldEvent(Minecraft.getMinecraft().theWorld.init(), entityIn));
+        EventBus.INSTANCE.post(new EntityJoinWorldEvent((World) (Object) this, entityIn));
     }
 
     /**
@@ -126,7 +126,7 @@ public abstract class MixinWorld {
     @Overwrite
     public void loadEntities(Collection<Entity> entityCollection) {
         for (Entity entity : entityCollection) {
-            EntityJoinWorldEvent event = new EntityJoinWorldEvent(Minecraft.getMinecraft().theWorld.init(), entity);
+            EntityJoinWorldEvent event = new EntityJoinWorldEvent((World) (Object) this, entity);
             EventBus.INSTANCE.post(event);
 
             if (!event.isCancelled()) {
