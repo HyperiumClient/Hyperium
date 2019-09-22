@@ -114,7 +114,7 @@ public abstract class MixinWorld {
     }
 
     @Inject(method = "spawnEntityInWorld", at = @At(value = "INVOKE",
-        target = "Lnet/minecraft/world/World;getChunkFromChunkCoords(II)Lnet/minecraft/world/chunk/Chunk;", shift = At.Shift.AFTER))
+        target = "Lnet/minecraft/world/World;getChunkFromChunkCoords(II)Lnet/minecraft/world/chunk/Chunk;", shift = At.Shift.BEFORE))
     private void spawnEntityInWorld(Entity entityIn, CallbackInfoReturnable<Boolean> cir) {
         EventBus.INSTANCE.post(new EntityJoinWorldEvent((World) (Object) this, entityIn));
     }
