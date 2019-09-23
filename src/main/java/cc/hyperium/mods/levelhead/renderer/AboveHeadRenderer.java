@@ -19,6 +19,7 @@ package cc.hyperium.mods.levelhead.renderer;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
+import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.mods.levelhead.Levelhead;
@@ -28,6 +29,7 @@ import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.purchases.packages.EarsCosmetic;
+import club.sk1er.website.api.requests.HypixelApiPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -40,10 +42,13 @@ import net.minecraft.scoreboard.Scoreboard;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.util.concurrent.ExecutionException;
 
 public class AboveHeadRenderer {
 
     private Levelhead levelhead;
+
+    double statusoffset = 0;
 
     public AboveHeadRenderer(Levelhead levelhead) {
         this.levelhead = levelhead;
@@ -59,6 +64,20 @@ public class AboveHeadRenderer {
         }
 
         EntityPlayer player = event.getEntity();
+        try {
+            HypixelApiPlayer apiPlayer = HypixelAPI.INSTANCE.getPlayer(player.getName()).get();
+            if (apiPlayer.isValid()) {
+                if (apiPlayer.getRoot().has("headStatus")) {
+                    statusoffset = .3;
+                } else {
+                    statusoffset = 0;
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         int o = 0;
 
         for (AboveHeadDisplay display : levelhead.getDisplayManager().getAboveHead()) {
@@ -91,6 +110,7 @@ public class AboveHeadRenderer {
                     }
 
                     if (player.getUniqueID().equals(levelhead.userUuid) && !Settings.SHOW_OWN_NAME) offset -= .3;
+                    offset += statusoffset;
                     if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(event.getEntity().getUniqueID())) {
                         HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
                         if (packageIfReady != null) {
