@@ -69,12 +69,13 @@ public class CPSKey extends AbstractKey {
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
             Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16,
-                new Color(0, 0, 0, mod.getSettings().getKeyBackgroundOpacity()).getRGB());
+                new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                    mod.getSettings().getKeyBackgroundOpacity()).getRGB());
         }
 
         String name = (this.mod.getSettings().isLeftClick() ? this.getLeftCPS() : this.getRightCPS()) + " CPS";
         if (this.mod.getSettings().isChroma()) {
-            this.drawChromaString(name, x + (this.xOffset + 70) / 2 - this.mc.fontRendererObj.getStringWidth(name) / 2, y + (yOffset + 4));
+            drawChromaString(name, ((x + (this.xOffset + 70) / 2) - this.mc.fontRendererObj.getStringWidth(name) / 2), y + (yOffset + 4), 1.0F);
         } else {
             this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + (yOffset + 4), textColor);
         }

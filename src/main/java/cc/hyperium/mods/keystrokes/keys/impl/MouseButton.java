@@ -73,8 +73,15 @@ public class MouseButton extends AbstractKey {
         }
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
-            Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 34, y + yOffset + 22,
-                new Color(0, 0, 0, mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
+            if (mod.getSettings().getKeyBackgroundRed() == 0 && mod.getSettings().getKeyBackgroundGreen() == 0 && mod.getSettings().getKeyBackgroundBlue() == 0) {
+                Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 34, y + yOffset + 22,
+                    new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                        mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
+            } else {
+                Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 34, y + yOffset + 22,
+                    new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                        mod.getSettings().getKeyBackgroundOpacity()).getRGB());
+            }
         }
 
         int red = textColor >> 16 & 255;
@@ -83,14 +90,15 @@ public class MouseButton extends AbstractKey {
 
         int colorN = new Color(0, 0, 0).getRGB() + ((int) ((double) red * textBrightness) << 16) + ((int) ((double) green * textBrightness) << 8) + (int) ((double) blue * textBrightness);
 
-        if (this.mod.getSettings().isShowingCPSOnButtons()) {
+        if (this.mod.getSettings().isShowingCPSOnButtons() && mod.getSettings().isShowingCPS()) {
             final int round = Math.round(y / 0.5f + yOffset / 0.5f + 28.0f);
             if (this.mod.getSettings().isChroma()) {
-                drawChromaString(name, x + this.xOffset + 8, y + yOffset + 4);
+                drawChromaString(name, x + this.xOffset + 8, y + yOffset + 4, 1.0F);
                 GL11.glPushMatrix();
                 GL11.glScalef(0.5f, 0.5f, 0.0f);
-                drawChromaString((name.equals(MouseButton.BUTTONS[0]) ? this.mod.getRenderer().getCPSKeys()[0].getLeftCPS() :
-                    this.mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + this.xOffset / 0.5f + 20.0f), round);
+                drawChromaString((name.equals(BUTTONS[0]) ? this.mod.getRenderer().getCPSKeys()[0].getLeftCPS() :
+                        this.mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + this.xOffset / 0.5f + 10 / 0.5f),
+                    round, .5);
                 GL11.glPopMatrix();
             } else {
                 mc.fontRendererObj.drawString(name, x + this.xOffset + 8, y + yOffset + 4, pressed ? pressedColor : colorN);
@@ -102,7 +110,7 @@ public class MouseButton extends AbstractKey {
             }
         } else {
             if (this.mod.getSettings().isChroma()) {
-                drawChromaString(name, x + this.xOffset + 8, y + yOffset + 8);
+                drawChromaString(name, x + this.xOffset + 8, y + yOffset + 8, 1.0F);
             } else {
                 this.mc.fontRendererObj.drawString(name, x + this.xOffset + 8, y + yOffset + 8, pressed ? pressedColor : colorN);
             }

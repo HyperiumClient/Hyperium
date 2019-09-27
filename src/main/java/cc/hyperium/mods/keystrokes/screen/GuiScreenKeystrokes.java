@@ -17,7 +17,6 @@
 
 package cc.hyperium.mods.keystrokes.screen;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.config.KeystrokesSettings;
 import cc.hyperium.mods.keystrokes.screen.impl.GuiSliderFadeTime;
@@ -29,7 +28,7 @@ import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
 
-public class GuiScreenKeystrokes extends GuiScreen {
+public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
 
     private final KeystrokesMod mod;
     private final Minecraft mc;
@@ -40,17 +39,17 @@ public class GuiScreenKeystrokes extends GuiScreen {
     private GuiButton buttonToggleChroma;
     private GuiButton buttonShowCPS;
     private GuiButton buttonShowCPSOnButton;
-    private GuiButton buttonTextColor;
-    private GuiButton buttonPressedColor;
+    private GuiButton buttonColors;
     private GuiButton buttonRightClick;
-    private GuiButton buttonShowSneak;
-    private GuiButton buttonShowFPS;
-    private GuiButton buttonBackground;
+    private GuiButton buttonSneak;
+    private GuiButton buttonFPS;
+    private GuiButton buttonKeyBackground;
     private GuiButton buttonShowWASD;
     private GuiButton buttonLiteralKeys;
+    private GuiButton buttonArrowKeys;
 
-    private boolean dragging;
-    private boolean updated;
+    private boolean dragging = false;
+    private boolean updated = false;
     private int lastMouseX;
     private int lastMouseY;
 
@@ -65,53 +64,49 @@ public class GuiScreenKeystrokes extends GuiScreen {
 
         KeystrokesSettings settings = this.mod.getSettings();
 
-
         buttonList.add(buttonEnabled = new GuiButton(0, width / 2 - 155, calculateHeight(-1), 150, 20,
             "Keystrokes: " + (settings.isEnabled() ? "On" : "Off")));
-
         buttonList.add(buttonShowMouseButtons = new GuiButton(1, width / 2 + 5, calculateHeight(-1), 150, 20,
             "Show mouse buttons: " + (settings.isShowingMouseButtons() ? "On" : "Off")));
 
         buttonList.add(buttonShowSpacebar = new GuiButton(2, width / 2 - 155, calculateHeight(0), 150, 20,
             "Show spacebar: " + (settings.isShowingSpacebar() ? "On" : "Off")));
-
         buttonList.add(buttonShowCPS = new GuiButton(3, width / 2 + 5, calculateHeight(0), 150, 20,
             "Show CPS counter: " + (settings.isShowingCPS() ? "On" : "Off")));
 
         buttonList.add(buttonShowCPSOnButton = new GuiButton(4, width / 2 - 155, calculateHeight(1), 150, 20,
             "Show CPS on buttons: " + (settings.isShowingCPSOnButtons() ? "On" : "Off")));
-
         buttonList.add(buttonToggleChroma = new GuiButton(5, width / 2 + 5, calculateHeight(1), 150, 20,
             "Chroma: " + (settings.isChroma() ? "On" : "Off")));
 
         buttonList.add(buttonRightClick = new GuiButton(6, width / 2 - 155, calculateHeight(2), 150, 20,
             "Click Counter: " + (settings.isLeftClick() ? "Left" : "Right")));
-
-        buttonList.add(buttonShowSneak = new GuiButton(7, width / 2 + 5, calculateHeight(2), 150, 20,
+        buttonList.add(buttonSneak = new GuiButton(7, width / 2 + 5, calculateHeight(2), 150, 20,
             "Show sneak: " + (settings.isShowingSneak() ? "On" : "Off")));
 
-        buttonList.add(buttonShowFPS = new GuiButton(8, width / 2 - 155, calculateHeight(3), 150, 20,
+        buttonList.add(buttonFPS = new GuiButton(8, width / 2 - 155, calculateHeight(3), 150, 20,
             "Show FPS: " + (settings.isShowingFPS() ? "On" : "Off")));
-
-        buttonList.add(buttonBackground = new GuiButton(9, width / 2 + 5, calculateHeight(3), 150, 20,
+        buttonList.add(buttonKeyBackground = new GuiButton(9, width / 2 + 5, calculateHeight(3), 150, 20,
             "Key background: " + (settings.isKeyBackgroundEnabled() ? "On" : "Off")));
 
-        buttonList.add(buttonTextColor = new GuiButton(10, width / 2 - 155, calculateHeight(4), 150, 20,
-            "Edit text color"));
-
-        buttonList.add(buttonPressedColor = new GuiButton(11, width / 2 + 5, calculateHeight(4), 150, 20,
-            "Edit pressed text color"));
+        buttonList.add(buttonColors = new GuiButton(10, width / 2 - 155, calculateHeight(4), 150, 20,
+            "Edit key colors"));
+        buttonList.add(new GuiButton(11, width / 2 + 5, calculateHeight(4), 150, 20,
+            "Edit key background colors"));
 
         buttonList.add(new GuiSliderScale(mod, 12, width / 2 - 155, calculateHeight(5), 150, 20, this));
         buttonList.add(new GuiSliderFadeTime(mod, 13, width / 2 + 5, calculateHeight(5), 150, 20, this));
 
         buttonList.add(buttonShowWASD = new GuiButton(14, width / 2 - 155, calculateHeight(6), 150, 20,
-            "Show WASD: " + (settings.isShowingWASD() ? "On": "Off")));
-        buttonList.add(buttonLiteralKeys = new GuiButton(15, width / 2 + 5, calculateHeight(6), 150, 20,
-            "Literal Keys: " + (settings.isUsingLiteralKeys() ? "On": "Off")));
+            "Show WASD: " + (settings.isShowingWASD() ? "On" : "Off")));
+        buttonList.add(new GuiSliderOpacity(mod, 15, width / 2 + 5, calculateHeight(6), 150, 20, this));
 
         buttonList.add(new GuiButton(16, width / 2 - 155, calculateHeight(7), 150, 20, "Edit Custom Keys"));
-        buttonList.add(new GuiSliderOpacity(mod, 17, width / 2 + 5, calculateHeight(7), 150, 20, this));
+        buttonList.add(buttonLiteralKeys = new GuiButton(17, width / 2 + 5, calculateHeight(7), 150, 20,
+            "Literal Keys: " + (settings.isUsingLiteralKeys() ? "On" : "Off")));
+
+        buttonList.add(buttonArrowKeys = new GuiButton(18, width / 2 - 155, calculateHeight(8), 150, 20,
+            "Arrow Keys: " + (settings.isUsingArrowKeys() ? "On" : "Off")));
     }
 
     @Override
@@ -119,10 +114,9 @@ public class GuiScreenKeystrokes extends GuiScreen {
         drawDefaultBackground();
         this.mod.getRenderer().renderKeystrokes();
 
-        drawCenteredString(mc.fontRendererObj, "Keystrokes v" + mod.getVersion() +" - Created by Sk1er LLC", width / 2, 5, 16777215);
+        drawCenteredString(mc.fontRendererObj, "Keystrokes v" + mod.getVersion() + " - Created by Sk1er LLC", width / 2, 5, 16777215);
 
-        this.buttonTextColor.enabled = !this.mod.getSettings().isChroma();
-        this.buttonPressedColor.enabled = !this.mod.getSettings().isChroma();
+        buttonColors.enabled = !this.mod.getSettings().isChroma();
         buttonRightClick.enabled = !mod.getSettings().isShowingCPSOnButtons();
 
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -176,19 +170,19 @@ public class GuiScreenKeystrokes extends GuiScreen {
 
             case 7:
                 settings.setShowingSneak(!settings.isShowingSneak());
-                buttonShowSneak.displayString = "Show sneak: " + (settings.isShowingSneak() ? "On" : "Off");
+                buttonSneak.displayString = "Show sneak: " + (settings.isShowingSneak() ? "On" : "Off");
                 updated = true;
                 break;
 
             case 8:
                 settings.setShowingFPS(!settings.isShowingFPS());
-                buttonShowFPS.displayString = "Show FPS: " + (settings.isShowingFPS() ? "On" : "Off");
+                buttonFPS.displayString = "Show FPS: " + (settings.isShowingFPS() ? "On" : "Off");
                 updated = true;
                 break;
 
             case 9:
                 settings.setKeyBackgroundEnabled(!settings.isKeyBackgroundEnabled());
-                buttonBackground.displayString = "Key background: " + (settings.isKeyBackgroundEnabled() ? "On" : "Off");
+                buttonKeyBackground.displayString = "Key background: " + (settings.isKeyBackgroundEnabled() ? "On" : "Off");
                 updated = true;
                 break;
 
@@ -226,11 +220,7 @@ public class GuiScreenKeystrokes extends GuiScreen {
                         settings.setBlue(intAmount);
                         GuiScreenKeystrokes.this.updated = true;
                     }
-                }));
-                break;
-
-            case 11:
-                mc.displayGuiScreen(new GuiScreenColor(mod, new IScrollable() {
+                }, new IScrollable() {
                     @Override
                     public double getAmount() {
                         return settings.getPressedRed();
@@ -265,20 +255,62 @@ public class GuiScreenKeystrokes extends GuiScreen {
                     }
                 }));
                 break;
+            case 11:
+                mc.displayGuiScreen(new GuiScreenBackgroundColor(mod, new IScrollable() {
+                    @Override
+                    public double getAmount() {
+                        return settings.getKeyBackgroundRed();
+                    }
+
+                    @Override
+                    public void onScroll(double doubleAmount, int intAmount) {
+                        settings.setKeyBackgroundRed(intAmount);
+                        updated = true;
+                    }
+                }, new IScrollable() {
+                    @Override
+                    public double getAmount() {
+                        return settings.getKeyBackgroundGreen();
+                    }
+
+                    @Override
+                    public void onScroll(double doubleAmount, int intAmount) {
+                        settings.setKeyBackgroundGreen(intAmount);
+                        updated = true;
+                    }
+                }, new IScrollable() {
+                    @Override
+                    public double getAmount() {
+                        return settings.getKeyBackgroundBlue();
+                    }
+
+                    @Override
+                    public void onScroll(double doubleAmount, int intAmount) {
+                        settings.setKeyBackgroundBlue(intAmount);
+                        updated = true;
+                    }
+                }));
+                break;
 
             case 14:
                 settings.setShowingWASD(!settings.isShowingWASD());
                 buttonShowWASD.displayString = "Show WASD: " + (settings.isShowingWASD() ? "On" : "Off");
                 updated = true;
                 break;
-            case 15:
+
+            case 16:
+                mc.displayGuiScreen(new GuiScreenEditKeys(mod));
+                break;
+            case 17:
                 settings.setUsingLiteralKeys(!settings.isUsingLiteralKeys());
                 buttonLiteralKeys.displayString = "Literal Keys: " + (settings.isUsingLiteralKeys() ? "On" : "Off");
                 updated = true;
                 break;
 
-            case 16:
-                mc.displayGuiScreen(new GuiScreenEditKeys(mod));
+            case 18:
+                settings.setUsingArrowKeys(!settings.isUsingArrowKeys());
+                buttonArrowKeys.displayString = "Arrow Keys: " + (settings.isUsingArrowKeys() ? "On" : "Off");
+                updated = true;
                 break;
         }
     }
@@ -287,26 +319,26 @@ public class GuiScreenKeystrokes extends GuiScreen {
     protected void mouseClicked(int mouseX, int mouseY, int button) {
         try {
             super.mouseClicked(mouseX, mouseY, button);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
 
         if (button == 0) {
-            KeystrokesSettings settings = mod.getSettings();
+            KeystrokesSettings settings = this.mod.getSettings();
 
             if (!settings.isEnabled()) {
                 return;
             }
 
-            int startX = (int) ((settings.getX() - 4) * settings.getScale());
-            int startY = (int) ((settings.getY() - 4) * settings.getScale());
-            int endX = (int) (startX + settings.getWidth() * settings.getScale());
-            int endY = (int) (startY + settings.getHeight() * settings.getScale());
-
+            int x = settings.getRenderX();
+            int y = settings.getRenderY();
+            int startX = (int) ((x - 4) * settings.getScale());
+            int startY = (int) ((y - 4) * settings.getScale());
+            int endX = (int) (startX + ((settings.getWidth() * settings.getScale())));
+            int endY = (int) (startY + (settings.getHeight() * settings.getScale()));
             if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY) {
-                dragging = true;
-                lastMouseX = mouseX;
-                lastMouseY = mouseY;
+                this.dragging = true;
+                this.lastMouseX = mouseX;
+                this.lastMouseY = mouseY;
             }
         }
     }
@@ -319,13 +351,13 @@ public class GuiScreenKeystrokes extends GuiScreen {
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int lastButtonClicked, long timeSinceMouseClick) {
-        if (dragging) {
-            KeystrokesSettings settings = mod.getSettings();
-            settings.setX((int) (settings.getX() + (mouseX - lastMouseX) / settings.getScale()));
-            settings.setY((int) (settings.getY() + (mouseY - lastMouseY) / settings.getScale()));
-            lastMouseX = mouseX;
-            lastMouseY = mouseY;
-            updated = true;
+        if (this.dragging) {
+            KeystrokesSettings settings = this.mod.getSettings();
+            settings.setX((int) (settings.getRenderX() + (mouseX - this.lastMouseX) / settings.getScale()));
+            settings.setY((int) (settings.getRenderY() + (mouseY - this.lastMouseY) / settings.getScale()));
+            this.lastMouseX = mouseX;
+            this.lastMouseY = mouseY;
+            this.updated = true;
         }
     }
 
@@ -334,10 +366,6 @@ public class GuiScreenKeystrokes extends GuiScreen {
         if (this.updated) {
             this.mod.getSettings().save();
         }
-    }
-
-    public void display() {
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
 
     @Override
@@ -351,9 +379,5 @@ public class GuiScreenKeystrokes extends GuiScreen {
 
     public KeystrokesMod getMod() {
         return this.mod;
-    }
-
-    private int calculateHeight(int row) {
-        return 55 + row * 23;
     }
 }

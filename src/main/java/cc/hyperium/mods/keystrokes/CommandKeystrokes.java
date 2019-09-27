@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.keystrokes;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
 
@@ -27,7 +28,7 @@ public class CommandKeystrokes implements BaseCommand {
 
     private final KeystrokesMod mod;
 
-    public CommandKeystrokes(KeystrokesMod mod) {
+    CommandKeystrokes(KeystrokesMod mod) {
         this.mod = mod;
     }
 
@@ -48,6 +49,6 @@ public class CommandKeystrokes implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        new GuiScreenKeystrokes(this.mod).display();
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiScreenKeystrokes(mod));
     }
 }

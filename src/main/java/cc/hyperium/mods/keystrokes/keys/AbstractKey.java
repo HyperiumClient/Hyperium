@@ -45,10 +45,16 @@ public abstract class AbstractKey extends Gui {
         this.yOffset = yOffset;
     }
 
-    protected void drawChromaString(String text, int x, int y) {
+    protected Color getChromaColor(double x, double y, double offsetScale) {
+        float v = 2000F;
+        return new Color(Color.HSBtoRGB((float) ((System.currentTimeMillis() - (x * 10) * offsetScale - (y * 10) * offsetScale) % v) /
+            v, 0.8F, 0.8F));
+    }
+
+    protected void drawChromaString(String text, int x, int y, double offsetScale) {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         for (char c : text.toCharArray()) {
-            int i = Color.HSBtoRGB((float) ((System.currentTimeMillis() - (x * 10) - (y * 10)) % 2000) / 2000.0F, 0.8F, 0.8F);
+            int i = getChromaColor(x, y, offsetScale).getRGB();
             String tmp = String.valueOf(c);
             renderer.drawString(tmp, x, y, i);
             x += renderer.getStringWidth(tmp);

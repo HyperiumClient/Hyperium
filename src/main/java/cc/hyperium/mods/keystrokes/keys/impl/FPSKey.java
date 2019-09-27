@@ -56,13 +56,15 @@ public class FPSKey extends AbstractKey {
         int textColor = getColor();
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
-            drawRect(x + xOffset, y + yOffset, x + xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, mod.getSettings().getKeyBackgroundOpacity()).getRGB());
+            drawRect(x + xOffset, y + yOffset, x + xOffset + 70, y + yOffset + 16,
+                new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                    mod.getSettings().getKeyBackgroundOpacity()).getRGB());
         }
 
         String name = (Minecraft.getDebugFPS()) + " FPS";
 
         if (mod.getSettings().isChroma()) {
-            drawChromaString(name, ((x + (xOffset + 70) / 2) - mc.fontRendererObj.getStringWidth(name) / 2), y + (yOffset + 4));
+            drawChromaString(name, ((x + (this.xOffset + 70) / 2) - this.mc.fontRendererObj.getStringWidth(name) / 2), y + (yOffset + 4), 1.0F);
         } else {
             drawCenteredString(name, x + ((xOffset + 70) / 2), y + (yOffset + 4), textColor);
         }
