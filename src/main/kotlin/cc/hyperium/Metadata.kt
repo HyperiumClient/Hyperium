@@ -57,5 +57,6 @@ val BLACKLISTED
         "Custom Crosshair Addon",
         "SidebarAddon",
         "BossbarAddon",
-        "Item Physic"
+        "Item Physic",
+        "oof"
     )
