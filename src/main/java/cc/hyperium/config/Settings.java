@@ -503,7 +503,7 @@ public class Settings {
 
     @ConfigOpt
     @SliderSetting(name = "gui.settings.automyposition.delay", min = 0, max = 5, category = AUTOMYPOSITION, mods = true)
-    public static int AUTO_MY_POSITION_DELAY = 2;
+    public static double AUTO_MY_POSITION_DELAY = 2;
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);

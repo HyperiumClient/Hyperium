@@ -35,12 +35,12 @@ public class MyPosition extends AbstractMod {
         if (Settings.AUTO_MY_POSITION) {
             if (message.startsWith("Sending you to mini") || message.startsWith("Sending you to mega")) {
                 isRan = true;
-                Multithreading.schedule(this::sendMyPosCommand, Settings.AUTO_MY_POSITION_DELAY, TimeUnit.SECONDS);
+                Multithreading.schedule(this::sendMyPosCommand, (long) Settings.AUTO_MY_POSITION_DELAY, TimeUnit.SECONDS);
             }
 
             if (message.equalsIgnoreCase("The game starts in 5 seconds!") && !isRan) {
                 isRan = true;
-                Multithreading.schedule(this::sendMyPosCommand, Settings.AUTO_MY_POSITION_DELAY, TimeUnit.SECONDS);
+                Multithreading.schedule(this::sendMyPosCommand, (long) Settings.AUTO_MY_POSITION_DELAY, TimeUnit.SECONDS);
             }
         }
     }
