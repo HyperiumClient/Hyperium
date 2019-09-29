@@ -30,6 +30,7 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [Levelhead](https://sk1er.club/mods/level_head)
 - [MemoryFix](https://prplz.io/memoryfix/)
 - [MotionBlur](https://2pi.pw/mods/motionblur)
+- [MouseBindFix](https://www.youtube.com/watch?v=U0t8AvO8tlo)
 - [MouseDelayFix](https://prplz.io/mousedelayfix/)
 - [NickHider](https://sk1er.club/mods/nick_hider)
 - [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
