@@ -47,7 +47,6 @@ public enum Category {
     TAB_TOGGLE("Tab Toggle"),
     ITEM_PHYSIC("Item Physics"),
     VICTORYROYALE("Victory Royale"),
-    TOGGLESPRINT("Toggle Sprint"),
     CHUNK_ANIMATOR("Chunk Animator"),
     LEVELHEAD("Levelhead"),
     AUTOMYPOSITION("Auto MyPosition"),

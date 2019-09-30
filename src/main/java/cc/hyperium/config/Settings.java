@@ -387,14 +387,6 @@ public class Settings {
     public static int REACH_GREEN = 255;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.togglesprint", category = TOGGLESPRINT, mods = true)
-    public static boolean ENABLE_TOGGLE_SPRINT = true;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.broadcastlevelups", category = HYPIXEL)
-    public static boolean BROADCAST_LEVELUPS = true;
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.broadcastachievements", category = HYPIXEL)
     public static boolean BROADCAST_ACHIEVEMENTS = true;
 
