@@ -35,13 +35,14 @@ public class HyperiumNetwork {
     public void joinHypixel(ServerJoinEvent event) {
         Multithreading.runAsync(() -> {
             NetHandlerPlayClient netHandler = Minecraft.getMinecraft().getNetHandler();
-            netHandler.addToSendQueue(
-                new C17PacketCustomPayload("hyperium",
-                    new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
-                        .put("id", Metadata.getModid())
-                        .put("optifine", HyperiumTweaker.INSTANCE.isUsingOptifine())
-                        .put("version", Metadata.getVersion()).toString())));
+            if (netHandler != null) {
+                netHandler.addToSendQueue(
+                    new C17PacketCustomPayload("hyperium",
+                        new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
+                            .put("id", Metadata.getModid())
+                            .put("optifine", HyperiumTweaker.INSTANCE.isUsingOptifine())
+                            .put("version", Metadata.getVersion()).toString())));
+            }
         });
     }
-
 }

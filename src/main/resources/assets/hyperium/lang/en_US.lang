@@ -173,7 +173,6 @@ gui.settings.green=Green
 gui.settings.blue=Blue
 gui.settings.broadcastachievements=Broadcast Achievements
 gui.settings.showbutt=Show Butt
-gui.settings.sendcurrentserver=Send Current Server
 gui.settings.sendguildwelcomemessage=Send guild welcome message
 gui.settings.itemphysics=Item Physics
 gui.settings.disable_dances=Disable Dances

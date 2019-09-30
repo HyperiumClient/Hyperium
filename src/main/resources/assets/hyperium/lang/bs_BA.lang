@@ -172,7 +172,6 @@ gui.settings.green=Zeleno
 gui.settings.blue=Plavo
 gui.settings.broadcastachievements=Emitiranje dostignuća
 gui.settings.showbutt=Pokaži guzu
-gui.settings.sendcurrentserver=Pošalji trenutni poslužitelj
 gui.settings.sendguildwelcomemessage=Pošalji poruku dobrodošlice za ceh
 gui.settings.itemphysics=Item Physics
 gui.settings.disable_dances=Disable Dances

@@ -172,7 +172,6 @@ gui.settings.green=Grün
 gui.settings.blue=Blau
 gui.settings.broadcastachievements=Achievements anzeigen
 gui.settings.showbutt=Hintern anzeigen
-gui.settings.sendcurrentserver=Jetzigen Server anzeigen
 gui.settings.sendguildwelcomemessage=Gilde-Willkommensnachrichten anzeigen
 gui.settings.itemphysics=Item Physik
 gui.settings.disable_dances=Tänze deaktivieren

@@ -172,7 +172,6 @@ gui.settings.green=أخضر
 gui.settings.blue=أزرق
 gui.settings.broadcastachievements=بث الإنجازات
 gui.settings.showbutt=إضهار المؤخره
-gui.settings.sendcurrentserver=ارسال السيرفر الحالي
 gui.settings.sendguildwelcomemessage=إرسال رسالة ترحيب للكلان
 gui.settings.itemphysics=البند الفيزياء
 gui.settings.disable_dances=Disable Dances

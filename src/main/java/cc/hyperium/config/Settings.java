@@ -376,10 +376,6 @@ public class Settings {
     public static String SHOW_BUTT = "YES";
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.sendcurrentserver", category = GENERAL)
-    public static boolean SEND_SERVER = true;
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.sendguildwelcomemessage", category = HYPIXEL)
     public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
 
