@@ -46,8 +46,8 @@ public class LoginReplyHandler implements PacketHandler<LoginReplyPacket> {
                 if (Settings.SEND_SERVER)
                     client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("server_update", currentServerData.serverIP)));
             }
-
         }
+
         if (loginReplyPacket.isAdmin()) {
             Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new BaseCommand() {
                 @Override
