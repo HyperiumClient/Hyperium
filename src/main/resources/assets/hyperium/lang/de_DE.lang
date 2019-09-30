@@ -188,9 +188,6 @@ gui.settings.victoryroyale=Victory Royale
 gui.settings.hyperiumprefix=Hyperium Chatprefix anzeigen
 gui.settings.betterf1=Namen in F1 verbergen
 gui.settings.buttonstyle=Knopfstil
-gui.settings.buttonred=Knopfumrandung (Rot)
-gui.settings.buttongreen=Knopfumrandung (Grün)
-gui.settings.buttonblue=Knopfumrandung (Blau)
 gui.settings.buttontype=Farbtyp
 gui.settings.disableenchantglint=Verzauberungsschimmer deaktivieren
 gui.settings.disabletitles=Titelbildschirme deaktivieren
@@ -211,6 +208,11 @@ gui.settings.disableshadowtext=Disable Shadowed Text
 gui.settings.shinypotions.matchcolor=Shiny Potions - Match Potion Color
 gui.settings.automyposition.enabled=Auto MyPosition
 gui.settings.automyposition.delay=Delay
+gui.settings.bossbarmod.bossbarall=Bossbar
+gui.settings.bossbarmod.bossbartext=Bossbar Text
+gui.settings.bossbarmod.bossbarhealthbar=Bossbar Health Bar
+gui.settings.bossbarmod.bossbarscale=Bossbar Scale
+gui.settings.bossbarmod.resetbossbar=Reset Bossbar
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Spiel wird gestartet...

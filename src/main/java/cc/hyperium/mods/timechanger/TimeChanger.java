@@ -68,10 +68,6 @@ public class TimeChanger extends AbstractMod {
         this.timeType = timeType;
     }
 
-    public double getFastTimeMutliplier() {
-        return this.fastTimeMultiplier;
-    }
-
     public void setFastTimeMultiplier(double fastTimeMultiplier) {
         this.fastTimeMultiplier = fastTimeMultiplier;
     }

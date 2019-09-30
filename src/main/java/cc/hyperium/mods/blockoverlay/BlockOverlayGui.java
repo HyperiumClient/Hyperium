@@ -42,7 +42,7 @@ public class BlockOverlayGui extends GuiScreen {
         super.drawDefaultBackground();
         GlStateManager.pushMatrix();
         GlStateManager.scale(1.2f, 1.2f, 0.0f);
-        super.drawCenteredString(super.fontRendererObj, "Block Overlay", Math.round(super.width / 2 / 1.2f), Math.round(super.height / 2 / 1.2f) - 50, -1);
+        super.drawCenteredString(super.fontRendererObj, "Block Overlay", Math.round(super.width / 2F / 1.2f), Math.round(super.height / 2F / 1.2f) - 50, -1);
         GlStateManager.popMatrix();
         this.buttonMode.drawButton(super.mc, mouseX, mouseY);
         this.buttonColor.drawButton(super.mc, mouseX, mouseY);

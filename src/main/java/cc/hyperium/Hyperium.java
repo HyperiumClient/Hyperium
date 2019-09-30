@@ -308,6 +308,7 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandDisableCommand());
         hyperiumCommandHandler.registerCommand(new CommandGuild());
         hyperiumCommandHandler.registerCommand(new CommandKeybinds());
+        hyperiumCommandHandler.registerCommand(new CommandBossbarGui());
     }
 
     /**

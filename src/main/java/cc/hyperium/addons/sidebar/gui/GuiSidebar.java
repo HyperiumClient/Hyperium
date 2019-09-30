@@ -80,7 +80,7 @@ public class GuiSidebar extends Gui {
         final float mscale = this.scale - 1.0f;
         final float minX = this.sidebarX - this.sidebarWidth * mscale;
         final float maxX = minX + this.sidebarWidth * this.scale;
-        final float maxY = this.sidebarY + this.sidebarHeight / 2 * mscale;
+        final float maxY = this.sidebarY + (this.sidebarHeight >> 1) * mscale;
         final float minY = maxY - this.sidebarHeight * this.scale;
         return mouseX > minX && mouseX < maxX && mouseY > minY - this.fr.FONT_HEIGHT * this.scale && mouseY < maxY;
     }

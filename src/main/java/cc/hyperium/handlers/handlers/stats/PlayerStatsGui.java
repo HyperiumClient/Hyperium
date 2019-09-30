@@ -253,7 +253,7 @@ public class PlayerStatsGui extends HyperiumGui {
             GlStateManager.pushMatrix();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
-            GlStateManager.translate(current.getScaledWidth() / 2 - 24, 80, 0);
+            GlStateManager.translate((current.getScaledWidth() >> 1) - 24, 80, 0);
             GlStateManager.scale(.2, .2, .2);
             drawTexturedModalRect(0, 0, 0, 0, 128 * 2, 128 * 2);
             GlStateManager.popMatrix();
@@ -265,7 +265,7 @@ public class PlayerStatsGui extends HyperiumGui {
             Icons.EXIT.bind();
             float scale = 2.0F;
             GlStateManager.scale(scale, scale, scale);
-            GlStateManager.translate(current.getScaledWidth() / 2 / scale - 90 / scale, (73) / scale, 0);
+            GlStateManager.translate(current.getScaledWidth() / 2F / scale - 90 / scale, (73) / scale, 0);
             GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);
             GlStateManager.translate(-16, -16, 0);
             drawScaledCustomSizeModalRect(0, 0, 0, 0, 64, 64, 16, 16, 64, 64);

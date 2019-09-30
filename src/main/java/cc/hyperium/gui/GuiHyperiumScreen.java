@@ -19,7 +19,6 @@ package cc.hyperium.gui;
 
 import cc.hyperium.config.Settings;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-import cc.hyperium.styles.GuiStyle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -39,21 +38,12 @@ public class GuiHyperiumScreen extends GuiScreen {
     public static ResourceLocation dynamicBackgroundTexture;
     public static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
     GuiButton hypixelButton;
-
-    public GuiStyle getStyle() {
-        return GuiStyle.valueOf(mc.theWorld == null ? Settings.MENU_STYLE : Settings.PAUSE_STYLE);
-    }
-
     public int getIntendedWidth(int value) {
         return (ResolutionUtil.current().getScaledWidth() / 1920) * value;
     }
 
     public int getIntendedHeight(int value) {
         return (ResolutionUtil.current().getScaledHeight() / 1080) * value;
-    }
-
-    protected void drawHyperiumStyleScreen(int mouseX, int mouseY, float partialTicks) {
-        GlStateManager.pushMatrix();
     }
 
     public static void renderBackgroundImage() {

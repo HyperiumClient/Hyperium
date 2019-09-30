@@ -261,7 +261,7 @@ public class GuiDances extends HyperiumGui {
         GlStateManager.pushMatrix();
         GlStateManager.color(1, 1, 1);
 
-        GlStateManager.translate(current.getScaledWidth() / 2, current.getScaledHeight() / 2, 5);
+        GlStateManager.translate(current.getScaledWidth() >> 1, current.getScaledHeight() >> 1, 5);
         RenderHelper.enableStandardItemLighting();
         GlStateManager.enableAlpha();
 

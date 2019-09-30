@@ -288,13 +288,13 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
             credits = self.getResponse().optInt("remaining_credits");
         }
         String s = I18n.format("gui.cosmetics.credits") + ": " + credits;
-        fontRendererObj.drawString(s, ResolutionUtil.current().getScaledWidth() / 4 - fontRendererObj.getStringWidth(s) / 2, 15, Color.MAGENTA.getRGB(), true);
+        fontRendererObj.drawString(s, (ResolutionUtil.current().getScaledWidth() >> 2) - (fontRendererObj.getStringWidth(s) >> 1), 15, Color.MAGENTA.getRGB(), true);
 
         GlStateManager.scale(.5, .5, .5);
         s = I18n.format("gui.cosmetics.line1");
-        fontRendererObj.drawString(s, ResolutionUtil.current().getScaledWidth() / 2 - fontRendererObj.getStringWidth(s) / 2, 50, Color.MAGENTA.getRGB(), true);
+        fontRendererObj.drawString(s, (ResolutionUtil.current().getScaledWidth() >> 1) - (fontRendererObj.getStringWidth(s) >> 1), 50, Color.MAGENTA.getRGB(), true);
         s = I18n.format("gui.cosmetics.line2");
-        fontRendererObj.drawString(s, ResolutionUtil.current().getScaledWidth() / 2 - fontRendererObj.getStringWidth(s) / 2, 61, Color.MAGENTA.getRGB(), true);
+        fontRendererObj.drawString(s, (ResolutionUtil.current().getScaledWidth() >> 1) - (fontRendererObj.getStringWidth(s) >> 1), 61, Color.MAGENTA.getRGB(), true);
 
         s = I18n.format("gui.cosmetics.preview");
         GlStateManager.scale(2.0, 2.0, 2.0);

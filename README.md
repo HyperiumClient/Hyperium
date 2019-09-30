@@ -12,7 +12,6 @@
 Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popular features, in addition to suggestions and ideas from the community, in order to provide a unique experience designed for Hypixel.
 
 ## Features ##
-- Bossbar Mod (Custom)
 - Discord Rich Presence (Custom)
 - Old Animations (Custom)
 - Reach Display (Custom)
@@ -21,6 +20,7 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [AutoGG](https://2pi.pw/mods/autogg)
 - [Auto MyPosition](https://hypixel.net/threads/forge-1-8-9-auto-myposition-mod-a-mod-which-does-myposition-before-every-game.1983543/)
 - [BlockOverlay](https://aycy.github.io/)
+- [BossbarMod](https://www.youtube.com/watch?v=tigBu2OyZ4I)
 - [ChromaHud](https://sk1er.club/mods/tayber50k)
 - [Chunk Animator](https://www.curseforge.com/minecraft/mc-mods/chunk-animator)
 - [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)

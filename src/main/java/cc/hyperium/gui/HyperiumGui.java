@@ -152,11 +152,11 @@ public abstract class HyperiumGui extends GuiScreen {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
         worldrenderer.pos(right, top, 0).color(f1, f2, f3, alpha).endVertex();
         worldrenderer.pos(left, top, 0).color(f1, f2, f3, alpha).endVertex();
         worldrenderer.pos(left, bottom, 0).color(f5, f6, f7, alpha).endVertex();

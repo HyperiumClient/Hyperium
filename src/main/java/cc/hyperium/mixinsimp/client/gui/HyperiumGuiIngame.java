@@ -18,7 +18,6 @@
 package cc.hyperium.mixinsimp.client.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.addons.bossbar.config.BossbarConfig;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
@@ -26,6 +25,7 @@ import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.RenderSelectedItemEvent;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
@@ -71,49 +71,44 @@ public class HyperiumGuiIngame {
     }
 
     public void renderBossHealth() {
-        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0 && BossbarConfig.bossBarEnabled) {
+        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0 && Settings.BOSSBAR_ALL) {
             --BossStatus.statusBarTime;
 
-            ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
-            int i = scaledresolution.getScaledWidth();
-            if (Settings.BOSSBAR_TEXT_ONLY || (!BossbarConfig.barEnabled && BossbarConfig.textEnabled)) {
-                String s = BossStatus.bossName;
-                if (BossbarConfig.x != -1) {
-                    parent.getFontRenderer().drawStringWithShadow(s, (float) (BossbarConfig.x + 91 - parent.getFontRenderer().getStringWidth(s) / 2), BossbarConfig.y - 10, 16777215);
-                } else {
-                    parent.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - parent.getFontRenderer().getStringWidth(s) / 2), BossbarConfig.y - 10, 16777215);
-                }
+            FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+            ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
+            double scaledWidth = resolution.getScaledWidth();
+            double scaledHeight = resolution.getScaledHeight();
+
+            String bossName = BossStatus.bossName;
+
+            if (Settings.BOSSBAR_TEXT) {
+                GlStateManager.pushMatrix();
+                GlStateManager.translate(scaledWidth * Settings.BOSSBAR_X, scaledHeight * Settings.BOSSBAR_Y - (10D * Settings.BOSSBAR_SCALE), 0);
+                GlStateManager.scale(Settings.BOSSBAR_SCALE, Settings.BOSSBAR_SCALE, Settings.BOSSBAR_SCALE);
+                GlStateManager.translate(-fontRenderer.getStringWidth(bossName) / 2F , 0, 0);
+                fontRenderer.drawStringWithShadow(bossName, 0, 0, -1);
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
-                return;
-            }
-            int j = 182;
-            if (BossbarConfig.barEnabled) {
-                int l = (int) (BossStatus.healthScale * (float) (j + 1));
-                if (BossbarConfig.x != -1) {
-                    parent.drawTexturedModalRect(BossbarConfig.x, BossbarConfig.y, 0, 74, j, 5);
-                    if (l > 0) {
-                        parent.drawTexturedModalRect(BossbarConfig.x, BossbarConfig.y, 0, 79, l, 5);
-                    }
-                } else {
-                    int k = i / 2 - j / 2;
-                    parent.drawTexturedModalRect(k, BossbarConfig.y, 0, 74, j, 5);
-                    if (l > 0) {
-                        parent.drawTexturedModalRect(k, BossbarConfig.y, 0, 79, l, 5);
-                    }
-                }
+                GlStateManager.popMatrix();
             }
 
-            String s = BossStatus.bossName;
-            if (BossbarConfig.textEnabled) {
-                if (BossbarConfig.x != -1) {
-                    parent.getFontRenderer().drawStringWithShadow(s, (float) (BossbarConfig.x + j / 2 - parent.getFontRenderer().getStringWidth(s) / 2), BossbarConfig.y - 10, 16777215);
-                } else {
-                    parent.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - parent.getFontRenderer().getStringWidth(s) / 2), BossbarConfig.y - 10, 16777215);
+            int widthLocation = 182;
+
+            if (Settings.BOSSBAR_BAR) {
+                int healthScale = (int) (BossStatus.healthScale * (float) (widthLocation + 1) * Settings.BOSSBAR_SCALE);
+
+                GlStateManager.pushMatrix();
+                GlStateManager.translate(Settings.BOSSBAR_X * scaledWidth - widthLocation / 2F * Settings.BOSSBAR_SCALE, Settings.BOSSBAR_Y * scaledHeight , 0);
+                GlStateManager.scale(Settings.BOSSBAR_SCALE, Settings.BOSSBAR_SCALE, Settings.BOSSBAR_SCALE);
+
+                parent.drawTexturedModalRect(0, 0, 0, 74, widthLocation, 5);
+                if (healthScale > 0) {
+                    parent.drawTexturedModalRect(0, 0, 0, 79, widthLocation, 5);
                 }
+
+                GlStateManager.popMatrix();
             }
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
+
         }
     }
 

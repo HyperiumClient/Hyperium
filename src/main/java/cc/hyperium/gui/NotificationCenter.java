@@ -472,10 +472,6 @@ public class NotificationCenter extends Gui {
                 GlStateManager.scale(1 / imgScale, 1 / imgScale, 1 / imgScale);
             } else
                 imgScale = 0;
-
-
-//            GlStateManager.popMatrix();
-
         }
     }
 }
