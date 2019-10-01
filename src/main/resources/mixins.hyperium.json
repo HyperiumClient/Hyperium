@@ -82,6 +82,7 @@
     "client.renderer.MixinRenderGlobal",
     "client.renderer.MixinThreadDownloadImageData",
     "client.resources.IMixinAbstractResourcePack",
+    "client.resources.IMixinResourcePackListEntry",
     "client.resources.MixinAbstractResourcePack",
     "client.resources.MixinLocale",
     "client.resources.MixinResourcePackRepository",

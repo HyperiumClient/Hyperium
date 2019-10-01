@@ -69,7 +69,7 @@ public abstract class MixinGuiNewChat {
     /**
      *
      * @author Mojang
-     * @reason Change chat limit of 100 to 300
+     * @reason Change chat limit of 100 to 500
      */
     @Overwrite
     private void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_) {
