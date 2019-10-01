@@ -20,6 +20,8 @@ package cc.hyperium.mixins.block;
 import cc.hyperium.config.Settings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGlass;
+import net.minecraft.block.BlockStainedGlass;
+import net.minecraft.block.BlockStainedGlassPane;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.BlockPos;
@@ -27,7 +29,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(BlockGlass.class)
+@Mixin(value = {BlockGlass.class, BlockStainedGlass.class})
 public class MixinBlockGlass extends Block {
 
     public MixinBlockGlass(Material blockMaterialIn, MapColor blockMapColorIn) {

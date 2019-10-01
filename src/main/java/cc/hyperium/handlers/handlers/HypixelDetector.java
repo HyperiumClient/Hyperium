@@ -105,9 +105,9 @@ public class HypixelDetector {
                 }, new Color(200, 150, 50));
 
             SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
-            if (soundHandler == null || Minecraft.getMinecraft().theWorld == null)
-                return;
-            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+            if (soundHandler == null || Minecraft.getMinecraft().theWorld == null) return;
+            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"),
+                (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
         }
     }
 

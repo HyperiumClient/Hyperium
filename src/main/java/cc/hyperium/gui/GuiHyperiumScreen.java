@@ -23,7 +23,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 
@@ -34,17 +33,10 @@ import java.io.FileInputStream;
 
 public class GuiHyperiumScreen extends GuiScreen {
 
-    public static BufferedImage bufferedImage;
-    public static ResourceLocation dynamicBackgroundTexture;
-    public static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
+    private static BufferedImage bufferedImage;
+    private static ResourceLocation dynamicBackgroundTexture;
+    private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
     GuiButton hypixelButton;
-    public int getIntendedWidth(int value) {
-        return (ResolutionUtil.current().getScaledWidth() / 1920) * value;
-    }
-
-    public int getIntendedHeight(int value) {
-        return (ResolutionUtil.current().getScaledHeight() / 1080) * value;
-    }
 
     public static void renderBackgroundImage() {
         if (!Settings.BACKGROUND.equalsIgnoreCase("CUSTOM")) {
@@ -56,6 +48,7 @@ public class GuiHyperiumScreen extends GuiScreen {
                 ResolutionUtil.current().getScaledHeight());
         } else if (Settings.BACKGROUND.equalsIgnoreCase("CUSTOM")) {
             getCustomBackground();
+            Minecraft.getMinecraft().getTextureManager().bindTexture(dynamicBackgroundTexture);
             Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0,
                 ResolutionUtil.current().getScaledWidth(),
                 ResolutionUtil.current().getScaledHeight(),
@@ -64,17 +57,17 @@ public class GuiHyperiumScreen extends GuiScreen {
         }
     }
 
-    public static void getCustomBackground() {
-        try {
-            bufferedImage = ImageIO.read(new FileInputStream(customImage));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private static void getCustomBackground() {
+        if (customImage.exists()) {
+            try {
+                bufferedImage = ImageIO.read(new FileInputStream(customImage));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        if (bufferedImage != null && dynamicBackgroundTexture == null) {
-            dynamicBackgroundTexture = Minecraft.getMinecraft().getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bufferedImage));
+            if (bufferedImage != null && dynamicBackgroundTexture == null) {
+                dynamicBackgroundTexture = Minecraft.getMinecraft().getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bufferedImage));
+            }
         }
-
-        Minecraft.getMinecraft().getTextureManager().bindTexture(dynamicBackgroundTexture);
     }
 }

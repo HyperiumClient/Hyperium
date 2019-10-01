@@ -32,7 +32,7 @@ public class GlobalSettings {
         return versions.stream()
                 .filter(v -> v.getVersion().equals(version))
                 .findFirst()
-                .orElse(new VersionInfo(version, Severity.OPTIONAL, "&cVersion not found."));
+                .orElseGet(() -> new VersionInfo(version, Severity.OPTIONAL, "&cVersion not found."));
     }
 
     public List<VersionInfo> getHigherVersionInfo(Version lowest) {

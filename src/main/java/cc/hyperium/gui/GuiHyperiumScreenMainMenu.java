@@ -34,7 +34,7 @@ import org.lwjgl.input.Keyboard;
 
 public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiYesNoCallback {
 
-    public static boolean FIRST_START = true;
+    private static boolean FIRST_START = true;
 
     public GuiHyperiumScreenMainMenu() {
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
@@ -54,18 +54,16 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
      * @author Cubxity
      */
     public void initGui() {
-        int j = height / 4 + 48;
-        addSingleplayerMultiplayerButtons(j - 10, 24);
-        addDefaultStyleOptionsButton(j);
-    }
+        int center = width / 2;
 
-    /**
-     * Override buttons
-     *
-     * @author Cubxity
-     */
-    public void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
-        addDefaultStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
+        buttonList.add(new GuiButton(0, center - 100, getRowPos(2), I18n.format("menu.singleplayer")));
+        buttonList.add(new GuiButton(1, center - 100, getRowPos(3), I18n.format("menu.multiplayer")));
+        buttonList.add(hypixelButton = new GuiButton(2, center - 100, getRowPos(4), 200, 20, I18n.format("button.ingame.joinhypixel")));
+        buttonList.add(new GuiButton(3, center - 100, getRowPos(5), I18n.format("button.ingame.hyperiumsettings")));
+        buttonList.add(new GuiButton(4, center - 100, getRowPos(6), 98, 20, I18n.format("menu.options")));
+        buttonList.add(new GuiButton(5, center + 2, getRowPos(6), 98, 20, I18n.format("menu.quit")));
+        buttonList.add(new GuiButton(6, center - 100, getRowPos(7), 98, 20, I18n.format("button.menu.cosmeticshop")));
+        buttonList.add(new GuiButton(7, center + 2, getRowPos(7), 98, 20, I18n.format("button.menu.changebackground")));
     }
 
     /**
@@ -79,7 +77,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         renderBackgroundImage();
         ScaledResolution resolution = new ScaledResolution(mc);
 
-        fontRendererObj.drawStringWithShadow("Hyperium " + Metadata.getVersion(), 3, resolution.getScaledHeight() - fontRendererObj.FONT_HEIGHT, 0x55FFFFFF);
+        fontRendererObj.drawStringWithShadow("Hyperium " + Metadata.getVersion(), 3, resolution.getScaledHeight() - fontRendererObj.FONT_HEIGHT, -1);
         String s1 = I18n.format("menu.right");
         drawString(fontRendererObj, s1, width - fontRendererObj.getStringWidth(s1) - 2, height - 30, -1);
         s1 = "Made by Sk1er, Kevin, Cubxity, CoalOres,";
@@ -112,34 +110,14 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     public void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 0:
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiOptions(this, mc.gameSettings));
-                break;
-
-            case 1:
                 Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiSelectWorld(this));
                 break;
 
-            case 2:
+            case 1:
                 Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiMultiplayer(this));
                 break;
 
-            case 4:
-                if (Settings.CONFIRM_QUIT) {
-                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiConfirmQuit());
-                } else {
-                    mc.shutdown();
-                }
-                break;
-
-            case 5:
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiLanguage(this, mc.gameSettings, mc.getLanguageManager()));
-                break;
-
-            case 15:
-                HyperiumMainGui.INSTANCE.show();
-                break;
-
-            case 16:
+            case 2:
                 GuiMultiplayer guiMultiplayer = new GuiMultiplayer(new GuiMainMenu());
                 guiMultiplayer.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
                 ((IMixinGuiMultiplayer) guiMultiplayer).makeDirectConnect();
@@ -149,30 +127,34 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                 guiMultiplayer.confirmClicked(true, 0);
                 break;
 
-            case 100:
+            case 3:
+                HyperiumMainGui.INSTANCE.show();
+                break;
+
+            case 4:
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiOptions(this, mc.gameSettings));
+                break;
+
+            case 5:
+                if (Settings.CONFIRM_QUIT) {
+                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiConfirmQuit());
+                } else {
+                    mc.shutdown();
+                }
+                break;
+
+            case 6:
                 HyperiumMainGui.INSTANCE.setTab(1);
                 Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(HyperiumMainGui.INSTANCE);
                 break;
 
-            case 101:
+            case 7:
                 mc.displayGuiScreen(new ChangeBackgroundGui(this));
                 break;
         }
     }
 
-    public void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
-        buttonList.add(new GuiButton(1, width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
-        buttonList.add(new GuiButton(2, width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
-        //Change realms button ID to 16 to avoid conflicts
-        buttonList.add(hypixelButton = new GuiButton(16, width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, 200, 20, I18n.format("button.ingame.joinhypixel")));
-
-        buttonList.add(new GuiButton(15, width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, I18n.format("button.ingame.hyperiumsettings")));
-    }
-
-    public void addDefaultStyleOptionsButton(int j) {
-        buttonList.add(new GuiButton(0, width / 2 - 100, j + 56 + 12 + 24 - 5, 98, 20, I18n.format("menu.options")));
-        buttonList.add(new GuiButton(4, width / 2 + 2, j + 56 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
-        buttonList.add(new GuiButton(100, width / 2 - 100, j + 78 + 12 + 24 - 5, 98, 20, I18n.format("button.menu.cosmeticshop")));
-        buttonList.add(new GuiButton(101, width / 2 + 2, j + 78 + 12 + 24 - 5, 98, 20, I18n.format("button.menu.changebackground")));
+    private int getRowPos(int rowNumber) {
+        return 55 + rowNumber * 23;
     }
 }

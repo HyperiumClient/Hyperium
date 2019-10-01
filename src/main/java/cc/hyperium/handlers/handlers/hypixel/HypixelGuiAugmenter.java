@@ -35,7 +35,7 @@ public class HypixelGuiAugmenter {
     private final HashMap<GuiButton, Consumer<GuiButton>> lobbyAdds = new HashMap<>();
 
     public HypixelGuiAugmenter() {
-        lobbyAdds.put(new GuiButton(500002, 1, 22, 100, 20, "View Friends"), button -> new HypixelFriendsGui().show());
+        lobbyAdds.put(new GuiButton(500002, 1, 1, 100, 20, "View Friends"), button -> new HypixelFriendsGui().show());
     }
 
     @InvokeEvent

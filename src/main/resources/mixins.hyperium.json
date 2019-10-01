@@ -6,8 +6,6 @@
   "verbose": true,
   "mixins": [
     "block.MixinBlockGlass",
-    "block.MixinBlockStainedGlass",
-    "block.MixinBlockStainedGlassPane",
 
     "client.audio.MixinSoundManager",
     "client.entity.IMixinAbstractClientPlayer",
