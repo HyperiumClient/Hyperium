@@ -165,8 +165,9 @@ public class AddItemsGui extends GuiScreen {
             for (ChromaHUDParser parser : parsers) {
 
                 Map<String, String> names = parser.getNames();
-                for (String s : names.keySet()) {
-                    String text1 = names.get(s) + "";
+                for (Map.Entry<String, String> entry : names.entrySet()) {
+                    String s = entry.getKey();
+                    String text1 = entry.getValue() + "";
                     drawRect(current.getScaledWidth() / 2 - 80, cursorY, current.getScaledWidth() / 2 + 80, cursorY + 20, defaultColor.getRGB());
                     int j = Color.RED.getRGB();
                     int width = 160;
@@ -197,8 +198,9 @@ public class AddItemsGui extends GuiScreen {
                 cursorY += 30;
 
                 Map<String, String> names = parser.getNames();
-                for (String s : names.keySet()) {
-                    String text1 = names.get(s) + ": ";
+                for (Map.Entry<String, String> entry : names.entrySet()) {
+                    String s = entry.getKey();
+                    String text1 = entry.getValue() + ": ";
                     DisplayElement displayElement = find(s);
                     if (displayElement == null) {
                         String text2 = "ERROR LOCATING DISPLAY ELEMENT " + s;

@@ -60,8 +60,8 @@ public class MemoryHelper {
             Map<ResourceLocation, ITextureObject> mapTextureObjects = ((IMixinTextureManager) textureManager).getMapTextureObjects();
             List<ResourceLocation> removes = new ArrayList<>();
 
-            for (ResourceLocation resourceLocation : mapTextureObjects.keySet()) {
-                ITextureObject iTextureObject = mapTextureObjects.get(resourceLocation);
+            for (Map.Entry<ResourceLocation, ITextureObject> entry : mapTextureObjects.entrySet()) {
+                ITextureObject iTextureObject = entry.getValue();
 
                 if (iTextureObject instanceof ThreadDownloadImageData) {
                     IImageBuffer imageBuffer = ((IMixinThreadDownloadImageData) iTextureObject).getImageBuffer();
@@ -71,7 +71,7 @@ public class MemoryHelper {
                     Class<? extends IImageBuffer> aClass = imageBuffer.getClass();
                     // Optifine
                     if (aClass.getName().equalsIgnoreCase("CapeImageBuffer")) {
-                        removes.add(resourceLocation);
+                        removes.add(entry.getKey());
                     }
                 }
             }

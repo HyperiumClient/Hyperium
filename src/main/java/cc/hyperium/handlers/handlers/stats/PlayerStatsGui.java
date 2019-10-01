@@ -157,9 +157,10 @@ public class PlayerStatsGui extends HyperiumGui {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         if (!texturesImage.isEmpty()) {
-            for (AbstractHypixelStats s : texturesImage.keySet()) {
+            for (Map.Entry<AbstractHypixelStats, BufferedImage> entry : texturesImage.entrySet()) {
+                AbstractHypixelStats s = entry.getKey();
                 if (!logos.containsKey(s))
-                    logos.put(s, new DynamicTexture(texturesImage.get(s)));
+                    logos.put(s, new DynamicTexture(entry.getValue()));
             }
         }
         super.drawScreen(mouseX, mouseY, partialTicks);

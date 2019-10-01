@@ -35,11 +35,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.IChatComponent;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandler {
 
@@ -70,9 +66,9 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
                 mappings.put("RightLeg", "rightUpperLeg");
                 mappings.put("LeftArm", "leftUpperArm");
                 mappings.put("RightArm", "rightUpperArm");
-                for (String s : mappings.keySet()) {
+                for (Map.Entry<String, String> entry : mappings.entrySet()) {
                     JsonHolder holder = new JsonHolder();
-                    NBTTagList tag = (NBTTagList) pose.getTag(s);
+                    NBTTagList tag = (NBTTagList) pose.getTag(entry.getKey());
                     if (tag == null)
                         continue;
                     String[] obj = {"X", "Y", "Z"};
@@ -86,7 +82,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
                         }
                     }
                     if (holder.getKeys().size() != 0) {
-                        out.put(mappings.get(s), holder);
+                        out.put(entry.getValue(), holder);
                     }
                 }
             } catch (NBTException | net.minecraft.command.CommandException e) {

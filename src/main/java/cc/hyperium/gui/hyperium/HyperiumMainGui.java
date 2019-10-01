@@ -82,13 +82,13 @@ public class HyperiumMainGui extends HyperiumGui {
         SettingsHandler settingsHandler = Hyperium.INSTANCE.getHandlers().getSettingsHandler();
         settingsObjects.addAll(settingsHandler.getSettingsObjects());
         HashMap<Field, List<Consumer<Object>>> call1 = settingsHandler.getcallbacks();
-        for (Field field : call1.keySet()) {
-            callbacks.computeIfAbsent(field, tmp -> new ArrayList<>()).addAll(call1.get(field));
+        for (Map.Entry<Field, List<Consumer<Object>>> entry : call1.entrySet()) {
+            callbacks.computeIfAbsent(entry.getKey(), tmp -> new ArrayList<>()).addAll(entry.getValue());
         }
 
         HashMap<Field, Supplier<String[]>> customStates = settingsHandler.getCustomStates();
-        for (Field field : customStates.keySet()) {
-            this.customStates.put(field, customStates.get(field));
+        for (Map.Entry<Field, Supplier<String[]>> entry : customStates.entrySet()) {
+            this.customStates.put(entry.getKey(), entry.getValue());
         }
         try {
             rgbFields.add(new RGBFieldSet(

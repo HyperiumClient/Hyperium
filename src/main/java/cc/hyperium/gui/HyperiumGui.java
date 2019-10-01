@@ -213,9 +213,9 @@ public abstract class HyperiumGui extends GuiScreen {
         mouseX = (int) (mouseX * ((float) Minecraft.getMinecraft().gameSettings.guiScale) / (float) guiScale);
         mouseY = (int) (mouseY * ((float) Minecraft.getMinecraft().gameSettings.guiScale) / (float) guiScale);
 
-        for (GuiBlock block : actions.keySet()) {
-            if (block.isMouseOver(mouseX, mouseY)) {
-                actions.get(block).run();
+        for (Map.Entry<GuiBlock, Runnable> entry : actions.entrySet()) {
+            if (entry.getKey().isMouseOver(mouseX, mouseY)) {
+                entry.getValue().run();
                 return;
             }
         }

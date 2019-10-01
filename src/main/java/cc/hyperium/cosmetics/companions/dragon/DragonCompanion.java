@@ -38,6 +38,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DragonCompanion extends AbstractCosmetic {
@@ -120,8 +121,9 @@ public class DragonCompanion extends AbstractCosmetic {
         if (Minecraft.getMinecraft().theWorld == null)
             return;
 
-        for (EntityPlayer player : dragonHashMap.keySet()) {
-            CustomDragon customDragon = dragonHashMap.get(player);
+        for (Map.Entry<EntityPlayer, CustomDragon> entry : dragonHashMap.entrySet()) {
+            EntityPlayer player = entry.getKey();
+            CustomDragon customDragon = entry.getValue();
             EntityDragon entityDragon = customDragon.dragon;
             AnimationState animationState = customDragon.animationState;
             if (entityDragon != null) {

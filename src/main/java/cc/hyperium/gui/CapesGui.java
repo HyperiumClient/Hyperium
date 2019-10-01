@@ -154,9 +154,10 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
         try {
             if (!texturesImage.isEmpty()) {
-                for (String s : texturesImage.keySet()) {
+                for (Map.Entry<String, BufferedImage> entry : texturesImage.entrySet()) {
+                    String s = entry.getKey();
                     if (!textures.containsKey(s))
-                        textures.put(s, new DynamicTexture(texturesImage.get(s)));
+                        textures.put(s, new DynamicTexture(entry.getValue()));
                 }
             }
 
