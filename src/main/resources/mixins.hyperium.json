@@ -108,6 +108,7 @@
     "network.play.server.MixinS19PacketEntityHeadLook",
     "network.play.server.MixinS19PacketEntityStatus",
     "scoreboard.MixinScoreboard",
+    "util.MixinChatComponentStyle",
     "util.MixinChatStyle",
     "util.MixinClassInheritanceMultiMap",
     "util.MixinMathHelper",
