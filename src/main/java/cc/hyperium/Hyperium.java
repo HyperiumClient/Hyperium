@@ -31,7 +31,6 @@ import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
-import cc.hyperium.handlers.handlers.stats.PlayerStatsGui;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.internal.MemoryHelper;
 import cc.hyperium.mixins.client.MixinMinecraft;
@@ -135,7 +134,6 @@ public class Hyperium {
     // Common utilities for Sk1er's mods
     private Sk1erMod sk1erMod;
 
-
     /**
      * Register things such as Languages to be used throughout the game.
      *
@@ -155,7 +153,7 @@ public class Hyperium {
 
     /**
      * Initialize all local variables
-     *
+     * <p>
      * Create / check for important things that need to be loaded
      * before the client officially allows the player to use it.
      *
@@ -164,7 +162,6 @@ public class Hyperium {
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
         try {
-
             // Create the network handler, register it in config, then check for a LoginReply
             Multithreading.runAsync(() -> {
                 networkHandler = new NetworkHandler();
@@ -172,9 +169,6 @@ public class Hyperium {
                 this.client = new NettyClient(networkHandler);
                 UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
             });
-
-            // Create something using GL Context (could be removed?)
-            Multithreading.runAsync(() -> new PlayerStatsGui(null));
 
             // Initialize notifications
             notification = new NotificationCenter();
@@ -279,6 +273,11 @@ public class Hyperium {
 
             // Check if the user is running Optifine
             runningOptifine();
+
+            if (Settings.BACKGROUND.equalsIgnoreCase("CUSTOM")) {
+                Settings.BACKGROUND = "1"; // until i fix backgrounds
+                LOGGER.info("Changed background to 4 as it used to be Custom.");
+            }
         } catch (Throwable t) {
 
             // If an issue is thrown, crash the game
@@ -292,23 +291,23 @@ public class Hyperium {
      */
     private void registerCommands() {
         HyperiumCommandHandler hyperiumCommandHandler = handlers.getHyperiumCommandHandler();
-        hyperiumCommandHandler.registerCommand(new CommandConfigGui());
-        hyperiumCommandHandler.registerCommand(new CustomLevelheadCommand());
+        hyperiumCommandHandler.registerCommand(new CommandBossbarGui());
         hyperiumCommandHandler.registerCommand(new CommandClearChat());
-        hyperiumCommandHandler.registerCommand(new CommandNameHistory());
-        hyperiumCommandHandler.registerCommand(new CommandDebug());
+        hyperiumCommandHandler.registerCommand(new CommandConfigGui());
         hyperiumCommandHandler.registerCommand(new CommandCoords());
-        hyperiumCommandHandler.registerCommand(new CommandLogs());
-        hyperiumCommandHandler.registerCommand(new CommandPing());
-        hyperiumCommandHandler.registerCommand(new CommandStats());
-        hyperiumCommandHandler.registerCommand(new CommandParty());
-        hyperiumCommandHandler.registerCommand(new CommandGarbageCollect());
-        hyperiumCommandHandler.registerCommand(new CommandMessage());
-        hyperiumCommandHandler.registerCommand(new CommandParticleAuras());
+        hyperiumCommandHandler.registerCommand(new CommandDebug());
         hyperiumCommandHandler.registerCommand(new CommandDisableCommand());
+        hyperiumCommandHandler.registerCommand(new CommandGarbageCollect());
         hyperiumCommandHandler.registerCommand(new CommandGuild());
         hyperiumCommandHandler.registerCommand(new CommandKeybinds());
-        hyperiumCommandHandler.registerCommand(new CommandBossbarGui());
+        hyperiumCommandHandler.registerCommand(new CommandLogs());
+        hyperiumCommandHandler.registerCommand(new CommandMessage());
+        hyperiumCommandHandler.registerCommand(new CommandNameHistory());
+        hyperiumCommandHandler.registerCommand(new CommandParticleAuras());
+        hyperiumCommandHandler.registerCommand(new CommandParty());
+        hyperiumCommandHandler.registerCommand(new CommandPing());
+        hyperiumCommandHandler.registerCommand(new CommandStats());
+        hyperiumCommandHandler.registerCommand(new CustomLevelheadCommand());
     }
 
     /**

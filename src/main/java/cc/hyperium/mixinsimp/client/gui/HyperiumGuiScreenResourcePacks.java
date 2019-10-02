@@ -44,7 +44,8 @@ public class HyperiumGuiScreenResourcePacks {
         });
     }
 
-    public void drawScreen(GuiResourcePackAvailable availableResourcePacksList, GuiResourcePackSelected selectedResourcePacksList, int mouseX, int mouseY, float partialTicks, FontRenderer fontRendererObj, int width) {
+    public void drawScreen(GuiResourcePackAvailable availableResourcePacksList, GuiResourcePackSelected selectedResourcePacksList,
+                           int mouseX, int mouseY, float partialTicks, FontRenderer fontRendererObj, int width) {
         parent.drawBackground(0);
         availableResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
         selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
