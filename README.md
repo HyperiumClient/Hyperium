@@ -71,7 +71,7 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 ## Developer Resources ##
 	
 ### Building the Project with IntelliJ ###
-If you don't know how, then you shouldn't try. Join our beta in [Discord](https://discord.gg/sk1er), or wait for releases!
+If you don't know how, then you shouldn't try. Join our beta in [Discord](https://discord.gg/Sk1er), or wait for releases!
 
 ### Addon Development ###
 To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
