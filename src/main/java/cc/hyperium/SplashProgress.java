@@ -92,7 +92,8 @@ public class SplashProgress {
         int scaleFactor = scaledresolution.getScaleFactor();
 
         // Bind the width and height to the framebuffer
-        Framebuffer framebuffer = new Framebuffer(scaledresolution.getScaledWidth() * scaleFactor, scaledresolution.getScaledHeight() * scaleFactor, true);
+        Framebuffer framebuffer = new Framebuffer(scaledresolution.getScaledWidth() * scaleFactor,
+            scaledresolution.getScaledHeight() * scaleFactor, true);
         framebuffer.bindFramebuffer(false);
 
         // Create the projected image to be rendered
@@ -121,7 +122,8 @@ public class SplashProgress {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         // Draw the image
-        Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 1920, 1080, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), 1920, 1080);
+        Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 1920, 1080,
+            scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), 1920, 1080);
 
         // Draw the progress bar
         drawProgress();

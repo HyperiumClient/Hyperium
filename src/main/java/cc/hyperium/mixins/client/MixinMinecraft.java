@@ -79,7 +79,6 @@ public abstract class MixinMinecraft {
     @Shadow long systemTime;
     @Final @Shadow public File mcDataDir;
     @Shadow private Framebuffer framebufferMc;
-    @Shadow public abstract void shutdown();
     @Shadow public abstract void run();
     @Shadow public EffectRenderer effectRenderer;
 
