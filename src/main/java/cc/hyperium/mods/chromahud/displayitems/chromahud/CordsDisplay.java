@@ -53,6 +53,7 @@ public class CordsDisplay extends DisplayItem {
     public String toString() {
         return "CordsDisplay{" +
             "state=" + state +
+            ", precision=" + precision +
             '}';
     }
 
