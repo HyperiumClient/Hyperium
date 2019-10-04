@@ -212,7 +212,7 @@ object Renderer {
         val tessellator = MCTessellator.getInstance()
         val worldRenderer = tessellator.getRenderer()
 
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO)
         if (colorized == null) {
             val a = (color shr 24 and 255).toFloat() / 255.0f
             val r = (color shr 16 and 255).toFloat() / 255.0f
@@ -220,7 +220,7 @@ object Renderer {
             val b = (color and 255).toFloat() / 255.0f
             GlStateManager.color(r, g, b, a)
         }
-        worldRenderer.begin(7, DefaultVertexFormats.POSITION)
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION)
         worldRenderer.pos(pos[0].toDouble(), pos[3].toDouble(), 0.0).endVertex()
         worldRenderer.pos(pos[2].toDouble(), pos[3].toDouble(), 0.0).endVertex()
         worldRenderer.pos(pos[2].toDouble(), pos[1].toDouble(), 0.0).endVertex()
@@ -243,7 +243,7 @@ object Renderer {
         val tessellator = MCTessellator.getInstance()
         val worldRenderer = tessellator.getRenderer()
 
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO)
         if (colorized == null) {
             val a = (color shr 24 and 255).toFloat() / 255.0f
             val r = (color shr 16 and 255).toFloat() / 255.0f
@@ -282,7 +282,7 @@ object Renderer {
         val tessellator = MCTessellator.getInstance()
         val worldRenderer = tessellator.getRenderer()
 
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO)
         if (colorized == null) {
             val a = (color shr 24 and 255).toFloat() / 255.0f
             val r = (color shr 16 and 255).toFloat() / 255.0f
@@ -323,7 +323,7 @@ object Renderer {
 
         GlStateManager.enableBlend()
         GlStateManager.disableTexture2D()
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO)
         if (colorized == null) {
             val a = (color shr 24 and 255).toFloat() / 255.0f
             val r = (color shr 16 and 255).toFloat() / 255.0f
@@ -376,7 +376,7 @@ object Renderer {
         val tessellator = MCTessellator.getInstance()
         val worldRenderer = tessellator.getRenderer()
 
-        worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX)
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
 
         worldRenderer.pos(x, y + height, 0.0).tex(0.0, 1.0).endVertex()
         worldRenderer.pos(x + width, y + height, 0.0).tex(1.0, 1.0).endVertex()

@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
@@ -65,15 +66,15 @@ public class CustomCrosshairGraphics {
         final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
         GlStateManager
             .color(colour.getRed() / 255.0f, colour.getGreen() / 255.0f, colour.getBlue() / 255.0f,
                 colour.getAlpha() / 255.0f);
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION);
-        worldrenderer.pos((double) x1, (double) y2, 0.0).endVertex();
-        worldrenderer.pos((double) x2, (double) y2, 0.0).endVertex();
-        worldrenderer.pos((double) x2, (double) y1, 0.0).endVertex();
-        worldrenderer.pos((double) x1, (double) y1, 0.0).endVertex();
+        worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+        worldrenderer.pos(x1, y2, 0.0).endVertex();
+        worldrenderer.pos(x2, y2, 0.0).endVertex();
+        worldrenderer.pos(x2, y1, 0.0).endVertex();
+        worldrenderer.pos(x1, y1, 0.0).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
@@ -105,13 +106,13 @@ public class CustomCrosshairGraphics {
         final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
         GlStateManager
             .color(colour.getRed() / 255.0f, colour.getGreen() / 255.0f, colour.getBlue() / 255.0f,
                 colour.getAlpha() / 255.0f);
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION);
-        worldrenderer.pos((double) x1, (double) y1, 0.0).endVertex();
-        worldrenderer.pos((double) x2, (double) y2, 0.0).endVertex();
+        worldrenderer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION);
+        worldrenderer.pos(x1, y1, 0.0).endVertex();
+        worldrenderer.pos(x2, y2, 0.0).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
@@ -123,11 +124,11 @@ public class CustomCrosshairGraphics {
         final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
         GlStateManager
             .color(colour.getRed() / 255.0f, colour.getGreen() / 255.0f, colour.getBlue() / 255.0f,
                 colour.getAlpha() / 255.0f);
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION);
+        worldrenderer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION);
         for (int degrees = 0; degrees <= 360; ++degrees) {
             final float radians = (float) (degrees * 0.017453292519943295);
             worldrenderer.pos(x + Math.cos(radians) * radius, y + Math.sin(radians) * radius, 0.0)

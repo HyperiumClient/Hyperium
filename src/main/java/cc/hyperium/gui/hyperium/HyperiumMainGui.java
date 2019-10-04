@@ -142,7 +142,7 @@ public class HyperiumMainGui extends HyperiumGui {
         if (Minecraft.getMinecraft().theWorld == null) {
             GlStateManager.disableDepth();
             GlStateManager.depthMask(false);
-            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.disableAlpha();
             GuiHyperiumScreen.renderBackgroundImage();

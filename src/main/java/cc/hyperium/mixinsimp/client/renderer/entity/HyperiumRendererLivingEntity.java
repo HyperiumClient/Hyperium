@@ -47,7 +47,9 @@ public class HyperiumRendererLivingEntity<T extends EntityLivingBase> {
         parent = rendererLivingEntity;
     }
 
-    public void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_, List<LayerRenderer<T>> layerRenderers) {
+    public void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_,
+                             float partialTicks, float p_177093_5_, float p_177093_6_,
+                             float p_177093_7_, float p_177093_8_, List<LayerRenderer<T>> layerRenderers) {
         for (LayerRenderer<T> layerrenderer : layerRenderers) {
             boolean f = layerrenderer.shouldCombineTextures();
             if (Settings.OLD_ARMOUR) {
@@ -88,7 +90,7 @@ public class HyperiumRendererLivingEntity<T extends EntityLivingBase> {
 
             if (d0 < (double) (f * f)) {
                 String s = entity.getDisplayName().getFormattedText();
-                GlStateManager.alphaFunc(516, 0.1F);
+                GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
 
                 if (entity.isSneaking() && (Settings.SHOW_OWN_NAME || !entity.equals(Minecraft.getMinecraft().thePlayer))) {
                     FontRenderer fontrenderer = renderManager.getFontRenderer();
@@ -104,11 +106,11 @@ public class HyperiumRendererLivingEntity<T extends EntityLivingBase> {
                     GlStateManager.depthMask(false);
                     GlStateManager.enableBlend();
                     GlStateManager.disableTexture2D();
-                    GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+                    GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
                     int i = fontrenderer.getStringWidth(s) / 2;
                     Tessellator tessellator = Tessellator.getInstance();
                     WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-                    worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+                    worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
                     worldrenderer.pos(-i - 1, -1.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
                     worldrenderer.pos(-i - 1, 8.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
                     worldrenderer.pos(i + 1, 8.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();

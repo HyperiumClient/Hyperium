@@ -356,7 +356,7 @@ public class Settings {
 
     @ConfigOpt
     @SliderSetting(name = "gui.settings.blue", mods = true, category = REACH, isInt = true, min = 0, max = 255)
-    public static int REACH_BLUE;
+    public static int REACH_BLUE = 255;
 
     @ConfigOpt
     @SliderSetting(name = "gui.settings.green", mods = true, category = REACH, isInt = true, min = 0, max = 255)

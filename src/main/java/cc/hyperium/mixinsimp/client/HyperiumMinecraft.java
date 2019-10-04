@@ -182,13 +182,9 @@ public class HyperiumMinecraft {
 
     public void setWindowIcon() {
         if (Util.getOSType() != Util.EnumOS.OSX) {
-            try (InputStream inputStream16x = Minecraft.class
-                .getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
-                 InputStream inputStream32x = Minecraft.class
-                     .getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
-                ByteBuffer[] icons = new ByteBuffer[]{
-                    Utils.INSTANCE.readImageToBuffer(inputStream16x),
-                    Utils.INSTANCE.readImageToBuffer(inputStream32x)};
+            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
+                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
+                ByteBuffer[] icons = new ByteBuffer[]{Utils.INSTANCE.readImageToBuffer(inputStream16x), Utils.INSTANCE.readImageToBuffer(inputStream32x)};
                 Display.setIcon(icons);
             } catch (Exception e) {
                 Hyperium.LOGGER.error("Couldn't set Windows Icon", e);

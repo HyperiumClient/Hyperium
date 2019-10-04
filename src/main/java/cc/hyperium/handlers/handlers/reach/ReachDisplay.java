@@ -79,14 +79,14 @@ public class ReachDisplay {
             GlStateManager.depthMask(false);
             GlStateManager.disableDepth();
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             int i = 0;
 
             int j = fontrenderer.getStringWidth(string) / 2;
             GlStateManager.disableTexture2D();
-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+            worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
             worldrenderer.pos(-j - 1, -1 + i, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             worldrenderer.pos(-j - 1, 8 + i, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             worldrenderer.pos(j + 1, 8 + i, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
@@ -94,7 +94,9 @@ public class ReachDisplay {
             tessellator.draw();
             GlStateManager.enableTexture2D();
 
-            fontrenderer.drawString(string, -j, 0, Settings.REACH_COLOR_TYPE.equalsIgnoreCase("RGB") ? new Color(Settings.REACH_RED, Settings.REACH_GREEN, Settings.REACH_BLUE).getRGB() : Hyperium.INSTANCE.getModIntegration().getLevelhead().getRGBColor(), true);
+            fontrenderer.drawString(string, -j, 0, Settings.REACH_COLOR_TYPE.equalsIgnoreCase("RGB") ?
+                new Color(Settings.REACH_RED, Settings.REACH_GREEN, Settings.REACH_BLUE).getRGB() :
+                Hyperium.INSTANCE.getModIntegration().getLevelhead().getRGBColor(), true);
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();
             GlStateManager.depthMask(true);
