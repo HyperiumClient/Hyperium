@@ -27,13 +27,23 @@ import net.minecraft.client.gui.GuiNewChat;
 
 public class CompactChat {
 
+    // Create an instance to be used in other classes
     private static CompactChat instance;
 
+    // Catch the last message sent
     private String lastMessage = "";
 
+    // What line was the message on?
     private int line;
+
+    // How many times has it been sent?
     private int amount;
 
+    /**
+     * Create the instance
+     *
+     * @return the class instance
+     */
     public static CompactChat getInstance() {
         if (instance == null) {
             instance = new CompactChat();
@@ -41,28 +51,61 @@ public class CompactChat {
         return instance;
     }
 
+    /**
+     * Check for when a message comes through
+     *
+     * @param event called whenever a message is sent through chat
+     */
     @InvokeEvent(priority = Priority.LOW)
     public void onChat(ChatEvent event) {
+        // Check for the if the user has it enabled and if the message wasn't cancelled
         if (Settings.COMPACT_CHAT && !event.isCancelled()) {
+
+            // Get the chat instance
             GuiNewChat guiNewChat = Minecraft.getMinecraft().ingameGUI.getChatGUI();
+
+            // If the last message sent is the same as the newly posted message
             if (this.lastMessage.equals(event.getChat().getUnformattedText())) {
+
+                // Delete the message
                 guiNewChat.deleteChatLine(line);
+
+                // Increase the amount of times it's been sent
                 this.amount++;
+
+                // Set the last message to be the newly posted message
                 this.lastMessage = event.getChat().getUnformattedText();
+
+                // Append (amount of times it's been sent) to the last message
                 event.getChat().appendText(ChatColor.GRAY + " (" + amount + ")");
             } else {
+
+                // Otherwise it's never been sent
                 this.amount = 1;
+
+                // Set the last message to be the newly posted message
                 this.lastMessage = event.getChat().getUnformattedText();
             }
+
+            // Increase the line the message was on
             this.line++;
+
+            // Check if the event wasn't cancelled
             if (!event.isCancelled()) {
+
+                // Print the chat message and allow it to be deleted
                 guiNewChat.printChatMessageWithOptionalDeletion(event.getChat(), line);
             }
+
+            // If the message has been sent 256 times
             if (line > 256) {
-                line = 0; // yeah...
+
+                // Set it to 0 again
+                line = 0;
             }
+
+            // Cancel the message
             event.setCancelled(true);
         }
     }
-
 }

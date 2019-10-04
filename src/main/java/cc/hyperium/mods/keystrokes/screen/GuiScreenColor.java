@@ -17,93 +17,108 @@
 
 package cc.hyperium.mods.keystrokes.screen;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.config.GuiSlider;
 
 import java.io.IOException;
 
-public class GuiScreenColor extends GuiScreen {
+public class GuiScreenColor extends GuiScreen implements IScreen {
 
     private final KeystrokesMod mod; // OOP
 
-    private final IScrollable scrollable1; // Red
-    private final IScrollable scrollable2; // Green
-    private final IScrollable scrollable3; // Blue
-    private final IScrollable scrollable4; // Gamma
+    private final IScrollable red;
+    private final IScrollable green;
+    private final IScrollable blue;
+    private final IScrollable pressedRed;
+    private final IScrollable pressedGreen;
+    private final IScrollable pressedBlue;
 
-    private boolean updated; // Have the values been changed?
+    private boolean updated = false; // Have the values been changed?
 
-    GuiScreenColor(KeystrokesMod mod, IScrollable scrollable1, IScrollable scrollable2, IScrollable scrollable3) {
+    GuiScreenColor(KeystrokesMod mod, IScrollable red, IScrollable green, IScrollable blue, IScrollable pressedRed, IScrollable pressedGreen, IScrollable pressedBlue) {
         this.mod = mod;
 
-        this.scrollable1 = scrollable1;
-        this.scrollable2 = scrollable2;
-        this.scrollable3 = scrollable3;
-        this.scrollable4 = null;
-    }
-
-    GuiScreenColor(KeystrokesMod mod, IScrollable scrollable1, IScrollable scrollable2, IScrollable scrollable3, IScrollable scrollable4) {
-        this.mod = mod;
-
-        this.scrollable1 = scrollable1;
-        this.scrollable2 = scrollable2;
-        this.scrollable3 = scrollable3;
-        this.scrollable4 = scrollable4;
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.pressedRed = pressedRed;
+        this.pressedGreen = pressedGreen;
+        this.pressedBlue = pressedBlue;
     }
 
     @Override
     public void initGui() {
-        this.buttonList.add(new GuiSlider(0, this.width / 2 - 100, this.height / 2 - 32, 200, 20, "Red: ", "", 0, 255, this.scrollable1.getAmount(), false, true) {
+        buttonList.add(new GuiSlider(0, width / 2 - 150, calculateHeight(3), 150, 20, "Red: ", "",
+            0, 255, red.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();
-                scrollable1.onScroll(getValue(), getValueInt());
+                red.onScroll(getValue(), getValueInt());
                 updated = true;
             }
         });
-        this.buttonList.add(new GuiSlider(1, this.width / 2 - 100, this.height / 2 - 10, 200, 20, "Green: ", "", 0, 255, this.scrollable2.getAmount(), false, true) {
+        buttonList.add(new GuiSlider(1, width / 2 - 150, calculateHeight(4), 150, 20, "Green: ", "",
+            0, 255, green.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();
-                scrollable2.onScroll(getValue(), getValueInt());
+                green.onScroll(getValue(), getValueInt());
                 updated = true;
             }
         });
-        this.buttonList.add(new GuiSlider(2, this.width / 2 - 100, this.height / 2 + 12, 200, 20, "Blue: ", "", 0, 255, this.scrollable3.getAmount(), false, true) {
+        buttonList.add(new GuiSlider(2, width / 2 - 150, calculateHeight(5), 150, 20, "Blue: ", "",
+            0, 255, blue.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();
-                scrollable3.onScroll(getValue(), getValueInt());
+                blue.onScroll(getValue(), getValueInt());
                 updated = true;
             }
         });
-        if (this.scrollable4 != null) {
-            this.buttonList.add(new GuiSlider(3, this.width / 2 - 100, this.height / 2 + 34, 200, 20, "Alpha: ", "", 0, 255, this.scrollable4.getAmount(), false, true) {
-                @Override
-                public void updateSlider() {
-                    super.updateSlider();
-                    scrollable4.onScroll(getValue(), getValueInt());
-                    updated = true;
-                }
-            });
-        }
-        this.buttonList.add(new GuiButton(4, 5, this.height - 25, 100, 20, "Back"));
+        buttonList.add(new GuiSlider(3, width / 2 + 5, calculateHeight(3), 150, 20, "Pressed Red: ", "",
+            0, 255, pressedRed.getAmount(), false, true) {
+            @Override
+            public void updateSlider() {
+                super.updateSlider();
+                pressedRed.onScroll(getValue(), getValueInt());
+                updated = true;
+            }
+        });
+        buttonList.add(new GuiSlider(4, width / 2 + 5, calculateHeight(4), 150, 20, "Pressed Green: ", "",
+            0, 255, pressedGreen.getAmount(), false, true) {
+            @Override
+            public void updateSlider() {
+                super.updateSlider();
+                pressedGreen.onScroll(getValue(), getValueInt());
+                updated = true;
+            }
+        });
+        buttonList.add(new GuiSlider(5, width / 2 + 5, calculateHeight(5), 150, 20, "Pressed Blue: ", "",
+            0, 255, pressedBlue.getAmount(), false, true) {
+            @Override
+            public void updateSlider() {
+                super.updateSlider();
+                pressedBlue.onScroll(getValue(), getValueInt());
+                updated = true;
+            }
+        });
+        buttonList.add(new GuiButton(6, 5, height - 25, 100, 20, "Back"));
     }
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        if (button.id == 4) {
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiScreenKeystrokes(this.mod));
+        if (button.id == 6) {
+            mc.displayGuiScreen(new GuiScreenKeystrokes(mod));
         }
     }
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         if (keyCode == 1) {
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiScreenKeystrokes(this.mod));
+            mc.displayGuiScreen(new GuiScreenKeystrokes(mod));
         } else {
             super.keyTyped(typedChar, keyCode);
         }
@@ -111,14 +126,15 @@ public class GuiScreenColor extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.mod.getRenderer().renderKeystrokes();
+        drawDefaultBackground();
+        mod.getRenderer().renderKeystrokes();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Override
     public void onGuiClosed() {
-        if (this.updated) {
-            this.mod.getSettings().save();
+        if (updated) {
+            mod.getSettings().save();
         }
     }
 

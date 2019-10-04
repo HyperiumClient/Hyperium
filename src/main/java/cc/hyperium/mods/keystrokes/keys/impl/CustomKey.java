@@ -19,7 +19,7 @@ package cc.hyperium.mods.keystrokes.keys.impl;
 
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
-import cc.hyperium.mods.keystrokes.keys.IKey;
+import cc.hyperium.mods.keystrokes.keys.AbstractKey;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -30,7 +30,7 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
-public class CustomKey extends IKey {
+public class CustomKey extends AbstractKey {
 
     private int key;
     private boolean wasPressed;
@@ -85,7 +85,15 @@ public class CustomKey extends IKey {
         }
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
-            Gui.drawRect(left, top, right, bottom, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+            if (mod.getSettings().getKeyBackgroundRed() == 0 && mod.getSettings().getKeyBackgroundGreen() == 0 && mod.getSettings().getKeyBackgroundBlue() == 0) {
+                Gui.drawRect(left, top, right, bottom,
+                    new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                        mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
+            } else {
+                Gui.drawRect(left, top, right, bottom,
+                    new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                        mod.getSettings().getKeyBackgroundOpacity()).getRGB());
+            }
         }
 
         hitbox.setLeft(left);
@@ -109,9 +117,9 @@ public class CustomKey extends IKey {
                 this.drawGradientRect(0, 0, 2, 35, Color.HSBtoRGB((System.currentTimeMillis() - xIn * 10 - y2 * 10) % 2000L / 2000.0f, 0.8f, 0.8f), Color.HSBtoRGB((System.currentTimeMillis() - (xIn + 35) * 10 - y2 * 10) % 2000L / 2000.0f, 0.8f, 0.8f));
                 GlStateManager.popMatrix();
             } else if (this.type == 1) {
-                this.drawChromaString(name, x + (this.xOffset + 70) / 2 - fontRendererObj.getStringWidth(name) / 2, y + this.yOffset + 5);
+                drawChromaString(name, x + ((this.xOffset + 70) / 2) - fontRendererObj.getStringWidth(name) / 2, y + yOffset + 5, 1.0F);
             } else {
-                this.drawChromaString(name, (left + right) / 2 - fontRendererObj.getStringWidth(name) / 2, (int) yPos);
+                drawChromaString(name, (left + right) / 2 - fontRendererObj.getStringWidth(name) / 2, (int) yPos, 1.0);
             }
         } else if (this.type == 0 || this.type == 1) {
             this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + this.yOffset + 5, pressed ? pressedColor : colorN);

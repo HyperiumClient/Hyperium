@@ -157,9 +157,10 @@ public class PlayerStatsGui extends HyperiumGui {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         if (!texturesImage.isEmpty()) {
-            for (AbstractHypixelStats s : texturesImage.keySet()) {
+            for (Map.Entry<AbstractHypixelStats, BufferedImage> entry : texturesImage.entrySet()) {
+                AbstractHypixelStats s = entry.getKey();
                 if (!logos.containsKey(s))
-                    logos.put(s, new DynamicTexture(texturesImage.get(s)));
+                    logos.put(s, new DynamicTexture(entry.getValue()));
             }
         }
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -253,7 +254,7 @@ public class PlayerStatsGui extends HyperiumGui {
             GlStateManager.pushMatrix();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
-            GlStateManager.translate(current.getScaledWidth() / 2 - 24, 80, 0);
+            GlStateManager.translate((current.getScaledWidth() >> 1) - 24, 80, 0);
             GlStateManager.scale(.2, .2, .2);
             drawTexturedModalRect(0, 0, 0, 0, 128 * 2, 128 * 2);
             GlStateManager.popMatrix();
@@ -265,7 +266,7 @@ public class PlayerStatsGui extends HyperiumGui {
             Icons.EXIT.bind();
             float scale = 2.0F;
             GlStateManager.scale(scale, scale, scale);
-            GlStateManager.translate(current.getScaledWidth() / 2 / scale - 90 / scale, (73) / scale, 0);
+            GlStateManager.translate(current.getScaledWidth() / 2F / scale - 90 / scale, (73) / scale, 0);
             GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);
             GlStateManager.translate(-16, -16, 0);
             drawScaledCustomSizeModalRect(0, 0, 0, 0, 64, 64, 16, 16, 64, 64);

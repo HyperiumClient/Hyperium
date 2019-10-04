@@ -28,18 +28,42 @@ import java.io.InputStream;
 import java.util.Set;
 
 public class AddonWorkspaceResourcePack extends AbstractResourcePack {
+
+    /**
+     * Check for if the addon has a pack.mcmeta file, which is required for any resource pack
+     * If it's not null, retrieve the pack.mcmeta file, otherwise ignore it
+     */
     public AddonWorkspaceResourcePack() {
-        super(AddonWorkspaceResourcePack.class.getClassLoader().getResource("pack.mcmeta") != null ? new File(AddonWorkspaceResourcePack.class.getClassLoader().getResource("pack.mcmeta").getFile()).getParentFile() : null);
+        super(AddonWorkspaceResourcePack.class.getClassLoader().getResource("pack.mcmeta") !=
+            null ? new File(AddonWorkspaceResourcePack.class.getClassLoader().getResource("pack.mcmeta").getFile()).getParentFile() : null);
     }
 
+    /**
+     * Get the file by the name
+     *
+     * @param name the name of the files inside the resource pack
+     * @return the pack.mcmeta file
+     * @throws IOException if it can't be found
+     */
     protected InputStream getInputStreamByName(String name) throws IOException {
         return AddonWorkspaceResourcePack.class.getClassLoader().getResourceAsStream("pack.mcmeta");
     }
 
+    /**
+     * Check for the resource name
+     *
+     * @param name resource
+     * @return resource file
+     */
     protected boolean hasResourceName(String name) {
         return (new File(this.resourcePackFile, name)).isFile();
     }
 
+    /**
+     * Get the domain resource
+     *
+     * @return a string such as "assets/addonid/textures/texture.png"
+     */
     public Set<String> getResourceDomains() {
         Set<String> set = Sets.newHashSet();
         File file1 = new File(this.resourcePackFile, "assets/");

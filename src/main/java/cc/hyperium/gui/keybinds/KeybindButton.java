@@ -29,6 +29,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.Color;
 
@@ -37,7 +38,7 @@ public class KeybindButton extends GuiButton {
     private boolean listening;
     private HyperiumBind btnBind;
 
-    public KeybindButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText, HyperiumBind bind) {
+    KeybindButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText, HyperiumBind bind) {
         super(buttonId, x, y, widthIn, heightIn, buttonText);
         this.btnBind = bind;
         this.displayString = getName(bind.getKeyCode());
@@ -49,7 +50,7 @@ public class KeybindButton extends GuiButton {
         this.displayString = text;
     }
 
-    public void setListening(boolean listening) {
+    void setListening(boolean listening) {
         this.listening = listening;
 
         if (!listening) {
@@ -59,7 +60,7 @@ public class KeybindButton extends GuiButton {
         }
     }
 
-    public boolean isListening() {
+    boolean isListening() {
         return listening;
     }
 
@@ -89,7 +90,7 @@ public class KeybindButton extends GuiButton {
         detectConflicts();
     }
 
-    public void resetBind() {
+    void resetBind() {
         int defaultKey = btnBind.getDefaultKeyCode();
         setBindKey(defaultKey);
     }
@@ -97,7 +98,7 @@ public class KeybindButton extends GuiButton {
     /*
      * Minecraft method modified to accommodate scrolling offset.
      */
-    public void drawDynamicButton(Minecraft mc, int mouseX, int mouseY, int x, int y) {
+    void drawDynamicButton(Minecraft mc, int mouseX, int mouseY, int x, int y) {
         this.xPosition = x;
         this.yPosition = y;
         if (this.visible) {
@@ -107,8 +108,8 @@ public class KeybindButton extends GuiButton {
             this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
             int i = this.getHoverState(this.hovered);
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.blendFunc(770, 771);
+            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
             this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
             this.mouseDragged(mc, mouseX, mouseY);
@@ -132,17 +133,17 @@ public class KeybindButton extends GuiButton {
         }
     }
 
-    public boolean mousePressedDyanmic(Minecraft mc, int mouseX, int mouseY) {
+    boolean mousePressedDyanmic(int mouseX, int mouseY) {
         return this.enabled && this.visible && mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
     }
 
-    public void detectConflicts() {
+    void detectConflicts() {
         for (HyperiumBind hyperiumBind : Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values()) {
             hyperiumBind.detectConflicts();
         }
     }
 
-    public void mouseButtonClicked(int mouseButton) {
+    void mouseButtonClicked(int mouseButton) {
         if (mouseButton == 0 && !listening) {
             // Listen for further action.
             setListening(true);

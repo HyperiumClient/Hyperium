@@ -165,13 +165,14 @@ public class AddItemsGui extends GuiScreen {
             for (ChromaHUDParser parser : parsers) {
 
                 Map<String, String> names = parser.getNames();
-                for (String s : names.keySet()) {
-                    String text1 = names.get(s) + "";
+                for (Map.Entry<String, String> entry : names.entrySet()) {
+                    String s = entry.getKey();
+                    String text1 = entry.getValue() + "";
                     drawRect(current.getScaledWidth() / 2 - 80, cursorY, current.getScaledWidth() / 2 + 80, cursorY + 20, defaultColor.getRGB());
                     int j = Color.RED.getRGB();
                     int width = 160;
                     int height = 20;
-                    mc.fontRendererObj.drawString(text1, ((current.getScaledWidth() >> 1) - 80 + (width >> 1) - (mc.fontRendererObj.getStringWidth(text1) >> 1)), cursorY + (height - 8) / 2, j, false);
+                    mc.fontRendererObj.drawString(text1, ((current.getScaledWidth() >> 1) - 80 + (width >> 1) - (mc.fontRendererObj.getStringWidth(text1) >> 1)), cursorY + ((height - 8) >> 1), j, false);
                     int i = ResolutionUtil.current().getScaledHeight() - (Mouse.getY() / current.getScaleFactor());
                     if (Mouse.isButtonDown(0) && !mouseLock)
                         if (i >= cursorY && i <= cursorY + 23) {
@@ -193,16 +194,17 @@ public class AddItemsGui extends GuiScreen {
             for (ChromaHUDParser parser : parsers) {
                 ChromaHUDDescription description = parser.description();
                 String text = "Items in " + description.getName() + ".";
-                mc.fontRendererObj.drawString(text, (current.getScaledWidth() - mc.fontRendererObj.getStringWidth(text)) / 2, cursorY, Color.RED.getRGB(), true);
+                mc.fontRendererObj.drawString(text, (current.getScaledWidth() - mc.fontRendererObj.getStringWidth(text)) >> 1, cursorY, Color.RED.getRGB(), true);
                 cursorY += 30;
 
                 Map<String, String> names = parser.getNames();
-                for (String s : names.keySet()) {
-                    String text1 = names.get(s) + ": ";
+                for (Map.Entry<String, String> entry : names.entrySet()) {
+                    String s = entry.getKey();
+                    String text1 = entry.getValue() + ": ";
                     DisplayElement displayElement = find(s);
                     if (displayElement == null) {
                         String text2 = "ERROR LOCATING DISPLAY ELEMENT " + s;
-                        mc.fontRendererObj.drawString(text2, (current.getScaledWidth() - mc.fontRendererObj.getStringWidth(text2)) / 2, cursorY, Color.RED.getRGB(), true);
+                        mc.fontRendererObj.drawString(text2, (current.getScaledWidth() - mc.fontRendererObj.getStringWidth(text2)) >> 1, cursorY, Color.RED.getRGB(), true);
                         cursorY += 15;
                         continue;
                     }

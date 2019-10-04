@@ -19,14 +19,13 @@ package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
 import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 
-import java.awt.Color;
+import java.awt.*;
 
-public class GuiHyperiumScreenTos extends GuiHyperiumScreen {
+public class GuiHyperiumScreenTos extends GuiScreen {
 
     private static boolean firstAccept;
 
@@ -41,6 +40,7 @@ public class GuiHyperiumScreenTos extends GuiHyperiumScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         drawRect(0, 79, width, 148, 0x66000000);

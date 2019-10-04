@@ -18,10 +18,10 @@
 package cc.hyperium.mixinsimp.client;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.Metadata;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.*;
-import cc.hyperium.gui.CrashReportGUI;
 import cc.hyperium.gui.GuiHyperiumScreenMainMenu;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.internal.addons.AddonBootstrap;
@@ -57,9 +57,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.lang.management.ManagementFactory;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -184,13 +182,9 @@ public class HyperiumMinecraft {
 
     public void setWindowIcon() {
         if (Util.getOSType() != Util.EnumOS.OSX) {
-            try (InputStream inputStream16x = Minecraft.class
-                .getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
-                 InputStream inputStream32x = Minecraft.class
-                     .getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
-                ByteBuffer[] icons = new ByteBuffer[]{
-                    Utils.INSTANCE.readImageToBuffer(inputStream16x),
-                    Utils.INSTANCE.readImageToBuffer(inputStream32x)};
+            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
+                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
+                ByteBuffer[] icons = new ByteBuffer[]{Utils.INSTANCE.readImageToBuffer(inputStream16x), Utils.INSTANCE.readImageToBuffer(inputStream32x)};
                 Display.setIcon(icons);
             } catch (Exception e) {
                 Hyperium.LOGGER.error("Couldn't set Windows Icon", e);
@@ -299,39 +293,15 @@ public class HyperiumMinecraft {
 
     public void displayCrashReport(CrashReport crashReportIn) {
         // Separate Hyperium crash reports.
-        String data = crashReportIn.getCauseStackTraceOrString();
         File crashReportDir;
-        String crashReportPrefix = "crash-";
-        if (data.contains("hyperium")) {
-            crashReportDir = new File(Minecraft.getMinecraft().mcDataDir, "hyperium-crash-reports");
-            if (!crashReportDir.exists()) {
-                crashReportDir.mkdir();
-            }
-            crashReportPrefix = "hyperium-crash-";
-        } else {
-            crashReportDir = new File(Minecraft.getMinecraft().mcDataDir, "crash-reports");
-        }
+        crashReportDir = new File(Minecraft.getMinecraft().mcDataDir, "crash-reports");
 
         File crashReportFile = new File(crashReportDir,
-            crashReportPrefix + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
-                + "-client.txt");
+            "hyperium-crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
+                + "-client-version-" + Metadata.getVersion().replace(" ", "-") + ".txt");
 
         crashReportIn.saveToFile(crashReportFile);
         Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
-
-        try {
-            Display.setFullscreen(false);
-            Display.setDisplayMode(new DisplayMode(720, 480));
-            Display.update();
-        } catch (LWJGLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Display not created yet. This is going to cause issues.");
-        }
-
-        // Intercept the crash with Hyperium crash report GUI.
-        int crashAction = CrashReportGUI.handle(crashReportIn);
 
         if (crashReportIn.getFile() != null) {
             Bootstrap.printToSYSOUT(
@@ -341,57 +311,6 @@ public class HyperiumMinecraft {
                 "#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportFile.getAbsolutePath());
         } else {
             Bootstrap.printToSYSOUT("#@?@# Game crashed! Crash report could not be saved. #@?@#");
-        }
-
-        switch (crashAction) {
-            case 0:
-                System.exit(-1);
-                break;
-            case 1:
-                try {
-                    parent.shutdown();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    System.exit(-1); // if minecraft could not exit normally
-                }
-                break;
-            case 2:
-                try {
-                    // Restart the client using the command line.
-                    StringBuilder cmd = new StringBuilder();
-                    String[] command = System.getProperty("sun.java.command").split(" ");
-                    cmd.append(System.getProperty("java.home")).append(File.separator).append("bin")
-                        .append(File.separator).append("java ");
-                    ManagementFactory.getRuntimeMXBean().getInputArguments().forEach(s -> {
-                        if (!s.contains("-agentlib")) {
-                            cmd.append(s).append(" ");
-                        }
-                    });
-                    if (command[0].endsWith(".jar")) {
-                        cmd.append("-jar ").append(new File(command[0]).getPath()).append(" ");
-                    } else {
-                        cmd.append("-cp \"").append(System.getProperty("java.class.path"))
-                            .append("\" ").append(command[0]).append(" ");
-                    }
-                    for (int i = 1; i < command.length; i++) {
-                        cmd.append(command[i]).append(" ");
-                    }
-                    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                        try {
-                            System.out.println("## RESTARTING MINECRAFT ##");
-                            System.out.println("cmd=" + cmd.toString());
-                            Runtime.getRuntime().exec(cmd.toString());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            System.out.println("## FAILED TO RESTART MINECRAFT ##");
-                        }
-                    }));
-                    parent.shutdown();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    System.out.println("## FAILED TO RESTART MINECRAFT ##");
-                }
-                break;
         }
     }
 

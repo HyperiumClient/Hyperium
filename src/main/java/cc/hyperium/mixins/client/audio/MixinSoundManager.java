@@ -60,7 +60,5 @@ public class MixinSoundManager {
     @Inject(method = "stopAllSounds", at = @At("TAIL"))
     private void endStopAllSounds(CallbackInfo info) {
         hyperiumSoundManager.endStopAllSounds();
-
     }
-
 }

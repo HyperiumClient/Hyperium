@@ -31,7 +31,7 @@ import java.awt.Color;
  *
  * @author boomboompower
  */
-public abstract class IKey extends Gui {
+public abstract class AbstractKey extends Gui {
 
     protected final Minecraft mc = Minecraft.getMinecraft();
     protected final KeystrokesMod mod;
@@ -39,16 +39,22 @@ public abstract class IKey extends Gui {
     protected final int xOffset;
     protected final int yOffset;
 
-    public IKey(KeystrokesMod mod, int xOffset, int yOffset) {
+    public AbstractKey(KeystrokesMod mod, int xOffset, int yOffset) {
         this.mod = mod;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
     }
 
-    protected void drawChromaString(String text, int x, int y) {
+    protected Color getChromaColor(double x, double y, double offsetScale) {
+        float v = 2000F;
+        return new Color(Color.HSBtoRGB((float) ((System.currentTimeMillis() - (x * 10) * offsetScale - (y * 10) * offsetScale) % v) /
+            v, 0.8F, 0.8F));
+    }
+
+    protected void drawChromaString(String text, int x, int y, double offsetScale) {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         for (char c : text.toCharArray()) {
-            int i = Color.HSBtoRGB((float) ((System.currentTimeMillis() - (x * 10) - (y * 10)) % 2000) / 2000.0F, 0.8F, 0.8F);
+            int i = getChromaColor(x, y, offsetScale).getRGB();
             String tmp = String.valueOf(c);
             renderer.drawString(tmp, x, y, i);
             x += renderer.getStringWidth(tmp);
@@ -61,24 +67,6 @@ public abstract class IKey extends Gui {
     protected abstract void renderKey(int x, int y);
 
     /**
-     * Gets the x offset of the key
-     *
-     * @return x offset of the key
-     */
-    protected final int getXOffset() {
-        return this.xOffset;
-    }
-
-    /**
-     * Gets the y offset of the key
-     *
-     * @return y offset
-     */
-    protected final int getYOffset() {
-        return this.yOffset;
-    }
-
-    /**
      * Gets the color of the text whilst the key is not being pressed
      * <p>
      * if chroma this will return the current generated chroma color
@@ -86,7 +74,8 @@ public abstract class IKey extends Gui {
      * @return the color from settings or chroma if its enabled
      */
     protected final int getColor() {
-        return this.mod.getSettings().isChroma() ? Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xOffset * 10) - (yOffset * 10)) % 2000) / 2000.0F, 0.8F, 0.8F) : new Color(this.mod.getSettings().getRed(), this.mod.getSettings().getGreen(), this.mod.getSettings().getBlue()).getRGB();
+        return this.mod.getSettings().isChroma() ? Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xOffset * 10) - (yOffset * 10)) % 2000) / 2000.0F, 0.8F, 0.8F)
+            : new Color(this.mod.getSettings().getRed(), this.mod.getSettings().getGreen(), this.mod.getSettings().getBlue()).getRGB();
     }
 
     /**
@@ -96,8 +85,9 @@ public abstract class IKey extends Gui {
      *
      * @return the color from settings or chroma if its enabled
      */
-    public final int getPressedColor() {
-        return this.mod.getSettings().isChroma() ? new Color(0, 0, 0).getRGB() : new Color(this.mod.getSettings().getPressedRed(), this.mod.getSettings().getPressedGreen(), this.mod.getSettings().getPressedBlue()).getRGB();
+    protected final int getPressedColor() {
+        return this.mod.getSettings().isChroma() ? new Color(0, 0, 0).getRGB() : new Color(this.mod.getSettings().getPressedRed(), this.mod.getSettings().getPressedGreen(),
+            this.mod.getSettings().getPressedBlue()).getRGB();
     }
 
     /**
@@ -132,6 +122,48 @@ public abstract class IKey extends Gui {
             }
             return openGLName;
         }
+
+        if (mod.getSettings().isUsingLiteralKeys()) {
+            switch (keyCode) {
+                case Keyboard.KEY_GRAVE:
+                    return "~";
+                case Keyboard.KEY_MINUS:
+                case Keyboard.KEY_SUBTRACT:
+                    return "-";
+                case Keyboard.KEY_APOSTROPHE:
+                    return "'";
+                case Keyboard.KEY_LBRACKET:
+                    return "[";
+                case Keyboard.KEY_RBRACKET:
+                    return "]";
+                case Keyboard.KEY_BACKSLASH:
+                    return "\\";
+                case Keyboard.KEY_DIVIDE:
+                case Keyboard.KEY_SLASH:
+                    return "/";
+                case Keyboard.KEY_COMMA:
+                    return ",";
+                case Keyboard.KEY_PERIOD:
+                    return ".";
+                case Keyboard.KEY_SEMICOLON:
+                    return ";";
+                case Keyboard.KEY_EQUALS:
+                    return "=";
+                case Keyboard.KEY_UP:
+                    return "▲";
+                case Keyboard.KEY_DOWN:
+                    return "▼";
+                case Keyboard.KEY_LEFT:
+                    return "◀";
+                case Keyboard.KEY_RIGHT:
+                    return "▶";
+                case Keyboard.KEY_MULTIPLY:
+                    return "*";
+                case Keyboard.KEY_ADD:
+                    return "+";
+            }
+        }
+
         return Keyboard.getKeyName(keyCode);
     }
 }

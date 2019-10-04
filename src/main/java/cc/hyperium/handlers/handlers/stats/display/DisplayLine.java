@@ -48,6 +48,6 @@ public class DisplayLine extends StatsDisplayItem {
     public void draw(int x, int y) {
         GlStateManager.scale(scale, scale, scale);
         Minecraft.getMinecraft().fontRendererObj.drawString(value, x / scale, y / scale, color);
-        GlStateManager.scale(1 / scale, 1 / scale, 1 / scale);
+        GlStateManager.scale(1F / scale, 1F / scale, 1F / scale);
     }
 }

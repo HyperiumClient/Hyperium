@@ -1,4 +1,4 @@
-[ ![Discord](https://canary.discordapp.com/api/guilds/411619823445999637/widget.png) ](https://discord.gg/8GakFcT)
+[ ![Discord](https://canary.discordapp.com/api/guilds/411619823445999637/widget.png) ](https://discord.gg/sk1er)
 [ ![Travis-CI](https://travis-ci.org/HyperiumClient/Hyperium.svg?branch=master)](https://travis-ci.org/HyperiumClient/Hyperium)
 [ ![Hyperium Website Badge](https://img.shields.io/badge/visit%20our-website-red.svg)](https://hyperium.cc)
 [ ![Twitter Follower Count](https://img.shields.io/twitter/follow/HyperiumClient.svg?label=Follow&style=social)](https://twitter.com/HyperiumClient)
@@ -12,14 +12,15 @@
 Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popular features, in addition to suggestions and ideas from the community, in order to provide a unique experience designed for Hypixel.
 
 ## Features ##
-- Bossbar Mod (Custom)
 - Discord Rich Presence (Custom)
 - Old Animations (Custom)
 - Reach Display (Custom)
 - Togglesprint (Custom)
 - [360 Degrees Perspective](https://www.youtube.com/watch?v=7FdMMpzNdUk)
 - [AutoGG](https://2pi.pw/mods/autogg)
+- [Auto MyPosition](https://hypixel.net/threads/forge-1-8-9-auto-myposition-mod-a-mod-which-does-myposition-before-every-game.1983543/)
 - [BlockOverlay](https://aycy.github.io/)
+- [BossbarMod](https://www.youtube.com/watch?v=tigBu2OyZ4I)
 - [ChromaHud](https://sk1er.club/mods/tayber50k)
 - [Chunk Animator](https://www.curseforge.com/minecraft/mc-mods/chunk-animator)
 - [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)
@@ -29,6 +30,7 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [Levelhead](https://sk1er.club/mods/level_head)
 - [MemoryFix](https://prplz.io/memoryfix/)
 - [MotionBlur](https://2pi.pw/mods/motionblur)
+- [MouseBindFix](https://www.youtube.com/watch?v=U0t8AvO8tlo)
 - [MouseDelayFix](https://prplz.io/mousedelayfix/)
 - [NickHider](https://sk1er.club/mods/nick_hider)
 - [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
@@ -37,7 +39,7 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [Victory Royale](https://sk1er.club/mods/victory_royale)
 
 ### Beta Test the Client ###  
-You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://hyperium.cc/discord), or for beta versions, head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
+You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://discord.gg/sk1er), or for beta versions, head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
 
 ### FAQ ###  
 Q: Please help, I can't build Hyperium!
@@ -46,7 +48,7 @@ A: If you don't know how to build a project, please wait for a new beta or relea
 
 Q: When is the official release?
 
-A: It is currently released!  Come download it on our [Discord](https://hyperium.cc/discord)!
+A: It is currently released!  Come download it on our [Discord](https://discord.gg/sk1er)!
 
 Q: Is there a tutorial to create addons?
 
@@ -54,11 +56,11 @@ A: Yes, simply [follow this nice video](https://www.youtube.com/watch?v=RXTIFdoN
 
 Q: I found a bug. Where do I report it?
 
-A: Join the [Discord](https://hyperium.cc/discord) and explain your issue in as much detail as you can in the `#support` channel and wait for a staff member to assist you!
+A: Join the [Discord](https://discord.gg/sk1er) and explain your issue in as much detail as you can in the `#support` channel and wait for a staff member to assist you!
 
 Q: My game keeps crashing!
 
-A: Join the [Discord](https://hyperium.cc/discord) and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
+A: Join the [Discord](https://discord.gg/sk1er) and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
 
 ### Addons ###
 Addons are Hyperium's system of mods, like Forge, except they're done using the Addon Workspace / Addon API. The selection to currently available addons is low, so if you wish to make some, feel free to share it with other Hyperium members.
@@ -69,7 +71,7 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 ## Developer Resources ##
 	
 ### Building the Project with IntelliJ ###
-If you don't know how, then you shouldn't try. Join our beta in [Discord](https://hyperium.cc/discord), or wait for releases!
+If you don't know how, then you shouldn't try. Join our beta in [Discord](https://discord.gg/Sk1er), or wait for releases!
 
 ### Addon Development ###
 To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!

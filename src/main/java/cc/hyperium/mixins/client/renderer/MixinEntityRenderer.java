@@ -41,7 +41,6 @@ public abstract class MixinEntityRenderer {
 
     @Shadow private float thirdPersonDistance;
     @Shadow private float thirdPersonDistanceTemp;
-    @Shadow private boolean cloudFog;
     @Shadow private Minecraft mc;
     @Shadow private Entity pointedEntity;
 
@@ -66,9 +65,10 @@ public abstract class MixinEntityRenderer {
         hyperiumEntityRenderer.orientCamera(partialTicks, this.thirdPersonDistanceTemp, this.thirdPersonDistance, this.mc);
     }
 
-    @Inject(method = "renderWorldPass", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", args = "ldc=hand"))
+    @Inject(method = "renderWorldPass", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", args = "ldc=hand", shift = At.Shift.BEFORE))
     private void onRenderWorld(int pass, float partialTicks, long nano, CallbackInfo info) {
-        new RenderWorldEvent(partialTicks).post();
+        mc.mcProfiler.startSection("hyperium_render_last");
+        new RenderWorldEvent(mc.renderGlobal, partialTicks).post();
     }
 
     @Inject(method = "renderWorldPass", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", args = "ldc=outline"), cancellable = true)

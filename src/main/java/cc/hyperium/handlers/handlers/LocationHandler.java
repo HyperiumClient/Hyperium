@@ -18,16 +18,7 @@
 package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.Settings;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.JoinMinigameEvent;
-import cc.hyperium.event.ServerChatEvent;
-import cc.hyperium.event.ServerJoinEvent;
-import cc.hyperium.event.ServerLeaveEvent;
-import cc.hyperium.event.ServerSwitchEvent;
-import cc.hyperium.event.SpawnpointChangeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.netty.NettyClient;
@@ -52,9 +43,6 @@ public class LocationHandler {
         if (client != null) {
             this.location = event.getServer();
             client.write(UpdateLocationPacket.build("Other"));
-            if (Settings.SEND_SERVER)
-                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("server_update", event.getServer() + ":" + event.getPort())));
-
         }
     }
 
@@ -64,8 +52,6 @@ public class LocationHandler {
         NettyClient client = NettyClient.getClient();
         if (client != null) {
             client.write(UpdateLocationPacket.build("offline"));
-            if (Settings.SEND_SERVER)
-                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("server_update", "Offline")));
         }
     }
 

@@ -36,19 +36,14 @@ import org.lwjgl.opengl.GL11;
 public class ClientPhysic {
 
     public static Minecraft mc = Minecraft.getMinecraft();
-
     public static long tick;
-
-    public static double rotation;
-
-    public static Random random = new Random();
-
-    public static ResourceLocation getEntityTexture() {
+    private static double rotation;
+    private static Random random = new Random();
+    private static ResourceLocation getEntityTexture() {
         return TextureMap.locationBlocksTexture;
     }
 
-    public static void doRender(Entity entity, double x, double y,
-                                double z, float entityYaw, float partialTicks) {
+    public static void doRender(Entity entity, double x, double y, double z) {
         rotation = (double) (System.nanoTime() - tick) / 2500000 * ItemDummyContainer.rotateSpeed;
         if (!mc.inGameHasFocus) {
             rotation = 0;
@@ -64,17 +59,17 @@ public class ClientPhysic {
             i = 187;
         }
 
-        random.setSeed((long) i);
+        random.setSeed(i);
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(getEntityTexture());
         Minecraft.getMinecraft().getTextureManager().getTexture(getEntityTexture())
             .setBlurMipmap(false, false);
 
         GlStateManager.enableRescaleNormal();
-        GlStateManager.alphaFunc(516, 0.1F);
+        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
         GlStateManager.enableBlend();
         RenderHelper.enableStandardItemLighting();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
         GlStateManager.pushMatrix();
         IBakedModel ibakedmodel = mc.getRenderItem().getItemModelMesher().getItemModel(itemstack);
         boolean flag1 = ibakedmodel.isGui3d();
@@ -153,7 +148,7 @@ public class ClientPhysic {
             .restoreLastBlurMipmap();
     }
 
-    public static int getModelCount(ItemStack stack) {
+    private static int getModelCount(ItemStack stack) {
         int i = 1;
 
         if (stack.stackSize > 48) {

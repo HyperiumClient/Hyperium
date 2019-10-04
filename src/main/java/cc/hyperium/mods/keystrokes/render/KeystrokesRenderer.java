@@ -24,7 +24,6 @@ import cc.hyperium.mods.keystrokes.keys.impl.*;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenColor;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.io.IOException;
@@ -98,8 +97,8 @@ public class KeystrokesRenderer {
 
     public void renderKeystrokes() {
         if (this.mod.getSettings().isEnabled()) {
-            int x = this.mod.getSettings().getX();
-            int y = this.mod.getSettings().getY();
+            int x = this.mod.getSettings().getRenderX();
+            int y = this.mod.getSettings().getRenderY();
 
             boolean showingMouseButtons = this.mod.getSettings().isShowingMouseButtons();
             boolean showingSpacebar = this.mod.getSettings().isShowingSpacebar();
@@ -107,35 +106,12 @@ public class KeystrokesRenderer {
             boolean showingCPSOnButtons = this.mod.getSettings().isShowingCPSOnButtons();
             boolean showingSneak = mod.getSettings().isShowingSneak();
             boolean showingFPS = mod.getSettings().isShowingFPS();
-            ScaledResolution res = new ScaledResolution(this.mc);
-
-            int width = this.mod.getSettings().getWidth();
-            int height = this.mod.getSettings().getHeight();
-
-            if (x < 0) {
-                this.mod.getSettings().setX(0);
-                x = this.mod.getSettings().getX();
-
-            } else if (x * this.mod.getSettings().getScale() > res.getScaledWidth() - width * this.mod.getSettings().getScale()) {
-                this.mod.getSettings().setX((int) ((res.getScaledWidth() - width * this.mod.getSettings().getScale()) / this.mod.getSettings().getScale()));
-                x = this.mod.getSettings().getX();
-            }
-
-            if (y < 0) {
-                this.mod.getSettings().setY(0);
-                y = this.mod.getSettings().getY();
-
-            } else if (y * this.mod.getSettings().getScale() > res.getScaledHeight() - height * this.mod.getSettings().getScale()) {
-                this.mod.getSettings().setY((int) ((res.getScaledHeight() - height * this.mod.getSettings().getScale()) / this.mod.getSettings().getScale()));
-                y = this.mod.getSettings().getY();
-            }
+            boolean showingWASD = mod.getSettings().isShowingWASD();
 
             if (this.mod.getSettings().getScale() != 1.0) {
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(this.mod.getSettings().getScale(), this.mod.getSettings().getScale(), 1.0);
             }
-
-            this.drawMovementKeys(x, y);
 
             if (showingMouseButtons) {
                 drawMouseButtons(x, y);
@@ -157,6 +133,10 @@ public class KeystrokesRenderer {
                 drawFPS(x, y);
             }
 
+            if (showingWASD) {
+                drawMovementKeys(x, y);
+            }
+
             y += 130;
             if (!mod.getSettings().isShowingMouseButtons()) {
                 y -= 24;
@@ -176,6 +156,10 @@ public class KeystrokesRenderer {
 
             if (!showingFPS) {
                y -= 18;
+            }
+
+            if (!showingWASD) {
+                y -= 18;
             }
 
             for (CustomKeyWrapper key : customKeys) {

@@ -107,9 +107,7 @@ public class StatsManager {
         StatsRange range = new StatsRange(autotip, start, end);
         Stream.iterate(start, date -> date.plusDays(1))
                 .limit(ChronoUnit.DAYS.between(start, end) + 1)
-                .forEach(date -> {
-                    range.merge(this.get(date));
-                });
+                .forEach(date -> range.merge(this.get(date)));
         return range;
     }
 

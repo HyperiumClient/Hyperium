@@ -5,6 +5,7 @@ import com.chattriggers.ctjs.utils.kotlin.MCTessellator
 import com.chattriggers.ctjs.utils.kotlin.getRenderer
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
+import org.lwjgl.opengl.GL11
 import org.lwjgl.util.vector.Vector2f
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -103,7 +104,7 @@ class Shape(private var color: Int) {
 
         GlStateManager.enableBlend()
         GlStateManager.disableTexture2D()
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO)
         if (Renderer.colorized == null)
             GlStateManager.color(r, g, b, a)
 

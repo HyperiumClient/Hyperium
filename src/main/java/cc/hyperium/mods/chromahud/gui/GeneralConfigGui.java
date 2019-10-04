@@ -55,7 +55,7 @@ public class GeneralConfigGui extends GuiScreen {
     private double lastY;
     private boolean lastD;
     private boolean pastClick;
-    private int dTick; //double clik delay
+    private int dTick; //double click delay
 
     public GeneralConfigGui(ChromaHUD mod) {
         this.mod = mod;
@@ -111,13 +111,12 @@ public class GeneralConfigGui extends GuiScreen {
             ElementRenderer.endDrawing(element);
         }
         if (currentElement != null) {
-            boolean cbHud = currentElement.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"));
             ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
             double offset = currentElement.isRightSided() ? currentElement.getDimensions().getWidth() : 0;
 
             // Left top right bottom
             double x1 = currentElement.getXloc() * resolution.getScaledWidth_double() - offset;
-            double x2 = currentElement.getXloc() * resolution.getScaledWidth_double() + (cbHud ? 60 : currentElement.getDimensions().getWidth()) - offset;
+            double x2 = currentElement.getXloc() * resolution.getScaledWidth_double() + currentElement.getDimensions().getWidth() - offset;
             double y1 = currentElement.getYloc() * resolution.getScaledHeight_double();
             double y2 = currentElement.getYloc() * resolution.getScaledHeight_double() + currentElement.getDimensions().getHeight();
 
@@ -172,7 +171,7 @@ public class GeneralConfigGui extends GuiScreen {
                         currentElement.setYloc((resolution.getScaledHeight_double() - currentElement.getDimensions().getHeight()) / resolution.getScaledHeight_double());
                     }
                     lastD = true;
-                } else lastD = false;
+                }
             } else lastD = false;
         } else {
             this.edit.visible = false;

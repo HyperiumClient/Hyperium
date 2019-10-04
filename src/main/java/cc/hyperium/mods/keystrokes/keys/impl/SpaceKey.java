@@ -18,7 +18,7 @@
 package cc.hyperium.mods.keystrokes.keys.impl;
 
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
-import cc.hyperium.mods.keystrokes.keys.IKey;
+import cc.hyperium.mods.keystrokes.keys.AbstractKey;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -29,7 +29,7 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
-public class SpaceKey extends IKey {
+public class SpaceKey extends AbstractKey {
 
     private final KeyBinding key;
 
@@ -69,6 +69,10 @@ public class SpaceKey extends IKey {
             yOffset -= 18;
         }
 
+        if (!mod.getSettings().isShowingWASD()) {
+            yOffset -= 48;
+        }
+
         Keyboard.poll();
         boolean pressed = isButtonDown(this.key.getKeyCode());
         String name = this.name.equalsIgnoreCase("space") ? (mod.getSettings().isChroma() ? "------" : (ChatColor.STRIKETHROUGH.toString() + "------")) : "Sneak";
@@ -93,7 +97,15 @@ public class SpaceKey extends IKey {
         }
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
-            Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+            if (mod.getSettings().getKeyBackgroundRed() == 0 && mod.getSettings().getKeyBackgroundGreen() == 0 && mod.getSettings().getKeyBackgroundBlue() == 0) {
+                Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16,
+                    new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                        mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
+            } else {
+                Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16,
+                    new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                        mod.getSettings().getKeyBackgroundOpacity()).getRGB());
+            }
         }
 
         int red = textColor >> 16 & 255;
@@ -109,10 +121,11 @@ public class SpaceKey extends IKey {
                 GlStateManager.pushMatrix();
                 GlStateManager.translate((float) xIn, (float) y2, 0.0f);
                 GlStateManager.rotate(-90.0f, 0.0f, 0.0f, 1.0f);
-                this.drawGradientRect(0, 0, 2, 35, Color.HSBtoRGB((float) ((System.currentTimeMillis() - xIn * 10 - y2 * 10) % 2000L) / 2000.0f, 0.8f, 0.8f), Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xIn + 35) * 10 - y2 * 10) % 2000L) / 2000.0f, 0.8f, 0.8f));
+                this.drawGradientRect(0, 0, 2, 35, Color.HSBtoRGB((float) ((System.currentTimeMillis() - xIn * 10 - y2 * 10) % 2000L) / 2000.0f,
+                    0.8f, 0.8f), Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xIn + 35) * 10 - y2 * 10) % 2000L) / 2000.0f, 0.8f, 0.8f));
                 GlStateManager.popMatrix();
             } else {
-                this.drawChromaString(name, x + (this.xOffset + 70) / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(name) / 2, y + yOffset + 5);
+                drawChromaString(name, x + ((this.xOffset + 70) / 2) - Minecraft.getMinecraft().fontRendererObj.getStringWidth(name) / 2, y + yOffset + 5, 1.0F);
             }
         } else {
             this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + yOffset + 5, pressed ? pressedColor : colorN);

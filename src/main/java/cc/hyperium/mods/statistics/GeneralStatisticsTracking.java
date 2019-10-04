@@ -32,23 +32,16 @@ public class GeneralStatisticsTracking {
     public static final DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 
     // These can be put in a HUD or printed in a command somewhere.
-
-    @ConfigOpt
-    public static int lifetimeCoins;
-    @ConfigOpt
-    public static int monthlyCoins;
-    @ConfigOpt
-    public static int dailyCoins;
-
-    @ConfigOpt
-    public String currentDateString = format.format(new Date());
+    @ConfigOpt public static int lifetimeCoins;
+    @ConfigOpt public static int monthlyCoins;
+    @ConfigOpt public static int dailyCoins;
+    @ConfigOpt public String currentDateString = format.format(new Date());
 
 
     @InvokeEvent
     public void onChat(ChatEvent event) {
         // Check how much the time has changed since the last use.
         checkTimes();
-
 
         String line = event.getChat().getUnformattedText();
         if (line.startsWith("+") && line.contains("coins")) {
@@ -59,7 +52,6 @@ public class GeneralStatisticsTracking {
             lifetimeCoins += coins;
             monthlyCoins += coins;
             dailyCoins += coins;
-            //System.out.println("Lifetime coins earned: " + lifetimeCoins);
         }
     }
 

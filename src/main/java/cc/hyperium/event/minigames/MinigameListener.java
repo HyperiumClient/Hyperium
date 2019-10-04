@@ -38,7 +38,6 @@ public class MinigameListener {
                 if (this.cooldown <= 0) {
                     this.cooldown = 3 * 20;
                     String minigameName = getScoreboardTitle();
-                    Minigame[] minigames = Minigame.values();
                     for (Minigame m : Minigame.values()) {
                         if (minigameName.equalsIgnoreCase(m.scoreName) && !minigameName.equalsIgnoreCase(this.currentMinigameName)) {
                             this.currentMinigameName = minigameName;

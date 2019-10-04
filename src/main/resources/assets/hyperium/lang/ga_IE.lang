@@ -1,0 +1,236 @@
+#Hyperium Language File - Created by ScottehBoeh
+
+#Hyperium Disclaimers
+menu.left=Cóipcheart 2019 Foireann Forbair Hyperium
+menu.right=Nach bhfuil cleamhnaithe le Mojang AB
+
+#Hyperium Buttons
+button.menu.changebackground=Cúlra an Menu
+button.menu.cosmeticshop=Siopa Cosmaideacha
+button.ingame.hyperiumsettings=Socruithe Hyperium
+button.ingame.hyperiumcredits=Rannpháirtithe
+button.ingame.joinhypixel=Tar ar Hypixel
+button.ingame.fixhypixelsession=Deisigh Seisiún Hypixel
+button.ingame.serverlist=Liosta Freastalaí
+button.changebackground.seturl=Socraigh URL
+button.changebackground.choosefile=Roghnaigh File
+button.changebackground.resetbackground=Athshocraigh Cúlra
+
+#Hyperium Disclaimer
+disclaimer.line1=Trí leanúint ar aghaidh, aithníonn tú go bhfuil an cliant seo  %s
+disclaimer.line1.bold=ÚSÁID AG DO RIOSCA FÉIN
+disclaimer.line2=Níl forbróirí Hyperium freagrach as aon damáistí nó toirmisc
+disclaimer.line3=chuig do chuntas agus an cliant seo á úsáid agat
+disclaimer.line4=Trí leanúint ar aghaidh aontaíonn tú leis an bpolasaí príobháideachais %s
+disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
+disclaimer.line5=Cliceáil an cnaipe chun a dheimhniú go n-aontaíonn tú le do thoil
+button.disclaimer.accept=Glac leis
+button.disclaimer.confirm=Deimhnigh Glacadh
+
+#Hyperium Menu Strings
+menu.profile.credits=%s Creidmheasanna
+
+#Hyperium Tabs
+tabs.searchbar=Cuardaigh ...
+tab.settings.name=Socruithe
+tab.shop.name=Siopa
+
+#Hyperium Ingame Menu
+gui.ingamemenu.playercount=Líon Imreoir Hyperium:
+gui.ingamemenu.playercount.now=Ar Líne Anois: %s
+gui.ingamemenu.playercount.lastday=Lá a chuaigh thart: %s
+gui.ingamemenu.playercount.lastweek=Seachtain a chuaigh thart: %s
+gui.ingamemenu.playercount.alltime=Riamh: %s
+
+#Hyperium Change Background Text
+gui.changebackground.line1=Cuir isteach URL thíos chun an cúlra a athrú nó comhad a roghnú.
+gui.changebackground.line2=Chun é a thaispeáint, roghnaigh "saincheaptha" i suímh chúlra.
+gui.changebackground.urlempty=Ní féidir leis an URL a bheith folamh.
+gui.changebackground.invalidurl=URL íomhá PNG neamhbhailí
+gui.changebackground.working=Ag obair...
+gui.changebackground.done=Déanta!
+gui.changebackground.invalidpath=Conair neamhbhailí
+gui.changebackground.unknownerror=Earráid anaithnid
+gui.changebackground.downloaderror=Earráid á íoslódáil.
+gui.changebackground.selectimage=Roghnaigh íomhá chúlra
+
+#Hyperium PurchaseCarousel Text
+gui.purchase.purchased=Ceannaithe
+gui.purchase.purchase=Ceannach
+gui.purchase.active=Gníomhach
+gui.purchase.inactive=Neamhghníomhach
+gui.purchase.notpurchased=Gan Cheannach
+gui.purchase.clicktouse=Cliceáil le húsáid
+gui.purchase.state=Stát
+
+#Hyperium Cosmetics Gui
+gui.cosmetics.purchase=Cosmaidí a cheannach
+gui.cosmetics.refresh=Ceannacháin a athnuachan
+gui.cosmetics.credits=Creidmheasanna
+gui.cosmetics.totalcredits=Creidmheasanna Iomlán: %s
+gui.cosmetics.remainingcredits=Creidmheasanna atá fágtha: %s
+gui.cosmetics.purchased=Pacáistí Ceannaithe
+gui.cosmetics.disableparticles=Díchumasaigh cáithníní
+gui.cosmetics.line1=Ní mór duit ar a laghad 1 cháithnín agus 1 beochan a cheannach chun é a thaispeáint
+gui.cosmetics.line2=Tá an beochan Twirl Dúbailte saor in aisce.
+gui.cosmetics.preview=Réamhamharc
+gui.cosmetics.red=Dearg
+gui.cosmetics.green=Glas
+gui.cosmetics.blue=Gorm
+gui.cosmetics.maxage=Saol cáithníneach
+
+#Hyperium Shop Gui
+gui.shop.capes=Féach Capes
+gui.shop.browser=Oscail sa bhrabhsálaí
+gui.shop.purchasecredits=Creidmheasanna Ceannaigh
+gui.shop.refresh=Athnuachan
+gui.shop.credits=Creidmheasanna
+gui.shop.cosmetics=Cosmaidí
+gui.shop.description=Cur síos: %s
+gui.shop.cost=Costas: %s
+gui.shop.status=Stádas:
+gui.shop.purchased=Ceannaithe
+gui.shop.purchase=Ceannach
+gui.shop.insufficientcredits=Creidmheasanna Neamhleor!
+gui.shop.loading.cosmetics=Cosmaidí á lódáil...
+gui.shop.loading.person=Ag luchtú sonraí duine...
+
+#Hyperium Settings Text
+gui.settings.discordrp=Discord RP
+gui.settings.fullbright=Iomlán geal
+gui.settings.romannumerals=Uimhreacha Rómhánacha
+gui.settings.rpshowserver=RP Show Freastalaí
+gui.settings.compactchat=Comhrá Dlúth
+gui.settings.voidflickerfix=Seachain Deisigh ag Lasadh
+gui.settings.fpslimiter=FPS Limiter (i Limbo)
+gui.settings.fastchat=Comhrá Tapa
+gui.settings.shinypotions=Liathróidí lonracha
+gui.settings.smartsounds=Fuaimeanna Cliste
+gui.settings.numericping=Ping Uimhriúil
+gui.settings.arrowcountwhenholdingbow=Comhaireamh Saighead nuair a Sheallann tú Bow
+gui.settings.showenchantmentsabovehotbar=Taispeáin Enchantments os cionn hotbar
+gui.settings.showattackdamageabovehotbar=Taispeáin Ionsaí Damáiste os cionn hotbar
+gui.settings.armorprotectionpotentional=Taispeáin Cosaint Armúr i bhFardal
+gui.settings.armorprojectileprotpotentional=Taispeáin Cosaint Teilgeáin Armúr i bhFardal
+gui.settings.hidecrosshairinf5=Folaigh Crosshair nuair atá tú sa Tríú Duine
+gui.settings.holdperspectivekey=Coinnigh Eochair Pheirspictíochta
+gui.settings.windowedfullscreen=Fuinneog ar an Scáileán Iomlán
+gui.settings.staticfov=FOV statach
+gui.settings.uploadscreenshots=Uaslódáil scáileáin scáileáin (de réir réamhshocraithe)
+gui.settings.blurredguibackground=GUI Doiléir Cúlra
+gui.settings.screenshotonkill=Gabháil scáileáin Ar Kill
+gui.settings.welcometothehypixelzoo="Fáilte go dtí an Zú Hypixel!"
+gui.settings.showparticleauras=Taispeáin Aura Cáithnín
+gui.settings.showcosmeticseverywhere=Taispeáin Cosmaidí I ngach áit
+gui.settings.17blockhitting=1.7 Blocú
+gui.settings.17bowposition=1.7 Seasamh Bow
+gui.settings.17rodposition=1.7 Seasamh Rod
+gui.settings.17redarmour=1.7 Armúr Dearg (ar bhuail)
+gui.settings.17eating=1.7 Ithe
+gui.settings.17sneakinganimation=1.7 Beochana Sneaking
+gui.settings.17blocáil=1.7 Blocáil
+gui.settings.17itemheld=1.7 Mír Seilbh
+gui.settings.17debug=1.7 Dífhabhtú
+gui.settings.17health=1.7 Sláinte
+gui.settings.customswordanimation=Beochan Claíomh Chustaim
+gui.settings.fliptogglemode=Mód Smeach-Scoránaigh
+gui.settings.fliptype=Cineál Smeach
+gui.settings.tposetogglemode=TPose - Mód an Scoránaigh
+gui.settings.background=Cúlra
+gui.settings.transparentcontainerbackgrounds=Cúlra Coimeádán Trédhearcach
+gui.settings.particlesmode=Mód cáithníní
+gui.settings.maxparticles=Uas-cháithníní
+gui.settings.headitemscale=Scála Míreanna an Cheann
+gui.settings.particlesininventory=Cáithníní i bhFardal
+gui.settings.deadmau5ears=Cluas Deadmau5
+gui.settings.shownotificationcenter=Taispeáin an tIonad Fógra
+gui.settings.showconfirmationpopup=Taispeáin Popup Daingnithe
+gui.settings.persistentchatmessages=Teachtaireachtaí Comhrá Seasmhacha
+gui.settings.friendsfirstintab=Cluaisín Cairde Chéad I
+gui.settings.onlineindicator=Táscaire Ar Líne
+gui.settings.pingondm=Ping ar Teachtaireacht
+gui.settings.sprintbypassstaticfov=Déan neamhaird de FOV statach agus tú ag sprioncadh
+gui.settings.sprintandperspectivemessages=Teachtaireachtaí Sprint Agus Perspect
+gui.settings.showdragonhead=Taispeáin Ceann an Dragan
+gui.settings.wingsheight=Airde Sciatháin
+gui.settings.showwings=Taispeáin Sciatháin
+gui.settings.wingsscale=Scála na Sciathán
+gui.settings.updatenotificationsinhyperiumsettings=Fógraí Nuashonraithe i Suímh Hyperium
+gui.settings.fastworldswitching=Athrú Domhanda Luath (D'fhéadfadh sé go méadófaí úsáid na cuimhne)
+gui.settings.maxworldparticles=Uas-cháithníní Domhanda
+gui.settings.showparticlein1stperson=Taispeáin an cáithnín sa chéad duine
+gui.settings.showhitdistances=Taispeáin Fad Amhairc
+gui.settings.motionblurenabled=Cumasaithe
+gui.settings.motionblurintensity=Tairiscint Blur Déine
+gui.settings.showbackground=Taispeáin Cúlra
+gui.settings.chroma=Cróma
+gui.settings.shadow=Scáth
+gui.settings.details=Sonraí
+gui.settings.showuserdotsonnametags=Taispeáin poncanna úsáideora ar chrainn ainm
+gui.settings.colortype=Cineál Dath
+gui.settings.red=Dearg
+gui.settings.green=Glas
+gui.settings.blue=Gorm
+gui.settings.broadcastachievements=Gnóthachtálacha Craolacháin
+gui.settings.showbutt=Taispeáin Butt
+gui.settings.sendguildwelcomemessage=Seol teachtaireacht fáilte roimh chiontóirí
+gui.settings.itemphysics=Fisic Míre
+gui.settings.disable_dances=Díchumasaigh Damhsaí
+gui.settings.victoryroyale=Bua Royale
+gui.settings.hyperiumprefix=Taispeáin Réamhshocrú Comhrá Hyperium
+gui.settings.betterf1=Folaigh ainmneacha i F1
+gui.settings.buttonstyle=Stíl Button
+gui.settings.buttontype=Cineál Dath
+gui.settings.disableenchantglint=Díchumasaigh Glint na Séadchomhartha
+gui.settings.disabletitles=Díchumasaigh Teidil
+gui.settings.thankwatchdog=Go raibh maith agat Watchdog
+gui.settings.fpslimiteramount=Méid Teorainn an FPS
+gui.settings.directionhudshort=Treoir HUD Chéad Litir Amháin
+gui.settings.disablelightning=Díchumasaigh Boltaí Tintrí
+gui.settings.disablearmorstands=Díchumasaigh Armorstands
+gui.settings.disableitemframes=Díchumasaigh Frámaí Míreanna
+gui.settings.confirmdisconnect=Deimhnigh dícheangal
+gui.settings.confirmquit=Deimhnigh Scoir
+gui.settings.hotbarkeys=Eochracha Hotbar
+gui.settings.clearglass=Gloine Shoiléir
+gui.settings.portalsounds=Díchumasaigh Fuaimeanna na Tairsí
+gui.settings.disableachievements=Éachtaí Díchumasaithe
+gui.settings.disableshadowtext=Díchumasaigh Téacs Scátháilte
+gui.settings.shinypotions.matchcolor=Liathróidí lonracha - Dath Comhoiriúnaithe Dath
+gui.settings.automyposition.enabled=Múchadh Auto
+gui.settings.automyposition.delay=Moill
+gui.settings.bossbarmod.bossbarall=Barra Boss
+gui.settings.bossbarmod.bossbartext=Téacs Barra Boss
+gui.settings.bossbarmod.bossbarhealthbar=Barra Sláinte Boss
+gui.settings.bossbarmod.bossbarscale=Scála Barra Boss
+gui.settings.bossbarmod.resetbossbar=Athshocraigh Barra Boss
+
+#Hyperium Splash Progress
+splashprogress.startinggame=Cluiche Tosaigh ...
+splashprogress.loadingresources=Ag lódáil acmhainní ...
+splashprogress.creatingdisplay=Cruthaigh Taispeántas ...
+splashprogress.initializingtextures=Tús a chur le huigeachtaí ...
+splashprogress.loadinghandlers=Láimhseáil Láimhseálaithe ...
+splashprogress.registeringlisteners=Lucht Éisteachta a Chlárú ...
+splashprogress.startinghyperium=Ag tosú le hipearnasc ...
+splashprogress.registeringconfiguration=Cumraíocht a Chlárú ...
+splashprogress.registeringcommands=Orduithe a Chlárú ...
+splashprogress.loadingintegrations=Comhtháthú á lódáil ...
+splashprogress.finishing=Críochnú...
+
+#Hyperium Misc Gui Text
+gui.namehistory.text=AINM STAIR
+gui.confirmdisconnect.text=An bhfuil tú cinnte gur mian leat a dhícheangal?
+gui.confirmquit.text=An bhfuil tú cinnte gur mian leat éirí as?
+
+#Hyperium Chat Message
+message.insufficientcredits=Creidmheasanna neamhleor
+message.attemptingpurchase=Iarracht a dhéanamh %s a cheannach
+message.alreadypurchased=Ceannaíodh %s cheana féin
+message.invalidparticle=Cineál neamhbhailí na gcáithníní
+message.invalidanimation=Cineál beochan neamhbhailí
+message.purchase=Ceannach %s
+
+#Optifine Integration
+gui.optifinecape.opencape=Oscail Eagarthóir Cape
+gui.optifinecape.capebutton=Rinn Optifine

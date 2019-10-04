@@ -26,6 +26,8 @@ import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -59,6 +61,13 @@ public class KeystrokesSettings {
     private boolean showingSneak;
     private boolean showingFPS;
     private boolean keyBackground = true;
+    private boolean showingWASD = true;
+    private boolean literalKeys;
+    private int keyBackgroundOpacity = 120;
+    private int keyBackgroundRed;
+    private int keyBackgroundGreen;
+    private int keyBackgroundBlue;
+    private boolean arrowKeys;
     private List<CustomKeyWrapper> configWrappers = new ArrayList<>();
 
     public KeystrokesSettings(KeystrokesMod mod, File directory) {
@@ -128,6 +137,13 @@ public class KeystrokesSettings {
             object.addProperty("showSneak", showingSneak);
             object.addProperty("showFps", showingFPS);
             object.addProperty("keyBackground", keyBackground);
+            object.addProperty("showingWASD", showingWASD);
+            object.addProperty("literalKeys", literalKeys);
+            object.addProperty("keyBackgroundOpacity", keyBackgroundOpacity);
+            object.addProperty("keyBackgroundRed", keyBackgroundRed);
+            object.addProperty("keyBackgroundGreen", keyBackgroundGreen);
+            object.addProperty("keyBackgroundBlue", keyBackgroundBlue);
+            object.addProperty("arrowKeys", arrowKeys);
             final JsonArray keys = new JsonArray();
             for (CustomKeyWrapper wrapper : theMod.getRenderer().getCustomKeys()) {
                 JsonHolder holder = new JsonHolder();
@@ -166,6 +182,13 @@ public class KeystrokesSettings {
         showingSneak = object.optBoolean("showSneak");
         showingFPS = object.optBoolean("showFps");
         keyBackground = object.optBoolean("keyBackground", true);
+        showingWASD = object.optBoolean("showingWASD", true);
+        literalKeys = object.optBoolean("literalKeys");
+        keyBackgroundOpacity = object.optInt("keyBackgroundOpacity", 120);
+        keyBackgroundRed = object.optInt("keyBackgroundRed");
+        keyBackgroundGreen = object.optInt("keyBackgroundGreen");
+        keyBackgroundBlue = object.optInt("keyBackgroundBlue");
+        arrowKeys = object.optBoolean("arrowKeys");
         JsonObject data = object.getData();
         if (data.has("custom")) {
             JsonArray custom = data.getAsJsonArray("custom");
@@ -181,131 +204,241 @@ public class KeystrokesSettings {
     public int getX() {
         return this.x;
     }
+
     public void setX(int x) {
         this.x = x;
     }
+
     public int getY() {
         return this.y;
     }
+
     public void setY(int y) {
         this.y = y;
     }
+
     public int getRed() {
         return this.red;
     }
+
     public void setRed(int red) {
         this.red = red;
     }
+
     public int getGreen() {
         return this.green;
     }
+
     public void setGreen(int green) {
         this.green = green;
     }
+
     public int getBlue() {
         return this.blue;
     }
+
     public void setBlue(int blue) {
         this.blue = blue;
     }
+
     public int getPressedRed() {
         return this.pressedRed;
     }
+
     public void setPressedRed(int red) {
         this.pressedRed = red;
     }
+
     public int getPressedGreen() {
         return this.pressedGreen;
     }
+
     public void setPressedGreen(int green) {
         this.pressedGreen = green;
     }
+
     public int getPressedBlue() {
         return this.pressedBlue;
     }
+
     public void setPressedBlue(int blue) {
         this.pressedBlue = blue;
     }
+
     public double getScale() {
         return capDouble(this.scale, 0.5F, 1.5F);
     }
+
     public void setScale(double scale) {
         this.scale = capDouble(scale, 0.5F, 1.5F);
     }
+
     public double getFadeTime() {
         return capDouble(this.fadeTime, 0.1F, 3.0F);
     }
+
     public void setFadeTime(double scale) {
         this.fadeTime = capDouble(scale, 0.1F, 3.0F);
     }
+
     public boolean isEnabled() {
         return this.enabled;
     }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
     public boolean isShowingMouseButtons() {
         return this.mouseButtons;
     }
+
     public void setShowingMouseButtons(boolean showingMouseButtons) {
         this.mouseButtons = showingMouseButtons;
     }
+
     public boolean isShowingSpacebar() {
         return this.showSpacebar;
     }
+
     public void setShowingSpacebar(boolean showSpacebar) {
         this.showSpacebar = showSpacebar;
     }
+
     public boolean isShowingCPS() {
         return this.showCPS;
     }
+
     public void setShowingCPS(boolean showingCPS) {
         this.showCPS = showingCPS;
     }
+
     public boolean isShowingCPSOnButtons() {
         return this.showCPSOnButtons;
     }
+
     public void setShowingCPSOnButtons(boolean showCPSOnButtons) {
         this.showCPSOnButtons = showCPSOnButtons;
     }
+
     public boolean isChroma() {
         return this.chroma;
     }
+
     public void setChroma(boolean showingChroma) {
         this.chroma = showingChroma;
     }
+
     public boolean isLeftClick() {
         return this.leftClick;
     }
+
     public void setLeftClick(boolean leftClick) {
         this.leftClick = leftClick;
     }
+
     public boolean isShowingFPS() {
         return showingFPS;
     }
+
     public void setShowingFPS(boolean showingFPS) {
         this.showingFPS = showingFPS;
     }
+
     public boolean isKeyBackgroundEnabled() {
         return keyBackground;
     }
+
     public void setKeyBackgroundEnabled(boolean keyBackground) {
         this.keyBackground = keyBackground;
     }
 
+    public boolean isShowingWASD() {
+        return showingWASD;
+    }
+
+    public void setShowingWASD(boolean showingWASD) {
+        this.showingWASD = showingWASD;
+    }
+
+    public boolean isUsingLiteralKeys() {
+        return literalKeys;
+    }
+
+    public void setUsingLiteralKeys(boolean literalKeys) {
+        this.literalKeys = literalKeys;
+    }
+
+    public int getKeyBackgroundOpacity() {
+        return keyBackgroundOpacity;
+    }
+
+    public void setKeyBackgroundOpacity(int keyBackgroundOpacity) {
+        this.keyBackgroundOpacity = keyBackgroundOpacity;
+    }
+
+    public int getKeyBackgroundRed() {
+        return keyBackgroundRed;
+    }
+
+    public void setKeyBackgroundRed(int keyBackgroundRed) {
+        this.keyBackgroundRed = keyBackgroundRed;
+    }
+
+    public int getKeyBackgroundGreen() {
+        return keyBackgroundGreen;
+    }
+
+    public void setKeyBackgroundGreen(int keyBackgroundGreen) {
+        this.keyBackgroundGreen = keyBackgroundGreen;
+    }
+
+    public int getKeyBackgroundBlue() {
+        return keyBackgroundBlue;
+    }
+
+    public void setKeyBackgroundBlue(int keyBackgroundBlue) {
+        this.keyBackgroundBlue = keyBackgroundBlue;
+    }
+
+    public boolean isUsingArrowKeys() {
+        return arrowKeys;
+    }
+
+    public void setUsingArrowKeys(boolean arrowKeys) {
+        this.arrowKeys = arrowKeys;
+    }
+
+    // spaghetti code because it doesnt work otherwise ( why :-( )
     public int getHeight() {
         int height = 50;
 
-        if (showCPS) {
-            height += 18;
+        if (showCPS || showSpacebar || showingFPS) {
+            height += 24;
         }
 
         if (mouseButtons) {
             height += 24;
         }
 
-        if (showSpacebar) {
-            height += 18;
+        if (showingWASD) {
+            height += 48;
+        }
+
+        if (!showingFPS) {
+            height -= 18;
+        }
+
+        if (!showingSneak) {
+            height -= 18;
+        }
+
+        if (!showCPS) {
+            height -= 18;
+        }
+
+        if (showCPSOnButtons) {
+            height -= 18;
         }
 
         return height;
@@ -332,6 +465,33 @@ public class KeystrokesSettings {
     }
 
     private double capDouble(double valueIn, double minValue, double maxValue) {
-        return (valueIn < minValue) ? minValue : ((valueIn > maxValue) ? maxValue : valueIn);
+        return (valueIn < minValue) ? minValue : (Math.min(valueIn, maxValue));
+    }
+
+    public int getRenderX() {
+        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
+
+        int width = getWidth();
+
+        //Commenting out set calls to only create local override
+        int x = getX();
+        if (x < 0) {
+            x = 0;
+        } else if (x * getScale() > res.getScaledWidth() - (width * getScale())) {
+            x = (int) ((res.getScaledWidth() - (width * getScale())) / getScale());
+        }
+        return x;
+    }
+
+    public int getRenderY() {
+        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
+        int height = getHeight();
+        int y = getY();
+        if (y < 0) {
+            y = 0;
+        } else if (y * getScale() > res.getScaledHeight() - (height * getScale())) {
+            y = (int) ((res.getScaledHeight() - (height * getScale())) / getScale());
+        }
+        return y;
     }
 }

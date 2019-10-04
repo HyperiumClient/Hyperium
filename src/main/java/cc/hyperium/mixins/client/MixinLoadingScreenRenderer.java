@@ -64,14 +64,14 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
             if (OpenGlHelper.isFramebufferEnabled()) {
                 this.framebuffer.framebufferClear();
             } else {
-                GlStateManager.clear(256);
+                GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT);
             }
 
             this.framebuffer.bindFramebuffer(false);
-            GlStateManager.matrixMode(5889);
+            GlStateManager.matrixMode(GL11.GL_PROJECTION);
             GlStateManager.loadIdentity();
             GlStateManager.ortho(0.0D, scaledresolution.getScaledWidth_double(), scaledresolution.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
-            GlStateManager.matrixMode(5888);
+            GlStateManager.matrixMode(GL11.GL_MODELVIEW);
             GlStateManager.loadIdentity();
             GlStateManager.translate(0.0F, 0.0F, -200.0F);
 
@@ -104,7 +104,7 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
                 int barTop = 2;
                 int barHeight = scaledResolution.getScaledHeight() - 15;
                 GlStateManager.disableTexture2D();
-                worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+                worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
                 worldrenderer.pos(maxProgress, barHeight, 0.0D).color(128, 128, 128, 255).endVertex();
                 worldrenderer.pos(maxProgress, barHeight + barTop, 0.0D).color(128, 128, 128, 255).endVertex();
                 worldrenderer.pos(maxProgress + maxProgress, barHeight + barTop, 0.0D).color(128, 128, 128, 255).endVertex();
@@ -116,14 +116,15 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
                 tessellator.draw();
                 GlStateManager.enableAlpha();
                 GlStateManager.enableBlend();
-                Gui.drawRect(0, scaledResolution.getScaledHeight() - 35, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), new Color(0, 0, 0, 50).getRGB());
+                Gui.drawRect(0, scaledResolution.getScaledHeight() - 35, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(),
+                    new Color(0, 0, 0, 50).getRGB());
                 GlStateManager.disableAlpha();
                 GlStateManager.disableBlend();
                 GlStateManager.enableTexture2D();
             }
 
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
             int white = 16777215;
             this.mc.fontRendererObj.drawString(this.currentlyDisplayedText, 5, scaledResolution.getScaledHeight() - 30, white);
             this.mc.fontRendererObj.drawString(this.message, 5, scaledResolution.getScaledHeight() - 15, white);

@@ -28,8 +28,6 @@ public enum Category {
     MISC("Misc"),
     MODS("Mods"),
     HYPIXEL("Hypixel"),
-    BUTTONS("Buttons"),
-    MENUS("Menus"),
     ADDONS("Addons"),
 
     // Mods
@@ -47,9 +45,12 @@ public enum Category {
     TAB_TOGGLE("Tab Toggle"),
     ITEM_PHYSIC("Item Physics"),
     VICTORYROYALE("Victory Royale"),
-    TOGGLESPRINT("Toggle Sprint"),
     CHUNK_ANIMATOR("Chunk Animator"),
     LEVELHEAD("Levelhead"),
+    AUTOMYPOSITION("Auto MyPosition"),
+    POPUP_EVENTS("Popup Events"),
+    STATICFOV("Static FOV"),
+    BOSSBARMOD("Bossbar"),
     OTHER("Other");
 
     private String display;

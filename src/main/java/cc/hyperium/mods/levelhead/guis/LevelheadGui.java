@@ -25,6 +25,8 @@ import cc.hyperium.mods.levelhead.renderer.LevelheadChatRenderer;
 import cc.hyperium.mods.levelhead.util.LevelheadJsonHolder;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
+import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
@@ -45,6 +47,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.*;
@@ -54,26 +57,27 @@ import static cc.hyperium.utils.ChatColor.*;
 
 public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
 
-    private String COLOR_CHAR = "\u00A7";
+    private static final String COLOR_CHAR = "\u00a7";
     private final String colors = "0123456789abcdef";
+    private int currentID = 2;
     private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private HashMap<Integer, Runnable> ids = new HashMap<>();
     private LevelheadDisplay currentlyBeingEdited;
+    private boolean bigChange = false;
+    private boolean isCustom = false;
     private GuiTextField textField;
-    private int currentID = 2;
-    private boolean bigChange;
-    private boolean isCustom;
-    private boolean purchasingStats;
-    private int offset;
+    private boolean purchasingStats = false;
+    private int offset = 0;
 
     @Override
     public void initGui() {
         mc.gameSettings.hideGUI = true;
 
         Multithreading.runAsync(() -> {
-            String raw = Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelhead/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
+            String raw = Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelhead/" +
+                Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
             System.out.println(raw);
-            isCustom = new LevelheadJsonHolder(raw).optBoolean("custom");
+            isCustom = new JsonHolder(raw).optBoolean("custom");
         });
 
         textField = new GuiTextField(-500, fontRendererObj, width - 124, 74, 120, 19);
@@ -87,8 +91,8 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         currentID = 0;
         buttonList.clear();
 
-        drawScaledText(UNDERLINE.toString() + BOLD + "Levelhead " + instance.getVersion(), width / 2, 5, 2, 16777215, true, true);
-        drawScaledText("By Sk1er LLC", width / 2, 30, 1.5, 16777215, true, true);
+        drawScaledText(UNDERLINE.toString() + BOLD + "Levelhead " + instance.getVersion(), width / 2, 5, 2, -1, true, true);
+        drawScaledText("By Sk1er LLC", width / 2, 30, 1.5, -1, true, true);
 
         reg(new GuiButton(++currentID, 1, 2, 150, 20,
                 YELLOW + "Mod Status: " + (instance.getDisplayManager().getMasterConfig().isEnabled() ? GREEN + "Enabled" : RED + "Disabled")),
@@ -100,9 +104,11 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         FontRenderer fontRenderer = mc.fontRendererObj;
 
         if (purchasingStats) {
-            reg(new GuiButton(++currentID, 1, height - 21, 100, 20, "Back"), button -> purchasingStats = false);
-            drawScaledText("Purchase Extra Stats", width / 2, 50, 2.0, 16777215, true, true);
-            drawScaledText("These stats can be displayed above players heads, in lobbies, or in tab.", width / 2, 67, 1, 16777215, true, true);
+            reg(new GuiButton(++currentID, 1, height - 21, 100, 20, "Back"), guiButton ->
+                purchasingStats = false);
+
+            drawScaledText("Purchase Extra Stats", width / 2, 50, 2.0, Color.WHITE.getRGB(), true, true);
+            drawScaledText("These stats can be displayed above players' heads, in lobbies or in tab.", width / 2, 67, 1, Color.WHITE.getRGB(), true, true);
 
             LevelheadJsonHolder stats = instance.getPaidData().optJsonObject("stats");
 
@@ -118,17 +124,17 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                 }
 
                 if (pos > 74 && pos < width - 100) {
-                    reg(new GuiButton(++currentID, width / 2 - 100, pos, name), button -> {
-                        if (!purchased) {
+                    reg(new GuiButton(++currentID, width / 2 - 100, pos, name), guiButton -> {
+                        if (!purchased)
                             attemptPurchase(key);
-                        }
                     });
                 }
 
                 pos += 22;
             }
         } else {
-            reg(new GuiButton(++currentID, 1, 44, 150, 20, YELLOW + "Purchase Extra Stats"), button -> purchasingStats = true);
+            reg(new GuiButton(++currentID, 1, 44, 150, 20, YELLOW + "Purchase Extra Stats"), guiButton ->
+                purchasingStats = true);
 
             if (currentlyBeingEdited == null) {
                 currentlyBeingEdited = instance.getDisplayManager().getAboveHead().get(0);
@@ -159,16 +165,15 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                     "Chat Display",
                     "Tab Display"
                 };
-            drawScaledText(DARK_PURPLE + "Levelhead Credits: " + GRAY + instance.getRawPurchases().optInt("remaining_levelhead_credits"), width / 3, height - 90, 1.5D, 16777215, true, true);
 
-            drawScaledText(
-                (currentlyBeingEdited instanceof AboveHeadDisplay ? GREEN :
-                    (currentlyBeingEdited instanceof TabDisplay && instance.getLevelheadPurchaseStates().isTab() ? GREEN :
-                        (currentlyBeingEdited instanceof ChatDisplay && instance.getLevelheadPurchaseStates().isChat() ? GREEN : RED)))
-                    + types[index], width / 3, height - 110, 1.25, 16777215, true, true);
+            drawScaledText(LIGHT_PURPLE + "Levelhead Credits: " + AQUA + instance.getRawPurchases().optInt("remaining_levelhead_credits"), width / 3, height - 90,
+                1.5D, Color.WHITE.getRGB(), true, true);
+
+            drawScaledText((currentlyBeingEdited instanceof AboveHeadDisplay ? GREEN : (currentlyBeingEdited instanceof TabDisplay && instance.getLevelheadPurchaseStates().isTab()
+                    ? GREEN : (currentlyBeingEdited instanceof ChatDisplay && instance.getLevelheadPurchaseStates().isChat() ? GREEN : RED))) + types[index], width / 3,
+                height - 110, 1.25, new Color(255, 255, 255).getRGB(), true, true);
             int finalIndex = index;
-
-            reg(new GuiButton(++currentID, width / 3 - 65 - 20, height - 115, 20, 20, "<"), button -> {
+            reg(new GuiButton(++currentID, width / 3 - 65 - 20, height - 115, 20, 20, "<"), guiButton -> {
                 if (finalIndex == 0) {
                     currentlyBeingEdited = instance.getDisplayManager().getChat();
                 } else if (finalIndex == 1) {
@@ -177,8 +182,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                     currentlyBeingEdited = instance.getDisplayManager().getAboveHead().get(0);
                 }
             });
-
-            reg(new GuiButton(++currentID, width / 3 + 65, height - 115, 20, 20, ">"), button -> {
+            reg(new GuiButton(++currentID, width / 3 + 65, height - 115, 20, 20, ">"), guiButton -> {
                 if (finalIndex == 0) {
                     currentlyBeingEdited = instance.getDisplayManager().getTab();
                 } else if (finalIndex == 1) {
@@ -198,24 +202,30 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                 }
             }
 
-            drawScaledText(LIGHT_PURPLE + "Custom Levelhead Status: " + (isCustom ? GREEN + "Enabled" : RED + "Disabled"), 2, height - 55, 1.25, 16777215, true, false);
-            reg(new GuiButton(++currentID, 2, height - 44, 220, 20, (isCustom ? YELLOW + "Click to change custom Levelhead." : YELLOW + "Click to purchase custom Levelhead")), button -> {
+            drawScaledText(LIGHT_PURPLE + "Custom Levelhead Status: " + (isCustom ? GREEN + "Enabled" : RED + "Disabled"), 2, height - 55, 1.25, -1,
+                true, false);
+            reg(new GuiButton(++currentID, 2, height - 44, 220, 20, (isCustom ? ChatColor.YELLOW + "Click to change custom Levelhead." :
+                ChatColor.YELLOW + "Click to purchase custom Levelhead")), button -> {
                 try {
                     if (isCustom) {
-                        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new CustomLevelheadConfigurer());
+                        Minecraft.getMinecraft().displayGuiScreen(new CustomLevelheadConfigurer());
                     } else {
-                        Desktop.getDesktop().browse(new URI("https://sk1er.club/customlevelhead"));
+                        Desktop.getDesktop().browse(new URI("http://sk1er.club/customlevelhead"));
                     }
-                } catch (Exception e) {
+                } catch (IOException | URISyntaxException e) {
                     e.printStackTrace();
                 }
-            });
 
+            });
             reg(new GuiButton(++currentID, 1, 23, 150, 20, YELLOW + "Purchase Levelhead Credits"), button -> {
-                try {
-                    Desktop.getDesktop().browse(new URI("https://purchase.sk1er.club/category/1050972"));
-                } catch (Exception e) {
-                    e.printStackTrace();
+                Desktop desktop = Desktop.getDesktop();
+
+                if (desktop != null) {
+                    try {
+                        desktop.browse(new URI("https://purchase.sk1er.club/category/1050972"));
+                    } catch (IOException | URISyntaxException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -289,10 +299,11 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
     }
 
     private void doGeneral(DisplayConfig config, Levelhead instance, int editWidth) {
-        reg(new GuiButton(++currentID, width - editWidth - 1, 29, editWidth, 20,
-            YELLOW + "Status: " + (config.isEnabled() ? GREEN + "Enabled" : RED + "Disabled")), button -> config.setEnabled(!config.isEnabled()));
+        reg(new GuiButton(++currentID, width - editWidth - 1, 29, editWidth, 20, YELLOW + "Status: "
+            + (config.isEnabled() ? GREEN + "Enabled" : RED + "Disabled")), button -> config.setEnabled(!config.isEnabled()));
 
-        reg(new GuiButton(++currentID, width - editWidth - 1, 50, editWidth, 20, YELLOW + "Type: " + GRAY + instance.getTypes().optJsonObject(config.getType()).optString("name")), button -> {
+        reg(new GuiButton(++currentID, width - editWidth - 1, 50, editWidth, 20, YELLOW + "Type: "
+            + AQUA + instance.getTypes().optJsonObject(config.getType()).optString("name")), button -> {
             String currentType = config.getType();
             HashMap<String, String> typeMap = instance.allowedTypes();
             Set<String> keys = typeMap.keySet();
@@ -300,9 +311,8 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
             strings.sort(String::compareTo);
             int i = strings.indexOf(config.getType()) + 1;
 
-            if (i >= strings.size()) {
+            if (i >= strings.size())
                 i = 0;
-            }
 
             config.setType(strings.get(i));
 
@@ -314,9 +324,9 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                 }
             }
 
-            EntityPlayerSP player = mc.thePlayer;
-            currentlyBeingEdited.getCache().remove(player.getUniqueID());
-            currentlyBeingEdited.getTrueValueCache().remove(player.getUniqueID());
+            EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+            currentlyBeingEdited.getCache().remove(thePlayer.getUniqueID());
+            currentlyBeingEdited.getTrueValueCache().remove(thePlayer.getUniqueID());
             bigChange = true;
         });
     }
@@ -331,28 +341,27 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
             updatePeopleToValues();
         }
 
-        reg(new GuiButton(++currentID, width / 3 - 100, height - 137, 200, 20,
-            YELLOW + "Purchase Additional Above Head Layer"), button -> attemptPurchase("head"));
+        reg(new GuiButton(++currentID, width / 3 - 100, height - 137, 200, 20, YELLOW + "Purchase Additional Above Head Layer"), button ->
+            attemptPurchase("head"));
+        reg(new GuiButton(++currentID, width - editWidth * 2 - 3, 29, editWidth, 20, YELLOW + "Editing Layer: " + AQUA + (aboveHead.indexOf(currentlyBeingEdited) + 1)),
+            button -> {
+                int i = aboveHead.indexOf(currentlyBeingEdited);
+                i++;
 
-        reg(new GuiButton(++currentID, width - editWidth * 2 - 3, 29, editWidth, 20,
-            YELLOW + "Editing Layer: " + GRAY + (aboveHead.indexOf(currentlyBeingEdited) + 1)), button -> {
-            int i = aboveHead.indexOf(currentlyBeingEdited);
-            i++;
+                if (i >= aboveHead.size()) {
+                    i = 0;
+                }
 
-            if (i >= aboveHead.size()) {
-                i = 0;
-            }
+                currentlyBeingEdited = aboveHead.get(i);
+                textField.setText(currentlyBeingEdited.getConfig().getCustomHeader());
+            });
 
-            currentlyBeingEdited = aboveHead.get(i);
-            textField.setText(currentlyBeingEdited.getConfig().getCustomHeader());
-        });
-
-        reg(new GuiButton(++currentID, width - editWidth * 2 - 3, 50, editWidth, 20,
-                YELLOW + "Show on self: " + GRAY + (currentlyBeingEdited.getConfig().isShowSelf() ? "YES" : "NO")),
-            button -> currentlyBeingEdited.getConfig().setShowSelf(!currentlyBeingEdited.getConfig().isShowSelf()));
+        reg(new GuiButton(++currentID, width - editWidth * 2 - 3, 50, editWidth, 20, YELLOW + "Show On Self: "
+            + AQUA + (currentlyBeingEdited.getConfig().isShowSelf() ? "YES" : "NO")), button ->
+            currentlyBeingEdited.getConfig().setShowSelf(!currentlyBeingEdited.getConfig().isShowSelf()));
 
         int colorConfigStart = 93 + 2;
-        reg(new GuiButton(++currentID, width - editWidth * 2 - 2, colorConfigStart, editWidth, 20, YELLOW + "Header Mode: " + GRAY + getMode(true)), button -> {
+        reg(new GuiButton(++currentID, width - editWidth * 2 - 2, colorConfigStart, editWidth, 20, YELLOW + "Header Mode: " + AQUA + getMode(true)), button -> {
             if (config.isHeaderRgb()) {
                 config.setHeaderRgb(false);
                 config.setHeaderChroma(true);
@@ -368,17 +377,18 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         });
 
         if (config.isHeaderRgb()) {
-            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 22, editWidth, 20, RED + "Header Red: " + GRAY, "", 0, 255, config.getHeaderRed(), false, true, slider -> {
+            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 22, editWidth, 20, YELLOW + "Header Red: " + AQUA, "", 0,
+                255, config.getHeaderRed(), false, true, slider -> {
                 config.setHeaderRed(slider.getValueInt());
                 updatePeopleToValues();
             }));
-
-            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 44, editWidth, 20, GREEN + "Header Green: " + GRAY, "", 0, 255, config.getHeaderGreen(), false, true, slider -> {
+            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 44, editWidth, 20, YELLOW + "Header Green: " + AQUA, "", 0,
+                255, config.getHeaderGreen(), false, true, slider -> {
                 config.setHeaderGreen(slider.getValueInt());
                 updatePeopleToValues();
             }));
-
-            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 66, editWidth, 20, BLUE + "Header Green: " + GRAY, "", 0, 255, config.getHeaderBlue(), false, true, slider -> {
+            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 66, editWidth, 20, YELLOW + "Header Blue: " + AQUA, "", 0,
+                255, config.getHeaderBlue(), false, true, slider -> {
                 config.setHeaderBlue(slider.getValueInt());
                 updatePeopleToValues();
             }));
@@ -395,75 +405,77 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
             });
         }
 
-        reg(new GuiButton(++currentID, width - editWidth - 1, colorConfigStart, editWidth, 20, YELLOW + "Footer Mode: " + GRAY + getMode(false)), button -> {
+        reg(new GuiButton(++currentID, width - editWidth - 1, colorConfigStart, editWidth, 20, YELLOW + "Footer Mode: " + AQUA + getMode(false)), button -> {
             updateFooterColorState(config);
             button.displayString = "Footer Mode: " + getMode(false);
             updatePeopleToValues();
         });
-
         if (config.isFooterRgb()) {
-            regSlider(new GuiSlider(++currentID, width - editWidth - 1, colorConfigStart + 22, editWidth, 20, RED + "Footer Red: " + GRAY, "", 0, 255, config.getFooterRed(), false, true, slider -> {
+            regSlider(new GuiSlider(++currentID, width - editWidth - 1, colorConfigStart + 22, editWidth, 20, YELLOW + "Footer Red: " + AQUA, "", 0,
+                255, config.getFooterRed(), false, true, slider -> {
                 config.setFooterRed(slider.getValueInt());
                 updatePeopleToValues();
             }));
-
-            regSlider(new GuiSlider(++currentID, width - editWidth - 1, colorConfigStart + 44, editWidth, 20, GREEN + "Footer Green: " + GRAY, "", 0, 255, config.getFooterGreen(), false, true, slider -> {
+            regSlider(new GuiSlider(++currentID, width - editWidth - 1, colorConfigStart + 44, editWidth, 20, YELLOW + "Footer Green: " + AQUA, "", 0,
+                255, config.getFooterGreen(), false, true, slider -> {
                 config.setFooterGreen(slider.getValueInt());
                 updatePeopleToValues();
             }));
-
-            regSlider(new GuiSlider(++currentID, width - editWidth - 1, colorConfigStart + 66, editWidth, 20, BLUE + "Footer Blue: " + GRAY, "", 0, 255, config.getFooterBlue(), false, true, slider -> {
+            regSlider(new GuiSlider(++currentID, width - editWidth - 1, colorConfigStart + 66, editWidth, 20, YELLOW + "Footer Blue: " + AQUA, "", 0,
+                255, config.getFooterBlue(), false, true, slider -> {
                 config.setFooterBlue(slider.getValueInt());
                 updatePeopleToValues();
             }));
         } else if (!config.isFooterChroma()) {
-            reg(new GuiButton(++currentID, width - editWidth - 1, colorConfigStart + 22, editWidth, 20, config.getFooterColor() + "Rotate Footer Color"), button -> incrementColor(config, false));
+            reg(new GuiButton(++currentID, width - editWidth - 1, colorConfigStart + 22, editWidth, 20, config.getFooterColor() + "Rotate Footer Color"), button ->
+                incrementColor(config, false));
         }
 
-        regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 88, editWidth, 20, YELLOW + "Vertical Offset: " + GRAY, "", -50, 100, instance.getDisplayManager().getMasterConfig().getOffset() * 100D, false, true,
-            slider -> instance.getDisplayManager().getMasterConfig().setOffset(slider.getValue() / 100D)));
+        regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 88, editWidth, 20, YELLOW + "Vertical Offset: " + AQUA, "", -50,
+            100, instance.getDisplayManager().getMasterConfig().getOffset() * 100D, false, true, slider ->
+            instance.getDisplayManager().getMasterConfig().setOffset(slider.getValue() / 100D)));
 
-        regSlider(new GuiSlider(++currentID, width - editWidth - 1, colorConfigStart + 88, editWidth, 20, YELLOW + "Font Size: " + GRAY, "", 1, 20, instance.getDisplayManager().getMasterConfig().getFontSize() * 10D, false, true, slider -> {
+        regSlider(new GuiSlider(++currentID, width - editWidth - 1, colorConfigStart + 88, editWidth, 20, YELLOW + "Font Size: " + AQUA, "", 1, 20,
+            instance.getDisplayManager().getMasterConfig().getFontSize() * 10D, false, true, slider -> {
             instance.getDisplayManager().getMasterConfig().setFontSize(slider.getValue() / 10D);
             updatePeopleToValues();
         }));
 
         if (isCustom) {
-            reg(new GuiButton(++currentID, width - editWidth * 2 - 2, colorConfigStart + 88 + 22, editWidth * 2 + 1, 20, YELLOW + "Export Colors to Custom Levelhead"), button -> {
-                LevelheadJsonHolder object;
-                String encode;
-                String url;
-                ChatComponentText text;
-                ChatStyle style;
-                ChatComponentText valueIn;
-                ChatStyle style2;
-                object = new LevelheadJsonHolder();
-                object.put("header_obj", currentlyBeingEdited.getHeaderConfig());
-                object.put("footer_obj", currentlyBeingEdited.getFooterConfig());
-
-                try {
-                    encode = URLEncoder.encode(object.toString(), "UTF-8");
-                    url = "https://sk1er.club/user?levelhead_color=" + encode;
-                    text = new ChatComponentText("Click here to update your custom Levelhead colors");
-                    style = new ChatStyle();
-                    style.setBold(true);
-                    style.setColor(EnumChatFormatting.YELLOW);
-                    style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-                    valueIn = new ChatComponentText("Please be logged into your Sk1er.club account for this to work. Do /levelhead dumpcache after clicking to see new colors!");
-                    valueIn.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-                    style2 = new ChatStyle();
-                    style2.setColor(EnumChatFormatting.RED);
-                    valueIn.setChatStyle(style2);
-                    style.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, valueIn));
-                    text.setChatStyle(style);
-                    mc.thePlayer.addChatComponentMessage(valueIn);
-                    mc.thePlayer.addChatComponentMessage(text);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                mc.displayGuiScreen(null);
-            });
+            reg(new GuiButton(++currentID, width - editWidth * 2 - 2, colorConfigStart + 88 + 22, editWidth * 2 + 1, 20, YELLOW + "Export Colors to Custom Levelhead"),
+                guiButton -> {
+                    final LevelheadJsonHolder object;
+                    String encode;
+                    String url;
+                    ChatComponentText text;
+                    ChatStyle style;
+                    ChatComponentText valueIn;
+                    ChatStyle style2;
+                    object = new LevelheadJsonHolder();
+                    object.put("header_obj", currentlyBeingEdited.getHeaderConfig());
+                    object.put("footer_obj", currentlyBeingEdited.getFooterConfig());
+                    try {
+                        encode = URLEncoder.encode(object.toString(), "UTF-8");
+                        url = "https://sk1er.club/user?levelhead_color=" + encode;
+                        text = new ChatComponentText("Click here to update your custom Levelhead colors");
+                        style = new ChatStyle();
+                        style.setBold(true);
+                        style.setColor(EnumChatFormatting.YELLOW);
+                        style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
+                        valueIn = new ChatComponentText("Please be logged in to your Sk1er.club for this to work. Do /levelhead dumpcache after clicking to see new colors!");
+                        valueIn.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
+                        style2 = new ChatStyle();
+                        style2.setColor(EnumChatFormatting.RED);
+                        valueIn.setChatStyle(style2);
+                        style.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, valueIn));
+                        text.setChatStyle(style);
+                        mc.thePlayer.addChatComponentMessage(valueIn);
+                        mc.thePlayer.addChatComponentMessage(text);
+                    } catch (UnsupportedEncodingException e2) {
+                        e2.printStackTrace();
+                    }
+                    mc.displayGuiScreen(null);
+                });
         }
 
         GlStateManager.pushMatrix();
@@ -475,7 +487,6 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.enableDepth();
         GlStateManager.translate(0, 0, 50);
         ScaledResolution current = new ScaledResolution(mc);
-
         int posX = current.getScaledWidth() / 3;
         int posY = current.getScaledHeight() / 2;
         GuiInventory.drawEntityOnScreen(posX, posY + 50, 50, posX - mouseX, posY - mouseY, mc.thePlayer);
@@ -485,7 +496,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.disableDepth();
         GlStateManager.popMatrix();
 
-        drawScaledText("Custom Prefix: ", width - editWidth * 3 / 2 - 3, 77, 1.5, 16777215, true, true);
+        drawScaledText("Custom Prefix: ", width - editWidth * 3 / 2 - 3, 77, 1.5, -1, true, true);
     }
 
     private void incrementColor(DisplayConfig config, boolean header) {
@@ -525,7 +536,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         int fakeChatTop = height - 200;
 
         drawRect(width / 3 - fontRendererObj.getStringWidth(fakeChatText) / 2, fakeChatTop, width / 3 + fontRendererObj.getStringWidth(fakeChatText) / 2, fakeChatTop + 10, Integer.MIN_VALUE);
-        drawScaledText(fakeChatText, width / 3, fakeChatTop + 1, 1.0, 16777215, true, true);
+        drawScaledText(fakeChatText, width / 3, fakeChatTop + 1, 1.0, -1, true, true);
 
         if (!levelheadPurchaseStates.isChat()) {
             String text = "Levelhead chat display not purchased!\nPlease purchase to activate and configure.";
@@ -654,7 +665,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                     } else if (config.isFooterRgb()) {
                         fontRenderer.drawString(s, x1, y, new Color(config.getFooterRed(), config.getFooterGreen(), config.getFooterBlue()).getRGB());
                     } else {
-                        fontRenderer.drawString(config.getFooterColor() + s, x1, y, 16777215);
+                        fontRenderer.drawString(config.getFooterColor() + s, x1, y, -1);
                     }
                 }
             }
@@ -766,7 +777,9 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                 });
             });
 
-            GuiYesNo gui = new GuiYesNo(this, "Purchase " + finalName, "Description: " + description + ". This item may be purchased " + (single ? "one time" : "many times") + ". Type: " + (display ? "Display" : "Extra Stat"), "Purchase for " + cost + " credits", "Cancel", key.hashCode());
+            GuiYesNo gui = new GuiYesNo(this, "Purchase " + finalName, "Description:" +
+                " " + description + ". This item may be purchased " + (single ? "one time" : "many times") + ". Type: " + (display ? "Display" : "Extra Stat"), "Purchase for "
+                + cost + " credits", "Cancel", key.hashCode());
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(gui);
         } else {
             Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Could not find package: " + key + ". Please contact Sk1er immediately.");

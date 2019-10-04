@@ -357,7 +357,7 @@ public class CustomCrosshair {
         GlStateManager.depthMask(false);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.begin(1, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.begin(GL11.GL_CLIENT_PIXEL_STORE_BIT, DefaultVertexFormats.POSITION_COLOR);
         GL11.glLineWidth(2.0f);
         worldrenderer.pos(0.0, 0.0, 0.0).color(255, 0, 0, 255).endVertex();
         worldrenderer.pos(10.0, 0.0, 0.0).color(255, 0, 0, 255).endVertex();

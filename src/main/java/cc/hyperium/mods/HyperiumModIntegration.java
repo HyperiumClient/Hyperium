@@ -27,6 +27,7 @@ import cc.hyperium.mods.itemphysic.ItemPhysicMod;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
+import cc.hyperium.mods.myposition.MyPosition;
 import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.timechanger.TimeChanger;
@@ -39,6 +40,7 @@ import me.semx11.autotip.Autotip;
  * ToggleChat
  */
 public class HyperiumModIntegration {
+
     private final KeystrokesMod keystrokesMod;
     private final TimeChanger timeChanger;
     private final ToggleChatMod toggleChat;
@@ -54,6 +56,7 @@ public class HyperiumModIntegration {
     private final VictoryRoyale victoryRoyale;
     private final ChunkAnimator chunkAnimator;
     private final SoundHandler soundHandler;
+    private final MyPosition myPosition;
 
     public HyperiumModIntegration() {
         // ChromaHUD implementation
@@ -97,6 +100,7 @@ public class HyperiumModIntegration {
         this.victoryRoyale = (VictoryRoyale) new VictoryRoyale().init();
         this.chunkAnimator = (ChunkAnimator) new ChunkAnimator().init();
         this.soundHandler = (SoundHandler) new SoundHandler().init();
+        this.myPosition = (MyPosition) new MyPosition().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -143,5 +147,8 @@ public class HyperiumModIntegration {
     }
     public SoundHandler getSoundHandler() {
         return soundHandler;
+    }
+    public MyPosition getMyPosition() {
+        return myPosition;
     }
 }

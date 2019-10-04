@@ -152,11 +152,11 @@ public abstract class HyperiumGui extends GuiScreen {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
         worldrenderer.pos(right, top, 0).color(f1, f2, f3, alpha).endVertex();
         worldrenderer.pos(left, top, 0).color(f1, f2, f3, alpha).endVertex();
         worldrenderer.pos(left, bottom, 0).color(f5, f6, f7, alpha).endVertex();
@@ -187,7 +187,8 @@ public abstract class HyperiumGui extends GuiScreen {
         ScaledResolution current = ResolutionUtil.current();
         if (current == null)
             return;
-        if (lastResolution.getScaledWidth() != current.getScaledWidth() || lastResolution.getScaledHeight() != current.getScaledHeight() || lastResolution.getScaleFactor() != current.getScaleFactor())
+        if (lastResolution.getScaledWidth() != current.getScaledWidth() || lastResolution.getScaledHeight() != current.getScaledHeight()
+            || lastResolution.getScaleFactor() != current.getScaleFactor())
             rePack();
 
         this.lastResolution = current;
@@ -212,9 +213,9 @@ public abstract class HyperiumGui extends GuiScreen {
         mouseX = (int) (mouseX * ((float) Minecraft.getMinecraft().gameSettings.guiScale) / (float) guiScale);
         mouseY = (int) (mouseY * ((float) Minecraft.getMinecraft().gameSettings.guiScale) / (float) guiScale);
 
-        for (GuiBlock block : actions.keySet()) {
-            if (block.isMouseOver(mouseX, mouseY)) {
-                actions.get(block).run();
+        for (Map.Entry<GuiBlock, Runnable> entry : actions.entrySet()) {
+            if (entry.getKey().isMouseOver(mouseX, mouseY)) {
+                entry.getValue().run();
                 return;
             }
         }

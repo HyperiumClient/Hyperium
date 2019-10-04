@@ -28,13 +28,6 @@ public class GraphicsUtil {
     public static GraphicsUtil INSTANCE = new GraphicsUtil();
 
     private GraphicsUtil() {
-
-    }
-
-
-    private void createGraphics() {
-        BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
-        Graphics persistantGraphics = image.getGraphics();
     }
 
     public Color transitionOfHueRange(double percentage, int startHue, int endHue, float saturation, float lightness) {

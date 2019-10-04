@@ -40,15 +40,17 @@ public class PotionEffects extends DisplayItem {
     }
 
     public void draw(int x, double y, boolean isConfig) {
-
         int row = 0;
         double scale = ElementRenderer.getCurrentScale();
         Collection<PotionEffect> effects = new ArrayList<>();
+
         if (isConfig) {
             effects.add(new PotionEffect(1, 100, 1));
             effects.add(new PotionEffect(3, 100, 2));
         } else effects = Minecraft.getMinecraft().thePlayer.getActivePotionEffects();
+
         List<String> tmp = new ArrayList<>();
+
         for (PotionEffect potioneffect : effects) {
             Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
             StringBuilder s1 = new StringBuilder(I18n.format(potion.getName()));
@@ -66,10 +68,8 @@ public class PotionEffects extends DisplayItem {
             ElementRenderer.draw((int) (x / scale), ((y + row * 16)), text);
             row++;
         }
+
         this.width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;
         this.height = row * 16;
-
     }
-
-
 }

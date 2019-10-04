@@ -201,7 +201,7 @@ public class GuiKeybinds extends HyperiumGui {
                 KeybindButton button = entry.getKeybindButton();
 
                 // Check if button is pressed.
-                if (button.mousePressedDyanmic(this.mc, mouseX, mouseY)) {
+                if (button.mousePressedDyanmic(mouseX, mouseY)) {
                     // Make sure no other buttons are listening.
                     int bIndex = keybindEntries.indexOf(entry);
                     keybindEntries.remove(entry);

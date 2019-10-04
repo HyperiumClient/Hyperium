@@ -18,9 +18,6 @@
 package cc.hyperium.config;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.styles.ButtonStyle;
-import cc.hyperium.styles.ButtonType;
-import cc.hyperium.styles.GuiStyle;
 
 import static cc.hyperium.config.Category.*;
 
@@ -107,12 +104,8 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.windowedfullscreen", category = IMPROVEMENTS)
     public static boolean WINDOWED_FULLSCREEN;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;bossBarTextOnlyEnabled")
-    @ToggleSetting(name = "gui.settings.bossbartextonly")
-    public static boolean BOSSBAR_TEXT_ONLY;
-
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;staticFovEnabled")
-    @ToggleSetting(name = "gui.settings.staticfov", category = IMPROVEMENTS)
+    @ToggleSetting(name = "gui.settings.staticfov", category = STATICFOV, mods = true)
     public static boolean STATIC_FOV;
 
     @ConfigOpt
@@ -219,7 +212,7 @@ public class Settings {
     public static boolean TPOSE_TOGGLE_MODE = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;backgroundSelect")
-    @SelectorSetting(name = "gui.settings.background", category = MENUS, items =
+    @SelectorSetting(name = "gui.settings.background", category = MISC, items =
         {
             "1",
             "2",
@@ -227,7 +220,6 @@ public class Settings {
             "4",
             "5",
             "6",
-            "DEFAULT"
         }
     )
     public static String BACKGROUND = "4";
@@ -277,7 +269,7 @@ public class Settings {
     public static boolean SHOW_INGAME_NOTIFICATION_CENTER = true;
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;SHOW_INGAME_CONFIRMATION_POPUP")
-    @ToggleSetting(category = MISC, name = "gui.settings.showconfirmationpopup")
+    @ToggleSetting(category = POPUP_EVENTS, mods = true, name = "gui.settings.showconfirmationpopup")
     public static boolean SHOW_INGAME_CONFIRMATION_POPUP = true;
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;savePreviusChatMessages")
@@ -297,7 +289,7 @@ public class Settings {
     public static boolean PING_ON_DM = true;
 
     @ConfigOpt
-    @ToggleSetting(category = GENERAL, name = "gui.settings.sprintbypassstaticfov")
+    @ToggleSetting(category = STATICFOV, mods = true, name = "gui.settings.sprintbypassstaticfov")
     public static boolean staticFovSprintModifier;
 
     @ConfigOpt
@@ -325,30 +317,8 @@ public class Settings {
     public static boolean DISABLE_DANCES;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.showchromahud", category = CHROMAHUD, mods = true)
-    public static boolean SHOW_CHROMAHUD = true;
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.directionhudshort", category = CHROMAHUD, mods = true)
     public static boolean SHORT_DIRECTION_HUD;
-
-    @ConfigOpt
-    @SelectorSetting(name = "gui.settings.mainmenustyle", items =
-        {
-            "HYPERIUM",
-            "DEFAULT"
-        }, category = MENUS
-    )
-    public static String MENU_STYLE = GuiStyle.DEFAULT.name();
-
-    @ConfigOpt
-    @SelectorSetting(name = "gui.settings.pausemenustyle", items =
-        {
-            "HYPERIUM",
-            "DEFAULT"
-        }, category = MENUS
-    )
-    public static String PAUSE_STYLE = GuiStyle.HYPERIUM.name();
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.fastworldswitching", category = IMPROVEMENTS)
@@ -386,19 +356,11 @@ public class Settings {
 
     @ConfigOpt
     @SliderSetting(name = "gui.settings.blue", mods = true, category = REACH, isInt = true, min = 0, max = 255)
-    public static int REACH_BLUE;
+    public static int REACH_BLUE = 255;
 
     @ConfigOpt
     @SliderSetting(name = "gui.settings.green", mods = true, category = REACH, isInt = true, min = 0, max = 255)
     public static int REACH_GREEN = 255;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.togglesprint", category = TOGGLESPRINT, mods = true)
-    public static boolean ENABLE_TOGGLE_SPRINT = true;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.broadcastlevelups", category = HYPIXEL)
-    public static boolean BROADCAST_LEVELUPS = true;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.broadcastachievements", category = HYPIXEL)
@@ -411,10 +373,6 @@ public class Settings {
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.showbutt", category = COSMETICS, items = {"YES", "NO"})
     public static String SHOW_BUTT = "YES";
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.sendcurrentserver", category = GENERAL)
-    public static boolean SEND_SERVER = true;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.sendguildwelcomemessage", category = HYPIXEL)
@@ -438,33 +396,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.betterf1", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean BETTERF1;
-
-    @ConfigOpt
-    @SelectorSetting(name = "gui.settings.buttonstyle", category = BUTTONS, items = {
-        "HYPERIUM",
-        "HYPERIUM 2"
-    })
-    public static String BUTTON_STYLE = ButtonStyle.HYPERIUM.name();
-
-    @ConfigOpt
-    @SliderSetting(name = "gui.settings.buttonred", isInt = true, min = 0, max = 255, category = BUTTONS)
-    public static int BUTTON_RED = 255;
-
-    @ConfigOpt
-    @SliderSetting(name = "gui.settings.buttongreen", isInt = true, min = 0, max = 255, category = BUTTONS)
-    public static int BUTTON_GREEN = 255;
-
-    @ConfigOpt
-    @SliderSetting(name = "gui.settings.buttonblue", isInt = true, min = 0, max = 255, category = BUTTONS)
-    public static int BUTTON_BLUE = 255;
-
-    @ConfigOpt
-    @SelectorSetting(name = "gui.settings.buttontype", category = BUTTONS, items = {
-        "DEFAULT",
-        "RGB",
-        "CHROMA"
-    })
-    public static String BUTTON_TYPE = ButtonType.DEFAULT.name();
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
@@ -515,8 +446,38 @@ public class Settings {
     public static boolean DISABLE_SHADOW_TEXT;
 
     @ConfigOpt
-    @ToggleSetting(name ="gui.settings.shinypotions.matchcolor", category = ANIMATIONS)
-    public static boolean SHINY_POTS_MATCH_COLOR = false;
+    @ToggleSetting(name = "gui.settings.shinypotions.matchcolor", category = ANIMATIONS)
+    public static boolean SHINY_POTS_MATCH_COLOR;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.automyposition.enabled", category = AUTOMYPOSITION, mods = true)
+    public static boolean AUTO_MY_POSITION;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.automyposition.delay", min = 0, max = 5, category = AUTOMYPOSITION, mods = true)
+    public static double AUTO_MY_POSITION_DELAY = 2;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.bossbarmod.bossbarall", category = BOSSBARMOD, mods = true)
+    public static boolean BOSSBAR_ALL = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.bossbarmod.bossbartext", category = BOSSBARMOD, mods = true)
+    public static boolean BOSSBAR_TEXT = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.bossbarmod.bossbarhealthbar", category = BOSSBARMOD, mods = true)
+    public static boolean BOSSBAR_BAR = true;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.bossbarmod.bossbarscale", min = 0.25F, max = 2.0F, category = BOSSBARMOD, mods = true)
+    public static double BOSSBAR_SCALE = 1.0;
+
+    @ConfigOpt
+    public static double BOSSBAR_X = .5;
+
+    @ConfigOpt
+    public static double BOSSBAR_Y = .05;
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);

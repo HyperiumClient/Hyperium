@@ -36,7 +36,6 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
 
     private HyperiumRenderItem hyperiumRenderItem = new HyperiumRenderItem((RenderItem) (Object) this);
 
-
     /**
      * Overrides the normal method to use our custom one
      *
@@ -63,7 +62,5 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
     public void renderItemIntoGUI(ItemStack stack, int x, int y) {
         hyperiumRenderItem.renderItemIntoGUI(stack, x, y);
     }
-
-
 }
 

@@ -38,6 +38,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DragonCompanion extends AbstractCosmetic {
@@ -79,8 +80,7 @@ public class DragonCompanion extends AbstractCosmetic {
         Entity entity = customDragon.dragon;
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
 
-        //Manage pos here;
-
+        //Manage pos here
         float partialTicks = event.getPartialTicks();
 
         double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
@@ -89,7 +89,6 @@ public class DragonCompanion extends AbstractCosmetic {
 
         GlStateManager.pushMatrix();
 
-//        GlStateManager.translate(event.getX(), event.getY(), event.getZ());
         EntityDragon entityDragon = customDragon.dragon;
         AnimationState animationState = customDragon.animationState;
         AnimationPoint current = animationState.getCurrent(player);
@@ -122,8 +121,9 @@ public class DragonCompanion extends AbstractCosmetic {
         if (Minecraft.getMinecraft().theWorld == null)
             return;
 
-        for (EntityPlayer player : dragonHashMap.keySet()) {
-            CustomDragon customDragon = dragonHashMap.get(player);
+        for (Map.Entry<EntityPlayer, CustomDragon> entry : dragonHashMap.entrySet()) {
+            EntityPlayer player = entry.getKey();
+            CustomDragon customDragon = entry.getValue();
             EntityDragon entityDragon = customDragon.dragon;
             AnimationState animationState = customDragon.animationState;
             if (entityDragon != null) {
@@ -167,11 +167,11 @@ public class DragonCompanion extends AbstractCosmetic {
 
     }
 
-    class CustomDragon {
+    static class CustomDragon {
         EntityDragon dragon;
         AnimationState animationState;
 
-        public CustomDragon(EntityDragon dragon, AnimationState point) {
+        CustomDragon(EntityDragon dragon, AnimationState point) {
             this.dragon = dragon;
             this.animationState = point;
         }
@@ -180,22 +180,22 @@ public class DragonCompanion extends AbstractCosmetic {
     static class AnimationPoint {
         double x, y, z;
 
-        public AnimationPoint(double x, double y, double z) {
+        AnimationPoint(double x, double y, double z) {
             this.x = x;
             this.y = y;
             this.z = z;
         }
 
-        public double distanceSqTo(AnimationPoint other) {
+        double distanceSqTo(AnimationPoint other) {
             return Math.pow(other.x - x, 2) + Math.pow(other.y - y, 2) + Math.pow(other.z - z, 2);
         }
 
-        public double distanceTo(AnimationPoint animationPoint) {
+        double distanceTo(AnimationPoint animationPoint) {
             return Math.sqrt(distanceSqTo(animationPoint));
         }
     }
 
-    class AnimationState {
+    static class AnimationState {
         private final int BOUNDS = 4;
         AnimationPoint last;
         AnimationPoint next;
@@ -207,12 +207,12 @@ public class DragonCompanion extends AbstractCosmetic {
         private long totalTime;
         private long endTime;
 
-        public AnimationState() {
+        AnimationState() {
             next = generateRandom(null);
             switchToNext(null, false);
         }
 
-        public void switchToNext(EntityPlayer player, boolean toofar) {
+        void switchToNext(EntityPlayer player, boolean toofar) {
             if (nextNext == null)
                 nextNext = toofar ? new AnimationPoint(player.posX, player.posY + 3, player.posZ) : generateRandom(player);
             last = toofar ? getCurrent(player) : next;
@@ -228,18 +228,18 @@ public class DragonCompanion extends AbstractCosmetic {
 
         }
 
-        public AnimationPoint getCurrent(EntityPlayer player) {
-            long l = System.currentTimeMillis();
-            if (l > endTime) {
+        AnimationPoint getCurrent(EntityPlayer player) {
+            long startTime = System.currentTimeMillis();
+            if (startTime > endTime) {
                 switchToNext(player, false);
             }
-            double percent = (double) (l - start) / (double) totalTime;
+            double percent = (double) (startTime - start) / (double) totalTime;
             return new AnimationPoint(interpolate(this.last.x, next.x, percent),
                 interpolate(this.last.y, next.y, percent),
                 interpolate(this.last.z, next.z, percent));
         }
 
-        public boolean nextFrameisNewPoint(EntityPlayer player) {
+        boolean nextFrameisNewPoint(EntityPlayer player) {
             long endTime = this.endTime;
             boolean b = System.currentTimeMillis() + 50L >= endTime;
             if (b) {

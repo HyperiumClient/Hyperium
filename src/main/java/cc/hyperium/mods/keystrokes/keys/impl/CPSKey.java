@@ -21,15 +21,15 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
-import cc.hyperium.mods.keystrokes.keys.IKey;
+import cc.hyperium.mods.keystrokes.keys.AbstractKey;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CPSKey extends IKey {
+public class CPSKey extends AbstractKey {
 
     private final List<Long> leftClicks = new ArrayList<>();
     private final List<Long> rightClicks = new ArrayList<>();
@@ -59,17 +59,23 @@ public class CPSKey extends IKey {
             yOffset -= 18;
         }
 
+        if (!mod.getSettings().isShowingWASD()) {
+            yOffset -= 48;
+        }
+
         Mouse.poll();
 
         int textColor = getColor();
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
-            Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, 120).getRGB());
+            Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16,
+                new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                    mod.getSettings().getKeyBackgroundOpacity()).getRGB());
         }
 
         String name = (this.mod.getSettings().isLeftClick() ? this.getLeftCPS() : this.getRightCPS()) + " CPS";
         if (this.mod.getSettings().isChroma()) {
-            this.drawChromaString(name, x + (this.xOffset + 70) / 2 - this.mc.fontRendererObj.getStringWidth(name) / 2, y + (yOffset + 4));
+            drawChromaString(name, ((x + (this.xOffset + 70) / 2) - this.mc.fontRendererObj.getStringWidth(name) / 2), y + (yOffset + 4), 1.0F);
         } else {
             this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + (yOffset + 4), textColor);
         }

@@ -18,7 +18,6 @@
 package cc.hyperium.gui.hyperium.tabs;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.addons.bossbar.gui.GuiBossbarSetting;
 import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditCrosshair;
 import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSettings;
 import cc.hyperium.config.Category;
@@ -30,6 +29,7 @@ import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.hyperium.RGBFieldSet;
 import cc.hyperium.gui.hyperium.components.*;
 import cc.hyperium.gui.keybinds.GuiKeybinds;
+import cc.hyperium.mods.bossbar.BossbarGui;
 import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
@@ -101,9 +101,6 @@ public class SettingsTab extends AbstractTab {
 
         // Link to keybinds gui
         apply(new LinkComponent(this, Collections.emptyList(), "Keybinds", new GuiKeybinds()), false, Category.GENERAL, items);
-
-        // Link to bossbar addon gui
-        apply(new LinkComponent(this, Collections.emptyList(), "Bossbar Addon", new GuiBossbarSetting()), true, Category.OTHER, items);
 
         // Link to custom crosshair gui
         apply(new LinkComponent(this, Collections.emptyList(), "Custom Crosshair", new GuiCustomCrosshairEditCrosshair(Hyperium.INSTANCE.getInternalAddons().getCustomCrosshairAddon())), true, Category.OTHER, items);

@@ -24,7 +24,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MovingObjectPosition;
 
-class AnimationEventHandler {
+public class AnimationEventHandler {
     private final Minecraft mc;
 
     AnimationEventHandler() {

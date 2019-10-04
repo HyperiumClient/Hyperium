@@ -46,10 +46,7 @@ public abstract class AbstractAnimationHandler {
     public void onRender(RenderEvent e) {
 
         long systemTime = Minecraft.getSystemTime();
-        animationStates.values().forEach(animationState -> {
-            animationState.update(systemTime);
-        });
-
+        animationStates.values().forEach(animationState -> animationState.update(systemTime));
         onRender();
 
         long systemTime1 = System.currentTimeMillis();

@@ -20,15 +20,18 @@ package cc.hyperium.mixinsimp.client.gui;
 import cc.hyperium.gui.keybinds.GuiKeybinds;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 
-public class HyperiumGuiControls {
+public class HyperiumGuiControls extends GuiScreen {
 
     public void initGui(List<GuiButton> buttonList) {
-        buttonList.add(new GuiButton(10, ResolutionUtil.current().getScaledWidth() / 2 - 60, ResolutionUtil.current().getScaledHeight() - 10, 120, 10, "Hyperium Binds"));
+        buttonList.add(new GuiButton(10, width / 2 + buttonList.get(1).xPosition, height / 2 + buttonList.get(2).yPosition + 24,
+            150, 20, "Hyperium Binds"));
     }
 
     public void actionPerformed(GuiButton button) {

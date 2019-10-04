@@ -22,15 +22,24 @@ import java.awt.image.BufferedImage;
 
 public class HyperiumCapeUtils {
 
+    /**
+     * Create a more performance-favoring cape parser that allows for
+     * high-definition images to be applied
+     *
+     * @param img the buffered image
+     * @return the cape image
+     */
     public static BufferedImage parseCape(final BufferedImage img) {
         int imageWidth = 64;
         int imageHeight = 32;
         int srcWidth = img.getWidth(), srcHeight = img.getHeight();
+
         while (imageWidth < srcWidth || imageHeight < srcHeight) {
             imageWidth *= 2;
             imageHeight *= 2;
         }
-        final BufferedImage imgNew = new BufferedImage(imageWidth, imageHeight, 2);
+
+        final BufferedImage imgNew = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
         final Graphics g = imgNew.getGraphics();
         g.drawImage(img, 0, 0, null);
         g.dispose();

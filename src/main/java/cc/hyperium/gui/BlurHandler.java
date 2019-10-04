@@ -37,7 +37,7 @@ public class BlurHandler {
     }
 
     @InvokeEvent
-    private void onTick(TickEvent event) {
+    public void onTick(TickEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc != null && mc.entityRenderer != null) {
 

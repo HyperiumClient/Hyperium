@@ -94,7 +94,7 @@ public class ChromaHUDApi {
      * @param type   String ID for StatsDisplayItem to show and activate on for CONFIG
      * @param config Config object
      */
-    public void registerTextConfig(String type, TextConfig config) {
+    void registerTextConfig(String type, TextConfig config) {
         type = type.toLowerCase();
         if (!textConfigs.containsKey(type))
             textConfigs.put(type, new ArrayList<>());
@@ -107,7 +107,7 @@ public class ChromaHUDApi {
      * @param type   String ID for StatsDisplayItem to show and activate on for CONFIG
      * @param config Config object
      */
-    public void registerStringConfig(String type, StringConfig config) {
+    void registerStringConfig(String type, StringConfig config) {
         type = type.toLowerCase();
         if (!stringConfigs.containsKey(type))
             stringConfigs.put(type, new ArrayList<>());
@@ -120,7 +120,7 @@ public class ChromaHUDApi {
      * @param type   String ID for StatsDisplayItem to show and activate on for CONFIG
      * @param config Config object
      */
-    public void registerButtonConfig(String type, ButtonConfig config) {
+    void registerButtonConfig(String type, ButtonConfig config) {
         type = type.toLowerCase();
         if (!buttonConfigs.containsKey(type))
             buttonConfigs.put(type, new ArrayList<>());

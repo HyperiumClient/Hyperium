@@ -44,7 +44,7 @@ public class EditItemsGui extends GuiScreen {
     private DisplayItem modifying;
     private int tmpId;
 
-    public EditItemsGui(DisplayElement element, ChromaHUD mod) {
+    EditItemsGui(DisplayElement element, ChromaHUD mod) {
         this.element = element;
         this.mod = mod;
     }
@@ -70,15 +70,19 @@ public class EditItemsGui extends GuiScreen {
 
         reg(new GuiButton(nextId(), 2, 23 + 21, 100, 20, "Move Up"), button -> {
             if (modifying != null) {
-                Collections.swap(element.getDisplayItems(), modifying.getOrdinal(), modifying.getOrdinal() - 1);
-                element.adjustOrdinal();
+                if (modifying.getOrdinal() > 0) {
+                    Collections.swap(element.getDisplayItems(), modifying.getOrdinal(), modifying.getOrdinal() - 1);
+                    element.adjustOrdinal();
+                }
             }
         });
 
         reg(new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Move Down"), button -> {
             if (modifying != null) {
-                Collections.swap(element.getDisplayItems(), modifying.getOrdinal(), modifying.getOrdinal() + 1);
-                element.adjustOrdinal();
+                if (modifying.getOrdinal() < element.getDisplayItems().size() - 1) {
+                    Collections.swap(element.getDisplayItems(), modifying.getOrdinal(), modifying.getOrdinal() + 1);
+                    element.adjustOrdinal();
+                }
             }
         });
 
@@ -240,7 +244,7 @@ public class EditItemsGui extends GuiScreen {
             drawRect(xPosition, yPosition, xPosition + width, yPosition + height, this.modifying != null && this.modifying.getOrdinal() == displayItem.getOrdinal() || hovered ? otherColor.getRGB() : defaultColor.getRGB());
             int j = Color.RED.getRGB();
             String displayString = ChromaHUDApi.getInstance().getName(displayItem.getType());
-            fontrenderer.drawString(displayString, (xPosition + (width >> 1) - (fontrenderer.getStringWidth(displayString) >> 1)), yPosition + (height - 8) / 2, j, false);
+            fontrenderer.drawString(displayString, (xPosition + (width >> 1) - (fontrenderer.getStringWidth(displayString) >> 1)), yPosition + ((height - 8) >> 1), j, false);
             yPosition += 23;
         }
         if (modifying != null) {
