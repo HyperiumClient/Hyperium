@@ -129,8 +129,7 @@ public abstract class MixinNetHandlerPlayClient {
             return;
         }
 
-        PacketThreadUtil.checkThreadAndEnqueue(packetIn,
-            (INetHandlerPlayClient) Minecraft.getMinecraft().getNetHandler().getNetworkManager().getNetHandler(), this.gameController);
+        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) Minecraft.getMinecraft().getNetHandler().getNetworkManager().getNetHandler(), this.gameController);
         this.gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
         this.gameController.theWorld.setWorldTime(packetIn.getWorldTime());
     }

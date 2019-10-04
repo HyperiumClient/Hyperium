@@ -22,9 +22,15 @@ import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,8 +41,11 @@ import java.util.List;
  */
 public class PotionEffects extends DisplayItem {
 
+    private boolean potionIcon;
+
     public PotionEffects(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
+        potionIcon = raw.optBoolean("potionIcon");
     }
 
     public void draw(int x, double y, boolean isConfig) {
@@ -53,6 +62,23 @@ public class PotionEffects extends DisplayItem {
 
         for (PotionEffect potioneffect : effects) {
             Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
+
+            if (potionIcon) {
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/inventory.png"));
+
+                if (potion.hasStatusIcon()) {
+                    int potionStatusIconIndex = potion.getStatusIconIndex();
+                    if (!ElementRenderer.getCurrent().isRightSided()) {
+                        drawTexturedModalRect((int) (x / scale) - 20, (int) ((y + row * 16)) - 4, potionStatusIconIndex % 8 * 18,
+                            198 + potionStatusIconIndex / 8 * 18, 18, 18);
+                    } else {
+                        drawTexturedModalRect((int) (x / scale), (int) ((y + row * 16)) - 4, potionStatusIconIndex % 8 * 18,
+                            198 + potionStatusIconIndex / 8 * 18, 18, 18);
+                    }
+                }
+            }
+
             StringBuilder s1 = new StringBuilder(I18n.format(potion.getName()));
             if (potioneffect.getAmplifier() == 1) {
                 s1.append(" ").append(I18n.format("enchantment.level.2"));
@@ -69,7 +95,24 @@ public class PotionEffects extends DisplayItem {
             row++;
         }
 
-        this.width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;
-        this.height = row * 16;
+        width = isConfig ? ElementRenderer.maxWidth(tmp): 0;
+        height = row * 16;
+    }
+
+    public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
+        float f = 0.00390625F;
+        float f1 = 0.00390625F;
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        worldrenderer.pos(x, y + height, 0).tex((float) (textureX) * f, (float) (textureY + height) * f1).endVertex();
+        worldrenderer.pos(x + width, y + height, 0).tex((float) (textureX + width) * f, (float) (textureY + height) * f1).endVertex();
+        worldrenderer.pos(x + width, y, 0).tex((float) (textureX + width) * f, (float) (textureY) * f1).endVertex();
+        worldrenderer.pos(x, y, 0).tex((float) (textureX) * f, (float) (textureY) * f1).endVertex();
+        tessellator.draw();
+    }
+
+    public void togglePotionIcon() {
+        potionIcon = !potionIcon;
     }
 }

@@ -175,7 +175,6 @@ public class ChromaHUDApi {
      */
     public DisplayItem parse(String type, int ord, JsonHolder item) {
         return parsers.stream().map(parser -> parser.parse(type, ord, item)).filter(Objects::nonNull).findFirst().orElse(null);
-        //No parsers could parse -> return null
     }
 
     /**

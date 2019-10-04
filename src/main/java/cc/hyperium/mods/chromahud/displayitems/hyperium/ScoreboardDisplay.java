@@ -39,21 +39,20 @@ import java.util.stream.Collectors;
 
 public class ScoreboardDisplay extends DisplayItem {
 
-    public static ScoreObjective p_180475_1_;
-    public static ScaledResolution p_180475_2_;
+    public static ScoreObjective objective;
+    public static ScaledResolution resolution;
 
     public ScoreboardDisplay(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
     }
 
-
     @Override
     public void draw(int starX, double startY, boolean config) {
-        if (p_180475_1_ != null) {
+        if (objective != null) {
             boolean guiF = false;
 
-            Scoreboard scoreboard = p_180475_1_.getScoreboard();
-            Collection<Score> collection = scoreboard.getSortedScores(p_180475_1_);
+            Scoreboard scoreboard = objective.getScoreboard();
+            Collection<Score> collection = scoreboard.getSortedScores(objective);
             List<Score> list = Lists.newArrayList(collection.stream().filter(p_apply_1_ -> p_apply_1_.getPlayerName() != null && !p_apply_1_.getPlayerName().startsWith("#")).collect(Collectors.toList()));
 
             if (list.size() > 15) {
@@ -62,7 +61,7 @@ public class ScoreboardDisplay extends DisplayItem {
                 collection = list;
             }
 
-            int i = Minecraft.getMinecraft().fontRendererObj.getStringWidth(p_180475_1_.getDisplayName());
+            int i = Minecraft.getMinecraft().fontRendererObj.getStringWidth(objective.getDisplayName());
 
             for (Score score : collection) {
                 ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(score.getPlayerName());
@@ -71,20 +70,18 @@ public class ScoreboardDisplay extends DisplayItem {
             }
 
             int i1 = collection.size() * Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT;
-            int k1 = 3;
             int l1 = starX;
             if (ElementRenderer.getCurrent().isRightSided())
                 l1 -= i;
             int j = 0;
 
-            int k = 0;
+            int k;
             for (Score score1 : collection) {
                 ++j;
                 ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName());
                 String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName());
                 String s2 = EnumChatFormatting.RED + "" + score1.getScorePoints();
                 k = ((int) startY) + (collection.size() - j + 1) * Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT;
-                int l = p_180475_2_.getScaledWidth() - k1 + 2;
                 if (ElementRenderer.getCurrent().isHighlighted()) {
                     if (guiF)
                         Gui.drawRect(l1 - 2, k, l1 + i, k + Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT, 1342177280);
@@ -98,7 +95,7 @@ public class ScoreboardDisplay extends DisplayItem {
                 }
 
                 if (j == collection.size()) {
-                    String s3 = p_180475_1_.getDisplayName();
+                    String s3 = objective.getDisplayName();
                     if (ElementRenderer.getCurrent().isHighlighted()) {
                         if (guiF) {
                             Gui.drawRect(l1 - 2, k - Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT - 1, l1 + i, k - 1, 1610612736);
@@ -111,7 +108,6 @@ public class ScoreboardDisplay extends DisplayItem {
                     Minecraft.getMinecraft().fontRendererObj.drawString(s3, l1 + i / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(s3) / 2, k - Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT, Color.WHITE.getRGB());
                 }
             }
-            //432 ms
             this.width = i - (data.optBoolean("numbers") ? 0 : 10);
             this.height = i1 + 10;
         }

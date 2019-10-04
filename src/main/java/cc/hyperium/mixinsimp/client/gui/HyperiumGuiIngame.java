@@ -62,8 +62,8 @@ public class HyperiumGuiIngame {
 
     public void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {
         //For *extra* scoreboards
-        ScoreboardDisplay.p_180475_1_ = objective;
-        ScoreboardDisplay.p_180475_2_ = resolution;
+        ScoreboardDisplay.objective = objective;
+        ScoreboardDisplay.resolution = resolution;
 
         if (renderScoreboard) {
             Hyperium.INSTANCE.getHandlers().getScoreboardRenderer().render(objective, resolution);
