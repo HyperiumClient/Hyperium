@@ -16,12 +16,13 @@
  */
 
 package cc.hyperium.mods.chromahud.displayitems.chromahud;
+
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import cc.hyperium.config.Settings;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +33,12 @@ public class DirectionHUD extends DisplayItem {
     private static final String[] dir = {"South", "South West", "West", "North West", "North", "North East", "East", "South East"};
     private static final String[] dirShort = {"S", "SW", "W", "NW", "N", "NE", "E", "SE"};
 
+    private boolean shortDirection;
+
     public DirectionHUD(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
         this.height = 10;
+        shortDirection = raw.optBoolean("shortDirection");
     }
 
     public void draw(int x, double y, boolean isConfig) {
@@ -51,7 +55,7 @@ public class DirectionHUD extends DisplayItem {
                 while (direction < 0) {
                     direction += 8;
                 }
-                if (!Settings.SHORT_DIRECTION_HUD) {
+                if (!shortDirection) {
                     list.add(dir[direction]);
                 } else {
                     list.add(dirShort[direction]);
@@ -62,4 +66,19 @@ public class DirectionHUD extends DisplayItem {
         this.width = isConfig ? ElementRenderer.maxWidth(list) : 0;
     }
 
+    public void toggleShortDirection() {
+        shortDirection = !shortDirection;
+    }
+
+    @Override
+    public void save() {
+        data.put("shortDirection", shortDirection);
+    }
+
+    @Override
+    public String toString() {
+        return "DirectionHUD{" +
+            "shortDirection=" + shortDirection +
+            '}';
+    }
 }

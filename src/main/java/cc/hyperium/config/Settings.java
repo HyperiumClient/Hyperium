@@ -317,10 +317,6 @@ public class Settings {
     public static boolean DISABLE_DANCES;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.directionhudshort", category = CHROMAHUD, mods = true)
-    public static boolean SHORT_DIRECTION_HUD;
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.fastworldswitching", category = IMPROVEMENTS)
     public static boolean FAST_WORLD_LOADING;
 
@@ -331,6 +327,7 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Show Companion in 1st person", category = COSMETICS)
     public static boolean SHOW_COMPANION_IN_1ST_PERSON = true;
+
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.showhitdistances", category = REACH, mods = true)
     public static boolean SHOW_HIT_DISTANCES;

@@ -52,8 +52,7 @@ public class ChromaHUDApi {
      * @return ChromaHUD Api Instance
      */
     public static ChromaHUDApi getInstance() {
-        if (instance == null)
-            instance = new ChromaHUDApi();
+        if (instance == null) instance = new ChromaHUDApi();
         return instance;
     }
 

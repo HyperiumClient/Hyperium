@@ -181,7 +181,6 @@ gui.settings.disableenchantglint=Verzauberungsschimmer deaktivieren
 gui.settings.disabletitles=Titelbildschirme deaktivieren
 gui.settings.thankwatchdog=Bei Watchdog bedanken
 gui.settings.fpslimiteramount=Anzahl der FPS Limitierung
-gui.settings.directionhudshort=Direction HUD Nur Anfangsbuchstaben
 gui.settings.disablelightning=Blitze deaktivieren
 gui.settings.disablearmorstands=Rüstungsständer deaktivieren
 gui.settings.disableitemframes=Rahmen deaktivieren

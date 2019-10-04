@@ -1,10 +1,9 @@
-#Hyperium Language File - Created by ScottehBoeh
 
-#Hyperium Disclaimers
+# Hyperium Disclaimers
 menu.left=Cóipcheart 2019 Foireann Forbair Hyperium
 menu.right=Nach bhfuil cleamhnaithe le Mojang AB
 
-#Hyperium Buttons
+# Hyperium Buttons
 button.menu.changebackground=Cúlra an Menu
 button.menu.cosmeticshop=Siopa Cosmaideacha
 button.ingame.hyperiumsettings=Socruithe Hyperium
@@ -16,7 +15,7 @@ button.changebackground.seturl=Socraigh URL
 button.changebackground.choosefile=Roghnaigh File
 button.changebackground.resetbackground=Athshocraigh Cúlra
 
-#Hyperium Disclaimer
+# Hyperium Disclaimer
 disclaimer.line1=Trí leanúint ar aghaidh, aithníonn tú go bhfuil an cliant seo  %s
 disclaimer.line1.bold=ÚSÁID AG DO RIOSCA FÉIN
 disclaimer.line2=Níl forbróirí Hyperium freagrach as aon damáistí nó toirmisc
@@ -27,22 +26,22 @@ disclaimer.line5=Cliceáil an cnaipe chun a dheimhniú go n-aontaíonn tú le do
 button.disclaimer.accept=Glac leis
 button.disclaimer.confirm=Deimhnigh Glacadh
 
-#Hyperium Menu Strings
+# Hyperium Menu Strings
 menu.profile.credits=%s Creidmheasanna
 
-#Hyperium Tabs
+# Hyperium Tabs
 tabs.searchbar=Cuardaigh ...
 tab.settings.name=Socruithe
 tab.shop.name=Siopa
 
-#Hyperium Ingame Menu
+# Hyperium Ingame Menu
 gui.ingamemenu.playercount=Líon Imreoir Hyperium:
 gui.ingamemenu.playercount.now=Ar Líne Anois: %s
 gui.ingamemenu.playercount.lastday=Lá a chuaigh thart: %s
 gui.ingamemenu.playercount.lastweek=Seachtain a chuaigh thart: %s
 gui.ingamemenu.playercount.alltime=Riamh: %s
 
-#Hyperium Change Background Text
+# Hyperium Change Background Text
 gui.changebackground.line1=Cuir isteach URL thíos chun an cúlra a athrú nó comhad a roghnú.
 gui.changebackground.line2=Chun é a thaispeáint, roghnaigh "saincheaptha" i suímh chúlra.
 gui.changebackground.urlempty=Ní féidir leis an URL a bheith folamh.
@@ -54,7 +53,7 @@ gui.changebackground.unknownerror=Earráid anaithnid
 gui.changebackground.downloaderror=Earráid á íoslódáil.
 gui.changebackground.selectimage=Roghnaigh íomhá chúlra
 
-#Hyperium PurchaseCarousel Text
+# Hyperium PurchaseCarousel Text
 gui.purchase.purchased=Ceannaithe
 gui.purchase.purchase=Ceannach
 gui.purchase.active=Gníomhach
@@ -63,7 +62,7 @@ gui.purchase.notpurchased=Gan Cheannach
 gui.purchase.clicktouse=Cliceáil le húsáid
 gui.purchase.state=Stát
 
-#Hyperium Cosmetics Gui
+# Hyperium Cosmetics Gui
 gui.cosmetics.purchase=Cosmaidí a cheannach
 gui.cosmetics.refresh=Ceannacháin a athnuachan
 gui.cosmetics.credits=Creidmheasanna
@@ -79,7 +78,7 @@ gui.cosmetics.green=Glas
 gui.cosmetics.blue=Gorm
 gui.cosmetics.maxage=Saol cáithníneach
 
-#Hyperium Shop Gui
+# Hyperium Shop Gui
 gui.shop.capes=Féach Capes
 gui.shop.browser=Oscail sa bhrabhsálaí
 gui.shop.purchasecredits=Creidmheasanna Ceannaigh
@@ -95,7 +94,7 @@ gui.shop.insufficientcredits=Creidmheasanna Neamhleor!
 gui.shop.loading.cosmetics=Cosmaidí á lódáil...
 gui.shop.loading.person=Ag luchtú sonraí duine...
 
-#Hyperium Settings Text
+# Hyperium Settings Text
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Iomlán geal
 gui.settings.romannumerals=Uimhreacha Rómhánacha
@@ -128,7 +127,7 @@ gui.settings.17rodposition=1.7 Seasamh Rod
 gui.settings.17redarmour=1.7 Armúr Dearg (ar bhuail)
 gui.settings.17eating=1.7 Ithe
 gui.settings.17sneakinganimation=1.7 Beochana Sneaking
-gui.settings.17blocáil=1.7 Blocáil
+gui.settings.17blocking=1.7 Blocáil
 gui.settings.17itemheld=1.7 Mír Seilbh
 gui.settings.17debug=1.7 Dífhabhtú
 gui.settings.17health=1.7 Sláinte
@@ -155,11 +154,9 @@ gui.settings.showdragonhead=Taispeáin Ceann an Dragan
 gui.settings.wingsheight=Airde Sciatháin
 gui.settings.showwings=Taispeáin Sciatháin
 gui.settings.wingsscale=Scála na Sciathán
-gui.settings.updatenotificationsinhyperiumsettings=Fógraí Nuashonraithe i Suímh Hyperium
 gui.settings.fastworldswitching=Athrú Domhanda Luath (D'fhéadfadh sé go méadófaí úsáid na cuimhne)
 gui.settings.maxworldparticles=Uas-cháithníní Domhanda
 gui.settings.showparticlein1stperson=Taispeáin an cáithnín sa chéad duine
-gui.settings.showhitdistances=Taispeáin Fad Amhairc
 gui.settings.motionblurenabled=Cumasaithe
 gui.settings.motionblurintensity=Tairiscint Blur Déine
 gui.settings.showbackground=Taispeáin Cúlra
@@ -167,6 +164,7 @@ gui.settings.chroma=Cróma
 gui.settings.shadow=Scáth
 gui.settings.details=Sonraí
 gui.settings.showuserdotsonnametags=Taispeáin poncanna úsáideora ar chrainn ainm
+gui.settings.showhitdistances=Taispeáin Fad Amhairc
 gui.settings.colortype=Cineál Dath
 gui.settings.red=Dearg
 gui.settings.green=Glas
@@ -179,13 +177,10 @@ gui.settings.disable_dances=Díchumasaigh Damhsaí
 gui.settings.victoryroyale=Bua Royale
 gui.settings.hyperiumprefix=Taispeáin Réamhshocrú Comhrá Hyperium
 gui.settings.betterf1=Folaigh ainmneacha i F1
-gui.settings.buttonstyle=Stíl Button
-gui.settings.buttontype=Cineál Dath
 gui.settings.disableenchantglint=Díchumasaigh Glint na Séadchomhartha
 gui.settings.disabletitles=Díchumasaigh Teidil
 gui.settings.thankwatchdog=Go raibh maith agat Watchdog
 gui.settings.fpslimiteramount=Méid Teorainn an FPS
-gui.settings.directionhudshort=Treoir HUD Chéad Litir Amháin
 gui.settings.disablelightning=Díchumasaigh Boltaí Tintrí
 gui.settings.disablearmorstands=Díchumasaigh Armorstands
 gui.settings.disableitemframes=Díchumasaigh Frámaí Míreanna
@@ -205,7 +200,7 @@ gui.settings.bossbarmod.bossbarhealthbar=Barra Sláinte Boss
 gui.settings.bossbarmod.bossbarscale=Scála Barra Boss
 gui.settings.bossbarmod.resetbossbar=Athshocraigh Barra Boss
 
-#Hyperium Splash Progress
+# Hyperium Splash Progress
 splashprogress.startinggame=Cluiche Tosaigh ...
 splashprogress.loadingresources=Ag lódáil acmhainní ...
 splashprogress.creatingdisplay=Cruthaigh Taispeántas ...
@@ -218,12 +213,12 @@ splashprogress.registeringcommands=Orduithe a Chlárú ...
 splashprogress.loadingintegrations=Comhtháthú á lódáil ...
 splashprogress.finishing=Críochnú...
 
-#Hyperium Misc Gui Text
+# Hyperium Misc Gui Text
 gui.namehistory.text=AINM STAIR
 gui.confirmdisconnect.text=An bhfuil tú cinnte gur mian leat a dhícheangal?
 gui.confirmquit.text=An bhfuil tú cinnte gur mian leat éirí as?
 
-#Hyperium Chat Message
+# Hyperium Chat Message
 message.insufficientcredits=Creidmheasanna neamhleor
 message.attemptingpurchase=Iarracht a dhéanamh %s a cheannach
 message.alreadypurchased=Ceannaíodh %s cheana féin
@@ -231,6 +226,6 @@ message.invalidparticle=Cineál neamhbhailí na gcáithníní
 message.invalidanimation=Cineál beochan neamhbhailí
 message.purchase=Ceannach %s
 
-#Optifine Integration
+# Optifine Integration
 gui.optifinecape.opencape=Oscail Eagarthóir Cape
 gui.optifinecape.capebutton=Rinn Optifine

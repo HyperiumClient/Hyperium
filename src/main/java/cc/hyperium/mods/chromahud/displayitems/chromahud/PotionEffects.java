@@ -115,4 +115,16 @@ public class PotionEffects extends DisplayItem {
     public void togglePotionIcon() {
         potionIcon = !potionIcon;
     }
+
+    @Override
+    public void save() {
+        data.put("potionIcon", potionIcon);
+    }
+
+    @Override
+    public String toString() {
+        return "PotionEffects{" +
+            "potionIcon=" + potionIcon +
+            '}';
+    }
 }

@@ -36,7 +36,6 @@ public enum Category {
     LEVEL_HEAD("Levelhead"),
     REACH("Reach Display"),
     VANILLA_ENHANCEMENTS("Vanilla Enhancements"),
-    CHROMAHUD("ChromaHUD"),
     KEYSTROKES("Keystrokes"),
     MOTION_BLUR("Motion Blur"),
     AUTOFRIEND("Auto Friend"),

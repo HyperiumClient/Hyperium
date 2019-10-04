@@ -40,11 +40,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ChromaHUD extends AbstractMod {
+
     private static final String MODID = "ChromaHUD";
     public static final String VERSION = "3.0";
-    /**
-     * The metadata of ChromaHUD
-     */
     private final Metadata meta;
     private File suggestedConfigurationFile;
 
@@ -54,9 +52,80 @@ public class ChromaHUD extends AbstractMod {
 
     public AbstractMod init() {
         suggestedConfigurationFile = new File(Hyperium.folder, "/displayconfig.json");
-        ChromaHUDApi.getInstance();
         ChromaHUDApi.getInstance().register(new DefaultChromaHUDParser());
         ChromaHUDApi.getInstance().register(new HyperiumChromaHudParser());
+
+        registerConfigElements();
+        setup();
+
+        EventBus.INSTANCE.register(new ElementRenderer(this));
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandChromaHUD(this));
+        return this;
+    }
+
+    @Override
+    public Metadata getModMetadata() {
+        return this.meta;
+    }
+
+    public void setup() {
+        JsonHolder data = new JsonHolder();
+        try {
+            if (!suggestedConfigurationFile.exists()) {
+                if (!suggestedConfigurationFile.getParentFile().exists())
+                    suggestedConfigurationFile.getParentFile().mkdirs();
+                saveState();
+            }
+            FileReader fr = new FileReader(suggestedConfigurationFile);
+            BufferedReader br = new BufferedReader(fr);
+            data = new JsonHolder(br.lines().collect(Collectors.joining()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ChromaHUDApi.getInstance().post(data);
+    }
+
+    public List<DisplayElement> getDisplayElements() {
+        return ChromaHUDApi.getInstance().getElements();
+    }
+
+    public GeneralConfigGui getConfigGuiInstance() {
+        return new GeneralConfigGui(this);
+    }
+
+    /*
+    Saves current state of all elements to file
+     */
+    public void saveState() {
+        JsonHolder master = new JsonHolder();
+        boolean enabled = true;
+        master.put("enabled", enabled);
+        JsonArray elementArray = new JsonArray();
+        master.putArray("elements", elementArray);
+        for (DisplayElement element : getDisplayElements()) {
+            JsonHolder tmp = element.getData();
+            JsonArray items = new JsonArray();
+            for (DisplayItem item : element.getDisplayItems()) {
+                JsonHolder raw = item.getData();
+                raw.put("type", item.getType());
+                items.add(raw.getObject());
+            }
+            elementArray.add(tmp.getObject());
+            tmp.putArray("items", items);
+        }
+        try {
+            if (!suggestedConfigurationFile.exists())
+                suggestedConfigurationFile.createNewFile();
+            FileWriter fw = new FileWriter(suggestedConfigurationFile);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(master.toString());
+            bw.close();
+            fw.close();
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void registerConfigElements() {
         ChromaHUDApi.getInstance().registerButtonConfig("COORDS", new ButtonConfig((guiButton, displayItem) -> {
             CordsDisplay displayItem1 = (CordsDisplay) displayItem;
             displayItem1.state = displayItem1.state == 1 ? 0 : 1;
@@ -84,6 +153,12 @@ public class ChromaHUD extends AbstractMod {
             potionEffects.togglePotionIcon();
             guiButton.displayString = ChatColor.RED + "Toggle Potion Icon";
         }, new GuiButton(0, 0, 0, "Potion Icons"), (guiButton, displayItem) -> guiButton.displayString = ChatColor.RED.toString() + "Toggle Potion Icon"));
+
+        ChromaHUDApi.getInstance().registerButtonConfig("DIRECTION", new ButtonConfig((guiButton, displayItem) -> {
+            DirectionHUD directionHUD = (DirectionHUD) displayItem;
+            directionHUD.toggleShortDirection();
+            guiButton.displayString = ChatColor.RED + "Toggle Short Direction";
+        }, new GuiButton(0, 0, 0, "Short Directions"), ((guiButton, displayItem) -> guiButton.displayString = ChatColor.RED + "Toggle Short Direction")));
 
         ChromaHUDApi.getInstance().registerButtonConfig("ARMOUR_HUD", new ButtonConfig((guiButton, displayItem) -> {
             ArmourHud item = (ArmourHud) displayItem;
@@ -152,72 +227,5 @@ public class ChromaHUD extends AbstractMod {
                 guiButton.displayString = "Lifetime Coins";
             }
         }));
-        setup();
-        EventBus.INSTANCE.register(new ElementRenderer(this));
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandChromaHUD(this));
-        return this;
-    }
-
-    @Override
-    public Metadata getModMetadata() {
-        return this.meta;
-    }
-
-    public void setup() {
-        JsonHolder data = new JsonHolder();
-        try {
-            if (!suggestedConfigurationFile.exists()) {
-                if (!suggestedConfigurationFile.getParentFile().exists())
-                    suggestedConfigurationFile.getParentFile().mkdirs();
-                saveState();
-            }
-            FileReader fr = new FileReader(suggestedConfigurationFile);
-            BufferedReader br = new BufferedReader(fr);
-            data = new JsonHolder(br.lines().collect(Collectors.joining()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ChromaHUDApi.getInstance().post(data);
-    }
-
-    public List<DisplayElement> getDisplayElements() {
-        return ChromaHUDApi.getInstance().getElements();
-    }
-
-    public GeneralConfigGui getConfigGuiInstance() {
-        return new GeneralConfigGui(this);
-    }
-
-    /*
-    Saves current state of all elements to file
-     */
-    public void saveState() {
-        JsonHolder master = new JsonHolder();
-        boolean enabled = true;
-        master.put("enabled", enabled);
-        JsonArray elementArray = new JsonArray();
-        master.putArray("elements", elementArray);
-        for (DisplayElement element : getDisplayElements()) {
-            JsonHolder tmp = element.getData();
-            JsonArray items = new JsonArray();
-            for (DisplayItem item : element.getDisplayItems()) {
-                JsonHolder raw = item.getData();
-                raw.put("type", item.getType());
-                items.add(raw.getObject());
-            }
-            elementArray.add(tmp.getObject());
-            tmp.putArray("items", items);
-        }
-        try {
-            if (!suggestedConfigurationFile.exists())
-                suggestedConfigurationFile.createNewFile();
-            FileWriter fw = new FileWriter(suggestedConfigurationFile);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(master.toString());
-            bw.close();
-            fw.close();
-        } catch (Exception ignored) {
-
-        }
     }
 }
