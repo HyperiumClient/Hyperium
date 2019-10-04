@@ -148,6 +148,7 @@ public class Hyperium {
         HyperiumLocale.registerHyperiumLang("bs_BA");
         HyperiumLocale.registerHyperiumLang("de_DE");
         HyperiumLocale.registerHyperiumLang("en_US");
+        HyperiumLocale.registerHyperiumLang("ga_IE");
         HyperiumLocale.registerHyperiumLang("ja_JP");
     }
 
