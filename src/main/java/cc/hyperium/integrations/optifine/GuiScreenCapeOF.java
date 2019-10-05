@@ -59,7 +59,7 @@ public class GuiScreenCapeOF extends GuiScreen {
                         IChatComponent urlComponent = new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.GRAY + "Edit your Optifine cape.");
                         urlComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, urlStr));
                         urlComponent.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(
-                            ChatColor.GRAY + "Edit your Optiine cape using this url!"
+                            ChatColor.GRAY + "Edit your Optifine cape using this url!"
                         )));
                         Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(urlComponent);
                         e.printStackTrace();
