@@ -38,37 +38,49 @@ public class GuiHyperiumScreen extends GuiScreen {
     GuiButton hypixelButton;
 
     public static void renderBackgroundImage() {
-        if (!Settings.BACKGROUND.equalsIgnoreCase("CUSTOM")) {
-            Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/material/backgrounds/" + Settings.BACKGROUND + ".png"));
-            Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0,
-                ResolutionUtil.current().getScaledWidth(),
-                ResolutionUtil.current().getScaledHeight(),
-                ResolutionUtil.current().getScaledWidth(),
-                ResolutionUtil.current().getScaledHeight());
-        } else {
-            getCustomBackground();
-            Minecraft.getMinecraft().getTextureManager().bindTexture(dynamicBackgroundTexture);
-            Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0,
-                ResolutionUtil.current().getScaledWidth(),
-                ResolutionUtil.current().getScaledHeight(),
-                ResolutionUtil.current().getScaledWidth(),
-                ResolutionUtil.current().getScaledHeight());
+        if (Settings.BACKGROUND.equalsIgnoreCase("CUSTOM")) {
+            boolean success = getCustomBackground();
+
+            if (success) {
+                Minecraft.getMinecraft().getTextureManager().bindTexture(dynamicBackgroundTexture);
+                Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0,
+                    ResolutionUtil.current().getScaledWidth(),
+                    ResolutionUtil.current().getScaledHeight(),
+                    ResolutionUtil.current().getScaledWidth(),
+                    ResolutionUtil.current().getScaledHeight());
+
+                return;
+            } else {
+                Settings.BACKGROUND = "1";
+            }
         }
+
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/material/backgrounds/" + Settings.BACKGROUND + ".png"));
+        Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0,
+            ResolutionUtil.current().getScaledWidth(),
+            ResolutionUtil.current().getScaledHeight(),
+            ResolutionUtil.current().getScaledWidth(),
+            ResolutionUtil.current().getScaledHeight());
     }
 
-    private static void getCustomBackground() {
-        if (dynamicBackgroundTexture != null) return;
+    private static boolean getCustomBackground() {
+        if (dynamicBackgroundTexture != null) return true;
 
         if (customImage.exists()) {
             try {
                 bufferedImage = ImageIO.read(new FileInputStream(customImage));
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
 
             if (bufferedImage != null && dynamicBackgroundTexture == null) {
                 dynamicBackgroundTexture = Minecraft.getMinecraft().getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bufferedImage));
             }
+        } else {
+            return false;
         }
+
+        return true;
     }
 }
