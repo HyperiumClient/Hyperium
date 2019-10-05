@@ -30,12 +30,16 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import me.kbrewster.mojangapi.MojangAPI;
+import net.minecraft.client.Minecraft;
 
 import java.util.List;
 
 public class CommandDebug implements BaseCommand {
 
     private static final Gson printer = new GsonBuilder().setPrettyPrinting().create();
+
+    private static boolean isPremium;
 
     private static void tryChromaHUD(StringBuilder builder) {
         try {
@@ -83,6 +87,15 @@ public class CommandDebug implements BaseCommand {
         if (api == null) {
             return "";
         }
+
+        checkUUID();
+        if (isPremium) {
+            builder.append("Premium: True, ").append("UUID is ").append(Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
+        } else {
+            builder.append("Premium: False, user doesn't have a UUID");
+        }
+
+        builder.append("\n");
 
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         builder.append("\n");
@@ -145,6 +158,15 @@ public class CommandDebug implements BaseCommand {
         if (args.length == 1 && args[0].equalsIgnoreCase("log")) {
             Hyperium.INSTANCE.getNetworkHandler().setLog(true);
             GeneralChatHandler.instance().sendMessage("Enable logging, please restart your game to begin. It will be auto disabled after the next launch");
+        }
+    }
+
+    private static void checkUUID() {
+        try {
+            MojangAPI.getProfile(Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
+            isPremium = true;
+        } catch (Exception e) {
+            isPremium = false;
         }
     }
 }
