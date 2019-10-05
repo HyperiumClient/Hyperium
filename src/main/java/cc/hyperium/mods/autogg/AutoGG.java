@@ -73,7 +73,6 @@ public class AutoGG extends AbstractMod {
                 );
 
                 triggers = new ArrayList<>(Arrays.asList(rawTriggers.split("\n")));
-                triggers.add("Sumo Duel - "); // dont wanna keep updating the text file for now, this works until list is finalized
             } catch (Exception e) {
                 e.printStackTrace();
             }

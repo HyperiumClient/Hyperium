@@ -174,27 +174,32 @@ public class VictoryRoyale extends AbstractMod {
     }
 
     public void gameEnded() {
-        if (Minecraft.getMinecraft().thePlayer == null) {
+        Minecraft mc = Minecraft.getMinecraft();
+
+        if (mc.thePlayer == null) {
             return;
         }
-        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+
+        EntityPlayerSP player = mc.thePlayer;
+
         if (player.isInvisible() || player.isInvisibleToPlayer(player)) {
             return;
         }
+
         for (PotionEffect effect : player.getActivePotionEffects()) {
             if (effect.getPotionID() == 14) {
                 return;
             }
         }
 
-        SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
-        if (soundHandler == null || Minecraft.getMinecraft().theWorld == null) {
+        SoundHandler soundHandler = mc.getSoundHandler();
+        if (soundHandler == null || mc.theWorld == null) {
             return;
         }
-        if (Settings.VICTORY_ROYALE)
-        {
+
+        if (Settings.VICTORY_ROYALE) {
             soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("victoryroyale"),
-                (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+                (float) mc.thePlayer.posX, (float) mc.thePlayer.posY, (float) mc.thePlayer.posZ));
         }
 
         start = System.currentTimeMillis();

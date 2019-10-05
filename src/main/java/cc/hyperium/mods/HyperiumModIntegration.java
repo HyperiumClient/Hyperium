@@ -48,10 +48,10 @@ public class HyperiumModIntegration {
     private final ChromaHUD chromaHUD;
     private final Autotip autotip;
     private final AutoGG autogg;
-    private final GlintColorizer glintcolorizer;
+    private final GlintColorizer glintColorizer;
     private final BlockOverlay blockOverlay;
     private final MotionBlurMod motionBlur;
-    private final OldAnimations oldanimations;
+    private final OldAnimations oldAnimations;
     private final ItemPhysicMod itemPhysicMod;
     private final VictoryRoyale victoryRoyale;
     private final ChunkAnimator chunkAnimator;
@@ -82,8 +82,7 @@ public class HyperiumModIntegration {
         this.autogg = ((AutoGG) new AutoGG().init());
 
         // Old Animations implementation
-
-        this.oldanimations = ((OldAnimations) new OldAnimations().init());
+        this.oldAnimations = ((OldAnimations) new OldAnimations().init());
 
         // Block Overlay implementation
         this.blockOverlay = ((BlockOverlay) new BlockOverlay().init());
@@ -92,7 +91,8 @@ public class HyperiumModIntegration {
         this.motionBlur = ((MotionBlurMod) new MotionBlurMod().init());
 
         // Glint Colorizer implementation
-        this.glintcolorizer = ((GlintColorizer) new GlintColorizer().init());
+        this.glintColorizer = ((GlintColorizer) new GlintColorizer().init());
+
         NickHider nickHider = new NickHider();
         nickHider.init();
 
@@ -124,8 +124,8 @@ public class HyperiumModIntegration {
     public AutoGG getAutoGG() {
         return autogg;
     }
-    public GlintColorizer getGlintcolorizer() {
-        return glintcolorizer;
+    public GlintColorizer getGlintColorizer() {
+        return glintColorizer;
     }
     public BlockOverlay getBlockOverlay() {
         return blockOverlay;
@@ -133,8 +133,8 @@ public class HyperiumModIntegration {
     public MotionBlurMod getMotionBlur() {
         return motionBlur;
     }
-    public OldAnimations getOldanimations() {
-        return oldanimations;
+    public OldAnimations getOldAnimations() {
+        return oldAnimations;
     }
     public ItemPhysicMod getItemPhysicMod() {
         return itemPhysicMod;
