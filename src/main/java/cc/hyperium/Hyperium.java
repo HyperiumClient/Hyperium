@@ -274,11 +274,6 @@ public class Hyperium {
 
             // Check if the user is running Optifine
             runningOptifine();
-
-            if (Settings.BACKGROUND.equalsIgnoreCase("CUSTOM")) {
-                Settings.BACKGROUND = "1"; // until i fix backgrounds
-                LOGGER.info("Changed background to 4 as it used to be Custom.");
-            }
         } catch (Throwable t) {
 
             // If an issue is thrown, crash the game

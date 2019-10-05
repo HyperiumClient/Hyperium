@@ -220,6 +220,7 @@ public class Settings {
             "4",
             "5",
             "6",
+            "CUSTOM"
         }
     )
     public static String BACKGROUND = "4";

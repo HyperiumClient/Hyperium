@@ -32,7 +32,6 @@ import java.io.File;
 import java.io.FileInputStream;
 
 public class GuiHyperiumScreen extends GuiScreen {
-
     private static BufferedImage bufferedImage;
     private static ResourceLocation dynamicBackgroundTexture;
     private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
@@ -46,7 +45,7 @@ public class GuiHyperiumScreen extends GuiScreen {
                 ResolutionUtil.current().getScaledHeight(),
                 ResolutionUtil.current().getScaledWidth(),
                 ResolutionUtil.current().getScaledHeight());
-        } else if (Settings.BACKGROUND.equalsIgnoreCase("CUSTOM")) {
+        } else {
             getCustomBackground();
             Minecraft.getMinecraft().getTextureManager().bindTexture(dynamicBackgroundTexture);
             Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0,
@@ -58,6 +57,8 @@ public class GuiHyperiumScreen extends GuiScreen {
     }
 
     private static void getCustomBackground() {
+        if (dynamicBackgroundTexture != null) return;
+
         if (customImage.exists()) {
             try {
                 bufferedImage = ImageIO.read(new FileInputStream(customImage));
