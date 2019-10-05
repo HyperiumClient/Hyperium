@@ -30,9 +30,11 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import me.kbrewster.exceptions.APIException;
 import me.kbrewster.mojangapi.MojangAPI;
 import net.minecraft.client.Minecraft;
 
+import java.io.IOException;
 import java.util.List;
 
 public class CommandDebug implements BaseCommand {
@@ -165,7 +167,7 @@ public class CommandDebug implements BaseCommand {
         try {
             MojangAPI.getProfile(Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
             isPremium = true;
-        } catch (Exception e) {
+        } catch (APIException | IOException e) {
             isPremium = false;
         }
     }
