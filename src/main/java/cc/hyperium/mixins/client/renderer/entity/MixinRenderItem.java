@@ -18,12 +18,21 @@
 package cc.hyperium.mixins.client.renderer.entity;
 
 import cc.hyperium.mixinsimp.client.renderer.entity.HyperiumRenderItem;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
 /**
  * A Mixin to the RenderItem class to provide ShinyPots support, not to be confused with the
@@ -61,6 +70,11 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
     @Overwrite
     public void renderItemIntoGUI(ItemStack stack, int x, int y) {
         hyperiumRenderItem.renderItemIntoGUI(stack, x, y);
+    }
+
+    @Overwrite
+    public void renderItemModelForEntity(ItemStack stack, EntityLivingBase entityToRenderFor, ItemCameraTransforms.TransformType cameraTransformType) {
+        hyperiumRenderItem.renderItemModelForEntity(stack, entityToRenderFor, cameraTransformType);
     }
 }
 

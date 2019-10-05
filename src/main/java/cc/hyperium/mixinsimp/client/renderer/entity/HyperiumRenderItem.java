@@ -17,6 +17,7 @@
 
 package cc.hyperium.mixinsimp.client.renderer.entity;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.mixins.client.renderer.entity.IMixinRenderItem;
 import cc.hyperium.mixins.client.renderer.entity.IMixinRenderItem2;
@@ -24,6 +25,7 @@ import cc.hyperium.mods.glintcolorizer.Colors;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -31,12 +33,19 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class HyperiumRenderItem {
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
@@ -48,6 +57,8 @@ public class HyperiumRenderItem {
         .maximumSize(MAX_EFFECTS)
         .executor(Multithreading.POOL)
         .build();
+
+    private ModelResourceLocation modelLocation;
 
     public HyperiumRenderItem(RenderItem parent) {
         this.parent = parent;
@@ -108,6 +119,24 @@ public class HyperiumRenderItem {
                 // Used to detect if the item has a already had an effect rendered
                 boolean renderedAsPotion = false;
 
+                if (Hyperium.INSTANCE.isOptifineInstalled()) {
+                    try {
+                        Method isCustomItemsMethod = ReflectionUtil.findMethod(Class.forName("optifine.Config"), new String[]{"isCustomItems"});
+                        boolean isCustomItems = (boolean) isCustomItemsMethod.invoke(null);
+
+                        if (isCustomItems) {
+                            Method getCustomItemModelMethod = ReflectionUtil.findMethod(
+                                Class.forName("optifine.CustomItems"),
+                                new String[]{"getCustomItemModel"},
+                                ItemStack.class, IBakedModel.class, ModelResourceLocation.class
+                            );
+                            model = (IBakedModel) getCustomItemModelMethod.invoke(null, stack, model, modelLocation);
+                        }
+                    } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 
                 // We want to render our potion effect before
@@ -139,6 +168,41 @@ public class HyperiumRenderItem {
             }
 
             GlStateManager.popMatrix();
+        }
+    }
+
+    public void renderItemModelForEntity(ItemStack stack, EntityLivingBase entityToRenderFor, ItemCameraTransforms.TransformType cameraTransformType) {
+        if (stack != null && entityToRenderFor != null) {
+            IBakedModel ibakedmodel = ((IMixinRenderItem) parent).getItemModelMesher().getItemModel(stack);
+
+            if (entityToRenderFor instanceof EntityPlayer) {
+                EntityPlayer entityplayer = (EntityPlayer) entityToRenderFor;
+                Item item = stack.getItem();
+                ModelResourceLocation modelresourcelocation = null;
+
+                if (item == Items.fishing_rod && entityplayer.fishEntity != null) {
+                    modelresourcelocation = new ModelResourceLocation("fishing_rod_cast", "inventory");
+                } else if (item == Items.bow && entityplayer.getItemInUse() != null) {
+                    int i = stack.getMaxItemUseDuration() - entityplayer.getItemInUseCount();
+
+                    if (i >= 18) {
+                        modelresourcelocation = new ModelResourceLocation("bow_pulling_2", "inventory");
+                    } else if (i > 13) {
+                        modelresourcelocation = new ModelResourceLocation("bow_pulling_1", "inventory");
+                    } else if (i > 0) {
+                        modelresourcelocation = new ModelResourceLocation("bow_pulling_0", "inventory");
+                    }
+                }
+
+                modelLocation = modelresourcelocation;
+
+                if (modelresourcelocation != null) {
+                    ibakedmodel = ((IMixinRenderItem) parent).getItemModelMesher().getModelManager().getModel(modelresourcelocation);
+                }
+            }
+
+            ((IMixinRenderItem) parent).renderItemModelTransform(stack, ibakedmodel, cameraTransformType);
+            modelLocation = null;
         }
     }
 
