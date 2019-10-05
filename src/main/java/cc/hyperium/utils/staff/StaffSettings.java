@@ -25,7 +25,6 @@ public class StaffSettings {
     // Get the staff members color
     private StaffUtils.DotColour dotColour;
 
-
     /**
      * Initialize the dot color
      *

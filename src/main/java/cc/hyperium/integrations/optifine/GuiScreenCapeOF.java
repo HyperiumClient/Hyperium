@@ -1,16 +1,20 @@
 package cc.hyperium.integrations.optifine;
 
+import cc.hyperium.Hyperium;
+import cc.hyperium.utils.ChatColor;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.event.HoverEvent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 
 import java.awt.*;
-import java.io.IOException;
 import java.math.BigInteger;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Random;
 
@@ -32,7 +36,7 @@ public class GuiScreenCapeOF extends GuiScreen {
 
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 0:
                 try {
@@ -48,8 +52,19 @@ public class GuiScreenCapeOF extends GuiScreen {
                     String serverId = serverBigInt.toString(16);
                     Minecraft.getMinecraft().getSessionService().joinServer(gameProfile, accessToken, serverId);
                     String urlStr = "https://optifine.net/capeChange?u=" + userId + "&n=" + username + "&s=" + serverId;
-                    Desktop.getDesktop().browse(new URL(urlStr).toURI());
-                } catch (AuthenticationException | URISyntaxException e) {
+
+                    try {
+                        Desktop.getDesktop().browse(new URL(urlStr).toURI());
+                    } catch (Exception e) {
+                        IChatComponent urlComponent = new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.GRAY + "Edit your Optifine cape.");
+                        urlComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, urlStr));
+                        urlComponent.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(
+                            ChatColor.GRAY + "Edit your Optiine cape using this url!"
+                        )));
+                        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(urlComponent);
+                        e.printStackTrace();
+                    }
+                } catch (AuthenticationException e) {
                     e.printStackTrace();
                 }
 
