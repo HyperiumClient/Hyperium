@@ -32,14 +32,16 @@ public class FriendRequestChatHandler extends HyperiumChatHandler {
         Matcher matcher1 = Pattern.compile("You removed ((?<rank>\\[.+] )?(?<player>\\w+)) from your friends list!").matcher(text);
         if (matcher1.find()) {
             String rank = "";
+
             try {
                 rank = matcher1.group("rank");
             } catch (Exception ignored) {
-
             }
+
             String player = matcher1.group("player");
             EventBus.INSTANCE.post(new FriendRemoveEvent(rank + player, player));
         }
+
         if (!text.toLowerCase().contains("friend request")) {
             return false;
         }
@@ -48,7 +50,6 @@ public class FriendRequestChatHandler extends HyperiumChatHandler {
         if (matcher.find()) {
             EventBus.INSTANCE.post(new HypixelFriendRequestEvent(matcher.group("player")));
         }
-
 
         return false;
     }

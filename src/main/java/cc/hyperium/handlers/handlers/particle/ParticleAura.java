@@ -37,7 +37,6 @@ public class ParticleAura {
     private int green = 255;
 
     public ParticleAura(IParticle type, AbstractAnimation animation, int particleMaxAge, boolean chroma, boolean rgb) {
-
         this.type = type;
         this.animation = animation;
         this.particleMaxAge = particleMaxAge;
@@ -63,8 +62,7 @@ public class ParticleAura {
         return green;
     }
 
-    public int
-    getParticleMaxAge() {
+    public int getParticleMaxAge() {
         return particleMaxAge;
     }
 
@@ -76,10 +74,8 @@ public class ParticleAura {
         return animation;
     }
 
-
     public List<Vec3> render(EntityPlayer entityPlayer, double x, double y, double z) {
         return animation.render(entityPlayer, x, y, z);
-
     }
 
     public boolean isChroma() {

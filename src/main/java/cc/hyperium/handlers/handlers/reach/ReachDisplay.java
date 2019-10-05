@@ -137,7 +137,6 @@ public class ReachDisplay {
     }
 
     static class Hit {
-
         private Vec3 pos;
         private double distance;
         private long start = System.currentTimeMillis();

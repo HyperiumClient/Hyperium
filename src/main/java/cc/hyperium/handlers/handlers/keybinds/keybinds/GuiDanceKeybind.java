@@ -31,9 +31,4 @@ public class GuiDanceKeybind extends HyperiumBind {
     public void onPress() {
         new GuiDances().show();
     }
-
-
-    @Override
-    public void onRelease() {
-    }
 }

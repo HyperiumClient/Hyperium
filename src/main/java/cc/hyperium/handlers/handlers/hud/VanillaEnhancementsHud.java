@@ -76,7 +76,8 @@ public class VanillaEnhancementsHud {
                         ScaledResolution current = ResolutionUtil.current();
                         FontRenderer fontRendererObj = mc.fontRendererObj;
                         final int offset = (mc.playerController.getCurrentGameType() == WorldSettings.GameType.CREATIVE) ? 10 : 0;
-                        this.mc.fontRendererObj.drawString(Integer.toString(c), (float) (current.getScaledWidth() - fontRendererObj.getStringWidth(Integer.toString(c)) >> 1), (float) (current.getScaledHeight() - 46 - offset), 16777215, true);
+                        this.mc.fontRendererObj.drawString(Integer.toString(c), (float) (current.getScaledWidth() -
+                            fontRendererObj.getStringWidth(Integer.toString(c)) >> 1), (float) (current.getScaledHeight() - 46 - offset), 16777215, true);
                     }
                 }
             }
@@ -234,7 +235,7 @@ public class VanillaEnhancementsHud {
                 }
             }
         }
-        epf = ((epf < 25) ? epf : 25);
+        epf = (Math.min(epf, 25));
         double avgDef = addArmorProtResistance(armor, calcProtection(epf), resistance);
         return roundDouble(avgDef * 100.0);
     }
@@ -244,14 +245,14 @@ public class VanillaEnhancementsHud {
     }
 
     private double calcProtection(int armorEpf) {
-        double protection = IntStream.rangeClosed(50, 100).mapToDouble(i -> ((Math.ceil(armorEpf * i / 100.0) < 20.0) ? Math.ceil(armorEpf * i / 100.0) : 20.0)).sum();
+        double protection = IntStream.rangeClosed(50, 100).mapToDouble(i -> (Math.min(Math.ceil(armorEpf * i / 100.0), 20.0))).sum();
         return protection / 51.0;
     }
 
     private double addArmorProtResistance(double armor, double prot, int resistance) {
         double protTotal = armor + (1.0 - armor) * prot * 0.04;
         protTotal += (1.0 - protTotal) * resistance * 0.2;
-        return (protTotal < 1.0) ? protTotal : 1.0;
+        return Math.min(protTotal, 1.0);
     }
 
     private double roundDouble(double number) {
@@ -268,7 +269,7 @@ public class VanillaEnhancementsHud {
         KeyBinding[] hotbarBindings = getGameSettings().keyBindsHotbar;
         for (int i = 0; i < Math.min(result.length, hotbarBindings.length); ++i) {
             result[i] = hotbarBindings[i].getKeyCode();
-          }
+        }
 
         return result;
     }

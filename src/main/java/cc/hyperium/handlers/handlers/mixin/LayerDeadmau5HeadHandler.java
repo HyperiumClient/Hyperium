@@ -45,7 +45,8 @@ public class LayerDeadmau5HeadHandler {
 
             k = 2;
             if (!Settings.SHOW_COSMETICS_EVERYWHERE) {
-                if (!(Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")))
+                if (!(Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") ||
+                    Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")))
                     return;
             }
             k = 3;
@@ -84,7 +85,8 @@ public class LayerDeadmau5HeadHandler {
                     int g = 0;
                     try {
                         GlStateManager.pushMatrix();
-                        float f = entitylivingbaseIn.prevRotationYaw + (entitylivingbaseIn.rotationYaw - entitylivingbaseIn.prevRotationYaw) * partialTicks - (entitylivingbaseIn.prevRenderYawOffset + (entitylivingbaseIn.renderYawOffset - entitylivingbaseIn.prevRenderYawOffset) * partialTicks);
+                        float f = entitylivingbaseIn.prevRotationYaw + (entitylivingbaseIn.rotationYaw - entitylivingbaseIn.prevRotationYaw) *
+                            partialTicks - (entitylivingbaseIn.prevRenderYawOffset + (entitylivingbaseIn.renderYawOffset - entitylivingbaseIn.prevRenderYawOffset) * partialTicks);
                         float f1 = entitylivingbaseIn.prevRotationPitch + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTicks;
                         g++;
                         GlStateManager.rotate(f, 0.0F, 1.0F, 0.0F);

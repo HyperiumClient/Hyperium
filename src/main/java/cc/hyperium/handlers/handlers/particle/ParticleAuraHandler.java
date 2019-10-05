@@ -49,10 +49,10 @@ public class ParticleAuraHandler {
     private EnumMap<EnumParticleType, IParticle> renderEngines = new EnumMap<>(EnumParticleType.class);
 
     public ParticleAuraHandler() {
-
         for (EnumParticleType enumParticleType : EnumParticleType.values()) {
             renderEngines.put(enumParticleType, enumParticleType.getParticle());
         }
+
         animations.put("Double Helix", new DoubleHelix());
         animations.put("Double Twirl", new DoubleTwirlAnimation());
         animations.put("Triple Twirl", new TripleTwirlAnimation());

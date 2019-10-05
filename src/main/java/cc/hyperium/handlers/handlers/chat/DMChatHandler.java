@@ -38,7 +38,8 @@ public class DMChatHandler extends HyperiumChatHandler {
         if (matcher.matches()) {
             SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
             if (soundHandler != null && Minecraft.getMinecraft().theWorld != null) {
-                soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("note.pling"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+                soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("note.pling"),
+                    (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
             }
         }
         return false;

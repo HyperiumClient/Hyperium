@@ -252,7 +252,7 @@ public class HypixelAPI {
 
         return new HypixelApiGuild(new JsonHolder(
             Sk1erMod.getInstance().rawWithAgent(
-                String.format(guildKey.type.getUrl(), (Object[]) guildKey.formatStrings)
+                String.format(guildKey.type.getUrl(), (Object) guildKey.formatStrings)
             )
         ));
     }
