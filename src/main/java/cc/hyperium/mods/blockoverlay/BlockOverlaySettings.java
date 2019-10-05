@@ -40,6 +40,7 @@ public class BlockOverlaySettings {
         if (!directory.exists()) {
             directory.mkdirs();
         }
+
         this.configFile = new File(directory, "blockoverlay.json");
     }
 
@@ -48,15 +49,16 @@ public class BlockOverlaySettings {
             if (this.configFile.getParentFile().exists() && this.configFile.exists()) {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(this.configFile));
                 String stringBuilder = bufferedReader.lines().collect(Collectors.joining(""));
-
                 BetterJsonObject json = new BetterJsonObject(stringBuilder);
                 String overlayMode = json.optString("overlayMode");
+
                 for (BlockOverlayMode mode : BlockOverlayMode.values()) {
                     if (mode.getName().equals(overlayMode)) {
                         this.overlayMode = mode;
                         break;
                     }
                 }
+
                 this.alwaysRender = json.optBoolean("alwaysRender");
                 this.isChroma = json.optBoolean("isChroma");
                 this.lineWidth = (float) json.optDouble("lineWidth");

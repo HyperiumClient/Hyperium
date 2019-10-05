@@ -193,7 +193,8 @@ public class VictoryRoyale extends AbstractMod {
         }
         if (Settings.VICTORY_ROYALE)
         {
-            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("victory-royale"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("victoryroyale"),
+                (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
         }
 
         start = System.currentTimeMillis();

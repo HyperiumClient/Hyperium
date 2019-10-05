@@ -74,21 +74,16 @@ public class ToggleChatMainGui extends GuiScreen {
             final int[] position = {this.height / 2 - 75};
 
             this.main.getToggleHandler().getToggles().values().stream().skip((this.pageNumber - 1) * 7).limit(7).forEach(baseType -> {
-                GuiButton button = new GuiButton(0, this.width / 2 - 75, position[0], 150, 20, String.format(baseType.getDisplayName(), baseType.getStatus(baseType.isEnabled())));
+                GuiButton button = new GuiButton(0, this.width / 2 - 75, position[0], 150, 20,
+                    String.format(baseType.getDisplayName(), baseType.getStatus(baseType.isEnabled())));
 
                 this.data.put(button, baseType);
                 this.buttonList.add(button);
-
                 position[0] += 24;
             });
 
-//            GuiButton last = new GuiButton(1, this.width - 114, this.height - 25, 50, 20, "\u21E6");
-//            GuiButton next = new GuiButton(2, this.width - 60, this.height - 25, 50, 20, "\u21E8");
-
-
             GuiButton last = new GuiButton(1, this.width / 2 - 51, this.height / 2 + 90, 50, 20, "\u21E6");
             GuiButton next = new GuiButton(2, this.width / 2 + 1, this.height / 2 + 90, 50, 20, "\u21E8");
-
 
             this.buttonList.add(last);
             this.buttonList.add(next);
@@ -101,7 +96,8 @@ public class ToggleChatMainGui extends GuiScreen {
     public void drawScreen(int x, int y, float ticks) {
         drawDefaultBackground();
 
-        drawCenteredString(this.fontRendererObj, String.format("Page %s/%s", (this.pageNumber), (int) Math.ceil((double) this.main.getToggleHandler().getToggles().size() / 7D)), this.width / 2, this.height / 2 - 94, Color.WHITE.getRGB());
+        drawCenteredString(this.fontRendererObj, String.format("Page %s/%s", (this.pageNumber), (int) Math.ceil((double)
+            this.main.getToggleHandler().getToggles().size() / 7D)), this.width / 2, this.height / 2 - 94, Color.WHITE.getRGB());
 
         super.drawScreen(x, y, ticks);
 

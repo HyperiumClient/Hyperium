@@ -62,7 +62,8 @@ public class ToggleChatConfig {
                 getToggleHandler()
                 .getToggles()
                 .values()) {
-                base.setEnabled(this.toggleJson.has("show" + base.getName().replace(" ", "_")) && this.toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean());
+                base.setEnabled(this.toggleJson.has("show" + base.getName().replace(" ", "_")) &&
+                    this.toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean());
             }
 
         } else {
@@ -77,7 +78,6 @@ public class ToggleChatConfig {
             }
 
             this.toggleFile.createNewFile();
-            FileWriter writer = new FileWriter(this.toggleFile);
 
             for (ToggleBase base : this.theMod.getToggleHandler().getToggles().values()) {
                 this.toggleJson.addProperty("show" + base.getName().replace(" ", "_"), base.isEnabled());
