@@ -26,16 +26,9 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 
 public class DragonCosmetic extends AbstractCosmetic {
 
-    private DragonHeadRenderer renderer;
-
     public DragonCosmetic() {
         super(false, EnumPurchaseType.DRAGON_HEAD);
-        renderer = new DragonHeadRenderer(this);
+        DragonHeadRenderer renderer = new DragonHeadRenderer(this);
         EventBus.INSTANCE.register(renderer);
-    }
-
-    @InvokeEvent
-    public void renderPlayer(RenderPlayerEvent event) {
-        AbstractClientPlayer player = event.getEntity();
     }
 }

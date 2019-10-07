@@ -34,11 +34,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by mitchellkatz on 3/17/18. Designed for production use on Sk1er.club
  */
 public abstract class AbstractCosmetic {
+
     private final boolean selfOnly;
     private final EnumPurchaseType purchaseType;
     private final Map<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
     private boolean selfUnlocked;
-    private boolean checkDevEnv;
 
     public AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType) {
         this.selfOnly = selfOnly;
@@ -97,11 +97,13 @@ public abstract class AbstractCosmetic {
     }
 
     public float interpolate(final float yaw1, final float yaw2, final float percent) {
-        float f = (yaw1 + (yaw2 - yaw1) * percent) % 360.0f;
-        if (f < 0.0f) {
-            f += 360.0f;
+        float rotation = (yaw1 + (yaw2 - yaw1) * percent) % 360.0f;
+
+        if (rotation < 0.0f) {
+            rotation += 360.0f;
         }
-        return f;
+
+        return rotation;
     }
 
 }

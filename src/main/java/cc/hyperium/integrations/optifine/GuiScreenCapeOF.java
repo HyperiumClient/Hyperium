@@ -62,6 +62,7 @@ public class GuiScreenCapeOF extends GuiScreen {
                             ChatColor.GRAY + "Edit your Optifine cape using this url!"
                         )));
                         Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(urlComponent);
+                        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(null);
                         e.printStackTrace();
                     }
                 } catch (AuthenticationException e) {

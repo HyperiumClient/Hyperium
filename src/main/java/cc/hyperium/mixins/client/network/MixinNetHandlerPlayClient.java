@@ -40,12 +40,9 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.PacketThreadUtil;
-import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.network.play.client.C19PacketResourcePackStatus;
 import net.minecraft.network.play.server.*;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumParticleTypes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -72,7 +69,6 @@ public abstract class MixinNetHandlerPlayClient {
     @Shadow private WorldClient clientWorldController;
     @Shadow private Minecraft gameController;
     @Shadow public abstract void addToSendQueue(Packet packet);
-    @Shadow public abstract NetworkManager getNetworkManager();
 
     private TimeChanger timeChanger = Hyperium.INSTANCE.getModIntegration().getTimeChanger();
 
@@ -82,9 +78,11 @@ public abstract class MixinNetHandlerPlayClient {
     @ModifyArg(method = "handleTabComplete", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiChat;onAutocompleteResponse([Ljava/lang/String;)V"))
     private String[] addClientTabCompletions(String[] currentCompletions) {
         String[] modCompletions = Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().getLatestAutoComplete();
+
         if (modCompletions != null) {
             currentCompletions = ObjectArrays.concat(modCompletions, currentCompletions, String.class);
         }
+
         return currentCompletions;
     }
 
@@ -94,16 +92,16 @@ public abstract class MixinNetHandlerPlayClient {
      */
     @Overwrite
     public void handleTimeUpdate(S03PacketTimeUpdate packet) {
-        if (this.timeChanger == null) {
-            this.timeChanger = Hyperium.INSTANCE.getModIntegration().getTimeChanger();
+        if (timeChanger == null) {
+            timeChanger = Hyperium.INSTANCE.getModIntegration().getTimeChanger();
         }
 
-        if (this.timeChanger.getTimeType() == null) {
+        if (timeChanger.getTimeType() == null) {
             handleActualPacket(packet);
             return;
         }
 
-        switch (this.timeChanger.getTimeType()) {
+        switch (timeChanger.getTimeType()) {
             case DAY:
                 handleActualPacket(new S03PacketTimeUpdate(packet.getWorldTime(), -6000L, true));
                 break;
@@ -125,13 +123,13 @@ public abstract class MixinNetHandlerPlayClient {
      * @param packetIn the packet
      */
     private void handleActualPacket(S03PacketTimeUpdate packetIn) {
-        if (this.gameController == null || this.gameController.theWorld == null) {
+        if (gameController == null || gameController.theWorld == null) {
             return;
         }
 
-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) Minecraft.getMinecraft().getNetHandler().getNetworkManager().getNetHandler(), this.gameController);
-        this.gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
-        this.gameController.theWorld.setWorldTime(packetIn.getWorldTime());
+        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (NetHandlerPlayClient) (Object) this, gameController);
+        gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
+        gameController.theWorld.setWorldTime(packetIn.getWorldTime());
     }
 
     /**
@@ -143,14 +141,14 @@ public abstract class MixinNetHandlerPlayClient {
      */
     @Overwrite
     public void handleAnimation(S0BPacketAnimation packetIn) {
-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
+        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (NetHandlerPlayClient) (Object) this, gameController);
 
         // Stops the code if the world is null, usually due to a weird packet from the server
-        if (this.clientWorldController == null) {
+        if (clientWorldController == null) {
             return;
         }
 
-        Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
+        Entity entity = clientWorldController.getEntityByID(packetIn.getEntityID());
 
         if (entity != null) {
             if (packetIn.getAnimationType() == 0) {
@@ -162,9 +160,9 @@ public abstract class MixinNetHandlerPlayClient {
                 EntityPlayer entityplayer = (EntityPlayer) entity;
                 entityplayer.wakeUpPlayer(false, false, false);
             } else if (packetIn.getAnimationType() == 4) {
-                this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
+                gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
             } else if (packetIn.getAnimationType() == 5) {
-                this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
+                gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
             }
         }
     }
@@ -174,6 +172,7 @@ public abstract class MixinNetHandlerPlayClient {
         PacketBuffer packetBuffer = packetIn.getBufferData();
         try {
             int readableBytes = packetBuffer.readableBytes();
+
             if (readableBytes > 0) {
                 byte[] payload = new byte[readableBytes - 1];
                 packetBuffer.readBytes(payload);
@@ -181,6 +180,7 @@ public abstract class MixinNetHandlerPlayClient {
 
                 if (LoginReplyHandler.SHOW_MESSAGES)
                     GeneralChatHandler.instance().sendMessage("Packet message on channel " + packetIn.getChannelName() + " -> " + message);
+
                 if ("REGISTER".equalsIgnoreCase(packetIn.getChannelName())) {
                     if (message.contains("Hyperium")) {
                         PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
@@ -189,18 +189,23 @@ public abstract class MixinNetHandlerPlayClient {
                         PacketBuffer addonbuffer = new PacketBuffer(Unpooled.buffer());
                         List<AddonManifest> addons = AddonBootstrap.INSTANCE.getAddonManifests();
                         addonbuffer.writeInt(addons.size());
+
                         for (AddonManifest addonmanifest : addons) {
                             String addonName = addonmanifest.getName();
                             String version = addonmanifest.getVersion();
+
                             if (addonName == null) {
                                 addonName = addonmanifest.getMainClass();
                             }
+
                             if (version == null) {
                                 version = "unknown";
                             }
+
                             addonbuffer.writeString(addonName);
                             addonbuffer.writeString(version);
                         }
+
                         addToSendQueue(new C17PacketCustomPayload("hyperium|Addons", addonbuffer));
                     }
                 }
@@ -234,7 +239,8 @@ public abstract class MixinNetHandlerPlayClient {
                 System.out.println("[Resource Exploit Fix Warning] Malicious server tried to access " + url);
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
                 if (thePlayer != null) {
-                    thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() + "[EXPLOIT FIX WARNING] The current server has attempted to be malicious but we have stopped them!"));
+                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+                        .sendMessage("&c&l[EXPLOIT FIX WARNING] The current server has attempted to be malicious but we have stopped them!");
                 }
                 throw new URISyntaxException(url, "Invalid levelstorage resourcepack path");
             }
@@ -260,10 +266,9 @@ public abstract class MixinNetHandlerPlayClient {
      */
     @Overwrite
     public void handleChat(S02PacketChat packetIn) {
-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
+        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (NetHandlerPlayClient) (Object) this, gameController);
 
-        ServerChatEvent event = new
-            ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
+        ServerChatEvent event = new ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
 
         EventBus.INSTANCE.post(event);
 
@@ -273,10 +278,10 @@ public abstract class MixinNetHandlerPlayClient {
         }
 
         if (packetIn.getType() == 2) {
-            this.gameController.ingameGUI.setRecordPlaying(event.getChat(), false);
+            gameController.ingameGUI.setRecordPlaying(event.getChat(), false);
         } else {
             // This will then trigger the other chat event
-            this.gameController.ingameGUI.getChatGUI().printChatMessage(event.getChat());
+            gameController.ingameGUI.getChatGUI().printChatMessage(event.getChat());
         }
     }
 }

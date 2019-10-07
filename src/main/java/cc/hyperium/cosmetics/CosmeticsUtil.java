@@ -27,6 +27,7 @@ public class CosmeticsUtil {
         if (Settings.SHOW_COSMETICS_EVERYWHERE) {
             return false;
         }
+
         return !Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing();
     }
 }

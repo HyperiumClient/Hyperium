@@ -39,7 +39,7 @@ public class TimeChanger extends AbstractMod {
     private TimeType timeType = TimeType.VANILLA;
 
     public TimeChanger() {
-        this.metadata.setDisplayName(ChatColor.BLUE + "TimeChanger");
+        metadata.setDisplayName(ChatColor.BLUE + "TimeChanger");
     }
 
     @Override
@@ -57,11 +57,11 @@ public class TimeChanger extends AbstractMod {
 
     @Override
     public Metadata getModMetadata() {
-        return this.metadata;
+        return metadata;
     }
 
     public TimeType getTimeType() {
-        return this.timeType;
+        return timeType;
     }
 
     public void setTimeType(TimeType timeType) {
@@ -74,8 +74,8 @@ public class TimeChanger extends AbstractMod {
 
     @InvokeEvent
     public void onTick(TickEvent event) {
-        if (this.mc.theWorld != null && this.timeType == TimeType.FAST) {
-            this.mc.theWorld.setWorldTime((long) (System.currentTimeMillis() * this.fastTimeMultiplier % 24000.0));
+        if (mc.theWorld != null && timeType == TimeType.FAST) {
+            mc.theWorld.setWorldTime((long) (System.currentTimeMillis() * fastTimeMultiplier % 24000.0));
         }
     }
 

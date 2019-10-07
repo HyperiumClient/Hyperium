@@ -74,12 +74,10 @@ public class HyperiumTweaker implements ITweaker {
 
         Hyperium.LOGGER.info("Applying transformers...");
 
-        // Excludes packages from classloader
         MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
         Mixins.addConfiguration("mixins.hyperium.json");
 
-        if (this.isRunningOptifine) {
-
+        if (isRunningOptifine) {
             environment.setObfuscationContext("notch"); // Switch's to notch mappings
         }
 

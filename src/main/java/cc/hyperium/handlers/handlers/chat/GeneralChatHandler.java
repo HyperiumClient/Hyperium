@@ -86,9 +86,9 @@ public class GeneralChatHandler {
 
         if (addHeader) {
             if (Settings.HYPERIUM_CHAT_PREFIX) {
-                message = ChatColor.RED + "[Hyperium] " + ChatColor.WHITE.toString() + message;
+                message = ChatColor.translateAlternateColorCodes('&', "&c[Hyperium] &f" + message);
             } else {
-                message = ChatColor.WHITE.toString() + message;
+                message = ChatColor.translateAlternateColorCodes('&', message);
             }
         }
 
@@ -143,7 +143,8 @@ public class GeneralChatHandler {
     }
 
     public void post() {
-        JsonHolder data = new JsonHolder(new JsonParser().parse(new InputStreamReader(GeneralChatHandler.class.getResourceAsStream("/remoteresources/chat_regex.json"))).getAsJsonObject());
+        JsonHolder data = new JsonHolder(new JsonParser().parse(new InputStreamReader(GeneralChatHandler.class
+            .getResourceAsStream("/remoteresources/chat_regex.json"))).getAsJsonObject());
 
         HyperiumChatHandler.regexPatterns = new EnumMap<>(HyperiumChatHandler.ChatRegexType.class);
 
