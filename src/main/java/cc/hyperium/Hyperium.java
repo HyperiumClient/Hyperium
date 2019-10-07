@@ -24,15 +24,11 @@ import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.event.*;
-import cc.hyperium.event.minigames.MinigameListener;
-import cc.hyperium.gui.BlurHandler;
 import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
-import cc.hyperium.integrations.watchdog.ThankWatchdog;
-import cc.hyperium.internal.MemoryHelper;
 import cc.hyperium.mixins.client.MixinMinecraft;
 import cc.hyperium.mixinsimp.client.resources.HyperiumLocale;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -119,9 +115,6 @@ public class Hyperium {
     // Hyperium's Mod Integration system
     private HyperiumModIntegration modIntegration;
 
-    // Used to check what minigame a user is in to be used somewhere (ChromaHUD module for example)
-    private MinigameListener minigameListener;
-
     // Hyperium's Addon Integration system
     private InternalAddons internalAddons;
 
@@ -203,19 +196,12 @@ public class Hyperium {
 
             SplashProgress.setProgress(6, I18n.format("splashprogress.registeringlisteners"));
 
-            // Initialize minigames
-            minigameListener = new MinigameListener();
-
             // Register events
-            EventBus.INSTANCE.register(minigameListener);
             EventBus.INSTANCE.register(new ToggleSprintContainer());
             EventBus.INSTANCE.register(notification);
             EventBus.INSTANCE.register(CompactChat.getInstance());
             EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
             EventBus.INSTANCE.register(confirmation);
-            EventBus.INSTANCE.register(new BlurHandler());
-            EventBus.INSTANCE.register(new ThankWatchdog());
-            EventBus.INSTANCE.register(new MemoryHelper());
             EventBus.INSTANCE.register(statTrack);
             CONFIG.register(statTrack);
             CONFIG.register(new ToggleSprintContainer());
@@ -280,7 +266,6 @@ public class Hyperium {
             Minecraft.getMinecraft().crashed(new CrashReport("Hyperium Startup Failure", t));
         }
     }
-
 
     /**
      * Register Hyperium commands
@@ -491,10 +476,6 @@ public class Hyperium {
 
     public NetworkHandler getNetworkHandler() {
         return networkHandler;
-    }
-
-    public MinigameListener getMinigameListener() {
-        return minigameListener;
     }
 
     public boolean isAcceptedTos() {

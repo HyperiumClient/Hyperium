@@ -94,7 +94,7 @@ public class LocationHandler {
             return;
         }
 
-        if (Hyperium.INSTANCE.getMinigameListener().getScoreboardTitle().equalsIgnoreCase(Minigame.HOUSING.name()))
+        if (Hyperium.INSTANCE.getHandlers().getMinigameListener().getScoreboardTitle().equalsIgnoreCase(Minigame.HOUSING.name()))
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
         else
             NettyClient.getClient().write(UpdateLocationPacket.build(event.getTo()));
@@ -144,6 +144,6 @@ public class LocationHandler {
     }
 
     public boolean isLobbyOrHousing() {
-        return Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || location.contains("lobby");
+        return Hyperium.INSTANCE.getHandlers().getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || location.contains("lobby");
     }
 }

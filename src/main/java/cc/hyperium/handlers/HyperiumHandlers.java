@@ -22,6 +22,8 @@ import cc.hyperium.commands.HyperiumCommandHandler;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.minigames.MinigameListener;
+import cc.hyperium.gui.BlurHandler;
 import cc.hyperium.gui.ScoreboardRenderer;
 import cc.hyperium.handlers.handlers.*;
 import cc.hyperium.handlers.handlers.animation.*;
@@ -34,6 +36,8 @@ import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
 import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
+import cc.hyperium.integrations.watchdog.ThankWatchdog;
+import cc.hyperium.internal.MemoryHelper;
 import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
@@ -78,6 +82,10 @@ public class HyperiumHandlers {
     private BroadcastEvents broadcastEvents;
     private SettingsHandler settingsHandler;
     private YeetHandler yeetHandler;
+    private BlurHandler blurHandler;
+    private ThankWatchdog thankWatchdog;
+    private MemoryHelper memoryHelper;
+    private MinigameListener minigameListener;
 
     public HyperiumHandlers() {
         System.out.println("[Handlers] Loading handlers");
@@ -107,10 +115,14 @@ public class HyperiumHandlers {
         register(tPoseHandler = new TPoseHandler());
         register(statsHandler = new StatsHandler());
         register(broadcastEvents = new BroadcastEvents());
+        register(blurHandler = new BlurHandler());
+        register(thankWatchdog = new ThankWatchdog());
+        register(memoryHelper = new MemoryHelper());
+        register(minigameListener = new MinigameListener());
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
         // Chat Handlers
-        System.out.println("Loading chat handlers");
+        System.out.println("[Handlers] Loading chat handlers");
         registerChatHandler(new DMChatHandler());
         registerChatHandler(questTracking = new QuestTrackingChatHandler());
         registerChatHandler(new WinTrackingChatHandler());
@@ -140,12 +152,13 @@ public class HyperiumHandlers {
         if (integratedServer == null) {
             return;
         }
+
         ICommandManager commandManager = integratedServer.getCommandManager();
         if (commandManager == null) {
             return;
         }
-        EventBus.INSTANCE.unregister(HyperiumHandlers.class);
 
+        EventBus.INSTANCE.unregister(HyperiumHandlers.class);
     }
 
     private void register(Object object) {
@@ -216,7 +229,7 @@ public class HyperiumHandlers {
     public KeyBindHandler getKeybindHandler() {
         return keybindHandler;
     }
-    public TPoseHandler gettPoseHandler() {
+    public TPoseHandler getTPoseHandler() {
         return tPoseHandler;
     }
     public HyperiumCommandHandler getHyperiumCommandHandler() {
@@ -246,7 +259,16 @@ public class HyperiumHandlers {
     public PerspectiveModifierHandler getPerspectiveHandler() {
         return perspectiveHandler;
     }
-    public TPoseHandler getTPoseHandler() {
-        return tPoseHandler;
+    public BlurHandler getBlurHandler() {
+        return blurHandler;
+    }
+    public ThankWatchdog getThankWatchdog() {
+        return thankWatchdog;
+    }
+    public MemoryHelper getMemoryHelper() {
+        return memoryHelper;
+    }
+    public MinigameListener getMinigameListener() {
+        return minigameListener;
     }
 }

@@ -44,29 +44,37 @@ public class LayerDeadmau5HeadHandler {
             if (entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer)) return;
 
             k = 2;
+
             if (!Settings.SHOW_COSMETICS_EVERYWHERE) {
-                if (!(Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") ||
-                    Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")))
+                if (!(Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing()))
                     return;
             }
+
             k = 3;
             String name = entitylivingbaseIn.getName();
+
             if (name == null) {
                 return;
             }
+
             k = 5;
             if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entitylivingbaseIn.getUniqueID())) {
                 HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entitylivingbaseIn.getUniqueID());
+
                 if (packageIfReady == null) {
                     return;
                 }
+
                 k = 6;
                 AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
+
                 if (purchase == null) {
                     return;
                 }
+
                 k = 7;
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+
                 if (thePlayer != null && entitylivingbaseIn.getUniqueID() != thePlayer.getUniqueID()) {
                     if (!((EarsCosmetic) purchase).isEnabled()) {
                         k = -5;
@@ -74,15 +82,19 @@ public class LayerDeadmau5HeadHandler {
                     }
                 } else if (!Settings.EARS_STATE.equalsIgnoreCase("yes"))
                     return;
+
                 k = 8;
                 ResourceLocation locationSkin = entitylivingbaseIn.getLocationSkin();
+
                 if (locationSkin != null)
                     playerRenderer.bindTexture(locationSkin);
+
                 k = 9;
                 GlStateManager.disableCull();
 
                 for (int i = 0; i < 2; ++i) {
                     int g = 0;
+
                     try {
                         GlStateManager.pushMatrix();
                         float f = entitylivingbaseIn.prevRotationYaw + (entitylivingbaseIn.rotationYaw - entitylivingbaseIn.prevRotationYaw) *
@@ -96,9 +108,11 @@ public class LayerDeadmau5HeadHandler {
                         GlStateManager.rotate(-f1, 1.0F, 0.0F, 0.0F);
                         GlStateManager.rotate(-f, 0.0F, 1.0F, 0.0F);
                         g++;
+
                         if (entitylivingbaseIn.isSneaking()) {
                             GlStateManager.translate(0.0F, 0.25, 0.0F);
                         }
+
                         float f2 = 1.3333334F;
                         GlStateManager.scale(f2, f2, f2);
                         g++;
@@ -112,6 +126,7 @@ public class LayerDeadmau5HeadHandler {
 
                     }
                 }
+
                 k = 10;
             }
         } catch (Exception e) {
