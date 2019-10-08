@@ -24,7 +24,7 @@ public class FileUtil {
     private LocalDate firstDate;
 
     public FileUtil(Autotip autotip) {
-        this.userDir = this.getRawPath("mods/autotip/" + autotip.getGameProfile().getId());
+        this.userDir = this.getRawPath("hyperium/autotip/" + autotip.getGameProfile().getId());
         this.statsDir = this.getPath("stats");
     }
 
