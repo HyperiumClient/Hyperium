@@ -43,6 +43,7 @@ import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.network.play.client.C19PacketResourcePackStatus;
 import net.minecraft.network.play.server.*;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumParticleTypes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -240,7 +241,8 @@ public abstract class MixinNetHandlerPlayClient {
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
                 if (thePlayer != null) {
                     Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
-                        .sendMessage("&c&l[EXPLOIT FIX WARNING] The current server has attempted to be malicious but we have stopped them!");
+                        .sendMessage(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() +
+                            "[EXPLOIT FIX WARNING] The current server has attempted to be malicious but we have stopped them!");
                 }
                 throw new URISyntaxException(url, "Invalid levelstorage resourcepack path");
             }

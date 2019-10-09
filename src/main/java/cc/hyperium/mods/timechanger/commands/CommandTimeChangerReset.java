@@ -44,6 +44,6 @@ public class CommandTimeChangerReset implements BaseCommand {
     @Override
     public void onExecute(String[] args) {
         this.mod.setTimeType(TimeType.VANILLA);
-        GeneralChatHandler.instance().sendMessage("&c[TimeChanger] &aNow using vanilla time.", false);
+        GeneralChatHandler.instance().sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Now using vanilla time.", false);
     }
 }

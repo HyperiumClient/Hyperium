@@ -86,9 +86,9 @@ public class GeneralChatHandler {
 
         if (addHeader) {
             if (Settings.HYPERIUM_CHAT_PREFIX) {
-                message = ChatColor.translateAlternateColorCodes('&', "&c[Hyperium] &f" + message);
+                message = ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + message;
             } else {
-                message = ChatColor.translateAlternateColorCodes('&', message);
+                message = ChatColor.WHITE + message;
             }
         }
 
