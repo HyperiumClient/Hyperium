@@ -21,7 +21,6 @@ import cc.hyperium.Metadata;
 import cc.hyperium.commands.defaults.CommandDebug;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class HyperiumCrashReport {
     private CrashReport parent;
