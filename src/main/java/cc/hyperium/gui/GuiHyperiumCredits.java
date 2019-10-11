@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -92,11 +93,8 @@ public class GuiHyperiumCredits extends HyperiumGui {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
 
-        if (i < 0)
-            offY -= 10;
-        else if (i > 0)
-            offY += 10;
-
+        if (i < 0) offY -= 20;
+        else if (i > 0) offY += 20;
     }
 
     @Override
@@ -108,13 +106,14 @@ public class GuiHyperiumCredits extends HyperiumGui {
 
     private static void fetch(int tries) {
         try {
-            String content = IOUtils.toString(URI.create("https://api.github.com/repos/HyperiumClient/Hyperium/stats/contributors"), Charset.forName("UTF-8"));
+            String content = IOUtils.toString(URI.create("https://api.github.com/repos/HyperiumClient/Hyperium/stats/contributors"), StandardCharsets.UTF_8);
             JsonParser parser = new JsonParser();
             JsonArray a = parser.parse(content).getAsJsonArray();
-            StreamSupport.stream(a.spliterator(), false).map(JsonElement::getAsJsonObject).filter(o -> o.has("total") & o.get("total").getAsInt() > 20).sorted(Comparator.comparingLong(o -> ((JsonObject) o).get("total").getAsInt()).reversed()).forEach(o -> {
+            StreamSupport.stream(a.spliterator(), false).map(JsonElement::getAsJsonObject).filter(o -> o.has("total") &
+                o.get("total").getAsInt() > 20).sorted(Comparator.comparingLong(o -> ((JsonObject) o).get("total").getAsInt()).reversed()).forEach(o -> {
                 JsonObject con = o.get("author").getAsJsonObject();
                 try {
-                    BufferedImage bi = ImageIO.read(new URL(con.get("avatar_url").getAsString() + "&size=20"));
+                    BufferedImage bi = ImageIO.read(new URL(con.get("avatar_url").getAsString() + "&size=64"));
                     Minecraft.getMinecraft().addScheduledTask(() -> {
                         DynamicTexture tx = new DynamicTexture(bi);
                         try {
@@ -131,11 +130,8 @@ public class GuiHyperiumCredits extends HyperiumGui {
             });
         } catch (Exception e) {
             e.printStackTrace();
-            if (tries < 5)
-                fetch(tries + 1);
-            else
-                err = e.getMessage();
+            if (tries < 5) fetch(tries + 1);
+            else err = e.getMessage();
         }
     }
-
 }
