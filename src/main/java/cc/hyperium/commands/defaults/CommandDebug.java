@@ -30,11 +30,7 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import me.kbrewster.exceptions.APIException;
-import me.kbrewster.mojangapi.MojangAPI;
-import net.minecraft.client.Minecraft;
 
-import java.io.IOException;
 import java.util.List;
 
 public class CommandDebug implements BaseCommand {
@@ -90,12 +86,14 @@ public class CommandDebug implements BaseCommand {
             return "";
         }
 
-        checkUUID();
-        if (isPremium) {
-            builder.append("Premium: True, ").append("UUID is ").append(Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
-        } else {
-            builder.append("Premium: False, user doesn't have a UUID");
-        }
+/*        if (Minecraft.getMinecraft().thePlayer != null) {
+            checkUUID();
+            if (isPremium) {
+                builder.append("Premium: True, ").append("UUID is ").append(Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
+            } else {
+                builder.append("Premium: False, user doesn't have a UUID");
+            }
+        }*/
 
         builder.append("\n");
 
@@ -163,12 +161,12 @@ public class CommandDebug implements BaseCommand {
         }
     }
 
-    private static void checkUUID() {
+/*    private static void checkUUID() {
         try {
             MojangAPI.getProfile(Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
             isPremium = true;
-        } catch (APIException | IOException e) {
+        } catch (Exception e) {
             isPremium = false;
         }
-    }
+    }*/
 }
