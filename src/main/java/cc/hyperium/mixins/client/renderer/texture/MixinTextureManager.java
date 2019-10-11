@@ -25,6 +25,9 @@ public abstract class MixinTextureManager {
     @Shadow @Final private static Logger logger;
     @Shadow @Final private Map<ResourceLocation, ITextureObject> mapTextureObjects;
 
+    @Shadow
+    @Final
+    private Map<String, Integer> mapTextureCounters;
     private HashMap<String, ITextureObject> textures = new HashMap<>();
 
     /**
@@ -74,5 +77,24 @@ public abstract class MixinTextureManager {
         mapTextureObjects.put(textureLocation, textureObject);
 
         return loaded;
+    }
+
+    /**
+     * @author asbyth
+     * @reason Fix dynamic missing textures
+     */
+    @Overwrite
+    public ResourceLocation getDynamicTextureLocation(String name, DynamicTexture texture) {
+        Integer integer = mapTextureCounters.get(name);
+
+        if (integer == null) integer = 1;
+        else integer = integer + 1;
+
+        mapTextureCounters.put(name, integer);
+        String format = String.format("dynamic/%s_%d", name, integer);
+        ResourceLocation resourceLocation = new ResourceLocation(format);
+        textures.put(resourceLocation.toString(), texture);
+        loadTexture(resourceLocation, texture);
+        return resourceLocation;
     }
 }
