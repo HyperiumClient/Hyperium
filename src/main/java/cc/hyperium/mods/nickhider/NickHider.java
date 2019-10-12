@@ -146,20 +146,22 @@ public class NickHider extends AbstractMod {
 
     @InvokeEvent
     public void profileCheck(TickEvent event) {
-        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-        if (player == null) return;
+        if (nickHiderConfig.isMasterEnabled()) {
+            EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+            if (player == null) return;
 
-        NetHandlerPlayClient sendQueue = player.sendQueue;
-        if (sendQueue == null) return;
+            NetHandlerPlayClient sendQueue = player.sendQueue;
+            if (sendQueue == null) return;
 
-        for (NetworkPlayerInfo playerInfo : sendQueue.getPlayerInfoMap()) {
-            GameProfile gameProfile = playerInfo.getGameProfile();
-            if (gameProfile.getId() != null && gameProfile.getId().equals(Minecraft.getMinecraft().getSession().getProfile().getId())) {
-                if (!gameProfile.getName().equalsIgnoreCase(Minecraft.getMinecraft().getSession().getProfile().getName())) {
-                    remap(gameProfile.getName(), override == null ? Minecraft.getMinecraft().getSession().getProfile().getName() : override);
+            for (NetworkPlayerInfo playerInfo : sendQueue.getPlayerInfoMap()) {
+                GameProfile gameProfile = playerInfo.getGameProfile();
+                if (gameProfile.getId() != null && gameProfile.getId().equals(Minecraft.getMinecraft().getSession().getProfile().getId())) {
+                    if (!gameProfile.getName().equalsIgnoreCase(Minecraft.getMinecraft().getSession().getProfile().getName())) {
+                        remap(gameProfile.getName(), override == null ? Minecraft.getMinecraft().getSession().getProfile().getName() : override);
+                    }
+                } else if (nickHiderConfig.isHideOtherNames()) {
+                    remap(gameProfile.getName(), getPseudo(gameProfile.getName()));
                 }
-            } else if (nickHiderConfig.isHideOtherNames()) {
-                remap(gameProfile.getName(), getPseudo(gameProfile.getName()));
             }
         }
     }
@@ -303,10 +305,11 @@ public class NickHider extends AbstractMod {
         return nickHiderConfig.getPrefix() + namesDatabase.get(i % size) + nickHiderConfig.getSuffix() + (nickHiderConfig.getPrefix().
             equalsIgnoreCase("Player-") ? "" : getStar());
     }
+
     private String getStar() {
         String s = "*";
         int i = s.hashCode();
-        if (s.isEmpty() || i != 42) {
+        if (i != 42) {
             throw new IllegalStateException("Potential illegal nickhider modification found. If you did NOT edit NickHider, contact Sk1er (" + s + ")");
         }
 
@@ -316,18 +319,23 @@ public class NickHider extends AbstractMod {
     public List<Nick> getNicks() {
         return nicks;
     }
+
     public Set<String> getUsedNicks() {
         return usedNicks;
     }
+
     public boolean isExtendedUse() {
         return extendedUse;
     }
+
     public ResourceLocation getPlayerCape() {
         return playerCape;
     }
+
     public String getPlayerRealSkinType() {
         return playerRealSkinType;
     }
+
     public NickHiderConfig getNickHiderConfig() {
         return nickHiderConfig;
     }
