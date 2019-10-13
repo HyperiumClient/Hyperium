@@ -157,7 +157,6 @@ gui.settings.wingsscale=Razmjera krila
 gui.settings.fastworldswitching=Brzo svjetsko prebacivanje (Može povećati potrošnje memorije)
 gui.settings.maxworldparticles=Maximalne svijet čestice
 gui.settings.showparticlein1stperson=Prikaži čestice u prvoj osobi
-gui.settings.showhitdistances=Prikaži udaljenost udara
 gui.settings.motionblurenabled=Omogućeno
 gui.settings.motionblurintensity=Motion Blur Intenzitet
 gui.settings.showbackground=Pokaži pozadina
@@ -165,6 +164,7 @@ gui.settings.chroma=Chroma
 gui.settings.shadow=Sjena
 gui.settings.details=Detalji
 gui.settings.showuserdotsonnametags=Pokaži korisničke točkice na nametagovima
+gui.settings.showhitdistances=Prikaži udaljenost udara
 gui.settings.colortype=Vrsta boje
 gui.settings.red=Crveno
 gui.settings.green=Zeleno
@@ -199,6 +199,7 @@ gui.settings.bossbarmod.bossbartext=Bossbar Text
 gui.settings.bossbarmod.bossbarhealthbar=Bossbar Health Bar
 gui.settings.bossbarmod.bossbarscale=Bossbar Scale
 gui.settings.bossbarmod.resetbossbar=Reset Bossbar
+gui.settings.hyperiumloadingscreen=Hyperium Loading Screen
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Početna igra...

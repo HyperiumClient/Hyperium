@@ -157,7 +157,6 @@ gui.settings.wingsscale=Vlerke skaal
 gui.settings.fastworldswitching=Vinnige wêreld oorskakeling (verhoog geheuegebruik)
 gui.settings.maxworldparticles=Max wêreld deeltjies
 gui.settings.showparticlein1stperson=Wys deeltjie in 1ste persoon
-gui.settings.showhitdistances=Skou getref afstande
 gui.settings.motionblurenabled=Geaktiveer
 gui.settings.motionblurintensity=Motion Blur intensiteit
 gui.settings.showbackground=Show Background
@@ -165,6 +164,7 @@ gui.settings.chroma=Chroma
 gui.settings.shadow=Shadow
 gui.settings.details=Details
 gui.settings.showuserdotsonnametags=Show user dots on nametags
+gui.settings.showhitdistances=Skou getref afstande
 gui.settings.colortype=Color Type
 gui.settings.red=Red
 gui.settings.green=Green
@@ -199,6 +199,7 @@ gui.settings.bossbarmod.bossbartext=Bossbar Text
 gui.settings.bossbarmod.bossbarhealthbar=Bossbar Health Bar
 gui.settings.bossbarmod.bossbarscale=Bossbar Scale
 gui.settings.bossbarmod.resetbossbar=Reset Bossbar
+gui.settings.hyperiumloadingscreen=Hyperium Loading Screen
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...

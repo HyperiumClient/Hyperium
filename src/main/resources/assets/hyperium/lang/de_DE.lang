@@ -157,7 +157,6 @@ gui.settings.wingsscale=Flügelgröße
 gui.settings.fastworldswitching=Schnelleres Wechseln der Welt (kann RAM-Nutzung erhöhen)
 gui.settings.maxworldparticles=Maximale Weltpartikel
 gui.settings.showparticlein1stperson=Partikel in der ersten Person anzeigen
-gui.settings.showhitdistances=Schlagdistanz anzeigen
 gui.settings.motionblurenabled=Eingeschaltet
 gui.settings.motionblurintensity=Motion Blur Intensität
 gui.settings.showbackground=Hintergrund anzeigen
@@ -165,6 +164,7 @@ gui.settings.chroma=Chroma
 gui.settings.shadow=Schatten
 gui.settings.details=Details
 gui.settings.showuserdotsonnametags=Nutzer-Punkte über dem Kopf anzeigen
+gui.settings.showhitdistances=Schlagdistanz anzeigen
 gui.settings.colortype=Farbtyp
 gui.settings.red=Rot
 gui.settings.green=Grün
@@ -199,6 +199,7 @@ gui.settings.bossbarmod.bossbartext=Bossbar Text
 gui.settings.bossbarmod.bossbarhealthbar=Bossbar Health Bar
 gui.settings.bossbarmod.bossbarscale=Bossbar Scale
 gui.settings.bossbarmod.resetbossbar=Reset Bossbar
+gui.settings.hyperiumloadingscreen=Hyperium Ladebildschirm
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Spiel wird gestartet...
@@ -227,5 +228,5 @@ message.invalidanimation=Ungültige Animation
 message.purchase=Kaufe %s
 
 # Optifine Integration
-gui.optifinecape.opencape=Open Cape Editor
-gui.optifinecape.capebutton=Optifine Cape
+gui.optifinecape.opencape=Cape-Editor öffnen
+gui.optifinecape.capebutton=Optifine Umhang

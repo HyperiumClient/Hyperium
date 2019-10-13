@@ -56,17 +56,9 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     private JsonHolder cosmeticCallback = new JsonHolder();
     private boolean purchasing;
     private HashMap<Integer, Runnable> ids = new HashMap<>();
-    private int initialGuiScale;
     private HashMap<String, Integer> intMap = new HashMap<>();
 
     public CapesGui() {
-        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
-        // Adjust if GUI scale is on automatic.
-        if (Minecraft.getMinecraft().gameSettings.guiScale == 0) {
-            initialGuiScale = 0;
-            Minecraft.getMinecraft().gameSettings.guiScale = 3;
-        }
-
         guiScale = 2;
         scrollMultiplier = 2;
         updatePurchases();
@@ -349,10 +341,6 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
     @Override
     public void onGuiClosed() {
-        if (initialGuiScale == 0) {
-            // User was on automatic so return to that scale.
-            Minecraft.getMinecraft().gameSettings.guiScale = 0;
-        }
         super.onGuiClosed();
     }
 }

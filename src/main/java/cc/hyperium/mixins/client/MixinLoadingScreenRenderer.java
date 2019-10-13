@@ -17,6 +17,7 @@
 
 package cc.hyperium.mixins.client;
 
+import cc.hyperium.config.Settings;
 import net.minecraft.client.LoadingScreenRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -31,8 +32,10 @@ import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
 
@@ -50,96 +53,101 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
      * @author ConorTheDev
      * @reason Custom screen when loading to a new world
      */
-    @Overwrite
-    public void setLoadingProgress(int progress) {
-        long nanoTime = Minecraft.getSystemTime();
+    @Inject(method = "setLoadingProgress", at = @At("HEAD"), cancellable = true)
+    private void setLoadingProgress(CallbackInfo ci) {
+        if (Settings.HYPERIUM_LOADING_SCREEN) {
+            long nanoTime = Minecraft.getSystemTime();
 
-        if (nanoTime - this.systemTime >= 100L) {
-            this.systemTime = nanoTime;
-            ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-            int scaleFactor = scaledresolution.getScaleFactor();
-            int scaledWidth = scaledresolution.getScaledWidth();
-            int scaledHeight = scaledresolution.getScaledHeight();
+            if (nanoTime - this.systemTime >= 100L) {
+                this.systemTime = nanoTime;
+                ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+                int scaleFactor = scaledresolution.getScaleFactor();
+                int scaledWidth = scaledresolution.getScaledWidth();
+                int scaledHeight = scaledresolution.getScaledHeight();
 
-            if (OpenGlHelper.isFramebufferEnabled()) {
-                this.framebuffer.framebufferClear();
-            } else {
-                GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT);
-            }
-
-            this.framebuffer.bindFramebuffer(false);
-            GlStateManager.matrixMode(GL11.GL_PROJECTION);
-            GlStateManager.loadIdentity();
-            GlStateManager.ortho(0.0D, scaledresolution.getScaledWidth_double(), scaledresolution.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
-            GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-            GlStateManager.loadIdentity();
-            GlStateManager.translate(0.0F, 0.0F, -200.0F);
-
-            if (!OpenGlHelper.isFramebufferEnabled()) {
-                GlStateManager.clear(16640);
-            }
-
-            Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            mc.getTextureManager().bindTexture(new ResourceLocation("textures/world-loading.png"));
-
-            Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0f, 0.0f, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
-
-            if (this.currentlyDisplayedText.equals("Loading world")) {
-                if (this.message.isEmpty()) {
-                    progress = 33;
-                } else if (this.message.equals("Converting world")) {
-                    progress = 66;
-                } else if (this.message.equals("Building terrain")) {
-                    progress = 90;
+                if (OpenGlHelper.isFramebufferEnabled()) {
+                    this.framebuffer.framebufferClear();
                 } else {
-                    progress = 100;
+                    GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT);
                 }
-            } else {
-                progress = -1;
-            }
 
-            if (progress >= 0) {
-                int maxProgress = 100;
-                int barTop = 2;
-                int barHeight = scaledResolution.getScaledHeight() - 15;
-                GlStateManager.disableTexture2D();
-                worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
-                worldrenderer.pos(maxProgress, barHeight, 0.0D).color(128, 128, 128, 255).endVertex();
-                worldrenderer.pos(maxProgress, barHeight + barTop, 0.0D).color(128, 128, 128, 255).endVertex();
-                worldrenderer.pos(maxProgress + maxProgress, barHeight + barTop, 0.0D).color(128, 128, 128, 255).endVertex();
-                worldrenderer.pos(maxProgress + maxProgress, barHeight, 0.0D).color(128, 128, 128, 255).endVertex();
-                worldrenderer.pos(maxProgress, barHeight, 0.0D).color(128, 255, 128, 255).endVertex();
-                worldrenderer.pos(maxProgress, barHeight + barTop, 0.0D).color(128, 255, 128, 255).endVertex();
-                worldrenderer.pos(maxProgress + progress, barHeight + barTop, 0.0D).color(128, 255, 128, 255).endVertex();
-                worldrenderer.pos(maxProgress + progress, barHeight, 0.0D).color(128, 255, 128, 255).endVertex();
-                tessellator.draw();
-                GlStateManager.enableAlpha();
+                this.framebuffer.bindFramebuffer(false);
+                GlStateManager.matrixMode(GL11.GL_PROJECTION);
+                GlStateManager.loadIdentity();
+                GlStateManager.ortho(0.0D, scaledresolution.getScaledWidth_double(), scaledresolution.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
+                GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+                GlStateManager.loadIdentity();
+                GlStateManager.translate(0.0F, 0.0F, -200.0F);
+
+                if (!OpenGlHelper.isFramebufferEnabled()) {
+                    GlStateManager.clear(16640);
+                }
+
+                Tessellator tessellator = Tessellator.getInstance();
+                WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+                mc.getTextureManager().bindTexture(new ResourceLocation("textures/world-loading.png"));
+
+                Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0f, 0.0f, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
+
+                int progress;
+                if (this.currentlyDisplayedText.equals("Loading world")) {
+                    if (this.message.isEmpty()) {
+                        progress = 33;
+                    } else if (this.message.equals("Converting world")) {
+                        progress = 66;
+                    } else if (this.message.equals("Building terrain")) {
+                        progress = 90;
+                    } else {
+                        progress = 100;
+                    }
+                } else {
+                    progress = -1;
+                }
+
+                if (progress >= 0) {
+                    int maxProgress = 100;
+                    int barTop = 2;
+                    int barHeight = scaledResolution.getScaledHeight() - 15;
+                    GlStateManager.disableTexture2D();
+                    worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
+                    worldrenderer.pos(maxProgress, barHeight, 0.0D).color(128, 128, 128, 255).endVertex();
+                    worldrenderer.pos(maxProgress, barHeight + barTop, 0.0D).color(128, 128, 128, 255).endVertex();
+                    worldrenderer.pos(maxProgress + maxProgress, barHeight + barTop, 0.0D).color(128, 128, 128, 255).endVertex();
+                    worldrenderer.pos(maxProgress + maxProgress, barHeight, 0.0D).color(128, 128, 128, 255).endVertex();
+                    worldrenderer.pos(maxProgress, barHeight, 0.0D).color(128, 255, 128, 255).endVertex();
+                    worldrenderer.pos(maxProgress, barHeight + barTop, 0.0D).color(128, 255, 128, 255).endVertex();
+                    worldrenderer.pos(maxProgress + progress, barHeight + barTop, 0.0D).color(128, 255, 128, 255).endVertex();
+                    worldrenderer.pos(maxProgress + progress, barHeight, 0.0D).color(128, 255, 128, 255).endVertex();
+                    tessellator.draw();
+                    GlStateManager.enableAlpha();
+                    GlStateManager.enableBlend();
+                    Gui.drawRect(0, scaledResolution.getScaledHeight() - 35, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(),
+                        new Color(0, 0, 0, 50).getRGB());
+                    GlStateManager.disableAlpha();
+                    GlStateManager.disableBlend();
+                    GlStateManager.enableTexture2D();
+                }
+
                 GlStateManager.enableBlend();
-                Gui.drawRect(0, scaledResolution.getScaledHeight() - 35, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(),
-                    new Color(0, 0, 0, 50).getRGB());
-                GlStateManager.disableAlpha();
-                GlStateManager.disableBlend();
-                GlStateManager.enableTexture2D();
+                GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+                int white = 16777215;
+                this.mc.fontRendererObj.drawString(this.currentlyDisplayedText, 5, scaledResolution.getScaledHeight() - 30, white);
+                this.mc.fontRendererObj.drawString(this.message, 5, scaledResolution.getScaledHeight() - 15, white);
+                this.framebuffer.unbindFramebuffer();
+
+                if (OpenGlHelper.isFramebufferEnabled()) {
+                    this.framebuffer.framebufferRender(scaledWidth * scaleFactor, scaledHeight * scaleFactor);
+                }
+
+                this.mc.updateDisplay();
+
+                try {
+                    Thread.yield();
+                } catch (Exception ignored) {
+                }
             }
 
-            GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-            int white = 16777215;
-            this.mc.fontRendererObj.drawString(this.currentlyDisplayedText, 5, scaledResolution.getScaledHeight() - 30, white);
-            this.mc.fontRendererObj.drawString(this.message, 5, scaledResolution.getScaledHeight() - 15, white);
-            this.framebuffer.unbindFramebuffer();
-
-            if (OpenGlHelper.isFramebufferEnabled()) {
-                this.framebuffer.framebufferRender(scaledWidth * scaleFactor, scaledHeight * scaleFactor);
-            }
-
-            this.mc.updateDisplay();
-
-            try {
-                Thread.yield();
-            } catch (Exception ignored) {
-            }
+            ci.cancel();
         }
     }
 }

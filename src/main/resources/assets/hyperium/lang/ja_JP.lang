@@ -157,7 +157,6 @@ gui.settings.wingsscale=Wings Scale
 gui.settings.fastworldswitching=Fast World Switching (May increase memory usage)
 gui.settings.maxworldparticles=Max World Particles
 gui.settings.showparticlein1stperson=Show particle in 1st person
-gui.settings.showhitdistances=Show Hit Distances
 gui.settings.motionblurenabled=Enabled
 gui.settings.motionblurintensity=Motion Blur Intensity
 gui.settings.showbackground=Show Background
@@ -165,6 +164,7 @@ gui.settings.chroma=Chroma
 gui.settings.shadow=Shadow
 gui.settings.details=Details
 gui.settings.showuserdotsonnametags=Show user dots on nametags
+gui.settings.showhitdistances=Show Hit Distances
 gui.settings.colortype=Color Type
 gui.settings.red=Red
 gui.settings.green=Green
@@ -199,6 +199,7 @@ gui.settings.bossbarmod.bossbartext=Bossbar Text
 gui.settings.bossbarmod.bossbarhealthbar=Bossbar Health Bar
 gui.settings.bossbarmod.bossbarscale=Bossbar Scale
 gui.settings.bossbarmod.resetbossbar=Reset Bossbar
+gui.settings.hyperiumloadingscreen=Hyperium Loading Screen
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...

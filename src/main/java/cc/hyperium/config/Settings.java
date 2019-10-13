@@ -477,6 +477,10 @@ public class Settings {
     @ConfigOpt
     public static double BOSSBAR_Y = .05;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.hyperiumloadingscreen", category = MISC)
+    public static boolean HYPERIUM_LOADING_SCREEN = true;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

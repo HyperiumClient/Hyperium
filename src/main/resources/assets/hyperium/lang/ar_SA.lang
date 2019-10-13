@@ -157,7 +157,6 @@ gui.settings.wingsscale=مقياس أجنحة
 gui.settings.fastworldswitching=سريع "التحول العالمي" (قد زيادة استخدام الذاكرة)
 gui.settings.maxworldparticles=جسيمات العالم ماكس
 gui.settings.showparticlein1stperson=تظهر الجسيمات في 1 شخص
-gui.settings.showhitdistances=إظهار المسافات ضرب
 gui.settings.motionblurenabled=مفعل
 gui.settings.motionblurintensity=الحركة طمس كثافة
 gui.settings.showbackground=أظهر الخلفية
@@ -165,6 +164,7 @@ gui.settings.chroma=ملون
 gui.settings.shadow=الظل
 gui.settings.details=التفاصيل
 gui.settings.showuserdotsonnametags=إظهار نقاط المستخدم في الأسم
+gui.settings.showhitdistances=إظهار المسافات ضرب
 gui.settings.colortype=نوع اللون
 gui.settings.red=أحمر
 gui.settings.green=أخضر
@@ -199,6 +199,7 @@ gui.settings.bossbarmod.bossbartext=Bossbar Text
 gui.settings.bossbarmod.bossbarhealthbar=Bossbar Health Bar
 gui.settings.bossbarmod.bossbarscale=Bossbar Scale
 gui.settings.bossbarmod.resetbossbar=Reset Bossbar
+gui.settings.hyperiumloadingscreen=Hyperium Loading Screen
 
 # Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...
