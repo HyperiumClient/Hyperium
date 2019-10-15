@@ -25,11 +25,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 
 public class CommandNickHider implements BaseCommand {
 
-    private final String syntax = "/nickhider <toggle,names,othernames,skins,otherskin,myskin,myskinonothers,prefix,suffix>";
+    private final String syntax = "/nickhider <toggle, names, othernames, skins, otherskin, myskin, myskinonothers, prefix, suffix>";
 
     @Override
     public String getName() {
@@ -48,7 +47,7 @@ public class CommandNickHider implements BaseCommand {
 
         if (args.length == 0) {
             if (instance.isExtendedUse())
-                sendMessage("Extended use is active. You can access limited commands. /nickhider myname <Alternate name instead of your own>   /nickhider set <user> <nick for that user>");
+                sendMessage("Extended use is active. You can access limited commands. /nickhider myname <Alternate name instead of your own> /nickhider set <user> <nick for that user>");
             sendAll();
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("clear")) {
@@ -60,29 +59,29 @@ public class CommandNickHider implements BaseCommand {
                 sendAll();
             } else if (args[0].equalsIgnoreCase("names")) {
                 config.setHideNames(!config.isHideNames());
-                sendMessage("Set Hide Names " + (config.isHideNames() ? EnumChatFormatting.GREEN + "On" : EnumChatFormatting.RED + "Off"));
+                sendMessage("Set Hide Names " + (config.isHideNames() ? ChatColor.GREEN + "On" : ChatColor.RED + "Off"));
                 instance.reset();
                 sendAll();
             } else if (args[0].equalsIgnoreCase("othernames")) {
                 config.setHideOtherNames(!config.isHideOtherNames());
-                sendMessage("Set Hide Other Names " + (config.isHideOtherNames() ? EnumChatFormatting.GREEN + "On" : EnumChatFormatting.RED + "Off"));
+                sendMessage("Set Hide Other Names " + (config.isHideOtherNames() ? ChatColor.GREEN + "On" : ChatColor.RED + "Off"));
                 instance.reset();
                 sendAll();
             } else if (args[0].equalsIgnoreCase("skins")) {
                 config.setHideSkins(!config.isHideSkins());
-                sendMessage("Hide Skins: " + (config.isHideSkins() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
+                sendMessage("Hide Your Skin: " + (config.isHideSkins() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"));
                 sendAll();
             } else if (args[0].equalsIgnoreCase("otherskins")) {
                 config.setHideOtherSkins(!config.isHideOtherSkins());
-                sendMessage("Hide Other Skins: " + (config.isHideOtherSkins() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
+                sendMessage("Hide Other Skins: " + (config.isHideOtherSkins() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"));
                 sendAll();
             } else if (args[0].equalsIgnoreCase("myskin")) {
                 config.setUseRealSkinForSelf(!config.isUseRealSkinForSelf());
-                sendMessage("Set Use Your Real Skin On Yourself: " + (config.isUseRealSkinForSelf() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
+                sendMessage("Set Use Your Real Skin On Yourself: " + (config.isUseRealSkinForSelf() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"));
                 sendAll();
             } else if (args[0].equalsIgnoreCase("myskinonothers")) {
                 config.setUsePlayerSkinForAll(!config.isUsePlayerSkinForAll());
-                sendMessage("Set Use Your Real Skin On Other Players: " + (config.isUsePlayerSkinForAll() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
+                sendMessage("Set Use Your Real Skin On Other Players: " + (config.isUsePlayerSkinForAll() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"));
                 sendAll();
             } else if (args[0].equalsIgnoreCase("pseudo")) {
                 sendMessage("/nickhider pseudo <show,new,pseudo>");
@@ -155,10 +154,10 @@ public class CommandNickHider implements BaseCommand {
     }
 
     public void sendMessage(String message, String hover, String click) {
-        ChatComponentText chatComponent = new ChatComponentText(EnumChatFormatting.YELLOW + message);
+        ChatComponentText chatComponent = new ChatComponentText(ChatColor.YELLOW + message);
         if (hover != null && !hover.isEmpty()) {
             chatComponent.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                new ChatComponentText(EnumChatFormatting.AQUA + hover + (!click.isEmpty() ? "\n" + click : ""))));
+                new ChatComponentText(ChatColor.AQUA + hover + (!click.isEmpty() ? "\n" + click : ""))));
         }
 
         if (click != null && !click.isEmpty()) {
@@ -174,7 +173,7 @@ public class CommandNickHider implements BaseCommand {
         sendMessage("Mod Status: " + (config.isMasterEnabled() ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"), "Click to toggle the mod", "/nickhider toggle");
         sendMessage("Name Hiding: " + (config.isHideNames() ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"), "Click to toggle name hiding", "/nickhider names");
         sendMessage("Hide Other Names " + (config.isHideOtherNames() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"), "Click to toggle hiding other players' names", "/nickhider othernames");
-        sendMessage("Hide Skins: " + (config.isHideSkins() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"), "Click to toggle hiding skins", "/nickhider skins");
+        sendMessage("Hide Your Skin: " + (config.isHideSkins() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"), "Click to toggle hiding skins", "/nickhider skins");
         sendMessage("Hide Other Players' Skins: " + (config.isHideOtherSkins() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"), "Click to toggle other players's names", "/nickhider otherskins");
         sendMessage("Use Your Real Skin On Yourself: " + (config.isUseRealSkinForSelf() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"), "Click to toggle using your own skin vs the default one", "/nickhider myskin");
         sendMessage("Use Your Real Skin On Other Players " + (config.isUsePlayerSkinForAll() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"), "Click to toggle using your own skin vs the default one", "/nickhider myskinonothers");

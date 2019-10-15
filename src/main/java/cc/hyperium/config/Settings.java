@@ -109,7 +109,8 @@ public class Settings {
     public static boolean STATIC_FOV;
 
     @ConfigOpt
-    public static int SETTINGS_ALPHA = 100;
+    @SliderSetting(name = "gui.settings.guialpha", min = 0, max = 255, category = GENERAL)
+    public static double SETTINGS_ALPHA = 100;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;uploadScreenshotsByDefault")
     @ToggleSetting(name = "gui.settings.uploadscreenshots")

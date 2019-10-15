@@ -70,7 +70,7 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
     @Inject(method = "getLocationSkin()Lnet/minecraft/util/ResourceLocation;", at = @At("HEAD"), cancellable = true)
     private void getLocationSkin(CallbackInfoReturnable<ResourceLocation> locationCallbackInfoReturnable) {
         NickHider instance = NickHider.instance;
-        if (instance != null && instance.getNickHiderConfig().isHideOtherNames() && instance.getNickHiderConfig().isMasterEnabled()) {
+        if (instance != null && instance.getNickHiderConfig().isHideSkins() && instance.getNickHiderConfig().isMasterEnabled()) {
             NickHiderConfig config = instance.getNickHiderConfig();
 
             if (getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {

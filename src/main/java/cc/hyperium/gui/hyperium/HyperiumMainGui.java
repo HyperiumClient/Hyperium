@@ -152,26 +152,9 @@ public class HyperiumMainGui extends HyperiumGui {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         }
 
-        GlStateModifier.INSTANCE.reset();
-        Icons.LIGHTBULB.bind();
-
-        int w = yg * 88 / 144;
-        int x = this.width / 2 - w - 10;
-        int x1 = this.width / 2 + 10;
-
-        drawRect(x - 3, 0, x + w + 3, yg, new Color(0, 0, 0, 50).getRGB());
-        drawScaledCustomSizeModalRect(x, 0, 0, 0, 88, 128, w,
-            yg, 88, 128);
-        Icons.LIGHTBULB_SOLID.bind();
-        drawRect(x1 - 3, 0, x1 + w + 3, yg, new Color(0, 0, 0, 50).getRGB());
-
-        /* Render shadowed bar at top of screen */
-        drawScaledCustomSizeModalRect(x1, 0, 0, 0, 88, 128, w,
-            yg, 88, 128);
-
         /* Render Header */
-        drawRect(xg, yg, xg * 10, yg * 2, new Color(0, 0, 0, Settings.SETTINGS_ALPHA).getRGB());
-        drawRect(xg, yg * 2, xg * 10, yg * 9, new Color(0, 0, 0, Settings.SETTINGS_ALPHA / 2).getRGB());
+        drawRect(xg, yg, xg * 10, yg * 2, new Color(0, 0, 0, (int) Settings.SETTINGS_ALPHA).getRGB());
+        drawRect(xg, yg * 2, xg * 10, yg * 9, new Color(0, 0, 0, (int) (Settings.SETTINGS_ALPHA / 2)).getRGB());
         searchField.render(mouseX, mouseY);
         GlStateModifier.INSTANCE.reset();
 
@@ -222,22 +205,6 @@ public class HyperiumMainGui extends HyperiumGui {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         int yg = (height / 10);  // Y grid
         int xg = (width / 11);   // X grid
-
-        int w = yg * 88 / 144;
-        int x = this.width / 2 - w - 10;
-        int x1 = this.width / 2 + 10;
-
-        if (mouseY > 0 && mouseY < yg) {
-            int settingsAlpha = Settings.SETTINGS_ALPHA;
-            if (mouseX >= x && mouseX <= x + w) {
-                if (settingsAlpha >= 100) {
-                    Settings.SETTINGS_ALPHA -= 25;
-                }
-            } else if (mouseX >= x + w && mouseX <= x1 + w) {
-                if (settingsAlpha <= 225)
-                    Settings.SETTINGS_ALPHA += 25;
-            }
-        }
 
         if (mouseY >= yg * 9 && mouseY <= yg * 10) {
             int size = tabs.size();

@@ -200,6 +200,7 @@ gui.settings.bossbarmod.bossbarhealthbar=Barra Sláinte Boss
 gui.settings.bossbarmod.bossbarscale=Scála Barra Boss
 gui.settings.bossbarmod.resetbossbar=Athshocraigh Barra Boss
 gui.settings.hyperiumloadingscreen=Scáileán Ualú Hyperium
+gui.settings.guialpha=Trédhearcacht GUI
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Cluiche Tosaigh ...

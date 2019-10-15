@@ -201,6 +201,7 @@ gui.settings.bossbarmod.bossbarhealthbar=Bossbar Health Bar
 gui.settings.bossbarmod.bossbarscale=Bossbar Scale
 gui.settings.bossbarmod.resetbossbar=Reset Bossbar
 gui.settings.hyperiumloadingscreen=Hyperium Loading Screen
+gui.settings.guialpha=Gui Transparency
 
 #Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...
