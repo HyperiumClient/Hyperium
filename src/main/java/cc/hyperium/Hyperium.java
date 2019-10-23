@@ -29,6 +29,9 @@ import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
+import cc.hyperium.internal.addons.AddonBootstrap;
+import cc.hyperium.internal.addons.AddonManifest;
+import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.mixins.client.MixinMinecraft;
 import cc.hyperium.mixinsimp.client.resources.HyperiumLocale;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -57,6 +60,7 @@ import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.*;
+import java.util.List;
 
 @SuppressWarnings("all")
 public class Hyperium {
@@ -263,6 +267,9 @@ public class Hyperium {
 
             // Check if the user is running Optifine
             runningOptifine();
+
+            // Print every loaded addon
+            collectAddons();
         } catch (Throwable t) {
 
             // If an issue is thrown, crash the game
@@ -446,6 +453,23 @@ public class Hyperium {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * Collect all the addons currently loaded for debug purposes
+     */
+    private void collectAddons() {
+        // check if the array is empty
+        if (!AddonMinecraftBootstrap.getLoadedAddons().isEmpty()) {
+            // collect manifest
+            List<AddonManifest> addons = AddonBootstrap.INSTANCE.getAddonManifests();
+
+            // for all the addons
+            addons.forEach(addon -> {
+                // print the addon as being loaded
+                LOGGER.warn("User has the addon: " + addon.getName() + ", version: " + addon.getVersion());
+            });
         }
     }
 

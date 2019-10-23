@@ -126,15 +126,15 @@ public class HyperiumHandlers {
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
         // Chat Handlers
-        System.out.println("[Handlers] Loading chat handlers");
+        Hyperium.LOGGER.info("Loading Chat Handlers");
         registerChatHandler(new DMChatHandler());
         registerChatHandler(questTracking = new QuestTrackingChatHandler());
         registerChatHandler(new WinTrackingChatHandler());
         registerChatHandler(new FriendRequestChatHandler());
         registerChatHandler(new PartyInviteChatHandler());
-        System.out.println("[Handlers] Registering events");
+        Hyperium.LOGGER.info("Registering Events");
         EventBus.INSTANCE.register(this);
-        System.out.println("[Handlers] Done");
+        Hyperium.LOGGER.info("Finished Loading Handlers");
 
         // Command Handler
         register(commandHandler = new HyperiumCommandHandler());
@@ -153,16 +153,12 @@ public class HyperiumHandlers {
     public void tick(TickEvent event) {
         // Runs first tick
         IntegratedServer integratedServer = Minecraft.getMinecraft().getIntegratedServer();
-        if (integratedServer == null) {
-            return;
+        if (integratedServer != null) {
+            ICommandManager commandManager = integratedServer.getCommandManager();
+            if (commandManager != null) {
+                EventBus.INSTANCE.unregister(HyperiumHandlers.class);
+            }
         }
-
-        ICommandManager commandManager = integratedServer.getCommandManager();
-        if (commandManager == null) {
-            return;
-        }
-
-        EventBus.INSTANCE.unregister(HyperiumHandlers.class);
     }
 
     private void register(Object object) {
