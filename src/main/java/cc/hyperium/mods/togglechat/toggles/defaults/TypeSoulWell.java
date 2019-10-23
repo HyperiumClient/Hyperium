@@ -59,7 +59,7 @@ public class TypeSoulWell extends ToggleBase {
             "Turns off perk and kit",
             "messages for skywars",
             "",
-            "&bSk1er &7has found &6Slime",
+            "&cSk1er &7has found &6Slime",
             "&6Cage &7in the &bSoul Well&r!",
             "",
             "Good for recording",

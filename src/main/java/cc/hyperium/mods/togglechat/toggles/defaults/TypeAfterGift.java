@@ -27,18 +27,18 @@ public class TypeAfterGift extends ToggleBase {
 
     @Override
     public String getName() {
-        return "Generosity Messages";
+        return "Generosity";
     }
 
     @Override
     public String getDisplayName() {
-        return "Generosity Messages: %s";
+        return "Generosity: %s";
     }
 
     @Override
 
     public boolean shouldToggle(String message) {
-        return message.contains("is radiating with Generosity");
+        return message.contains("radiating with Generosity");
     }
 
     @Override
@@ -54,16 +54,12 @@ public class TypeAfterGift extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Removes all",
-            "messages",
-            "saying",
-            "<username>",
-            "is radiating",
-            "with Generosity",
+            "Removes all messages saying",
+            "a user is radiating",
+            "with Generosity.",
             "",
-            "",
-            "",
-            ""
+            "&cSk1er &ris radiating",
+            "with &bGenerosity!"
         );
     }
 }
