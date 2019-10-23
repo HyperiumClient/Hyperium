@@ -60,7 +60,7 @@ object AddonBootstrap {
      * Addons as resource packs to load
      */
     @JvmStatic
-    val addonResourcePacks: ArrayList<File?> = ArrayList()
+    val addonResourcePacks: ArrayList<File?> = arrayListOf()
 
     /**
      * All the filtered jars inside of the {@link #modDirectory} folder,
@@ -90,12 +90,12 @@ object AddonBootstrap {
     /**
      * Once the {@link #init} has called it will then be populated
      */
-    val addonManifests = ArrayList<AddonManifest>()
+    val addonManifests = arrayListOf<AddonManifest>()
 
     /**
      *
      */
-    val pendingManifests = ArrayList<AddonManifest>()
+    val pendingManifests = arrayListOf<AddonManifest>()
 
     /**
      * Loads of the files inside {@link #modDirectory} folder or
@@ -109,7 +109,7 @@ object AddonBootstrap {
 
         jars = modDirectory.listFiles()!!
             .filter { it.name.toLowerCase().endsWith(".jar") }
-            .toCollection(ArrayList())
+            .toCollection(arrayListOf())
 
     }
 
@@ -142,6 +142,7 @@ object AddonBootstrap {
         addonManifests.forEach { manifest ->
             translators.forEach { translator -> translator.translate(manifest) }
         }
+
         phase = Phase.INIT
     }
 
@@ -168,19 +169,19 @@ object AddonBootstrap {
      * @return returns a list of the addon manifests
      */
     private fun loadAddons(loader: AddonLoaderStrategy): List<AddonManifest> {
-        val addons = ArrayList<AddonManifest>()
+        val addons = arrayListOf<AddonManifest>()
         val pendings = if (pendingDirectory.exists()) pendingDirectory.listFiles() else arrayOf()
         try {
             if (pendingDirectory.exists())
-                pendings.forEach { pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest()) }
+                pendings?.forEach { pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest()) }
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
         val benchmark = Stopwatch.createStarted()
         LOGGER.info("Starting to load external jars...")
-        for (jar in jars) {
+        jars.forEach { jar ->
             try {
-                val addon = loadAddon(loader, jar) ?: continue
+                val addon = loadAddon(loader, jar) ?: return@forEach
                 addons.add(addon)
             } catch (e: Exception) {
                 LOGGER.error("Could not load {}!", jar.name)
@@ -188,11 +189,11 @@ object AddonBootstrap {
             }
         }
         pendingManifests.clear()
-        for (jar in pendings) {
+        pendings?.forEach { jar ->
             val dest = File(modDirectory, jar.name)
             FileUtils.moveFile(jar, dest)
             try {
-                val addon = loadAddon(loader, dest) ?: continue
+                val addon = loadAddon(loader, dest) ?: return@forEach
                 addons.add(addon)
             } catch (e: Exception) {
                 LOGGER.error("Could not load {}!", dest.name)

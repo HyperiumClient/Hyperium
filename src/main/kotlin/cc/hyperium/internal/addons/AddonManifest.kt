@@ -85,7 +85,7 @@ class AddonManifest {
      *
      * @return the names of the dependencies
      */
-    val dependencies: List<String> = ArrayList()
+    val dependencies: List<String> = arrayListOf()
 
     /**
      * If the addon includes a {@link net.minecraft.launchwrapper.IClassTransformer}
@@ -98,5 +98,13 @@ class AddonManifest {
      */
     val overlay: String? = null
 
+    /**
+     * The addon developer
+     */
     val author: String? = null
+
+    /**
+     * Must match up to AddonMinecraftBootstrap#VERSION_CODE
+     */
+    val versionCode: String? = null
 }

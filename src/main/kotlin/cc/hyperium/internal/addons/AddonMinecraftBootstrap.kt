@@ -31,10 +31,10 @@ object AddonMinecraftBootstrap {
 
 
     @JvmStatic
-    val LOADED_ADDONS = ArrayList<IAddon>()
+    val LOADED_ADDONS = arrayListOf<IAddon>()
         @JvmName("getLoadedAddons") get
     @JvmStatic
-    val ADDON_ERRORS = ArrayList<Throwable>()
+    val ADDON_ERRORS = arrayListOf<Throwable>()
         @JvmName("getAddonLoadErrors") get
 
     @JvmStatic
@@ -44,6 +44,10 @@ object AddonMinecraftBootstrap {
     @JvmStatic
     val DEPENDENCIES_LOOP_MAP = ConcurrentHashMap<AddonManifest, ArrayList<AddonManifest>>()
         @JvmName("getDependenciesLoopMap") get
+
+    @JvmStatic
+    val VERSION_CODE: String = "1.0"
+        @JvmName("getVersionCode") get
 
     /**
      * The <i>init</i> phase of the bootstrap where the
@@ -145,12 +149,8 @@ object AddonMinecraftBootstrap {
             }
 
             // Check to see if all edges are removed
-            var cycle = false
-            for (n in toLoad) {
-                if (!inEdges[n]?.isEmpty()!!) {
-                    cycle = true
-                    break
-                }
+            val cycle = toLoad.any {
+                !inEdges[it]?.isEmpty()!!
             }
 
             if (cycle) {
@@ -158,9 +158,21 @@ object AddonMinecraftBootstrap {
                 return
             }
 
-            val dontLoad: ArrayList<AddonManifest> = ArrayList()
+            val dontLoad: ArrayList<AddonManifest> = arrayListOf()
 
-            for (addon in toLoad) {
+            dontLoad.addAll(toLoad.filter {
+                it.versionCode != VERSION_CODE
+            }.also {
+                it.forEach { addon ->
+                    val output =
+                        if (addon.versionCode != null) "Addon ${addon.name}'s version code (${addon.versionCode}) doesnt match our version code! $VERSION_CODE"
+                        else "Addon ${addon.name}'s version code is null. Please include a \'\"versionCode\": \"$VERSION_CODE\"\"\' in your addon.json file."
+
+                    Hyperium.LOGGER.error(output)
+                }
+            })
+
+            toLoad.forEach { addon ->
                 try {
                     if (addon.overlay != null) {
                         OverlayChecker.checkOverlayField(addon.overlay)
@@ -172,12 +184,12 @@ object AddonMinecraftBootstrap {
                 }
             }
 
-            for (addon in dontLoad) {
+            dontLoad.forEach { addon ->
                 toLoad.remove(addon)
             }
 
-            val loaded = ArrayList<IAddon>() // sorry Kevin but I want to put all errors in an arraylist
-            for (addon in toLoad) {
+            val loaded = arrayListOf<IAddon>() // sorry Kevin but I want to put all errors in an arraylist
+            toLoad.forEach { addon ->
                 try {
                     val o = Class.forName(addon.mainClass).newInstance()
                     if (o is IAddon) {
