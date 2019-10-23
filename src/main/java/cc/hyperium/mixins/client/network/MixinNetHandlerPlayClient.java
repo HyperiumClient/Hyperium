@@ -152,18 +152,28 @@ public abstract class MixinNetHandlerPlayClient {
         Entity entity = clientWorldController.getEntityByID(packetIn.getEntityID());
 
         if (entity != null) {
-            if (packetIn.getAnimationType() == 0) {
-                EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
-                entitylivingbase.swingItem();
-            } else if (packetIn.getAnimationType() == 1) {
-                entity.performHurtAnimation();
-            } else if (packetIn.getAnimationType() == 2) {
-                EntityPlayer entityplayer = (EntityPlayer) entity;
-                entityplayer.wakeUpPlayer(false, false, false);
-            } else if (packetIn.getAnimationType() == 4) {
-                gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
-            } else if (packetIn.getAnimationType() == 5) {
-                gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
+            switch (packetIn.getAnimationType()) {
+                case 0:
+                    EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
+                    entitylivingbase.swingItem();
+                    break;
+
+                case 1:
+                    entity.performHurtAnimation();
+                    break;
+
+                case 2:
+                    EntityPlayer entityplayer = (EntityPlayer) entity;
+                    entityplayer.wakeUpPlayer(false, false, false);
+                    break;
+
+                case 4:
+                    gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
+                    break;
+
+                case 5:
+                    gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
+                    break;
             }
         }
     }
