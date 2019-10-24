@@ -42,9 +42,6 @@ public class GuiButtonExt extends GuiButton {
     /**
      * Draws this button to the Screen.
      */
-    /**
-     * Draws this button to the Screen.
-     */
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         if (this.visible) {

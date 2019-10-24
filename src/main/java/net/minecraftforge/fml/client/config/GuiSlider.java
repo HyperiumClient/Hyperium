@@ -29,25 +29,25 @@ public class GuiSlider extends GuiButtonExt {
     /**
      * The value of this slider control.
      */
-    public double sliderValue = 1.0F;
+    public double sliderValue;
 
-    public String dispString = "";
+    public String dispString;
 
     /**
      * Is this slider control being dragged.
      */
     public boolean dragging;
-    public boolean showDecimal = true;
+    public boolean showDecimal;
 
     public double minValue;
-    public double maxValue = 5.0D;
-    public int precision = 1;
+    public double maxValue;
+    public int precision;
 
     public ISlider parent;
 
-    public String suffix = "";
+    public String suffix;
 
-    public boolean drawString = true;
+    public boolean drawString;
 
     public GuiSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr) {
         this(id, xPos, yPos, width, height, prefix, suf, minVal, maxVal, currentVal, showDec, drawStr, null);
@@ -88,18 +88,11 @@ public class GuiSlider extends GuiButtonExt {
      * Returns 0 if the button is disabled, 1 if the mouse is NOT hovering over this button and 2 if it IS hovering over
      * this button.
      */
-    /**
-     * Returns 0 if the button is disabled, 1 if the mouse is NOT hovering over this button and 2 if it IS hovering over
-     * this button.
-     */
     @Override
     public int getHoverState(boolean par1) {
         return 0;
     }
 
-    /**
-     * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
-     */
     /**
      * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
      */
@@ -117,10 +110,6 @@ public class GuiSlider extends GuiButtonExt {
         }
     }
 
-    /**
-     * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
-     * e).
-     */
     /**
      * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
      * e).
@@ -175,9 +164,6 @@ public class GuiSlider extends GuiButtonExt {
         }
     }
 
-    /**
-     * Fired when the mouse button is released. Equivalent of MouseListener.mouseReleased(MouseEvent e).
-     */
     /**
      * Fired when the mouse button is released. Equivalent of MouseListener.mouseReleased(MouseEvent e).
      */
