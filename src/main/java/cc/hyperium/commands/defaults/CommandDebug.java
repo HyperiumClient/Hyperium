@@ -23,6 +23,7 @@ import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.levelhead.Levelhead;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.HyperiumPurchase;
@@ -89,7 +90,8 @@ public class CommandDebug implements BaseCommand {
         }
 
         builder.append("\n\n");
-        checkUUID();
+        Multithreading.runAsync(CommandDebug::checkUUID);
+
         if (isPremium) {
             builder.append("Premium: True, ").append("UUID is ").append(Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
         } else {
