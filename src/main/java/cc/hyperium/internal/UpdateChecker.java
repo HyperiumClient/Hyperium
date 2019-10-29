@@ -5,8 +5,13 @@ import cc.hyperium.Metadata;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.ServerJoinEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.UpdateUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.event.HoverEvent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 
 import java.awt.*;
 import java.io.IOException;
@@ -36,7 +41,6 @@ public class UpdateChecker {
             Hyperium.LOGGER.info("version is: " + version);
             if (latest) return; //If they're on the latest version, I don't want to mess with them.
 
-            //Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("You have an update pending.");
             Hyperium.INSTANCE.getNotification().display("You have an update pending.",
                 "Click here to be sent to the installer.",
                 10f,
@@ -44,7 +48,12 @@ public class UpdateChecker {
                     try {
                         Desktop.getDesktop().browse(new URI("https://hyperium.cc/downloads"));
                     } catch (IOException | URISyntaxException e) {
-                        e.printStackTrace();
+                        IChatComponent urlComponent = new
+                            ChatComponentText(ChatColor.RED + "[Hyperium] " +
+                            ChatColor.GRAY + "Click to be sent to update Hyperium");
+                        urlComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://hyperium.cc/downloads"));
+
+                        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(urlComponent);
                     }
                 }, new Color(200, 150, 50));
             asked = true;
