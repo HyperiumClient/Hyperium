@@ -127,6 +127,9 @@ public class Hyperium {
     // Common utilities for Sk1er's mods
     private Sk1erMod sk1erMod;
 
+    // Expose the updateUtils
+    private UpdateUtils updateUtils;
+
     /**
      * Register things such as Languages to be used throughout the game.
      *
@@ -169,7 +172,7 @@ public class Hyperium {
 
             // Get the build id
             createBuildId();
-            System.out.println("[VERSION] Hyperium build ID: " + BUILD_ID);
+            System.out.println("[VERSION] Hyperium Build ID: " + BUILD_ID);
 
             // Check for if the user is in a developers environment
             checkForDevEnvironment();
@@ -365,8 +368,8 @@ public class Hyperium {
      */
     private void fetchVersion() {
         Multithreading.runAsync(() -> {
-            isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
-            IS_BETA = UpdateUtils.INSTANCE.isBeta();
+            isLatestVersion = INSTANCE.updateUtils.isAbsoluteLatest();
+            IS_BETA = INSTANCE.updateUtils.isBeta();
         });
     }
 

@@ -38,6 +38,7 @@ import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.internal.MemoryHelper;
+import cc.hyperium.internal.UpdateChecker;
 import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
@@ -87,6 +88,8 @@ public class HyperiumHandlers {
     private MemoryHelper memoryHelper;
     private MinigameListener minigameListener;
 
+    private UpdateChecker updateChecker;
+
     public HyperiumHandlers() {
         System.out.println("[Handlers] Loading handlers");
         register(network = new HyperiumNetwork());
@@ -119,6 +122,7 @@ public class HyperiumHandlers {
         register(thankWatchdog = new ThankWatchdog());
         register(memoryHelper = new MemoryHelper());
         register(minigameListener = new MinigameListener());
+        register(updateChecker = new UpdateChecker());
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
         // Chat Handlers
@@ -271,4 +275,5 @@ public class HyperiumHandlers {
     public MinigameListener getMinigameListener() {
         return minigameListener;
     }
+    private UpdateChecker getUpdateChecker() { return updateChecker; }
 }
