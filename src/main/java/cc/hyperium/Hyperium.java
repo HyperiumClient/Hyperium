@@ -368,8 +368,8 @@ public class Hyperium {
      */
     private void fetchVersion() {
         Multithreading.runAsync(() -> {
-            isLatestVersion = INSTANCE.updateUtils.isAbsoluteLatest();
-            IS_BETA = INSTANCE.updateUtils.isBeta();
+            isLatestVersion = updateUtils.isAbsoluteLatest();
+            IS_BETA = updateUtils.isBeta();
         });
     }
 
