@@ -35,8 +35,10 @@ public class UpdateChecker {
         UpdateUtils updateUtils = new UpdateUtils();
         Multithreading.runAsync(() -> {
             boolean latest = updateUtils.isAbsoluteLatest();
+            boolean beta = updateUtils.isBeta();
             int version = Metadata.getVersionID();
             Hyperium.LOGGER.info("version is: " + version);
+            if (beta) return; // dont alert beta users
             if (latest) return; //If they're on the latest version, I don't want to mess with them.
 
             Hyperium.INSTANCE.getNotification().display("You have an update pending.",
