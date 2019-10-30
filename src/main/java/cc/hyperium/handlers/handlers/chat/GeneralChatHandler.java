@@ -82,11 +82,7 @@ public class GeneralChatHandler {
         if (message == null) return;
 
         if (addHeader) {
-            if (Settings.HYPERIUM_CHAT_PREFIX) {
-                message = ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + message;
-            } else {
-                message = ChatColor.WHITE + message;
-            }
+            message = Settings.HYPERIUM_CHAT_PREFIX ? ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + message : ChatColor.WHITE + message;
         }
 
         sendMessage(new ChatComponentText(message));
