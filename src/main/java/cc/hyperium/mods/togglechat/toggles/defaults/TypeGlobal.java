@@ -33,7 +33,7 @@ public class TypeGlobal extends ToggleBase {
     private boolean enabled = true;
 
     public TypeGlobal(ToggleBaseHandler handler) {
-        this.base = handler;
+        base = handler;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class TypeGlobal extends ToggleBase {
     @Override
     public boolean shouldToggle(String message) {
         // A system to prevent accidentally toggling UHC or bedwars chat
-        if (this.base.getToggle("special") != null) {
+        if (base.getToggle("special") != null) {
             ToggleBase base = this.base.getToggle("special");
 
             if (base.isEnabled() && base.shouldToggle(message)) {
@@ -57,14 +57,14 @@ public class TypeGlobal extends ToggleBase {
             }
         }
 
-        Matcher matcher = this.chatPattern.matcher(message);
+        Matcher matcher = chatPattern.matcher(message);
 
         return matcher.matches() && isNotOtherChat(matcher);
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

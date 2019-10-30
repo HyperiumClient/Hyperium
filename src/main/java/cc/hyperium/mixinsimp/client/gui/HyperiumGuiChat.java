@@ -29,10 +29,6 @@ public class HyperiumGuiChat {
     }
 
     public void init(GuiTextField inputField) {
-        if (HypixelDetector.getInstance().isHypixel()) {
-            inputField.setMaxStringLength(256);
-        } else {
-            inputField.setMaxStringLength(100);
-        }
+        inputField.setMaxStringLength(HypixelDetector.getInstance().isHypixel() ? 256 : 100);
     }
 }

@@ -32,8 +32,8 @@ public class PlayerDisplay extends DisplayItem {
 
     public PlayerDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
-        this.width = 51;
-        this.height = 100;
+        width = 51;
+        height = 100;
     }
 
 

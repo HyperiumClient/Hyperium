@@ -1,7 +1,8 @@
 package me.semx11.autotip.stats;
 
-import java.time.LocalDate;
 import me.semx11.autotip.Autotip;
+
+import java.time.LocalDate;
 
 public class StatsRange extends Stats {
 
@@ -36,18 +37,11 @@ public class StatsRange extends Stats {
 
     @Override
     public StatsRange merge(final Stats that) {
-        if (that instanceof StatsRange) {
-            throw new UnsupportedOperationException("Cannot merge StatsRange with StatsRange");
-        }
-        if (!(that instanceof StatsDaily)) {
-            throw new IllegalArgumentException("Cannot merge with StatsRange");
-        }
+        assert !(that instanceof StatsRange) : "Cannot merge StatsRange with StatsRange";
+        assert that instanceof StatsDaily : "Cannot merge with StatsRange";
         LocalDate date = ((StatsDaily) that).date;
-        if (date.isBefore(start) || date.isAfter(end)) {
-            throw new IllegalArgumentException("Date is not in range");
-        }
+        assert !date.isBefore(start) && !date.isAfter(end) : "Date is not in range";
         super.merge(that);
         return this;
     }
-
 }

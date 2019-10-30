@@ -2,9 +2,9 @@ package com.chattriggers.ctjs
 
 import cc.hyperium.Hyperium
 import cc.hyperium.event.EventBus
-import cc.hyperium.event.InitializationEvent
+import cc.hyperium.event.client.InitializationEvent
 import cc.hyperium.event.InvokeEvent
-import cc.hyperium.event.PreInitializationEvent
+import cc.hyperium.event.client.PreInitializationEvent
 import cc.hyperium.mixins.client.renderer.entity.IMixinRendererLivingEntity
 import cc.hyperium.mixinsimp.client.renderer.entity.IMixinRenderManager
 import cc.hyperium.mods.sk1ercommon.Multithreading
@@ -15,7 +15,6 @@ import com.chattriggers.ctjs.minecraft.objects.Sound
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.Player
 import com.chattriggers.ctjs.triggers.TriggerType
-import com.chattriggers.ctjs.utils.UriScheme
 import com.chattriggers.ctjs.utils.capes.LayerCape
 import com.chattriggers.ctjs.utils.config.Config
 import com.chattriggers.ctjs.utils.kotlin.AnnotationHandler
@@ -40,7 +39,7 @@ object CTJS {
 
     @InvokeEvent
     fun preInit(event: PreInitializationEvent) {
-        this.configLocation = File(Hyperium.folder, "ctjs")
+        configLocation = File(Hyperium.folder, "ctjs")
         configLocation.mkdir()
 
         val pictures = File(configLocation, "images/")
@@ -76,7 +75,7 @@ object CTJS {
     }
 
     fun saveConfig() {
-        val file = File(this.configLocation, "ChatTriggers.json")
+        val file = File(configLocation, "ChatTriggers.json")
         Config.save(file)
     }
 
@@ -85,7 +84,7 @@ object CTJS {
             val parser = JsonParser()
             val obj = parser.parse(
                 FileReader(
-                    File(this.configLocation, "ChatTriggers.json")
+                    File(configLocation, "ChatTriggers.json")
                 )
             ).asJsonObject
 
@@ -93,7 +92,7 @@ object CTJS {
 
             return true
         } catch (exception: Exception) {
-            val place = File(this.configLocation, "ChatTriggers.json")
+            val place = File(configLocation, "ChatTriggers.json")
             place.delete()
             place.createNewFile()
             saveConfig()

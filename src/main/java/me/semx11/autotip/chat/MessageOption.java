@@ -17,13 +17,12 @@ public enum MessageOption {
     public MessageOption next() {
         switch (this) {
             case DEBUG:
+            case HIDDEN:
                 return SHOWN;
             case SHOWN:
                 return COMPACT;
             case COMPACT:
                 return HIDDEN;
-            case HIDDEN:
-                return SHOWN;
             default:
                 return null;
         }

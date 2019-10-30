@@ -85,62 +85,61 @@ public class CommandDebug implements BaseCommand {
         StringBuilder builder = new StringBuilder();
         PurchaseApi api = PurchaseApi.getInstance();
 
-        if (api == null) {
-            return "";
-        }
+        if (api == null) return "";
 
         builder.append("\n\n");
-        Multithreading.runAsync(CommandDebug::checkUUID);
 
+        Multithreading.runAsync(CommandDebug::checkUUID);
         if (isPremium) {
             builder.append("Premium: True, ").append("UUID is ").append(Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
         } else {
             builder.append("Premium: False, user doesn't have a UUID");
         }
 
-        builder.append("\n");
+        builder.append("\n\n");
 
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
-        builder.append("\n");
         builder.append("Purchase callback: ");
         if (self != null) {
             JsonHolder response = self.getResponse();
             if (response != null)
                 builder.append(printer.toJson(response.getObject()));
         }
-        builder.append("\n");
-        builder.append("\n");
-        HypixelDetector instance = HypixelDetector.getInstance();
-        if (instance != null)
-            builder.append("Hypixel: ").append(instance.isHypixel());
-        builder.append("\n");
-        builder.append("\n");
+
         builder.append("\n\n");
+
+        HypixelDetector instance = HypixelDetector.getInstance();
+        if (instance != null) builder.append("Hypixel: ").append(instance.isHypixel());
+
+        builder.append("\n\n\n\n");
+
         NetworkHandler networkHandler = Hyperium.INSTANCE.getNetworkHandler();
         if (networkHandler != null) {
             List<String> verboseLogs = networkHandler.getVerboseLogs();
-            for (String verboseLog : verboseLogs) {
+            verboseLogs.forEach(verboseLog -> {
                 builder.append(verboseLog);
                 builder.append("\n");
-            }
+            });
+
             builder.append(verboseLogs);
             builder.append("\n");
         }
-        tryConfig(builder);
-        builder.append("\n");
-        builder.append("\n");
-        tryChromaHUD(builder);
-        builder.append("\n");
-        builder.append("\n");
-        tryKeybinds(builder);
-        builder.append("\n");
-        builder.append("\n");
-        tryLevelhead(builder);
-        builder.append("\n");
-        builder.append("\n");
-        builder.append("Levelhead");
-        builder.append("\n");
 
+        tryConfig(builder);
+
+        builder.append("\n\n");
+        tryChromaHUD(builder);
+
+        builder.append("\n\n");
+        tryKeybinds(builder);
+
+        builder.append("\n\n");
+        tryLevelhead(builder);
+
+        builder.append("\n\n");
+        builder.append("Levelhead");
+
+        builder.append("\n");
 
         return builder.toString();
     }

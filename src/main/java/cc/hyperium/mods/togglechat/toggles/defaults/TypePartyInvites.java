@@ -40,16 +40,16 @@ public class TypePartyInvites extends ToggleBase {
     @Override
     public boolean shouldToggle(String message) {
         // noinspection SimplifiableIfStatement
-        if (this.wasLastMessageToggled && containsIgnoreCase(message, "Click here to join! You have 60 seconds to accept.")) {
+        if (wasLastMessageToggled && containsIgnoreCase(message, "Click here to join! You have 60 seconds to accept.")) {
             return true;
         }
 
-        return this.wasLastMessageToggled = this.expiredPattern.matcher(message).matches() || this.invitePattern.matcher(message).matches() || this.otherInvitePattern.matcher(message).matches();
+        return wasLastMessageToggled = expiredPattern.matcher(message).matches() || invitePattern.matcher(message).matches() || otherInvitePattern.matcher(message).matches();
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

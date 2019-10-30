@@ -33,8 +33,7 @@ public class SettingsMigrator {
     public void migrate() {
         File folder = Hyperium.folder;
         File config = new File(folder.getParentFile(), "config");
-        if (!config.exists())
-            return;
+        if (!config.exists()) return;
 
         File chromahud = new File(config, "ChromaHUD.cfg");
         if (chromahud.exists()) {

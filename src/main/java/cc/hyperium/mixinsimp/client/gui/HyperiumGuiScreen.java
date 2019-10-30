@@ -17,7 +17,12 @@
 
 package cc.hyperium.mixinsimp.client.gui;
 
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.gui.GuiClickEvent;
+import cc.hyperium.event.gui.GuiDrawScreenEvent;
+import cc.hyperium.event.gui.GuiKeyTypedEvent;
+import cc.hyperium.event.gui.InitGuiEvent;
+import cc.hyperium.event.interact.ActionPerformedEvent;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

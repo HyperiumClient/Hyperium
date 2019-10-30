@@ -23,7 +23,6 @@ package cc.hyperium.mixinsimp.client.renderer;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chunkanimator.AnimationHandler;
-import net.minecraft.client.renderer.ChunkRenderContainer;
 import net.minecraft.client.renderer.chunk.RenderChunk;
 
 public class HyperiumChunkRendererContainer {
@@ -31,8 +30,7 @@ public class HyperiumChunkRendererContainer {
     private AnimationHandler handler;
 
     public void preRenderChunk(RenderChunk rc) {
-        if (handler == null)
-            handler = Hyperium.INSTANCE.getModIntegration().getChunkAnimator().getAnimationHandler();
+        if (handler == null) handler = Hyperium.INSTANCE.getModIntegration().getChunkAnimator().getAnimationHandler();
         handler.preRenderChunk(rc);
     }
 }

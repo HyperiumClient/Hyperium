@@ -1,16 +1,17 @@
 package me.semx11.autotip.util;
 
 import com.google.gson.JsonObject;
+import me.semx11.autotip.Autotip;
+import me.semx11.autotip.event.impl.EventClientConnection;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import me.semx11.autotip.Autotip;
-import me.semx11.autotip.event.impl.EventClientConnection;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class ErrorReport {
 
@@ -30,19 +31,18 @@ public class ErrorReport {
             conn.setDoOutput(true);
 
             JsonObjectBuilder builder = JsonObjectBuilder.newBuilder()
-                    .addString("username", autotip.getGameProfile().getName())
-                    .addString("uuid", autotip.getGameProfile().getId())
-                    .addString("v", autotip.getVersion())
-                    .addString("mc", autotip.getMcVersion())
-                    .addString("os", System.getProperty("os.name"))
-                    .addString("forge", "hyperium")
-                    .addString("stackTrace", ExceptionUtils.getStackTrace(t))
-                    .addNumber("time", System.currentTimeMillis());
+                .addString("username", autotip.getGameProfile().getName())
+                .addString("uuid", autotip.getGameProfile().getId())
+                .addString("v", autotip.getVersion())
+                .addString("mc", autotip.getMcVersion())
+                .addString("os", System.getProperty("os.name"))
+                .addString("forge", "hyperium")
+                .addString("stackTrace", ExceptionUtils.getStackTrace(t))
+                .addNumber("time", System.currentTimeMillis());
 
             if (autotip.isInitialized()) {
                 EventClientConnection event = autotip.getEvent(EventClientConnection.class);
-                builder.addString("sessionKey", autotip.getSessionManager().getKey())
-                        .addString("serverIp", event.getServerIp());
+                builder.addString("sessionKey", autotip.getSessionManager().getKey()).addString("serverIp", event.getServerIp());
             }
 
             byte[] jsonBytes = builder.build().toString().getBytes(StandardCharsets.UTF_8);
@@ -56,15 +56,11 @@ public class ErrorReport {
                 out.write(jsonBytes);
             }
 
-            InputStream input;
-            if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
-                input = conn.getInputStream();
-            } else {
-                input = conn.getErrorStream();
-            }
+            InputStream input = conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST ? conn.getInputStream() : conn.getErrorStream();
             String json = IOUtils.toString(input, StandardCharsets.UTF_8);
             Autotip.LOGGER.info("Error JSON: " + json);
-
+            input.close();
+            conn.disconnect();
         } catch (IOException e) {
             // Hmm... what would happen if I were to report this one?
             e.printStackTrace();

@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins.client.renderer.entity.layers;
 
-import cc.hyperium.mixinsimp.client.renderer.entity.layers.HyperiumLayerArmorBase;
+import cc.hyperium.config.Settings;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -30,14 +30,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LayerArmorBase.class)
 public abstract class MixinLayerArmorBase<T extends ModelBase> implements LayerRenderer<EntityLivingBase> {
 
-    private HyperiumLayerArmorBase hyperiumLayerArmorBase = new HyperiumLayerArmorBase();
-
     /**
      * @author asbyth
      * @reason Disable Enchantment Glint on worn Armor pieces
      */
     @Inject(method = "renderGlint", at = @At("HEAD"), cancellable = true)
-    private void renderGlint(EntityLivingBase entitylivingbaseIn, T modelbaseIn, float p_177183_3_, float p_177183_4_, float p_177183_5_, float p_177183_6_, float p_177183_7_, float p_177183_8_, float p_177183_9_, CallbackInfo ci) {
-        hyperiumLayerArmorBase.renderEffect(ci);
+    private void renderGlint(EntityLivingBase entitylivingbaseIn, T modelbaseIn, float p_177183_3_, float p_177183_4_,
+                             float p_177183_5_, float p_177183_6_, float p_177183_7_, float p_177183_8_, float p_177183_9_, CallbackInfo ci) {
+        if (Settings.DISABLE_ENCHANT_GLINT) ci.cancel();
     }
 }

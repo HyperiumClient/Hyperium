@@ -18,16 +18,23 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.client.GameShutDownEvent;
+import cc.hyperium.event.interact.KeyPressEvent;
+import cc.hyperium.event.interact.KeyReleaseEvent;
+import cc.hyperium.event.interact.MouseButtonEvent;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class KeyBindHandler {
+
     private static final Map<Integer, Integer> mouseBinds = new HashMap<>();
+
     public final HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
@@ -39,12 +46,13 @@ public class KeyBindHandler {
             System.out.println("debug keybind released");
         }
     };
+
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
     private final Map<String, HyperiumBind> keybinds = new HashMap<>();
 
     public KeyBindHandler() {
-        this.keyBindConfig = new KeyBindConfig(this, Hyperium.folder);
+        keyBindConfig = new KeyBindConfig(this, Hyperium.folder);
 
         registerKeyBinding(debug);
         registerKeyBinding(new FriendsKeybind());
@@ -63,40 +71,27 @@ public class KeyBindHandler {
         registerKeyBinding(new RearCamKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
-        for (int i = 0; i < keybinds.size(); i++) {
-            mouseBinds.put(i, -100 + i);
-        }
-
-        this.keyBindConfig.load();
+        IntStream.range(0, keybinds.size()).forEach(i -> mouseBinds.put(i, -100 + i));
+        keyBindConfig.load();
     }
 
     @InvokeEvent
-    public void onKeyPress(KeypressEvent event) {
+    public void onKeyPress(KeyPressEvent event) {
         if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
-            for (HyperiumBind bind : this.keybinds.values()) {
-                if (bind.isConflicted()) {
-                    continue;
-                }
-                if (event.getKey() == bind.getKeyCode()) {
-                    bind.onPress();
-                    bind.setWasPressed(true);
-                }
-            }
+            keybinds.values().stream().filter(bind -> !bind.isConflicted()).filter(bind -> event.getKey() == bind.getKeyCode()).forEach(bind -> {
+                bind.onPress();
+                bind.setWasPressed(true);
+            });
         }
     }
 
     @InvokeEvent
-    public void onKeyRelease(KeyreleaseEvent event) {
+    public void onKeyRelease(KeyReleaseEvent event) {
         if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
-            for (HyperiumBind bind : this.keybinds.values()) {
-                if (bind.isConflicted()) {
-                    continue;
-                }
-                if (event.getKey() == bind.getKeyCode()) {
-                    bind.onRelease();
-                    bind.setWasPressed(false);
-                }
-            }
+            keybinds.values().stream().filter(bind -> !bind.isConflicted()).filter(bind -> event.getKey() == bind.getKeyCode()).forEach(bind -> {
+                bind.onRelease();
+                bind.setWasPressed(false);
+            });
         }
     }
 
@@ -105,29 +100,23 @@ public class KeyBindHandler {
         // Dismisses mouse movement input.
         if (event.getValue() >= 0) {
             if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
-                for (HyperiumBind bind : this.keybinds.values()) {
-                    if (bind.isConflicted()) {
-                        continue;
+                // Gets Minecraft value of the mouse value and checks to see if it matches a keybind.
+                keybinds.values().stream().filter(bind -> !bind.isConflicted()).filter(bind -> mouseBinds.get(event.getValue()) == bind.getKeyCode()).forEach(bind -> {
+                    if (event.getState()) {
+                        bind.onPress();
+                        bind.setWasPressed(true);
+                    } else {
+                        bind.onRelease();
+                        bind.setWasPressed(false);
                     }
-                    // Gets Minecraft value of the mouse value and checks to see if it matches a keybind.
-                    if (mouseBinds.get(event.getValue()) == bind.getKeyCode()) {
-                        if (event.getState()) {
-                            bind.onPress();
-                            bind.setWasPressed(true);
-                        } else {
-                            bind.onRelease();
-                            bind.setWasPressed(false);
-                        }
-                    }
-
-                }
+                });
             }
         }
     }
 
     @InvokeEvent
     public void onGameShutdown(GameShutDownEvent event) {
-        this.keyBindConfig.save();
+        keyBindConfig.save();
     }
 
     /**
@@ -138,7 +127,7 @@ public class KeyBindHandler {
      * @return a keybinding instance or null if nothing was found
      */
     public HyperiumBind getBinding(String name) {
-        return this.keybinds.getOrDefault(name, null);
+        return keybinds.getOrDefault(name, null);
     }
 
     /**
@@ -148,9 +137,8 @@ public class KeyBindHandler {
      * @param bind the hyperium key we wish to register
      */
     public void registerKeyBinding(HyperiumBind bind) {
-        this.keybinds.put(bind.getRealDescription(), bind);
-
-        this.keyBindConfig.attemptKeyBindLoad(bind);
+        keybinds.put(bind.getRealDescription(), bind);
+        keyBindConfig.attemptKeyBindLoad(bind);
     }
 
     /**
@@ -170,7 +158,7 @@ public class KeyBindHandler {
             return;
         }
 
-        this.keybinds.remove(bind.getRealDescription());
+        keybinds.remove(bind.getRealDescription());
     }
 
     /**
@@ -179,7 +167,7 @@ public class KeyBindHandler {
      * @return the keybind config
      */
     public KeyBindConfig getKeyBindConfig() {
-        return this.keyBindConfig;
+        return keyBindConfig;
     }
 
     /**
@@ -189,7 +177,7 @@ public class KeyBindHandler {
      * @return the keybinds
      */
     public Map<String, HyperiumBind> getKeybinds() {
-        return this.keybinds;
+        return keybinds;
     }
 
     public void releaseAllKeybinds() {

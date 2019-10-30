@@ -15,12 +15,12 @@ class Inventory {
 
     constructor(inventory: IInventory) {
         this.inventory = inventory
-        this.container = null
+        container = null
     }
 
     constructor(container: Container) {
         this.container = container
-        this.inventory = null
+        inventory = null
     }
 
     /**
@@ -39,7 +39,7 @@ class Inventory {
      * @return the Item in that slot
      */
     fun getStackInSlot(slot: Int): Item {
-        return if (this.inventory == null)
+        return if (inventory == null)
             Item(container!!.getSlot(slot).stack)
         else Item(inventory.getStackInSlot(slot))
     }

@@ -36,12 +36,12 @@ public class TypeGuild extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        return this.guildPattern.matcher(message).matches() || this.shortGuildPattern.matcher(message).matches();
+        return guildPattern.matcher(message).matches() || shortGuildPattern.matcher(message).matches();
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

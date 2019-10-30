@@ -18,6 +18,7 @@
 package cc.hyperium.utils;
 
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 public enum ChatColor {
 
@@ -75,7 +76,7 @@ public enum ChatColor {
     ChatColor(char code, boolean isFormat) {
         this.code = code;
         this.isFormat = isFormat;
-        this.toString = new String(new char[]{COLOR_CHAR, code});
+        toString = new String(new char[]{COLOR_CHAR, code});
     }
 
     /**
@@ -85,10 +86,7 @@ public enum ChatColor {
      * @return the string without any color formatting
      */
     public static String stripColor(final String input) {
-        if (input == null) {
-            return null;
-        }
-        return Pattern.compile("(?i)" + COLOR_CHAR + "[0-9A-FK-OR]").matcher(input).replaceAll("");
+        return input == null ? null : Pattern.compile("(?i)" + COLOR_CHAR + "[0-9A-FK-OR]").matcher(input).replaceAll("");
     }
 
     /**
@@ -100,12 +98,11 @@ public enum ChatColor {
      */
     public static String translateAlternateColorCodes(char altColorChar, String textToTranslate) {
         char[] b = textToTranslate.toCharArray();
-        for (int i = 0; i < b.length - 1; i++) {
-            if (b[i] == altColorChar && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i + 1]) > -1) {
-                b[i] = ChatColor.COLOR_CHAR;
-                b[i + 1] = Character.toLowerCase(b[i + 1]);
-            }
-        }
+        IntStream.range(0, b.length - 1).filter(i -> b[i] == altColorChar && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i + 1]) > -1).forEach(i -> {
+            b[i] = ChatColor.COLOR_CHAR;
+            b[i + 1] = Character.toLowerCase(b[i + 1]);
+        });
+
         return new String(b);
     }
 

@@ -29,7 +29,7 @@ public class CommandChromaHUD implements BaseCommand {
     private final ChromaHUD mod;
 
     public CommandChromaHUD(ChromaHUD modIn) {
-        this.mod = modIn;
+        mod = modIn;
     }
 
     @Override
@@ -44,6 +44,6 @@ public class CommandChromaHUD implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        new GeneralConfigGui(this.mod).display();
+        new GeneralConfigGui(mod).display();
     }
 }

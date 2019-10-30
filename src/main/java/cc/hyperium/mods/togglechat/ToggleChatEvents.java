@@ -19,7 +19,7 @@ package cc.hyperium.mods.togglechat;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.Priority;
-import cc.hyperium.event.ServerChatEvent;
+import cc.hyperium.event.network.chat.ServerChatEvent;
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
 import cc.hyperium.mods.togglechat.toggles.defaults.TypeMessageSeparator;
 import cc.hyperium.utils.ChatColor;
@@ -37,7 +37,7 @@ public class ToggleChatEvents {
     private final ToggleChatMod mod;
 
     public ToggleChatEvents(ToggleChatMod theMod) {
-        this.mod = theMod;
+        mod = theMod;
     }
 
     @InvokeEvent(priority = Priority.HIGH) // We use the high priority to grab things first
@@ -50,11 +50,9 @@ public class ToggleChatEvents {
 
         try {
             // Loop through all the toggles
-            for (ToggleBase type : this.mod.getToggleHandler().getToggles().values()) {
+            for (ToggleBase type : mod.getToggleHandler().getToggles().values()) {
                 // The chat its looking for shouldn't be toggled, move to next one!
-                if (type.isEnabled()) {
-                    continue;
-                }
+                if (type.isEnabled()) continue;
 
                 // We don't want an issue with one toggle bringing
                 // the whole toggle system crashing down in flames.
@@ -81,6 +79,7 @@ public class ToggleChatEvents {
                         } else {
                             event.setCancelled(true);
                         }
+
                         break;
                     }
                 } catch (Exception ex) {

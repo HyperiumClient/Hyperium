@@ -35,7 +35,7 @@ public class CommandCoords implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("X:" + ((int) thePlayer.posX) + " Y:" + ((int) thePlayer.posY) + " Z:" + ((int) thePlayer.posZ));
+        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("X:" + ((int) player.posX) + " Y:" + ((int) player.posY) + " Z:" + ((int) player.posZ));
     }
 }

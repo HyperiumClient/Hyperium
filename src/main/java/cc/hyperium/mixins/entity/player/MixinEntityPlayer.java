@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins.entity.player;
 
-import cc.hyperium.event.ItemTossEvent;
+import cc.hyperium.event.world.item.ItemTossEvent;
 import cc.hyperium.mixinsimp.entity.player.HyperiumEntityPlayer;
 import cc.hyperium.mixinsimp.entity.player.IMixinEntityPlayer;
 import com.mojang.authlib.GameProfile;

@@ -23,8 +23,8 @@ object Reference {
 
     @JvmOverloads
     fun load(updateCheck: Boolean = false) {
-        if (!this.isLoaded) return
-        this.isLoaded = false
+        if (!isLoaded) return
+        isLoaded = false
 
         TriggerType.GAME_UNLOAD.triggerAll()
         TriggerType.WORLD_UNLOAD.triggerAll()
@@ -57,7 +57,7 @@ object Reference {
             ChatLib.chat("&aDone reloading ChatTriggers!")
 
             TriggerType.WORLD_LOAD.triggerAll()
-            this.isLoaded = true
+            isLoaded = true
         }.start()
     }
 }

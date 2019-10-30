@@ -1,20 +1,12 @@
 package me.semx11.autotip.core;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ThreadFactory;
 import me.semx11.autotip.util.ErrorReport;
+
+import java.util.Map;
+import java.util.concurrent.*;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class TaskManager {
 
@@ -24,9 +16,9 @@ public class TaskManager {
     private final Map<TaskType, Future> tasks;
 
     public TaskManager() {
-        this.executor = Executors.newCachedThreadPool(this.getFactory("AutotipThread"));
-        this.scheduler = Executors.newScheduledThreadPool(3, this.getFactory("AutotipScheduler"));
-        this.tasks = new ConcurrentHashMap<>();
+        executor = Executors.newCachedThreadPool(getFactory("AutotipThread"));
+        scheduler = Executors.newScheduledThreadPool(3, getFactory("AutotipScheduler"));
+        tasks = new ConcurrentHashMap<>();
     }
 
     public ExecutorService getExecutor() {
@@ -51,21 +43,17 @@ public class TaskManager {
     }
 
     public void executeTask(TaskType type, Runnable task) {
-        if (tasks.containsKey(type)) {
-            return;
-        }
+        if (tasks.containsKey(type)) return;
         Future<?> future = executor.submit(task);
         tasks.put(type, future);
-        this.catchFutureException(type, future);
+        catchFutureException(type, future);
     }
 
     public void addRepeatingTask(TaskType type, Runnable command, long delay, long period) {
-        if (tasks.containsKey(type)) {
-            return;
-        }
+        if (tasks.containsKey(type)) return;
         ScheduledFuture future = scheduler.scheduleAtFixedRate(command, delay, period, SECONDS);
         tasks.put(type, future);
-        this.catchFutureException(type, future);
+        catchFutureException(type, future);
     }
 
     public void cancelTask(TaskType type) {
@@ -76,7 +64,7 @@ public class TaskManager {
     }
 
     private void catchFutureException(TaskType type, Future future) {
-        this.executor.execute(() -> {
+        executor.execute(() -> {
             try {
                 future.get();
             } catch (CancellationException ignored) {
@@ -91,13 +79,12 @@ public class TaskManager {
 
     private ThreadFactory getFactory(String name) {
         return new ThreadFactoryBuilder()
-                .setNameFormat(name)
-                .setUncaughtExceptionHandler((t, e) -> ErrorReport.reportException(e))
-                .build();
+            .setNameFormat(name)
+            .setUncaughtExceptionHandler((t, e) -> ErrorReport.reportException(e))
+            .build();
     }
 
     public enum TaskType {
         LOGIN, KEEP_ALIVE, TIP_WAVE, TIP_CYCLE, LOGOUT
     }
-
 }

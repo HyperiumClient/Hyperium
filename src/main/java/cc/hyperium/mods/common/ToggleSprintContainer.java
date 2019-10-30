@@ -19,13 +19,14 @@ package cc.hyperium.mods.common;
 
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.mixins.client.settings.IMixinKeyBinding;
 import net.minecraft.client.Minecraft;
 
 public class ToggleSprintContainer {
 
-    @ConfigOpt public static boolean toggleSprintActive;
+    @ConfigOpt
+    public static boolean toggleSprintActive;
 
     @InvokeEvent
     public void onTick(TickEvent e) {

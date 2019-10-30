@@ -50,8 +50,8 @@ public class CustomKey extends AbstractKey {
     @Override
     public void renderKey(int x, int y) {
         Keyboard.poll();
-        boolean pressed = isButtonDown(this.key);
-        String name = (this.type == 0) ? (mod.getSettings().isChroma() ? "------" : (ChatColor.STRIKETHROUGH.toString() + "------")) : getKeyOrMouseName(this.key);
+        boolean pressed = isButtonDown(key);
+        String name = (type == 0) ? (mod.getSettings().isChroma() ? "------" : (ChatColor.STRIKETHROUGH.toString() + "------")) : getKeyOrMouseName(key);
 
         if (pressed != wasPressed) {
             wasPressed = pressed;
@@ -105,26 +105,28 @@ public class CustomKey extends AbstractKey {
         int green = textColor >> 8 & 0xFF;
         int blue = textColor & 0xFF;
         int colorN = new Color(0, 0, 0).getRGB() + ((int) (red * textBrightness) << 16) + ((int) (green * textBrightness) << 8) + (int) (blue * textBrightness);
-        final float yPos = y + this.yOffset + 8;
+        final float yPos = y + yOffset + 8;
         final FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-        if (this.mod.getSettings().isChroma()) {
-            if (this.type == 0) {
-                int xIn = x + (this.xOffset + 76) / 4;
-                int y2 = y + this.yOffset + 9;
+        if (mod.getSettings().isChroma()) {
+            if (type == 0) {
+                int xIn = x + (xOffset + 76) / 4;
+                int y2 = y + yOffset + 9;
                 GlStateManager.pushMatrix();
                 GlStateManager.translate((float) xIn, (float) y2, 0.0f);
                 GlStateManager.rotate(-90.0f, 0.0f, 0.0f, 1.0f);
-                this.drawGradientRect(0, 0, 2, 35, Color.HSBtoRGB((System.currentTimeMillis() - xIn * 10 - y2 * 10) % 2000L / 2000.0f, 0.8f, 0.8f), Color.HSBtoRGB((System.currentTimeMillis() - (xIn + 35) * 10 - y2 * 10) % 2000L / 2000.0f, 0.8f, 0.8f));
+                drawGradientRect(0, 0, 2, 35, Color.HSBtoRGB((System.currentTimeMillis() - xIn * 10 - y2 * 10) %
+                    2000L / 2000.0f, 0.8f, 0.8f), Color.HSBtoRGB((System.currentTimeMillis() - (xIn + 35) * 10 - y2 * 10) %
+                    2000L / 2000.0f, 0.8f, 0.8f));
                 GlStateManager.popMatrix();
-            } else if (this.type == 1) {
-                drawChromaString(name, x + ((this.xOffset + 70) / 2) - fontRendererObj.getStringWidth(name) / 2, y + yOffset + 5, 1.0F);
+            } else if (type == 1) {
+                drawChromaString(name, x + ((xOffset + 70) / 2) - fontRendererObj.getStringWidth(name) / 2, y + yOffset + 5, 1.0F);
             } else {
                 drawChromaString(name, (left + right) / 2 - fontRendererObj.getStringWidth(name) / 2, (int) yPos, 1.0);
             }
-        } else if (this.type == 0 || this.type == 1) {
-            this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + this.yOffset + 5, pressed ? pressedColor : colorN);
+        } else if (type == 0 || type == 1) {
+            drawCenteredString(name, x + (xOffset + 70) / 2, y + yOffset + 5, pressed ? pressedColor : colorN);
         } else {
-            this.mc.fontRendererObj.drawString(name, (left + right) / 2 - fontRendererObj.getStringWidth(name) / 2, (int) yPos, pressed ? pressedColor : colorN);
+            mc.fontRendererObj.drawString(name, (left + right) / 2 - fontRendererObj.getStringWidth(name) / 2, (int) yPos, pressed ? pressedColor : colorN);
         }
     }
 
@@ -150,10 +152,6 @@ public class CustomKey extends AbstractKey {
     }
 
     private boolean isButtonDown(int buttonCode) {
-        if (buttonCode < 0) {
-            return Mouse.isButtonDown(buttonCode + 100);
-        }
-
-        return buttonCode > 0 && Keyboard.isKeyDown(buttonCode);
+        return buttonCode < 0 ? Mouse.isButtonDown(buttonCode + 100) : buttonCode > 0 && Keyboard.isKeyDown(buttonCode);
     }
 }

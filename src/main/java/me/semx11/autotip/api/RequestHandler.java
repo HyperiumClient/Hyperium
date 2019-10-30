@@ -44,12 +44,7 @@ public class RequestHandler {
             HttpURLConnection conn = (HttpURLConnection) uri.toURL().openConnection();
             conn.setRequestProperty("User-Agent", "Autotip v" + autotip.getVersion());
 
-            InputStream input;
-            if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
-                input = conn.getInputStream();
-            } else {
-                input = conn.getErrorStream();
-            }
+            InputStream input = conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST ? conn.getInputStream() : conn.getErrorStream();
             json = IOUtils.toString(input, StandardCharsets.UTF_8);
             Autotip.LOGGER.info(request.getType() + " JSON: " + json);
 

@@ -38,10 +38,10 @@ open class ConfigStringSelector
 
     fun getValue(): String {
         try {
-            return this.values[this.value]
+            return values[value]
         } catch (exception: IndexOutOfBoundsException) {
-            if (this.values.isNotEmpty())
-                return this.values[0]
+            if (values.isNotEmpty())
+                return values[0]
             else
                 ModuleManager.generalConsole.printStackTrace(exception)
         }
@@ -52,19 +52,19 @@ open class ConfigStringSelector
     override fun init() {
         super.init()
 
-        this.leftArrowButton = GuiButton(
+        leftArrowButton = GuiButton(
             0,
-            Renderer.Screen.getWidth() / 2 - 100 + this.x,
-            this.y + 15,
+            Renderer.Screen.getWidth() / 2 - 100 + x,
+            y + 15,
             30,
             20,
             "<"
         )
 
-        this.rightArrowButton = GuiButton(
+        rightArrowButton = GuiButton(
             0,
-            Renderer.Screen.getWidth() / 2 + 70 + this.x,
-            this.y + 15,
+            Renderer.Screen.getWidth() / 2 + 70 + x,
+            y + 15,
             30,
             20,
             ">"
@@ -72,48 +72,48 @@ open class ConfigStringSelector
     }
 
     override fun draw(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        if (this.hidden) return
+        if (hidden) return
 
         val middle = Renderer.Screen.getWidth() / 2
 
-        Rectangle(-0x80000000, (middle - 105 + this.x).toFloat(), (this.y - 5).toFloat(), 210f, 45f)
+        Rectangle(-0x80000000, (middle - 105 + x).toFloat(), (y - 5).toFloat(), 210f, 45f)
             .setShadow(-0x30000000, 3f, 3f)
             .draw()
-        Text(this.name!!, (middle - 100 + this.x).toFloat(), this.y.toFloat()).draw()
+        Text(name!!, (middle - 100 + x).toFloat(), y.toFloat()).draw()
 
         Text(
             getValue(),
-            (middle + this.x - Renderer.getStringWidth(getValue()) / 2).toFloat(),
-            (this.y + 20).toFloat()
+            (middle + x - Renderer.getStringWidth(getValue()) / 2).toFloat(),
+            (y + 20).toFloat()
         ).draw()
 
-        this.leftArrowButton!!.xPosition = middle - 100 + this.x
-        this.rightArrowButton!!.xPosition = middle + 70 + this.x
+        leftArrowButton!!.xPosition = middle - 100 + x
+        rightArrowButton!!.xPosition = middle + 70 + x
 
-        this.leftArrowButton!!.drawButton(Client.getMinecraft(), mouseX, mouseY)
-        this.rightArrowButton!!.drawButton(Client.getMinecraft(), mouseX, mouseY)
+        leftArrowButton!!.drawButton(Client.getMinecraft(), mouseX, mouseY)
+        rightArrowButton!!.drawButton(Client.getMinecraft(), mouseX, mouseY)
 
         super.draw(mouseX, mouseY, partialTicks)
     }
 
     override fun mouseClicked(mouseX: Int, mouseY: Int) {
-        if (this.hidden) return
+        if (hidden) return
 
-        if (this.leftArrowButton!!.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
-            if (this.value - 1 < 0) this.value = this.values.size - 1
-            else this.value--
+        if (leftArrowButton!!.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
+            if (value - 1 < 0) value = values.size - 1
+            else value--
 
-            this.leftArrowButton!!.playPressSound(Client.getMinecraft().soundHandler)
-        } else if (this.rightArrowButton!!.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
-            if (this.value + 1 >= this.values.size) this.value = 0
-            else this.value++
+            leftArrowButton!!.playPressSound(Client.getMinecraft().soundHandler)
+        } else if (rightArrowButton!!.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
+            if (value + 1 >= values.size) value = 0
+            else value++
 
-            this.rightArrowButton!!.playPressSound(Client.getMinecraft().soundHandler)
+            rightArrowButton!!.playPressSound(Client.getMinecraft().soundHandler)
         }
 
-        if (this.resetButton.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
-            this.value = this.initial
-            this.resetButton.playPressSound(Client.getMinecraft().soundHandler)
+        if (resetButton.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
+            value = initial
+            resetButton.playPressSound(Client.getMinecraft().soundHandler)
         }
     }
 }

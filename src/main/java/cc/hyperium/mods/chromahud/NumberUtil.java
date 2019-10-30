@@ -22,9 +22,7 @@ package cc.hyperium.mods.chromahud;
  */
 public class NumberUtil {
     public static double round(double in, double places) {
-        if (places == 0)
-            return Math.round(in);
+        if (places == 0) return Math.round(in);
         return Math.round(in * 10.0 * places) / (10 * places);
     }
-
 }

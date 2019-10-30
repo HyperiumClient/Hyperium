@@ -36,6 +36,7 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.IChatComponent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -71,12 +72,12 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
 
     @Override
     public void handleChat(String s) {
-        if (s.toLowerCase().contains("reconnecting hyperium connection"))
-            return;
+        if (s.toLowerCase().contains("reconnecting hyperium connection")) return;
         System.out.println("Chat: " + s);
         s = s.replace("&", C.COLOR_CODE_SYMBOL);
         IChatComponent chatComponent = new ChatComponentText("");
-        for (String s1 : s.split(" ")) {
+
+        Arrays.stream(s.split(" ")).forEach(s1 -> {
             ChatComponentText iChatComponents = new ChatComponentText(s1 + " ");
             if (s1.contains(".") && !s1.startsWith(".") && !s1.endsWith(".")) {
                 ChatStyle chatStyle = new ChatStyle();
@@ -84,7 +85,8 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
                 iChatComponents.setChatStyle(chatStyle);
             }
             chatComponent.appendSibling(iChatComponents);
-        }
+        });
+
         GeneralChatHandler.instance().sendMessage(chatComponent);
     }
 
@@ -134,9 +136,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
 
     @Override
     public void party(List<String> list) {
-        for (String s : list) {
-            Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party invite " + s);
-        }
+        list.forEach(s -> Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party invite " + s));
     }
 
     @Override
@@ -154,19 +154,16 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
 
     @Override
     public void addVerboseLog(String s) {
-        if (log)
-            verboseLogs.add(s);
+        if (log) verboseLogs.add(s);
     }
 
     @Override
     public void postUpdate() {
-        if (log)
-            post = true;
+        if (log) post = true;
     }
 
     @Override
     public void preSave() {
-        if (post)
-            log = false;
+        if (post) log = false;
     }
 }

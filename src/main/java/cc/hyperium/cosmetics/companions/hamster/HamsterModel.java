@@ -19,6 +19,7 @@ package cc.hyperium.cosmetics.companions.hamster;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
@@ -102,27 +103,27 @@ public class HamsterModel extends ModelBase {
     @Override
     public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7) {
         super.render(par1Entity, par2, par3, par4, par5, par6, par7);
-        this.setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
+        setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
 
-        GL11.glPushMatrix();
-        GL11.glTranslatef(0.0F, 0.2F, 0.0F);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0.0F, 0.2F, 0.0F);
 
         if (isChild) {
             float f = 2.0F;
-            GL11.glPushMatrix();
-            GL11.glTranslatef(0.0F, 5F * par7, 2.0F * par7);
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(0.0F, 5F * par7, 2.0F * par7);
             hamsterHeadMain.renderWithRotation(par7);
-            GL11.glPopMatrix();
-            GL11.glPushMatrix();
-            GL11.glScalef(1.0F / f, 1.0F / f, 1.0F / f);
-            GL11.glTranslatef(0.0F, 24F * par7, 0.0F);
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(1.0F / f, 1.0F / f, 1.0F / f);
+            GlStateManager.translate(0.0F, 24F * par7, 0.0F);
             hamsterBody.render(par7);
             hamsterLeg1.render(par7);
             hamsterLeg2.render(par7);
             hamsterLeg3.render(par7);
             hamsterLeg4.render(par7);
             hamsterMane.render(par7);
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         } else {
             hamsterHeadMain.renderWithRotation(par7);
             hamsterBody.render(par7);
@@ -133,7 +134,7 @@ public class HamsterModel extends ModelBase {
             hamsterMane.render(par7);
         }
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 
     /**

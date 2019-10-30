@@ -41,7 +41,7 @@ public class CommandToggleChat implements BaseCommand {
      * Default constructor
      */
     public CommandToggleChat(ToggleChatMod impl) {
-        this.mod = impl;
+        mod = impl;
     }
 
     @Override
@@ -61,6 +61,6 @@ public class CommandToggleChat implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        new ToggleChatMainGui(this.mod, 0).display();
+        new ToggleChatMainGui(mod, 0).display();
     }
 }

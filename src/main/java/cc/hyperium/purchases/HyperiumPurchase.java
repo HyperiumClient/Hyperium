@@ -21,9 +21,7 @@ import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class HyperiumPurchase {
     private final UUID playerUUID;
@@ -50,25 +48,20 @@ public class HyperiumPurchase {
                     AbstractHyperiumPurchase parse1 = PurchaseApi.getInstance().parse(parse, purchaseSettings
                         .optJSONObject(parse.name().toLowerCase()));
                     if (parse1 != null)
-                        this.purchases.add(parse1);
+                        purchases.add(parse1);
                 } catch (Exception wtf) {
 //                    wtf.printStackTrace();
                 }
         }
         if (everything) {
-            for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
-                if (getPurchase(enumPurchaseType) == null && enumPurchaseType != EnumPurchaseType.UNKNOWN) {
-                    AbstractHyperiumPurchase parse1 = PurchaseApi.getInstance().parse(enumPurchaseType, purchaseSettings
-                        .optJSONObject(enumPurchaseType.name().toLowerCase()));
-                    if (parse1 != null)
-                        this.purchases.add(parse1);
-                }
-            }
+            Arrays.stream(EnumPurchaseType.values()).filter(enumPurchaseType -> getPurchase(enumPurchaseType) == null &&
+                enumPurchaseType != EnumPurchaseType.UNKNOWN).map(enumPurchaseType -> PurchaseApi.getInstance().parse(enumPurchaseType,
+                purchaseSettings.optJSONObject(enumPurchaseType.name().toLowerCase()))).filter(Objects::nonNull).forEach(purchases::add);
         }
     }
 
     public void refreshCachedSettings() {
-        this.cachedSettings = new PurchaseSettings(purchaseSettings);
+        cachedSettings = new PurchaseSettings(purchaseSettings);
     }
 
     public PurchaseSettings getCachedSettings() {
@@ -92,13 +85,13 @@ public class HyperiumPurchase {
     }
 
     public boolean hasPurchased(String key) {
-
-        if (everything)
-            return true;
+        if (everything) return true;
         for (JsonElement element : response.optJSONArray("hyperium")) {
-            if (element instanceof JsonPrimitive && element.getAsString().equalsIgnoreCase(key))
+            if (element instanceof JsonPrimitive && element.getAsString().equalsIgnoreCase(key)) {
                 return true;
+            }
         }
+
         return false;
     }
 

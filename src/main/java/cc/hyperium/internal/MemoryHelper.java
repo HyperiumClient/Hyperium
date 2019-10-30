@@ -19,8 +19,8 @@ package cc.hyperium.internal;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
-import cc.hyperium.event.WorldUnloadEvent;
+import cc.hyperium.event.client.TickEvent;
+import cc.hyperium.event.world.WorldUnloadEvent;
 import cc.hyperium.mixins.client.renderer.IMixinThreadDownloadImageData;
 import cc.hyperium.mixins.client.renderer.texture.IMixinTextureManager;
 import net.minecraft.client.Minecraft;
@@ -60,21 +60,19 @@ public class MemoryHelper {
             Map<ResourceLocation, ITextureObject> mapTextureObjects = ((IMixinTextureManager) textureManager).getMapTextureObjects();
             List<ResourceLocation> removes = new ArrayList<>();
 
-            for (Map.Entry<ResourceLocation, ITextureObject> entry : mapTextureObjects.entrySet()) {
-                ITextureObject iTextureObject = entry.getValue();
-
+            mapTextureObjects.forEach((key, iTextureObject) -> {
                 if (iTextureObject instanceof ThreadDownloadImageData) {
                     IImageBuffer imageBuffer = ((IMixinThreadDownloadImageData) iTextureObject).getImageBuffer();
 
-                    if (imageBuffer == null) continue;
+                    if (imageBuffer == null) return;
 
                     Class<? extends IImageBuffer> aClass = imageBuffer.getClass();
                     // Optifine
                     if (aClass.getName().equalsIgnoreCase("CapeImageBuffer")) {
-                        removes.add(entry.getKey());
+                        removes.add(key);
                     }
                 }
-            }
+            });
 
             removes.forEach(this::deleteSkin);
 //            locations.forEach(this::deleteSkin);

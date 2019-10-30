@@ -39,8 +39,8 @@ public class HyperiumCapeUtils {
             imageHeight *= 2;
         }
 
-        final BufferedImage imgNew = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
-        final Graphics g = imgNew.getGraphics();
+        BufferedImage imgNew = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = imgNew.getGraphics();
         g.drawImage(img, 0, 0, null);
         g.dispose();
         return imgNew;

@@ -19,7 +19,7 @@ package cc.hyperium.mixins.client.renderer;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.RenderEntitiesEvent;
+import cc.hyperium.event.render.RenderEntitiesEvent;
 import cc.hyperium.internal.MemoryHelper;
 import cc.hyperium.mixins.client.network.IMixinNetworkPlayerInfo;
 import cc.hyperium.mixins.client.entity.IMixinAbstractClientPlayer;

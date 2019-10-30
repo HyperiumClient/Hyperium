@@ -17,15 +17,14 @@
 
 package cc.hyperium.mods.togglechat.config;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
 import cc.hyperium.utils.BetterJsonObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
@@ -42,30 +41,24 @@ public class ToggleChatConfig {
         }
 
         this.theMod = theMod;
-        this.toggleFile = new File(directory, "togglechat.json");
+        toggleFile = new File(directory, "togglechat.json");
 
     }
 
     public void loadToggles() {
-        if (exists(this.toggleFile)) {
+        if (exists(toggleFile)) {
             try {
-                FileReader fileReader = new FileReader(this.toggleFile);
+                FileReader fileReader = new FileReader(toggleFile);
                 BufferedReader reader = new BufferedReader(fileReader);
-                this.toggleJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
+                toggleJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
             } catch (Exception ex) {
                 log("Could not read toggles properly, saving.");
                 saveToggles();
             }
 
-            for (ToggleBase base : this.
-                theMod.
-                getToggleHandler()
-                .getToggles()
-                .values()) {
-                base.setEnabled(this.toggleJson.has("show" + base.getName().replace(" ", "_")) &&
-                    this.toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean());
-            }
-
+            theMod.getToggleHandler().getToggles().values().forEach(base ->
+                base.setEnabled(toggleJson.has("show" + base.getName().replace(" ",
+                    "_")) && toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean()));
         } else {
             saveToggles();
         }
@@ -73,17 +66,13 @@ public class ToggleChatConfig {
 
     public void saveToggles() {
         try {
-            if (!this.toggleFile.getParentFile().exists()) {
-                this.toggleFile.getParentFile().mkdirs();
+            if (!toggleFile.getParentFile().exists()) {
+                toggleFile.getParentFile().mkdirs();
             }
 
-            this.toggleFile.createNewFile();
-
-            for (ToggleBase base : this.theMod.getToggleHandler().getToggles().values()) {
-                this.toggleJson.addProperty("show" + base.getName().replace(" ", "_"), base.isEnabled());
-            }
-
-            this.toggleJson.writeToFile(this.toggleFile);
+            toggleFile.createNewFile();
+            theMod.getToggleHandler().getToggles().values().forEach(base -> toggleJson.addProperty("show" + base.getName().replace(" ", "_"), base.isEnabled()));
+            toggleJson.writeToFile(toggleFile);
         } catch (Exception ex) {
             log("Could not save toggles.");
             ex.printStackTrace();
@@ -95,6 +84,6 @@ public class ToggleChatConfig {
     }
 
     private void log(String message, Object... replace) {
-        System.out.println(String.format("[ToggleChatLite] " + message, replace));
+        Hyperium.LOGGER.info("ToggleChat {} {}", message, replace);
     }
 }

@@ -39,7 +39,7 @@ public class BlockOverlayCommand implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new BlockOverlayGui(this.mod));
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new BlockOverlayGui(mod));
     }
 
 }

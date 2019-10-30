@@ -21,7 +21,7 @@ public class MessageUtil {
     }
 
     public ChatComponentBuilder getBuilder(String text, Object... params) {
-        return this.getBuilder(true, text, params);
+        return getBuilder(true, text, params);
     }
 
     public ChatComponentBuilder getBuilder(boolean prefix, String text, Object... params) {
@@ -33,7 +33,7 @@ public class MessageUtil {
     }
 
     public void sendKey(String key, Object... params) {
-        this.send(this.getKey(key), params);
+        send(getKey(key), params);
     }
 
     public String getKey(String key) {
@@ -41,7 +41,7 @@ public class MessageUtil {
     }
 
     public void send(String msg, Object... params) {
-        this.sendRaw(PREFIX + msg, params);
+        sendRaw(PREFIX + msg, params);
     }
 
     public void send(String msg, String url, String hoverText, Object... params) {
@@ -50,13 +50,13 @@ public class MessageUtil {
     }
 
     public void separator() {
-        this.sendRaw("&6&m&l----------------------------------");
+        sendRaw("&6&m&l----------------------------------");
     }
 
     public void sendRaw(String msg, Object... params) {
         msg = StringUtil.params(msg, params);
-        if (this.isPlayerLoaded()) {
-            this.flushQueues();
+        if (isPlayerLoaded()) {
+            flushQueues();
             UniversalUtil.addChatMessage(msg);
         } else {
             chatQueue.add(msg);
@@ -65,8 +65,8 @@ public class MessageUtil {
     }
 
     public void sendCommand(String command) {
-        if (this.isPlayerLoaded()) {
-            this.flushQueues();
+        if (isPlayerLoaded()) {
+            flushQueues();
             autotip.getMinecraft().thePlayer.sendChatMessage(command);
         } else {
             cmdQueue.add(command);
@@ -75,12 +75,13 @@ public class MessageUtil {
     }
 
     public void flushQueues() {
-        if (this.isPlayerLoaded()) {
+        if (isPlayerLoaded()) {
             while (!chatQueue.isEmpty()) {
-                this.sendRaw(chatQueue.poll());
+                sendRaw(chatQueue.poll());
             }
+
             while (!cmdQueue.isEmpty()) {
-                this.sendCommand(cmdQueue.poll());
+                sendCommand(cmdQueue.poll());
             }
         }
     }

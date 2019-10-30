@@ -36,6 +36,6 @@ public class MixinGuiGameOver {
      */
     @Inject(method = "initGui", at = @At("HEAD"))
     private void initGui(CallbackInfo ci) {
-        this.enableButtonsTimer = 0;
+        enableButtonsTimer = 0;
     }
 }

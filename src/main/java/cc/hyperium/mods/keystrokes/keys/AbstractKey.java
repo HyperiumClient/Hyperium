@@ -24,7 +24,7 @@ import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * Used as the base class for all keys with a few essential methods and fields
@@ -47,8 +47,7 @@ public abstract class AbstractKey extends Gui {
 
     protected Color getChromaColor(double x, double y, double offsetScale) {
         float v = 2000F;
-        return new Color(Color.HSBtoRGB((float) ((System.currentTimeMillis() - (x * 10) * offsetScale - (y * 10) * offsetScale) % v) /
-            v, 0.8F, 0.8F));
+        return new Color(Color.HSBtoRGB((float) ((System.currentTimeMillis() - (x * 10) * offsetScale - (y * 10) * offsetScale) % v) / v, 0.8F, 0.8F));
     }
 
     protected void drawChromaString(String text, int x, int y, double offsetScale) {
@@ -74,8 +73,8 @@ public abstract class AbstractKey extends Gui {
      * @return the color from settings or chroma if its enabled
      */
     protected final int getColor() {
-        return this.mod.getSettings().isChroma() ? Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xOffset * 10) - (yOffset * 10)) % 2000) / 2000.0F, 0.8F, 0.8F)
-            : new Color(this.mod.getSettings().getRed(), this.mod.getSettings().getGreen(), this.mod.getSettings().getBlue()).getRGB();
+        return mod.getSettings().isChroma() ? Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xOffset * 10) - (yOffset * 10)) % 2000) / 2000.0F,
+            0.8F, 0.8F) : new Color(mod.getSettings().getRed(), mod.getSettings().getGreen(), mod.getSettings().getBlue()).getRGB();
     }
 
     /**
@@ -86,8 +85,8 @@ public abstract class AbstractKey extends Gui {
      * @return the color from settings or chroma if its enabled
      */
     protected final int getPressedColor() {
-        return this.mod.getSettings().isChroma() ? new Color(0, 0, 0).getRGB() : new Color(this.mod.getSettings().getPressedRed(), this.mod.getSettings().getPressedGreen(),
-            this.mod.getSettings().getPressedBlue()).getRGB();
+        return mod.getSettings().isChroma() ? new Color(0, 0, 0).getRGB() : new Color(mod.getSettings().getPressedRed(), mod.getSettings().getPressedGreen(),
+            mod.getSettings().getPressedBlue()).getRGB();
     }
 
     /**
@@ -100,7 +99,7 @@ public abstract class AbstractKey extends Gui {
      * @param color the texts color
      */
     protected final void drawCenteredString(String text, int x, int y, int color) {
-        this.mc.fontRendererObj.drawString(text, (float) (x - this.mc.fontRendererObj.getStringWidth(text) / 2), (float) y, color, false);
+        mc.fontRendererObj.drawString(text, (float) (x - mc.fontRendererObj.getStringWidth(text) / 2), (float) y, color, false);
     }
 
     /**
@@ -113,13 +112,10 @@ public abstract class AbstractKey extends Gui {
         if (keyCode < 0) {
             String openGLName = Mouse.getButtonName(keyCode + 100);
             if (openGLName != null) {
-                if (openGLName.equalsIgnoreCase("button0")) {
-                    return "LMB";
-                }
-                if (openGLName.equalsIgnoreCase("button1")) {
-                    return "RMB";
-                }
+                if (openGLName.equalsIgnoreCase("button0")) return "LMB";
+                if (openGLName.equalsIgnoreCase("button1")) return "RMB";
             }
+
             return openGLName;
         }
 

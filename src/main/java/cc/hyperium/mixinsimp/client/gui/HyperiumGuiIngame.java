@@ -21,8 +21,8 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.RenderHUDEvent;
-import cc.hyperium.event.RenderSelectedItemEvent;
+import cc.hyperium.event.render.RenderHUDEvent;
+import cc.hyperium.event.render.RenderSelectedItemEvent;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -65,9 +65,7 @@ public class HyperiumGuiIngame {
         ScoreboardDisplay.objective = objective;
         ScoreboardDisplay.resolution = resolution;
 
-        if (renderScoreboard) {
-            Hyperium.INSTANCE.getHandlers().getScoreboardRenderer().render(objective, resolution);
-        }
+        if (renderScoreboard) Hyperium.INSTANCE.getHandlers().getScoreboardRenderer().render(objective, resolution);
     }
 
     public void renderBossHealth() {
@@ -102,10 +100,7 @@ public class HyperiumGuiIngame {
                 GlStateManager.scale(Settings.BOSSBAR_SCALE, Settings.BOSSBAR_SCALE, Settings.BOSSBAR_SCALE);
 
                 parent.drawTexturedModalRect(0, 0, 0, 74, widthLocation, 5);
-                if (healthScale > 0) {
-                    parent.drawTexturedModalRect(0, 0, 0, 79, widthLocation, 5);
-                }
-
+                if (healthScale > 0) parent.drawTexturedModalRect(0, 0, 0, 79, widthLocation, 5);
                 GlStateManager.popMatrix();
             }
 
@@ -113,11 +108,7 @@ public class HyperiumGuiIngame {
     }
 
     public void showCrosshair(CallbackInfoReturnable<Boolean> ci) {
-        if (CustomCrosshairAddon.getCrosshairMod() == null) {
-            return;
-        }
-
-        if (CustomCrosshairAddon.getCrosshairMod().getCrosshair() == null) {
+        if (CustomCrosshairAddon.getCrosshairMod() == null || CustomCrosshairAddon.getCrosshairMod().getCrosshair() == null) {
             return;
         }
 

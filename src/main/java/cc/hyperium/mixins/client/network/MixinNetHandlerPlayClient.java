@@ -20,7 +20,7 @@ package cc.hyperium.mixins.client.network;
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.ServerChatEvent;
+import cc.hyperium.event.network.chat.ServerChatEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
@@ -79,11 +79,7 @@ public abstract class MixinNetHandlerPlayClient {
     @ModifyArg(method = "handleTabComplete", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiChat;onAutocompleteResponse([Ljava/lang/String;)V"))
     private String[] addClientTabCompletions(String[] currentCompletions) {
         String[] modCompletions = Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().getLatestAutoComplete();
-
-        if (modCompletions != null) {
-            currentCompletions = ObjectArrays.concat(modCompletions, currentCompletions, String.class);
-        }
-
+        if (modCompletions != null) currentCompletions = ObjectArrays.concat(modCompletions, currentCompletions, String.class);
         return currentCompletions;
     }
 
@@ -93,9 +89,7 @@ public abstract class MixinNetHandlerPlayClient {
      */
     @Overwrite
     public void handleTimeUpdate(S03PacketTimeUpdate packet) {
-        if (timeChanger == null) {
-            timeChanger = Hyperium.INSTANCE.getModIntegration().getTimeChanger();
-        }
+        if (timeChanger == null) timeChanger = Hyperium.INSTANCE.getModIntegration().getTimeChanger();
 
         if (timeChanger.getTimeType() == null) {
             handleActualPacket(packet);
@@ -124,10 +118,7 @@ public abstract class MixinNetHandlerPlayClient {
      * @param packetIn the packet
      */
     private void handleActualPacket(S03PacketTimeUpdate packetIn) {
-        if (gameController == null || gameController.theWorld == null) {
-            return;
-        }
-
+        if (gameController == null || gameController.theWorld == null) return;
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, (NetHandlerPlayClient) (Object) this, gameController);
         gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
         gameController.theWorld.setWorldTime(packetIn.getWorldTime());
@@ -145,10 +136,7 @@ public abstract class MixinNetHandlerPlayClient {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, (NetHandlerPlayClient) (Object) this, gameController);
 
         // Stops the code if the world is null, usually due to a weird packet from the server
-        if (clientWorldController == null) {
-            return;
-        }
-
+        if (clientWorldController == null) return;
         Entity entity = clientWorldController.getEntityByID(packetIn.getEntityID());
 
         if (entity != null) {
@@ -189,8 +177,9 @@ public abstract class MixinNetHandlerPlayClient {
                 packetBuffer.readBytes(payload);
                 String message = new String(payload, Charsets.UTF_8);
 
-                if (LoginReplyHandler.SHOW_MESSAGES)
+                if (LoginReplyHandler.SHOW_MESSAGES) {
                     GeneralChatHandler.instance().sendMessage("Packet message on channel " + packetIn.getChannelName() + " -> " + message);
+                }
 
                 if ("REGISTER".equalsIgnoreCase(packetIn.getChannelName())) {
                     if (message.contains("Hyperium")) {
@@ -205,13 +194,8 @@ public abstract class MixinNetHandlerPlayClient {
                             String addonName = addonmanifest.getName();
                             String version = addonmanifest.getVersion();
 
-                            if (addonName == null) {
-                                addonName = addonmanifest.getMainClass();
-                            }
-
-                            if (version == null) {
-                                version = "unknown";
-                            }
+                            if (addonName == null) addonName = addonmanifest.getMainClass();
+                            if (version == null) version = "unknown";
 
                             addonbuffer.writeString(addonName);
                             addonbuffer.writeString(version);
@@ -232,8 +216,7 @@ public abstract class MixinNetHandlerPlayClient {
 
     @Inject(method = "handleResourcePack", at = @At("HEAD"), cancellable = true)
     private void handle(S48PacketResourcePackSend packetIn, CallbackInfo info) {
-        if (!validateResourcePackUrl(packetIn.getURL(), packetIn.getHash()))
-            info.cancel();
+        if (!validateResourcePackUrl(packetIn.getURL(), packetIn.getHash())) info.cancel();
     }
 
     private boolean validateResourcePackUrl(String url, String hash) {
@@ -245,23 +228,28 @@ public abstract class MixinNetHandlerPlayClient {
                 netManager.sendPacket(new C19PacketResourcePackStatus(hash, C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
                 throw new URISyntaxException(url, "Wrong protocol");
             }
+
             url = URLDecoder.decode(url.substring("level://".length()), StandardCharsets.UTF_8.toString());
             if (isLevelProtocol && (url.contains("..") || !url.endsWith("/resources.zip"))) {
                 System.out.println("[Resource Exploit Fix Warning] Malicious server tried to access " + url);
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+
                 if (thePlayer != null) {
                     Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
                         .sendMessage(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() +
                             "[EXPLOIT FIX WARNING] The current server has attempted to be malicious but we have stopped them!");
                 }
+
                 throw new URISyntaxException(url, "Invalid levelstorage resourcepack path");
             }
+
             return true;
         } catch (URISyntaxException e) {
             return false;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
         return false;
     }
 
@@ -285,9 +273,7 @@ public abstract class MixinNetHandlerPlayClient {
         EventBus.INSTANCE.post(event);
 
         // If the event is cancelled or the message is empty, we'll ignore the packet.
-        if (event.isCancelled() || event.getChat().getFormattedText().isEmpty()) {
-            return;
-        }
+        if (event.isCancelled() || event.getChat().getFormattedText().isEmpty()) return;
 
         if (packetIn.getType() == 2) {
             gameController.ingameGUI.setRecordPlaying(event.getChat(), false);

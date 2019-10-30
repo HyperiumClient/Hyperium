@@ -41,10 +41,10 @@ public class ArmourHud extends DisplayItem {
 
     public ArmourHud(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
-        this.dur = raw.optBoolean("dur");
-        this.armourOnTop = raw.optBoolean("armourOnTop");
-        this.hand = raw.optBoolean("hand");
-        this.width = 16;
+        dur = raw.optBoolean("dur");
+        armourOnTop = raw.optBoolean("armourOnTop");
+        hand = raw.optBoolean("hand");
+        width = 16;
     }
 
     @Override
@@ -79,17 +79,15 @@ public class ArmourHud extends DisplayItem {
         } else {
             list = itemsToRender();
         }
-        drawArmour(starX, startY);
 
-        this.height = getArmourHeight();
+        drawArmour(starX, startY);
+        height = getArmourHeight();
     }
 
     private void drawArmour(int x, double y) {
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-        if (thePlayer == null || renderItem == null) {
-            return;
-        }
+        if (thePlayer == null || renderItem == null) return;
         ElementRenderer.render(list, x, y, dur);
     }
 
@@ -100,28 +98,26 @@ public class ArmourHud extends DisplayItem {
     private List<ItemStack> itemsToRender() {
         List<ItemStack> items = new ArrayList<>();
         ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem();
-        if (hand && heldItem != null && !armourOnTop)
-            items.add(heldItem);
+        if (hand && heldItem != null && !armourOnTop) items.add(heldItem);
         ItemStack[] inventory = Minecraft.getMinecraft().thePlayer.inventory.armorInventory;
+
         for (int i = 3; i >= 0; i--) {
             if (inventory[i] != null && inventory[i].getItem() != null) {
                 items.add(inventory[i]);
             }
         }
-        if (hand && heldItem != null && armourOnTop)
-            items.add(heldItem);
 
-
+        if (hand && heldItem != null && armourOnTop) items.add(heldItem);
         return items;
     }
 
 
     public void toggleDurability() {
-        this.dur = !dur;
+        dur = !dur;
     }
 
     public void toggleHand() {
-        this.hand = !hand;
+        hand = !hand;
     }
 
     public boolean isArmourOnTop() {

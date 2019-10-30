@@ -36,12 +36,12 @@ public class TypeOfficer extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        return this.pattern.matcher(message).find();
+        return pattern.matcher(message).find();
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

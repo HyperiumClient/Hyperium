@@ -20,14 +20,15 @@ package cc.hyperium.handlers.handlers.animation;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderEvent;
-import cc.hyperium.event.WorldChangeEvent;
+import cc.hyperium.event.render.RenderEvent;
+import cc.hyperium.event.world.WorldChangeEvent;
 import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.client.model.IMixinModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelRenderer;
 
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,20 +45,18 @@ public abstract class AbstractAnimationHandler {
 
     @InvokeEvent
     public void onRender(RenderEvent e) {
-
         long systemTime = Minecraft.getSystemTime();
         animationStates.values().forEach(animationState -> animationState.update(systemTime));
         onRender();
 
         long systemTime1 = System.currentTimeMillis();
-        if (this.systemTime == 0) {
-            this.systemTime = systemTime1;
-        }
+        if (this.systemTime == 0) this.systemTime = systemTime1;
 
         int msPerTick = 1000 / 120;
         if (this.systemTime < systemTime1 + msPerTick) {
             this.systemTime = systemTime1 + msPerTick;
             state = modifyState();
+
             if (state <= 0) {
                 asc = true;
                 right = !right;
@@ -101,8 +100,12 @@ public abstract class AbstractAnimationHandler {
                 resetAnimation(player);
                 reset = true;
             }
+
             return;
-        } else reset = false;
+        } else {
+            reset = false;
+        }
+
         AnimationState animationState = get(entity.getUniqueID());
         int ticks = animationState.frames;
         player.getBipedBody().rotateAngleZ = 0F;
@@ -121,7 +124,6 @@ public abstract class AbstractAnimationHandler {
             player1.getBipedLeftUpperLegwear().rotateAngleZ = 0F;
             player1.getBipedRightUpperLegwear().offsetX = 0F;
             player1.getBipedLeftUpperLegwear().offsetX = 0F;
-
         }
 
         if (ticks <= 0) {
@@ -168,22 +170,15 @@ public abstract class AbstractAnimationHandler {
                     player1.getBipedLeftLowerLegwear().offsetZ = 0;
                     player1.getBipedRightUpperLegwear().offsetZ = 0;
                     player1.getBipedRightLowerLegwear().offsetZ = 0;
-
-
                 }
             }
             return;
         }
 
         float heldPercent = state / 100F;
-        if (CosmeticsUtil.shouldHide(null))
-            return;
-        if (player instanceof IMixinModelPlayer) {
-            modifyPlayer(entity, ((IMixinModelPlayer) player), heldPercent);
-        } else {
-            modifyPlayer(entity, player, heldPercent);
-        }
-
+        if (CosmeticsUtil.shouldHide(null)) return;
+        if (player instanceof IMixinModelPlayer) modifyPlayer(entity, ((IMixinModelPlayer) player), heldPercent);
+        else modifyPlayer(entity, player, heldPercent);
     }
 
     public abstract void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent);
@@ -213,15 +208,14 @@ public abstract class AbstractAnimationHandler {
     }
 
     private void resetModelRenderers(ModelRenderer... renderers) {
-        for (ModelRenderer renderer : renderers) {
+        Arrays.stream(renderers).forEach(renderer -> {
             renderer.rotateAngleX = 0;
             renderer.rotateAngleY = 0;
             renderer.rotateAngleZ = 0;
-
             renderer.offsetX = 0;
             renderer.offsetY = 0;
             renderer.offsetZ = 0;
-        }
+        });
     }
 
     public static class AnimationState {
@@ -230,8 +224,8 @@ public abstract class AbstractAnimationHandler {
         private boolean toggled;
 
         public AnimationState() {
-            this.systemTime = Minecraft.getSystemTime();
-            this.toggled = false;
+            systemTime = Minecraft.getSystemTime();
+            toggled = false;
         }
 
         public boolean isToggled() {
@@ -244,12 +238,12 @@ public abstract class AbstractAnimationHandler {
 
         private void update(long systemTime) {
             while (this.systemTime < systemTime + (1000 / 60)) {
-                this.frames--;
+                frames--;
                 this.systemTime += (1000 / 60);
             }
 
             if (frames < 0) {
-                if (this.toggled) {
+                if (toggled) {
                     ensureAnimationFor(60);
                 } else {
                     frames = -1;
@@ -270,7 +264,7 @@ public abstract class AbstractAnimationHandler {
         }
 
         public boolean shouldReset() {
-            return this.frames == 1;
+            return frames == 1;
         }
 
         public int getFrames() {

@@ -96,23 +96,12 @@ public class HyperiumTweaker implements ITweaker {
 
     @Override
     public String[] getLaunchArguments() {
-        if (isRunningOptifine) {
-            return new String[0];
-        } else {
-            return args.toArray(new String[]{});
-        }
+        return isRunningOptifine ? new String[0] : args.toArray(new String[]{});
     }
 
     private void addArg(String label, Object value) {
         args.add("--" + label);
-
-        if (value instanceof String) {
-            args.add((String) value);
-        } else if (value instanceof File) {
-            args.add(((File) value).getAbsolutePath());
-        } else {
-            args.add(".");
-        }
+        args.add(value instanceof String ? (String) value : value instanceof File ? ((File) value).getAbsolutePath() : ".");
     }
 
     public boolean isUsingOptifine() {

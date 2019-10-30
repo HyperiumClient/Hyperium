@@ -45,12 +45,10 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void create(Class<T> baseClassIn, CallbackInfo info) {
-        this.knownKeys1.add(baseClassIn);
-        map1.put(baseClassIn, this.queue);
+        knownKeys1.add(baseClassIn);
+        map1.put(baseClassIn, queue);
 
-        for (Class<?> oclass : field_181158_a1) {
-            this.createLookup(oclass);
-        }
+        field_181158_a1.forEach(this::createLookup);
     }
 
     /**
@@ -60,14 +58,8 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
     @Overwrite
     protected void createLookup(Class<?> clazz) {
         field_181158_a1.add(clazz);
-
-        for (T t : this.queue) {
-            if (clazz.isAssignableFrom(t.getClass())) {
-                this.addForClass(t, clazz);
-            }
-        }
-
-        this.knownKeys1.add(clazz);
+        queue.stream().filter(t -> clazz.isAssignableFrom(t.getClass())).forEach(t -> addForClass(t, clazz));
+        knownKeys1.add(clazz);
     }
 
     /**
@@ -76,9 +68,9 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      */
     @Overwrite
     protected Class<?> initializeClassLookup(Class<?> clazz) {
-        if (this.baseClass.isAssignableFrom(clazz)) {
-            if (!this.knownKeys1.contains(clazz)) {
-                this.createLookup(clazz);
+        if (baseClass.isAssignableFrom(clazz)) {
+            if (!knownKeys1.contains(clazz)) {
+                createLookup(clazz);
             }
 
             return clazz;
@@ -93,12 +85,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      */
     @Overwrite
     public boolean add(T p_add_1_) {
-        for (Class<?> oclass : this.knownKeys1) {
-            if (oclass.isAssignableFrom(p_add_1_.getClass())) {
-                this.addForClass(p_add_1_, oclass);
-            }
-        }
-
+        knownKeys1.stream().filter(oclass -> oclass.isAssignableFrom(p_add_1_.getClass())).forEach(oclass -> addForClass(p_add_1_, oclass));
         return true;
     }
 
@@ -108,12 +95,12 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      */
     @Overwrite
     private void addForClass(T value, Class<?> parentClass) {
-        ConcurrentLinkedQueue<T> queue = this.map1.get(parentClass);
+        ConcurrentLinkedQueue<T> queue = map1.get(parentClass);
 
         if (queue == null) {
             ConcurrentLinkedQueue<T> linkedValue = new ConcurrentLinkedQueue<>();
             linkedValue.add(value);
-            this.map1.put(parentClass, linkedValue);
+            map1.put(parentClass, linkedValue);
         } else {
             queue.add(value);
         }
@@ -128,13 +115,11 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
         T t = (T) p_remove_1_;
         boolean flag = false;
 
-        for (Class<?> oclass : this.knownKeys1) {
+        for (Class<?> oclass : knownKeys1) {
             if (oclass.isAssignableFrom(t.getClass())) {
-                ConcurrentLinkedQueue<T> list = this.map1.get(oclass);
+                ConcurrentLinkedQueue<T> list = map1.get(oclass);
 
-                if (list != null && list.remove(t)) {
-                    flag = true;
-                }
+                if (list != null && list.remove(t)) flag = true;
             }
         }
 
@@ -147,7 +132,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      */
     @Overwrite
     public boolean contains(Object p_contains_1_) {
-        return Iterators.contains(this.getByClass(p_contains_1_.getClass()).iterator(), p_contains_1_);
+        return Iterators.contains(getByClass(p_contains_1_.getClass()).iterator(), p_contains_1_);
     }
 
     /**
@@ -174,7 +159,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      */
     @Overwrite
     public Iterator<T> iterator() {
-        return this.queue.isEmpty() ? Iterators.emptyIterator() : Iterators.unmodifiableIterator(this.queue.iterator());
+        return queue.isEmpty() ? Iterators.emptyIterator() : Iterators.unmodifiableIterator(queue.iterator());
     }
 
     /**
@@ -183,6 +168,6 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      */
     @Overwrite
     public int size() {
-        return this.queue.size();
+        return queue.size();
     }
 }

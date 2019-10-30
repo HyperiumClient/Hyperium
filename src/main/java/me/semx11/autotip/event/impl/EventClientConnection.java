@@ -1,8 +1,8 @@
 package me.semx11.autotip.event.impl;
 
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.ServerJoinEvent;
-import cc.hyperium.event.ServerLeaveEvent;
+import cc.hyperium.event.network.server.ServerJoinEvent;
+import cc.hyperium.event.network.server.ServerLeaveEvent;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.core.SessionManager;
 import me.semx11.autotip.core.TaskManager;
@@ -21,7 +21,7 @@ public class EventClientConnection implements Event {
 
     public EventClientConnection(Autotip autotip) {
         this.autotip = autotip;
-        this.hypixelHeader = autotip.getGlobalSettings().getHypixelHeader();
+        hypixelHeader = autotip.getGlobalSettings().getHypixelHeader();
     }
 
     public String getServerIp() {
@@ -51,16 +51,14 @@ public class EventClientConnection implements Event {
 
         autotip.getMessageUtil().clearQueues();
 
-        this.serverIp = UniversalUtil.getRemoteAddress(event).toLowerCase();
-        this.lastLogin = System.currentTimeMillis();
+        serverIp = UniversalUtil.getRemoteAddress(event).toLowerCase();
+        lastLogin = System.currentTimeMillis();
 
         taskManager.getExecutor().execute(() -> {
             Object header;
             int attempts = 0;
-            while ((header = this.getHeader()) == null) {
-                if (attempts > 15) {
-                    return;
-                }
+            while ((header = getHeader()) == null) {
+                if (attempts > 15) return;
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException ignored) {
@@ -86,7 +84,6 @@ public class EventClientConnection implements Event {
         SessionManager manager = autotip.getSessionManager();
         manager.setOnHypixel(false);
         taskManager.executeTask(TaskType.LOGOUT, manager::logout);
-        this.resetHeader();
+        resetHeader();
     }
-
 }

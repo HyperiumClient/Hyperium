@@ -37,7 +37,7 @@ public class TypeMessages extends ToggleBase {
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

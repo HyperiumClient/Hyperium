@@ -26,7 +26,7 @@ public class HyperiumCrashReport {
     private CrashReport parent;
 
     public HyperiumCrashReport(CrashReport crashReport) {
-        this.parent = crashReport;
+        parent = crashReport;
     }
 
     public void add() {

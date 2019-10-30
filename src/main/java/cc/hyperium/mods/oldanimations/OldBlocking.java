@@ -71,6 +71,7 @@ public class OldBlocking {
                 } else {
                     ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);
                 }
+
                 if (!Settings.OLD_ITEM_HELD) {
                     GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
                 } else {
@@ -81,6 +82,7 @@ public class OldBlocking {
                             break Label_0327;
                         }
                     }
+
                     if (((EntityPlayer) entitylivingbaseIn).isBlocking()) {
                         GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
                     }
@@ -89,6 +91,7 @@ public class OldBlocking {
                 ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);
                 GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
             }
+
             if (entitylivingbaseIn instanceof EntityPlayer && ((EntityPlayer) entitylivingbaseIn).fishEntity != null) {
                 itemstack = new ItemStack(Items.fishing_rod, 0);
             }
@@ -103,9 +106,11 @@ public class OldBlocking {
                 float f2 = 0.375f;
                 GlStateManager.scale(-f2, -f2, f2);
             }
+
             if (entitylivingbaseIn.isSneaking()) {
                 GlStateManager.translate(0.0f, 0.203125f, 0.0f);
             }
+
             minecraft.getItemRenderer().renderItem(entitylivingbaseIn, itemstack, ItemCameraTransforms.TransformType.THIRD_PERSON);
             GlStateManager.popMatrix();
         }

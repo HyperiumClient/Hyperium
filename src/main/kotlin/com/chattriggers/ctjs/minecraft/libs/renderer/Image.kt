@@ -2,7 +2,7 @@ package com.chattriggers.ctjs.minecraft.libs.renderer
 
 import cc.hyperium.event.EventBus
 import cc.hyperium.event.InvokeEvent
-import cc.hyperium.event.RenderHUDEvent
+import cc.hyperium.event.render.RenderHUDEvent
 import com.chattriggers.ctjs.CTJS
 import net.minecraft.client.renderer.texture.DynamicTexture
 import java.awt.image.BufferedImage
@@ -22,9 +22,9 @@ class Image(var image: BufferedImage?) {
     @JvmOverloads
     constructor(name: String, url: String? = null) : this(getBufferedImage(name, url))
 
-    fun getTextureWidth(): Int = this.textureWidth
-    fun getTextureHeight(): Int = this.textureHeight
-    fun getTexture(): DynamicTexture = this.texture
+    fun getTextureWidth(): Int = textureWidth
+    fun getTextureHeight(): Int = textureHeight
+    fun getTexture(): DynamicTexture = texture
 
     @InvokeEvent
     fun onRender(event: RenderHUDEvent) {
@@ -39,8 +39,8 @@ class Image(var image: BufferedImage?) {
     @JvmOverloads
     fun draw(
         x: Double, y: Double,
-        width: Double = this.textureWidth.toDouble(),
-        height: Double = this.textureHeight.toDouble()
+        width: Double = textureWidth.toDouble(),
+        height: Double = textureHeight.toDouble()
     ) = apply {
         if (image != null) return@apply
 

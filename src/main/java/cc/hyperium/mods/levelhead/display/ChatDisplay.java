@@ -22,6 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -34,15 +35,12 @@ public class ChatDisplay extends LevelheadDisplay {
     @Override
     public void tick() {
         if (Levelhead.getInstance().getLevelheadPurchaseStates().isChat()) {
-            for (NetworkPlayerInfo network : Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()) {
-                UUID uuid = network.getGameProfile().getId();
-
-                if (uuid != null) {
-                    if (!cache.containsKey(uuid)) {
-                        Levelhead.getInstance().fetch(uuid, this, false);
-                    }
-                }
-            }
+            Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()
+                .stream()
+                .map(network -> network.getGameProfile().getId())
+                .filter(Objects::nonNull)
+                .filter(uuid -> !cache.containsKey(uuid))
+                .forEach(uuid -> Levelhead.getInstance().fetch(uuid, this, false));
         }
     }
 
@@ -56,12 +54,10 @@ public class ChatDisplay extends LevelheadDisplay {
             existedMoreThan5Seconds.clear();
             existedMoreThan5Seconds.addAll(safePlayers);
 
-            for (UUID uuid : cache.keySet()) {
-                if (!safePlayers.contains(uuid)) {
-                    cache.remove(uuid);
-                    trueValueCache.remove(uuid);
-                }
-            }
+            cache.keySet().stream().filter(uuid -> !safePlayers.contains(uuid)).forEach(uuid -> {
+                cache.remove(uuid);
+                trueValueCache.remove(uuid);
+            });
         }
     }
 

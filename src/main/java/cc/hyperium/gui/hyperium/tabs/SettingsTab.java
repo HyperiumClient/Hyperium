@@ -26,7 +26,6 @@ import cc.hyperium.config.SliderSetting;
 import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
-import cc.hyperium.gui.hyperium.RGBFieldSet;
 import cc.hyperium.gui.hyperium.components.*;
 import cc.hyperium.gui.keybinds.GuiKeybinds;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
@@ -47,9 +46,9 @@ public class SettingsTab extends AbstractTab {
         super(gui, "tab.settings.name");
 
         //TODO add other settings objects
-
         //TODO maybe readd separate thing for mods
         //TODO enabled / disabled status
+
         HashMap<Category, CollapsibleTabComponent> items = new HashMap<>();
         for (Object o : gui.getSettingsObjects()) {
             for (Field f : o.getClass().getDeclaredFields()) {
@@ -70,12 +69,12 @@ public class SettingsTab extends AbstractTab {
                     category = ss.category();
                     mods = ss.mods();
                 } else if (sliderSetting != null) {
-                    tabComponent = new SliderComponent(this, Collections.emptyList(), I18n.format(sliderSetting.name()), f, o, sliderSetting.min(), sliderSetting.max(), sliderSetting.isInt(), sliderSetting.round());
+                    tabComponent = new SliderComponent(this, Collections.emptyList(), I18n.format(sliderSetting.name()), f, o, sliderSetting.min(),
+                        sliderSetting.max(), sliderSetting.isInt(), sliderSetting.round());
                     category = sliderSetting.category();
                     mods = sliderSetting.mods();
                 }
-                if (category == null)
-                    continue;
+                if (category == null) continue;
                 apply(tabComponent, mods, category, items);
                 if (objectConsumer != null) {
                     for (Consumer<Object> consumer : objectConsumer) {
@@ -89,30 +88,31 @@ public class SettingsTab extends AbstractTab {
         apply(new LinkComponent(this, Collections.emptyList(), "Youtuber Capes", new CapesGui()), false, Category.COSMETICS, items);
 
         // Link to sidebar mod's gui
-        apply(new LinkComponent(this, Collections.emptyList(), "Sidebar Mod", new GuiScreenSettings(Hyperium.INSTANCE.getInternalAddons().getSidebarAddon())), true, Category.OTHER, items);
+        apply(new LinkComponent(this, Collections.emptyList(), "Sidebar Mod",
+            new GuiScreenSettings(Hyperium.INSTANCE.getInternalAddons().getSidebarAddon())), true, Category.OTHER, items);
 
         // Link to keystrokes gui
-        apply(new LinkComponent(this, Collections.emptyList(), "Keystrokes", new GuiScreenKeystrokes(Hyperium.INSTANCE.getModIntegration().getKeystrokesMod())), true, Category.OTHER, items);
+        apply(new LinkComponent(this, Collections.emptyList(), "Keystrokes",
+            new GuiScreenKeystrokes(Hyperium.INSTANCE.getModIntegration().getKeystrokesMod())), true, Category.OTHER, items);
 
         // Link to togglechat gui
-        apply(new LinkComponent(this, Collections.emptyList(), "Togglechat", new ToggleChatMainGui(Hyperium.INSTANCE.getModIntegration().getToggleChat(), 0)), true, Category.OTHER, items);
+        apply(new LinkComponent(this, Collections.emptyList(), "Togglechat",
+            new ToggleChatMainGui(Hyperium.INSTANCE.getModIntegration().getToggleChat(), 0)), true, Category.OTHER, items);
 
         // Link to keybinds gui
-        apply(new LinkComponent(this, Collections.emptyList(), "Keybinds", new GuiKeybinds()), false, Category.GENERAL, items);
+        apply(new LinkComponent(this, Collections.emptyList(), "Keybinds",
+            new GuiKeybinds()), false, Category.GENERAL, items);
 
         // Link to custom crosshair gui
-        apply(new LinkComponent(this, Collections.emptyList(), "Custom Crosshair", new GuiCustomCrosshairEditCrosshair(Hyperium.INSTANCE.getInternalAddons().getCustomCrosshairAddon())), true, Category.OTHER, items);
+        apply(new LinkComponent(this, Collections.emptyList(), "Custom Crosshair",
+            new GuiCustomCrosshairEditCrosshair(Hyperium.INSTANCE.getInternalAddons().getCustomCrosshairAddon())), true, Category.OTHER, items);
 
-        for (RGBFieldSet rgbFieldSet : gui.getRgbFields()) {
-            apply(new RGBComponent(this, rgbFieldSet), rgbFieldSet.isMods(), rgbFieldSet.getCategory(), items);
-        }
+        gui.getRgbFields().forEach(field -> apply(new RGBComponent(this, field), field.isMods(), field.getCategory(), items));
 
         Collection<CollapsibleTabComponent> values = items.values();
         List<CollapsibleTabComponent> c = new ArrayList<>(values);
 
-        for (CollapsibleTabComponent value : values) {
-            value.sortSelf();
-        }
+        values.forEach(CollapsibleTabComponent::sortSelf);
 
         c.sort(Comparator.comparing(CollapsibleTabComponent::getLabel));
         components.addAll(c);
@@ -134,13 +134,15 @@ public class SettingsTab extends AbstractTab {
                     b = true;
                 }
             }
+
             if (!b) {
                 CollapsibleTabComponent c = new CollapsibleTabComponent(this, Collections.emptyList(), category.getDisplay());
                 collapsibleTabComponent.addChild(c);
                 c.addChild(component);
                 c.setParent(collapsibleTabComponent);
             }
-        } else
+        } else {
             collapsibleTabComponent.addChild(component);
+        }
     }
 }

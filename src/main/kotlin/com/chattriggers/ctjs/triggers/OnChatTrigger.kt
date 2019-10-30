@@ -1,6 +1,6 @@
 package com.chattriggers.ctjs.triggers
 
-import cc.hyperium.event.ServerChatEvent
+import cc.hyperium.event.network.chat.ServerChatEvent
 import com.chattriggers.ctjs.engine.ILoader
 import java.util.*
 import java.util.regex.Pattern
@@ -106,13 +106,13 @@ class OnChatTrigger(method: Any, type: TriggerType, loader: ILoader) : OnTrigger
 
     // helper method to get the proper chat message based on the presence of color codes
     private fun getChatMessage(chatEvent: ServerChatEvent, chatMessage: String) =
-        if (this.chatCriteria.contains("&"))
+        if (chatCriteria.contains("&"))
             chatEvent.chat.formattedText.replace("\u00a7", "&")
         else chatMessage
 
     // helper method to get the variables to pass through
     private fun getVariables(chatMessage: String) =
-        if ("" != this.chatCriteria) matchesChatCriteria(chatMessage.replace("\n", "->newLine<-")) else ArrayList()
+        if ("" != chatCriteria) matchesChatCriteria(chatMessage.replace("\n", "->newLine<-")) else ArrayList()
 
     /**
      * A method to check whether or not a received chat message
@@ -127,7 +127,7 @@ class OnChatTrigger(method: Any, type: TriggerType, loader: ILoader) : OnTrigger
         if (parameters.isEmpty()) {
             if (!matcher.matches()) return null
         } else {
-            for (parameter in this.parameters) {
+            for (parameter in parameters) {
                 when {
                     parameter == Parameter.CONTAINS -> if (!matcher.find()) return null
                     parameter == Parameter.START -> if (!matcher.find() || matcher.start() != 0) return null

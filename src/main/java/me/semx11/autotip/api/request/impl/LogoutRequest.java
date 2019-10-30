@@ -25,7 +25,7 @@ public class LogoutRequest implements Request<LogoutReply> {
     @Override
     public LogoutReply execute() {
         HttpUriRequest request = GetBuilder.of(this)
-                .addParameter("key", this.sessionKey)
+                .addParameter("key", sessionKey)
                 .build();
 
         Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());

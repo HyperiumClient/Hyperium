@@ -28,6 +28,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 public class CommandMessage implements BaseCommand {
+
     @Override
     public String getName() {
         return "msg";
@@ -66,8 +67,7 @@ public class CommandMessage implements BaseCommand {
             try {
                 for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().getKeys()) {
                     String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().optJSONObject(s).optString("name");
-                    if (!name.isEmpty())
-                        tabUsernames.add(name);
+                    if (!name.isEmpty()) tabUsernames.add(name);
                 }
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();

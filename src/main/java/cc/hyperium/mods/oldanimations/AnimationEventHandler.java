@@ -18,7 +18,7 @@
 package cc.hyperium.mods.oldanimations;
 
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.render.RenderEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.potion.Potion;

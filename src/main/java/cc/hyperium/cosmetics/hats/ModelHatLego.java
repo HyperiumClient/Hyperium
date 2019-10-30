@@ -23,63 +23,66 @@ import net.minecraft.entity.Entity;
 
 public class ModelHatLego extends ModelBase {
 
-    ModelRenderer Part_0; // Box_0
-    ModelRenderer Part_1; // Box_1
-    ModelRenderer Part_2; // Box_2
-    ModelRenderer Part_3; // Box_3
-    ModelRenderer Part_4; // Box_4
+    private ModelRenderer brickBase;
+    private ModelRenderer topLeftBrick;
+    private ModelRenderer bottomLeftBrick;
+    private ModelRenderer bottomRightBrick;
+    private ModelRenderer topRightBrick;
 
     public ModelHatLego() {
         textureWidth = 64;
         textureHeight = 32;
 
-        Part_0 = new ModelRenderer(this, 1, 1); // Box_9
-        Part_0.addBox(-4.5F, 0F, -4.5F, 9, 4, 9);
-        Part_0.setRotationPoint(0F, -4F, 0F);
-        Part_0.setTextureSize(64, 32);
-        Part_0.mirror = true;
-        setRotation(Part_0, 0F, 0F, 0F);
-        Part_1 = new ModelRenderer(this, 33, 1); // Box_10
-        Part_1.addBox(1F, -1F, -4F, 3, 1, 3);
-        Part_1.setRotationPoint(0F, -4F, 0F);
-        Part_1.setTextureSize(64, 32);
-        Part_1.mirror = true;
-        setRotation(Part_1, 0F, 0F, 0F);
-        Part_2 = new ModelRenderer(this, 49, 1); // Box_11
-        Part_2.addBox(1F, -1F, 1F, 3, 1, 3);
-        Part_2.setRotationPoint(0F, -4F, 0F);
-        Part_2.setTextureSize(64, 32);
-        Part_2.mirror = true;
-        setRotation(Part_2, 0F, 0F, 0F);
-        Part_3 = new ModelRenderer(this, 41, 9); // Box_12
-        Part_3.addBox(-4F, -1F, 1F, 3, 1, 3);
-        Part_3.setRotationPoint(0F, -4F, 0F);
-        Part_3.setTextureSize(64, 32);
-        Part_3.mirror = true;
-        setRotation(Part_3, 0F, 0F, 0F);
-        Part_4 = new ModelRenderer(this, 1, 17); // Box_13
-        Part_4.addBox(-4F, -1F, -4F, 3, 1, 3);
-        Part_4.setRotationPoint(0F, -4F, 0F);
-        Part_4.setTextureSize(64, 32);
-        Part_4.mirror = true;
-        setRotation(Part_4, 0F, 0F, 0F);
+        brickBase = new ModelRenderer(this, 1, 1);
+        brickBase.addBox(-4.5F, 0F, -4.5F, 9, 4, 9);
+        brickBase.setRotationPoint(0F, -4F, 0F);
+        brickBase.setTextureSize(textureWidth, textureHeight);
+        brickBase.mirror = true;
+        setRotation(brickBase);
 
+        topLeftBrick = new ModelRenderer(this, 33, 1);
+        topLeftBrick.addBox(1F, -1F, -4F, 3, 1, 3);
+        topLeftBrick.setRotationPoint(0F, -4F, 0F);
+        topLeftBrick.setTextureSize(64, 32);
+        topLeftBrick.mirror = true;
+        setRotation(topLeftBrick);
+
+        bottomLeftBrick = new ModelRenderer(this, 49, 1);
+        bottomLeftBrick.addBox(1F, -1F, 1F, 3, 1, 3);
+        bottomLeftBrick.setRotationPoint(0F, -4F, 0F);
+        bottomLeftBrick.setTextureSize(64, 32);
+        bottomLeftBrick.mirror = true;
+        setRotation(bottomLeftBrick);
+
+        bottomRightBrick = new ModelRenderer(this, 41, 9);
+        bottomRightBrick.addBox(-4F, -1F, 1F, 3, 1, 3);
+        bottomRightBrick.setRotationPoint(0F, -4F, 0F);
+        bottomRightBrick.setTextureSize(64, 32);
+        bottomRightBrick.mirror = true;
+        setRotation(bottomRightBrick);
+
+        topRightBrick = new ModelRenderer(this, 1, 17);
+        topRightBrick.addBox(-4F, -1F, -4F, 3, 1, 3);
+        topRightBrick.setRotationPoint(0F, -4F, 0F);
+        topRightBrick.setTextureSize(64, 32);
+        topRightBrick.mirror = true;
+        setRotation(topRightBrick);
     }
 
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         super.render(entity, f, f1, f2, f3, f4, f5);
         setRotationAngles(f, f1, f2, f3, f4, f5);
-        Part_0.render(f5); // Box_0
-        Part_1.render(f5); // Box_1
-        Part_2.render(f5); // Box_2
-        Part_3.render(f5); // Box_3
-        Part_4.render(f5); // Box_4
+        brickBase.render(f5);
+        topLeftBrick.render(f5);
+        bottomLeftBrick.render(f5);
+        bottomRightBrick.render(f5);
+        topRightBrick.render(f5);
     }
 
-    private void setRotation(ModelRenderer model, float x, float y, float z) {
-        model.rotateAngleX = x;
-        model.rotateAngleY = y;
-        model.rotateAngleZ = z;
+    private void setRotation(ModelRenderer model) {
+        model.rotateAngleX = 0;
+        model.rotateAngleY = 0;
+        model.rotateAngleZ = 0;
     }
 
     public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5) {

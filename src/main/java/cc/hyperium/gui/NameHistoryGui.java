@@ -17,8 +17,8 @@
 
 package cc.hyperium.gui;
 
-import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.utils.HyperiumFontRenderer;
 import me.kbrewster.mojangapi.MojangAPI;
 import me.kbrewster.mojangapi.profile.Name;
 import net.minecraft.client.gui.GuiScreen;
@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 public class NameHistoryGui extends GuiScreen {
 
@@ -80,25 +81,14 @@ public class NameHistoryGui extends GuiScreen {
         //Text Box
         nameField.drawTextBox();
         int defaultColour = Color.WHITE.getRGB();
-        for (int i = 0; i < names.size(); i++) {
-
+        // Check if names have been scrolled outside of bounding box.
+        // Highlight current and original names.
+        IntStream.range(0, names.size()).forEach(i -> {
             float xPos = (width >> 1) - (115 >> 1);
             float yPos = bottom + (i * 10) + offset;
-
-            // Check if names have been scrolled outside of bounding box.
-            if (yPos < (height / 5f) + 32) {
-                continue;
-            }
-
-            // Highlight current and original names.
-            if (i == 0) {
-                mc.fontRendererObj.drawString(names.get(i), (int) xPos, (int) yPos, Color.YELLOW.getRGB());
-            } else if (i == names.size() - 1) {
-                mc.fontRendererObj.drawString(names.get(i), (int) xPos, (int) yPos, Color.GREEN.getRGB());
-            } else {
-                mc.fontRendererObj.drawString(names.get(i), (int) xPos, (int) yPos, defaultColour);
-            }
-        }
+            if (yPos < (height / 5f) + 32) return;
+            mc.fontRendererObj.drawString(names.get(i), (int) xPos, (int) yPos, i == 0 ? Color.YELLOW.getRGB() : i == names.size() - 1 ? Color.GREEN.getRGB() : defaultColour);
+        });
     }
 
     @Override
@@ -107,6 +97,7 @@ public class NameHistoryGui extends GuiScreen {
             names.clear();
             getNames(nameField.getText());
         }
+
         nameField.textboxKeyTyped(typedChar, keyCode);
         name = nameField.getText();
         super.keyTyped(typedChar, keyCode);
@@ -127,24 +118,15 @@ public class NameHistoryGui extends GuiScreen {
     private void getNames(String username) {
         offset = 0;
         try {
-            if (username.isEmpty()) {
-                return;
-            }
+            if (username.isEmpty()) return;
 
             UUID uuid = MojangAPI.getUUID(username);
 
-            Multithreading.runAsync(() -> {
-                for (Name history : MojangAPI.getNameHistory(uuid)) {
-                    String name = history.getName();
-                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
-                    if (history.getChangedToAt() == 0) {
-                        names.add(name);
-                    } else {
-                        names.add(String.format("%s > %s", name, format.format(history.getChangedToAt())));
-                    }
-                }
-            });
+            Multithreading.runAsync(() -> MojangAPI.getNameHistory(uuid).forEach(history -> {
+                String name = history.getName();
+                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                names.add(history.getChangedToAt() == 0 ? name : String.format("%s > %s", name, format.format(history.getChangedToAt())));
+            }));
         } catch (Exception e) {
             e.printStackTrace();
         }

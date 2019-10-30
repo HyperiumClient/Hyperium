@@ -37,7 +37,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -50,7 +49,7 @@ public class GuiHyperiumCredits extends HyperiumGui {
 
     private static LinkedHashMap<String, DynamicTexture> contributors = new LinkedHashMap<>();
     private static HashMap<String, Integer> commits = new HashMap<>();
-    private static String err = "";
+    private static String err;
 
     static {
         System.setProperty("http.agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
@@ -69,7 +68,7 @@ public class GuiHyperiumCredits extends HyperiumGui {
         drawDefaultBackground();
         FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
         GlStateManager.scale(2f, 2f, 2f);
-        drawCenteredString(fr, err.isEmpty() ? (contributors.isEmpty() ? "Loading contributors..." : "Contributors") : "Error: " + err, width / 4, 20 + offY / 2, 0xFFFFFF);
+        drawCenteredString(fr, err.isEmpty() ? (contributors.isEmpty() ? "Loading contributors..." : "Contributors") : "Error: " + err, width / 4, 20 + offY / 2, -1);
         GlStateManager.scale(0.5f, 0.5f, 0.5f);
         int x = width / 2 - 100;
         AtomicInteger y = new AtomicInteger(70 + offY);
@@ -99,8 +98,10 @@ public class GuiHyperiumCredits extends HyperiumGui {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        if (keyCode == Keyboard.KEY_ESCAPE)
+        if (keyCode == Keyboard.KEY_ESCAPE) {
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(prevGui);
+        }
+
         super.keyTyped(typedChar, keyCode);
     }
 
@@ -112,10 +113,12 @@ public class GuiHyperiumCredits extends HyperiumGui {
             StreamSupport.stream(a.spliterator(), false).map(JsonElement::getAsJsonObject).filter(o -> o.has("total") &
                 o.get("total").getAsInt() > 20).sorted(Comparator.comparingLong(o -> ((JsonObject) o).get("total").getAsInt()).reversed()).forEach(o -> {
                 JsonObject con = o.get("author").getAsJsonObject();
+
                 try {
                     BufferedImage bi = ImageIO.read(new URL(con.get("avatar_url").getAsString() + "&size=64"));
                     Minecraft.getMinecraft().addScheduledTask(() -> {
                         DynamicTexture tx = new DynamicTexture(bi);
+
                         try {
                             tx.loadTexture(Minecraft.getMinecraft().getResourceManager());
                             contributors.put(con.get("login").getAsString(), tx);

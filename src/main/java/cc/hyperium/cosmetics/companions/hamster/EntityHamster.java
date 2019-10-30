@@ -32,126 +32,103 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityHamster extends EntityTameable {
+
     public EntityHamster(World worldIn) {
         super(worldIn);
-
-        this.setSize(0.4F, 0.2F);
-
-        ((PathNavigateGround) this.getNavigator()).setAvoidsWater(true);
-        this.tasks.addTask(1, new EntityAIFollowOwner(this, 1f, 10f, 2f));
-        this.tasks.addTask(2, new EntityAIWander(this, 1));
-        this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayerSP.class, 8f));
-        this.tasks.addTask(3, new EntityAILookIdle(this));
-
+        setSize(0.4F, 0.2F);
+        ((PathNavigateGround) getNavigator()).setAvoidsWater(true);
+        tasks.addTask(1, new EntityAIFollowOwner(this, 1f, 10f, 2f));
+        tasks.addTask(2, new EntityAIWander(this, 1));
+        tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayerSP.class, 8f));
+        tasks.addTask(3, new EntityAILookIdle(this));
         setTamed(true);
-
-        this.preventEntitySpawning = false;
+        preventEntitySpawning = false;
     }
 
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-
-        this.updateEntityActionState();
+        updateEntityActionState();
     }
 
     @Override
     public void moveEntityWithHeading(float strafe, float forward) {
-        if (!this.isInWater()) {
-            if (!this.isInLava()) {
+        if (!isInWater()) {
+            if (!isInLava()) {
                 float f4 = 0.91F;
 
-                if (this.onGround) {
-                    f4 = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1, MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.91F;
+                if (onGround) {
+                    f4 = worldObj.getBlockState(new BlockPos(MathHelper.floor_double(posX), MathHelper.floor_double(getEntityBoundingBox().minY) - 1,
+                        MathHelper.floor_double(posZ))).getBlock().slipperiness * 0.91F;
                 }
 
                 float f = 0.16277136F / (f4 * f4 * f4);
-                float f5;
-
-                if (this.onGround) {
-                    f5 = this.getAIMoveSpeed() * f;
-                } else {
-                    f5 = this.jumpMovementFactor;
-                }
-
-                this.moveFlying(strafe, forward, f5);
+                float f5 = onGround ? getAIMoveSpeed() * f : jumpMovementFactor;
+                moveFlying(strafe, forward, f5);
                 f4 = 0.91F;
 
-                if (this.onGround) {
-                    f4 = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1, MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.91F;
+                if (onGround) {
+                    f4 = worldObj.getBlockState(new BlockPos(MathHelper.floor_double(posX), MathHelper.floor_double(getEntityBoundingBox().minY) - 1,
+                        MathHelper.floor_double(posZ))).getBlock().slipperiness * 0.91F;
                 }
 
-                if (this.isOnLadder()) {
+                if (isOnLadder()) {
                     float f6 = 0.15F;
-                    this.motionX = MathHelper.clamp_double(this.motionX, (double) (-f6), (double) f6);
-                    this.motionZ = MathHelper.clamp_double(this.motionZ, (double) (-f6), (double) f6);
-                    this.fallDistance = 0.0F;
-
-                    if (this.motionY < -0.15D) {
-                        this.motionY = -0.15D;
-                    }
+                    motionX = MathHelper.clamp_double(motionX, -f6, f6);
+                    motionZ = MathHelper.clamp_double(motionZ, -f6, f6);
+                    fallDistance = 0.0F;
+                    if (motionY < -0.15D) motionY = -0.15D;
                 }
 
-                this.moveEntity(this.motionX, this.motionY, this.motionZ);
+                moveEntity(motionX, motionY, motionZ);
 
-                if (this.isCollidedHorizontally && this.isOnLadder()) {
-                    this.motionY = 0.2D;
-                }
+                if (isCollidedHorizontally && isOnLadder()) motionY = 0.2D;
 
-                if (this.worldObj.isRemote && (!this.worldObj.isBlockLoaded(new BlockPos((int) this.posX, 0, (int) this.posZ)) || !this.worldObj.getChunkFromBlockCoords(new BlockPos((int) this.posX, 0, (int) this.posZ)).isLoaded())) {
-                    if (this.posY > 0.0D) {
-                        this.motionY = -0.1D;
-                    } else {
-                        this.motionY = 0.0D;
-                    }
+                if (worldObj.isRemote && (!worldObj.isBlockLoaded(new BlockPos((int) posX, 0, (int) posZ)) ||
+                    !worldObj.getChunkFromBlockCoords(new BlockPos((int) posX, 0, (int) posZ)).isLoaded())) {
+                    motionY = posY > 0.0D ? -0.1D : 0.0D;
                 } else {
-                    this.motionY -= 0.08D;
+                    motionY -= 0.08D;
                 }
 
-                this.motionY *= 0.9800000190734863D;
-                this.motionX *= (double) f4;
-                this.motionZ *= (double) f4;
+                motionY *= 0.9800000190734863D;
+                motionX *= f4;
+                motionZ *= f4;
             } else {
-                double d1 = this.posY;
-                this.moveFlying(strafe, forward, 0.02F);
-                this.moveEntity(this.motionX, this.motionY, this.motionZ);
-                this.motionX *= 0.5D;
-                this.motionY *= 0.5D;
-                this.motionZ *= 0.5D;
-                this.motionY -= 0.02D;
+                double d1 = posY;
+                moveFlying(strafe, forward, 0.02F);
+                moveEntity(motionX, motionY, motionZ);
+                motionX *= 0.5D;
+                motionY *= 0.5D;
+                motionZ *= 0.5D;
+                motionY -= 0.02D;
 
-                if (this.isCollidedHorizontally && this.isOffsetPositionInLiquid(this.motionX, this.motionY + 0.6000000238418579D - this.posY + d1, this.motionZ)) {
-                    this.motionY = 0.30000001192092896D;
+                if (isCollidedHorizontally && isOffsetPositionInLiquid(motionX, motionY + 0.6000000238418579D - posY + d1, motionZ)) {
+                    motionY = 0.30000001192092896D;
                 }
             }
         } else {
-            double d0 = this.posY;
+            double d0 = posY;
             float f1 = 0.8F;
             float f2 = 0.02F;
             float f3 = (float) EnchantmentHelper.getDepthStriderModifier(this);
-
-            if (f3 > 3.0F) {
-                f3 = 3.0F;
-            }
-
-            if (!this.onGround) {
-                f3 *= 0.5F;
-            }
+            if (f3 > 3.0F) f3 = 3.0F;
+            if (!onGround) f3 *= 0.5F;
 
             if (f3 > 0.0F) {
                 f1 += (0.54600006F - f1) * f3 / 3.0F;
-                f2 += (this.getAIMoveSpeed() * 1.0F - f2) * f3 / 3.0F;
+                f2 += (getAIMoveSpeed() * 1.0F - f2) * f3 / 3.0F;
             }
 
-            this.moveFlying(strafe, forward, f2);
-            this.moveEntity(this.motionX, this.motionY, this.motionZ);
-            this.motionX *= (double) f1;
-            this.motionY *= 0.800000011920929D;
-            this.motionZ *= (double) f1;
-            this.motionY -= 0.02D;
+            moveFlying(strafe, forward, f2);
+            moveEntity(motionX, motionY, motionZ);
+            motionX *= f1;
+            motionY *= 0.800000011920929D;
+            motionZ *= f1;
+            motionY -= 0.02D;
 
-            if (this.isCollidedHorizontally && this.isOffsetPositionInLiquid(this.motionX, this.motionY + 0.6000000238418579D - this.posY + d0, this.motionZ)) {
-                this.motionY = 0.30000001192092896D;
+            if (isCollidedHorizontally && isOffsetPositionInLiquid(motionX, motionY + 0.6000000238418579D - posY + d0, motionZ)) {
+                motionY = 0.30000001192092896D;
             }
         }
 

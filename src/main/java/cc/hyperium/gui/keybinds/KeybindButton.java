@@ -20,7 +20,7 @@ package cc.hyperium.gui.keybinds;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.interact.KeyPressEvent;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
@@ -31,7 +31,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class KeybindButton extends GuiButton {
 
@@ -40,24 +40,19 @@ public class KeybindButton extends GuiButton {
 
     KeybindButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText, HyperiumBind bind) {
         super(buttonId, x, y, widthIn, heightIn, buttonText);
-        this.btnBind = bind;
-        this.displayString = getName(bind.getKeyCode());
+        btnBind = bind;
+        displayString = getName(bind.getKeyCode());
         EventBus.INSTANCE.register(this);
         detectConflicts();
     }
 
     public void setText(String text) {
-        this.displayString = text;
+        displayString = text;
     }
 
     void setListening(boolean listening) {
         this.listening = listening;
-
-        if (!listening) {
-            displayString = getName(btnBind.getKeyCode());
-        } else {
-            displayString = ChatColor.YELLOW + "LISTENING...";
-        }
+        displayString = !listening ? getName(btnBind.getKeyCode()) : ChatColor.YELLOW + "LISTENING...";
     }
 
     boolean isListening() {
@@ -65,28 +60,18 @@ public class KeybindButton extends GuiButton {
     }
 
     private String getName(int keyCode) {
-        if (keyCode < 0) {
-            return Mouse.getButtonName(keyCode + 100);
-        } else {
-            return Keyboard.getKeyName(keyCode);
-        }
+        return keyCode < 0 ? Mouse.getButtonName(keyCode + 100) : Keyboard.getKeyName(keyCode);
     }
 
     @InvokeEvent
-    public void keyEvent(KeypressEvent event) {
-        if (listening) {
-            if (event.getKey() == Keyboard.KEY_ESCAPE) {
-                setBindKey(0);
-            } else {
-                setBindKey(event.getKey());
-            }
-        }
+    public void keyEvent(KeyPressEvent event) {
+        if (listening) setBindKey(event.getKey() == Keyboard.KEY_ESCAPE ? 0 : event.getKey());
     }
 
     private void setBindKey(int key) {
         listening = false;
         displayString = getName(key);
-        this.btnBind.setKeyCode(key);
+        btnBind.setKeyCode(key);
         detectConflicts();
     }
 
@@ -99,48 +84,43 @@ public class KeybindButton extends GuiButton {
      * Minecraft method modified to accommodate scrolling offset.
      */
     void drawDynamicButton(Minecraft mc, int mouseX, int mouseY, int x, int y) {
-        this.xPosition = x;
-        this.yPosition = y;
-        if (this.visible) {
+        xPosition = x;
+        yPosition = y;
+        if (visible) {
             FontRenderer fontrenderer = mc.fontRendererObj;
             mc.getTextureManager().bindTexture(buttonTextures);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
-            int i = this.getHoverState(this.hovered);
+            hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+            int hoverState = getHoverState(hovered);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
-            this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
-            this.mouseDragged(mc, mouseX, mouseY);
-            int j = 14737632;
+            drawTexturedModalRect(xPosition, yPosition, 0, 46 + hoverState * 20, width / 2, height);
+            drawTexturedModalRect(xPosition + width / 2, yPosition, 200 - width / 2, 46 + hoverState * 20, width / 2, height);
+            mouseDragged(mc, mouseX, mouseY);
+            int textColor = 14737632;
 
-            if (!this.enabled) {
-                j = 10526880;
-            } else if (this.hovered) {
-                j = 16777120;
-            }
+            if (!enabled) textColor = 10526880;
+            else if (hovered) textColor = 16777120;
 
             if (!btnBind.isConflicted()) {
-                this.drawCenteredString(fontrenderer, this.displayString,
-                    this.xPosition + this.width / 2,
-                    this.yPosition + (this.height - 8) / 2, j);
+                drawCenteredString(fontrenderer, displayString,
+                    xPosition + width / 2,
+                    yPosition + (height - 8) / 2, textColor);
             } else {
-                this.drawCenteredString(fontrenderer, this.displayString,
-                    this.xPosition + this.width / 2,
-                    this.yPosition + (this.height - 8) / 2, Color.RED.getRGB());
+                drawCenteredString(fontrenderer, ChatColor.RED + displayString,
+                    xPosition + width / 2,
+                    yPosition + (height - 8) / 2, Color.RED.getRGB());
             }
         }
     }
 
-    boolean mousePressedDyanmic(int mouseX, int mouseY) {
-        return this.enabled && this.visible && mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+    boolean mousePressedDynamic(int mouseX, int mouseY) {
+        return enabled && visible && mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
     }
 
     void detectConflicts() {
-        for (HyperiumBind hyperiumBind : Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values()) {
-            hyperiumBind.detectConflicts();
-        }
+        Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values().forEach(HyperiumBind::detectConflicts);
     }
 
     void mouseButtonClicked(int mouseButton) {

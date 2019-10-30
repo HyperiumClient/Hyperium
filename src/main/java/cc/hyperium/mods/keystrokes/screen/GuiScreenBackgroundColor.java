@@ -34,6 +34,7 @@ public class GuiScreenBackgroundColor extends GuiScreen implements IScreen {
                 updated = true;
             }
         });
+
         buttonList.add(new GuiSlider(1, width / 2 - 80, calculateHeight(4), 150, 20, "Green: ", "",
             0, 255, green.getAmount(), false, true) {
             @Override
@@ -43,6 +44,7 @@ public class GuiScreenBackgroundColor extends GuiScreen implements IScreen {
                 updated = true;
             }
         });
+
         buttonList.add(new GuiSlider(2, width / 2 - 80, calculateHeight(5), 150, 20, "Blue: ", "",
             0, 255, blue.getAmount(), false, true) {
             @Override
@@ -52,23 +54,19 @@ public class GuiScreenBackgroundColor extends GuiScreen implements IScreen {
                 updated = true;
             }
         });
+
         buttonList.add(new GuiButton(3, 5, height - 25, 100, 20, "Back"));
     }
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        if (button.id == 3) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(mod));
-        }
+        if (button.id == 3) Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(mod));
     }
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        if (keyCode == 1) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(mod));
-        } else {
-            super.keyTyped(typedChar, keyCode);
-        }
+        if (keyCode == 1) Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(mod));
+        else super.keyTyped(typedChar, keyCode);
     }
 
     @Override
@@ -80,9 +78,7 @@ public class GuiScreenBackgroundColor extends GuiScreen implements IScreen {
 
     @Override
     public void onGuiClosed() {
-        if (updated) {
-            mod.getSettings().save();
-        }
+        if (updated) mod.getSettings().save();
     }
 
     @Override

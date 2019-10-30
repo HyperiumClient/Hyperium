@@ -40,11 +40,9 @@ public class AboveHeadDisplay extends LevelheadDisplay {
 
     @Override
     public void tick() {
-        for (EntityPlayer player : Minecraft.getMinecraft().theWorld.playerEntities) {
+        Minecraft.getMinecraft().theWorld.playerEntities.forEach(player -> {
             if (!existedMoreThan5Seconds.contains(player.getUniqueID())) {
-                if (!timeCheck.containsKey(player.getUniqueID())) {
-                    timeCheck.put(player.getUniqueID(), 0);
-                }
+                if (!timeCheck.containsKey(player.getUniqueID())) timeCheck.put(player.getUniqueID(), 0);
 
                 int old = timeCheck.get(player.getUniqueID());
                 if (old > 100) {
@@ -58,11 +56,9 @@ public class AboveHeadDisplay extends LevelheadDisplay {
 
             if (loadOrRender(player)) {
                 UUID uuid = player.getUniqueID();
-                if (!cache.containsKey(uuid)) {
-                    Levelhead.getInstance().fetch(uuid, this, bottomValue);
-                }
+                if (!cache.containsKey(uuid)) Levelhead.getInstance().fetch(uuid, this, bottomValue);
             }
-        }
+        });
     }
 
     @Override
@@ -76,12 +72,10 @@ public class AboveHeadDisplay extends LevelheadDisplay {
             existedMoreThan5Seconds.clear();
             existedMoreThan5Seconds.addAll(safePlayers);
 
-            for (UUID uuid : cache.keySet()) {
-                if (!safePlayers.contains(uuid)) {
-                    cache.remove(uuid);
-                    trueValueCache.remove(uuid);
-                }
-            }
+            cache.keySet().stream().filter(uuid -> !safePlayers.contains(uuid)).forEach(uuid -> {
+                cache.remove(uuid);
+                trueValueCache.remove(uuid);
+            });
         }
     }
 
@@ -95,51 +89,23 @@ public class AboveHeadDisplay extends LevelheadDisplay {
     @Override
     public boolean loadOrRender(EntityPlayer player) {
         for (PotionEffect effect : player.getActivePotionEffects()) {
-            if (effect.getPotionID() == 14) {
-                return false;
-            }
+            if (effect.getPotionID() == 14) return false;
         }
 
-        if (!renderFromTeam(player)) {
-            return false;
-        }
-
-        if (player.riddenByEntity != null) {
+        if (!renderFromTeam(player) || player.riddenByEntity != null) {
             return false;
         }
 
         int renderDistance = Levelhead.getInstance().getDisplayManager().getMasterConfig().getRenderDistance();
         int min = Math.min(64 * 64, renderDistance * renderDistance);
-
-        if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min) {
-            return false;
-        }
-
-        if (player.hasCustomName() && player.getCustomNameTag().isEmpty()) {
-            return false;
-        }
-
-        if (player.getDisplayName().toString().isEmpty()) {
-            return false;
-        }
-
-        if (!existedMoreThan5Seconds.contains(player.getUniqueID())) {
-            return false;
-        }
-
-        if (player.getDisplayName().getFormattedText().contains(ChatColor.COLOR_CHAR + "k")) {
-            return false;
-        }
-
-        if (player.isInvisible() || player.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer)) {
-            return false;
-        }
-
-        if (player.isSneaking()) {
-            return false;
-        }
-
-        return true;
+        return !(player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min) &&
+            (!player.hasCustomName() || !player.getCustomNameTag().isEmpty()) &&
+            !player.getDisplayName().toString().isEmpty() &&
+            existedMoreThan5Seconds.contains(player.getUniqueID()) &&
+            !player.getDisplayName().getFormattedText().contains(ChatColor.COLOR_CHAR + "k") &&
+            !player.isInvisible() &&
+            !player.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) &&
+            !player.isSneaking();
     }
 
     private boolean renderFromTeam(EntityPlayer player) {

@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins.item;
 
-import cc.hyperium.event.ItemTooltipEvent;
+import cc.hyperium.event.world.item.ItemTooltipEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

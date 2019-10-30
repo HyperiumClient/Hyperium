@@ -18,7 +18,7 @@
 package cc.hyperium.mixinsimp.entity;
 
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.LivingDeathEvent;
+import cc.hyperium.event.entity.LivingDeathEvent;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
@@ -35,9 +35,7 @@ public class HyperiumEntityLivingBase {
 
     public void getLook(CallbackInfoReturnable<Vec3> ci, Vec3 look) {
         EntityLivingBase base = parent;
-        if (base instanceof EntityPlayerSP) {
-            ci.setReturnValue(look);
-        }
+        if (base instanceof EntityPlayerSP) ci.setReturnValue(look);
     }
 
     public void onDeath(DamageSource source) {

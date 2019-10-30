@@ -41,12 +41,12 @@ public class TypeMysteryBox extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        return this.mysteryPattern.matcher(message).matches() || this.mysteryFoundPattern.matcher(message).matches();
+        return mysteryPattern.matcher(message).matches() || mysteryFoundPattern.matcher(message).matches();
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

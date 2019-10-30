@@ -30,7 +30,7 @@ public class CCounter extends DisplayItem {
 
     public CCounter(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
-        this.height = 10;
+        height = 10;
     }
 
 
@@ -38,6 +38,6 @@ public class CCounter extends DisplayItem {
     public void draw(int starX, double startY, boolean ignored) {
         String string = ElementRenderer.getCValue();
         ElementRenderer.draw(starX, startY, string);
-        this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
+        width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
     }
 }

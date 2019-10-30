@@ -29,6 +29,7 @@ import java.util.Collections;
  * Created by Sk1er on today (It will be right for a little bit)
  */
 public class RGBComponent extends AbstractTabComponent {
+
     private RGBFieldSet fieldSet;
 
     public RGBComponent(AbstractTab tab, RGBFieldSet fieldSet) {
@@ -62,6 +63,5 @@ public class RGBComponent extends AbstractTabComponent {
 
     @Override
     public void onClick(int x, int y) {
-
     }
 }

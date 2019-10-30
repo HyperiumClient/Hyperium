@@ -43,7 +43,7 @@ public abstract class MixinMultiMap<T> {
      */
     @Overwrite
     public Iterator<T> iterator() {
-        return values.isEmpty() ? (UnmodifiableListIterator<T>) Utils.EMPTY_ITERATOR : Iterators.unmodifiableIterator(this.values.iterator());
+        return values.isEmpty() ? (UnmodifiableListIterator<T>) Utils.EMPTY_ITERATOR : Iterators.unmodifiableIterator(values.iterator());
     }
 
     /**

@@ -61,11 +61,7 @@ public abstract class HyperiumGui extends GuiScreen {
     }
 
     public static float easeOut(float current, float goal, float jump, float speed) {
-        if (Math.floor(Math.abs(goal - current) / jump) > 0) {
-            return current + (goal - current) / speed;
-        } else {
-            return goal;
-        }
+        return Math.floor(Math.abs(goal - current) / jump) > 0 ? current + (goal - current) / speed : goal;
     }
 
     /**
@@ -87,22 +83,23 @@ public abstract class HyperiumGui extends GuiScreen {
             throw new IllegalArgumentException("String cannot be null and cannot have a length less than or equal to 0.");
         } else {
             if (font == null) {
-                if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().fontRendererObj != null)
+                if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().fontRendererObj != null) {
                     font = Minecraft.getMinecraft().fontRendererObj;
-                else
+                } else {
                     throw new IllegalStateException("Param \"font\" is null and default font renderer could not be used!");
+                }
             }
 
             // Everything should be fine and dandy if you're at this point...
-            final StringBuilder strBuilder = new StringBuilder();
-            final String suffix = (appendEllipsis ? "..." : "");
+            StringBuilder strBuilder = new StringBuilder();
+            String suffix = (appendEllipsis ? "..." : "");
             int currentWidth = font.getStringWidth(suffix);
             // If suffix is already too long
             if (width < currentWidth) return suffix;
 
             // Loop through each character until too long
             for (char theChar : str.toCharArray()) {
-                final int charWidth = font.getCharWidth(theChar);
+                int charWidth = font.getCharWidth(theChar);
                 // If strWidth + next charWidth is too big then return this string, otherwise continue
                 if (width < currentWidth + charWidth) {
                     return strBuilder.append(suffix).toString();
@@ -178,27 +175,26 @@ public abstract class HyperiumGui extends GuiScreen {
     protected void actionPerformed(GuiButton button) throws IOException {
         super.actionPerformed(button);
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
-        if (guiButtonConsumer != null)
-            guiButtonConsumer.accept(button);
+        if (guiButtonConsumer != null) guiButtonConsumer.accept(button);
     }
 
     @Override
     public void updateScreen() {
         ScaledResolution current = ResolutionUtil.current();
-        if (current == null)
-            return;
+        if (current == null) return;
         if (lastResolution.getScaledWidth() != current.getScaledWidth() || lastResolution.getScaledHeight() != current.getScaledHeight()
             || lastResolution.getScaleFactor() != current.getScaleFactor())
             rePack();
 
-        this.lastResolution = current;
+        lastResolution = current;
         super.updateScreen();
-        for (GuiButton guiButton : buttonList) {
+
+        buttonList.forEach(guiButton -> {
             Consumer<GuiButton> guiButtonConsumer = updates.get(guiButton);
             if (guiButtonConsumer != null) {
                 guiButtonConsumer.accept(guiButton);
             }
-        }
+        });
     }
 
     @Override
@@ -233,11 +229,8 @@ public abstract class HyperiumGui extends GuiScreen {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
-        if (i < 0) {
-            offset += 11 * scrollMultiplier;
-        } else if (i > 0) {
-            offset -= 11 * scrollMultiplier;
-        }
+        if (i < 0) offset += 11 * scrollMultiplier;
+        else if (i > 0) offset -= 11 * scrollMultiplier;
     }
 
     public void setAlpha(int alpha) {
@@ -258,10 +251,10 @@ public abstract class HyperiumGui extends GuiScreen {
     }
 
     protected void reg(String name, GuiButton button, Consumer<GuiButton> consumer, Consumer<GuiButton> tick) {
-        this.buttonList.add(button);
-        this.clicks.put(button, consumer);
-        this.updates.put(button, tick);
-        this.nameMap.put(name, button);
+        buttonList.add(button);
+        clicks.put(button, consumer);
+        updates.put(button, tick);
+        nameMap.put(name, button);
     }
 
     protected abstract void pack();
@@ -269,7 +262,8 @@ public abstract class HyperiumGui extends GuiScreen {
     protected void drawScaledText(String text, int trueX, int trueY, double scaleFac, int color, boolean shadow, boolean centered) {
         GlStateManager.pushMatrix();
         GlStateManager.scale(scaleFac, scaleFac, scaleFac);
-        fontRendererObj.drawString(text, (float) (((double) trueX) / scaleFac) - (centered ? fontRendererObj.getStringWidth(text) / 2f : 0), (float) (((double) trueY) / scaleFac), color, shadow);
+        fontRendererObj.drawString(text, (float) (((double) trueX) / scaleFac) - (centered ? fontRendererObj.getStringWidth(text) / 2f : 0),
+            (float) (((double) trueY) / scaleFac), color, shadow);
         GlStateManager.scale(1 / scaleFac, 1 / scaleFac, 1 / scaleFac);
         GlStateManager.popMatrix();
     }

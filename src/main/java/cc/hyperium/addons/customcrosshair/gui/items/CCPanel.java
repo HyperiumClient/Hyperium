@@ -37,58 +37,58 @@ public class CCPanel extends CCGuiItem {
 
     public CCPanel(final GuiScreen screen, final int id, final int x, final int y, final int width, final int height, final int cWidth, final int cHeight) {
         super(screen, id, "", x, y, width, height);
-        this.contentWidth = cWidth;
-        this.contentHeight = cHeight;
-        if (this.contentHeight > this.getHeight()) {
-            this.verticalScroll = true;
+        contentWidth = cWidth;
+        contentHeight = cHeight;
+        if (contentHeight > getHeight()) {
+            verticalScroll = true;
         }
-        if (this.contentWidth > this.getWidth()) {
-            this.horizontalScroll = true;
+        if (contentWidth > getWidth()) {
+            horizontalScroll = true;
         }
-        this.scrollSize = 10;
-        this.boxSize = 30;
+        scrollSize = 10;
+        boxSize = 30;
     }
 
     @Override
     public void drawItem(final int mouseX, final int mouseY) {
         CustomCrosshairGraphics
-            .drawBorderedRectangle(this.getPosX(), this.getPosY(), this.getPosX() + this.getWidth(), this.getPosY() + this.getHeight(), new Color(255, 255, 255, 32), CustomCrosshairAddon.SECONDARY);
-        if (this.verticalScrollMouseDown) {
-            this.verticalScrollPosition = mouseY - this.getPosY();
-            if (this.verticalScrollPosition < 0) {
-                this.verticalScrollPosition = 0;
+            .drawBorderedRectangle(getPosX(), getPosY(), getPosX() + getWidth(), getPosY() + getHeight(), new Color(255, 255, 255, 32), CustomCrosshairAddon.SECONDARY);
+        if (verticalScrollMouseDown) {
+            verticalScrollPosition = mouseY - getPosY();
+            if (verticalScrollPosition < 0) {
+                verticalScrollPosition = 0;
             }
-            if (this.verticalScrollPosition > this.getHeight() - this.scrollSize - this.boxSize) {
-                this.verticalScrollPosition = this.getHeight() - this.scrollSize - this.boxSize;
+            if (verticalScrollPosition > getHeight() - scrollSize - boxSize) {
+                verticalScrollPosition = getHeight() - scrollSize - boxSize;
             }
         }
-        if (this.verticalScroll) {
+        if (verticalScroll) {
             CustomCrosshairGraphics
-                .drawThemeBorderedRectangle(this.getPosX() + this.getWidth() - this.scrollSize, this.getPosY(), this.getPosX() + this.getWidth(), this.getPosY() + this.getHeight() - (this.horizontalScroll ? this.scrollSize : 0));
+                .drawThemeBorderedRectangle(getPosX() + getWidth() - scrollSize, getPosY(), getPosX() + getWidth(), getPosY() + getHeight() - (horizontalScroll ? scrollSize : 0));
             CustomCrosshairGraphics
-                .drawThemeBorderedRectangle(this.getPosX() + this.getWidth() - this.scrollSize, this.getPosY() + this.verticalScrollPosition, this.getPosX() + this.getWidth(), this.getPosY() + this.verticalScrollPosition + this.boxSize);
+                .drawThemeBorderedRectangle(getPosX() + getWidth() - scrollSize, getPosY() + verticalScrollPosition, getPosX() + getWidth(), getPosY() + verticalScrollPosition + boxSize);
         }
-        if (this.horizontalScroll) {
+        if (horizontalScroll) {
             CustomCrosshairGraphics
-                .drawThemeBorderedRectangle(this.getPosX(), this.getPosY() + this.getHeight() - this.scrollSize, this.getPosX() + this.getWidth() - (this.verticalScroll ? this.scrollSize : 0), this.getPosY() + this.getHeight());
+                .drawThemeBorderedRectangle(getPosX(), getPosY() + getHeight() - scrollSize, getPosX() + getWidth() - (verticalScroll ? scrollSize : 0), getPosY() + getHeight());
             CustomCrosshairGraphics
-                .drawThemeBorderedRectangle(this.getPosX() + this.horizontalScrollPosition, this.getPosY() + this.getHeight() - this.scrollSize, this.getPosX() + this.horizontalScrollPosition + this.boxSize, this.getPosY() + this.getHeight());
+                .drawThemeBorderedRectangle(getPosX() + horizontalScrollPosition, getPosY() + getHeight() - scrollSize, getPosX() + horizontalScrollPosition + boxSize, getPosY() + getHeight());
         }
     }
 
     @Override
     public void mouseClicked(final int mouseX, final int mouseY) {
-        if (this.verticalScroll && mouseX >= this.getPosX() + this.getWidth() - this.scrollSize && mouseX < this.getPosX() + this.getWidth() && mouseY >= this.getPosY() + this.verticalScrollPosition && mouseY <= this.getPosY() + this.verticalScrollPosition + this.boxSize) {
-            this.verticalScrollMouseDown = true;
+        if (verticalScroll && mouseX >= getPosX() + getWidth() - scrollSize && mouseX < getPosX() + getWidth() && mouseY >= getPosY() + verticalScrollPosition && mouseY <= getPosY() + verticalScrollPosition + boxSize) {
+            verticalScrollMouseDown = true;
         }
-        if (this.horizontalScroll && mouseX >= this.getPosX() + this.horizontalScrollPosition && mouseX <= this.getPosX() + this.horizontalScrollPosition + this.boxSize && mouseY >= this.getPosY() + this.getHeight() - this.scrollSize && mouseY <= this.getPosY() + this.getHeight()) {
-            this.horizontalScrollMouseDown = true;
+        if (horizontalScroll && mouseX >= getPosX() + horizontalScrollPosition && mouseX <= getPosX() + horizontalScrollPosition + boxSize && mouseY >= getPosY() + getHeight() - scrollSize && mouseY <= getPosY() + getHeight()) {
+            horizontalScrollMouseDown = true;
         }
     }
 
     @Override
     public void mouseReleased(final int mouseX, final int mouseY) {
-        this.verticalScrollMouseDown = false;
-        this.horizontalScrollMouseDown = false;
+        verticalScrollMouseDown = false;
+        horizontalScrollMouseDown = false;
     }
 }

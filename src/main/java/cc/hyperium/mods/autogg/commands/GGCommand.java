@@ -45,48 +45,45 @@ public class GGCommand implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) throws CommandException {
-        if (args.length == 0 || args.length > 2) {
-            throw new CommandUsageException();
-        }
-
+        assert args.length != 0 && args.length <= 2;
         final String s = args[0];
 
         switch (s) {
             case "toggle":
             case "t": {
-                this.mod.getConfig().flipToggle();
+                mod.getConfig().flipToggle();
 
-                this.showMessage(
-                    ChatColor.GRAY + "AutoGG: " + (this.mod.getConfig().isToggled() ? (
+                showMessage(
+                    ChatColor.GRAY + "AutoGG: " + (mod.getConfig().isToggled() ? (
                         ChatColor.GREEN + "On") : (ChatColor.RED + "Off")));
 
                 saveConfig();
                 break;
             }
+
             case "delay":
             case "d":
             case "time": {
                 if (args.length == 2) {
                     try {
                         final int delay = Integer.parseInt(args[1]);
-                        if (delay < 0 || delay > 5) {
-                            throw new NumberFormatException("Invalid integer");
-                        }
-                        this.mod.getConfig().setDelay(delay);
+                        assert delay >= 0 && delay <= 5 : "Invalid integer";
+                        mod.getConfig().setDelay(delay);
 
                         saveConfig();
 
-                        this.showMessage(ChatColor.GRAY + "AutoGG delay set to "
-                            + ChatColor.GREEN + this.mod.getConfig().getDelay() + "s");
+                        showMessage(ChatColor.GRAY + "AutoGG delay set to "
+                            + ChatColor.GREEN + mod.getConfig().getDelay() + "s");
                     } catch (NumberFormatException e) {
                         showMessage(ChatColor.RED + "Error: Please use an integer between 1 and 5 seconds.");
                     }
                     break;
                 }
-                this.showMessage(
-                    ChatColor.GRAY + "AutoGG Delay: " + ChatColor.GREEN + this.mod.getConfig().getDelay() + "s");
+                showMessage(
+                    ChatColor.GRAY + "AutoGG Delay: " + ChatColor.GREEN + mod.getConfig().getDelay() + "s");
                 break;
             }
+
             default: {
                 throw new CommandUsageException();
             }

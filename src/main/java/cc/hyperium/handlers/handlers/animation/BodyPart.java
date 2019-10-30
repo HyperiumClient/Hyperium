@@ -31,16 +31,16 @@ public class BodyPart {
 
     public BodyPart calc(float percent, BodyPart next) {
         BodyPart bodyPart = new BodyPart();
-        bodyPart.rotationPointX = interpolate(this.rotationPointX, next.rotationPointX, percent);
-        bodyPart.rotationPointY = interpolate(this.rotationPointY, next.rotationPointY, percent);
-        bodyPart.rotationPointZ = interpolate(this.rotationPointZ, next.rotationPointZ, percent);
-        bodyPart.rotateAngleX = interpolate(this.rotateAngleX, next.rotateAngleX, percent);
-        bodyPart.rotateAngleY = interpolate(this.rotateAngleY, next.rotateAngleY, percent);
-        bodyPart.rotateAngleZ = interpolate(this.rotateAngleZ, next.rotateAngleZ, percent);
-        bodyPart.offsetX = interpolate(this.offsetX, next.offsetX, percent);
-        bodyPart.offsetY = interpolate(this.offsetY, next.offsetY, percent);
-        bodyPart.offsetZ = interpolate(this.offsetZ, next.offsetZ, percent);
-        bodyPart.visible = this.visible;
+        bodyPart.rotationPointX = interpolate(rotationPointX, next.rotationPointX, percent);
+        bodyPart.rotationPointY = interpolate(rotationPointY, next.rotationPointY, percent);
+        bodyPart.rotationPointZ = interpolate(rotationPointZ, next.rotationPointZ, percent);
+        bodyPart.rotateAngleX = interpolate(rotateAngleX, next.rotateAngleX, percent);
+        bodyPart.rotateAngleY = interpolate(rotateAngleY, next.rotateAngleY, percent);
+        bodyPart.rotateAngleZ = interpolate(rotateAngleZ, next.rotateAngleZ, percent);
+        bodyPart.offsetX = interpolate(offsetX, next.offsetX, percent);
+        bodyPart.offsetY = interpolate(offsetY, next.offsetY, percent);
+        bodyPart.offsetZ = interpolate(offsetZ, next.offsetZ, percent);
+        bodyPart.visible = visible;
         return bodyPart;
     }
 
@@ -62,5 +62,4 @@ public class BodyPart {
     private float interpolate(final float now, final float then, final float percent) {
         return (now + (then - now) * percent);
     }
-
 }

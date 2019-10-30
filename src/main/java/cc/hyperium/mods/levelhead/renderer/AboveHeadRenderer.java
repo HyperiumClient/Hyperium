@@ -20,7 +20,7 @@ package cc.hyperium.mods.levelhead.renderer;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderPlayerEvent;
+import cc.hyperium.event.render.RenderPlayerEvent;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.display.AboveHeadDisplay;
 import cc.hyperium.purchases.AbstractHyperiumPurchase;
@@ -64,14 +64,7 @@ public class AboveHeadRenderer {
         for (AboveHeadDisplay display : levelhead.getDisplayManager().getAboveHead()) {
             int index = display.getIndex();
             int extraHead = levelhead.getLevelheadPurchaseStates().getExtraHead();
-
-            if (index > extraHead) {
-                continue;
-            }
-
-            if (!display.getConfig().isEnabled()) {
-                continue;
-            }
+            if (index > extraHead || !display.getConfig().isEnabled()) continue;
 
             LevelheadTag levelheadTag = display.getCache().get(player.getUniqueID());
 
@@ -100,8 +93,9 @@ public class AboveHeadRenderer {
                                     if (((EarsCosmetic) purchase).isEnabled()) {
                                         offset += .3;
                                     }
-                                } else if (Settings.EARS_STATE.equalsIgnoreCase("on"))
+                                } else if (Settings.EARS_STATE.equalsIgnoreCase("on")) {
                                     offset += .2;
+                                }
                             }
                         }
                     }
@@ -168,7 +162,8 @@ public class AboveHeadRenderer {
 
         int y = 0;
         if (header.isRgb()) {
-            fontRenderer.drawString(header.getValue(), x, y, new Color((float) header.getRed() / 255F, (float) header.getGreen() / 255F, (float) header.getBlue() / 255F, .2F).getRGB());
+            fontRenderer.drawString(header.getValue(), x, y, new Color((float) header.getRed() / 255F, (float) header.getGreen() / 255F,
+                (float) header.getBlue() / 255F, .2F).getRGB());
         } else if (header.isChroma()) {
             fontRenderer.drawString(header.getValue(), x, y, Levelhead.getInstance().getDarkRGBColor());
         } else {

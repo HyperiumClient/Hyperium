@@ -1,7 +1,7 @@
 package com.chattriggers.ctjs.minecraft.objects.display
 
 import cc.hyperium.event.InvokeEvent
-import cc.hyperium.event.RenderHUDEvent
+import cc.hyperium.event.render.RenderHUDEvent
 import com.chattriggers.ctjs.utils.kotlin.KotlinListener
 import org.lwjgl.opengl.GL11
 
@@ -9,13 +9,13 @@ import org.lwjgl.opengl.GL11
 object DisplayHandler {
     private var displays = mutableListOf<Display>()
 
-    fun registerDisplay(display: Display) = this.displays.add(display)
-    fun clearDisplays() = this.displays.clear()
+    fun registerDisplay(display: Display) = displays.add(display)
+    fun clearDisplays() = displays.clear()
 
     @InvokeEvent
     fun renderDisplays(event: RenderHUDEvent) {
         GL11.glPushMatrix()
-        this.displays.forEach { it.render() }
+        displays.forEach { it.render() }
         GL11.glPopMatrix()
     }
 

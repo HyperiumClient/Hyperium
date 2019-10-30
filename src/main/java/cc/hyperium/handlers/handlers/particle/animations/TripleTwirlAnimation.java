@@ -35,7 +35,6 @@ public class TripleTwirlAnimation extends AbstractAnimation {
     public List<Vec3> render(EntityPlayer player, double x, double y, double z) {
         double l = (System.currentTimeMillis() % 1000) / 1000D;
         l *= Math.PI * 2 / 3;
-
         List<Vec3> list = new ArrayList<>();
         y += 1.8;
         Vec3 vec3 = new Vec3(x, y, z);
@@ -44,7 +43,6 @@ public class TripleTwirlAnimation extends AbstractAnimation {
         list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
         l += Math.PI * 2 / 3;
         list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
-
         return list;
     }
 

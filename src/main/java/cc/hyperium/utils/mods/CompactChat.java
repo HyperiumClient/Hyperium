@@ -18,7 +18,7 @@
 package cc.hyperium.utils.mods;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.ChatEvent;
+import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.Priority;
 import cc.hyperium.utils.ChatColor;
@@ -45,9 +45,7 @@ public class CompactChat {
      * @return the class instance
      */
     public static CompactChat getInstance() {
-        if (instance == null) {
-            instance = new CompactChat();
-        }
+        if (instance == null) instance = new CompactChat();
         return instance;
     }
 
@@ -65,30 +63,30 @@ public class CompactChat {
             GuiNewChat guiNewChat = Minecraft.getMinecraft().ingameGUI.getChatGUI();
 
             // If the last message sent is the same as the newly posted message
-            if (this.lastMessage.equals(event.getChat().getUnformattedText())) {
+            if (lastMessage.equals(event.getChat().getUnformattedText())) {
 
                 // Delete the message
                 guiNewChat.deleteChatLine(line);
 
                 // Increase the amount of times it's been sent
-                this.amount++;
+                amount++;
 
                 // Set the last message to be the newly posted message
-                this.lastMessage = event.getChat().getUnformattedText();
+                lastMessage = event.getChat().getUnformattedText();
 
                 // Append (amount of times it's been sent) to the last message
                 event.getChat().appendText(ChatColor.GRAY + " (" + amount + ")");
             } else {
 
                 // Otherwise it's never been sent
-                this.amount = 1;
+                amount = 1;
 
                 // Set the last message to be the newly posted message
-                this.lastMessage = event.getChat().getUnformattedText();
+                lastMessage = event.getChat().getUnformattedText();
             }
 
             // Increase the line the message was on
-            this.line++;
+            line++;
 
             // Check if the event wasn't cancelled
             if (!event.isCancelled()) {

@@ -41,23 +41,18 @@ public class HyperiumGuiOptions {
             }
         });
 
-        buttonList.add(new GuiButton(114514, parent.width / 2 - 155, parent.height / 6 + 18, 150, 20, I18n.format("button.ingame.hyperiumsettings")));
+        buttonList.add(new GuiButton(114514, parent.width / 2 - 155, parent.height / 6 + 18, 150, 20,
+            I18n.format("button.ingame.hyperiumsettings")));
 
         GuiButton optifineCape;
-        buttonList.add(optifineCape = new GuiButton(62727568, parent.width / 2 + 5, parent.height / 6 + 18, 150, 20, I18n.format("gui.optifinecape.capebutton")));
+        buttonList.add(optifineCape = new GuiButton(62727568, parent.width / 2 + 5, parent.height / 6 + 18, 150,
+            20, I18n.format("gui.optifinecape.capebutton")));
 
-        if (Minecraft.getMinecraft().theWorld == null) {
-            optifineCape.visible = false;
-        }
+        if (Minecraft.getMinecraft().theWorld == null) optifineCape.visible = false;
     }
 
     public void actionPerformed(GuiButton button) {
-        if (button.id == 114514) {
-            HyperiumMainGui.INSTANCE.show();
-        }
-
-        if (button.id == 62727568) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenCapeOF());
-        }
+        if (button.id == 114514) HyperiumMainGui.INSTANCE.show();
+        if (button.id == 62727568) Minecraft.getMinecraft().displayGuiScreen(new GuiScreenCapeOF());
     }
 }

@@ -36,10 +36,6 @@ public class GuiButtonIcon extends GuiButton {
         this.scale = scale;
     }
 
-    public boolean isOutline() {
-        return outline;
-    }
-
     public void setOutline(boolean outline) {
         this.outline = outline;
     }
@@ -65,7 +61,6 @@ public class GuiButtonIcon extends GuiButton {
             GlStateManager.scale(1.0F / mag, 1.0F / mag, 1.0F / mag);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, width, height);
-
             GlStateManager.disableBlend();
             GL11.glPopMatrix();
         }

@@ -32,13 +32,13 @@ public class LoginRequest implements Request<LoginReply> {
     @Override
     public LoginReply execute() {
         HttpUriRequest request = GetBuilder.of(this)
-                .addParameter("username", this.profile.getName())
-                .addParameter("uuid", this.profile.getId().toString().replace("-", ""))
-                .addParameter("tips", this.tips)
-                .addParameter("v", this.autotip.getVersion())
-                .addParameter("mc", this.autotip.getMcVersion())
+                .addParameter("username", profile.getName())
+                .addParameter("uuid", profile.getId().toString().replace("-", ""))
+                .addParameter("tips", tips)
+                .addParameter("v", autotip.getVersion())
+                .addParameter("mc", autotip.getMcVersion())
                 .addParameter("os", System.getProperty("os.name"))
-                .addParameter("hash", this.hash)
+                .addParameter("hash", hash)
                 .build();
 
         Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());

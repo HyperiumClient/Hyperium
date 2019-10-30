@@ -1,6 +1,6 @@
 package com.chattriggers.ctjs.triggers
 
-import cc.hyperium.event.RenderHUDEvent
+import cc.hyperium.event.render.RenderHUDEvent
 import com.chattriggers.ctjs.engine.ILoader
 
 class OnRenderTrigger(method: Any, triggerType: TriggerType, loader: ILoader) : OnTrigger(method, triggerType, loader) {

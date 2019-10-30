@@ -2,14 +2,6 @@ package me.semx11.autotip.core;
 
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.api.SessionKey;
 import me.semx11.autotip.api.reply.impl.KeepAliveReply;
@@ -32,6 +24,15 @@ import net.minecraft.util.Session;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 public class SessionManager {
 
     private final Autotip autotip;
@@ -51,8 +52,8 @@ public class SessionManager {
 
     public SessionManager(Autotip autotip) {
         this.autotip = autotip;
-        this.messageUtil = autotip.getMessageUtil();
-        this.taskManager = autotip.getTaskManager();
+        messageUtil = autotip.getMessageUtil();
+        taskManager = autotip.getTaskManager();
     }
 
     public SessionKey getKey() {
@@ -85,18 +86,18 @@ public class SessionManager {
 
     public void checkVersions() {
         List<VersionInfo> versions = autotip.getGlobalSettings()
-                .getHigherVersionInfo(autotip.getVersion());
+            .getHigherVersionInfo(autotip.getVersion());
         if (versions.size() > 0) {
             messageUtil.separator();
             messageUtil.getKeyHelper("update")
-                    .withKey("message", context -> context.getBuilder()
-                            .setUrl(context.getKey("url"))
-                            .setHover(context.getKey("hover"))
-                            .send())
-                    .sendKey("changelogHeader");
+                .withKey("message", context -> context.getBuilder()
+                    .setUrl(context.getKey("url"))
+                    .setHover(context.getKey("hover"))
+                    .send())
+                .sendKey("changelogHeader");
             versions.forEach(info -> {
                 messageUtil.sendKey("update.version", info.getVersion(),
-                        info.getSeverity().toColoredString());
+                    info.getSeverity().toColoredString());
                 info.getChangelog().forEach(s -> messageUtil.sendKey("update.logEntry", s));
             });
             messageUtil.separator();
@@ -110,7 +111,7 @@ public class SessionManager {
         String uuid = profile.getId().toString().replace("-", "");
         String serverHash = HashUtil.hash(uuid + HashUtil.getNextSalt());
 
-        int statusCode = this.authenticate(session.getToken(), uuid, serverHash);
+        int statusCode = authenticate(session.getToken(), uuid, serverHash);
         if (statusCode != 204) {
             messageUtil.send("&cError {} during authentication: Session servers down?", statusCode);
             return;
@@ -123,15 +124,15 @@ public class SessionManager {
         long delay = lastLogin + 5000 - System.currentTimeMillis();
         delay /= 1000;
 
-        this.reply = taskManager.scheduleAndAwait(request::execute, (delay < 1) ? 1 : delay);
+        reply = taskManager.scheduleAndAwait(request::execute, (delay < 1) ? 1 : delay);
         if (reply == null || !reply.isSuccess()) {
             messageUtil.send("&cError during login: {}", reply == null ? "null" : reply.getCause());
             return;
         }
 
-        this.sessionKey = reply.getSessionKey();
+        sessionKey = reply.getSessionKey();
 
-        this.loggedIn = true;
+        loggedIn = true;
 
         long keepAlive = reply.getKeepAliveRate();
         long tipWave = reply.getTipWaveRate();
@@ -141,16 +142,14 @@ public class SessionManager {
     }
 
     public void logout() {
-        if (!loggedIn) {
-            return;
-        }
+        if (!loggedIn) return;
         LogoutReply reply = LogoutRequest.of(sessionKey).execute();
         if (!reply.isSuccess()) {
             Autotip.LOGGER.warn("Error during logout: {}", reply.getCause());
         }
 
-        this.loggedIn = false;
-        this.sessionKey = null;
+        loggedIn = false;
+        sessionKey = null;
 
         taskManager.cancelTask(TaskType.KEEP_ALIVE);
         tipQueue.clear();
@@ -162,9 +161,7 @@ public class SessionManager {
             return;
         }
         KeepAliveReply r = KeepAliveRequest.of(sessionKey).execute();
-        if (!r.isSuccess()) {
-            Autotip.LOGGER.warn("KeepAliveRequest failed: {}", r.getCause());
-        }
+        if (!r.isSuccess()) Autotip.LOGGER.warn("KeepAliveRequest failed: {}", r.getCause());
     }
 
     private void tipWave() {
@@ -173,14 +170,14 @@ public class SessionManager {
             return;
         }
 
-        this.lastTipWave = System.currentTimeMillis();
-        this.nextTipWave = System.currentTimeMillis() + reply.getTipWaveRate() * 1000;
+        lastTipWave = System.currentTimeMillis();
+        nextTipWave = System.currentTimeMillis() + reply.getTipWaveRate() * 1000;
 
         TipReply r = TipRequest.of(sessionKey).execute();
         if (r.isSuccess()) {
             tipQueue.addAll(r.getTips());
             Autotip.LOGGER.info("Current tip queue: {}",
-                    StringUtils.join(tipQueue.iterator(), ", "));
+                StringUtils.join(tipQueue.iterator(), ", "));
         } else {
             tipQueue.addAll(TipReply.getDefault().getTips());
             Autotip.LOGGER.info("Failed to fetch tip queue, tipping 'all' instead.");
@@ -229,5 +226,4 @@ public class SessionManager {
             return HttpStatus.SC_BAD_REQUEST;
         }
     }
-
 }

@@ -18,7 +18,7 @@
 package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.HypixelWinEvent;
+import cc.hyperium.event.network.server.hypixel.HypixelWinEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.IChatComponent;
@@ -26,6 +26,7 @@ import net.minecraft.util.IChatComponent;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.regex.Matcher;
+import java.util.stream.IntStream;
 
 /*
  * Created by Cubxity on 21/03/2018
@@ -39,24 +40,25 @@ public class WinTrackingChatHandler extends HyperiumChatHandler {
             String winnersString = matcher.group("winners");
             String[] winners = winnersString.split(", ");
 
-            for (int i = 0; i < winners.length; i++) {
+            // Means they have a rank prefix. We don't want that
+            IntStream.range(0, winners.length).forEach(i -> {
                 String winner = winners[i];
-                // Means they have a rank prefix. We don't want that
                 if (winner.contains(" ")) {
                     winners[i] = winner.split(" ")[1];
                 }
-            }
+            });
+
             EventBus.INSTANCE.post(new HypixelWinEvent(Arrays.asList(winners)));
         }
 
         // Should actually change the regex tho
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-        if (thePlayer == null)
-            return false;
+        if (thePlayer == null) return false;
+
         if (text.toLowerCase().contains(thePlayer.getName().toLowerCase() + " winner!")) {
-            EventBus.INSTANCE
-                .post(new HypixelWinEvent(Collections.singletonList(thePlayer.getName())));
+            EventBus.INSTANCE.post(new HypixelWinEvent(Collections.singletonList(thePlayer.getName())));
         }
+
         return false;
     }
 }

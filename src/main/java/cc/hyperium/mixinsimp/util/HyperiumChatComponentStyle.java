@@ -7,15 +7,14 @@ public class HyperiumChatComponentStyle {
     private String cache;
 
     public void invalidateCache() {
-        this.cache = null;
+        cache = null;
     }
 
     public void getFormattedTextHeader(CallbackInfoReturnable<String> string) {
-        if (cache != null)
-            string.setReturnValue(cache);
+        if (cache != null) string.setReturnValue(cache);
     }
 
     public void getFormattedTextReturn(CallbackInfoReturnable<String> string) {
-        this.cache = string.getReturnValue();
+        cache = string.getReturnValue();
     }
 }

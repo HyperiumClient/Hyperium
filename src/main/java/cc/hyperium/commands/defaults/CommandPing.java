@@ -37,7 +37,7 @@ public class CommandPing implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        final String name = (args.length == 1) ? args[0] : Minecraft.getMinecraft().getSession().getUsername();
+        String name = (args.length == 1) ? args[0] : Minecraft.getMinecraft().getSession().getUsername();
         NetworkInfo.getInstance().printPing(name);
     }
 

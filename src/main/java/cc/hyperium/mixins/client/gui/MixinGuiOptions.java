@@ -36,7 +36,7 @@ public class MixinGuiOptions extends GuiScreen {
      */
     @Inject(method = "initGui", at = @At(value = "RETURN"))
     private void initGui(CallbackInfo c) {
-        hyperiumGuiOptions.initGui(this.buttonList);
+        hyperiumGuiOptions.initGui(buttonList);
     }
 
     /**

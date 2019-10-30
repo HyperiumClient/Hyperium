@@ -18,8 +18,8 @@ public class LocaleRequest implements Request<LocaleReply> {
     private final Version version;
 
     private LocaleRequest(Autotip autotip) {
-        this.locale = autotip.getConfig().getLocale();
-        this.version = autotip.getVersion();
+        locale = autotip.getConfig().getLocale();
+        version = autotip.getVersion();
     }
 
     public static LocaleRequest of(Autotip autotip) {
@@ -29,8 +29,8 @@ public class LocaleRequest implements Request<LocaleReply> {
     @Override
     public LocaleReply execute() {
         HttpUriRequest request = GetBuilder.of(this)
-                .addParameter("lang", this.locale.toLanguageTag())
-                .addParameter("v", this.version.get())
+                .addParameter("lang", locale.toLanguageTag())
+                .addParameter("v", version.get())
                 .build();
 
         Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());

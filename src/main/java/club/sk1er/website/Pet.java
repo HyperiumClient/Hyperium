@@ -117,8 +117,8 @@ public class Pet {
     public int xp;
 
     public Pet(JsonHolder tmp) {
-        this.xp = tmp.optInt("experience");
-        this.level = getLevel(this.xp);
+        xp = tmp.optInt("experience");
+        level = getLevel(xp);
 
     }
 
@@ -128,17 +128,12 @@ public class Pet {
         }
 
         int t = 1;
+
         while (true) {
             t++;
-            if (t == 101) {
-                return 100;
-            }
-            if (xp <= petLevels.get(t)) {
-                return t - 1;
-            } else {
-                xp = xp - petLevels.get(t);
-            }
+            if (t == 101) return 100;
+            if (xp <= petLevels.get(t)) return t - 1;
+            else xp = xp - petLevels.get(t);
         }
-
     }
 }

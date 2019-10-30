@@ -55,16 +55,22 @@ public class BossbarGui extends GuiScreen {
         if (dragging) {
             Settings.BOSSBAR_X = (Settings.BOSSBAR_X * width + (mouseX - lastMouseX)) / (double) width;
             Settings.BOSSBAR_Y = (Settings.BOSSBAR_Y * height + (mouseY - lastMouseY)) / (double) height;
-            if (Settings.BOSSBAR_X * width - (182 * Settings.BOSSBAR_SCALE / 2) < 0)
+            if (Settings.BOSSBAR_X * width - (182 * Settings.BOSSBAR_SCALE / 2) < 0) {
                 Settings.BOSSBAR_X = (182 * Settings.BOSSBAR_SCALE / 2) / (double) width;
+            }
 
-            if (Settings.BOSSBAR_X * width + (182 * Settings.BOSSBAR_SCALE / 2) > width)
+            if (Settings.BOSSBAR_X * width + (182 * Settings.BOSSBAR_SCALE / 2) > width) {
                 Settings.BOSSBAR_X = ((width - (182 * Settings.BOSSBAR_SCALE / 2)) / (double) width);
+            }
 
-            if (Settings.BOSSBAR_Y * height - 10 < 0)
+            if (Settings.BOSSBAR_Y * height - 10 < 0) {
                 Settings.BOSSBAR_Y = 10 / (double) height;
-            if (Settings.BOSSBAR_Y * height + 5 > height)
+            }
+
+            if (Settings.BOSSBAR_Y * height + 5 > height) {
                 Settings.BOSSBAR_Y = (height - 5) / (double) height;
+            }
+
             lastMouseX = mouseX;
             lastMouseY = mouseY;
         }
@@ -75,14 +81,13 @@ public class BossbarGui extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        if (!Settings.BOSSBAR_ALL) {
-            return;
-        }
+        if (!Settings.BOSSBAR_ALL) return;
 
         int startX = (int) ((Settings.BOSSBAR_X * width) - (182 / 2 * Settings.BOSSBAR_SCALE));
         int startY = (int) (Settings.BOSSBAR_Y * height) - 10;
         int endX = (int) (startX + 182 * Settings.BOSSBAR_SCALE);
         int endY = (int) (startY + (15 * Settings.BOSSBAR_SCALE));
+
         if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY) {
             dragging = true;
             lastMouseX = mouseX;

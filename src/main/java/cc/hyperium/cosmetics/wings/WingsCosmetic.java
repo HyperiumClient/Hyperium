@@ -25,7 +25,6 @@ import net.minecraft.util.ResourceLocation;
 /**
  * @author ConorTheDev
  */
-
 public class WingsCosmetic extends AbstractCosmetic {
 
     private final ResourceLocation dragon = new ResourceLocation("textures/cosmetics/wings/dragonwings.png");
@@ -34,7 +33,6 @@ public class WingsCosmetic extends AbstractCosmetic {
     public WingsCosmetic() {
         super(true, EnumPurchaseType.WING_COSMETIC);
         EventBus.INSTANCE.register(wingsRenderer = new WingsRenderer(this));
-
     }
 
     public WingsRenderer getWingsRenderer() {

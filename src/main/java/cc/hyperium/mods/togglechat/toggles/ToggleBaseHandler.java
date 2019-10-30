@@ -27,7 +27,7 @@ public class ToggleBaseHandler {
     private final Map<String, ToggleBase> toggles = new LinkedHashMap<>();
 
     public Map<String, ToggleBase> getToggles() {
-        return new LinkedHashMap<>(this.toggles);
+        return new LinkedHashMap<>(toggles);
     }
 
     /**
@@ -37,7 +37,7 @@ public class ToggleBaseHandler {
      */
     public void addToggle(ToggleBase toggleBase) {
         if (toggleBase != null && toggleBase.getName() != null) {
-            this.toggles.put(toggleBase.getName().toLowerCase().replace(" ", "_"), toggleBase);
+            toggles.put(toggleBase.getName().toLowerCase().replace(" ", "_"), toggleBase);
         }
     }
 
@@ -49,37 +49,37 @@ public class ToggleBaseHandler {
      * @return the formatted text
      */
     public boolean shouldToggle(String input) {
-        return this.toggles.values().stream().anyMatch(parser -> !parser.isEnabled() && parser.shouldToggle(input));
+        return toggles.values().stream().anyMatch(parser -> !parser.isEnabled() && parser.shouldToggle(input));
     }
 
     /**
      * Clears all toggles and readds default ones
      */
     public void remake() {
-        this.toggles.clear();
-        this.toggles.put("ads", new TypeAds());
-        this.toggles.put("team", new TypeTeam());
-        this.toggles.put("join", new TypeJoin());
-        this.toggles.put("leave", new TypeLeave());
-        this.toggles.put("guild", new TypeGuild());
-        this.toggles.put("party", new TypeParty());
-        this.toggles.put("shout", new TypeShout());
-        this.toggles.put("soul", new TypeSoulWell());
-        this.toggles.put("housing", new TypeHousing());
-        this.toggles.put("messages", new TypeMessages());
-        this.toggles.put("global", new TypeGlobal(this));
-        this.toggles.put("ez_messages", new TypeEasy());
-        this.toggles.put("special", new TypeSpecial());
-        this.toggles.put("colored_team", new TypeColored());
-        this.toggles.put("party_invites", new TypePartyInvites());
-        this.toggles.put("build_battle", new TypeBuildBattle());
-        this.toggles.put("mystery_box", new TypeMysteryBox());
-        this.toggles.put("spectator", new TypeSpectator());
-        this.toggles.put("lobby_join", new TypeLobbyJoin());
-        this.toggles.put("separators", new TypeMessageSeparator());
-        this.toggles.put("friend_requests", new TypeFriendRequests());
-        this.toggles.put("officer", new TypeOfficer());
-        this.toggles.put("generosity_messages", new TypeAfterGift());
+        toggles.clear();
+        toggles.put("ads", new TypeAds());
+        toggles.put("team", new TypeTeam());
+        toggles.put("join", new TypeJoin());
+        toggles.put("leave", new TypeLeave());
+        toggles.put("guild", new TypeGuild());
+        toggles.put("party", new TypeParty());
+        toggles.put("shout", new TypeShout());
+        toggles.put("soul", new TypeSoulWell());
+        toggles.put("housing", new TypeHousing());
+        toggles.put("messages", new TypeMessages());
+        toggles.put("global", new TypeGlobal(this));
+        toggles.put("ez_messages", new TypeEasy());
+        toggles.put("special", new TypeSpecial());
+        toggles.put("colored_team", new TypeColored());
+        toggles.put("party_invites", new TypePartyInvites());
+        toggles.put("build_battle", new TypeBuildBattle());
+        toggles.put("mystery_box", new TypeMysteryBox());
+        toggles.put("spectator", new TypeSpectator());
+        toggles.put("lobby_join", new TypeLobbyJoin());
+        toggles.put("separators", new TypeMessageSeparator());
+        toggles.put("friend_requests", new TypeFriendRequests());
+        toggles.put("officer", new TypeOfficer());
+        toggles.put("generosity_messages", new TypeAfterGift());
     }
 
     /**
@@ -89,7 +89,7 @@ public class ToggleBaseHandler {
      * @return a ToggleBase instance if found, or else null
      */
     public ToggleBase getToggle(String name) {
-        return this.toggles.getOrDefault(name, null);
+        return toggles.getOrDefault(name, null);
     }
 
     /**
@@ -100,6 +100,6 @@ public class ToggleBaseHandler {
      * @return true if it is registered
      */
     public boolean hasToggle(String name) {
-        return this.toggles.containsKey(name) && getToggle(name) != null;
+        return toggles.containsKey(name) && getToggle(name) != null;
     }
 }

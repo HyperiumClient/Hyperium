@@ -21,10 +21,10 @@ class Console(val loader: ILoader?) {
     val out: PrintStream
 
     init {
-        this.frame.defaultCloseOperation = JFrame.HIDE_ON_CLOSE
+        frame.defaultCloseOperation = JFrame.HIDE_ON_CLOSE
 
         val textArea = JTextArea()
-        this.taos = TextAreaOutputStream(textArea, loader?.getLanguageName() ?: "default")
+        taos = TextAreaOutputStream(textArea, loader?.getLanguageName() ?: "default")
         textArea.isEditable = false
         textArea.font = Font("DejaVu Sans Mono", Font.PLAIN, 15)
         val inputField = JTextField(1)
@@ -100,7 +100,7 @@ class Console(val loader: ILoader?) {
     }
 
     fun clearConsole() {
-        this.taos.clear()
+        taos.clear()
     }
 
     fun printStackTrace(error: Throwable) {
@@ -120,7 +120,7 @@ class Console(val loader: ILoader?) {
     }
 
     fun showConsole() {
-        this.frame.isVisible = true
+        frame.isVisible = true
 
         val bg: Color
         val fg: Color
@@ -193,17 +193,17 @@ class Console(val loader: ILoader?) {
             }
         }
 
-        for (comp in this.components) {
+        for (comp in components) {
             comp.background = bg
             comp.foreground = fg
         }
 
-        this.frame.toFront()
-        this.frame.repaint()
+        frame.toFront()
+        frame.repaint()
     }
 
     protected fun finalize() {
-        this.frame.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
-        this.frame.dispatchEvent(WindowEvent(frame, WindowEvent.WINDOW_CLOSING))
+        frame.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
+        frame.dispatchEvent(WindowEvent(frame, WindowEvent.WINDOW_CLOSING))
     }
 }

@@ -25,7 +25,7 @@ public class LeaderboardEntry {
     private String playerDisplay;
 
     public LeaderboardEntry(int position, String value, String playerUUID, String playerDisplay) {
-        this.postion = position;
+        postion = position;
         this.value = value;
         this.playerUUID = playerUUID;
         this.playerDisplay = playerDisplay;

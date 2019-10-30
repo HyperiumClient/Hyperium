@@ -1,8 +1,9 @@
 package me.semx11.autotip.util;
 
+import cc.hyperium.utils.ChatColor;
+
 import java.util.Arrays;
 import java.util.List;
-import me.semx11.autotip.chat.ChatColor;
 
 public class VersionInfo {
 
@@ -49,7 +50,7 @@ public class VersionInfo {
                     color = ChatColor.RED;
                     break;
             }
-            return color + this.toString();
+            return color + toString();
         }
     }
 

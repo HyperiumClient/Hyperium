@@ -94,12 +94,8 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
                 if (config.isUseRealSkinForSelf() && instance.getPlayerSkin() != null) {
                     type.setReturnValue(instance.getPlayerRealSkinType());
                 }
-            } else {
-                if (config.isHideOtherSkins()) {
-                    if (config.isUsePlayerSkinForAll() && instance.getPlayerSkin() != null) {
-                        type.setReturnValue(instance.getPlayerRealSkinType());
-                    }
-                }
+            } else if (config.isHideOtherSkins() && config.isUsePlayerSkinForAll() && instance.getPlayerSkin() != null) {
+                type.setReturnValue(instance.getPlayerRealSkinType());
             }
         }
     }
@@ -107,17 +103,13 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
     @Inject(method = "getLocationCape", at = @At("HEAD"), cancellable = true)
     private void getLocationCape(CallbackInfoReturnable<ResourceLocation> locationCallbackInfoReturnable) {
         NickHider instance = NickHider.instance;
-        if (locationCallbackInfoReturnable.getReturnValue() != null) {
-            return;
-        }
+        if (locationCallbackInfoReturnable.getReturnValue() != null) return;
 
         if (instance != null && instance.getNickHiderConfig().isHideSkins() && instance.getNickHiderConfig().isMasterEnabled()) {
             NickHiderConfig config = instance.getNickHiderConfig();
 
-            if (getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {
-                if (config.isUseRealSkinForSelf()) {
-                    locationCallbackInfoReturnable.setReturnValue(instance.getPlayerCape());
-                }
+            if (getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID()) && config.isUseRealSkinForSelf()) {
+                locationCallbackInfoReturnable.setReturnValue(instance.getPlayerCape());
             }
         }
     }

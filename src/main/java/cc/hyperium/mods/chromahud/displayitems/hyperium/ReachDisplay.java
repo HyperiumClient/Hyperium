@@ -19,7 +19,7 @@ package cc.hyperium.mods.chromahud.displayitems.hyperium;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.PlayerAttackEntityEvent;
+import cc.hyperium.event.entity.PlayerAttackEntityEvent;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
@@ -50,15 +50,13 @@ public class ReachDisplay extends DisplayItem {
         } else {
             rangeText = "Not on target?";
         }
+
         lastAttack = System.currentTimeMillis();
     }
 
     @Override
     public void draw(int x, double y, boolean config) {
-        if (System.currentTimeMillis() - lastAttack > 2000L) {
-            rangeText = "Hasn't attacked";
-        }
-
+        if (System.currentTimeMillis() - lastAttack > 2000L) rangeText = "Hasn't attacked";
         height = mc.fontRendererObj.FONT_HEIGHT;
         width = mc.fontRendererObj.getStringWidth(rangeText);
         ElementRenderer.draw(x, y, rangeText);

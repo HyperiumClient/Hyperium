@@ -18,7 +18,7 @@
 package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.client.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 

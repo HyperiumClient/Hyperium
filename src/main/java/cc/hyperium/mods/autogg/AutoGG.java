@@ -51,14 +51,14 @@ public class AutoGG extends AbstractMod {
         Metadata metadata = new Metadata(this, "AutoGG", "2.0", "2Pi");
         metadata.setDisplayName(ChatColor.GOLD + "AutoGG");
 
-        this.meta = metadata;
+        meta = metadata;
 
-        this.running = false;
+        running = false;
     }
 
     @Override
     public AbstractMod init() {
-        this.config = new AutoGGConfig();
+        config = new AutoGGConfig();
 
         EventBus.INSTANCE.register(new AutoGGListener(this));
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
@@ -86,10 +86,10 @@ public class AutoGG extends AbstractMod {
         return meta;
     }
     public AutoGGConfig getConfig() {
-        return this.config;
+        return config;
     }
     public boolean isRunning() {
-        return this.running;
+        return running;
     }
     public void setRunning(final boolean running) {
         this.running = running;

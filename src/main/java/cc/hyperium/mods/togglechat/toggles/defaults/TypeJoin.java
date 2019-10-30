@@ -35,12 +35,12 @@ public class TypeJoin extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        return this.joinPattern.matcher(message).matches();
+        return joinPattern.matcher(message).matches();
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

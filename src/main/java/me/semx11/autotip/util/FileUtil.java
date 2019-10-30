@@ -24,14 +24,12 @@ public class FileUtil {
     private LocalDate firstDate;
 
     public FileUtil(Autotip autotip) {
-        this.userDir = this.getRawPath("hyperium/autotip/" + autotip.getGameProfile().getId());
-        this.statsDir = this.getPath("stats");
+        userDir = getRawPath("hyperium/autotip/" + autotip.getGameProfile().getId());
+        statsDir = getPath("stats");
     }
 
     public void createDirectories() throws IOException {
-        if (!Files.exists(statsDir)) {
-            Files.createDirectories(statsDir);
-        }
+        if (!Files.exists(statsDir)) Files.createDirectories(statsDir);
     }
 
     public Path getUserDir() {
@@ -43,15 +41,15 @@ public class FileUtil {
     }
 
     public boolean exists(String path) {
-        return Files.exists(this.getPath(path));
+        return Files.exists(getPath(path));
     }
 
     public void delete(String path) {
-        this.delete(this.getPath(path));
+        delete(getPath(path));
     }
 
     public void delete(File file) {
-        this.delete(file.toPath());
+        delete(file.toPath());
     }
 
     public void delete(Path path) {
@@ -63,19 +61,18 @@ public class FileUtil {
     }
 
     public File getLegacyStatsFile(LocalDate localDate) {
-        return this.getFile(this.statsDir, localDate.format(OLD_FORMAT) + ".at");
+        return getFile(statsDir, localDate.format(OLD_FORMAT) + ".at");
     }
 
     public File getStatsFile(LocalDate localDate) {
-        return this.getFile(this.statsDir, localDate.format(ISO_LOCAL_DATE) + ".at");
+        return getFile(statsDir, localDate.format(ISO_LOCAL_DATE) + ".at");
     }
 
     public LocalDate getFirstDate() {
-        if (firstDate != null) {
-            return firstDate;
-        }
+        if (firstDate != null) return firstDate;
+
         try {
-            return firstDate = Files.list(this.statsDir)
+            return firstDate = Files.list(statsDir)
                     .map(this::getDateFromPath)
                     .filter(Objects::nonNull)
                     .findFirst()
@@ -96,23 +93,23 @@ public class FileUtil {
     }
 
     public File getFile(String path) {
-        return this.getPath(path).toFile();
+        return getPath(path).toFile();
     }
 
     public Path getPath(String path) {
-        return this.getPath(this.userDir, path);
+        return getPath(userDir, path);
     }
 
     private File getFile(Path directory, String path) {
-        return this.getPath(directory, path).toFile();
+        return getPath(directory, path).toFile();
     }
 
     private Path getPath(Path directory, String path) {
-        return directory.resolve(this.separator(path));
+        return directory.resolve(separator(path));
     }
 
     private Path getRawPath(String path) {
-        return Paths.get(this.separator(path));
+        return Paths.get(separator(path));
     }
 
     private String separator(String s) {

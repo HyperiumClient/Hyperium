@@ -1,7 +1,7 @@
 package com.chattriggers.ctjs.minecraft.listeners
 
 import cc.hyperium.event.InvokeEvent
-import cc.hyperium.event.ServerChatEvent
+import cc.hyperium.event.network.chat.ServerChatEvent
 import com.chattriggers.ctjs.engine.ModuleManager
 import com.chattriggers.ctjs.minecraft.libs.ChatLib
 import com.chattriggers.ctjs.triggers.TriggerType

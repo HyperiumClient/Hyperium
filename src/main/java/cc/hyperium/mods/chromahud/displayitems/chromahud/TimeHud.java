@@ -33,10 +33,8 @@ public class TimeHud extends DisplayItem {
 
     public TimeHud(JsonHolder data, int ordinal) {
         super(data, ordinal);
-        this.format = data.optString("format");
-        if (this.format.isEmpty()) {
-            this.format = "HH:mm:ss";
-        }
+        format = data.optString("format");
+        if (format.isEmpty()) format = "HH:mm:ss";
     }
 
     public String getFormat() {
@@ -53,8 +51,8 @@ public class TimeHud extends DisplayItem {
         try {
             String string = new SimpleDateFormat(format).format(new Date(System.currentTimeMillis()));
             ElementRenderer.draw(starX, startY, string);
-            this.width = isConfig ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0;
-            this.height = 10;
+            width = isConfig ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0;
+            height = 10;
         } catch (Exception e) {
             ElementRenderer.draw(starX, startY, "Invalid");
         }

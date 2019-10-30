@@ -71,33 +71,23 @@ public class KeystrokesSettings {
     private List<CustomKeyWrapper> configWrappers = new ArrayList<>();
 
     public KeystrokesSettings(KeystrokesMod mod, File directory) {
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
-        this.theMod = mod;
-
-        this.configFile = new File(directory, "keystrokes.json");
+        if (!directory.exists()) directory.mkdirs();
+        theMod = mod;
+        configFile = new File(directory, "keystrokes.json");
     }
 
     public void load() {
         try {
-            if (!this.configFile.getParentFile().exists() || !this.configFile.exists()) {
+            if (!configFile.getParentFile().exists() || !configFile.exists()) {
                 save();
                 return;
             }
 
-            BufferedReader f = new BufferedReader(new FileReader(this.configFile));
+            BufferedReader f = new BufferedReader(new FileReader(configFile));
             List<String> options = f.lines().collect(Collectors.toList());
-
-            if (options.isEmpty()) {
-                return;
-            }
-
+            if (options.isEmpty()) return;
             String builder = String.join("", options);
-            if (builder.trim().length() > 0) {
-                parseSettings(new BetterJsonObject(builder.trim()));
-            }
+            if (builder.trim().length() > 0) parseSettings(new BetterJsonObject(builder.trim()));
         } catch (Exception ex) {
             Hyperium.LOGGER.warn("Could not load config file! {}", configFile.getName());
             save();
@@ -106,15 +96,8 @@ public class KeystrokesSettings {
 
     public void save() {
         try {
-            if (!this.configFile.getParentFile().exists()) {
-                this.configFile.getParentFile().mkdirs();
-            }
-
-            if (!this.configFile.exists()) {
-                if (!this.configFile.createNewFile()) {
-                    return;
-                }
-            }
+            if (!configFile.getParentFile().exists()) configFile.getParentFile().mkdirs();
+            if (!configFile.exists() && !configFile.createNewFile()) return;
 
             BetterJsonObject object = new BetterJsonObject();
             object.addProperty("x", x);
@@ -144,20 +127,20 @@ public class KeystrokesSettings {
             object.addProperty("keyBackgroundGreen", keyBackgroundGreen);
             object.addProperty("keyBackgroundBlue", keyBackgroundBlue);
             object.addProperty("arrowKeys", arrowKeys);
-            final JsonArray keys = new JsonArray();
-            for (CustomKeyWrapper wrapper : theMod.getRenderer().getCustomKeys()) {
+            JsonArray keys = new JsonArray();
+            theMod.getRenderer().getCustomKeys().forEach(wrapper -> {
                 JsonHolder holder = new JsonHolder();
                 holder.put("key", wrapper.getKey().getKey());
                 holder.put("type", wrapper.getKey().getType());
                 holder.put("xOffset", wrapper.getxOffset());
                 holder.put("yOffset", wrapper.getyOffset());
                 keys.add(holder.getObject());
-            }
+            });
 
             object.getData().add("custom", keys);
             object.writeToFile(configFile);
         } catch (Exception ex) {
-            Hyperium.LOGGER.warn(String.format("Could not save config file! (\"%s\")", this.configFile.getName()));
+            Hyperium.LOGGER.warn(String.format("Could not save config file! (\"%s\")", configFile.getName()));
         }
     }
 
@@ -194,15 +177,15 @@ public class KeystrokesSettings {
             JsonArray custom = data.getAsJsonArray("custom");
             for (JsonElement element : custom) {
                 JsonHolder holder = new JsonHolder(element.getAsJsonObject());
-                CustomKeyWrapper wrapper = new CustomKeyWrapper(
-                    new CustomKey(theMod, holder.optInt("key"), holder.optInt("type")), holder.optInt("xOffset"), holder.optInt("yOffset"));
+                CustomKeyWrapper wrapper = new CustomKeyWrapper(new CustomKey(
+                    theMod, holder.optInt("key"), holder.optInt("type")), holder.optInt("xOffset"), holder.optInt("yOffset"));
                 configWrappers.add(wrapper);
             }
         }
     }
 
     public int getX() {
-        return this.x;
+        return x;
     }
 
     public void setX(int x) {
@@ -210,7 +193,7 @@ public class KeystrokesSettings {
     }
 
     public int getY() {
-        return this.y;
+        return y;
     }
 
     public void setY(int y) {
@@ -218,7 +201,7 @@ public class KeystrokesSettings {
     }
 
     public int getRed() {
-        return this.red;
+        return red;
     }
 
     public void setRed(int red) {
@@ -226,7 +209,7 @@ public class KeystrokesSettings {
     }
 
     public int getGreen() {
-        return this.green;
+        return green;
     }
 
     public void setGreen(int green) {
@@ -234,7 +217,7 @@ public class KeystrokesSettings {
     }
 
     public int getBlue() {
-        return this.blue;
+        return blue;
     }
 
     public void setBlue(int blue) {
@@ -242,31 +225,31 @@ public class KeystrokesSettings {
     }
 
     public int getPressedRed() {
-        return this.pressedRed;
+        return pressedRed;
     }
 
     public void setPressedRed(int red) {
-        this.pressedRed = red;
+        pressedRed = red;
     }
 
     public int getPressedGreen() {
-        return this.pressedGreen;
+        return pressedGreen;
     }
 
     public void setPressedGreen(int green) {
-        this.pressedGreen = green;
+        pressedGreen = green;
     }
 
     public int getPressedBlue() {
-        return this.pressedBlue;
+        return pressedBlue;
     }
 
     public void setPressedBlue(int blue) {
-        this.pressedBlue = blue;
+        pressedBlue = blue;
     }
 
     public double getScale() {
-        return capDouble(this.scale, 0.5F, 1.5F);
+        return capDouble(scale, 0.5F, 1.5F);
     }
 
     public void setScale(double scale) {
@@ -274,15 +257,15 @@ public class KeystrokesSettings {
     }
 
     public double getFadeTime() {
-        return capDouble(this.fadeTime, 0.1F, 3.0F);
+        return capDouble(fadeTime, 0.1F, 3.0F);
     }
 
     public void setFadeTime(double scale) {
-        this.fadeTime = capDouble(scale, 0.1F, 3.0F);
+        fadeTime = capDouble(scale, 0.1F, 3.0F);
     }
 
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     public void setEnabled(boolean enabled) {
@@ -290,15 +273,15 @@ public class KeystrokesSettings {
     }
 
     public boolean isShowingMouseButtons() {
-        return this.mouseButtons;
+        return mouseButtons;
     }
 
     public void setShowingMouseButtons(boolean showingMouseButtons) {
-        this.mouseButtons = showingMouseButtons;
+        mouseButtons = showingMouseButtons;
     }
 
     public boolean isShowingSpacebar() {
-        return this.showSpacebar;
+        return showSpacebar;
     }
 
     public void setShowingSpacebar(boolean showSpacebar) {
@@ -306,15 +289,15 @@ public class KeystrokesSettings {
     }
 
     public boolean isShowingCPS() {
-        return this.showCPS;
+        return showCPS;
     }
 
     public void setShowingCPS(boolean showingCPS) {
-        this.showCPS = showingCPS;
+        showCPS = showingCPS;
     }
 
     public boolean isShowingCPSOnButtons() {
-        return this.showCPSOnButtons;
+        return showCPSOnButtons;
     }
 
     public void setShowingCPSOnButtons(boolean showCPSOnButtons) {
@@ -322,15 +305,15 @@ public class KeystrokesSettings {
     }
 
     public boolean isChroma() {
-        return this.chroma;
+        return chroma;
     }
 
     public void setChroma(boolean showingChroma) {
-        this.chroma = showingChroma;
+        chroma = showingChroma;
     }
 
     public boolean isLeftClick() {
-        return this.leftClick;
+        return leftClick;
     }
 
     public void setLeftClick(boolean leftClick) {
@@ -412,35 +395,13 @@ public class KeystrokesSettings {
     // spaghetti code because it doesnt work otherwise ( why :-( )
     public int getHeight() {
         int height = 50;
-
-        if (showCPS || showSpacebar || showingFPS) {
-            height += 24;
-        }
-
-        if (mouseButtons) {
-            height += 24;
-        }
-
-        if (showingWASD) {
-            height += 48;
-        }
-
-        if (!showingFPS) {
-            height -= 18;
-        }
-
-        if (!showingSneak) {
-            height -= 18;
-        }
-
-        if (!showCPS) {
-            height -= 18;
-        }
-
-        if (showCPSOnButtons) {
-            height -= 18;
-        }
-
+        if (showCPS || showSpacebar || showingFPS) height += 24;
+        if (mouseButtons) height += 24;
+        if (showingWASD) height += 48;
+        if (!showingFPS) height -= 18;
+        if (!showingSneak) height -= 18;
+        if (!showCPS) height -= 18;
+        if (showCPSOnButtons) height -= 18;
         return height;
     }
 
@@ -461,7 +422,7 @@ public class KeystrokesSettings {
     }
 
     public KeystrokesMod getMod() {
-        return this.theMod;
+        return theMod;
     }
 
     private double capDouble(double valueIn, double minValue, double maxValue) {

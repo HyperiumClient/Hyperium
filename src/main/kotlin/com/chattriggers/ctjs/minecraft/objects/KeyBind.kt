@@ -31,7 +31,7 @@ class KeyBind {
             }
         }
 
-        this.keyBinding = object : HyperiumBind(description, keyCode, "ChatTriggers") {
+        keyBinding = object : HyperiumBind(description, keyCode, "ChatTriggers") {
             override fun onPress() {
                 super.onPress()
 
@@ -48,7 +48,7 @@ class KeyBind {
                 canResetDown = true
             }
         }
-        Hyperium.INSTANCE.handlers.keybindHandler.registerKeyBinding(this.keyBinding)
+        Hyperium.INSTANCE.handlers.keybindHandler.registerKeyBinding(keyBinding)
 
         keyBinds.add(this)
         isCustom = true

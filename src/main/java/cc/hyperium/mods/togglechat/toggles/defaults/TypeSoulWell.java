@@ -40,12 +40,12 @@ public class TypeSoulWell extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        return this.soulPattern.matcher(message).matches();
+        return soulPattern.matcher(message).matches();
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

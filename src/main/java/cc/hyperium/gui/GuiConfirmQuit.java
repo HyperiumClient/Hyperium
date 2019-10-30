@@ -29,14 +29,14 @@ public class GuiConfirmQuit extends GuiScreen {
     @Override
     public void initGui() {
         buttonList.clear();
-        buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + i, 98, 20, I18n.format("menu.quit")));
-        buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height / 4 + 96 + i, 98, 20, I18n.format("gui.cancel")));
+        buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + i, 98, 20, I18n.format("menu.quit")));
+        buttonList.add(new GuiButton(1, width / 2 + 5, height / 4 + 96 + i, 98, 20, I18n.format("gui.cancel")));
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
-        fontRendererObj.drawStringWithShadow(I18n.format("gui.confirmquit.text"), (this.width >> 1) - 75, this.height / 4f + 72 + i, 16777215);
+        fontRendererObj.drawStringWithShadow(I18n.format("gui.confirmquit.text"), (width >> 1) - 75, height / 4f + 72 + i, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

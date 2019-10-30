@@ -30,16 +30,13 @@ public class LocationDisplay extends DisplayItem {
 
     public LocationDisplay(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
-        this.height = 10;
+        height = 10;
     }
 
     @Override
     public void draw(int starX, double startY, boolean config) {
-        String string;
-        string = "Location: " + Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation();
+        String string = "Location: " + Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation();
         ElementRenderer.draw(starX, startY, string);
-        this.width = config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0;
+        width = config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0;
     }
-
-
 }

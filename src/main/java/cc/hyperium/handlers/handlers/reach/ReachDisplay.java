@@ -20,9 +20,9 @@ package cc.hyperium.handlers.handlers.reach;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.PlayerAttackEntityEvent;
-import cc.hyperium.event.RenderEntitiesEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.entity.PlayerAttackEntityEvent;
+import cc.hyperium.event.render.RenderEntitiesEvent;
+import cc.hyperium.event.client.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -71,8 +71,10 @@ public class ReachDisplay {
             GlStateManager.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 
             int xMultiplier = 1; // Nametag x rotations should flip in front-facing 3rd person
-            if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().gameSettings != null && Minecraft.getMinecraft().gameSettings.thirdPersonView == 2)
+            if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().gameSettings != null && Minecraft.getMinecraft().gameSettings.thirdPersonView == 2) {
                 xMultiplier = -1;
+            }
+
             GlStateManager.rotate(renderManager.playerViewX * xMultiplier, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-f1, -f1, f1);
             GlStateManager.disableLighting();
@@ -82,8 +84,8 @@ public class ReachDisplay {
             GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            int i = 0;
 
+            int i = 0;
             int j = fontrenderer.getStringWidth(string) / 2;
             GlStateManager.disableTexture2D();
             worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
@@ -128,9 +130,7 @@ public class ReachDisplay {
         float f1 = .1F;
         AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(f1, f1, f1);
         MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
-        if (movingobjectposition == null) {
-            return;
-        }
+        if (movingobjectposition == null) return;
         Vec3 vec33 = movingobjectposition.hitVec;
         hits.add(new Hit(vec33, dis));
 

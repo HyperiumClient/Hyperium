@@ -1,7 +1,7 @@
 package me.semx11.autotip.event.impl;
 
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.ServerChatEvent;
+import cc.hyperium.event.network.chat.ServerChatEvent;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.chat.MessageOption;
 import me.semx11.autotip.command.impl.CommandLimbo;
@@ -10,7 +10,6 @@ import me.semx11.autotip.config.GlobalSettings;
 import me.semx11.autotip.event.Event;
 import me.semx11.autotip.message.Message;
 import me.semx11.autotip.message.MessageMatcher;
-import me.semx11.autotip.message.StatsMessage;
 import me.semx11.autotip.message.StatsMessageMatcher;
 import me.semx11.autotip.stats.StatsDaily;
 import me.semx11.autotip.universal.UniversalUtil;
@@ -43,9 +42,7 @@ public class EventChatReceived implements Event {
             }
         }
 
-        if (!config.isEnabled()) {
-            return;
-        }
+        if (!config.isEnabled()) return;
 
         GlobalSettings settings = autotip.getGlobalSettings();
         MessageOption option = config.getMessageOption();
@@ -59,21 +56,18 @@ public class EventChatReceived implements Event {
         }
 
         String hover = UniversalUtil.getHoverText(event);
-        for (StatsMessage message : settings.getStatsMessages()) {
+        settings.getStatsMessages().forEach(message -> {
             StatsMessageMatcher matcher = message.getMatcherFor(msg);
-            if (!matcher.matches()) {
-                continue;
-            }
-
-            StatsDaily stats = this.getStats();
+            if (!matcher.matches()) return;
+            StatsDaily stats = getStats();
             matcher.applyStats(stats);
             message.applyHoverStats(hover, stats);
             event.setCancelled(message.shouldHide(option));
-        }
+        });
     }
 
     private StatsDaily getStats() {
-        return this.autotip.getStatsManager().getToday();
+        return autotip.getStatsManager().getToday();
     }
 
 }

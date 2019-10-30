@@ -22,6 +22,15 @@ import cc.hyperium.Metadata;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.*;
+import cc.hyperium.event.client.InitializationEvent;
+import cc.hyperium.event.client.PreInitializationEvent;
+import cc.hyperium.event.client.TickEvent;
+import cc.hyperium.event.gui.GuiOpenEvent;
+import cc.hyperium.event.interact.*;
+import cc.hyperium.event.network.server.SingleplayerJoinEvent;
+import cc.hyperium.event.render.RenderPlayerEvent;
+import cc.hyperium.event.world.WorldChangeEvent;
+import cc.hyperium.event.world.WorldUnloadEvent;
 import cc.hyperium.gui.GuiHyperiumScreenMainMenu;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.internal.addons.AddonBootstrap;
@@ -75,9 +84,8 @@ public class HyperiumMinecraft {
         EventBus.INSTANCE.register(Hyperium.INSTANCE);
 
         defaultResourcePacks.add(mcDefaultResourcePack);
-        for (File file : AddonBootstrap.getAddonResourcePacks()) {
-            defaultResourcePacks.add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
-        }
+        AddonBootstrap.getAddonResourcePacks().stream().map(file -> file == null ? new AddonWorkspaceResourcePack() :
+            new FileResourcePack(file)).forEach(defaultResourcePacks::add);
 
         AddonMinecraftBootstrap.init();
         CTJS.loadIntoJVM();
@@ -89,12 +97,9 @@ public class HyperiumMinecraft {
             HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();
             RenderPlayerEvent event = new RenderPlayerEvent(thePlayer, renderManager, renderManager.viewerPosZ, renderManager.viewerPosY, renderManager.viewerPosZ,
                 timer.renderPartialTicks);
-            if (handlers != null) {
-                if (Settings.SHOW_PART_1ST_PERSON)
-                    handlers.getParticleAuraHandler().renderPlayer(
-                        event);
+            if (handlers != null && Settings.SHOW_PART_1ST_PERSON) {
+                handlers.getParticleAuraHandler().renderPlayer(event);
             }
-
         }
     }
 
@@ -112,14 +117,7 @@ public class HyperiumMinecraft {
         int key = Keyboard.getEventKey();
         boolean repeat = Keyboard.isRepeatEvent();
         boolean press = Keyboard.getEventKeyState();
-
-        if (press) {
-            // Key has been pressed.
-            EventBus.INSTANCE.post(new KeypressEvent(key, repeat));
-        } else {
-            // Key has been released.
-            EventBus.INSTANCE.post(new KeyreleaseEvent(key, repeat));
-        }
+        EventBus.INSTANCE.post(press ? new KeyPressEvent(key, repeat) : new KeyReleaseEvent(key, repeat));
     }
 
     public void clickMouse() {
@@ -153,6 +151,7 @@ public class HyperiumMinecraft {
                 Display.setDisplayMode(new DisplayMode(displayWidth, displayHeight));
             }
         }
+
         Display.setResizable(false);
         Display.setResizable(true);
 
@@ -170,12 +169,12 @@ public class HyperiumMinecraft {
             } else {
                 System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
                 Display.setDisplayMode(new DisplayMode(displayWidth, displayHeight));
-
             }
         } else {
             Display.setFullscreen(fullscreen);
             System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
         }
+
         Display.setResizable(false);
         Display.setResizable(true);
     }
@@ -206,20 +205,15 @@ public class HyperiumMinecraft {
         GuiOpenEvent event = new GuiOpenEvent(guiScreenIn);
         EventBus.INSTANCE.post(event);
 
-        if (event.isCancelled()) {
-            return;
-        }
+        if (event.isCancelled()) return;
 
         guiScreenIn = event.getGui();
-        if (currentScreen != null && guiScreenIn != currentScreen) {
-            currentScreen.onGuiClosed();
-        }
-        if (currentScreen != null) {
-            EventBus.INSTANCE.unregister(currentScreen);
-        }
+        if (currentScreen != null && guiScreenIn != currentScreen) currentScreen.onGuiClosed();
+        if (currentScreen != null) EventBus.INSTANCE.unregister(currentScreen);
 
         if (guiScreenIn instanceof GuiHyperiumScreenMainMenu) {
             gameSettings.showDebugInfo = false;
+
             if (!Settings.PERSISTENT_CHAT) {
                 ingameGUI.getChatGUI().clearChatMessages();
             }
@@ -245,9 +239,7 @@ public class HyperiumMinecraft {
     }
 
     public void getLimitFramerate(CallbackInfoReturnable<Integer> ci) {
-        if (FPSLimiter.shouldLimitFramerate()) {
-            ci.setReturnValue(FPSLimiter.getInstance().getFpsLimit());
-        }
+        if (FPSLimiter.shouldLimitFramerate()) ci.setReturnValue(FPSLimiter.getInstance().getFpsLimit());
     }
 
     public void onStartGame() {
@@ -271,10 +263,7 @@ public class HyperiumMinecraft {
     }
 
     public void loadWorld() {
-        if (Minecraft.getMinecraft().theWorld != null) {
-            new WorldUnloadEvent().post();
-        }
-
+        if (Minecraft.getMinecraft().theWorld != null) new WorldUnloadEvent().post();
         EventBus.INSTANCE.post(new WorldChangeEvent());
     }
 
@@ -282,13 +271,7 @@ public class HyperiumMinecraft {
         // Activates for EVERY mouse button.
         int i = Mouse.getEventButton();
         boolean state = Mouse.getEventButtonState();
-        if (state) {
-            // Mouse clicked.
-            EventBus.INSTANCE.post(new MouseButtonEvent(i, true));
-        } else {
-            // Mouse released.
-            EventBus.INSTANCE.post(new MouseButtonEvent(i, false));
-        }
+        EventBus.INSTANCE.post(state ? new MouseButtonEvent(i, true) : new MouseButtonEvent(i, false));
     }
 
     public void displayCrashReport(CrashReport crashReportIn) {

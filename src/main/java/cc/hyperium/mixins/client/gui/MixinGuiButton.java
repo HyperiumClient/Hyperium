@@ -53,9 +53,7 @@ public abstract class MixinGuiButton extends Gui {
      */
     @Overwrite
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        if (prevDeltaTime == 0) {
-            prevDeltaTime = System.currentTimeMillis();
-        }
+        if (prevDeltaTime == 0) prevDeltaTime = System.currentTimeMillis();
 
         if (visible) {
             mc.getTextureManager().bindTexture(buttonTextures);

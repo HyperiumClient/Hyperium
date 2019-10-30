@@ -18,19 +18,19 @@
 package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.ChatEvent;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.client.TickEvent;
+import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
-import cc.hyperium.config.Settings;
-import cc.hyperium.config.ConfigOpt;
 import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -55,7 +55,6 @@ public class GeneralChatHandler {
 
     public GeneralChatHandler(List<HyperiumChatHandler> handlerList) {
         this.handlerList = handlerList;
-
         instance = this;
     }
 
@@ -70,7 +69,7 @@ public class GeneralChatHandler {
             component = new ChatComponentText("");
         }
 
-        this.messages.add(component);
+        messages.add(component);
     }
 
     /**
@@ -80,9 +79,7 @@ public class GeneralChatHandler {
      * @param addHeader if true, the message will show a Hyperium prefix before it
      */
     public void sendMessage(String message, boolean addHeader) {
-        if (message == null) {
-            return;
-        }
+        if (message == null) return;
 
         if (addHeader) {
             if (Settings.HYPERIUM_CHAT_PREFIX) {
@@ -107,24 +104,19 @@ public class GeneralChatHandler {
 
     @InvokeEvent
     public void tick(TickEvent event) {
-        if (Minecraft.getMinecraft().thePlayer == null) {
-            return;
-        }
+        if (Minecraft.getMinecraft().thePlayer == null) return;
 
-        while (!this.messages.isEmpty()) {
-            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(this.messages.poll());
+        while (!messages.isEmpty()) {
+            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(messages.poll());
         }
     }
 
     @InvokeEvent
     public void chatEvent(ChatEvent event) {
         boolean state = true;
+        if (!posted) return;
 
-        if (!this.posted) {
-            return;
-        }
-
-        for (HyperiumChatHandler chatHandler : this.handlerList) {
+        for (HyperiumChatHandler chatHandler : handlerList) {
             // Surround in try catch so errors don't stop further chat parsers
             try {
                 // Is reversed because chathandlers weren't called if state was false, since
@@ -137,9 +129,7 @@ public class GeneralChatHandler {
             }
         }
 
-        if (state) {
-            event.setCancelled(true);
-        }
+        if (state) event.setCancelled(true);
     }
 
     public void post() {
@@ -148,20 +138,16 @@ public class GeneralChatHandler {
 
         HyperiumChatHandler.regexPatterns = new EnumMap<>(HyperiumChatHandler.ChatRegexType.class);
 
-        for (HyperiumChatHandler.ChatRegexType type : HyperiumChatHandler.ChatRegexType.values()) {
+        Arrays.stream(HyperiumChatHandler.ChatRegexType.values()).forEach(type -> {
             if (!data.has(type.name().toLowerCase())) {
                 Hyperium.LOGGER.error("Could not find chat regex type " + type.name().toLowerCase() + " in the remote file.");
-                continue;
+                return;
             }
-
             HyperiumChatHandler.regexPatterns.put(type, Pattern.compile(data.optString(type.name().toLowerCase())));
-        }
+        });
 
-        this.posted = true;
-
-        for (HyperiumChatHandler chatHandler : this.handlerList) {
-            chatHandler.callback(data);
-        }
+        posted = true;
+        handlerList.forEach(chatHandler -> chatHandler.callback(data));
     }
 
     /**

@@ -17,10 +17,9 @@
 
 package cc.hyperium.mods.chromahud;
 
-import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderHUDEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.client.TickEvent;
+import cc.hyperium.event.render.RenderHUDEvent;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -31,7 +30,6 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -83,7 +81,8 @@ public class ElementRenderer {
 
             if (current.isHighlighted()) {
                 int stringWidth = fontRendererObj.getStringWidth(string);
-                RenderUtils.drawRect((int) ((x - 1) / currentScale - shift), (int) ((ty - 1) / currentScale), (int) ((x + 1) / currentScale) + stringWidth - shift, (int) ((ty + 1) / currentScale) + 8, new Color(0, 0, 0, 120).getRGB());
+                RenderUtils.drawRect((int) ((x - 1) / currentScale - shift), (int) ((ty - 1) / currentScale), (int) ((x + 1) / currentScale)
+                    + stringWidth - shift, (int) ((ty + 1) / currentScale) + 8, new Color(0, 0, 0, 120).getRGB());
             }
 
             if (current.isChroma()) {
@@ -91,6 +90,7 @@ public class ElementRenderer {
             } else {
                 fontRendererObj.drawString(string, (int) (x / currentScale - shift), (int) (ty / currentScale), getColor(color), current.isShadow());
             }
+
             ty += 10D * currentScale;
         }
     }
@@ -99,10 +99,10 @@ public class ElementRenderer {
     private static void drawChromaString(String text, int xIn, int y) {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         int x = xIn;
+
         for (char c : text.toCharArray()) {
             long dif = (x * 10) - (y * 10);
-            if (current.isStaticChroma())
-                dif = 0;
+            if (current.isStaticChroma()) dif = 0;
             long l = System.currentTimeMillis() - dif;
             float ff = current.isStaticChroma() ? 1000.0F : 2000.0F;
             int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
@@ -115,9 +115,11 @@ public class ElementRenderer {
 
     public static int maxWidth(List<String> list) {
         int max = 0;
+
         for (String s : list) {
             max = Math.max(max, Minecraft.getMinecraft().fontRendererObj.getStringWidth(s));
         }
+
         return max;
     }
 
@@ -126,10 +128,7 @@ public class ElementRenderer {
     }
 
     public static int getCPS() {
-        Iterator<Long> iterator = clicks.iterator();
-        while (iterator.hasNext())
-            if (System.currentTimeMillis() - iterator.next() > 1000L)
-                iterator.remove();
+        clicks.removeIf(aLong -> System.currentTimeMillis() - aLong > 1000L);
         return clicks.size();
     }
 
@@ -141,16 +140,15 @@ public class ElementRenderer {
         GlStateManager.pushMatrix();
         int line = 0;
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+
         for (ItemStack stack : itemStacks) {
-            if (stack.getMaxDamage() == 0)
-                continue;
+            if (stack.getMaxDamage() == 0) continue;
             String dur = stack.getMaxDamage() - stack.getItemDamage() + "";
             renderItem.renderItemAndEffectIntoGUI(stack, (int) (x / ElementRenderer.getCurrentScale() - (current.isRightSided() ? (showDurability ? currentScale + fontRendererObj.getStringWidth(dur) : -8) : 0)), (int) ((y + (16 * line * ElementRenderer.getCurrentScale())) / ElementRenderer.getCurrentScale()));
-            if (showDurability) {
-                ElementRenderer.draw((int) (x + (double) 20 * currentScale), y + (16 * line) + 4, dur);
-            }
+            if (showDurability) ElementRenderer.draw((int) (x + (double) 20 * currentScale), y + (16 * line) + 4, dur);
             line++;
         }
+
         GlStateManager.popMatrix();
     }
 
@@ -174,10 +172,7 @@ public class ElementRenderer {
     }
 
     public static int getRightCPS() {
-        Iterator<Long> iterator = rClicks.iterator();
-        while (iterator.hasNext())
-            if (System.currentTimeMillis() - iterator.next() > 1000L)
-                iterator.remove();
+        rClicks.removeIf(aLong -> System.currentTimeMillis() - aLong > 1000L);
         return rClicks.size();
     }
 
@@ -192,49 +187,40 @@ public class ElementRenderer {
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
-        if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
-            return;
-        }
-
+        if (!minecraft.inGameHasFocus || minecraft.gameSettings.showDebugInfo) return;
         renderElements();
         GlStateManager.resetColor();
 
     }
 
     private void renderElements() {
-        if (fontRendererObj == null)
-            fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
+        if (fontRendererObj == null) fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
 
         // Mouse Button Left
         boolean m = Mouse.isButtonDown(0);
         if (m != last) {
             last = m;
-            if (m) {
-                clicks.add(System.currentTimeMillis());
-            }
+            if (m) clicks.add(System.currentTimeMillis());
         }
 
         // Mouse Button Right
         boolean rm = Mouse.isButtonDown(1);
         if (rm != rLast) {
             rLast = rm;
-            if (rm) {
-                rClicks.add(System.currentTimeMillis());
-            }
+            if (rm) rClicks.add(System.currentTimeMillis());
         }
 
         // Others
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         List<DisplayElement> elementList = mod.getDisplayElements();
-        for (DisplayElement element : elementList) {
+        elementList.forEach(element -> {
             startDrawing(element);
             try {
                 element.draw();
             } catch (Exception ignored) {
             }
             endDrawing(element);
-        }
-
+        });
     }
 }

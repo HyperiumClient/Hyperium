@@ -28,7 +28,7 @@ public class CommandTimeChangerDay implements BaseCommand {
     private final TimeChanger mod;
 
     public CommandTimeChangerDay(TimeChanger main) {
-        this.mod = main;
+        mod = main;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CommandTimeChangerDay implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        this.mod.setTimeType(TimeType.DAY);
+        mod.setTimeType(TimeType.DAY);
         GeneralChatHandler.instance().sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to day.", false);
     }
 }

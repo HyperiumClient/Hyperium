@@ -29,36 +29,18 @@ public class HyperiumChatStyle {
     }
 
     public String getFormattingCode(ChatStyle parentStyle) {
-        if (cachedState != null)
-            return cachedState;
+        if (cachedState != null) return cachedState;
         if (parent.isEmpty()) {
             return parentStyle != null ? parentStyle.getFormattingCode() : "";
         } else {
             StringBuilder stringbuilder = new StringBuilder();
 
-            if (parent.getColor() != null) {
-                stringbuilder.append(parent.getColor());
-            }
-
-            if (parent.getBold()) {
-                stringbuilder.append(EnumChatFormatting.BOLD);
-            }
-
-            if (parent.getItalic()) {
-                stringbuilder.append(EnumChatFormatting.ITALIC);
-            }
-
-            if (parent.getUnderlined()) {
-                stringbuilder.append(EnumChatFormatting.UNDERLINE);
-            }
-
-            if (parent.getObfuscated()) {
-                stringbuilder.append(EnumChatFormatting.OBFUSCATED);
-            }
-
-            if (parent.getStrikethrough()) {
-                stringbuilder.append(EnumChatFormatting.STRIKETHROUGH);
-            }
+            if (parent.getColor() != null) stringbuilder.append(parent.getColor());
+            if (parent.getBold()) stringbuilder.append(EnumChatFormatting.BOLD);
+            if (parent.getItalic()) stringbuilder.append(EnumChatFormatting.ITALIC);
+            if (parent.getUnderlined()) stringbuilder.append(EnumChatFormatting.UNDERLINE);
+            if (parent.getObfuscated()) stringbuilder.append(EnumChatFormatting.OBFUSCATED);
+            if (parent.getStrikethrough()) stringbuilder.append(EnumChatFormatting.STRIKETHROUGH);
 
             String s = stringbuilder.toString();
             cachedState = s;
@@ -67,6 +49,6 @@ public class HyperiumChatStyle {
     }
 
     public void resetCache() {
-        this.cachedState = null;
+        cachedState = null;
     }
 }

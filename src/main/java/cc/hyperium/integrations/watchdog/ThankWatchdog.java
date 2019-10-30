@@ -18,8 +18,8 @@
 package cc.hyperium.integrations.watchdog;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import net.minecraft.client.Minecraft;
 
@@ -30,10 +30,9 @@ public class ThankWatchdog {
 
     @InvokeEvent
     public void onChat(ChatEvent e) {
-        if (e.getChat().getUnformattedText().contains(WATCHDOG_BAN_TRIGGER) || e.getChat().getUnformattedText().contains(WATCHDOG_ANNOUNCEMENT_TRIGGER)) {
-            if (Settings.THANK_WATCHDOG && HypixelDetector.getInstance().isHypixel()) {
-                Minecraft.getMinecraft().thePlayer.sendChatMessage(THANK_WATCHDOG_MESSAGE);
-            }
+        if ((e.getChat().getUnformattedText().contains(WATCHDOG_BAN_TRIGGER) || e.getChat().getUnformattedText().contains(WATCHDOG_ANNOUNCEMENT_TRIGGER)) &&
+            Settings.THANK_WATCHDOG && HypixelDetector.getInstance().isHypixel()) {
+            Minecraft.getMinecraft().thePlayer.sendChatMessage(THANK_WATCHDOG_MESSAGE);
         }
     }
 }

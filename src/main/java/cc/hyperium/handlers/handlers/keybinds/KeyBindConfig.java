@@ -46,7 +46,7 @@ public class KeyBindConfig {
         }
 
         this.handler = handler;
-        this.keybindFile = new File(directory, "keybinds.json");
+        keybindFile = new File(directory, "keybinds.json");
     }
 
     public BetterJsonObject getKeyBindJson() {
@@ -54,38 +54,32 @@ public class KeyBindConfig {
     }
 
     public void save() {
-        if (!exists(this.keybindFile)) {
-            this.keybindFile.getParentFile().mkdirs();
+        if (!exists(keybindFile)) {
+            keybindFile.getParentFile().mkdirs();
         }
 
         try {
-            this.keybindFile.createNewFile();
-
-            for (HyperiumBind base : this.handler.getKeybinds().values()) {
-                this.keyBindJson.addProperty(base.getRealDescription(), base.getKeyCode());
-            }
-
-            this.keyBindJson.writeToFile(this.keybindFile);
+            keybindFile.createNewFile();
+            handler.getKeybinds().values().forEach(base -> keyBindJson.addProperty(base.getRealDescription(), base.getKeyCode()));
+            keyBindJson.writeToFile(keybindFile);
         } catch (IOException ex) {
             Hyperium.LOGGER.warn("An error occured while saving the Hyperium KeyBlinds, this is not good.");
         }
     }
 
     public void load() {
-        if (exists(this.keybindFile)) {
+        if (exists(keybindFile)) {
             try {
-                FileReader fileReader = new FileReader(this.keybindFile);
+                FileReader fileReader = new FileReader(keybindFile);
                 BufferedReader reader = new BufferedReader(fileReader);
-                this.keyBindJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
+                keyBindJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
             } catch (Exception ex) {
                 // Error occured while loading
                 save();
                 return;
             }
 
-            for (HyperiumBind bind : this.handler.getKeybinds().values()) {
-                bind.setKeyCode(this.keyBindJson.optInt(bind.getRealDescription(), bind.getDefaultKeyCode()));
-            }
+            handler.getKeybinds().values().forEach(bind -> bind.setKeyCode(keyBindJson.optInt(bind.getRealDescription(), bind.getDefaultKeyCode())));
         } else {
             // Config file doesn't exist, yay!
             save();
@@ -93,8 +87,8 @@ public class KeyBindConfig {
     }
 
     public void attemptKeyBindLoad(HyperiumBind bind) {
-        if (this.keyBindJson.has(bind.getRealDescription())) {
-            bind.setKeyCode(this.keyBindJson.optInt(bind.getRealDescription(), bind.getDefaultKeyCode()));
+        if (keyBindJson.has(bind.getRealDescription())) {
+            bind.setKeyCode(keyBindJson.optInt(bind.getRealDescription(), bind.getDefaultKeyCode()));
         }
     }
 

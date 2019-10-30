@@ -19,8 +19,8 @@ package cc.hyperium.purchases;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.PurchaseLoadEvent;
-import cc.hyperium.event.SpawnpointChangeEvent;
+import cc.hyperium.event.network.PurchaseLoadEvent;
+import cc.hyperium.event.world.SpawnpointChangeEvent;
 import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.packages.EarsCosmetic;
@@ -39,6 +39,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -57,10 +58,8 @@ public class PurchaseApi {
     private PurchaseApi() {
         register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
 
-        for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
-            purchaseClasses.putIfAbsent(enumPurchaseType, DefaultCosmetic.class);
-            //todo: causes deadlock, threads freeze, check out sometime
-        }
+        //todo: causes deadlock, threads freeze, check out sometime
+        Arrays.stream(EnumPurchaseType.values()).forEach(enumPurchaseType -> purchaseClasses.putIfAbsent(enumPurchaseType, DefaultCosmetic.class));
 
         getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
         Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));
@@ -80,14 +79,10 @@ public class PurchaseApi {
         Multithreading.runAsync(() -> {
             synchronized (instance) {
                 UUID id = UUIDUtil.getClientUUID();
-                if (id == null) {
-                    return;
-                }
+                if (id == null) return;
                 HyperiumPurchase purchase = purchasePlayers.get(id);
                 purchasePlayers.clear();
-                if (purchase != null) {
-                    purchasePlayers.put(id, purchase);
-                }
+                if (purchase != null) purchasePlayers.put(id, purchase);
                 nameToUuid.clear();
             }
         });
@@ -95,17 +90,17 @@ public class PurchaseApi {
 
     public UUID nameToUUID(String name) {
         UUID uuid = nameToUuid.get(name.toLowerCase());
-        if (uuid != null)
-            return uuid;
+        if (uuid != null) return uuid;
         WorldClient theWorld = Minecraft.getMinecraft().theWorld;
-        if (theWorld == null)
-            return null;
+        if (theWorld == null) return null;
+
         for (EntityPlayer playerEntity : theWorld.playerEntities) {
             if (playerEntity.getName().equalsIgnoreCase(name) || EnumChatFormatting.getTextWithoutFormattingCodes(playerEntity.getName()).equalsIgnoreCase(name)) {
                 nameToUuid.put(name.toLowerCase(), playerEntity.getUniqueID());
                 return playerEntity.getUniqueID();
             }
         }
+
         return null;
     }
 
@@ -115,7 +110,6 @@ public class PurchaseApi {
         return purchasePlayers.computeIfAbsent(uuid, uuid1 -> {
             String s = uuid.toString().replace("-", "");
             if (s.length() == 32 && s.charAt(12) != '4') {
-
                 HyperiumPurchase non_player = new HyperiumPurchase(uuid, new JsonHolder().put("non_player", true));
                 EventBus.INSTANCE.post(new PurchaseLoadEvent(uuid, non_player, false));
                 return non_player;
@@ -128,8 +122,7 @@ public class PurchaseApi {
     }
 
     public HyperiumPurchase getPackageIfReady(UUID uuid) {
-        if (uuid == null)
-            return null;
+        if (uuid == null) return null;
         return purchasePlayers.get(uuid);
     }
 
@@ -155,12 +148,11 @@ public class PurchaseApi {
 
     public AbstractHyperiumPurchase parse(EnumPurchaseType type, JsonHolder data) {
         Class<? extends AbstractHyperiumPurchase> c = purchaseClasses.get(type);
-        if (c == null) {
-            return null;
-        }
+        if (c == null) return null;
         Class[] cArg = new Class[2];
         cArg[0] = EnumPurchaseType.class;
         cArg[1] = JsonHolder.class;
+
         try {
             Constructor<? extends AbstractHyperiumPurchase> declaredConstructor = c.getDeclaredConstructor(cArg);
             return declaredConstructor.newInstance(type, data);
@@ -185,6 +177,7 @@ public class PurchaseApi {
             return new JsonHolder(IOUtils.toString(is, StandardCharsets.UTF_8));
         } catch (Exception ignored) {
         }
+
         JsonObject object = new JsonObject();
         object.addProperty("success", false);
         object.addProperty("cause", "Exception");

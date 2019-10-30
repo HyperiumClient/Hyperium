@@ -19,9 +19,9 @@ package cc.hyperium.mixinsimp.entity.player;
 
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.LivingDeathEvent;
-import cc.hyperium.event.PlayerAttackEntityEvent;
-import cc.hyperium.event.PlayerSwingEvent;
+import cc.hyperium.event.entity.LivingDeathEvent;
+import cc.hyperium.event.entity.PlayerAttackEntityEvent;
+import cc.hyperium.event.entity.PlayerSwingEvent;
 import cc.hyperium.mixins.entity.IMixinEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -83,22 +83,13 @@ public class HyperiumEntityPlayer {
                 }
             }
 
-            if (parent.isPlayerSleeping()) {
-                currentHeight = 0.2F;
-            }
+            if (parent.isPlayerSleeping()) currentHeight = 0.2F;
 
             return currentHeight;
         } else {
             float f = 1.62F;
-
-            if (parent.isPlayerSleeping()) {
-                f = 0.2F;
-            }
-
-            if (parent.isSneaking()) {
-                f -= 0.08F;
-            }
-
+            if (parent.isPlayerSleeping()) f = 0.2F;
+            if (parent.isSneaking()) f -= 0.08F;
             return f;
         }
     }
@@ -114,7 +105,7 @@ public class HyperiumEntityPlayer {
                     .setChatHoverEvent(((IMixinEntity) parent).callGetHoverEvent());
             }
             ichatcomponent.getChatStyle().setInsertion(parent.getName());
-            this.cachedName = ichatcomponent;
+            cachedName = ichatcomponent;
         }
 
         return cachedName;
@@ -129,6 +120,6 @@ public class HyperiumEntityPlayer {
     }
 
     public void setName(String name) {
-        this.displayName = name;
+        displayName = name;
     }
 }

@@ -20,10 +20,10 @@ package cc.hyperium.cosmetics.companions.dragon;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.AbstractCosmetic;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderEntitiesEvent;
-import cc.hyperium.event.RenderPlayerEvent;
-import cc.hyperium.event.TickEvent;
-import cc.hyperium.event.WorldChangeEvent;
+import cc.hyperium.event.render.RenderEntitiesEvent;
+import cc.hyperium.event.render.RenderPlayerEvent;
+import cc.hyperium.event.client.TickEvent;
+import cc.hyperium.event.world.WorldChangeEvent;
 import cc.hyperium.mixinsimp.client.renderer.entity.IMixinRenderManager;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
@@ -38,7 +38,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DragonCompanion extends AbstractCosmetic {
@@ -60,23 +59,22 @@ public class DragonCompanion extends AbstractCosmetic {
 
     @InvokeEvent
     public void renderPlayer(RenderPlayerEvent event) {
-        if (Minecraft.getMinecraft().theWorld == null)
-            return;
-        if (!isPurchasedBy(event.getEntity().getUniqueID()))
-            return;
+        if (Minecraft.getMinecraft().theWorld == null || !isPurchasedBy(event.getEntity().getUniqueID())) return;
+
         HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
-        if (packageIfReady == null)
+
+        if (packageIfReady == null || packageIfReady.getCachedSettings().getCurrentCompanion() != EnumPurchaseType.DRAGON_COMPANION)
             return;
-        if (packageIfReady.getCachedSettings().getCurrentCompanion() != EnumPurchaseType.DRAGON_COMPANION) {
-            return;
-        }
+
         scale = .1F;
         AbstractClientPlayer player = event.getEntity();
+
         CustomDragon customDragon = dragonHashMap.computeIfAbsent(event.getEntity(), player1 -> {
             EntityDragon dragon = new EntityDragon(player1.getEntityWorld());
             dragon.setSilent(true);
             return new CustomDragon(dragon, new AnimationState());
         });
+
         Entity entity = customDragon.dragon;
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
 
@@ -95,6 +93,7 @@ public class DragonCompanion extends AbstractCosmetic {
         entityDragon.posX = current.x / scale;
         entityDragon.posY = current.y / scale;
         entityDragon.posZ = current.z / scale;
+
         GlStateManager.translate(-((IMixinRenderManager) renderManager).getPosX(),
             -((IMixinRenderManager) renderManager).getPosY(),
             -((IMixinRenderManager) renderManager).getPosZ());
@@ -118,20 +117,15 @@ public class DragonCompanion extends AbstractCosmetic {
     }
 
     public void tick() {
-        if (Minecraft.getMinecraft().theWorld == null)
-            return;
+        if (Minecraft.getMinecraft().theWorld == null) return;
 
-        for (Map.Entry<EntityPlayer, CustomDragon> entry : dragonHashMap.entrySet()) {
-            EntityPlayer player = entry.getKey();
-            CustomDragon customDragon = entry.getValue();
+        dragonHashMap.forEach((player, customDragon) -> {
             EntityDragon entityDragon = customDragon.dragon;
             AnimationState animationState = customDragon.animationState;
             if (entityDragon != null) {
                 entityDragon.setWorld(player.getEntityWorld());
                 double v = animationState.next.distanceSqTo(new AnimationPoint(player.posX, player.posY, player.posZ));
-                if (v > 7 * 7) {
-                    animationState.switchToNext(player, true);
-                }
+                if (v > 7 * 7) animationState.switchToNext(player, true);
 
                 entityDragon.lastTickPosX = entityDragon.posX;
                 entityDragon.lastTickPosY = entityDragon.posY;
@@ -158,12 +152,12 @@ public class DragonCompanion extends AbstractCosmetic {
                     angle = ((float) angle + (float) angle1) / 2;
                     entityDragon.rotationYawHead = (float) angle1;
                 }
+
                 entityDragon.prevRotationYaw = entityDragon.rotationYaw;
                 entityDragon.rotationYaw = (float) angle;
-
                 entityDragon.onLivingUpdate();
             }
-        }
+        });
 
     }
 
@@ -173,7 +167,7 @@ public class DragonCompanion extends AbstractCosmetic {
 
         CustomDragon(EntityDragon dragon, AnimationState point) {
             this.dragon = dragon;
-            this.animationState = point;
+            animationState = point;
         }
     }
 
@@ -219,10 +213,7 @@ public class DragonCompanion extends AbstractCosmetic {
             next = toofar ? new AnimationPoint(player.posX, player.posY + 3, player.posZ) : nextNext;
             start = System.currentTimeMillis();
             currentDistance = next.distanceTo(last);
-            if (toofar) {
-                speed = currentDistance;
-            } else
-                speed = 3;
+            speed = toofar ? currentDistance : 3;
             totalTime = (long) (currentDistance / speed * 1000);
             endTime = start + totalTime;
 
@@ -230,22 +221,18 @@ public class DragonCompanion extends AbstractCosmetic {
 
         AnimationPoint getCurrent(EntityPlayer player) {
             long startTime = System.currentTimeMillis();
-            if (startTime > endTime) {
-                switchToNext(player, false);
-            }
+            if (startTime > endTime) switchToNext(player, false);
             double percent = (double) (startTime - start) / (double) totalTime;
-            return new AnimationPoint(interpolate(this.last.x, next.x, percent),
-                interpolate(this.last.y, next.y, percent),
-                interpolate(this.last.z, next.z, percent));
+            return new AnimationPoint(interpolate(last.x, next.x, percent),
+                interpolate(last.y, next.y, percent),
+                interpolate(last.z, next.z, percent));
         }
 
         boolean nextFrameisNewPoint(EntityPlayer player) {
             long endTime = this.endTime;
-            boolean b = System.currentTimeMillis() + 50L >= endTime;
-            if (b) {
-                nextNext = generateRandom(player);
-            }
-            return b;
+            boolean frame = System.currentTimeMillis() + 50L >= endTime;
+            if (frame) nextNext = generateRandom(player);
+            return frame;
         }
 
         private double interpolate(final double now, final double then, final double percent) {

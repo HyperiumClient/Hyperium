@@ -64,9 +64,7 @@ public abstract class MixinGuiOverlayDebug {
         renderDebugInfoRight(scaledResolutionIn);
         GlStateManager.popMatrix();
 
-        if (mc.gameSettings.showLagometer) {
-            renderLagometer();
-        }
+        if (mc.gameSettings.showLagometer) renderLagometer();
 
         mc.mcProfiler.endSection();
     }

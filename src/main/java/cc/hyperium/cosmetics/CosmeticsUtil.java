@@ -30,4 +30,10 @@ public class CosmeticsUtil {
 
         return !Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing();
     }
+
+    public static float interpolate(float yaw1, float yaw2, float percent) {
+        float rotation = (yaw1 + (yaw2 - yaw1) * percent) % 360.0f;
+        if (rotation < 0.0f) rotation += 360.0f;
+        return rotation;
+    }
 }

@@ -36,8 +36,7 @@ public class HyperiumRenderChunk {
     }
 
     public void setPosition(BlockPos bp) {
-        if (handler == null)
-            handler = Hyperium.INSTANCE.getModIntegration().getChunkAnimator().getAnimationHandler();
+        if (handler == null) handler = Hyperium.INSTANCE.getModIntegration().getChunkAnimator().getAnimationHandler();
         handler.setPosition(parent, bp);
     }
 }

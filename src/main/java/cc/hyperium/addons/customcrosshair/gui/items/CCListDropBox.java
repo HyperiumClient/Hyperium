@@ -33,36 +33,36 @@ public class CCListDropBox extends CCGuiItem {
 
     public CCListDropBox(final GuiScreen screen) {
         super(screen);
-        this.isOpen = false;
-        this.itemList = new ArrayList<>();
-        this.setWidth(100);
-        this.setHeight(10);
-        this.itemList.add("Item One");
-        this.itemList.add("Item Two");
-        this.itemList.add("Item Three");
-        this.itemList.add("Item Four");
-        this.itemList.add("Item Five");
+        isOpen = false;
+        itemList = new ArrayList<>();
+        setWidth(100);
+        setHeight(10);
+        itemList.add("Item One");
+        itemList.add("Item Two");
+        itemList.add("Item Three");
+        itemList.add("Item Four");
+        itemList.add("Item Five");
     }
 
     @Override
     public void drawItem(final int mouseX, final int mouseY) {
         CustomCrosshairGraphics
-            .drawBorderedRectangle(this.getPosX(), this.getPosY(), this.getPosX() + this.getWidth(), this.getPosY() + this.getHeight(), new Color(23, 107, 192, 128), new Color(240, 240, 240, 255));
-        if (this.selectedItem != null && !this.selectedItem.equals("")) {
+            .drawBorderedRectangle(getPosX(), getPosY(), getPosX() + getWidth(), getPosY() + getHeight(), new Color(23, 107, 192, 128), new Color(240, 240, 240, 255));
+        if (selectedItem != null && !selectedItem.equals("")) {
             CustomCrosshairGraphics
-                .drawString(this.selectedItem, this.getPosX() + 2, this.getPosY(), 16777215);
+                .drawString(selectedItem, getPosX() + 2, getPosY(), 16777215);
         } else {
             CustomCrosshairGraphics
-                .drawString("No item selected.", this.getPosX() + 2, this.getPosY() + 2, 16777215);
+                .drawString("No item selected.", getPosX() + 2, getPosY() + 2, 16777215);
         }
         CustomCrosshairGraphics
-            .drawBorderedRectangle(this.getPosX() + this.getWidth() - 10, this.getPosY(), this.getPosX() + this.getWidth(), this.getPosY() + this.getHeight(), new Color(23, 107, 192, 128), new Color(240, 240, 240, 255));
-        final int listHeight = 1 + this.itemList.size() * 10;
+            .drawBorderedRectangle(getPosX() + getWidth() - 10, getPosY(), getPosX() + getWidth(), getPosY() + getHeight(), new Color(23, 107, 192, 128), new Color(240, 240, 240, 255));
+        final int listHeight = 1 + itemList.size() * 10;
         CustomCrosshairGraphics
-            .drawBorderedRectangle(this.getPosX(), this.getPosY() + this.getHeight(), this.getPosX() + this.getWidth(), this.getPosY() + this.getHeight() + listHeight, new Color(23, 107, 192, 128), new Color(240, 240, 240, 255));
-        for (int i = 0; i < this.itemList.size(); ++i) {
+            .drawBorderedRectangle(getPosX(), getPosY() + getHeight(), getPosX() + getWidth(), getPosY() + getHeight() + listHeight, new Color(23, 107, 192, 128), new Color(240, 240, 240, 255));
+        for (int i = 0; i < itemList.size(); ++i) {
             CustomCrosshairGraphics
-                .drawString(this.itemList.get(i), this.getPosX() + 2, this.getPosY() + this.getHeight() + i * 10 + 2, 16777215);
+                .drawString(itemList.get(i), getPosX() + 2, getPosY() + getHeight() + i * 10 + 2, 16777215);
         }
     }
 }

@@ -33,9 +33,7 @@ public class KeybindEntry {
     }
 
     public void renderBind(int x, int y, FontRenderer fontRenderer, Minecraft mc, int mouseX, int mouseY) {
-        if (!visible) {
-            visible = true;
-        }
+        if (!visible) visible = true;
         fontRenderer.drawString(label, x, y, Color.WHITE.getRGB());
         keybindButton.drawDynamicButton(mc, mouseX, mouseY, x + 150, y);
     }

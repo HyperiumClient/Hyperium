@@ -1,9 +1,9 @@
 package me.semx11.autotip.universal;
 
-import cc.hyperium.event.ServerChatEvent;
-import cc.hyperium.event.ServerJoinEvent;
+import cc.hyperium.event.network.chat.ServerChatEvent;
+import cc.hyperium.event.network.server.ServerJoinEvent;
+import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.Autotip;
-import me.semx11.autotip.chat.ChatColor;
 import me.semx11.autotip.util.MinecraftVersion;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.event.ClickEvent;
@@ -40,7 +40,7 @@ public class UniversalUtil {
         }
 
         String unformattedText = ((IChatComponent) component).getUnformattedText();
-        return ChatColor.stripFormatting(unformattedText);
+        return ChatColor.stripColor(unformattedText);
     }
 
     public static String getHoverText(ServerChatEvent event) {
@@ -82,7 +82,7 @@ public class UniversalUtil {
         HoverEvent hoverEvent;
 
         if (url != null && !url.equals("")) {
-            clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL,url);
+            clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, url);
             chatStyle.setChatClickEvent(clickEvent);
         }
 
@@ -92,9 +92,7 @@ public class UniversalUtil {
         }
 
         IChatComponent chatComponent = newComponent(text);
-
         chatComponent.setChatStyle(chatStyle);
-
         return chatComponent;
     }
 }

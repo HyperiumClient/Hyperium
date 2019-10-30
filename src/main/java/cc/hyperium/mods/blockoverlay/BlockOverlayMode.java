@@ -34,6 +34,6 @@ public enum BlockOverlayMode {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 }

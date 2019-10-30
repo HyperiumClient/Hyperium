@@ -43,9 +43,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             Minecraft.getMinecraft().toggleFullscreen();
         }
 
-        if (Hyperium.INSTANCE.isFirstLaunch()) {
-            new SettingsMigrator().migrate();
-        }
+        if (Hyperium.INSTANCE.isFirstLaunch()) new SettingsMigrator().migrate();
     }
 
     /**
@@ -58,7 +56,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         buttonList.add(new GuiButton(0, center - 100, getRowPos(2), I18n.format("menu.singleplayer")));
         buttonList.add(new GuiButton(1, center - 100, getRowPos(3), I18n.format("menu.multiplayer")));
-        buttonList.add(hypixelButton = new GuiButton(2, center - 100, getRowPos(4),  I18n.format("button.ingame.joinhypixel")));
+        buttonList.add(hypixelButton = new GuiButton(2, center - 100, getRowPos(4), I18n.format("button.ingame.joinhypixel")));
         buttonList.add(new GuiButton(3, center - 100, getRowPos(5), I18n.format("button.ingame.hyperiumsettings")));
         buttonList.add(new GuiButton(4, center - 100, getRowPos(6), 98, 20, I18n.format("menu.options")));
         buttonList.add(new GuiButton(5, center + 2, getRowPos(6), 98, 20, I18n.format("menu.quit")));
@@ -102,7 +100,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         GuiButton hypixelButton = this.hypixelButton;
 
         if (hypixelButton != null) {
-            hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? I18n.format("button.ingame.fixhypixelsession") : I18n.format("button.ingame.joinhypixel");
+            hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? I18n.format("button.ingame.fixhypixelsession") :
+                I18n.format("button.ingame.joinhypixel");
         }
     }
 

@@ -34,7 +34,7 @@ abstract class MixinGuiUtilRenderComponents {
      * @reason Fixed next line resetting chat formatting
      */
     @Overwrite
-    public static List<IChatComponent> splitText(IChatComponent p_178908_0_, int p_178908_1_, FontRenderer p_178908_2_, boolean p_178908_3_, boolean p_178908_4_) {
-        return HyperiumGuiUtilRenderComponents.splitText(p_178908_0_, p_178908_1_, p_178908_2_, p_178908_3_, p_178908_4_);
+    public static List<IChatComponent> splitText(IChatComponent chatComponent, int p_178908_1_, FontRenderer fontRenderer, boolean p_178908_3_, boolean p_178908_4_) {
+        return HyperiumGuiUtilRenderComponents.splitText(chatComponent, p_178908_1_, fontRenderer, p_178908_3_, p_178908_4_);
     }
 }

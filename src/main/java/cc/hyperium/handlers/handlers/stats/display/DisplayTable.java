@@ -23,7 +23,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.awt.Color;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class DisplayTable extends StatsDisplayItem {
     private String[][] rows;
@@ -35,7 +37,7 @@ public class DisplayTable extends StatsDisplayItem {
     }
 
     public DisplayTable(List<String[]> strings) {
-        this.rows = strings.toArray(new String[0][]);
+        rows = strings.toArray(new String[0][]);
         build();
     }
 
@@ -47,15 +49,10 @@ public class DisplayTable extends StatsDisplayItem {
        4 3 2
        3 2 1
          */
-        for (String[] row : rows) {
-            for (int i = 0; i < columns; i++) {
-                rowSpacing[i] = Math.max(rowSpacing[i], Minecraft.getMinecraft().fontRendererObj.getStringWidth(row[i]) + 15);
-            }
-        }
-        for (int i : rowSpacing) {
-            width += i;
-        }
-        this.height = 11 * rows.length;
+        Arrays.stream(rows).forEach(row -> IntStream.range(0, columns).forEach(i -> rowSpacing[i] =
+            Math.max(rowSpacing[i], Minecraft.getMinecraft().fontRendererObj.getStringWidth(row[i]) + 15)));
+        Arrays.stream(rowSpacing).forEach(i -> width += i);
+        height = 11 * rows.length;
     }
 
     @Override
@@ -63,19 +60,22 @@ public class DisplayTable extends StatsDisplayItem {
         boolean first = true;
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, 0);
+
         for (String[] row : rows) {
             FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
             GlStateManager.pushMatrix();
+
             for (int i = 0; i < row.length; i++) {
                 String tmp = row[i];
                 fontRendererObj.drawString((first ? EnumChatFormatting.BOLD : "") + tmp, 0, 0, Color.WHITE.getRGB());
                 GlStateManager.translate(rowSpacing[i], 0, 0);
             }
+
             GlStateManager.popMatrix();
             GlStateManager.translate(0, 11, 0);
             first = false;
         }
+
         GlStateManager.popMatrix();
     }
-
 }

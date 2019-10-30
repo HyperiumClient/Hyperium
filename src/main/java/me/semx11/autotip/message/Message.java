@@ -32,9 +32,7 @@ public class Message {
     }
 
     public MessageMatcher getMatcherFor(String input) {
-        if (messageCache.containsKey(input)) {
-            return messageCache.get(input);
-        }
+        if (messageCache.containsKey(input)) return messageCache.get(input);
         MessageMatcher matcher = new MessageMatcher(pattern, input);
         messageCache.put(input, matcher);
         return matcher;

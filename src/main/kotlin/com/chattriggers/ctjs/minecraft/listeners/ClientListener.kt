@@ -1,6 +1,14 @@
 package com.chattriggers.ctjs.minecraft.listeners
 
 import cc.hyperium.event.*
+import cc.hyperium.event.client.TickEvent
+import cc.hyperium.event.gui.GuiOpenEvent
+import cc.hyperium.event.render.DrawBlockHighlightEvent
+import cc.hyperium.event.render.RenderHUDEvent
+import cc.hyperium.event.render.RenderWorldEvent
+import cc.hyperium.event.world.item.ItemPickupEvent
+import cc.hyperium.event.world.item.ItemTooltipEvent
+import cc.hyperium.event.world.item.ItemTossEvent
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.Scoreboard
 import com.chattriggers.ctjs.minecraft.wrappers.World
@@ -22,21 +30,21 @@ object ClientListener {
     class State(val x: Float, val y: Float)
 
     init {
-        this.ticksPassed = 0
+        ticksPassed = 0
 
-        this.mouseState = mutableMapOf()
+        mouseState = mutableMapOf()
         draggedState = mutableMapOf()
 
         for (i in 0..4)
-            this.mouseState[i] = false
+            mouseState[i] = false
     }
 
     @InvokeEvent
     fun onTick(event: TickEvent) {
         if (World.getWorld() == null) return
 
-        TriggerType.TICK.triggerAll(this.ticksPassed)
-        this.ticksPassed++
+        TriggerType.TICK.triggerAll(ticksPassed)
+        ticksPassed++
 
         Scoreboard.resetCache()
     }
@@ -48,7 +56,7 @@ object ClientListener {
             handleDragged(button)
 
             // normal clicked
-            if (Mouse.isButtonDown(button) == this.mouseState[button]) continue
+            if (Mouse.isButtonDown(button) == mouseState[button]) continue
 
             TriggerType.CLICKED.triggerAll(
                 Client.getMouseX(),
@@ -57,13 +65,13 @@ object ClientListener {
                 Mouse.isButtonDown(button)
             )
 
-            this.mouseState[button] = Mouse.isButtonDown(button)
+            mouseState[button] = Mouse.isButtonDown(button)
 
             // add new dragged
             if (Mouse.isButtonDown(button))
-                this.draggedState[button] = State(Client.getMouseX(), Client.getMouseY())
-            else if (this.draggedState.containsKey(button))
-                this.draggedState.remove(button)
+                draggedState[button] = State(Client.getMouseX(), Client.getMouseY())
+            else if (draggedState.containsKey(button))
+                draggedState.remove(button)
         }
     }
 
@@ -72,15 +80,15 @@ object ClientListener {
             return
 
         TriggerType.DRAGGED.triggerAll(
-            Client.getMouseX() - (this.draggedState[button]?.x ?: 0f),
-            Client.getMouseY() - (this.draggedState[button]?.y ?: 0f),
+            Client.getMouseX() - (draggedState[button]?.x ?: 0f),
+            Client.getMouseY() - (draggedState[button]?.y ?: 0f),
             Client.getMouseX(),
             Client.getMouseY(),
             button
         )
 
         // update dragged
-        this.draggedState[button] = State(Client.getMouseX(), Client.getMouseY())
+        draggedState[button] = State(Client.getMouseX(), Client.getMouseY())
     }
 
     @InvokeEvent

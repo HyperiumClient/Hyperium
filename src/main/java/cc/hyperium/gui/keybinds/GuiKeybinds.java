@@ -67,7 +67,6 @@ public class GuiKeybinds extends HyperiumGui {
         int fixedWidth = 485;
         int fixedHeight = 300;
 
-
         // Measurements of the screen on which the GUI was intended to be drawn.
         int intendedWidth = 640;
         int intendedHeight = 360;
@@ -80,7 +79,6 @@ public class GuiKeybinds extends HyperiumGui {
 
         fixedHeight *= heightScaleFactor;
         fixedWidth *= widthScaleFactor;
-
 
         int buttonWidth = 70;
         if (fixedWidth < 2 * (150 + buttonWidth)) {
@@ -100,16 +98,18 @@ public class GuiKeybinds extends HyperiumGui {
         // Get keybinds.
         binds = new ArrayList<>(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values());
 
-        for (int i = 0; i < binds.size(); i++) {
+        IntStream.range(0, binds.size()).forEach(i -> {
             HyperiumBind linkedBind = binds.get(i);
             String label = linkedBind.getKeyDescription();
             KeybindButton btn = new KeybindButton(i, 0, 0, buttonWidth, buttonHeight, "default", linkedBind);
             KeybindEntry keybindEntry = new KeybindEntry(label, btn);
             keybindEntries.add(keybindEntry);
-        }
+        });
 
-        resetButton = new GuiButton(1337, rightGui - 100, bottomGui - 20, fontRendererObj.getStringWidth("Reset all binds.") + 5, buttonHeight, "Reset all binds.");
-        backButton = new GuiButton(1338, rightGui - 150, bottomGui - 20, fontRendererObj.getStringWidth("Back") + 5, buttonHeight, "Back");
+        resetButton = new GuiButton(1337, rightGui - 100, bottomGui - 20,
+            fontRendererObj.getStringWidth("Reset all binds.") + 5, buttonHeight, "Reset all binds.");
+        backButton = new GuiButton(1338, rightGui - 150, bottomGui - 20,
+            fontRendererObj.getStringWidth("Back") + 5, buttonHeight, "Back");
     }
 
 
@@ -128,36 +128,31 @@ public class GuiKeybinds extends HyperiumGui {
             int index = 0;
             int startX = leftGui + (column * ((rightGui - leftGui) / numColumns)) + 10;
             int startY = topGui + 10;
+
             for (KeybindEntry entry : subEntries) {
                 int spacing = (bottomGui - topGui) / subEntries.size();
-                if (spacing < 30) {
-                    spacing = 30;
-                }
+                if (spacing < 30) spacing = 30;
                 int yPosition = startY + (spacing * index) + scrollOffset;
+
                 if (!exceedsBoundaries(yPosition)) {
                     entry.renderBind(startX, yPosition, fontRendererObj, mc, mouseX, mouseY);
-                } else {
-                    if (entry.isVisible()) {
-                        entry.setVisible(false);
-                    }
+                } else if (entry.isVisible()) {
+                    entry.setVisible(false);
                 }
+
                 index++;
             }
         }
+
         resetButton.drawButton(mc, mouseX, mouseY);
         backButton.drawButton(mc, mouseX, mouseY);
     }
 
     private boolean exceedsBoundaries(int yPosition) {
         int centre = yPosition + buttonHeight / 2;
-        if (centre - (buttonHeight / 2) < topGui) {
-            // Button has been scrolled up too far.
-            return true;
-        }
 
-        // Button has been scrolled down too far.
-        return centre + (buttonHeight / 2) > bottomGui;
-
+        // Button has been scrolled too far.
+        return centre - (buttonHeight / 2) < topGui || centre + (buttonHeight / 2) > bottomGui;
     }
 
     private List<List<KeybindEntry>> divideList(List<KeybindEntry> inputList, int number) {
@@ -165,11 +160,9 @@ public class GuiKeybinds extends HyperiumGui {
             new ArrayList<>()).collect(Collectors.toCollection(() -> new ArrayList<>(number)));
 
         int counter = 0;
-        for (KeybindEntry entry : inputList) {
-            if (counter >= number) {
-                counter = 0;
-            }
 
+        for (KeybindEntry entry : inputList) {
+            if (counter >= number) counter = 0;
             partitions.get(counter).add(entry);
             counter++;
         }
@@ -201,16 +194,13 @@ public class GuiKeybinds extends HyperiumGui {
                 KeybindButton button = entry.getKeybindButton();
 
                 // Check if button is pressed.
-                if (button.mousePressedDyanmic(mouseX, mouseY)) {
+                if (button.mousePressedDynamic(mouseX, mouseY)) {
                     // Make sure no other buttons are listening.
                     int bIndex = keybindEntries.indexOf(entry);
                     keybindEntries.remove(entry);
 
                     // Checks every other entry.
-                    for (KeybindEntry keybindEntry : keybindEntries) {
-                        KeybindButton entryButton = keybindEntry.getKeybindButton();
-                        entryButton.setListening(false);
-                    }
+                    keybindEntries.stream().map(KeybindEntry::getKeybindButton).forEach(entryButton -> entryButton.setListening(false));
 
                     // Reinsert original entry back into list.
                     keybindEntries.add(bIndex, entry);
@@ -240,10 +230,7 @@ public class GuiKeybinds extends HyperiumGui {
 
 
     public void resetAll() {
-        for (KeybindEntry entry : keybindEntries) {
-            KeybindButton keybindButton = entry.getKeybindButton();
-            keybindButton.resetBind();
-        }
+        keybindEntries.stream().map(KeybindEntry::getKeybindButton).forEach(KeybindButton::resetBind);
     }
 
     @Override
@@ -253,10 +240,7 @@ public class GuiKeybinds extends HyperiumGui {
     }
 
     public void detectAllConflicts() {
-        for (KeybindEntry entry : keybindEntries) {
-            KeybindButton keybindButton = entry.getKeybindButton();
-            keybindButton.detectConflicts();
-        }
+        keybindEntries.stream().map(KeybindEntry::getKeybindButton).forEach(KeybindButton::detectConflicts);
     }
 
     private boolean areKeysListening() {
@@ -265,11 +249,7 @@ public class GuiKeybinds extends HyperiumGui {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        if (keyCode == Keyboard.KEY_ESCAPE) {
-            if (areKeysListening()) {
-                return;
-            }
-        }
+        if (keyCode == Keyboard.KEY_ESCAPE && areKeysListening()) return;
         super.keyTyped(typedChar, keyCode);
     }
 }

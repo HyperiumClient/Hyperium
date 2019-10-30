@@ -19,26 +19,26 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
     private var scale = 1f
 
     init {
-        this.lines.add(this.string)
+        this.lines.add(string)
         updateFormatting()
     }
 
-    fun getString(): String = this.string
+    fun getString(): String = string
     fun setString(string: String) = apply { this.string = string }
 
-    fun getColor(): Int = this.color
+    fun getColor(): Int = color
     fun setColor(color: Int) = apply { this.color = Renderer.fixAlpha(color) }
 
-    fun getFormatted(): Boolean = this.formatted
+    fun getFormatted(): Boolean = formatted
     fun setFormatted(formatted: Boolean) = apply {
         this.formatted = formatted
         updateFormatting()
     }
 
-    fun getShadow(): Boolean = this.shadow
+    fun getShadow(): Boolean = shadow
     fun setShadow(shadow: Boolean) = apply { this.shadow = shadow }
 
-    fun getAlign(): DisplayHandler.Align = this.align
+    fun getAlign(): DisplayHandler.Align = align
     fun setAlign(align: Any) = apply {
         this.align = when (align) {
             is String -> DisplayHandler.Align.valueOf(align.toUpperCase())
@@ -47,13 +47,13 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
         }
     }
 
-    fun getX(): Float = this.x
+    fun getX(): Float = x
     fun setX(x: Float) = apply { this.x = x }
 
-    fun getY(): Float = this.y
+    fun getY(): Float = y
     fun setY(y: Float) = apply { this.y = y }
 
-    fun getWidth(): Int = this.width
+    fun getWidth(): Int = width
     fun setWidth(width: Int) = apply {
         this.width = width
         this.lines = Renderer.getFontRenderer().listFormattedStringToWidth(this.string, this.width)
@@ -61,15 +61,15 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
 
     fun getLines(): List<String> = lines
 
-    fun getMaxLines(): Int = this.maxLines
+    fun getMaxLines(): Int = maxLines
     fun setMaxLines(maxLines: Int) = apply { this.maxLines = maxLines }
 
-    fun getScale(): Float = this.scale
+    fun getScale(): Float = scale
     fun setScale(scale: Float) = apply { this.scale = scale }
 
     fun getMaxWidth(): Int {
-        return if (this.width == 0) {
-            Renderer.getStringWidth(this.string)
+        return if (width == 0) {
+            Renderer.getStringWidth(string)
         } else {
             var maxWidth = 0
             this.lines.forEach {
@@ -81,12 +81,12 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
     }
 
     fun getHeight(): Float {
-        return if (this.width == 0)
-            this.scale * 9
-        else this.lines.size * this.scale * 9
+        return if (width == 0)
+            scale * 9
+        else this.lines.size * scale * 9
     }
 
-    fun exceedsMaxLines(): Boolean = this.width != 0 && this.lines.size > this.maxLines
+    fun exceedsMaxLines(): Boolean = width != 0 && this.lines.size > maxLines
 
     @JvmOverloads
     fun draw(x: Float? = null, y: Float? = null) = apply {
@@ -117,14 +117,14 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
     }
 
     private fun updateFormatting() {
-        this.string =
-            if (this.formatted) ChatLib.addColor(this.string)
-            else ChatLib.replaceFormatting(this.string)
+        string =
+            if (formatted) ChatLib.addColor(string)
+            else ChatLib.replaceFormatting(string)
     }
 
     private fun getXAlign(string: String, x: Float): Float {
-        val newX = x / this.scale
-        return when (this.align) {
+        val newX = x / scale
+        return when (align) {
             DisplayHandler.Align.CENTER -> newX - Renderer.getStringWidth(string) / 2
             DisplayHandler.Align.RIGHT -> newX - Renderer.getStringWidth(string)
             else -> newX

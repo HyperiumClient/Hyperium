@@ -140,7 +140,7 @@ abstract class Gui : GuiScreen() {
      */
     override fun mouseClicked(mouseX: Int, mouseY: Int, button: Int) {
         super.mouseClicked(mouseX, mouseY, button)
-        this.onClick?.trigger(mouseX, mouseY, button)
+        onClick?.trigger(mouseX, mouseY, button)
     }
 
     /**
@@ -148,7 +148,7 @@ abstract class Gui : GuiScreen() {
      */
     override fun mouseReleased(mouseX: Int, mouseY: Int, button: Int) {
         super.mouseReleased(mouseX, mouseY, button)
-        this.onMouseReleased?.trigger(mouseX, mouseY, button)
+        onMouseReleased?.trigger(mouseX, mouseY, button)
     }
 
     /**
@@ -156,7 +156,7 @@ abstract class Gui : GuiScreen() {
      */
     override fun actionPerformed(button: GuiButton) {
         super.actionPerformed(button)
-        this.onActionPerformed?.trigger(button.id)
+        onActionPerformed?.trigger(button.id)
     }
 
     /**
@@ -164,7 +164,7 @@ abstract class Gui : GuiScreen() {
      */
     override fun mouseClickMove(mouseX: Int, mouseY: Int, clickedMouseButton: Int, timeSinceLastClick: Long) {
         super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick)
-        this.onMouseDragged?.trigger(mouseX, mouseY, clickedMouseButton, timeSinceLastClick)
+        onMouseDragged?.trigger(mouseX, mouseY, clickedMouseButton, timeSinceLastClick)
     }
 
     /**
@@ -176,8 +176,8 @@ abstract class Gui : GuiScreen() {
         val i = Mouse.getEventDWheel()
 
         when {
-            i > 0 -> this.onClick?.trigger(this.mouseX, this.mouseY, -1)
-            i < 0 -> this.onClick?.trigger(this.mouseX, this.mouseY, -2)
+            i > 0 -> onClick?.trigger(mouseX, mouseY, -1)
+            i < 0 -> onClick?.trigger(mouseX, mouseY, -2)
         }
     }
 
@@ -192,7 +192,7 @@ abstract class Gui : GuiScreen() {
         this.mouseX = mouseX
         this.mouseY = mouseY
 
-        this.onDraw?.trigger(mouseX, mouseY, partialTicks)
+        onDraw?.trigger(mouseX, mouseY, partialTicks)
 
         GlStateManager.popMatrix()
     }
@@ -203,13 +203,13 @@ abstract class Gui : GuiScreen() {
     override fun keyTyped(typedChar: Char, keyCode: Int) {
         super.keyTyped(typedChar, keyCode)
 
-        this.onKeyTyped?.trigger(typedChar, keyCode)
+        onKeyTyped?.trigger(typedChar, keyCode)
     }
 
     /**
      * Internal method to run trigger. Not meant for public use
      */
-    override fun doesGuiPauseGame() = this.doesPauseGame
+    override fun doesGuiPauseGame() = doesPauseGame
 
     fun setDoesPauseGame(doesPauseGame: Boolean) = apply { this.doesPauseGame = doesPauseGame }
 
@@ -222,7 +222,7 @@ abstract class Gui : GuiScreen() {
      * @param buttonText the label of the button
      */
     fun addButton(buttonId: Int, x: Int, y: Int, buttonText: String) {
-        this.buttonList.add(GuiButton(buttonId, x, y, buttonText))
+        buttonList.add(GuiButton(buttonId, x, y, buttonText))
     }
 
     /**
@@ -236,11 +236,11 @@ abstract class Gui : GuiScreen() {
      * @param buttonText the label of the button
      */
     fun addButton(buttonId: Int, x: Int, y: Int, width: Int = 200, height: Int = 20, buttonText: String) {
-        this.buttonList.add(GuiButton(buttonId, x, y, width, height, buttonText))
+        buttonList.add(GuiButton(buttonId, x, y, width, height, buttonText))
     }
 
     fun setButtonVisibility(buttonId: Int, visible: Boolean) {
-        this.buttonList.firstOrNull {
+        buttonList.firstOrNull {
             it.id == buttonId
         }?.visible = visible
     }

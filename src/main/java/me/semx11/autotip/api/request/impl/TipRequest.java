@@ -25,7 +25,7 @@ public class TipRequest implements Request<TipReply> {
     @Override
     public TipReply execute() {
         HttpUriRequest request = GetBuilder.of(this)
-                .addParameter("key", this.sessionKey)
+                .addParameter("key", sessionKey)
                 .build();
 
         Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());

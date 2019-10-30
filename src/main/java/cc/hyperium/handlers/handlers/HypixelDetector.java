@@ -21,19 +21,19 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.JoinHypixelEvent;
-import cc.hyperium.event.JoinHypixelEvent.ServerVerificationMethod;
-import cc.hyperium.event.ServerJoinEvent;
-import cc.hyperium.event.ServerLeaveEvent;
-import cc.hyperium.event.SingleplayerJoinEvent;
+import cc.hyperium.event.network.server.ServerJoinEvent;
+import cc.hyperium.event.network.server.ServerLeaveEvent;
+import cc.hyperium.event.network.server.SingleplayerJoinEvent;
+import cc.hyperium.event.network.server.hypixel.JoinHypixelEvent;
+import cc.hyperium.event.network.server.hypixel.JoinHypixelEvent.ServerVerificationMethod;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.util.ResourceLocation;
-import java.awt.Color;
-import java.awt.Desktop;
+
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -57,7 +57,7 @@ public class HypixelDetector {
 
     @InvokeEvent
     public void serverJoinEvent(ServerJoinEvent event) {
-        this.hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
+        hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
 
         Multithreading.runAsync(() -> {
             // Wait a while until the player isn't null, signifying the joining process is complete
@@ -76,16 +76,13 @@ public class HypixelDetector {
 
             if (hypixel) { // If player is online recognized Hypixel IP
                 EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.IP));
-
             } else { // Double check the player isn't online Hypixel
-                if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().getCurrentServerData() != null) {
-                    final ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
+                if (Minecraft.getMinecraft().getCurrentServerData() != null) {
+                    ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
 
-                    if (serverData != null && serverData.serverMOTD != null) {
-                        if (serverData.serverMOTD.toLowerCase().contains("hypixel network")) { // Check MOTD for Hypixel
-                            this.hypixel = true;
-                            EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.MOTD));
-                        }
+                    if (serverData != null && serverData.serverMOTD != null && serverData.serverMOTD.toLowerCase().contains("hypixel network")) { // Check MOTD for Hypixel
+                        hypixel = true;
+                        EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.MOTD));
                     }
                 }
             }
@@ -124,5 +121,4 @@ public class HypixelDetector {
     public boolean isHypixel() {
         return hypixel;
     }
-
 }

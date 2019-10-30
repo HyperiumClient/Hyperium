@@ -23,7 +23,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +54,7 @@ public class SliderComponent extends AbstractTabComponent {
         this.maxVal = maxVal;
         this.isInteger = isInteger;
         this.round = round;
-        if (!field.isAccessible())
-            field.setAccessible(true);
+        if (!field.isAccessible()) field.setAccessible(true);
     }
 
     public String getLabel() {
@@ -109,15 +108,16 @@ public class SliderComponent extends AbstractTabComponent {
         }
 
         GlStateManager.pushMatrix();
-        if (hover)
-            Gui.drawRect(x, y, x + width, y + 18 * lines.size(), 0xa0000000);
+        if (hover) Gui.drawRect(x, y, x + width, y + 18 * lines.size(), 0xa0000000);
         GlStateManager.popMatrix();
 
         int line1 = 0;
+
         for (String line : lines) {
             font.drawString(line.replaceAll("_", " ").toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
             line1++;
         }
+
         int left = x + width / 2;
         String s = isInteger ? Integer.toString((int) currentValue) : Double.toString(round ? Math.round(currentValue) : currentValue);
 
@@ -129,9 +129,10 @@ public class SliderComponent extends AbstractTabComponent {
         int toInt = (int) (left + d);
         this.width = width;
         RenderUtils.drawFilledCircle(toInt, y + 9, 5f, Color.WHITE.getRGB());
+
         if (!Mouse.isButtonDown(0) && wasDown) {
             wasDown = false;
-            super.stateChange(this.currentValue);
+            super.stateChange(currentValue);
         }
     }
 
@@ -155,15 +156,11 @@ public class SliderComponent extends AbstractTabComponent {
             mouseX -= left;
             rightSide -= left;
             double percent = (double) mouseX / (double) rightSide;
-            if (percent < 0)
-                percent = 0;
-            if (percent > 1.0)
-                percent = 1.0;
-            this.currentValue = minVal + percent * (double) (maxVal - minVal);
-            if (isInteger) {
-                setInt((int) currentValue);
-            } else setDouble(currentValue);
+            if (percent < 0) percent = 0;
+            if (percent > 1.0) percent = 1.0;
+            currentValue = minVal + percent * (double) (maxVal - minVal);
+            if (isInteger) setInt((int) currentValue);
+            else setDouble(currentValue);
         }
-
     }
 }

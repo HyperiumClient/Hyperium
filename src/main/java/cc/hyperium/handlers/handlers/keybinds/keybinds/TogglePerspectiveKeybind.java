@@ -49,5 +49,4 @@ public class TogglePerspectiveKeybind extends HyperiumBind {
             Hyperium.INSTANCE.getHandlers().getPerspectiveHandler().onDisable();
         }
     }
-
 }

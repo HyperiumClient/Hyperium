@@ -33,9 +33,12 @@ public class BlockOverlayGui extends GuiScreen {
     }
 
     public void initGui() {
-        super.buttonList.add(this.buttonMode = new GuiButton(0, super.width / 2 - 50, super.height / 2 - 35, 100, 20, "Mode: " + this.mod.getSettings().getOverlayMode().getName()));
-        super.buttonList.add(this.buttonColor = new GuiButton(1, super.width / 2 - 50, super.height / 2 - 10, 100, 20, "Color"));
-        super.buttonList.add(this.sliderWidth = new GuiSlider(2, super.width / 2 - 50, super.height / 2 + 15, 100, 20, "Width: ", "", 0.0f, 5.0f, this.mod.getSettings().getLineWidth(), false, true));
+        super.buttonList.add(buttonMode = new GuiButton(0, super.width / 2 - 50, super.height / 2 - 35, 100, 20,
+            "Mode: " + mod.getSettings().getOverlayMode().getName()));
+        super.buttonList.add(buttonColor = new GuiButton(1, super.width / 2 - 50, super.height / 2 - 10, 100, 20,
+            "Color"));
+        super.buttonList.add(sliderWidth = new GuiSlider(2, super.width / 2 - 50, super.height / 2 + 15, 100, 20,
+            "Width: ", "", 0.0f, 5.0f, mod.getSettings().getLineWidth(), false, true));
     }
 
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
@@ -44,31 +47,31 @@ public class BlockOverlayGui extends GuiScreen {
         GlStateManager.scale(1.2f, 1.2f, 0.0f);
         super.drawCenteredString(super.fontRendererObj, "Block Overlay", Math.round(super.width / 2F / 1.2f), Math.round(super.height / 2F / 1.2f) - 50, -1);
         GlStateManager.popMatrix();
-        this.buttonMode.drawButton(super.mc, mouseX, mouseY);
-        this.buttonColor.drawButton(super.mc, mouseX, mouseY);
-        this.sliderWidth.drawButton(super.mc, mouseX, mouseY);
+        buttonMode.drawButton(super.mc, mouseX, mouseY);
+        buttonColor.drawButton(super.mc, mouseX, mouseY);
+        sliderWidth.drawButton(super.mc, mouseX, mouseY);
     }
 
     public void actionPerformed(final GuiButton button) {
         switch (button.id) {
             case 0:
-                this.mod.getSettings().setOverlayMode(BlockOverlayMode.getNextMode(this.mod.getSettings().getOverlayMode()));
-                this.buttonMode.displayString = "Mode: " + this.mod.getSettings().getOverlayMode().getName();
+                mod.getSettings().setOverlayMode(BlockOverlayMode.getNextMode(mod.getSettings().getOverlayMode()));
+                buttonMode.displayString = "Mode: " + mod.getSettings().getOverlayMode().getName();
                 break;
             case 1:
-                BlockOverlay.mc.displayGuiScreen(new BlockOverlayColor(this.mod));
+                BlockOverlay.mc.displayGuiScreen(new BlockOverlayColor(mod));
                 break;
             case 2:
-                this.mod.getSettings().setLineWidth((float) this.sliderWidth.getValue());
+                mod.getSettings().setLineWidth((float) sliderWidth.getValue());
                 break;
         }
     }
 
     public void mouseClickMove(final int mouseX, final int mouseY, final int clickedMouseButton, final long timeSinceLastClick) {
-        this.mod.getSettings().setLineWidth((float) this.sliderWidth.getValue());
+        mod.getSettings().setLineWidth((float) sliderWidth.getValue());
     }
 
     public void onGuiClosed() {
-        this.mod.getSettings().save();
+        mod.getSettings().save();
     }
 }

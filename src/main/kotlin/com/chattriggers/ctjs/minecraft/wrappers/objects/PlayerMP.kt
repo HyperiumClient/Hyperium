@@ -11,7 +11,7 @@ import net.minecraft.scoreboard.ScorePlayerTeam
 
 @External
 class PlayerMP(val player: EntityPlayer) : Entity(player) {
-    fun isSpectator() = this.player.isSpectator
+    fun isSpectator() = player.isSpectator
 
     fun getActivePotionEffects(): List<PotionEffect> {
         return player.activePotionEffects.map {
@@ -60,7 +60,7 @@ class PlayerMP(val player: EntityPlayer) : Entity(player) {
             )
     }
 
-    private fun getPlayerInfo(): NetworkPlayerInfo = Client.getConnection().getPlayerInfo(this.player.uniqueID)
+    private fun getPlayerInfo(): NetworkPlayerInfo = Client.getConnection().getPlayerInfo(player.uniqueID)
 
     override fun toString(): String {
         return "PlayerMP{name:" + getName() +
@@ -69,5 +69,5 @@ class PlayerMP(val player: EntityPlayer) : Entity(player) {
                 "}"
     }
 
-    override fun getName(): String = this.player.name
+    override fun getName(): String = player.name
 }

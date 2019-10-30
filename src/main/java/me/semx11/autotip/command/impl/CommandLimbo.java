@@ -1,13 +1,9 @@
 package me.semx11.autotip.command.impl;
 
-import java.util.Collections;
-import java.util.List;
-
 import cc.hyperium.commands.CommandException;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.chat.MessageUtil;
 import me.semx11.autotip.command.CommandAbstract;
-import net.minecraft.command.ICommandSender;
 
 public class CommandLimbo extends CommandAbstract {
 
@@ -25,10 +21,6 @@ public class CommandLimbo extends CommandAbstract {
         this.executed = executed;
     }
 
-
-
-
-
     @Override
     public String getName() {
         return "limbo";
@@ -44,7 +36,7 @@ public class CommandLimbo extends CommandAbstract {
         MessageUtil messageUtil = autotip.getMessageUtil();
 
         if (autotip.getSessionManager().isOnHypixel()) {
-            this.executed = true;
+            executed = true;
             messageUtil.sendCommand("/achat \u00a7c");
         } else {
             messageUtil.send("&cYou must be on Hypixel to use this command!");

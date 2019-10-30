@@ -22,9 +22,7 @@ public class HoverMessage extends Message {
     }
 
     public HoverMessageMatcher getMatcherFor(String input) {
-        if (hoverMessageCache.containsKey(input)) {
-            return hoverMessageCache.get(input);
-        }
+        if (hoverMessageCache.containsKey(input)) return hoverMessageCache.get(input);
         HoverMessageMatcher matcher = new HoverMessageMatcher(pattern, input, statsType);
         hoverMessageCache.put(input, matcher);
         return matcher;

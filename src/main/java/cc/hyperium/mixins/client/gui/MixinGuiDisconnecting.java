@@ -18,7 +18,7 @@
 package cc.hyperium.mixins.client.gui;
 
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.ServerLeaveEvent;
+import cc.hyperium.event.network.server.ServerLeaveEvent;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.IChatComponent;

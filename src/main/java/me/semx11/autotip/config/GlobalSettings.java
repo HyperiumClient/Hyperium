@@ -38,7 +38,7 @@ public class GlobalSettings {
     public List<VersionInfo> getHigherVersionInfo(Version lowest) {
         return versions.stream().filter(info -> {
             Version v = info.getVersion();
-            return v.compareTo(lowest) > 0 && v.compareTo(this.latestVersion) < 1;
+            return v.compareTo(lowest) > 0 && v.compareTo(latestVersion) < 1;
         }).collect(Collectors.toList());
     }
 
@@ -106,10 +106,7 @@ public class GlobalSettings {
         }
 
         public List<String> getGames() {
-            if (game != null) {
-                return Collections.singletonList(game);
-            }
-            return games;
+            return game != null ? Collections.singletonList(game) : games;
         }
 
     }

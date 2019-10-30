@@ -20,7 +20,7 @@ package cc.hyperium.mods.levelhead;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.levelhead.auth.MojangAuth;
 import cc.hyperium.mods.levelhead.command.CustomLevelheadCommand;
@@ -48,11 +48,11 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Levelhead extends AbstractMod {
 
@@ -227,10 +227,12 @@ public class Levelhead extends AbstractMod {
             headerObj = object.optJsonObject("header_obj");
             headerObj.put("custom", true);
         }
+
         if (object.has("footer_obj") && allowOverride) {
             footerObj = object.optJsonObject("footer_obj");
             footerObj.put("custom", true);
         }
+
         if (object.has("header") && allowOverride) {
             headerObj.put("header", object.optString("header"));
             headerObj.put("custom", true);
@@ -247,20 +249,10 @@ public class Levelhead extends AbstractMod {
     }
 
     public HashMap<String, String> allowedTypes() {
-        HashMap<String, String> data = new HashMap<>();
         List<String> keys = types.getKeys();
-        for (String key : keys) {
-            data.put(key, types.optJsonObject(key).optString("name"));
-        }
-
+        HashMap<String, String> data = keys.stream().collect(Collectors.toMap(key -> key, key -> types.optJsonObject(key).optString("name"), (a, b) -> b, HashMap::new));
         LevelheadJsonHolder stats = paidData.optJsonObject("stats");
-
-        for (String s : stats.getKeys()) {
-            if (purchaseStatus.optBoolean(s)) {
-                data.put(s, stats.optJsonObject(s).optString("name"));
-            }
-        }
-
+        stats.getKeys().stream().filter(s -> purchaseStatus.optBoolean(s)).forEach(s -> data.put(s, stats.optJsonObject(s).optString("name")));
         return data;
     }
 

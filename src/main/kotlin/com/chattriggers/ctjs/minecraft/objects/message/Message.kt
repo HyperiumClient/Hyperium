@@ -1,6 +1,6 @@
 package com.chattriggers.ctjs.minecraft.objects.message
 
-import cc.hyperium.event.ServerChatEvent
+import cc.hyperium.event.network.chat.ServerChatEvent
 import com.chattriggers.ctjs.minecraft.libs.ChatLib
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.Player
@@ -32,9 +32,9 @@ class Message {
      */
     constructor(component: ITextComponent) {
         if (component.siblings.isEmpty()) {
-            this.messageParts.add(TextComponent(component))
+            messageParts.add(TextComponent(component))
         } else {
-            this.messageParts.addAll(component.siblings.map { TextComponent(it) })
+            messageParts.addAll(component.siblings.map { TextComponent(it) })
         }
     }
 
@@ -63,7 +63,7 @@ class Message {
 
     fun getChatMessage(): ITextComponent {
         parseMessage()
-        return this.chatMessage
+        return chatMessage
     }
 
     /**
@@ -71,15 +71,15 @@ class Message {
      *
      * @return the message parts
      */
-    fun getMessageParts(): List<TextComponent> = this.messageParts
+    fun getMessageParts(): List<TextComponent> = messageParts
 
-    fun getChatLineId(): Int = this.chatLineId
+    fun getChatLineId(): Int = chatLineId
     fun setChatLineId(id: Int) = apply { this.chatLineId = id }
 
-    fun isRecursive(): Boolean = this.recursive
+    fun isRecursive(): Boolean = recursive
     fun setRecursive(recursive: Boolean) = apply { this.recursive = recursive }
 
-    fun isFormatted(): Boolean = this.formatted
+    fun isFormatted(): Boolean = formatted
     fun setFormatted(formatted: Boolean) = apply { this.formatted = formatted }
 
     /**
@@ -125,10 +125,10 @@ class Message {
 
     fun clone(): Message = copy()
     fun copy(): Message {
-        val copy = Message(this.messageParts)
-            .setChatLineId(this.chatLineId)
-        copy.recursive = this.recursive
-        copy.formatted = this.formatted
+        val copy = Message(messageParts)
+            .setChatLineId(chatLineId)
+        copy.recursive = recursive
+        copy.formatted = formatted
         return copy
     }
 
@@ -146,17 +146,17 @@ class Message {
      */
     fun chat() {
         parseMessage()
-        if (!ChatLib.isPlayer("[CHAT]: " + this.chatMessage.formattedText)) return
+        if (!ChatLib.isPlayer("[CHAT]: " + chatMessage.formattedText)) return
 
-        if (this.chatLineId != -1) {
-            Client.getChatGUI()?.printChatMessageWithOptionalDeletion(this.chatMessage, this.chatLineId)
+        if (chatLineId != -1) {
+            Client.getChatGUI()?.printChatMessageWithOptionalDeletion(chatMessage, chatLineId)
             return
         }
 
-        if (this.recursive) {
-            Client.getConnection().handleChat(ChatPacket(this.chatMessage, 0))
+        if (recursive) {
+            Client.getConnection().handleChat(ChatPacket(chatMessage, 0))
         } else {
-            Player.getPlayer()?.addChatMessage(this.chatMessage)
+            Player.getPlayer()?.addChatMessage(chatMessage)
         }
     }
 
@@ -165,21 +165,21 @@ class Message {
      */
     fun actionBar() {
         parseMessage()
-        if (!ChatLib.isPlayer("[ACTION BAR]: " + this.chatMessage.formattedText)) return
+        if (!ChatLib.isPlayer("[ACTION BAR]: " + chatMessage.formattedText)) return
 
         Client.getConnection().handleChat(
             ChatPacket(
-                this.chatMessage,
+                chatMessage,
                 2
             )
         )
     }
 
     private fun parseMessage() {
-        this.chatMessage = BaseTextComponent("")
+        chatMessage = BaseTextComponent("")
 
-        this.messageParts.map {
-            this.chatMessage.appendSibling(it.chatComponentText)
+        messageParts.map {
+            chatMessage.appendSibling(it.chatComponentText)
         }
     }
 }

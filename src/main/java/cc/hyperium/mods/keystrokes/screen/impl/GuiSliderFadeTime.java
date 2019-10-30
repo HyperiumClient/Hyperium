@@ -31,38 +31,27 @@ public class GuiSliderFadeTime extends GuiSlider {
     public GuiSliderFadeTime(KeystrokesMod mod, int id, int xPos, int yPos, int width, int height, GuiScreenKeystrokes keystrokes) {
         super(id, xPos, yPos, width, height, "Fade Time: ", "%", 0, 30, mod.getSettings().getFadeTime() * 100.0D, false, true);
 
-        this.settings = mod.getSettings();
-        this.keystrokesGui = keystrokes;
+        settings = mod.getSettings();
+        keystrokesGui = keystrokes;
     }
 
     @Override
     public void updateSlider() {
         super.updateSlider();
-        this.settings.setFadeTime((float) (getValue() / 100.0D));
-        this.keystrokesGui.setUpdated();
+        settings.setFadeTime((float) (getValue() / 100.0D));
+        keystrokesGui.setUpdated();
         updateDisplayString();
     }
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        if (getValue() > this.maxValue) {
-            setValue(this.maxValue);
-        } else if (getValue() < this.minValue) {
-            setValue(this.minValue);
-        }
-
+        if (getValue() > maxValue) setValue(maxValue);
+        else if (getValue() < minValue) setValue(minValue);
         updateDisplayString();
         super.drawButton(mc, mouseX, mouseY);
     }
 
     private void updateDisplayString() {
-        if (getValue() < 10) {
-            this.displayString = this.dispString + "Slow";
-        } else if (getValue() > 20) {
-            this.displayString = this.dispString + "Fast";
-        } else {
-            this.displayString = this.dispString + "Normal";
-        }
+        displayString = getValue() < 10 ? dispString + "Slow" : getValue() > 20 ? dispString + "Fast" : dispString + "Normal";
     }
-
 }

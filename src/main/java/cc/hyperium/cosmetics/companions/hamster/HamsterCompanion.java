@@ -20,12 +20,15 @@ package cc.hyperium.cosmetics.companions.hamster;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.AbstractCosmetic;
 import cc.hyperium.event.*;
+import cc.hyperium.event.client.TickEvent;
+import cc.hyperium.event.render.RenderEntitiesEvent;
+import cc.hyperium.event.render.RenderPlayerEvent;
+import cc.hyperium.event.world.WorldChangeEvent;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
@@ -52,13 +55,13 @@ public class HamsterCompanion extends AbstractCosmetic {
         if (Minecraft.getMinecraft().theWorld == null) return;
         UUID uuid = e.getEntity().getUniqueID();
 
-        if (!isPurchasedBy(uuid)) return;
-        if (hamsters.containsKey(uuid) || toAdd.contains(e.getEntity())) return;
+        if (!isPurchasedBy(uuid) || hamsters.containsKey(uuid) || toAdd.contains(e.getEntity())) return;
 
         HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(uuid);
 
-        if (packageIfReady == null) return;
-        if (packageIfReady.getCachedSettings().getCurrentCompanion() != EnumPurchaseType.HAMSTER_COMPANION) return;
+        if (packageIfReady == null || packageIfReady.getCachedSettings().getCurrentCompanion() != EnumPurchaseType.HAMSTER_COMPANION) {
+            return;
+        }
 
         toAdd.add(e.getEntity());
     }
@@ -68,16 +71,14 @@ public class HamsterCompanion extends AbstractCosmetic {
         WorldClient theWorld = Minecraft.getMinecraft().theWorld;
         if (theWorld == null) return;
 
-        for (EntityPlayer player : toAdd) {
-            spawnHamster(player);
-        }
-
+        toAdd.forEach(this::spawnHamster);
         toAdd.clear();
 
         Iterator<Map.Entry<UUID, EntityHamster>> ite = hamsters.entrySet().iterator();
 
         while (ite.hasNext()) {
             Map.Entry<UUID, EntityHamster> next = ite.next();
+
             if (!worldHasEntityWithUUID(theWorld, next.getKey())) {
                 theWorld.unloadEntities(Collections.singletonList(next.getValue()));
                 ite.remove();
@@ -96,13 +97,10 @@ public class HamsterCompanion extends AbstractCosmetic {
 
     public void spawnHamster(EntityPlayer player) {
         WorldClient theWorld = Minecraft.getMinecraft().theWorld;
-
         EntityHamster hamster = new EntityHamster(theWorld);
         hamster.setPosition(player.posX, player.posY, player.posZ);
         hamster.setOwnerId(player.getUniqueID().toString());
-
         theWorld.spawnEntityInWorld(hamster);
-
         hamsters.put(player.getUniqueID(), hamster);
     }
 }

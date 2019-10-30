@@ -44,18 +44,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Random;
+import java.util.stream.IntStream;
 
 @Mixin(GuiIngame.class)
 public abstract class MixinGuiIngame extends Gui {
 
-    @Shadow @Final private Minecraft mc;
-    @Shadow public abstract FontRenderer getFontRenderer();
-    @Shadow @Final private Random rand;
-    @Shadow private int updateCounter;
-    @Shadow private int lastPlayerHealth;
-    @Shadow private int playerHealth;
-    @Shadow private long lastSystemTime;
-    @Shadow private long healthUpdateCounter;
+    @Shadow
+    @Final
+    private Minecraft mc;
+
+    @Shadow
+    public abstract FontRenderer getFontRenderer();
+
+    @Shadow
+    @Final
+    private Random rand;
+    @Shadow
+    private int updateCounter;
+    @Shadow
+    private int lastPlayerHealth;
+    @Shadow
+    private int playerHealth;
+    @Shadow
+    private long lastSystemTime;
+    @Shadow
+    private long healthUpdateCounter;
 
     private HyperiumGuiIngame hyperiumGuiIngame = new HyperiumGuiIngame((GuiIngame) (Object) this);
 
@@ -75,28 +88,28 @@ public abstract class MixinGuiIngame extends Gui {
      */
     @Overwrite
     private void renderPlayerStats(ScaledResolution p_180477_1_) {
-        if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
-            EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
+        if (mc.getRenderViewEntity() instanceof EntityPlayer) {
+            EntityPlayer entityplayer = (EntityPlayer) mc.getRenderViewEntity();
             int currentHealth = MathHelper.ceiling_float_int(entityplayer.getHealth());
-            boolean isGettingDamage = this.healthUpdateCounter > (long) this.updateCounter && (this.healthUpdateCounter - (long) this.updateCounter) / 3L % 2L == 1L;
+            boolean isGettingDamage = healthUpdateCounter > (long) updateCounter && (healthUpdateCounter - (long) updateCounter) / 3L % 2L == 1L;
 
-            if (currentHealth < this.playerHealth && entityplayer.hurtResistantTime > 0) {
-                this.lastSystemTime = Minecraft.getSystemTime();
-                this.healthUpdateCounter = this.updateCounter + 20;
-            } else if (currentHealth > this.playerHealth && entityplayer.hurtResistantTime > 0) {
-                this.lastSystemTime = Minecraft.getSystemTime();
-                this.healthUpdateCounter = this.updateCounter + 10;
+            if (currentHealth < playerHealth && entityplayer.hurtResistantTime > 0) {
+                lastSystemTime = Minecraft.getSystemTime();
+                healthUpdateCounter = updateCounter + 20;
+            } else if (currentHealth > playerHealth && entityplayer.hurtResistantTime > 0) {
+                lastSystemTime = Minecraft.getSystemTime();
+                healthUpdateCounter = updateCounter + 10;
             }
 
-            if (Minecraft.getSystemTime() - this.lastSystemTime > 1000L) {
-                this.playerHealth = currentHealth;
-                this.lastPlayerHealth = currentHealth;
-                this.lastSystemTime = Minecraft.getSystemTime();
+            if (Minecraft.getSystemTime() - lastSystemTime > 1000L) {
+                playerHealth = currentHealth;
+                lastPlayerHealth = currentHealth;
+                lastSystemTime = Minecraft.getSystemTime();
             }
 
-            this.playerHealth = currentHealth;
+            playerHealth = currentHealth;
             int lastPlayerHealth = this.lastPlayerHealth;
-            this.rand.setSeed(this.updateCounter * 312871);
+            rand.setSeed(updateCounter * 312871);
             boolean alwaysFalseFlagWhatIsThis = false;
             FoodStats foodstats = entityplayer.getFoodStats();
             int foodLevel = foodstats.getFoodLevel();
@@ -115,31 +128,29 @@ public abstract class MixinGuiIngame extends Gui {
             int regeneration = -1;
 
             if (entityplayer.isPotionActive(Potion.regeneration)) {
-                regeneration = this.updateCounter % MathHelper.ceiling_float_int(attributeValue + 5.0F);
+                regeneration = updateCounter % MathHelper.ceiling_float_int(attributeValue + 5.0F);
             }
 
-            this.mc.mcProfiler.startSection("armor");
+            mc.mcProfiler.startSection("armor");
 
             if (HyperiumGuiIngame.renderArmor) {
-                for (int armorPosition = 0; armorPosition < 10; ++armorPosition) {
-                    if (armorValue > 0) {
-                        int j3 = widthLeft + armorPosition * 8;
-                        if (armorPosition * 2 + 1 < armorValue) {
-                            this.drawTexturedModalRect(j3, heartHeight, 34, 9, 9, 9);
-                        }
-
-                        if (armorPosition * 2 + 1 == armorValue) {
-                            this.drawTexturedModalRect(j3, heartHeight, 25, 9, 9, 9);
-                        }
-
-                        if (armorPosition * 2 + 1 > armorValue) {
-                            this.drawTexturedModalRect(j3, heartHeight, 16, 9, 9, 9);
-                        }
+                IntStream.range(0, 10).filter(armorPosition -> armorValue > 0).forEach(armorPosition -> {
+                    int j3 = widthLeft + armorPosition * 8;
+                    if (armorPosition * 2 + 1 < armorValue) {
+                        drawTexturedModalRect(j3, heartHeight, 34, 9, 9, 9);
                     }
-                }
+
+                    if (armorPosition * 2 + 1 == armorValue) {
+                        drawTexturedModalRect(j3, heartHeight, 25, 9, 9, 9);
+                    }
+
+                    if (armorPosition * 2 + 1 > armorValue) {
+                        drawTexturedModalRect(j3, heartHeight, 16, 9, 9, 9);
+                    }
+                });
             }
 
-            this.mc.mcProfiler.endStartSection("health");
+            mc.mcProfiler.endStartSection("health");
 
             for (int healthHeartAmount = MathHelper.ceiling_float_int((attributeValue + absorptionAmount) / 2.0F) - 1; healthHeartAmount >= 0; --healthHeartAmount) {
                 int baseTextureX = 16;
@@ -149,52 +160,42 @@ public abstract class MixinGuiIngame extends Gui {
                 } else if (entityplayer.isPotionActive(Potion.wither)) {
                     baseTextureX += 72;
                 }
+
                 int gettingDamage = 0;
-                if (isGettingDamage) {
-                    gettingDamage = 1;
-                }
+                if (isGettingDamage) gettingDamage = 1;
+
                 int healthInt = MathHelper.ceiling_float_int((float) (healthHeartAmount + 1) / 10.0F) - 1;
                 int healthWidth = widthLeft + healthHeartAmount % 10 * 8;
                 int healthHeight = height - healthInt * extraHeart;
-                if (currentHealth <= 4) {
-                    healthHeight += this.rand.nextInt(2);
-                }
-                if (healthHeartAmount == regeneration) {
-                    healthHeight -= 2;
-                }
+                if (currentHealth <= 4) healthHeight += rand.nextInt(2);
+                if (healthHeartAmount == regeneration) healthHeight -= 2;
                 int hardCore = 0;
-                if (entityplayer.worldObj.getWorldInfo().isHardcoreModeEnabled()) {
-                    hardCore = 5;
-                }
+
+                if (entityplayer.worldObj.getWorldInfo().isHardcoreModeEnabled()) hardCore = 5;
 
                 if (HyperiumGuiIngame.renderHealth) {
-                    this.drawTexturedModalRect(healthWidth, healthHeight, 16 + gettingDamage * 9, 9 * hardCore, 9, 9);
-                    if (!Settings.OLD_HEALTH) {
-                        if (isGettingDamage) {
-                            if (healthHeartAmount * 2 + 1 < lastPlayerHealth) {
-                                this.drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 54, 9 * hardCore, 9, 9);
-                            }
+                    drawTexturedModalRect(healthWidth, healthHeight, 16 + gettingDamage * 9, 9 * hardCore, 9, 9);
+                    if (!Settings.OLD_HEALTH && isGettingDamage) {
+                        if (healthHeartAmount * 2 + 1 < lastPlayerHealth) {
+                            drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 54, 9 * hardCore, 9, 9);
+                        }
 
-                            if (healthHeartAmount * 2 + 1 == lastPlayerHealth) {
-                                this.drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 63, 9 * hardCore, 9, 9);
-                            }
+                        if (healthHeartAmount * 2 + 1 == lastPlayerHealth) {
+                            drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 63, 9 * hardCore, 9, 9);
                         }
                     }
 
                     if (tempAbsorptionAmount > 0.0F) {
-                        if (tempAbsorptionAmount == absorptionAmount && absorptionAmount % 2.0F == 1.0F) {
-                            this.drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 153, 9 * hardCore, 9, 9);
-                        } else {
-                            this.drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 144, 9 * hardCore, 9, 9);
-                        }
+                        drawTexturedModalRect(healthWidth, healthHeight, tempAbsorptionAmount == absorptionAmount && absorptionAmount % 2.0F
+                            == 1.0F ? baseTextureX + 153 : baseTextureX + 144, 9 * hardCore, 9, 9);
                         tempAbsorptionAmount -= 2.0F;
                     } else {
                         if (healthHeartAmount * 2 + 1 < currentHealth) {
-                            this.drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 36, 9 * hardCore, 9, 9);
+                            drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 36, 9 * hardCore, 9, 9);
                         }
 
                         if (healthHeartAmount * 2 + 1 == currentHealth) {
-                            this.drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 45, 9 * hardCore, 9, 9);
+                            drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 45, 9 * hardCore, 9, 9);
                         }
                     }
                 }
@@ -203,7 +204,7 @@ public abstract class MixinGuiIngame extends Gui {
             if (HyperiumGuiIngame.renderFood) {
                 Entity entity = entityplayer.ridingEntity;
                 if (entity == null) {
-                    this.mc.mcProfiler.endStartSection("food");
+                    mc.mcProfiler.endStartSection("food");
                     for (int foodPostion = 0; foodPostion < 10; ++foodPostion) {
                         int foodHeight = height;
                         int textureXT = 16;
@@ -212,77 +213,87 @@ public abstract class MixinGuiIngame extends Gui {
                             textureXT += 36;
                             textureX = 13;
                         }
-                        if (entityplayer.getFoodStats().getSaturationLevel() <= 0.0F && this.updateCounter % (foodLevel * 3 + 1) == 0) {
-                            foodHeight = height + (this.rand.nextInt(3) - 1);
+
+                        if (entityplayer.getFoodStats().getSaturationLevel() <= 0.0F && updateCounter % (foodLevel * 3 + 1) == 0) {
+                            foodHeight = height + (rand.nextInt(3) - 1);
                         }
-                        if (alwaysFalseFlagWhatIsThis) {
-                            textureX = 1;
-                        }
+
+                        if (alwaysFalseFlagWhatIsThis) textureX = 1;
+
                         int foodPositionX = widthRight - foodPostion * 8 - 9;
-                        this.drawTexturedModalRect(foodPositionX, foodHeight, 16 + textureX * 9, 27, 9, 9);
+                        drawTexturedModalRect(foodPositionX, foodHeight, 16 + textureX * 9, 27, 9, 9);
+
                         if (alwaysFalseFlagWhatIsThis) {
                             if (foodPostion * 2 + 1 < prevFoodLevel) {
-                                this.drawTexturedModalRect(foodPositionX, foodHeight, textureXT + 54, 27, 9, 9);
+                                drawTexturedModalRect(foodPositionX, foodHeight, textureXT + 54, 27, 9, 9);
                             }
+
                             if (foodPostion * 2 + 1 == prevFoodLevel) {
-                                this.drawTexturedModalRect(foodPositionX, foodHeight, textureXT + 63, 27, 9, 9);
+                                drawTexturedModalRect(foodPositionX, foodHeight, textureXT + 63, 27, 9, 9);
                             }
                         }
 
                         if (foodPostion * 2 + 1 < foodLevel) {
-                            this.drawTexturedModalRect(foodPositionX, foodHeight, textureXT + 36, 27, 9, 9);
+                            drawTexturedModalRect(foodPositionX, foodHeight, textureXT + 36, 27, 9, 9);
                         }
 
                         if (foodPostion * 2 + 1 == foodLevel) {
-                            this.drawTexturedModalRect(foodPositionX, foodHeight, textureXT + 45, 27, 9, 9);
+                            drawTexturedModalRect(foodPositionX, foodHeight, textureXT + 45, 27, 9, 9);
                         }
                     }
                 } else if (entity instanceof EntityLivingBase) {
-                    this.mc.mcProfiler.endStartSection("mountHealth");
+                    mc.mcProfiler.endStartSection("mountHealth");
                     EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
                     int tempHealth = (int) Math.ceil(entitylivingbase.getHealth());
                     float maxHealth = entitylivingbase.getMaxHealth();
                     int maxHeart = (int) (maxHealth + 0.5F) / 2;
-                    if (maxHeart > 30) {
-                        maxHeart = 30;
-                    }
+                    if (maxHeart > 30) maxHeart = 30;
                     int mountHealthHeight = height;
+
                     for (int tempInt = 0; maxHeart > 0; tempInt += 20) {
                         int heartInt = Math.min(maxHeart, 10);
                         maxHeart -= heartInt;
+
                         for (int mountHealth = 0; mountHealth < heartInt; ++mountHealth) {
                             int textureX = 52;
                             int additionalX = 0;
+
                             if (alwaysFalseFlagWhatIsThis) {
                                 additionalX = 1;
                             }
+
                             int mountHealthPositionX = widthRight - mountHealth * 8 - 9;
-                            this.drawTexturedModalRect(mountHealthPositionX, mountHealthHeight, textureX + additionalX * 9, 9, 9, 9);
+                            drawTexturedModalRect(mountHealthPositionX, mountHealthHeight, textureX + additionalX * 9, 9, 9, 9);
+
                             if (mountHealth * 2 + 1 + tempInt < tempHealth) {
-                                this.drawTexturedModalRect(mountHealthPositionX, mountHealthHeight, textureX + 36, 9, 9, 9);
+                                drawTexturedModalRect(mountHealthPositionX, mountHealthHeight, textureX + 36, 9, 9, 9);
                             }
+
                             if (mountHealth * 2 + 1 + tempInt == tempHealth) {
-                                this.drawTexturedModalRect(mountHealthPositionX, mountHealthHeight, textureX + 45, 9, 9, 9);
+                                drawTexturedModalRect(mountHealthPositionX, mountHealthHeight, textureX + 45, 9, 9, 9);
                             }
                         }
+
                         mountHealthHeight -= 10;
                     }
                 }
             }
-            this.mc.mcProfiler.endStartSection("air");
+
+            mc.mcProfiler.endStartSection("air");
             if (entityplayer.isInsideOfMaterial(Material.water)) {
-                int air = this.mc.thePlayer.getAir();
+                int air = mc.thePlayer.getAir();
                 int airCheck = MathHelper.ceiling_double_int((double) (air - 2) * 10.0D / 300.0D);
                 int air2 = MathHelper.ceiling_double_int((double) air * 10.0D / 300.0D) - airCheck;
-                for (int airPosition = 0; airPosition < airCheck + air2; ++airPosition) {
+                IntStream.range(0, airCheck + air2).forEach(airPosition -> {
                     if (airPosition < airCheck) {
-                        this.drawTexturedModalRect(widthRight - airPosition * 8 - 9, heartHeight, 16, 18, 9, 9);
+                        drawTexturedModalRect(widthRight - airPosition * 8 - 9, heartHeight, 16, 18, 9, 9);
                     } else {
-                        this.drawTexturedModalRect(widthRight - airPosition * 8 - 9, heartHeight, 25, 18, 9, 9);
+                        drawTexturedModalRect(widthRight - airPosition * 8 - 9, heartHeight, 25, 18, 9, 9);
                     }
-                }
+                });
             }
-            this.mc.mcProfiler.endSection();
+
+            mc.mcProfiler.endSection();
         }
     }
 
@@ -315,12 +326,10 @@ public abstract class MixinGuiIngame extends Gui {
 
     /**
      * @author asbyth
-     * @reason Option to disable Titles & Subtitles (will be replacing the Clear Titles keybind)
+     * @reason Option to disable Titles & Subtitles
      */
     @Inject(method = "displayTitle", at = @At("HEAD"), cancellable = true)
     private void displayTitle(String title, String subTitle, int timeFadeIn, int displayTime, int timeFadeOut, CallbackInfo ci) {
-        if (Settings.HIDE_TITLES) {
-            ci.cancel();
-        }
+        if (Settings.HIDE_TITLES) ci.cancel();
     }
 }

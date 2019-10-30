@@ -42,8 +42,7 @@ public class DMChatHandler extends HyperiumChatHandler {
                     (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
             }
         }
+
         return false;
     }
-
-
 }

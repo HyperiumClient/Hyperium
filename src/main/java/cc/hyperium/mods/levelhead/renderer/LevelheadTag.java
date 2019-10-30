@@ -33,23 +33,13 @@ public class LevelheadTag {
     }
 
     public void construct(LevelheadJsonHolder holder) {
-        if (header == null) {
-            header = build(holder, true);
-        }
-
-        if (footer == null) {
-            footer = build(holder, false);
-        }
+        if (header == null) header = build(holder, true);
+        if (footer == null) footer = build(holder, false);
     }
 
     public void reapply(LevelheadTag holder) {
-        if (!header.isCustom()) {
-            header = holder.header;
-        }
-
-        if (!footer.isCustom()) {
-            footer = holder.footer;
-        }
+        if (!header.isCustom()) header = holder.header;
+        if (!footer.isCustom()) footer = holder.footer;
     }
 
     private LevelheadComponent build(LevelheadJsonHolder holder, boolean isHeader) {

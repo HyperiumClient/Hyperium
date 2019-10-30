@@ -29,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 import net.minecraft.client.Minecraft;
@@ -47,11 +48,7 @@ public class Utils {
         BufferedImage bufferedimage = ImageIO.read(inputStream);
         int[] aint = bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), null, 0, bufferedimage.getWidth());
         ByteBuffer bytebuffer = ByteBuffer.allocate(4 * aint.length);
-
-        for (int i : aint) {
-            bytebuffer.putInt(i << 8 | (i >> 24 & 255));
-        }
-
+        Arrays.stream(aint).map(i -> i << 8 | (i >> 24 & 255)).forEach(bytebuffer::putInt);
         bytebuffer.flip();
         return bytebuffer;
     }
@@ -64,6 +61,7 @@ public class Utils {
             int[] pixels = new int[(w * h)];
             image.getRGB(0, 0, w, h, pixels, 0, w);
             ByteBuffer buffer = BufferUtils.createByteBuffer(w * h * 4);
+
             for (int y = 0; y < h; y++) {
                 for (int x = 0; x < w; x++) {
                     int pixel = pixels[(h - 1 - y) * w + x];
@@ -73,11 +71,11 @@ public class Utils {
                     buffer.put((byte) (pixel >> 24 & 0xFF));
                 }
             }
+
             buffer.flip();
             Mouse.setNativeCursor(new Cursor(w, h, 0, h - 1, 1, buffer.asIntBuffer(), null));
         } catch (Exception ignored) {
         }
-
     }
 
     /*
@@ -95,15 +93,16 @@ public class Utils {
                             if (purchase instanceof EarsCosmetic && ((EarsCosmetic) purchase).isEnabled()) {
                                 return 0.24F;
                             }
-                        } else if (Settings.EARS_STATE.equalsIgnoreCase("on"))
+                        } else if (Settings.EARS_STATE.equalsIgnoreCase("on")) {
                             return 0.24F;
+                        }
                     }
                 }
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+
         return 0F;
     }
-
 }

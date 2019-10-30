@@ -35,12 +35,12 @@ public class TypeHousing extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        return this.worldJoinPattern.matcher(message).matches() || (message.startsWith("[OWNER] ") || message.startsWith("[CO-OWNER] ") || message.startsWith("[RES] "));
+        return worldJoinPattern.matcher(message).matches() || (message.startsWith("[OWNER] ") || message.startsWith("[CO-OWNER] ") || message.startsWith("[RES] "));
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

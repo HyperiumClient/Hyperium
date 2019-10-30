@@ -17,12 +17,12 @@ public class Coins implements Comparable<Coins> {
     }
 
     public Coins(Coins that) {
-        this.coinsSent = that.coinsSent;
-        this.coinsReceived = that.coinsReceived;
+        coinsSent = that.coinsSent;
+        coinsReceived = that.coinsReceived;
     }
 
     public String getTotal() {
-        return FORMAT.format(this.getTotalInt());
+        return FORMAT.format(getTotalInt());
     }
 
     public int getTotalInt() {
@@ -54,14 +54,14 @@ public class Coins implements Comparable<Coins> {
     }
 
     public Coins merge(final Coins that) {
-        this.coinsSent += that.coinsSent;
-        this.coinsReceived += that.coinsReceived;
+        coinsSent += that.coinsSent;
+        coinsReceived += that.coinsReceived;
         return this;
     }
 
     @Override
     public int compareTo(Coins that) {
-        return Integer.compare(this.getTotalInt(), that.getTotalInt());
+        return Integer.compare(getTotalInt(), that.getTotalInt());
     }
 
 }

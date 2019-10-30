@@ -111,7 +111,6 @@
     "util.MixinChatComponentStyle",
     "util.MixinChatStyle",
     "util.MixinClassInheritanceMultiMap",
-    "util.MixinMathHelper",
     "util.MixinMultiMap",
     "util.MixinScreenShotHelper",
     "world.chunk.MixinChunk",

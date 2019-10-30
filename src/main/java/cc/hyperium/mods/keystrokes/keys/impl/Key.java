@@ -46,11 +46,7 @@ public class Key extends AbstractKey {
     }
 
     private boolean isKeyOrMouseDown(int keyCode) {
-        if (keyCode < 0) {
-            return Mouse.isButtonDown(keyCode + 100);
-        }
-
-        return Keyboard.isKeyDown(keyCode);
+        return keyCode < 0 ? Mouse.isButtonDown(keyCode + 100) : Keyboard.isKeyDown(keyCode);
     }
 
     @Override
@@ -79,11 +75,11 @@ public class Key extends AbstractKey {
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
             if (mod.getSettings().getKeyBackgroundRed() == 0 && mod.getSettings().getKeyBackgroundGreen() == 0 && mod.getSettings().getKeyBackgroundBlue() == 0) {
-                Gui.drawRect(x + this.xOffset, y + this.yOffset, x + this.xOffset + 22, y + this.yOffset + 22,
+                Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 22, y + yOffset + 22,
                     new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
                         mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
             } else {
-                Gui.drawRect(x + this.xOffset, y + this.yOffset, x + this.xOffset + 22, y + this.yOffset + 22,
+                Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 22, y + yOffset + 22,
                     new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
                         mod.getSettings().getKeyBackgroundOpacity()).getRGB());
             }
@@ -98,9 +94,7 @@ public class Key extends AbstractKey {
         int stringWidth = fontRenderer.getStringWidth(name);
         float scaleFactor = 1.0f;
 
-        if (stringWidth > keyWidth) {
-            scaleFactor = keyWidth / stringWidth;
-        }
+        if (stringWidth > keyWidth) scaleFactor = keyWidth / stringWidth;
 
         GlStateManager.pushMatrix();
         float xPos = (float) (x + xOffset + 8);
@@ -191,13 +185,11 @@ public class Key extends AbstractKey {
             GlStateManager.shadeModel(GL11.GL_FLAT);
             GlStateManager.enableTexture2D();
             GlStateManager.disableBlend();
-
         } else {
-
-            if (this.mod.getSettings().isChroma()) {
+            if (mod.getSettings().isChroma()) {
                 drawChromaString(name, (int) xPos, (int) yPos, 1.0);
             } else {
-                this.mc.fontRendererObj.drawString(name, (int) xPos, (int) yPos, pressed ? pressedColor : colorN);
+                mc.fontRendererObj.drawString(name, (int) xPos, (int) yPos, pressed ? pressedColor : colorN);
             }
         }
 

@@ -110,18 +110,13 @@ public class GuiScreenColor extends GuiScreen implements IScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        if (button.id == 6) {
-            mc.displayGuiScreen(new GuiScreenKeystrokes(mod));
-        }
+        if (button.id == 6) mc.displayGuiScreen(new GuiScreenKeystrokes(mod));
     }
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        if (keyCode == 1) {
-            mc.displayGuiScreen(new GuiScreenKeystrokes(mod));
-        } else {
-            super.keyTyped(typedChar, keyCode);
-        }
+        if (keyCode == 1) mc.displayGuiScreen(new GuiScreenKeystrokes(mod));
+        else super.keyTyped(typedChar, keyCode);
     }
 
     @Override
@@ -133,9 +128,7 @@ public class GuiScreenColor extends GuiScreen implements IScreen {
 
     @Override
     public void onGuiClosed() {
-        if (updated) {
-            mod.getSettings().save();
-        }
+        if (updated) mod.getSettings().save();
     }
 
     @Override

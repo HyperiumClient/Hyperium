@@ -66,21 +66,16 @@ class MoveElementGui extends GuiScreen {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        for (GuiButton guiButton : buttonList) {
+        buttonList.forEach(guiButton -> {
             Consumer<GuiButton> guiButtonConsumer = updates.get(guiButton);
-            if (guiButtonConsumer != null) {
-                guiButtonConsumer.accept(guiButton);
-            }
-        }
+            if (guiButtonConsumer != null) guiButtonConsumer.accept(guiButton);
+        });
     }
 
     @Override
     protected void actionPerformed(GuiButton button) {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
-        if (guiButtonConsumer != null) {
-            guiButtonConsumer.accept(button);
-        }
-
+        if (guiButtonConsumer != null) guiButtonConsumer.accept(button);
     }
 
     @Override
@@ -107,13 +102,13 @@ class MoveElementGui extends GuiScreen {
         drawVerticalLine((int) x2 + 5, (int) (y1 - 5), (int) (y2 + 5), Color.RED.getRGB());
         int propX = (int) x1 - 5;
         int propY = (int) y1 - 30;
-        if (propX < 10 || propX > resolution.getScaledWidth() - 200) {
-            propX = resolution.getScaledWidth() / 2;
-        }
-        if (propY > resolution.getScaledHeight() - 5 || propY < 0)
-            propY = resolution.getScaledHeight() / 2;
+
+        if (propX < 10 || propX > resolution.getScaledWidth() - 200) propX = resolution.getScaledWidth() / 2;
+        if (propY > resolution.getScaledHeight() - 5 || propY < 0) propY = resolution.getScaledHeight() / 2;
+
         edit.xPosition = propX;
         edit.yPosition = propY;
+
         if (Mouse.isButtonDown(0) && !mouseLock) {
             if (mouseX > x1 - 2 && mouseX < x2 + 2 && mouseY > y1 - 2 && mouseY < y2 + 2 || lastD) {
                 //inside
@@ -121,6 +116,7 @@ class MoveElementGui extends GuiScreen {
                 double y3 = Mouse.getY() / ResolutionUtil.current().getScaledHeight_double();
                 element.setXloc(element.getXloc() - (lastX - x3) / ((double) ResolutionUtil.current().getScaleFactor()));
                 element.setYloc(element.getYloc() + (lastY - y3) / ((double) ResolutionUtil.current().getScaleFactor()));
+
                 //Math to keep it inside screen
                 if (element.getXloc() * resolution.getScaledWidth_double() - offset < 0) {
                     if (element.isRightSided())
@@ -128,20 +124,22 @@ class MoveElementGui extends GuiScreen {
                     else
                         element.setXloc(0);
                 }
-                if (element.getYloc() < 0)
-                    element.setYloc(0);
+
+                if (element.getYloc() < 0) element.setYloc(0);
                 if (element.getXloc() * resolution.getScaledWidth() + element.getDimensions().getWidth() - offset > resolution.getScaledWidth()) {
-                    if (element.isRightSided())
-                        element.setXloc(1.0);
-                    else
-                        element.setXloc((resolution.getScaledWidth_double() - element.getDimensions().getWidth()) / resolution.getScaledWidth_double());
+                    element.setXloc(element.isRightSided() ? 1.0 : (resolution.getScaledWidth_double() - element.getDimensions().getWidth()) / resolution.getScaledWidth_double());
                 }
+
                 if (element.getYloc() * resolution.getScaledHeight() + element.getDimensions().getHeight() > resolution.getScaledHeight()) {
                     element.setYloc((resolution.getScaledHeight_double() - element.getDimensions().getHeight()) / resolution.getScaledHeight_double());
                 }
+
                 lastD = true;
             }
-        } else lastD = false;
+        } else {
+            lastD = false;
+        }
+
         lastX = Mouse.getX() / ResolutionUtil.current().getScaledWidth_double();
         lastY = Mouse.getY() / ResolutionUtil.current().getScaledHeight_double();
     }
@@ -154,11 +152,7 @@ class MoveElementGui extends GuiScreen {
     private void reg(GuiButton button, Consumer<GuiButton> consumer) {
         buttonList.removeIf(button1 -> button1.id == button.id);
         clicks.keySet().removeIf(button1 -> button1.id == button.id);
-
-        this.buttonList.add(button);
-
-        if (consumer != null) {
-            this.clicks.put(button, consumer);
-        }
+        buttonList.add(button);
+        if (consumer != null) clicks.put(button, consumer);
     }
 }

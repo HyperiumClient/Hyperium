@@ -18,7 +18,7 @@
 package cc.hyperium.mixinsimp.client.gui;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.ChatEvent;
+import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mixins.client.gui.IMixinGuiNewChat;
 
@@ -64,9 +64,7 @@ public class HyperiumGuiNewChat {
             float f = mc.gameSettings.chatOpacity * 0.9F + 0.1F;
 
             if (k > 0) {
-                if (parent.getChatOpen()) {
-                    flag = true;
-                }
+                if (parent.getChatOpen()) flag = true;
 
                 float f1 = parent.getChatScale();
                 int l = MathHelper.ceiling_float_int((float) parent.getChatWidth() / f1);
@@ -88,9 +86,7 @@ public class HyperiumGuiNewChat {
                             d0 = d0 * d0;
                             int l1 = (int) (255.0D * d0);
 
-                            if (flag) {
-                                l1 = 255;
-                            }
+                            if (flag) l1 = 255;
 
                             l1 = (int) ((float) l1 * f);
                             ++j;
@@ -102,9 +98,7 @@ public class HyperiumGuiNewChat {
                                     Gui.drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
                                 String s = chatline.getChatComponent().getFormattedText();
                                 GlStateManager.enableBlend();
-                                mc.fontRendererObj
-                                    .drawStringWithShadow(s, (float) i2, (float) (j2 - 8),
-                                        16777215 + (l1 << 24));
+                                mc.fontRendererObj.drawStringWithShadow(s, (float) i2, (float) (j2 - 8), 16777215 + (l1 << 24));
                                 GlStateManager.disableAlpha();
                                 GlStateManager.disableBlend();
                             }
@@ -133,7 +127,8 @@ public class HyperiumGuiNewChat {
         }
     }
 
-    public void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_, int scrollPos, boolean isScrolled, List<ChatLine> chatLineList, List<ChatLine> chatLines, Minecraft mc) {
+    public void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_, int scrollPos,
+                            boolean isScrolled, List<ChatLine> chatLineList, List<ChatLine> chatLines, Minecraft mc) {
         if (chatLineId != 0) {
             parent.deleteChatLine(chatLineId);
         }
@@ -142,14 +137,14 @@ public class HyperiumGuiNewChat {
         List<IChatComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, mc.fontRendererObj, false, false);
         boolean flag = parent.getChatOpen();
 
-        for (IChatComponent ichatcomponent : list) {
+        list.forEach(ichatcomponent -> {
             if (flag && scrollPos > 0) {
                 ((IMixinGuiNewChat) parent).setIsScrolled(isScrolled);
                 parent.scroll(1);
             }
 
             chatLineList.add(0, new ChatLine(p_146237_3_, ichatcomponent, chatLineId));
-        }
+        });
 
         while (chatLineList.size() > 500) {
             chatLineList.remove(chatLineList.size() - 1);

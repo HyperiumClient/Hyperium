@@ -65,8 +65,8 @@ public class CarouselItem {
         return purchased;
     }
 
-    public void setPurchased(boolean b) {
-        this.purchased = b;
+    public void setPurchased(boolean purchased) {
+        this.purchased = purchased;
     }
 
     public String getName() {

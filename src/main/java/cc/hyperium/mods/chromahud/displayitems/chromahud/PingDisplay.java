@@ -17,7 +17,6 @@
 
 package cc.hyperium.mods.chromahud.displayitems.chromahud;
 
-
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
@@ -26,7 +25,6 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import cc.hyperium.config.Settings;
 
-
 /**
  * @author Sk1er
  */
@@ -34,20 +32,22 @@ public class PingDisplay extends DisplayItem {
 
     public PingDisplay(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
-        this.height = 10;
+        height = 10;
     }
 
     @Override
     public void draw(int starX, double startY, boolean isConfig) {
-        if (Minecraft.getMinecraft().theWorld != null && !Minecraft.getMinecraft().theWorld.isRemote && !isConfig)
+        if (Minecraft.getMinecraft().theWorld != null && !Minecraft.getMinecraft().theWorld.isRemote && !isConfig) {
             return;
+        }
+
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-        String string;
+
         if (thePlayer != null) {
             NetworkPlayerInfo playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID());
-            string = "Ping: " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
+            String string = "Ping: " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
             ElementRenderer.draw(starX, startY, string);
-            this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
+            width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
         }
     }
 

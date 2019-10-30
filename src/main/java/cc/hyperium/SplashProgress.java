@@ -55,10 +55,7 @@ public class SplashProgress {
      * Update the splash text
      */
     public static void update() {
-        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().getLanguageManager() == null) {
-            return;
-        }
-
+        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().getLanguageManager() == null) return;
         drawSplash(Minecraft.getMinecraft().getTextureManager());
     }
 
@@ -81,9 +78,7 @@ public class SplashProgress {
      */
     public static void drawSplash(TextureManager tm) {
         // Initialize the texture manager if null
-        if (ctm == null) {
-            ctm = tm;
-        }
+        if (ctm == null) ctm = tm;
 
         // Get the users screen width and height to apply
         ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
@@ -109,9 +104,7 @@ public class SplashProgress {
         GlStateManager.enableTexture2D();
 
         // Initialize the splash texture
-        if (splash == null) {
-            splash = new ResourceLocation("textures/hyperium-splash.png");
-        }
+        if (splash == null) splash = new ResourceLocation("textures/hyperium-splash.png");
 
         // Bind the texture
         tm.bindTexture(splash);
@@ -146,14 +139,11 @@ public class SplashProgress {
      * Render the progress bar and text
      */
     private static void drawProgress() {
-        if (Minecraft.getMinecraft().gameSettings == null || Minecraft.getMinecraft().getTextureManager() == null) {
+        if (Minecraft.getMinecraft().gameSettings == null || Minecraft.getMinecraft().getTextureManager() == null)
             return;
-        }
 
         // Declare the font to be used
-        if (sfr == null) {
-            sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
-        }
+        if (sfr == null) sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
 
         // Get the users screen width and height to apply
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());

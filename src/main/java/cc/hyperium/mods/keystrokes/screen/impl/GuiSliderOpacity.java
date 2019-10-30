@@ -14,8 +14,8 @@ public class GuiSliderOpacity extends GuiSlider {
         super(id, xPos, yPos, width, height, "Key Opacity: ", "", 0,
             255, mod.getSettings().getKeyBackgroundOpacity(), false, true);
 
-        this.settings = mod.getSettings();
-        this.keystrokesGui = keystrokes;
+        settings = mod.getSettings();
+        keystrokesGui = keystrokes;
     }
 
     @Override

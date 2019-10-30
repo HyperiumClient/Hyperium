@@ -41,7 +41,6 @@ public class Sk1erMod {
     private static Sk1erMod instance;
     private String modid;
     private String version;
-    private boolean enabled = true;
     private String apiKey = "";
     private JsonHolder en = new JsonHolder();
     private GenKeyCallback callback = object -> {
@@ -70,10 +69,6 @@ public class Sk1erMod {
         return true;
     }
 
-    public String getApIKey() {
-        return apiKey;
-    }
-
     public JsonObject getPlayer(String name) {
         return new JsonParser().parse(rawWithAgent("https://sk1er.club/data/" + name + "/" + apiKey)).getAsJsonObject();
     }
@@ -89,7 +84,7 @@ public class Sk1erMod {
                 ));
                 if (callback != null)
                     callback.call(en);
-                enabled = en.optBoolean("enabled");
+                en.optBoolean("enabled");
                 apiKey = en.optString("key");
             }, 0, 5, TimeUnit.MINUTES);
         }
@@ -120,5 +115,4 @@ public class Sk1erMod {
         object.addProperty("cause", "Exception");
         return object.toString();
     }
-
 }

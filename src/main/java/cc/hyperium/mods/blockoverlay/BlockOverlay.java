@@ -30,14 +30,14 @@ public class BlockOverlay extends AbstractMod {
     private BlockOverlaySettings settings;
 
     public BlockOverlay() {
-        this.meta = new Metadata(this, "BlockOverlay", "1.0", "aycy & powns");
-        this.meta.setDisplayName(ChatColor.RED + "BlockOverlay");
+        meta = new Metadata(this, "BlockOverlay", "1.0", "aycy & powns");
+        meta.setDisplayName(ChatColor.RED + "BlockOverlay");
     }
 
     @Override
     public AbstractMod init() {
-        this.settings = new BlockOverlaySettings(Hyperium.folder);
-        this.settings.load();
+        settings = new BlockOverlaySettings(Hyperium.folder);
+        settings.load();
         EventBus.INSTANCE.register(new BlockOverlayRender(this));
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new BlockOverlayCommand(this));
         return this;
@@ -45,10 +45,10 @@ public class BlockOverlay extends AbstractMod {
 
     @Override
     public Metadata getModMetadata() {
-        return this.meta;
+        return meta;
     }
 
     public BlockOverlaySettings getSettings() {
-        return this.settings;
+        return settings;
     }
 }

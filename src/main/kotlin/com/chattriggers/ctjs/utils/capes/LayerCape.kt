@@ -31,7 +31,7 @@ class LayerCape(private val playerRenderer: RenderPlayer) : LayerRenderer<Abstra
             f10 = 0.09f
         }
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
-        this.playerRenderer.bindTexture(rl)
+        playerRenderer.bindTexture(rl)
         GlStateManager.pushMatrix()
         GlStateManager.translate(0.0f, f10, f9)
         val d0 =
@@ -59,7 +59,7 @@ class LayerCape(private val playerRenderer: RenderPlayer) : LayerRenderer<Abstra
         GlStateManager.rotate(f3 / 2.0f, 0.0f, 0.0f, 1.0f)
         GlStateManager.rotate(-f3 / 2.0f, 0.0f, 1.0f, 0.0f)
         GlStateManager.rotate(180.0f, 0.0f, 1.0f, 0.0f)
-        this.playerRenderer.mainModel.renderCape(0.0625f)
+        playerRenderer.mainModel.renderCape(0.0625f)
         GlStateManager.popMatrix()
     }
 }

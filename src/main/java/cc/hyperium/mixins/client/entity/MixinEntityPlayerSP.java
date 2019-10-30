@@ -18,11 +18,10 @@
 package cc.hyperium.mixins.client.entity;
 
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.SendChatMessageEvent;
+import cc.hyperium.event.network.chat.SendChatMessageEvent;
 import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.utils.ChatUtil;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.potion.Potion;
@@ -64,15 +63,7 @@ public class MixinEntityPlayerSP extends AbstractClientPlayer {
     @ModifyVariable(method = "sendChatMessage", at = @At("HEAD"))
     private String sendChat(String chat) {
         NickHider instance = NickHider.instance;
-        if (instance == null) {
-            return chat;
-        }
-
-        if (!instance.getNickHiderConfig().isMasterEnabled()) {
-            return chat;
-        }
-
-        return instance.out(chat);
+        return instance == null || !instance.getNickHiderConfig().isMasterEnabled() ? chat : instance.out(chat);
     }
 
     /**
@@ -82,9 +73,10 @@ public class MixinEntityPlayerSP extends AbstractClientPlayer {
     @Override
     public void removePotionEffectClient(int potionId) {
         if (potionId == Potion.confusion.id) {
-            this.prevTimeInPortal = 0.0F;
-            this.timeInPortal = 0.0F;
+            prevTimeInPortal = 0.0F;
+            timeInPortal = 0.0F;
         }
+
         super.removePotionEffectClient(potionId);
     }
 }

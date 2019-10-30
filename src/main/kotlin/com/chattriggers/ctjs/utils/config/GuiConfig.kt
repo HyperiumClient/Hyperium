@@ -33,15 +33,15 @@ class GuiConfig : GuiScreen() {
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         GlStateManager.pushMatrix()
 
-        if (!this.isOpen) {
-            this.isOpen = true
-            for (configOption in this.configOptions)
+        if (!isOpen) {
+            isOpen = true
+            for (configOption in configOptions)
                 configOption.init()
         }
 
         drawBackground(0)
 
-        for (configOption in this.configOptions)
+        for (configOption in configOptions)
             configOption.draw(mouseX, mouseY, partialTicks)
 
         iconHandler.drawIcons()
@@ -50,7 +50,7 @@ class GuiConfig : GuiScreen() {
     }
 
     override fun onGuiClosed() {
-        this.isOpen = false
+        isOpen = false
         CTJS.saveConfig()
     }
 
@@ -58,14 +58,14 @@ class GuiConfig : GuiScreen() {
     public override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
         if (mouseButton != 0) return
 
-        for (configOption in this.configOptions)
+        for (configOption in configOptions)
             configOption.mouseClicked(mouseX, mouseY)
 
         iconHandler.clickIcons(mouseX, mouseY)
     }
 
     public override fun mouseReleased(mouseX: Int, mouseY: Int, state: Int) {
-        for (configOption in this.configOptions)
+        for (configOption in configOptions)
             configOption.mouseReleased()
     }
 
@@ -73,7 +73,7 @@ class GuiConfig : GuiScreen() {
     override fun keyTyped(typedChar: Char, keyCode: Int) {
         super.keyTyped(typedChar, keyCode)
 
-        for (configOption in this.configOptions)
+        for (configOption in configOptions)
             configOption.keyTyped(typedChar, keyCode)
     }
 }
