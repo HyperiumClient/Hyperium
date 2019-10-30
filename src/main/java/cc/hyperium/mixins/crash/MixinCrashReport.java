@@ -37,7 +37,7 @@ public abstract class MixinCrashReport {
 
     @Inject(method = "populateEnvironment", at = @At("HEAD"))
     private void add(CallbackInfo info) {
-        this.theReportCategory.addCrashSectionCallable(
+        theReportCategory.addCrashSectionCallable(
             "ct.js modules",
             () -> ModuleManager.INSTANCE.getCachedModules().toString()
         );

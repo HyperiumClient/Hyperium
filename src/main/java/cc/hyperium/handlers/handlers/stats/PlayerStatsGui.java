@@ -23,9 +23,9 @@ import cc.hyperium.gui.Icons;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
 import cc.hyperium.handlers.handlers.stats.fields.*;
-import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
+import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.utils.RenderUtils;
 import club.sk1er.website.api.requests.HypixelApiGuild;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
@@ -85,6 +85,7 @@ public class PlayerStatsGui extends HyperiumGui {
         fields.add(new VampireZStats());
         fields.add(new WallsStats());
         fields.add(new WarlordsStats());
+
         for (AbstractHypixelStats field : fields) {
             Multithreading.runAsync(() -> {
                 if (!logos.containsKey(field))
@@ -100,6 +101,7 @@ public class PlayerStatsGui extends HyperiumGui {
                         InputStream is = connection.getInputStream();
                         BufferedImage img = ImageIO.read(ImageIO.createImageInputStream(is));
                         texturesImage.put(field, img);
+                        is.close();
                     } catch (Exception e) {
                         System.out.println(field.getClass().getName());
                         e.printStackTrace();
@@ -114,29 +116,26 @@ public class PlayerStatsGui extends HyperiumGui {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         boolean flag = false;
         for (GuiButton guiButton : buttonList) {
-            if (guiButton.isMouseOver())
-                flag = true;
+            if (guiButton.isMouseOver()) flag = true;
         }
+
         boolean flag2 = focused == null;
-        if (!flag && flag2)
-            focused = null;
+        if (!flag && flag2) focused = null;
 
         ScaledResolution current = ResolutionUtil.current();
         if (focused != null && new GuiBlock((current.getScaledWidth() / 2 - 22 - 64), (current.getScaledWidth() / 2 - 22), 73, 73 + 64).isMouseOver(mouseX, mouseY)) {
             focused = null;
             offset = 0;
         }
-        if (flag2)
-            if (mouseButton == 0) {
-                for (AbstractHypixelStats abstractHypixelStats : location.keySet()) {
-                    if (location.get(abstractHypixelStats).isMouseOver(mouseX, mouseY)) {
-                        focused = abstractHypixelStats;
-                        hovered = null;
-                        offset = 0;
-                    }
-                }
-            }
 
+        if (flag2 && mouseButton == 0) {
+            location.keySet().stream().filter(abstractHypixelStats -> location.get(abstractHypixelStats).isMouseOver(mouseX, mouseY))
+                .forEach(abstractHypixelStats -> {
+                    focused = abstractHypixelStats;
+                    hovered = null;
+                    offset = 0;
+                });
+        }
     }
 
     @Override
@@ -157,52 +156,62 @@ public class PlayerStatsGui extends HyperiumGui {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         if (!texturesImage.isEmpty()) {
-            for (Map.Entry<AbstractHypixelStats, BufferedImage> entry : texturesImage.entrySet()) {
-                AbstractHypixelStats s = entry.getKey();
+            texturesImage.forEach((s, value) -> {
                 if (!logos.containsKey(s))
-                    logos.put(s, new DynamicTexture(entry.getValue()));
-            }
+                    logos.put(s, new DynamicTexture(value));
+            });
         }
+
         super.drawScreen(mouseX, mouseY, partialTicks);
         ScaledResolution current = ResolutionUtil.current();
         HypixelApiGuild guild = player.getGuild();
+
         if (guild == null) {
             GeneralChatHandler.instance().sendMessage("Player not found!");
             mc.displayGuiScreen(null);
             return;
         }
+
         boolean isInGuild = guild.isLoaded() && guild.isValid();
-        drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 30, 2, Color.WHITE.getRGB(), true, true);
+        drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 30, 2, -1,
+            true, true);
         if (focused == null) {
             final int blockWidth = 64 + 32;
             int blocksPerLine = (int) (current.getScaledWidth() / (1.2D * blockWidth));
+
             if (blocksPerLine % 2 == 1) {
                 blocksPerLine--;
             }
+
             final int startX = ResolutionUtil.current().getScaledWidth() / 2 - (blocksPerLine * blockWidth / 2);
             int x = -1;
             int y = 0;
             hovered = null;
+
             for (AbstractHypixelStats field : fields) {
                 DynamicTexture dynamicTexture = logos.get(field);
                 x++;
+
                 if (x > blocksPerLine) {
                     x = 0;
                     y++;
                 }
+
                 if (dynamicTexture != null) {
                     int y1 = 100 + y * blockWidth - 10 - offset;
-                    if (y1 < 70)
-                        continue;
+                    if (y1 < 70) continue;
+
                     GlStateManager.pushMatrix();
                     GlStateManager.resetColor();
                     GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                     int y2 = 100 + y * blockWidth - offset;
                     int x1 = startX + x * blockWidth;
                     GuiBlock value = new GuiBlock(x1, x1 + blockWidth / 2, y2, y2 + blockWidth / 2);
+
                     if (value.isMouseOver(mouseX, mouseY)) {
                         hovered = field;
                     }
+
                     location.put(field, value);
                     GlStateManager.translate(x1, y2, 0);
                     GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
@@ -216,29 +225,36 @@ public class PlayerStatsGui extends HyperiumGui {
                     GlStateManager.popMatrix();
                 }
             }
+
             if (hovered != null) {
                 List<StatsDisplayItem> preview = hovered.getPreview(player);
                 int width = 0;
                 int height = 0;
+
                 for (StatsDisplayItem statsDisplayItem : preview) {
                     width = Math.max(width, statsDisplayItem.width);
                     height += statsDisplayItem.height;
                 }
+
                 GuiBlock block = location.get(hovered);
                 int xOffset = 0;
                 int yRenderOffset = 16;
                 int rightSide = block.getRight() + (width + yRenderOffset) * 2;
+
                 if (rightSide > current.getScaledWidth()) {
                     xOffset = rightSide - current.getScaledWidth();
                 }
+
                 float scale = 1.0F;
                 GlStateManager.scale(scale, scale, scale);
                 int left = block.getRight() - xOffset + yRenderOffset - 8;
                 int top = block.getTop();
                 int printY = 0;
+
                 if (top + height * 2 > current.getScaledHeight()) {
                     top = current.getScaledHeight() - height * 2 - 50;
                 }
+
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
                     new Color(0, 0, 0, 220).getRGB());
 
@@ -246,6 +262,7 @@ public class PlayerStatsGui extends HyperiumGui {
                     statsDisplayItem.draw((int) (left / scale), (int) ((top) / scale) + printY);
                     printY += statsDisplayItem.height;
                 }
+
                 GlStateManager.scale(1 / scale, 1 / scale, 1 / scale);
             }
         } else {

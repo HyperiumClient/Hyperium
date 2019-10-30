@@ -18,9 +18,9 @@
 package cc.hyperium.mods.autogg;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.WorldChangeEvent;
+import cc.hyperium.event.network.chat.ChatEvent;
+import cc.hyperium.event.world.WorldChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.victoryroyale.VictoryRoyale;
 import cc.hyperium.utils.ChatColor;
@@ -46,22 +46,20 @@ public class AutoGGListener {
 
     @InvokeEvent
     public void onChat(final ChatEvent event) {
-        if (this.mod.getConfig().ANTI_GG && invoked) {
-            if (event.getChat().getUnformattedText().toLowerCase().endsWith("gg") || event.getChat().getUnformattedText().endsWith("Good Game"))
-                event.setCancelled(true);
-        }
+        if (mod.getConfig().ANTI_GG && invoked && (event.getChat().getUnformattedText().toLowerCase().endsWith("gg") ||
+            event.getChat().getUnformattedText().endsWith("Good Game")))
+            event.setCancelled(true);
+
         // Make sure the mod is enabled
-        if (
-            !this.mod.isHypixel() ||
-            !this.mod.getConfig().isToggled() || this.mod.isRunning() || this.mod.getTriggers().isEmpty()) {
+        if (!mod.isHypixel() || !mod.getConfig().isToggled() || mod.isRunning() || mod.getTriggers().isEmpty()) {
             return;
         }
 
         // Double parse to remove hypixel formatting codes
         String unformattedMessage = ChatColor.stripColor(event.getChat().getUnformattedText());
 
-        if (this.mod.getTriggers().stream().anyMatch(unformattedMessage::contains) && unformattedMessage.startsWith(" ")) {
-            this.mod.setRunning(true);
+        if (mod.getTriggers().stream().anyMatch(unformattedMessage::contains) && unformattedMessage.startsWith(" ")) {
+            mod.setRunning(true);
             invoked = true;
             // The GGThread in an anonymous class
             Multithreading.runAsync(() -> {
@@ -72,6 +70,7 @@ public class AutoGGListener {
                 }
                 VictoryRoyale.getInstance().gameEnded();
             });
+
             Multithreading.POOL.submit(() -> {
                 try {
                     Thread.sleep(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig().getDelay() * 1000);

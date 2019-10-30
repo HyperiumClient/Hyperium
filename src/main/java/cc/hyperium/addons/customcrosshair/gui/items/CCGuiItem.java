@@ -41,14 +41,14 @@ public class CCGuiItem {
     }
 
     public CCGuiItem(final GuiScreen screen, final int id, final String displayText, final int posX, final int posY, final int width, final int height) {
-        this.actionID = id;
+        actionID = id;
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
         this.displayText = displayText;
-        this.helpText = new ArrayList<>();
-        this.currentScreen = screen;
+        helpText = new ArrayList<>();
+        currentScreen = screen;
     }
 
     public void mouseClicked(final int mouseX, final int mouseY) {
@@ -61,63 +61,63 @@ public class CCGuiItem {
     }
 
     public void setCurrentScreen(final GuiScreen screen) {
-        this.currentScreen = screen;
+        currentScreen = screen;
     }
 
     public GuiScreen getCurrentScreen() {
-        return this.currentScreen;
+        return currentScreen;
     }
 
     public int getActionID() {
-        return this.actionID;
+        return actionID;
     }
 
     public void setPosition(final int newPosX, final int newPosY) {
-        this.posX = newPosX;
-        this.posY = newPosY;
+        posX = newPosX;
+        posY = newPosY;
     }
 
     public int getPosX() {
-        return this.posX;
+        return posX;
     }
 
     public void setPosX(final int newPosX) {
-        this.posX = newPosX;
+        posX = newPosX;
     }
 
     public int getPosY() {
-        return this.posY;
+        return posY;
     }
 
     public void setPosY(final int newPosY) {
-        this.posY = newPosY;
+        posY = newPosY;
     }
 
     public int getWidth() {
-        return this.width;
+        return width;
     }
 
     public void setWidth(final int newWidth) {
-        this.width = newWidth;
+        width = newWidth;
     }
 
     public int getHeight() {
-        return this.height;
+        return height;
     }
 
     public void setHeight(final int newHeight) {
-        this.height = newHeight;
+        height = newHeight;
     }
 
     public String getDisplayText() {
-        return this.displayText;
+        return displayText;
     }
 
     public void setDisplayText(final String newDisplayText) {
-        this.displayText = newDisplayText;
+        displayText = newDisplayText;
     }
 
     public List<String> getHelpText() {
-        return this.helpText;
+        return helpText;
     }
 }

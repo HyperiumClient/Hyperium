@@ -39,14 +39,14 @@ class OnCommandTrigger(method: Any, loader: ILoader) : OnTrigger(method, Trigger
     // helper method to re instance the command
     private fun reInstance() {
         for (command in CommandHandler.getCommandList()) {
-            if (command.name == this.commandName) {
+            if (command.name == commandName) {
                 command.getTriggers().add(this)
                 return
             }
         }
 
-        this.command = Command(this, this.commandName!!, "/${this.commandName}")
-        Hyperium.INSTANCE.handlers.hyperiumCommandHandler.registerCommand(this.command!!)
-        CommandHandler.getCommandList().add(this.command ?: return)
+        command = Command(this, commandName!!, "/${commandName}")
+        Hyperium.INSTANCE.handlers.hyperiumCommandHandler.registerCommand(command!!)
+        CommandHandler.getCommandList().add(command ?: return)
     }
 }

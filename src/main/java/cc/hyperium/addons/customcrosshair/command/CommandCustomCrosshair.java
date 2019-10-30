@@ -45,7 +45,7 @@ public class CommandCustomCrosshair implements BaseCommand {
 
     @Override
     public void onExecute(String[] strings) {
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiCustomCrosshairEditCrosshair(this.addon));
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiCustomCrosshairEditCrosshair(addon));
     }
 
     @Override

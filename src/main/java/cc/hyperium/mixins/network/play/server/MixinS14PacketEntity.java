@@ -35,6 +35,6 @@ public class MixinS14PacketEntity {
      */
     @Overwrite
     public Entity getEntity(World worldIn) {
-        return worldIn != null ? worldIn.getEntityByID(this.entityId) : null;
+        return worldIn != null ? worldIn.getEntityByID(entityId) : null;
     }
 }

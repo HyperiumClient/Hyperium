@@ -52,10 +52,7 @@ public class HyperiumCapeHandler {
             } else if (!type.isEmpty()) {
                 JsonHolder atlasHolder = PurchaseApi.getInstance().getCapeAtlas().optJSONObject(type);
                 url = atlasHolder.optString("url");
-
-                if (url.isEmpty()) {
-                    return;
-                }
+                if (url.isEmpty()) return;
             }
 
             ResourceLocation resourceLocation = new ResourceLocation(String.format("hyperium/capes/%s.png", profile.getId()));

@@ -35,12 +35,10 @@ public class LevelheadCommand implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        if (args.length == 1) {
-            if (args[0].equalsIgnoreCase("dumpcache")) {
-                Levelhead.getInstance().getDisplayManager().clearCache();
-                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Cleared Cache");
-                return;
-            }
+        if (args.length == 1 && args[0].equalsIgnoreCase("dumpcache")) {
+            Levelhead.getInstance().getDisplayManager().clearCache();
+            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Cleared Cache");
+            return;
         }
 
         Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new LevelheadGui());

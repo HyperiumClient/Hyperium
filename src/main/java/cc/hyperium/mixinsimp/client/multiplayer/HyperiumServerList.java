@@ -19,6 +19,7 @@ package cc.hyperium.mixinsimp.client.multiplayer;
 
 import java.io.File;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
@@ -52,17 +53,13 @@ public class HyperiumServerList {
             NBTTagCompound nbttagcompound = CompressedStreamTools
                 .read(new File(mc.mcDataDir, "servers.dat"));
 
-            if (nbttagcompound == null) {
-                return;
-            }
+            if (nbttagcompound == null) return;
 
             NBTTagList nbttaglist = nbttagcompound.getTagList("servers", 10);
 
-            for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                servers.add(ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i)));
-            }
+            IntStream.range(0, nbttaglist.tagCount()).mapToObj(i -> ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i))).forEach(servers::add);
         } catch (Exception exception) {
-            logger.error("Couldn\'t load server list", exception);
+            logger.error("Couldn't load server list", exception);
             System.out.println("Load server list error");
 
         }
@@ -71,16 +68,12 @@ public class HyperiumServerList {
     public void saveServerList(List<ServerData> servers, Logger logger, Minecraft mc) {
         try {
             NBTTagList nbttaglist = new NBTTagList();
-
-            for (ServerData serverdata : servers) {
-                nbttaglist.appendTag(serverdata.getNBTCompound());
-            }
-
+            servers.stream().map(ServerData::getNBTCompound).forEach(nbttaglist::appendTag);
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             nbttagcompound.setTag("servers", nbttaglist);
             CompressedStreamTools.safeWrite(nbttagcompound, new File(mc.mcDataDir, "servers.dat"));
         } catch (Exception exception) {
-            logger.error("Couldn\'t save server list", exception);
+            logger.error("Couldn't save server list", exception);
             System.out.println("[ServerListMixin] Save server list error");
         }
     }
@@ -117,10 +110,10 @@ public class HyperiumServerList {
 
     public void swapServers(List<ServerData> servers, Logger logger, Minecraft mc, int p_78857_1_, int p_78857_2_) {
         try {
-            ServerData serverdata = this.getServerData(servers, p_78857_1_);
-            servers.set(p_78857_1_, this.getServerData(servers, p_78857_2_));
+            ServerData serverdata = getServerData(servers, p_78857_1_);
+            servers.set(p_78857_1_, getServerData(servers, p_78857_2_));
             servers.set(p_78857_2_, serverdata);
-            this.saveServerList(servers, logger, mc);
+            saveServerList(servers, logger, mc);
         } catch (Exception e) {
             System.out.println("[ServerListMixin] Swap servers error");
         }

@@ -5,19 +5,19 @@ import com.chattriggers.ctjs.utils.kotlin.MCPotionEffect
 
 @External
 class PotionEffect(private val effect: MCPotionEffect) {
-    fun getName(): String = this.effect.effectName
+    fun getName(): String = effect.effectName
 
-    fun getAmplifier(): Int = this.effect.amplifier
+    fun getAmplifier(): Int = effect.amplifier
 
-    fun getDuration(): Int = this.effect.duration
+    fun getDuration(): Int = effect.duration
 
-    fun getID(): Int = this.effect.potionID
+    fun getID(): Int = effect.potionID
 
-    fun isAmbient(): Boolean = this.effect.isAmbient
+    fun isAmbient(): Boolean = effect.isAmbient
 
-    fun isDurationMax(): Boolean = this.effect.isPotionDurationMax
+    fun isDurationMax(): Boolean = effect.isPotionDurationMax
 
-    fun showsParticles(): Boolean = this.effect.isShowParticles
+    fun showsParticles(): Boolean = effect.isShowParticles
 
-    override fun toString() = this.effect.toString()
+    override fun toString() = effect.toString()
 }

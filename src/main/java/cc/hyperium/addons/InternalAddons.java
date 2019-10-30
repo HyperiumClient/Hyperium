@@ -26,8 +26,8 @@ public class InternalAddons {
     private final SidebarAddon sidebarAddon;
 
     public InternalAddons() {
-        this.customCrosshairAddon = ((CustomCrosshairAddon) new CustomCrosshairAddon().init());
-        this.sidebarAddon = ((SidebarAddon) new SidebarAddon().init());
+        customCrosshairAddon = ((CustomCrosshairAddon) new CustomCrosshairAddon().init());
+        sidebarAddon = ((SidebarAddon) new SidebarAddon().init());
     }
 
     public CustomCrosshairAddon getCustomCrosshairAddon() {

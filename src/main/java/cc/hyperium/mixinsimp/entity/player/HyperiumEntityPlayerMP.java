@@ -18,7 +18,7 @@
 package cc.hyperium.mixinsimp.entity.player;
 
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.LivingDeathEvent;
+import cc.hyperium.event.entity.LivingDeathEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.DamageSource;
 

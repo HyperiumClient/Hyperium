@@ -19,8 +19,8 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
+import cc.hyperium.cosmetics.deadmau5.Deadmau5Cosmetic;
 import cc.hyperium.gui.ParticleOverlay;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.netty.NettyClient;
@@ -47,23 +47,30 @@ public class SettingsHandler {
     public SettingsHandler() {
         try {
             Field earsField = Settings.class.getField("EARS_STATE");
+
             registerCallback(earsField, o -> {
                 boolean yes = ((String) o).equalsIgnoreCase("YES");
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+
                 if (self == null) {
                     GeneralChatHandler.instance().sendMessage("Error: Could not update cosmetic state because your purchase profile is not loaded.");
                     return;
                 }
+
                 JsonHolder purchaseSettings = self.getPurchaseSettings();
+
                 if (!purchaseSettings.has("deadmau5_cosmetic")) {
                     purchaseSettings.put("deadmau5_cosmetic", new JsonHolder());
                 }
+
                 purchaseSettings.optJSONObject("deadmau5_cosmetic").put("enabled", yes);
                 NettyClient client = NettyClient.getClient();
+
                 if (client != null) {
                     client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("ears", yes)));
                 }
             });
+
             String[] hats1 = new String[]{"Tophat", "Fez", "Lego"};
             EnumPurchaseType[] hat2 = new EnumPurchaseType[]{EnumPurchaseType.HAT_TOPHAT, EnumPurchaseType.HAT_FEZ, EnumPurchaseType.HAT_LEGO};
 
@@ -72,34 +79,41 @@ public class SettingsHandler {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 if (self != null) {
                     List<String> pur = IntStream.range(0, hat2.length).filter(i -> self.hasPurchased(hat2[i])).mapToObj(i -> hats1[i]).collect(Collectors.toList());
+
                     if (pur.size() > 0) {
                         pur.add("NONE");
                         return pur.toArray(new String[0]);
                     }
                 }
+
                 return new String[]{"NOT PURCHASED"};
             });
+
             registerCallback(hats, o -> {
                 NettyClient client = NettyClient.getClient();
-                if (client == null) {
-                    return;
-                }
+                if (client == null) return;
                 EnumPurchaseType parse = null;
+
                 for (int i = 0; i < hats1.length; i++) {
                     if (hats1[i].equalsIgnoreCase(o.toString())) {
                         parse = hat2[i];
                     }
                 }
+
                 boolean none = o.toString().equalsIgnoreCase("NONE");
+
                 if (parse == null && !none) {
                     GeneralChatHandler.instance().sendMessage("Unable to locate hat type: " + o);
                     return;
                 }
+
                 JsonHolder put = new JsonHolder().put("internal", true).put("set_hat", true).put("value", none ? "NONE" : parse.toString());
                 ServerCrossDataPacket build = ServerCrossDataPacket.build(put);
                 client.write(build);
             });
+
             Field companion_type = Settings.class.getField("COMPANION_TYPE");
+
             customStates.put(companion_type, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 List<EnumPurchaseType> types = new ArrayList<>();
@@ -108,11 +122,10 @@ public class SettingsHandler {
                 types.removeIf(enumPurchaseType -> !self.hasPurchased(enumPurchaseType));
                 List<String> vals = new ArrayList<>();
                 vals.add("NONE");
-                for (EnumPurchaseType type : types) {
-                    vals.add(type.getDisplayName());
-                }
+                types.stream().map(EnumPurchaseType::getDisplayName).forEach(vals::add);
                 return vals.toArray(new String[0]);
             });
+
             registerCallback(companion_type, o -> {
                 NettyClient client = NettyClient.getClient();
                 if (client == null) {
@@ -123,19 +136,21 @@ public class SettingsHandler {
                 ServerCrossDataPacket build = ServerCrossDataPacket.build(put);
                 client.write(build);
             });
+
             customStates.put(earsField, () -> {
                 Hyperium instance = Hyperium.INSTANCE;
                 HyperiumCosmetics cosmetics1 = instance.getCosmetics();
+
                 if (cosmetics1 != null) {
                     Deadmau5Cosmetic deadmau5Cosmetic = cosmetics1.getDeadmau5Cosmetic();
-                    if (deadmau5Cosmetic != null) {
-                        if (deadmau5Cosmetic.isSelfUnlocked()) {
-                            return new String[]{"YES", "NO"};
-                        }
+                    if (deadmau5Cosmetic != null && deadmau5Cosmetic.isSelfUnlocked()) {
+                        return new String[]{"YES", "NO"};
                     }
                 }
+
                 return new String[]{"NOT PURCHASED"};
             });
+
             customStates.put(Settings.class.getField("SHOW_BUTT"), () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 if (self != null && self.hasPurchased(EnumPurchaseType.BUTT)) {
@@ -145,24 +160,24 @@ public class SettingsHandler {
                     };
                 }
 
-
                 return new String[]{"NOT PURCHASED"};
             });
 
             registerCallback(Settings.class.getField("SHOW_BUTT"), o -> {
                 boolean yes = !((String) o).equalsIgnoreCase("YES");
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+
                 if (self != null) {
                     JsonHolder purchaseSettings = self.getPurchaseSettings();
                     purchaseSettings.put("butt", new JsonHolder());
                     purchaseSettings.optJSONObject("butt").put("disabled", yes);
                 }
+
                 NettyClient client = NettyClient.getClient();
                 if (client != null) {
                     JsonHolder put = new JsonHolder().put("internal", true).put("butt_disabled", yes);
                     client.write(ServerCrossDataPacket.build(put));
                 }
-
             });
 
             Field max_particle_string = Settings.class.getField("MAX_PARTICLE_STRING");
@@ -178,6 +193,7 @@ public class SettingsHandler {
                         "250",
                         "300"};
                 }
+
                 return new String[]{"NOT PURCHASED"};
             });
 
@@ -206,9 +222,7 @@ public class SettingsHandler {
                     ServerCrossDataPacket packet = ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_toggle", packetUpdate));
 
                     NettyClient client = NettyClient.getClient();
-                    if (client != null) {
-                        client.write(packet);
-                    }
+                    if (client != null) client.write(packet);
                 } catch (Exception ignored) {
 
                 }
@@ -226,6 +240,7 @@ public class SettingsHandler {
 
                 return new String[]{"NOT PURCHASED"};
             });
+
             registerCallback(show_dragonhead_string, o -> {
                 try {
                     Settings.SHOW_DRAGON_HEAD = String.valueOf(o);
@@ -238,9 +253,7 @@ public class SettingsHandler {
                     ServerCrossDataPacket packet = ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("dragon_head", packetUpdate));
 
                     NettyClient client = NettyClient.getClient();
-                    if (client != null) {
-                        client.write(packet);
-                    }
+                    if (client != null) client.write(packet);
                 } catch (Exception ignored) {
 
                 }
@@ -250,60 +263,60 @@ public class SettingsHandler {
                 try {
                     Settings.MAX_PARTICLES = Integer.parseInt(o.toString());
                 } catch (Exception ignored) {
-
                 }
             });
+
             registerCallback(Settings.class.getField("HEAD_SCALE_FACTOR_STRING"), o -> {
                 try {
                     Settings.HEAD_SCALE_FACTOR = Double.parseDouble(o.toString());
                 } catch (Exception ignored) {
-
                 }
             });
+
             Field flip_type_string = Settings.class.getField("FLIP_TYPE_STRING");
             customStates.put(flip_type_string, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
-                if (self == null || !self.hasPurchased(EnumPurchaseType.FLIP_COSMETIC))
-                    return new String[]{"NOT PURCHASED"};
-                else return new String[]{"FLIP", "ROTATE"};
+                return self == null || !self.hasPurchased(EnumPurchaseType.FLIP_COSMETIC) ?
+                    new String[]{"NOT PURCHASED"} : new String[]{"FLIP", "ROTATE"};
             });
+
             registerCallback(flip_type_string, o -> {
                 String s = o.toString();
-                if (s.equalsIgnoreCase("FLIP")) {
-                    Settings.flipType = 1;
-                } else if (s.equalsIgnoreCase("ROTATE")) {
-                    Settings.flipType = 2;
-                }
+                if (s.equalsIgnoreCase("FLIP")) Settings.flipType = 1;
+                else if (s.equalsIgnoreCase("ROTATE")) Settings.flipType = 2;
             });
+
             registerCallback(Settings.class.getField("WINGS_SCALE"), o -> {
-                if (PurchaseApi.getInstance() == null || PurchaseApi.getInstance().getSelf() == null || PurchaseApi.getInstance().getSelf().getPurchaseSettings() == null) {
+                if (PurchaseApi.getInstance() == null || PurchaseApi.getInstance().getSelf() == null ||
+                    PurchaseApi.getInstance().getSelf().getPurchaseSettings() == null) {
                     return;
                 }
-                Double o1 = (Double) o;
+
+                Double wingScale = (Double) o;
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+
                 if (self == null) {
                     GeneralChatHandler.instance().sendMessage("Error: Could not update cosmetic state because your purchase profile is not loaded.");
                     return;
                 }
+
                 JsonHolder purchaseSettings = self.getPurchaseSettings();
-                if (!purchaseSettings.has("wings"))
-                    purchaseSettings.put("wings", new JsonHolder());
-                purchaseSettings.optJSONObject("wings").put("scale", o1);
-                Settings.WINGS_SCALE = o1;
+                if (!purchaseSettings.has("wings")) purchaseSettings.put("wings", new JsonHolder());
+                purchaseSettings.optJSONObject("wings").put("scale", wingScale);
+
+                Settings.WINGS_SCALE = wingScale;
                 NettyClient client = NettyClient.getClient();
                 if (client != null)
-                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_scale", o1.doubleValue())));
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_scale", wingScale)));
 
             });
-
-
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
     }
 
     private void registerCallback(Field field, Consumer<Object> callback) {
-        this.callbacks.computeIfAbsent(field, tmp -> new ArrayList<>()).add(callback);
+        callbacks.computeIfAbsent(field, tmp -> new ArrayList<>()).add(callback);
     }
 
     public HashMap<Field, Supplier<String[]>> getCustomStates() {

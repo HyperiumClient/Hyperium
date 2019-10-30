@@ -90,8 +90,9 @@ public class CommandNickHider implements BaseCommand {
                 sendMessage("/nickhider prefix <prefix>");
             } else if (args[0].equalsIgnoreCase("suffix")) {
                 sendMessage("/nickhider suffix <suffix>");
-            } else
+            } else {
                 sendMessage(syntax);
+            }
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("pseudo")) {
                 String tmp = args[1];
@@ -141,8 +142,9 @@ public class CommandNickHider implements BaseCommand {
             } else {
                 sendMessage(syntax);
             }
-        } else
+        } else {
             sendMessage(syntax);
+        }
     }
 
     private void sendMessage(String message) {

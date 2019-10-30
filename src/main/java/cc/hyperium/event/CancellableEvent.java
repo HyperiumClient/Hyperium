@@ -26,6 +26,6 @@ public class CancellableEvent extends Event {
     }
 
     public boolean isCancelled() {
-        return this.cancelled;
+        return cancelled;
     }
 }

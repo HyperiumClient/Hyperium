@@ -33,25 +33,11 @@ public class FPSKey extends AbstractKey {
     public void renderKey(int x, int y) {
         int yOffset = this.yOffset;
 
-        if (mod.getSettings().isShowingCPSOnButtons() || !mod.getSettings().isShowingCPS()) {
-            yOffset -= 18;
-        }
-
-        if (!mod.getSettings().isShowingSpacebar()) {
-            yOffset -= 18;
-        }
-
-        if (!mod.getSettings().isShowingSneak()) {
-            yOffset -= 18;
-        }
-
-        if (!mod.getSettings().isShowingMouseButtons()) {
-            yOffset -= 24;
-        }
-
-        if (!mod.getSettings().isShowingWASD()) {
-            yOffset -= 48;
-        }
+        if (mod.getSettings().isShowingCPSOnButtons() || !mod.getSettings().isShowingCPS()) yOffset -= 18;
+        if (!mod.getSettings().isShowingSpacebar()) yOffset -= 18;
+        if (!mod.getSettings().isShowingSneak()) yOffset -= 18;
+        if (!mod.getSettings().isShowingMouseButtons()) yOffset -= 24;
+        if (!mod.getSettings().isShowingWASD()) yOffset -= 48;
 
         int textColor = getColor();
 
@@ -64,7 +50,7 @@ public class FPSKey extends AbstractKey {
         String name = (Minecraft.getDebugFPS()) + " FPS";
 
         if (mod.getSettings().isChroma()) {
-            drawChromaString(name, ((x + (this.xOffset + 70) / 2) - this.mc.fontRendererObj.getStringWidth(name) / 2), y + (yOffset + 4), 1.0F);
+            drawChromaString(name, ((x + (xOffset + 70) / 2) - mc.fontRendererObj.getStringWidth(name) / 2), y + (yOffset + 4), 1.0F);
         } else {
             drawCenteredString(name, x + ((xOffset + 70) / 2), y + (yOffset + 4), textColor);
         }

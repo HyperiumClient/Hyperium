@@ -35,7 +35,6 @@ public abstract class DisplayItem extends Dimension {
     public DisplayItem(JsonHolder data, int ordinal) {
         this.data = data;
         this.ordinal = ordinal;
-
     }
 
     public JsonHolder getData() {

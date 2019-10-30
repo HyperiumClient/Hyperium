@@ -56,7 +56,9 @@ public class PotionEffects extends DisplayItem {
         if (isConfig) {
             effects.add(new PotionEffect(1, 100, 1));
             effects.add(new PotionEffect(3, 100, 2));
-        } else effects = Minecraft.getMinecraft().thePlayer.getActivePotionEffects();
+        } else {
+            effects = Minecraft.getMinecraft().thePlayer.getActivePotionEffects();
+        }
 
         List<String> tmp = new ArrayList<>();
 
@@ -69,23 +71,24 @@ public class PotionEffects extends DisplayItem {
 
                 if (potion.hasStatusIcon()) {
                     int potionStatusIconIndex = potion.getStatusIconIndex();
-                    if (!ElementRenderer.getCurrent().isRightSided()) {
-                        drawTexturedModalRect((int) (x / scale) - 20, (int) ((y + row * 16)) - 4, potionStatusIconIndex % 8 * 18,
-                            198 + potionStatusIconIndex / 8 * 18, 18, 18);
-                    } else {
-                        drawTexturedModalRect((int) (x / scale), (int) ((y + row * 16)) - 4, potionStatusIconIndex % 8 * 18,
-                            198 + potionStatusIconIndex / 8 * 18, 18, 18);
-                    }
+                    drawTexturedModalRect(!ElementRenderer.getCurrent().isRightSided() ? (int) (x / scale) - 20 :
+                            (int) (x / scale), (int) ((y + row * 16)) - 4, potionStatusIconIndex % 8 * 18,
+                        198 + potionStatusIconIndex / 8 * 18, 18, 18);
                 }
             }
 
             StringBuilder s1 = new StringBuilder(I18n.format(potion.getName()));
-            if (potioneffect.getAmplifier() == 1) {
-                s1.append(" ").append(I18n.format("enchantment.level.2"));
-            } else if (potioneffect.getAmplifier() == 2) {
-                s1.append(" ").append(I18n.format("enchantment.level.3"));
-            } else if (potioneffect.getAmplifier() == 3) {
-                s1.append(" ").append(I18n.format("enchantment.level.4"));
+
+            switch (potioneffect.getAmplifier()) {
+                case 1:
+                    s1.append(" ").append(I18n.format("enchantment.level.2"));
+                    break;
+                case 2:
+                    s1.append(" ").append(I18n.format("enchantment.level.3"));
+                    break;
+                case 3:
+                    s1.append(" ").append(I18n.format("enchantment.level.4"));
+                    break;
             }
 
             String s = Potion.getDurationString(potioneffect);
@@ -95,7 +98,7 @@ public class PotionEffects extends DisplayItem {
             row++;
         }
 
-        width = isConfig ? ElementRenderer.maxWidth(tmp): 0;
+        width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;
         height = row * 16;
     }
 

@@ -43,18 +43,20 @@ public class HyperiumItemRenderer {
     }
 
     public void transformFirstPersonItem(float equipProgress, float swingProgress) {
-        if (Settings.OLD_BOW && this.mc != null && this.mc.thePlayer != null &&
-            this.mc.thePlayer.getItemInUse() != null && this.mc.thePlayer.getItemInUse().getItem() != null &&
-            Item.getIdFromItem(this.mc.thePlayer.getItemInUse().getItem()) == 261) {
+        if (Settings.OLD_BOW && mc != null && mc.thePlayer != null &&
+                mc.thePlayer.getItemInUse() != null && mc.thePlayer.getItemInUse().getItem() != null &&
+            Item.getIdFromItem(mc.thePlayer.getItemInUse().getItem()) == 261) {
             GlStateManager.translate(0.0f, 0.05f, 0.04f);
         }
 
-        if (Settings.OLD_ROD && this.mc != null && this.mc.thePlayer != null && this.mc.thePlayer.getCurrentEquippedItem() != null && this.mc.thePlayer.getCurrentEquippedItem().getItem() != null && Item.getIdFromItem(this.mc.thePlayer.getCurrentEquippedItem().getItem()) == 346) {
+        if (Settings.OLD_ROD && mc != null && mc.thePlayer != null && mc.thePlayer.getCurrentEquippedItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() !=
+            null && Item.getIdFromItem(mc.thePlayer.getCurrentEquippedItem().getItem()) == 346) {
             GlStateManager.translate(0.08f, -0.027f, -0.33f);
             GlStateManager.scale(0.93f, 1.0f, 1.0f);
         }
 
-        if (Settings.OLD_BLOCKHIT && this.mc != null && this.mc.thePlayer != null && this.mc.thePlayer.isSwingInProgress && this.mc.thePlayer.getCurrentEquippedItem() != null && !this.mc.thePlayer.isEating() && !this.mc.thePlayer.isBlocking()) {
+        if (Settings.OLD_BLOCKHIT && mc != null && mc.thePlayer != null && mc.thePlayer.isSwingInProgress && mc.thePlayer.getCurrentEquippedItem() !=
+            null && !mc.thePlayer.isEating() && !mc.thePlayer.isBlocking()) {
             GlStateManager.scale(0.85f, 0.85f, 0.85f);
             GlStateManager.translate(-0.078f, 0.003f, 0.05f);
         }
@@ -73,7 +75,7 @@ public class HyperiumItemRenderer {
 
     public void renderItemInFirstPerson(float partialTicks, float prevEquippedProgress, float equippedProgress, ItemStack itemToRender) {
         float f = 1.0F - (prevEquippedProgress + (equippedProgress - prevEquippedProgress) * partialTicks);
-        EntityPlayerSP entityPlayerSP = this.mc.thePlayer;
+        EntityPlayerSP entityPlayerSP = mc.thePlayer;
         float f1 = entityPlayerSP.getSwingProgress(partialTicks);
         float f2 = entityPlayerSP.prevRotationPitch + (entityPlayerSP.rotationPitch - entityPlayerSP.prevRotationPitch) * partialTicks;
         float f3 = entityPlayerSP.prevRotationYaw + (entityPlayerSP.rotationYaw - entityPlayerSP.prevRotationYaw) * partialTicks;
@@ -86,51 +88,49 @@ public class HyperiumItemRenderer {
         if (itemToRender != null) {
             if (itemToRender.getItem() == Items.filled_map) {
                 ((IMixinItemRenderer) parent).callRenderItemMap(entityPlayerSP, f2, f, f1);
-            } else if ((itemToRender.getItem() instanceof ItemSword) && !this.mc.thePlayer.isBlocking() && Settings.CUSTOM_SWORD_ANIMATION) {
+            } else if ((itemToRender.getItem() instanceof ItemSword) && !mc.thePlayer.isBlocking() && Settings.CUSTOM_SWORD_ANIMATION) {
                 transformFirstPersonItem(f, f1);
             } else if (entityPlayerSP.getItemInUseCount() > 0) {
                 EnumAction enumaction = itemToRender.getItemUseAction();
 
                 switch (enumaction) {
                     case NONE:
-                        this.transformFirstPersonItem(f, 0.0F);
+                        transformFirstPersonItem(f, 0.0F);
                         break;
                     case EAT:
                     case DRINK:
                         ((IMixinItemRenderer) parent).callPerformDrinking(entityPlayerSP, partialTicks);
                         if (Settings.OLD_EATING) {
-                            this.transformFirstPersonItem(f, f1);
-                            break;
+                            transformFirstPersonItem(f, f1);
                         } else {
-                            this.transformFirstPersonItem(f, 0.0F);
-                            break;
+                            transformFirstPersonItem(f, 0.0F);
                         }
+                        break;
                     case BLOCK:
                         if (Settings.OLD_BLOCKHIT) {
-                            this.transformFirstPersonItem(f, f1);
+                            transformFirstPersonItem(f, f1);
                             ((IMixinItemRenderer) parent).callDoBlockTransformations();
                             GlStateManager.scale(0.83f, 0.88f, 0.85f);
                             GlStateManager.translate(-0.3f, 0.1f, 0.0f);
-                            break;
                         } else {
-                            this.transformFirstPersonItem(f, 0f);
+                            transformFirstPersonItem(f, 0f);
                             ((IMixinItemRenderer) parent).callDoBlockTransformations();
-                            break;
                         }
+                        break;
 
                     case BOW:
                         if (Settings.OLD_BOW) {
-                            this.transformFirstPersonItem(f, f1);
+                            transformFirstPersonItem(f, f1);
                             ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, entityPlayerSP);
                             GlStateManager.translate(0.0F, 0.1F, -0.15F);
                         } else {
-                            this.transformFirstPersonItem(f, 0.0F);
+                            transformFirstPersonItem(f, 0.0F);
                             ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, entityPlayerSP);
                         }
                 }
             } else {
                 ((IMixinItemRenderer) parent).callDoItemUsedTransformations(f1);
-                this.transformFirstPersonItem(f, f1);
+                transformFirstPersonItem(f, f1);
             }
 
             parent.renderItem(entityPlayerSP, itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);

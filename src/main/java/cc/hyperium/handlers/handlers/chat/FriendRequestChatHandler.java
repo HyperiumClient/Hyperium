@@ -18,8 +18,8 @@
 package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.FriendRemoveEvent;
-import cc.hyperium.event.HypixelFriendRequestEvent;
+import cc.hyperium.event.network.server.hypixel.FriendRemoveEvent;
+import cc.hyperium.event.network.server.hypixel.HypixelFriendRequestEvent;
 import net.minecraft.util.IChatComponent;
 
 import java.util.regex.Matcher;
@@ -47,6 +47,7 @@ public class FriendRequestChatHandler extends HyperiumChatHandler {
         }
 
         Matcher matcher = regexPatterns.get(ChatRegexType.FRIEND_REQUEST).matcher(text);
+
         if (matcher.find()) {
             EventBus.INSTANCE.post(new HypixelFriendRequestEvent(matcher.group("player")));
         }

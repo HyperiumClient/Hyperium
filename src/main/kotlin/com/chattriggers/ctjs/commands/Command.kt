@@ -6,16 +6,16 @@ import com.chattriggers.ctjs.triggers.OnTrigger
 class Command(trigger: OnTrigger, private val name: String, private val usage: String) : BaseCommand {
     private var triggers = mutableListOf(trigger)
 
-    fun getTriggers() = this.triggers
+    fun getTriggers() = triggers
 
-    override fun getName() = this.name
+    override fun getName() = name
 
-    override fun getUsage() = this.usage
+    override fun getUsage() = usage
 
     override fun onExecute(args: Array<String>) = trigger(args)
 
     private fun trigger(args: Array<String>) {
-        for (trigger in this.triggers)
+        for (trigger in triggers)
             trigger.trigger(*args)
     }
 }

@@ -44,16 +44,16 @@ public class CustomCrosshairAddon extends AbstractAddon {
     public AbstractAddon init() {
         EventBus.INSTANCE.register(this);
         instance = this;
-        this.crosshair = new CustomCrosshair();
-        this.config = new CustomCrosshairConfig(this);
+        crosshair = new CustomCrosshair();
+        config = new CustomCrosshairConfig(this);
 
-        if (!this.config.readSaveFile()) {
-            this.config.writeSaveFileDefault();
+        if (!config.readSaveFile()) {
+            config.writeSaveFileDefault();
         }
 
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandCustomCrosshair(this));
 
-        EventBus.INSTANCE.register(this.crosshair);
+        EventBus.INSTANCE.register(crosshair);
 
         return this;
     }
@@ -68,19 +68,19 @@ public class CustomCrosshairAddon extends AbstractAddon {
     }
 
     public void resetCrosshair() {
-        this.crosshair = new CustomCrosshair();
+        crosshair = new CustomCrosshair();
     }
 
     public CustomCrosshair getCrosshair() {
-        if (this.crosshair == null) {
+        if (crosshair == null) {
             resetCrosshair();
         }
 
-        return this.crosshair;
+        return crosshair;
     }
 
     public CustomCrosshairConfig getConfig() {
-        return this.config;
+        return config;
     }
 
     public static CustomCrosshairAddon getCrosshairMod() {

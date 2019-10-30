@@ -18,9 +18,8 @@
 package cc.hyperium.cosmetics.dragon;
 
 import cc.hyperium.cosmetics.CosmeticsUtil;
-import cc.hyperium.cosmetics.DragonCosmetic;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderPlayerEvent;
+import cc.hyperium.event.render.RenderPlayerEvent;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
@@ -87,43 +86,36 @@ public class DragonHeadRenderer extends ModelBase {
 
     @InvokeEvent
     public void onRenderPlayer(RenderPlayerEvent event) {
-        if (CosmeticsUtil.shouldHide(EnumPurchaseType.DRAGON_HEAD))
-            return;
+        if (CosmeticsUtil.shouldHide(EnumPurchaseType.DRAGON_HEAD)) return;
         EntityPlayer entity = event.getEntity();
         if (dragonCosmetic.isPurchasedBy(entity.getUniqueID()) && !entity.isInvisible()) {
             HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
-            if (packageIfReady == null)
-                return;
-            if (packageIfReady.getCachedSettings().isDragonHeadDisabled()) {
-                return;
-            }
+            if (packageIfReady == null || packageIfReady.getCachedSettings().isDragonHeadDisabled()) return;
 
             GlStateManager.pushMatrix();
             GlStateManager.translate(event.getX(), event.getY(), event.getZ());
-            this.renderHead(event.getEntity(), event.getPartialTicks());
+            renderHead(event.getEntity(), event.getPartialTicks());
             GlStateManager.popMatrix();
         }
 
     }
 
-    private void renderHead(final EntityPlayer player, final float partialTicks) {
-        final double scale = 1.0F;
-        final double rotate = interpolate(player.prevRotationYawHead, player.rotationYawHead, partialTicks);
-        final double rotate1 = interpolate(player.prevRotationPitch, player.rotationPitch, partialTicks);
+    private void renderHead(EntityPlayer player, float partialTicks) {
+        double scale = 1.0F;
+        double rotate = CosmeticsUtil.interpolate(player.prevRotationYawHead, player.rotationYawHead, partialTicks);
+        double rotate1 = CosmeticsUtil.interpolate(player.prevRotationPitch, player.rotationPitch, partialTicks);
 
-        GL11.glScaled(-scale, -scale, scale);
+        GlStateManager.scale(-scale, -scale, scale);
         GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0);
 
-        GL11.glTranslated(0.0, -(player.height - .4) / scale, 0.0);
+        GlStateManager.translate(0.0, -(player.height - .4) / scale, 0.0);
         GlStateManager.translate(0.0D, 0.0D, .05 / scale);
         GL11.glRotated(rotate1, 1.0D, 0.0D, 0.0D);
-        GL11.glTranslated(0.0, -0.3 / scale, .06);
+        GlStateManager.translate(0.0, -0.3 / scale, .06);
 
-        if (player.isSneaking()) {
-            GL11.glTranslated(0.0, 0.125 / scale, 0.0);
-        }
+        if (player.isSneaking()) GlStateManager.translate(0.0, 0.125 / scale, 0.0);
 
-        final float[] colors = new float[]{1.0f, 1.0f, 1.0f};
+        float[] colors = new float[]{1.0f, 1.0f, 1.0f};
 
         if (player.onGround) {
             jaw.rotateAngleX = 0;
@@ -154,20 +146,12 @@ public class DragonHeadRenderer extends ModelBase {
             }
         }
 
-        GL11.glColor3f(colors[0], colors[1], colors[2]);
+        GlStateManager.color(colors[0], colors[1], colors[2]);
         mc.getTextureManager().bindTexture(selectedLoc);
-        GL11.glScaled(.5, .5, .5);
+        GlStateManager.scale(0.5F, 0.5F, 0.5F);
         head.render(.1F);
 
         GL11.glCullFace(GL11.GL_BACK);
         GL11.glDisable(GL11.GL_CULL_FACE);
-    }
-
-    private float interpolate(final float yaw1, final float yaw2, final float percent) {
-        float f = (yaw1 + (yaw2 - yaw1) * percent) % 360.0f;
-        if (f < 0.0f) {
-            f += 360.0f;
-        }
-        return f;
     }
 }

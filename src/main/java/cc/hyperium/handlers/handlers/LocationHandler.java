@@ -19,7 +19,14 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.*;
-import cc.hyperium.event.minigames.Minigame;
+import cc.hyperium.event.client.TickEvent;
+import cc.hyperium.event.network.chat.ServerChatEvent;
+import cc.hyperium.event.network.server.ServerJoinEvent;
+import cc.hyperium.event.network.server.ServerLeaveEvent;
+import cc.hyperium.event.network.server.ServerSwitchEvent;
+import cc.hyperium.event.network.server.hypixel.JoinMinigameEvent;
+import cc.hyperium.event.network.server.hypixel.minigames.Minigame;
+import cc.hyperium.event.world.SpawnpointChangeEvent;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
@@ -41,14 +48,14 @@ public class LocationHandler {
     public void serverJoinEvent(ServerJoinEvent event) {
         NettyClient client = NettyClient.getClient();
         if (client != null) {
-            this.location = event.getServer();
+            location = event.getServer();
             client.write(UpdateLocationPacket.build("Other"));
         }
     }
 
     @InvokeEvent
     public void serverLeaveEvent(ServerLeaveEvent event) {
-        this.location = "Offline";
+        location = "Offline";
         NettyClient client = NettyClient.getClient();
         if (client != null) {
             client.write(UpdateLocationPacket.build("offline"));
@@ -62,8 +69,9 @@ public class LocationHandler {
         String raw = ChatColor.stripColor(event.getChat().getUnformattedText());
         Matcher whereAmIMatcher = whereami.matcher(raw);
         if (raw.equalsIgnoreCase("you are currently in limbo")) {
-            EventBus.INSTANCE.post(new ServerSwitchEvent(this.location, "Limbo"));
-            this.location = "Limbo";
+            EventBus.INSTANCE.post(new ServerSwitchEvent(location, "Limbo"));
+            location = "Limbo";
+
             if (sendingWhereAmI) {
                 sendingWhereAmI = false;
                 event.setCancelled(true);
@@ -71,21 +79,23 @@ public class LocationHandler {
 
             return;
         }
+
         if (!whereAmIMatcher.matches()) {
             return;
         }
 
         String to = whereAmIMatcher.group("server");
-        String old = this.location;
-        if (!this.location.equalsIgnoreCase(to)) {
+        String old = location;
+
+        if (!location.equalsIgnoreCase(to)) {
             EventBus.INSTANCE.post(new ServerSwitchEvent(old, to));
         }
-        this.location = to;
+
+        location = to;
         if (sendingWhereAmI) {
             sendingWhereAmI = false;
             event.setCancelled(true);
         }
-
     }
 
     @InvokeEvent
@@ -94,26 +104,24 @@ public class LocationHandler {
             return;
         }
 
-        if (Hyperium.INSTANCE.getHandlers().getMinigameListener().getScoreboardTitle().equalsIgnoreCase(Minigame.HOUSING.name()))
-            NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
-        else
-            NettyClient.getClient().write(UpdateLocationPacket.build(event.getTo()));
-        if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0)
+        NettyClient.getClient().write(Hyperium.INSTANCE.getHandlers().getMinigameListener().getScoreboardTitle().equalsIgnoreCase(Minigame.HOUSING.name()) ?
+            UpdateLocationPacket.build(Minigame.HOUSING.name()) : UpdateLocationPacket.build(event.getTo()));
+
+        if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0) {
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", 1)));
+        }
 
     }
 
     @InvokeEvent
     public void miniGameJoin(JoinMinigameEvent event) {
-        if (NettyClient.getClient() == null) {
-            return;
-        }
+        if (NettyClient.getClient() == null) return;
 
         if (event.getMinigame() == Minigame.HOUSING) {
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
-            if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0)
+            if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0) {
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", 2)));
-
+            }
         }
     }
 
@@ -122,11 +130,13 @@ public class LocationHandler {
         Hyperium instance = Hyperium.INSTANCE;
         HyperiumHandlers handlers = instance.getHandlers();
         if (handlers == null) return;
+
         HypixelDetector hypixelDetector = handlers.getHypixelDetector();
-        if (!hypixelDetector.isHypixel())
-            ticksInWorld = 0;
+        if (!hypixelDetector.isHypixel()) ticksInWorld = 0;
+
         if (ticksInWorld < 20) {
             ticksInWorld++;
+
             if (ticksInWorld == 20) {
                 sendingWhereAmI = true;
                 Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/whereami");

@@ -12,8 +12,6 @@ public class MixinGuiAchievement {
 
     @Inject(method = "updateAchievementWindow", at = @At("HEAD"), cancellable = true)
     private void cancelAchievementRender(CallbackInfo ci) {
-        if (Settings.DISABLE_ACHIEVEMENTS) {
-            ci.cancel();
-        }
+        if (Settings.DISABLE_ACHIEVEMENTS) ci.cancel();
     }
 }

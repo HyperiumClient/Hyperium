@@ -13,23 +13,20 @@ public class StringUtil {
     }
 
     public static String params(String input, boolean color, Object... params) {
-        if (color) {
-            input = format(input);
-        }
-        if (params == null) {
-            return input;
-        }
+        if (color) input = format(input);
+        if (params == null) return input;
+
         for (Object o : params) {
             if (o != null) {
                 String replacement = Matcher.quoteReplacement(format(o.toString()));
                 input = PARAM_PATTERN.matcher(input).replaceFirst(replacement);
             }
         }
+
         return input;
     }
 
     public static String format(String msg) {
         return msg.contains("&") ? FORMAT_PATTERN.matcher(msg).replaceAll("\u00a7$1") : msg;
     }
-
 }

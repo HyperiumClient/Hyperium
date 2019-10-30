@@ -18,7 +18,7 @@
 package cc.hyperium.mixins.world;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.EntityJoinWorldEvent;
+import cc.hyperium.event.world.EntityJoinWorldEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mixinsimp.world.HyperiumWorld;
 import net.minecraft.client.Minecraft;
@@ -97,15 +97,11 @@ public abstract class MixinWorld {
     }
 
     private void setLightValueBoolean(CallbackInfoReturnable<Boolean> cir) {
-        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) {
-            cir.setReturnValue(false);
-        }
+        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) cir.setReturnValue(false);
     }
 
     private void setLightValueInt(CallbackInfoReturnable<Integer> cir) {
-        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) {
-            cir.setReturnValue(15);
-        }
+        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) cir.setReturnValue(15);
     }
 
     @Inject(method = "joinEntityInSurroundings", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER))
@@ -125,14 +121,13 @@ public abstract class MixinWorld {
      */
     @Overwrite
     public void loadEntities(Collection<Entity> entityCollection) {
-        for (Entity entity : entityCollection) {
+        entityCollection.forEach(entity -> {
             EntityJoinWorldEvent event = new EntityJoinWorldEvent((World) (Object) this, entity);
             EventBus.INSTANCE.post(event);
-
             if (!event.isCancelled()) {
                 loadedEntityList.add(entity);
                 onEntityAdded(entity);
             }
-        }
+        });
     }
 }

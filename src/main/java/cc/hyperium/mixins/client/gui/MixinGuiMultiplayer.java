@@ -36,7 +36,7 @@ public abstract class MixinGuiMultiplayer implements IMixinGuiMultiplayer {
 
     @Override
     public void setIp(ServerData ip) {
-        this.selectedServer = ip;
+        selectedServer = ip;
     }
 
 }

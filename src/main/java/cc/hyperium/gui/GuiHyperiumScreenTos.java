@@ -34,7 +34,7 @@ public class GuiHyperiumScreenTos extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        this.buttonList.add(new GuiButton(BUTTON_ID_ACCEPT, (width / 2) - 100, 160,
+        buttonList.add(new GuiButton(BUTTON_ID_ACCEPT, (width / 2) - 100, 160,
             firstAccept ? ChatFormatting.GREEN + I18n.format("button.disclaimer.confirm") : I18n.format("button.disclaimer.accept")));
     }
 
@@ -46,21 +46,21 @@ public class GuiHyperiumScreenTos extends GuiScreen {
         drawRect(0, 79, width, 148, 0x66000000);
         drawRect(0, 80, width, 149, 0x66000000);
 
-        drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line1",
+        drawCenteredString(fontRendererObj, I18n.format("disclaimer.line1",
             ChatFormatting.BOLD + I18n.format("disclaimer.line1.bold") + ChatFormatting.RESET),
             width / 2, 90, Color.WHITE.getRGB());
 
-        drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line2"), width / 2, 100,
+        drawCenteredString(fontRendererObj, I18n.format("disclaimer.line2"), width / 2, 100,
             Color.WHITE.getRGB());
 
-        drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line3"), width / 2, 110,
+        drawCenteredString(fontRendererObj, I18n.format("disclaimer.line3"), width / 2, 110,
             Color.WHITE.getRGB());
 
-        drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line4",
+        drawCenteredString(fontRendererObj, I18n.format("disclaimer.line4",
             ChatFormatting.GRAY + I18n.format("disclaimer.line4.policylink")
                 + ChatFormatting.RESET), width / 2, 120, Color.WHITE.getRGB());
 
-        drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line5"), width / 2, 130,
+        drawCenteredString(fontRendererObj, I18n.format("disclaimer.line5"), width / 2, 130,
             Color.WHITE.getRGB());
     }
 

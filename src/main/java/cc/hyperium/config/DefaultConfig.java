@@ -39,7 +39,7 @@ public class DefaultConfig {
     private JsonObject config = new JsonObject();
 
     public DefaultConfig(File configFile) {
-        this.file = configFile;
+        file = configFile;
         try {
             if (configFile.exists()) {
                 FileReader fr = new FileReader(file);
@@ -67,8 +67,7 @@ public class DefaultConfig {
     }
 
     public void save() {
-        for (Object o : configObjects)
-            saveToJsonFromRamObject(o);
+        configObjects.forEach(this::saveToJsonFromRamObject);
         saveFile();
     }
 
@@ -77,12 +76,10 @@ public class DefaultConfig {
         if (Arrays.stream(object.getClass().getDeclaredFields()).noneMatch(f -> f.isAnnotationPresent(ConfigOpt.class))) {
             return object;
         }
-        if (object instanceof PreConfigHandler)
-            ((PreConfigHandler) object).preUpdate();
+        if (object instanceof PreConfigHandler) ((PreConfigHandler) object).preUpdate();
         loadToClass(object);
         configObjects.add(object);
-        if (object instanceof PostConfigHandler)
-            ((PostConfigHandler) object).postUpdate();
+        if (object instanceof PostConfigHandler) ((PostConfigHandler) object).postUpdate();
         return object;
     }
 
@@ -93,15 +90,18 @@ public class DefaultConfig {
     private void loadToClassObject(Object object) {
         Class<?> c = object.getClass();
         if (!config.has(c.getName())) config.add(c.getName(), new JsonObject());
+
         Arrays.stream(c.getDeclaredFields()).filter(f -> f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())).forEach(f -> {
             f.setAccessible(true);
             ConfigOpt co = f.getAnnotation(ConfigOpt.class);
             JsonObject tmp = config.get(c.getName()).getAsJsonObject();
+
             if (!co.alt().isEmpty() && config.has(co.alt().split(";")[0]) && !tmp.has(f.getName())) {
                 JsonObject ot = config.get(co.alt().split(";")[0]).getAsJsonObject();
                 if (ot.has(co.alt().split(";")[1]))
                     tmp.add(f.getName(), ot.get(co.alt().split(";")[1]));
             }
+
             if (tmp.has(f.getName())) {
                 try {
                     f.set(object, gson.fromJson(tmp.get(f.getName()), f.getType()));
@@ -117,13 +117,12 @@ public class DefaultConfig {
     }
 
     private void loadToJson(Object object) {
-        if (object instanceof PreSaveHandler) {
-            ((PreSaveHandler) object).preSave();
-        }
+        if (object instanceof PreSaveHandler) ((PreSaveHandler) object).preSave();
         Class<?> c = object.getClass();
         Arrays.stream(c.getDeclaredFields()).filter(f -> f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())).forEach(f -> {
             f.setAccessible(true);
             JsonObject classObject = config.get(c.getName()).getAsJsonObject();
+
             try {
                 classObject.add(f.getName(), gson.toJsonTree(f.get(object), f.getType()));
             } catch (IllegalAccessException e) {

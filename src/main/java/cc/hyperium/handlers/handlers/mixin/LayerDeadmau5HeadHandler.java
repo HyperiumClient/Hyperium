@@ -45,32 +45,24 @@ public class LayerDeadmau5HeadHandler {
 
             k = 2;
 
-            if (!Settings.SHOW_COSMETICS_EVERYWHERE) {
-                if (!(Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing()))
-                    return;
-            }
+            if (!Settings.SHOW_COSMETICS_EVERYWHERE && !(Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing()))
+                return;
 
             k = 3;
             String name = entitylivingbaseIn.getName();
 
-            if (name == null) {
-                return;
-            }
+            if (name == null) return;
 
             k = 5;
             if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entitylivingbaseIn.getUniqueID())) {
                 HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entitylivingbaseIn.getUniqueID());
 
-                if (packageIfReady == null) {
-                    return;
-                }
+                if (packageIfReady == null) return;
 
                 k = 6;
                 AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
 
-                if (purchase == null) {
-                    return;
-                }
+                if (purchase == null) return;
 
                 k = 7;
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
@@ -80,14 +72,14 @@ public class LayerDeadmau5HeadHandler {
                         k = -5;
                         return;
                     }
-                } else if (!Settings.EARS_STATE.equalsIgnoreCase("yes"))
+                } else if (!Settings.EARS_STATE.equalsIgnoreCase("yes")) {
                     return;
+                }
 
                 k = 8;
                 ResourceLocation locationSkin = entitylivingbaseIn.getLocationSkin();
 
-                if (locationSkin != null)
-                    playerRenderer.bindTexture(locationSkin);
+                if (locationSkin != null) playerRenderer.bindTexture(locationSkin);
 
                 k = 9;
                 GlStateManager.disableCull();

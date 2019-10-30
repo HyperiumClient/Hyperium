@@ -26,15 +26,9 @@ public class HyperiumAbstractClientPlayer {
 
     public void getFovModifier(CallbackInfoReturnable<Float> ci) {
         if (Settings.STATIC_FOV) {
-            if (Minecraft.getMinecraft().thePlayer.isSprinting()
-                && Settings.staticFovSprintModifier) {
-                ci.setReturnValue((float) (
-                    1.0f * (Minecraft.getMinecraft().thePlayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue() * 1.300000011920929
-                        / Minecraft.getMinecraft().thePlayer.capabilities.getWalkSpeed()
-                        + 1.0) / 2.0));
-            } else {
-                ci.setReturnValue(1.0F);
-            }
+            ci.setReturnValue(Minecraft.getMinecraft().thePlayer.isSprinting() && Settings.staticFovSprintModifier ?
+                (float) (1.0f * (Minecraft.getMinecraft().thePlayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue()
+                    * 1.300000011920929 / Minecraft.getMinecraft().thePlayer.capabilities.getWalkSpeed() + 1.0) / 2.0) : 1.0F);
         }
     }
 }

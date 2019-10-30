@@ -28,7 +28,7 @@ public class Config {
 
     public Config(Autotip autotip) {
         this.autotip = autotip;
-        this.configFile = autotip.getFileUtil().getFile("config.at");
+        configFile = autotip.getFileUtil().getFile("config.at");
     }
 
     public boolean isEnabled() {
@@ -43,7 +43,7 @@ public class Config {
 
     @CheckReturnValue
     public Config toggleEnabled() {
-        this.enabled = !this.enabled;
+        enabled = !enabled;
         return this;
     }
 
@@ -63,7 +63,7 @@ public class Config {
 
     @CheckReturnValue
     public Config nextMessageOption() {
-        this.messageOption = messageOption.next();
+        messageOption = messageOption.next();
         return this;
     }
 
@@ -86,7 +86,7 @@ public class Config {
     public Config load() {
         try {
             String json = FileUtils.readFileToString(configFile);
-            return this.merge(autotip.getGson().fromJson(json, Config.class)).save();
+            return merge(autotip.getGson().fromJson(json, Config.class)).save();
         } catch (FileNotFoundException e) {
             Autotip.LOGGER.info("config.at does not exist, creating...");
         } catch (JsonSyntaxException e) {
@@ -94,7 +94,7 @@ public class Config {
         } catch (IOException e) {
             Autotip.LOGGER.error("Could not read config.at!", e);
         }
-        return this.save();
+        return save();
     }
 
     public Config migrate() {
@@ -102,37 +102,33 @@ public class Config {
 
         // Check if legacy config file exists
         File legacyFile = fileUtil.getFile("options.at");
-        if (!legacyFile.exists()) {
-            return this;
-        }
+        if (!legacyFile.exists()) return this;
 
         try {
             List<String> lines = Files.readAllLines(fileUtil.getPath("options.at"));
-            if (lines.size() < 2) {
-                return this;
-            }
+            if (lines.size() < 2) return this;
 
-            this.enabled = Boolean.parseBoolean(lines.get(0));
+            enabled = Boolean.parseBoolean(lines.get(0));
             try {
-                this.messageOption = MessageOption.valueOf(lines.get(1));
+                messageOption = MessageOption.valueOf(lines.get(1));
             } catch (IllegalArgumentException | NullPointerException e) {
-                this.messageOption = MessageOption.SHOWN;
+                messageOption = MessageOption.SHOWN;
             }
 
             // Deletes old file to complete migration
             fileUtil.delete(legacyFile);
 
-            return this.save();
+            return save();
         } catch (IOException e) {
             Autotip.LOGGER.error("Could not read legacy options.at file!");
-            return this.save();
+            return save();
         }
     }
 
     private Config merge(final Config that) {
-        this.enabled = that.enabled;
-        this.locale = that.locale == null ? this.locale : that.locale;
-        this.messageOption = that.messageOption == null ? this.messageOption : that.messageOption;
+        enabled = that.enabled;
+        locale = that.locale == null ? locale : that.locale;
+        messageOption = that.messageOption == null ? messageOption : that.messageOption;
         return this;
     }
 

@@ -54,35 +54,35 @@ public abstract class AbstractAddon {
             this.name = name;
             this.author = author;
             this.version = version;
-            this.displayName = name;
+            displayName = name;
         }
 
         public AbstractAddon getAddon() {
-            return this.addon;
+            return addon;
         }
 
         public String getName() {
-            return this.name != null ? this.name : "";
+            return name != null ? name : "";
         }
 
         public String getVersion() {
-            return this.version;
+            return version;
         }
 
         public String getAuthor() {
-            return this.author != null ? this.author : "";
+            return author != null ? author : "";
         }
 
         public String getDisplayName() {
-            return this.displayName != null ? this.displayName : getName();
+            return displayName != null ? displayName : getName();
         }
 
         public String getDescription() {
-            return this.description != null ? this.description : "";
+            return description != null ? description : "";
         }
 
         public void setDisplayName(String name) {
-            this.displayName = name;
+            displayName = name;
         }
 
         public void setDescription(String description) {

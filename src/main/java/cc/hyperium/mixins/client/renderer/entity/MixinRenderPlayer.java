@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins.client.renderer.entity;
 
-import cc.hyperium.event.RenderNameTagEvent;
+import cc.hyperium.event.render.RenderNameTagEvent;
 import cc.hyperium.mixinsimp.client.renderer.entity.TwoPartLayerBipedArmor;
 import cc.hyperium.mixinsimp.client.renderer.entity.HyperiumRenderPlayer;
 import net.minecraft.client.Minecraft;
@@ -99,12 +99,11 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
                 Score score = scoreboard.getValueFromObjective(entityIn.getName(), scoreobjective);
                 RenderNameTagEvent.CANCEL = true;
                 if (entityIn != Minecraft.getMinecraft().thePlayer) {
-                    this.renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
-                    y += (float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_;
-
+                    renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
+                    y += (float) getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_;
                 }
-                RenderNameTagEvent.CANCEL = false;
 
+                RenderNameTagEvent.CANCEL = false;
             }
         }
 

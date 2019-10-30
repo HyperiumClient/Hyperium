@@ -8,7 +8,7 @@ public class MessageMatcher {
     private final Matcher matcher;
 
     public MessageMatcher(Pattern pattern, String input) {
-        this.matcher = pattern.matcher(input);
+        matcher = pattern.matcher(input);
     }
 
     public boolean matches() {
@@ -17,7 +17,7 @@ public class MessageMatcher {
 
     public int getInt(String group) {
         try {
-            return Integer.parseInt(this.getString(group));
+            return Integer.parseInt(getString(group));
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Group " + group + " is not of type int.");
         }

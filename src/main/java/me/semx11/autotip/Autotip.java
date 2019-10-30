@@ -41,6 +41,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Autotip {
@@ -141,45 +142,45 @@ public class Autotip {
         ErrorReport.setAutotip(this);
         RequestHandler.setAutotip(this);
         UniversalUtil.setAutotip(this);
-        this.minecraft = Minecraft.getMinecraft();
-        this.mcVersion = UniversalUtil.getMinecraftVersion();
-        this.version = new Version(VERSION);
+        minecraft = Minecraft.getMinecraft();
+        mcVersion = UniversalUtil.getMinecraftVersion();
+        version = new Version(VERSION);
 
-        this.messageUtil = new MessageUtil(this);
-        this.registerEvents(new EventClientTick(this));
+        messageUtil = new MessageUtil(this);
+        registerEvents(new EventClientTick(this));
 
         try {
-            this.fileUtil = new FileUtil(this);
-            this.gson = new GsonBuilder()
-                    .registerTypeAdapter(Config.class, new ConfigCreator(this))
-                    .registerTypeAdapter(StatsDaily.class, new StatsDailyCreator(this))
-                    .setExclusionStrategies(new AnnotationExclusionStrategy())
-                    .setPrettyPrinting()
-                    .create();
+            fileUtil = new FileUtil(this);
+            gson = new GsonBuilder()
+                .registerTypeAdapter(Config.class, new ConfigCreator(this))
+                .registerTypeAdapter(StatsDaily.class, new StatsDailyCreator(this))
+                .setExclusionStrategies(new AnnotationExclusionStrategy())
+                .setPrettyPrinting()
+                .create();
 
-            this.config = new Config(this);
-            this.reloadGlobalSettings();
-            this.reloadLocale();
+            config = new Config(this);
+            reloadGlobalSettings();
+            reloadLocale();
 
-            this.taskManager = new TaskManager();
-            this.sessionManager = new SessionManager(this);
-            this.statsManager = new StatsManager(this);
-            this.migrationManager = new MigrationManager(this);
+            taskManager = new TaskManager();
+            sessionManager = new SessionManager(this);
+            statsManager = new StatsManager(this);
+            migrationManager = new MigrationManager(this);
 
-            this.fileUtil.createDirectories();
-            this.config.load();
-            this.taskManager.getExecutor().execute(() -> this.migrationManager.migrateLegacyFiles());
+            fileUtil.createDirectories();
+            config.load();
+            taskManager.getExecutor().execute(() -> migrationManager.migrateLegacyFiles());
 
-            this.registerEvents(
-                    new EventClientConnection(this),
-                    new EventChatReceived(this)
+            registerEvents(
+                new EventClientConnection(this),
+                new EventChatReceived(this)
             );
-            this.registerCommands(
-                    new CommandAutotip(this),
-                    new CommandLimbo(this)
+            registerCommands(
+                new CommandAutotip(this),
+                new CommandLimbo(this)
             );
             Runtime.getRuntime().addShutdownHook(new Thread(sessionManager::logout));
-            this.initialized = true;
+            initialized = true;
         } catch (IOException e) {
             messageUtil.send("Autotip is disabled because it couldn't create the required files.");
             ErrorReport.reportException(e);
@@ -191,10 +192,8 @@ public class Autotip {
 
     public void reloadGlobalSettings() {
         SettingsReply reply = SettingsRequest.of(this).execute();
-        if (!reply.isSuccess()) {
-            throw new IllegalStateException("Connection error while fetching global settings");
-        }
-        this.globalSettings = reply.getSettings();
+        assert reply.isSuccess() : "Connection error while fetching global settings";
+        globalSettings = reply.getSettings();
     }
 
     public void reloadLocale() {
@@ -202,37 +201,36 @@ public class Autotip {
         if (!reply.isSuccess()) {
             throw new IllegalStateException("Could not fetch locale");
         }
-        this.localeHolder = reply.getLocaleHolder();
+        localeHolder = reply.getLocaleHolder();
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Event> T getEvent(Class<T> clazz) {
         return (T) events.stream()
-                .filter(event -> event.getClass().equals(clazz))
-                .findFirst()
-                .orElse(null);
+            .filter(event -> event.getClass().equals(clazz))
+            .findFirst()
+            .orElse(null);
     }
 
     @SuppressWarnings("unchecked")
     public <T extends CommandAbstract> T getCommand(Class<T> clazz) {
         return (T) commands.stream()
-                .filter(command -> command.getClass().equals(clazz))
-                .findFirst()
-                .orElse(null);
+            .filter(command -> command.getClass().equals(clazz))
+            .findFirst()
+            .orElse(null);
     }
 
     private void registerEvents(Event... events) {
-        for (Event event : events) {
+        Arrays.stream(events).forEach(event -> {
             EventBus.INSTANCE.register(event);
             this.events.add(event);
-        }
+        });
     }
 
     private void registerCommands(CommandAbstract... commands) {
-        for (CommandAbstract command : commands) {
+        Arrays.stream(commands).forEach(command -> {
             Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(command);
             this.commands.add(command);
-        }
+        });
     }
-
 }

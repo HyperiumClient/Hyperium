@@ -21,7 +21,7 @@ open class Block {
      */
     constructor(block: Block) {
         this.block = block.block
-        this.blockPos = block.blockPos
+        blockPos = block.blockPos
     }
 
     constructor(blockName: String) {
@@ -75,7 +75,7 @@ open class Block {
      */
     fun getName(): String = block.localizedName
 
-    fun getLightValue(): Int = this.block.lightValue
+    fun getLightValue(): Int = block.lightValue
 
     fun getState(): IBlockState = World.getWorld()!!.getBlockState(blockPos)
 
@@ -88,7 +88,7 @@ open class Block {
     fun getMetadata(): Int = block.getMetaFromState(getState())
     fun getDefaultMetadata(): Int = block.getMetaFromState(getDefaultState())
 
-    fun canProvidePower(): Boolean = this.block.canProvidePower()
+    fun canProvidePower(): Boolean = block.canProvidePower()
 
     fun isPowered(): Boolean = World.getWorld()!!.isBlockPowered(blockPos)
 
@@ -103,7 +103,7 @@ open class Block {
 
     fun canBeHarvestedWith(item: Item): Boolean = item.canHarvest(this)
 
-    fun isTranslucent(): Boolean = this.block.isTranslucent
+    fun isTranslucent(): Boolean = block.isTranslucent
 
     override fun toString(): String = "Block{name=${getRegistryName()}, x=${getX()}, y=${getY()}, z=${getZ()}}"
 }

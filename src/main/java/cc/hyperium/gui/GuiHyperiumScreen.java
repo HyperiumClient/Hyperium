@@ -32,7 +32,6 @@ import java.io.File;
 import java.io.FileInputStream;
 
 public class GuiHyperiumScreen extends GuiScreen {
-    private static BufferedImage bufferedImage;
     private static ResourceLocation dynamicBackgroundTexture;
     private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
     GuiButton hypixelButton;
@@ -67,6 +66,7 @@ public class GuiHyperiumScreen extends GuiScreen {
         if (dynamicBackgroundTexture != null) return true;
 
         if (customImage.exists()) {
+            BufferedImage bufferedImage;
             try {
                 bufferedImage = ImageIO.read(new FileInputStream(customImage));
             } catch (Exception e) {

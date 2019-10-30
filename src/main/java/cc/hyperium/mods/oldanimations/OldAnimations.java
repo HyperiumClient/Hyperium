@@ -28,7 +28,7 @@ public class OldAnimations extends AbstractMod {
     public OldAnimations() {
         Metadata data = new Metadata(this, "OldAnimations", "1.0", "Amplifiable");
         data.setDisplayName(ChatColor.AQUA + "OldAnimations");
-        this.metadata = data;
+        metadata = data;
     }
 
     @Override
@@ -39,6 +39,6 @@ public class OldAnimations extends AbstractMod {
 
     @Override
     public Metadata getModMetadata() {
-        return this.metadata;
+        return metadata;
     }
 }

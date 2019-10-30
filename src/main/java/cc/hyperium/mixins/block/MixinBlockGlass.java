@@ -37,10 +37,6 @@ public class MixinBlockGlass extends Block {
 
     @Override
     public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-        if (!Settings.CLEAR_GLASS) {
-            return super.shouldSideBeRendered(worldIn, pos, side);
-        }
-
-        return false;
+        return !Settings.CLEAR_GLASS && super.shouldSideBeRendered(worldIn, pos, side);
     }
 }

@@ -30,8 +30,8 @@ public class CCTickbox extends CCGuiItem {
 
     public CCTickbox(final GuiScreen screen) {
         super(screen);
-        this.setWidth(10);
-        this.setHeight(10);
+        setWidth(10);
+        setHeight(10);
     }
 
     public CCTickbox(final GuiScreen screen, final int id, final String displayText, final int posX, final int posY) {
@@ -40,22 +40,22 @@ public class CCTickbox extends CCGuiItem {
 
     @Override
     public void mouseClicked(final int mouseX, final int mouseY) {
-        this.toggleChecked();
+        toggleChecked();
 
-        if (this.callback != null) {
-            this.callback.run(checked);
+        if (callback != null) {
+            callback.run(checked);
         }
     }
 
     @Override
     public void drawItem(final int mouseX, final int mouseY) {
         CustomCrosshairGraphics
-            .drawThemeBorderedRectangle(this.getPosX(), this.getPosY(), this.getPosX() + this.getWidth(), this.getPosY() + this.getHeight());
+            .drawThemeBorderedRectangle(getPosX(), getPosY(), getPosX() + getWidth(), getPosY() + getHeight());
         CustomCrosshairGraphics
-            .drawString(this.getDisplayText(), this.getPosX() + this.getWidth() + 3, this.getPosY() + this.getHeight() / 2 - 3, 16777215);
-        if (this.checked) {
+            .drawString(getDisplayText(), getPosX() + getWidth() + 3, getPosY() + getHeight() / 2 - 3, 16777215);
+        if (checked) {
             CustomCrosshairGraphics
-                .drawFilledRectangle(this.getPosX() + 2, this.getPosY() + 2, this.getPosX() + this.getWidth() - 1, this.getPosY() + this.getHeight() - 1, new Color(50, 255, 50, 255));
+                .drawFilledRectangle(getPosX() + 2, getPosY() + 2, getPosX() + getWidth() - 1, getPosY() + getHeight() - 1, new Color(50, 255, 50, 255));
         }
     }
 
@@ -66,14 +66,14 @@ public class CCTickbox extends CCGuiItem {
     }
 
     public boolean getChecked() {
-        return this.checked;
+        return checked;
     }
 
     public void setChecked(final boolean newChecked) {
-        this.checked = newChecked;
+        checked = newChecked;
     }
 
     public void toggleChecked() {
-        this.checked = !this.checked;
+        checked = !checked;
     }
 }

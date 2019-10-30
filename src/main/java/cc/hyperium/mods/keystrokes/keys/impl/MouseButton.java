@@ -46,16 +46,14 @@ public class MouseButton extends AbstractKey {
         int yOffset = this.yOffset;
 
         Mouse.poll();
-        boolean pressed = Mouse.isButtonDown(this.button);
+        boolean pressed = Mouse.isButtonDown(button);
 
-        if (!mod.getSettings().isShowingWASD()) {
-            yOffset -= 48;
-        }
+        if (!mod.getSettings().isShowingWASD()) yOffset -= 48;
 
-        String name = BUTTONS[this.button];
-        if (pressed != this.wasPressed) {
-            this.wasPressed = pressed;
-            this.lastPress = System.currentTimeMillis();
+        String name = BUTTONS[button];
+        if (pressed != wasPressed) {
+            wasPressed = pressed;
+            lastPress = System.currentTimeMillis();
         }
 
         int textColor = getColor();
@@ -65,20 +63,20 @@ public class MouseButton extends AbstractKey {
         double textBrightness;
 
         if (pressed) {
-            color = Math.min(255, (int) ((this.mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - this.lastPress)));
-            textBrightness = Math.max(0.0D, 1.0D - (double) (System.currentTimeMillis() - this.lastPress) / (this.mod.getSettings().getFadeTime() * 2));
+            color = Math.min(255, (int) ((mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - lastPress)));
+            textBrightness = Math.max(0.0D, 1.0D - (double) (System.currentTimeMillis() - lastPress) / (mod.getSettings().getFadeTime() * 2));
         } else {
-            color = Math.max(0, 255 - (int) ((this.mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - this.lastPress)));
-            textBrightness = Math.min(1.0D, (double) (System.currentTimeMillis() - this.lastPress) / (this.mod.getSettings().getFadeTime() * 2));
+            color = Math.max(0, 255 - (int) ((mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - lastPress)));
+            textBrightness = Math.min(1.0D, (double) (System.currentTimeMillis() - lastPress) / (mod.getSettings().getFadeTime() * 2));
         }
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
             if (mod.getSettings().getKeyBackgroundRed() == 0 && mod.getSettings().getKeyBackgroundGreen() == 0 && mod.getSettings().getKeyBackgroundBlue() == 0) {
-                Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 34, y + yOffset + 22,
+                Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 34, y + yOffset + 22,
                     new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
                         mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
             } else {
-                Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 34, y + yOffset + 22,
+                Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 34, y + yOffset + 22,
                     new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
                         mod.getSettings().getKeyBackgroundOpacity()).getRGB());
             }
@@ -90,29 +88,27 @@ public class MouseButton extends AbstractKey {
 
         int colorN = new Color(0, 0, 0).getRGB() + ((int) ((double) red * textBrightness) << 16) + ((int) ((double) green * textBrightness) << 8) + (int) ((double) blue * textBrightness);
 
-        if (this.mod.getSettings().isShowingCPSOnButtons() && mod.getSettings().isShowingCPS()) {
+        if (mod.getSettings().isShowingCPSOnButtons() && mod.getSettings().isShowingCPS()) {
             final int round = Math.round(y / 0.5f + yOffset / 0.5f + 28.0f);
-            if (this.mod.getSettings().isChroma()) {
-                drawChromaString(name, x + this.xOffset + 8, y + yOffset + 4, 1.0F);
+            if (mod.getSettings().isChroma()) {
+                drawChromaString(name, x + xOffset + 8, y + yOffset + 4, 1.0F);
                 GL11.glPushMatrix();
                 GL11.glScalef(0.5f, 0.5f, 0.0f);
-                drawChromaString((name.equals(BUTTONS[0]) ? this.mod.getRenderer().getCPSKeys()[0].getLeftCPS() :
-                        this.mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + this.xOffset / 0.5f + 10 / 0.5f),
-                    round, .5);
-                GL11.glPopMatrix();
+                drawChromaString((name.equals(BUTTONS[0]) ? mod.getRenderer().getCPSKeys()[0].getLeftCPS() :
+                    mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + xOffset / 0.5f + 10 / 0.5f), round, .5);
             } else {
-                mc.fontRendererObj.drawString(name, x + this.xOffset + 8, y + yOffset + 4, pressed ? pressedColor : colorN);
+                mc.fontRendererObj.drawString(name, x + xOffset + 8, y + yOffset + 4, pressed ? pressedColor : colorN);
                 GL11.glPushMatrix();
                 GL11.glScalef(0.5f, 0.5f, 0.0f);
-                mc.fontRendererObj.drawString((name.equals(MouseButton.BUTTONS[0]) ? this.mod.getRenderer().getCPSKeys()[0].getLeftCPS() :
-                    this.mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + this.xOffset / 0.5f + 20.0f), round, pressed ? pressedColor : colorN);
-                GL11.glPopMatrix();
+                mc.fontRendererObj.drawString((name.equals(MouseButton.BUTTONS[0]) ? mod.getRenderer().getCPSKeys()[0].getLeftCPS() :
+                    mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + xOffset / 0.5f + 20.0f), round, pressed ? pressedColor : colorN);
             }
+            GL11.glPopMatrix();
         } else {
-            if (this.mod.getSettings().isChroma()) {
-                drawChromaString(name, x + this.xOffset + 8, y + yOffset + 8, 1.0F);
+            if (mod.getSettings().isChroma()) {
+                drawChromaString(name, x + xOffset + 8, y + yOffset + 8, 1.0F);
             } else {
-                this.mc.fontRendererObj.drawString(name, x + this.xOffset + 8, y + yOffset + 8, pressed ? pressedColor : colorN);
+                mc.fontRendererObj.drawString(name, x + xOffset + 8, y + yOffset + 8, pressed ? pressedColor : colorN);
             }
         }
     }

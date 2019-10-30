@@ -27,6 +27,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 @Mixin(NBTUtil.class)
 public class MixinNBTUtil {
@@ -40,13 +41,8 @@ public class MixinNBTUtil {
         String s = null;
         String s1 = null;
 
-        if (compound.hasKey("Name", 8)) {
-            s = compound.getString("Name");
-        }
-
-        if (compound.hasKey("Id", 8)) {
-            s1 = compound.getString("Id");
-        }
+        if (compound.hasKey("Name", 8)) s = compound.getString("Name");
+        if (compound.hasKey("Id", 8)) s1 = compound.getString("Id");
 
         if (StringUtils.isNullOrEmpty(s) && StringUtils.isNullOrEmpty(s1)) {
             return null;
@@ -66,16 +62,11 @@ public class MixinNBTUtil {
                 for (String s2 : nbttagcompound.getKeySet()) {
                     NBTTagList nbttaglist = nbttagcompound.getTagList(s2, 10);
 
-                    for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                        NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+                    IntStream.range(0, nbttaglist.tagCount()).mapToObj(nbttaglist::getCompoundTagAt).forEach(nbttagcompound1 -> {
                         String s3 = nbttagcompound1.getString("Value");
-
-                        if (nbttagcompound1.hasKey("Signature", 8)) {
-                            gameprofile.getProperties().put(s2, new Property(s2, s3, nbttagcompound1.getString("Signature")));
-                        } else {
-                            gameprofile.getProperties().put(s2, new Property(s2, s3));
-                        }
-                    }
+                        gameprofile.getProperties().put(s2, nbttagcompound1.hasKey("Signature", 8) ?
+                            new Property(s2, s3, nbttagcompound1.getString("Signature")) : new Property(s2, s3));
+                    });
                 }
             }
 

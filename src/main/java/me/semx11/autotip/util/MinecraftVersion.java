@@ -8,14 +8,11 @@ public enum MinecraftVersion {
     public static MinecraftVersion fromString(String version) throws IllegalArgumentException {
         Pattern p = Pattern.compile(
                 "^(1\\.8(\\.[8-9])?|1\\.9(\\.4)?|1\\.10(\\.2)?|1\\.11(\\.2)?|1\\.12(\\.[1-2])?)$");
-        if (p.matcher(version).matches()) {
-            return valueOf("V" + version.replaceAll("\\.", "_"));
-        }
-        return null;
+        return p.matcher(version).matches() ? valueOf("V" + version.replaceAll("\\.", "_")) : null;
     }
 
     public String toString() {
-        return this.name().substring(1).replaceAll("_", ".");
+        return name().substring(1).replaceAll("_", ".");
     }
 
 }

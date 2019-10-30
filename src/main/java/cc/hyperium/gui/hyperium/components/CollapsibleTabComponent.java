@@ -56,11 +56,6 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         return label;
     }
 
-    public boolean isCollapsed() {
-
-        return collapsed;
-    }
-
     public void setCollapsed(boolean collapsed) {
         this.collapsed = collapsed;
     }
@@ -85,9 +80,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
 
         Gui.drawScaledCustomSizeModalRect(x + width - 20, y, 0, 0, 144, 144, 20, 20, 144, 144);
 
-        if (collapsed) {
-            return;
-        }
+        if (collapsed) return;
 
         y += 18;
         x += 10;
@@ -97,10 +90,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         int prevH = 0;
 
         for (AbstractTabComponent comp : tmpf == null ? children : children.stream().filter(c -> c.filter(tmpf)).collect(Collectors.toList())) {
-
-            if (parent != null) {
-                right = false;
-            }
+            if (parent != null) right = false;
 
             int x1 = right ? x + width / 2 : x;
             comp.render(x1, y, parent != null ? width : width / 2, mouseX, mouseY);
@@ -123,9 +113,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
             }
 
             boolean b = right || parent != null;
-            if (b) {
-                y += Math.max(comp.getHeight(), prevH);
-            }
+            if (b) y += Math.max(comp.getHeight(), prevH);
             right = !right;
             prevH = comp.getHeight();
         }
@@ -136,7 +124,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         if (collapsed) {
             return 18;
         } else {
-            List<AbstractTabComponent> children = this.tmpf == null ? this.children : this.children.stream().filter(c -> c.filter(tmpf)).collect(Collectors.toList());
+            List<AbstractTabComponent> children = tmpf == null ? this.children : this.children.stream().filter(c -> c.filter(tmpf)).collect(Collectors.toList());
             if (parent != null) {
                 int h = 18;
                 h += children.stream().mapToInt(AbstractTabComponent::getHeight).sum();
@@ -190,18 +178,11 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
     }
 
     private String getLabel(AbstractTabComponent component) {
-        if (component instanceof CollapsibleTabComponent) {
-            return ((CollapsibleTabComponent) component).label;
-        }
-        if (component instanceof SliderComponent) {
-            return ((SliderComponent) component).getLabel();
-        }
-        if (component instanceof LabelComponent)
-            return ((LabelComponent) component).getLabel();
-        if (component instanceof ToggleComponent)
-            return ((ToggleComponent) component).getLabel();
-        if (component instanceof SelectorComponent)
-            return ((SelectorComponent) component).getLabel();
+        if (component instanceof CollapsibleTabComponent) return ((CollapsibleTabComponent) component).label;
+        if (component instanceof SliderComponent) return ((SliderComponent) component).getLabel();
+        if (component instanceof LabelComponent) return ((LabelComponent) component).getLabel();
+        if (component instanceof ToggleComponent) return ((ToggleComponent) component).getLabel();
+        if (component instanceof SelectorComponent) return ((SelectorComponent) component).getLabel();
         return "ZZZ";
     }
 }

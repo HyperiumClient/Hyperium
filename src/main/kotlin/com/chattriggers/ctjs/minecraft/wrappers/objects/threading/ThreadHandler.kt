@@ -6,11 +6,11 @@ class ThreadHandler {
     private val activeThreads: MutableList<WrappedThread>
 
     init {
-        this.activeThreads = ArrayList()
+        activeThreads = ArrayList()
     }
 
     fun addThread(thread: WrappedThread) =
-        this.activeThreads.add(thread)
+        activeThreads.add(thread)
 
     fun removeThread(thread: WrappedThread) =
         activeThreads.removeIf { thread1 -> thread1 === thread }

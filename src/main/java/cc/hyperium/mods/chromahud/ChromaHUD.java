@@ -47,7 +47,7 @@ public class ChromaHUD extends AbstractMod {
     private File suggestedConfigurationFile;
 
     public ChromaHUD() {
-        this.meta = new Metadata(this, MODID, VERSION, "Sk1er");
+        meta = new Metadata(this, MODID, VERSION, "Sk1er");
     }
 
     public AbstractMod init() {
@@ -65,23 +65,27 @@ public class ChromaHUD extends AbstractMod {
 
     @Override
     public Metadata getModMetadata() {
-        return this.meta;
+        return meta;
     }
 
     public void setup() {
         JsonHolder data = new JsonHolder();
         try {
             if (!suggestedConfigurationFile.exists()) {
-                if (!suggestedConfigurationFile.getParentFile().exists())
+                if (!suggestedConfigurationFile.getParentFile().exists()) {
                     suggestedConfigurationFile.getParentFile().mkdirs();
+                }
+
                 saveState();
             }
+
             FileReader fr = new FileReader(suggestedConfigurationFile);
             BufferedReader br = new BufferedReader(fr);
             data = new JsonHolder(br.lines().collect(Collectors.joining()));
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         ChromaHUDApi.getInstance().post(data);
     }
 
@@ -102,7 +106,7 @@ public class ChromaHUD extends AbstractMod {
         master.put("enabled", enabled);
         JsonArray elementArray = new JsonArray();
         master.putArray("elements", elementArray);
-        for (DisplayElement element : getDisplayElements()) {
+        getDisplayElements().forEach(element -> {
             JsonHolder tmp = element.getData();
             JsonArray items = new JsonArray();
             for (DisplayItem item : element.getDisplayItems()) {
@@ -112,10 +116,10 @@ public class ChromaHUD extends AbstractMod {
             }
             elementArray.add(tmp.getObject());
             tmp.putArray("items", items);
-        }
+        });
+
         try {
-            if (!suggestedConfigurationFile.exists())
-                suggestedConfigurationFile.createNewFile();
+            if (!suggestedConfigurationFile.exists()) suggestedConfigurationFile.createNewFile();
             FileWriter fw = new FileWriter(suggestedConfigurationFile);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(master.toString());
@@ -212,20 +216,10 @@ public class ChromaHUD extends AbstractMod {
         }, new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {
             JsonHolder data = displayItem.getData();
             int state = data.optInt("state");
-            if (state < 0 || state > 2) {
-                state = 0;
-            }
-            if (state == 0) {
-                guiButton.displayString = "Daily Coins";
-            }
-
-            if (state == 1) {
-                guiButton.displayString = "Monthly Coins";
-            }
-
-            if (state == 2) {
-                guiButton.displayString = "Lifetime Coins";
-            }
+            if (state < 0 || state > 2) state = 0;
+            if (state == 0) guiButton.displayString = "Daily Coins";
+            if (state == 1) guiButton.displayString = "Monthly Coins";
+            if (state == 2) guiButton.displayString = "Lifetime Coins";
         }));
     }
 }

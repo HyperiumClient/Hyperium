@@ -38,12 +38,12 @@ public class CustomCrosshairScreen extends GuiScreen {
 
     @Override
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
-        if (this.toolTip != null) {
+        if (toolTip != null) {
             CustomCrosshairGraphics
-                .drawBorderedRectangle(mouseX + 5, mouseY + 5, mouseX + this.getMaxWidth() + 9, mouseY + this.toolTip.size() * 11 + 8, CustomCrosshairAddon.PRIMARY, CustomCrosshairAddon.SECONDARY);
-            for (int i = 0; i < this.toolTip.size(); ++i) {
+                .drawBorderedRectangle(mouseX + 5, mouseY + 5, mouseX + getMaxWidth() + 9, mouseY + toolTip.size() * 11 + 8, CustomCrosshairAddon.PRIMARY, CustomCrosshairAddon.SECONDARY);
+            for (int i = 0; i < toolTip.size(); ++i) {
                 CustomCrosshairGraphics
-                    .drawString(this.toolTip.get(i), mouseX + 8, mouseY + i * 11 + 9, 16777215);
+                    .drawString(toolTip.get(i), mouseX + 8, mouseY + i * 11 + 9, 16777215);
             }
         }
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -51,13 +51,13 @@ public class CustomCrosshairScreen extends GuiScreen {
 
     @Override
     public void onGuiClosed() {
-        this.addon.getConfig().saveCurrentCrosshair();
+        addon.getConfig().saveCurrentCrosshair();
     }
 
     private int getMaxWidth() {
         int max = 0;
-        for (String aToolTip : this.toolTip) {
-            final int currentWidth = this.fontRendererObj.getStringWidth(aToolTip);
+        for (String aToolTip : toolTip) {
+            final int currentWidth = fontRendererObj.getStringWidth(aToolTip);
             if (currentWidth > max) {
                 max = currentWidth;
             }

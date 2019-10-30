@@ -17,16 +17,13 @@
 
 package cc.hyperium.mods.chromahud;
 
-import cc.hyperium.mods.chromahud.api.ButtonConfig;
-import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
-import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.chromahud.api.StringConfig;
-import cc.hyperium.mods.chromahud.api.TextConfig;
+import cc.hyperium.mods.chromahud.api.*;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 /**
  * @author Sk1er
@@ -59,24 +56,21 @@ public class ChromaHUDApi {
     public List<ButtonConfig> getButtonConfigs(String type) {
         type = type.toLowerCase();
         List<ButtonConfig> configs = buttonConfigs.get(type);
-        if (configs != null)
-            return new ArrayList<>(configs);
+        if (configs != null) return new ArrayList<>(configs);
         return new ArrayList<>();
     }
 
     public List<TextConfig> getTextConfigs(String type) {
         type = type.toLowerCase();
-        List<TextConfig> configs = this.textConfigs.get(type);
-        if (configs != null)
-            return new ArrayList<>(configs);
+        List<TextConfig> configs = textConfigs.get(type);
+        if (configs != null) return new ArrayList<>(configs);
         return new ArrayList<>();
     }
 
     public List<StringConfig> getStringConfigs(String type) {
         type = type.toLowerCase();
-        List<StringConfig> configs = this.stringConfigs.get(type);
-        if (configs != null)
-            return new ArrayList<>(configs);
+        List<StringConfig> configs = stringConfigs.get(type);
+        if (configs != null) return new ArrayList<>(configs);
         return new ArrayList<>();
     }
 
@@ -95,8 +89,7 @@ public class ChromaHUDApi {
      */
     void registerTextConfig(String type, TextConfig config) {
         type = type.toLowerCase();
-        if (!textConfigs.containsKey(type))
-            textConfigs.put(type, new ArrayList<>());
+        if (!textConfigs.containsKey(type)) textConfigs.put(type, new ArrayList<>());
         textConfigs.get(type).add(config);
     }
 
@@ -108,8 +101,7 @@ public class ChromaHUDApi {
      */
     void registerStringConfig(String type, StringConfig config) {
         type = type.toLowerCase();
-        if (!stringConfigs.containsKey(type))
-            stringConfigs.put(type, new ArrayList<>());
+        if (!stringConfigs.containsKey(type)) stringConfigs.put(type, new ArrayList<>());
         stringConfigs.get(type).add(config);
     }
 
@@ -121,8 +113,7 @@ public class ChromaHUDApi {
      */
     void registerButtonConfig(String type, ButtonConfig config) {
         type = type.toLowerCase();
-        if (!buttonConfigs.containsKey(type))
-            buttonConfigs.put(type, new ArrayList<>());
+        if (!buttonConfigs.containsKey(type)) buttonConfigs.put(type, new ArrayList<>());
         buttonConfigs.get(type).add(config);
     }
 
@@ -132,8 +123,7 @@ public class ChromaHUDApi {
      * @param parser A valid ChromaHUDParser object for an addon.
      */
     public void register(ChromaHUDParser parser) {
-        if (posted)
-            throw new IllegalStateException("Cannot register parser after InitializationEvent");
+        assert !posted : "Cannot register parser after InitializationEvent";
         parsers.add(parser);
         names.putAll(parser.getNames());
     }
@@ -145,20 +135,19 @@ public class ChromaHUDApi {
      */
     public void post(JsonHolder config) {
         this.config = config;
-        this.posted = true;
+        posted = true;
         elements.clear();
         JsonArray displayElements = config.optJSONArray("elements");
-        for (int i = 0; i < displayElements.size(); i++) {
-            JsonHolder object = new JsonHolder(displayElements.get(i).getAsJsonObject());
+        IntStream.range(0, displayElements.size()).mapToObj(i -> new JsonHolder(displayElements.get(i).getAsJsonObject())).forEach(object -> {
             try {
                 DisplayElement e = new DisplayElement(object);
-                if (e.getDisplayItems().size() > 0)
-                    elements.add(e);
+                if (e.getDisplayItems().size() > 0) elements.add(e);
             } catch (Exception e) {
                 e.printStackTrace();
                 Logger.getLogger("ChromaHUD").severe("A fatal error occurred while loading the display element " + object);
             }
-        }
+        });
+
         if (!config.has("elements")) {
             // setup blank
         }

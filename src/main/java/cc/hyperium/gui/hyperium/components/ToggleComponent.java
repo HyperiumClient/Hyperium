@@ -43,20 +43,17 @@ public class ToggleComponent extends AbstractTabComponent {
     private double animation = 0.5;
     private long lastDeltaTime = System.currentTimeMillis();
 
-    public ToggleComponent(AbstractTab tab, List<String> tags, String label, Field field,
-                           Object parentObj) {
+    public ToggleComponent(AbstractTab tab, List<String> tags, String label, Field field, Object parentObj) {
         super(tab, tags);
         tag(label);
         this.label = label;
         this.field = field;
         this.parentObj = parentObj;
-        this.state = getStateFromField();
+        state = getStateFromField();
     }
 
     private boolean getStateFromField() {
-        if (field == null) {
-            System.out.println(this.label);
-        }
+        if (field == null) System.out.println(label);
         try {
             return field.getBoolean(parentObj);
         } catch (IllegalAccessException e) {
@@ -76,22 +73,16 @@ public class ToggleComponent extends AbstractTabComponent {
     @Override
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         HyperiumFontRenderer font = tab.gui.getFont();
-
         lines.clear();
-
-        lines = font.splitString(label,
-            (width + 25) / 2); //16 for icon, 3 for render offset and then some more
+        lines = font.splitString(label, (width + 25) / 2); //16 for icon, 3 for render offset and then some more
 
         GlStateManager.pushMatrix();
-        if (hover) {
-            Gui.drawRect(x, y, x + width, y + 18 * lines.size(), 0xa0000000);
-        }
+        if (hover) Gui.drawRect(x, y, x + width, y + 18 * lines.size(), 0xa0000000);
         GlStateManager.popMatrix();
 
         int line1 = 0;
         for (String line : lines) {
-            font.drawString(line.replaceAll("_", " ").toUpperCase(), x + 3, y + 5 + 17 * line1,
-                0xffffff);
+            font.drawString(line.replaceAll("_", " ").toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
             line1++;
         }
 
@@ -104,8 +95,8 @@ public class ToggleComponent extends AbstractTabComponent {
 
         animation = HyperiumGui.clamp(
             HyperiumGui.easeOut(
-                (float) this.animation,
-                this.state ? 1.0f : 0.0f,
+                (float) animation,
+                    state ? 1.0f : 0.0f,
                 (float) animationInc,
                 5
             ),
@@ -117,23 +108,17 @@ public class ToggleComponent extends AbstractTabComponent {
         Color CLOSE = new Color(200, 200, 200);
 
         int red = (int) Math.abs((animation * FAR.getRed()) + ((1 - animation) * CLOSE.getRed()));
-        int green = (int) Math
-            .abs((animation * FAR.getGreen()) + ((1 - animation) * CLOSE.getGreen()));
-        int blue = (int) Math
-            .abs((animation * FAR.getBlue()) + ((1 - animation) * CLOSE.getBlue()));
+        int green = (int) Math.abs((animation * FAR.getGreen()) + ((1 - animation) * CLOSE.getGreen()));
+        int blue = (int) Math.abs((animation * FAR.getBlue()) + ((1 - animation) * CLOSE.getBlue()));
 
-        RenderUtils.drawSmoothRect((int) statX, y + 7, (int) (statX + 20), y + 10, 1,
-            Color.WHITE.getRGB());
-        RenderUtils.drawFilledCircle((int) ((int) statX + 20D * animation), y + 8, 5,
-            new Color(red, green, blue).getRGB());
-//        Gui.drawScaledCustomSizeModalRect((int) statX, y + 3, 0, 0, 121, 54, toggleW, 13, 121, 54);
+        RenderUtils.drawSmoothRect((int) statX, y + 7, (int) (statX + 20), y + 10, 1, Color.WHITE.getRGB());
+        RenderUtils.drawFilledCircle((int) ((int) statX + 20D * animation), y + 8, 5, new Color(red, green, blue).getRGB());
         lastDeltaTime = System.currentTimeMillis();
     }
 
     @Override
     public int getHeight() {
         return 18 * lines.size();
-
     }
 
 
@@ -141,11 +126,9 @@ public class ToggleComponent extends AbstractTabComponent {
     public void onClick(int x, int y) {
         if (y < 18 * lines.size()) {
             setState(!state);
-            this.state = getStateFromField(); //Call from reflection to ensure they never desync. Better have it fail and stay off than the user think its a diff tate
-            stateChange(this.state);
+            state = getStateFromField(); //Call from reflection to ensure they never desync. Better have it fail and stay off than the user think its a diff tate
+            stateChange(state);
         }
-
-
     }
 
     public String getLabel() {

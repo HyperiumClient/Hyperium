@@ -39,7 +39,7 @@ public class MemoryDisplay extends DisplayItem {
         ElementRenderer.draw(x, y, displayString);
         FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 
-        this.height = fr.FONT_HEIGHT * ElementRenderer.getCurrentScale();
-        this.width = fr.getStringWidth(displayString) * ElementRenderer.getCurrentScale();
+        height = fr.FONT_HEIGHT * ElementRenderer.getCurrentScale();
+        width = fr.getStringWidth(displayString) * ElementRenderer.getCurrentScale();
     }
 }

@@ -20,7 +20,7 @@ package cc.hyperium.mods.nickhider;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.mixins.client.gui.IMixinGuiScreenBook;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.nickhider.command.CommandNickHider;
@@ -75,13 +75,8 @@ public class NickHider extends AbstractMod {
         instance = this;
 
         Sk1erMod sk1erMod = new Sk1erMod("nick_hider", VERSION, object -> {
-            if (!object.optBoolean("enabled")) {
-                forceDown = true;
-            }
-
-            if (object.optBoolean("extended")) {
-                extendedUse = true;
-            }
+            if (!object.optBoolean("enabled")) forceDown = true;
+            if (object.optBoolean("extended")) extendedUse = true;
         });
 
         Multithreading.runAsync(() -> {
@@ -101,9 +96,7 @@ public class NickHider extends AbstractMod {
             }
         }
 
-        if (nickHiderConfig == null) {
-            nickHiderConfig = new NickHiderConfig();
-        }
+        if (nickHiderConfig == null) nickHiderConfig = new NickHiderConfig();
 
         EventBus.INSTANCE.register(this);
         Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(new CommandNickHider());
@@ -153,8 +146,7 @@ public class NickHider extends AbstractMod {
             NetHandlerPlayClient sendQueue = player.sendQueue;
             if (sendQueue == null) return;
 
-            for (NetworkPlayerInfo playerInfo : sendQueue.getPlayerInfoMap()) {
-                GameProfile gameProfile = playerInfo.getGameProfile();
+            sendQueue.getPlayerInfoMap().stream().map(NetworkPlayerInfo::getGameProfile).forEach(gameProfile -> {
                 if (gameProfile.getId() != null && gameProfile.getId().equals(Minecraft.getMinecraft().getSession().getProfile().getId())) {
                     if (!gameProfile.getName().equalsIgnoreCase(Minecraft.getMinecraft().getSession().getProfile().getName())) {
                         remap(gameProfile.getName(), override == null ? Minecraft.getMinecraft().getSession().getProfile().getName() : override);
@@ -162,7 +154,7 @@ public class NickHider extends AbstractMod {
                 } else if (nickHiderConfig.isHideOtherNames()) {
                     remap(gameProfile.getName(), getPseudo(gameProfile.getName()));
                 }
-            }
+            });
         }
     }
 
@@ -176,44 +168,19 @@ public class NickHider extends AbstractMod {
 
     public void remap(String key, String newKey) {
         key = key.toLowerCase();
-        if (usedNicks.contains(key)) {
-            return;
-        }
-
-        if (key.isEmpty() || key.contains(" ")) {
-            return;
-        }
-
+        if (usedNicks.contains(key) || key.isEmpty() || key.contains(" ")) return;
         usedNicks.add(key);
         Nick nick = new Nick(Pattern.compile(key.toLowerCase(), Pattern.CASE_INSENSITIVE), key, key.length() > 2 ? newKey : key);
         nicks.add(nick);
-
         Comparator<Nick> c = Comparator.comparingInt(o -> o.oldName.length());
         nicks.sort(c.reversed());
-
         cache.clear();
     }
 
     public String apply(String input) {
-        if (nickHiderConfig == null) {
-            nickHiderConfig = new NickHiderConfig();
-        }
-
-        if (!nickHiderConfig.isMasterEnabled()) {
-            return input;
-        }
-
-        if (forceDown) {
-            return input;
-        }
-
-        if (!nickHiderConfig.isHideNames()) {
-            return input;
-        }
-
-        if (cache.size() > 5000) {
-            cache.clear();
-        }
+        if (nickHiderConfig == null) nickHiderConfig = new NickHiderConfig();
+        if (!nickHiderConfig.isMasterEnabled() || forceDown || !nickHiderConfig.isHideNames()) return input;
+        if (cache.size() > 5000) cache.clear();
 
         return cache.computeIfAbsent(input, s -> {
             String base = input;
@@ -236,9 +203,7 @@ public class NickHider extends AbstractMod {
     }
 
     public String out(String chat) {
-        if (!nickHiderConfig.isHideNames()) {
-            return chat;
-        }
+        if (!nickHiderConfig.isHideNames()) return chat;
 
         for (Nick nick : nicks) {
             chat = Pattern.compile(nick.newName, Pattern.CASE_INSENSITIVE).matcher(chat).replaceAll(nick.oldName);
@@ -248,9 +213,7 @@ public class NickHider extends AbstractMod {
     }
 
     public String[] tabComplete(String[] in, String soFar) {
-        if (!nickHiderConfig.isHideNames()) {
-            return in;
-        }
+        if (!nickHiderConfig.isHideNames()) return in;
 
         String[] split = soFar.split(" ");
         String tmp = split[split.length - 1];
@@ -279,9 +242,7 @@ public class NickHider extends AbstractMod {
                 if (profile == MinecraftProfileTexture.Type.SKIN) {
                     playerSkin = location;
                     playerRealSkinType = profileTexture.getMetadata("model");
-                    if (playerRealSkinType == null) {
-                        playerRealSkinType = "default";
-                    }
+                    if (playerRealSkinType == null) playerRealSkinType = "default";
                 } else if (profile == MinecraftProfileTexture.Type.CAPE) {
                     playerCape = location;
                 }
@@ -293,26 +254,17 @@ public class NickHider extends AbstractMod {
 
     private String getPseudo(String input) {
         int i = input.hashCode() + nickHiderConfig.getPseudoKey().hashCode();
-        if (i < 0) {
-            i = -i;
-        }
+        if (i < 0) i = -i;
 
         int size = namesDatabase.size();
-        if (size == 0) {
-            return "Player-error";
-        }
-
-        return nickHiderConfig.getPrefix() + namesDatabase.get(i % size) + nickHiderConfig.getSuffix() + (nickHiderConfig.getPrefix().
-            equalsIgnoreCase("Player-") ? "" : getStar());
+        return size == 0 ? "Player-error" : nickHiderConfig.getPrefix() + namesDatabase.get(i % size) +
+            nickHiderConfig.getSuffix() + (nickHiderConfig.getPrefix().equalsIgnoreCase("Player-") ? "" : getStar());
     }
 
     private String getStar() {
         String s = "*";
         int i = s.hashCode();
-        if (i != 42) {
-            throw new IllegalStateException("Potential illegal nickhider modification found. If you did NOT edit NickHider, contact Sk1er (" + s + ")");
-        }
-
+        assert i == 42 : "Potential illegal nickhider modification found. If you did NOT edit NickHider, contact Sk1er (" + s + ")";
         return s;
     }
 

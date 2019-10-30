@@ -37,7 +37,7 @@ public class CustomCrosshairConfig {
     private File saveFile = new File(Hyperium.folder, "custom-crosshair-mod_save.txt");
 
     public CustomCrosshairConfig(CustomCrosshairAddon addon) {
-        this.crosshairMod = addon;
+        crosshairMod = addon;
         if (!saveFile.exists()) {
             try {
                 saveFile.createNewFile();
@@ -49,7 +49,7 @@ public class CustomCrosshairConfig {
 
     public boolean readSaveFile() {
         try {
-            final FileReader fileReader = new FileReader(this.saveFile);
+            final FileReader fileReader = new FileReader(saveFile);
             final BufferedReader bufferedReader = new BufferedReader(fileReader);
 
             String line;
@@ -63,132 +63,132 @@ public class CustomCrosshairConfig {
                         continue;
                     }
 
-                    int red = this.crosshairMod.getCrosshair().getColour().getRed();
-                    int green = this.crosshairMod.getCrosshair().getColour().getGreen();
-                    int blue = this.crosshairMod.getCrosshair().getColour().getBlue();
-                    int alpha = this.crosshairMod.getCrosshair().getColour().getAlpha();
+                    int red = crosshairMod.getCrosshair().getColour().getRed();
+                    int green = crosshairMod.getCrosshair().getColour().getGreen();
+                    int blue = crosshairMod.getCrosshair().getColour().getBlue();
+                    int alpha = crosshairMod.getCrosshair().getColour().getAlpha();
 
-                    int outlineRed = this.crosshairMod.getCrosshair().getOutlineColour().getRed();
-                    int outlineGreen = this.crosshairMod.getCrosshair().getOutlineColour().getGreen();
-                    int outlineBlue = this.crosshairMod.getCrosshair().getOutlineColour().getBlue();
-                    int outlineAlpha = this.crosshairMod.getCrosshair().getOutlineColour().getAlpha();
+                    int outlineRed = crosshairMod.getCrosshair().getOutlineColour().getRed();
+                    int outlineGreen = crosshairMod.getCrosshair().getOutlineColour().getGreen();
+                    int outlineBlue = crosshairMod.getCrosshair().getOutlineColour().getBlue();
+                    int outlineAlpha = crosshairMod.getCrosshair().getOutlineColour().getAlpha();
 
-                    int dotRed = this.crosshairMod.getCrosshair().getDotColour().getRed();
-                    int dotGreen = this.crosshairMod.getCrosshair().getDotColour().getGreen();
-                    int dotBlue = this.crosshairMod.getCrosshair().getDotColour().getBlue();
-                    int dotAlpha = this.crosshairMod.getCrosshair().getDotColour().getAlpha();
+                    int dotRed = crosshairMod.getCrosshair().getDotColour().getRed();
+                    int dotGreen = crosshairMod.getCrosshair().getDotColour().getGreen();
+                    int dotBlue = crosshairMod.getCrosshair().getDotColour().getBlue();
+                    int dotAlpha = crosshairMod.getCrosshair().getDotColour().getAlpha();
 
                     final String attribute = splitted[0].toLowerCase().trim();
                     final String value = splitted[1].toLowerCase().trim();
 
                     switch (attribute) {
                         case "crosshairtype":
-                            this.crosshairMod.getCrosshair().setCrosshairType(Integer.parseInt(value));
+                            crosshairMod.getCrosshair().setCrosshairType(Integer.parseInt(value));
                             break;
                         case "enabled":
-                            this.crosshairMod.getCrosshair().setEnabled(Boolean.parseBoolean(value));
+                            crosshairMod.getCrosshair().setEnabled(Boolean.parseBoolean(value));
                             break;
                         case "colour_red":
-                            this.crosshairMod.getCrosshair()
+                            crosshairMod.getCrosshair()
                                 .setColour(new Color(Integer.parseInt(value), green, blue, alpha));
                             break;
                         case "colour_green":
-                            this.crosshairMod.getCrosshair()
+                            crosshairMod.getCrosshair()
                                 .setColour(new Color(red, Integer.parseInt(value), blue, alpha));
                             break;
                         case "colour_blue":
-                            this.crosshairMod.getCrosshair()
+                            crosshairMod.getCrosshair()
                                 .setColour(new Color(red, green, Integer.parseInt(value), alpha));
                             break;
                         case "colour_opacity":
-                            this.crosshairMod.getCrosshair()
+                            crosshairMod.getCrosshair()
                                 .setColour(new Color(red, green, blue, Integer.parseInt(value)));
                             break;
                         case "visible_default":
-                            this.crosshairMod.getCrosshair()
+                            crosshairMod.getCrosshair()
                                 .setVisibleDefault(Boolean.parseBoolean(value));
                             break;
                         case "visible_hiddengui":
-                            this.crosshairMod.getCrosshair()
+                            crosshairMod.getCrosshair()
                                 .setVisibleHiddenGui(Boolean.parseBoolean(value));
                             break;
                         case "visible_debug":
-                            this.crosshairMod.getCrosshair()
+                            crosshairMod.getCrosshair()
                                 .setVisibleDebug(Boolean.parseBoolean(value));
                             break;
                         case "visible_spectator":
-                            this.crosshairMod.getCrosshair()
+                            crosshairMod.getCrosshair()
                                 .setVisibleSpectator(Boolean.parseBoolean(value));
                             break;
                         case "visible_thirdperson":
-                            this.crosshairMod.getCrosshair()
+                            crosshairMod.getCrosshair()
                                 .setVisibleThirdPerson(Boolean.parseBoolean(value));
                             break;
                         case "outline":
-                            this.crosshairMod.getCrosshair().setOutline(Boolean.parseBoolean(value));
+                            crosshairMod.getCrosshair().setOutline(Boolean.parseBoolean(value));
                             break;
                         case "outlinecolour_red":
-                            this.crosshairMod.getCrosshair().setOutlineColour(
+                            crosshairMod.getCrosshair().setOutlineColour(
                                 new Color(Integer.parseInt(value), outlineGreen, outlineBlue,
                                     outlineAlpha));
                             break;
                         case "outlinecolour_green":
-                            this.crosshairMod.getCrosshair().setOutlineColour(
+                            crosshairMod.getCrosshair().setOutlineColour(
                                 new Color(outlineRed, Integer.parseInt(value), outlineBlue,
                                     outlineAlpha));
                             break;
                         case "outlinecolour_blue":
-                            this.crosshairMod.getCrosshair().setOutlineColour(
+                            crosshairMod.getCrosshair().setOutlineColour(
                                 new Color(outlineRed, outlineGreen, Integer.parseInt(value),
                                     outlineAlpha));
                             break;
                         case "outlinecolour_opacity":
-                            this.crosshairMod.getCrosshair().setOutlineColour(
+                            crosshairMod.getCrosshair().setOutlineColour(
                                 new Color(outlineRed, outlineGreen, outlineBlue,
                                     Integer.parseInt(value)));
                             break;
                         case "dot":
-                            this.crosshairMod.getCrosshair().setDot(Boolean.parseBoolean(value));
+                            crosshairMod.getCrosshair().setDot(Boolean.parseBoolean(value));
                             break;
                         case "dotcolour_red":
-                            this.crosshairMod.getCrosshair().setDotColour(
+                            crosshairMod.getCrosshair().setDotColour(
                                 new Color(Integer.parseInt(value), dotGreen, dotBlue, dotAlpha));
                             break;
                         case "dotcolour_green":
-                            this.crosshairMod.getCrosshair().setDotColour(
+                            crosshairMod.getCrosshair().setDotColour(
                                 new Color(dotRed, Integer.parseInt(value), dotBlue, dotAlpha));
                             break;
                         case "dotcolour_blue":
-                            this.crosshairMod.getCrosshair().setDotColour(
+                            crosshairMod.getCrosshair().setDotColour(
                                 new Color(dotRed, dotGreen, Integer.parseInt(value), dotAlpha));
                             break;
                         case "dotcolour_opacity":
-                            this.crosshairMod.getCrosshair().setDotColour(
+                            crosshairMod.getCrosshair().setDotColour(
                                 new Color(dotRed, dotGreen, dotBlue, Integer.parseInt(value)));
                             break;
                         case "width":
-                            this.crosshairMod.getCrosshair().setWidth(Integer.parseInt(value));
+                            crosshairMod.getCrosshair().setWidth(Integer.parseInt(value));
                             break;
                         case "height":
-                            this.crosshairMod.getCrosshair().setHeight(Integer.parseInt(value));
+                            crosshairMod.getCrosshair().setHeight(Integer.parseInt(value));
                             break;
                         case "gap":
-                            this.crosshairMod.getCrosshair().setGap(Integer.parseInt(value));
+                            crosshairMod.getCrosshair().setGap(Integer.parseInt(value));
                             break;
                         case "thickness":
-                            this.crosshairMod.getCrosshair().setThickness(Integer.parseInt(value));
+                            crosshairMod.getCrosshair().setThickness(Integer.parseInt(value));
                             break;
                         case "rainbow":
-                            this.crosshairMod.getCrosshair().setRainbowCrosshair(Boolean.valueOf(value));
+                            crosshairMod.getCrosshair().setRainbowCrosshair(Boolean.valueOf(value));
                             break;
                         case "rainbow_speed":
-                            this.crosshairMod.getCrosshair().setRainbowSpeed(Integer.valueOf(value));
+                            crosshairMod.getCrosshair().setRainbowSpeed(Integer.valueOf(value));
                             break;
                         default:
                             if (!attribute.equals("dynamic_bow")) {
                                 continue;
                             }
-                            this.crosshairMod.getCrosshair().setDynamicBow(Boolean.parseBoolean(value));
+                            crosshairMod.getCrosshair().setDynamicBow(Boolean.parseBoolean(value));
                             break;
                     }
                 }
@@ -203,7 +203,7 @@ public class CustomCrosshairConfig {
 
     public boolean writeSaveFile(final int crosshairType, final boolean enabled, final int colour_red, final int colour_green, final int colour_blue, final int colour_opacity, final boolean visibleDefault, final boolean visibleHiddenGui, final boolean visibleDebug, final boolean visibleSpectator, final boolean visibleThirdPerson, final boolean outline, final int outlineColour_red, final int outlineColour_green, final int outlineColour_blue, final int outlineColour_opacity, final boolean dot, final int dotColour_red, final int dotColour_green, final int dotColour_blue, final int dotColour_opacity, final int width, final int height, final int gap, final int thickness, final boolean dynamicBow, final boolean rainbow, final int rainbowspeed) {
         try {
-            final FileWriter fileWriter = new FileWriter(this.saveFile);
+            final FileWriter fileWriter = new FileWriter(saveFile);
             final BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             final List<String> lines = new ArrayList<>();
             lines.add("// Custom Crosshair Mod Save File - Made by Sparkless101");
@@ -258,6 +258,6 @@ public class CustomCrosshairConfig {
     }
 
     public void saveCurrentCrosshair() {
-        writeSaveFile(this.crosshairMod.getCrosshair().getCrosshairTypeID(), this.crosshairMod.getCrosshair().getEnabled(), this.crosshairMod.getCrosshair().getColour().getRed(), this.crosshairMod.getCrosshair().getColour().getGreen(), this.crosshairMod.getCrosshair().getColour().getBlue(), this.crosshairMod.getCrosshair().getColour().getAlpha(), this.crosshairMod.getCrosshair().getVisibleDefault(), this.crosshairMod.getCrosshair().getVisibleHiddenGui(), this.crosshairMod.getCrosshair().getVisibleDebug(), this.crosshairMod.getCrosshair().getVisibleSpectator(), this.crosshairMod.getCrosshair().getVisibleThirdPerson(), this.crosshairMod.getCrosshair().getOutline(), this.crosshairMod.getCrosshair().getOutlineColour().getRed(), this.crosshairMod.getCrosshair().getOutlineColour().getGreen(), this.crosshairMod.getCrosshair().getOutlineColour().getBlue(), this.crosshairMod.getCrosshair().getOutlineColour().getAlpha(), this.crosshairMod.getCrosshair().getDot(), this.crosshairMod.getCrosshair().getDotColour().getRed(), this.crosshairMod.getCrosshair().getDotColour().getGreen(), this.crosshairMod.getCrosshair().getDotColour().getBlue(), this.crosshairMod.getCrosshair().getDotColour().getAlpha(), this.crosshairMod.getCrosshair().getWidth(), this.crosshairMod.getCrosshair().getHeight(), this.crosshairMod.getCrosshair().getGap(), this.crosshairMod.getCrosshair().getThickness(), this.crosshairMod.getCrosshair().getDynamicBow(), this.crosshairMod.getCrosshair().getRainbowCrosshair(), this.crosshairMod.getCrosshair().getRainbowSpeed());
+        writeSaveFile(crosshairMod.getCrosshair().getCrosshairTypeID(), crosshairMod.getCrosshair().getEnabled(), crosshairMod.getCrosshair().getColour().getRed(), crosshairMod.getCrosshair().getColour().getGreen(), crosshairMod.getCrosshair().getColour().getBlue(), crosshairMod.getCrosshair().getColour().getAlpha(), crosshairMod.getCrosshair().getVisibleDefault(), crosshairMod.getCrosshair().getVisibleHiddenGui(), crosshairMod.getCrosshair().getVisibleDebug(), crosshairMod.getCrosshair().getVisibleSpectator(), crosshairMod.getCrosshair().getVisibleThirdPerson(), crosshairMod.getCrosshair().getOutline(), crosshairMod.getCrosshair().getOutlineColour().getRed(), crosshairMod.getCrosshair().getOutlineColour().getGreen(), crosshairMod.getCrosshair().getOutlineColour().getBlue(), crosshairMod.getCrosshair().getOutlineColour().getAlpha(), crosshairMod.getCrosshair().getDot(), crosshairMod.getCrosshair().getDotColour().getRed(), crosshairMod.getCrosshair().getDotColour().getGreen(), crosshairMod.getCrosshair().getDotColour().getBlue(), crosshairMod.getCrosshair().getDotColour().getAlpha(), crosshairMod.getCrosshair().getWidth(), crosshairMod.getCrosshair().getHeight(), crosshairMod.getCrosshair().getGap(), crosshairMod.getCrosshair().getThickness(), crosshairMod.getCrosshair().getDynamicBow(), crosshairMod.getCrosshair().getRainbowCrosshair(), crosshairMod.getCrosshair().getRainbowSpeed());
     }
 }

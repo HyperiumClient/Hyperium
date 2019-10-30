@@ -20,10 +20,10 @@ package cc.hyperium.mods.glintcolorizer;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.mods.AbstractMod;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class GlintColorizer extends AbstractMod {
 
@@ -41,16 +41,15 @@ public class GlintColorizer extends AbstractMod {
     @InvokeEvent
     public void onTick(TickEvent e) {
         if (!Colors.enabled) {
-            if (Colors.onepoint8glintcolorI != -8372020) {
-                Colors.onepoint8glintcolorI = -8372020;
-            }
+            if (Colors.onepoint8glintcolorI != -8372020) Colors.onepoint8glintcolorI = -8372020;
             return;
         }
         if (Colors.chroma) {
-            Colors.onepoint8glintcolorI = Color
-                .HSBtoRGB(System.currentTimeMillis() % (10000L / Colors.chromaSpeed) / (10000.0f / Colors.chromaSpeed), 0.8f, 0.8f);
+            Colors.onepoint8glintcolorI = Color.HSBtoRGB(System.currentTimeMillis() %
+                (10000L / Colors.chromaSpeed) / (10000.0f / Colors.chromaSpeed), 0.8f, 0.8f);
             return;
         }
+
         Colors.onepoint8glintcolorI = getIntFromColor(Colors.glintR, Colors.glintG, Colors.glintB);
     }
 
@@ -69,5 +68,4 @@ public class GlintColorizer extends AbstractMod {
         blue = blue & 0x000000FF;
         return 0xFF000000 | red | green | blue;
     }
-
 }

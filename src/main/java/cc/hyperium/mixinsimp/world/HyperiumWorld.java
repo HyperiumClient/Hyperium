@@ -19,12 +19,10 @@ package cc.hyperium.mixinsimp.world;
 
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.SpawnpointChangeEvent;
-import net.minecraft.client.Minecraft;
+import cc.hyperium.event.world.SpawnpointChangeEvent;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.storage.WorldInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 public class HyperiumWorld {
 
@@ -33,10 +31,6 @@ public class HyperiumWorld {
     }
 
     public double getHorizon(WorldInfo worldInfo) {
-        if (Settings.VOID_FLICKER_FIX) {
-            return 0.0;
-        }
-
-        return worldInfo.getTerrainType() == WorldType.FLAT ? 0.0D : 63.0D;
+        return Settings.VOID_FLICKER_FIX ? 0.0 : worldInfo.getTerrainType() == WorldType.FLAT ? 0.0D : 63.0D;
     }
 }

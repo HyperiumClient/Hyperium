@@ -56,18 +56,16 @@ public class AddItemsGui extends GuiScreen {
         this.mod = mod;
         this.element = element;
         //Make all parsers so we can access them
-        for (ChromaHUDParser chromaHUDParser : ChromaHUDApi.getInstance().getParsers()) {
-            for (String s : chromaHUDParser.getNames().keySet()) {
-                DisplayItem item = chromaHUDParser.parse(s, 0, new JsonHolder().put("type", s));
+        ChromaHUDApi.getInstance().getParsers().forEach(chromaHUDParser -> {
+            chromaHUDParser.getNames().keySet().stream().map(s -> chromaHUDParser.parse(s, 0, new JsonHolder().put("type", s))).forEach(item -> {
                 DisplayElement blank = DisplayElement.blank();
                 blank.getDisplayItems().add(item);
                 blank.adjustOrdinal();
                 all.add(blank);
-            }
-        }
-        for (DisplayElement displayElement : all) {
-            displayElement.drawForConfig();
-        }
+            });
+        });
+
+        all.forEach(DisplayElement::drawForConfig);
         target = DisplayElement.blank();
         target.setColor(Color.GREEN.getRGB());
         mouseLock = Mouse.isButtonDown(0);
@@ -101,31 +99,23 @@ public class AddItemsGui extends GuiScreen {
     private void reg(GuiButton button, Consumer<GuiButton> consumer) {
         buttonList.removeIf(button1 -> button1.id == button.id);
         clicks.keySet().removeIf(button1 -> button1.id == button.id);
-
-        this.buttonList.add(button);
-
-        if (consumer != null) {
-            this.clicks.put(button, consumer);
-        }
+        buttonList.add(button);
+        if (consumer != null) clicks.put(button, consumer);
     }
 
     @Override
     protected void actionPerformed(GuiButton button) {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
-        if (guiButtonConsumer != null) {
-            guiButtonConsumer.accept(button);
-        }
+        if (guiButtonConsumer != null) guiButtonConsumer.accept(button);
     }
 
     @Override
     public void updateScreen() {
         super.updateScreen();
-        for (GuiButton guiButton : buttonList) {
+        buttonList.forEach(guiButton -> {
             Consumer<GuiButton> guiButtonConsumer = updates.get(guiButton);
-            if (guiButtonConsumer != null) {
-                guiButtonConsumer.accept(guiButton);
-            }
-        }
+            if (guiButtonConsumer != null) guiButtonConsumer.accept(guiButton);
+        });
     }
 
     @Override
@@ -137,11 +127,8 @@ public class AddItemsGui extends GuiScreen {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
-        if (i < 0) {
-            offset -= 10;
-        } else if (i > 0 && offset < 0) {
-            offset += 10;
-        }
+        if (i < 0) offset -= 10;
+        else if (i > 0 && offset < 0) offset += 10;
     }
 
     @Override
@@ -163,7 +150,6 @@ public class AddItemsGui extends GuiScreen {
             drawCenteredString(mc.fontRendererObj, "Click Explore to see examples!", current.getScaledWidth() / 2, cursorY - 30, Color.RED.getRGB());
             List<ChromaHUDParser> parsers = ChromaHUDApi.getInstance().getParsers();
             for (ChromaHUDParser parser : parsers) {
-
                 Map<String, String> names = parser.getNames();
                 for (Map.Entry<String, String> entry : names.entrySet()) {
                     String s = entry.getKey();
@@ -172,8 +158,10 @@ public class AddItemsGui extends GuiScreen {
                     int j = Color.RED.getRGB();
                     int width = 160;
                     int height = 20;
-                    mc.fontRendererObj.drawString(text1, ((current.getScaledWidth() >> 1) - 80 + (width >> 1) - (mc.fontRendererObj.getStringWidth(text1) >> 1)), cursorY + ((height - 8) >> 1), j, false);
+                    mc.fontRendererObj.drawString(text1, ((current.getScaledWidth() >> 1) - 80 + (width >> 1) - (mc.fontRendererObj.getStringWidth(text1) >> 1)),
+                        cursorY + ((height - 8) >> 1), j, false);
                     int i = ResolutionUtil.current().getScaledHeight() - (Mouse.getY() / current.getScaleFactor());
+
                     if (Mouse.isButtonDown(0) && !mouseLock)
                         if (i >= cursorY && i <= cursorY + 23) {
                             int i1 = Mouse.getX() / current.getScaleFactor();
@@ -184,9 +172,9 @@ public class AddItemsGui extends GuiScreen {
                                 mc.displayGuiScreen(new EditItemsGui(element, mod));
                             }
                         }
+
                     cursorY += 23;
                 }
-
             }
         } else {
             int cursorY = 50 + offset;
@@ -202,12 +190,15 @@ public class AddItemsGui extends GuiScreen {
                     String s = entry.getKey();
                     String text1 = entry.getValue() + ": ";
                     DisplayElement displayElement = find(s);
+
                     if (displayElement == null) {
                         String text2 = "ERROR LOCATING DISPLAY ELEMENT " + s;
-                        mc.fontRendererObj.drawString(text2, (current.getScaledWidth() - mc.fontRendererObj.getStringWidth(text2)) >> 1, cursorY, Color.RED.getRGB(), true);
+                        mc.fontRendererObj.drawString(text2, (current.getScaledWidth() - mc.fontRendererObj.getStringWidth(text2)) >> 1, cursorY, Color.RED.getRGB(),
+                            true);
                         cursorY += 15;
                         continue;
                     }
+
                     Dimension dimensions = displayElement.getDimensions();
                     int stringWidth = mc.fontRendererObj.getStringWidth(text1);
                     double totalWidth = dimensions.getWidth() + stringWidth;
@@ -221,6 +212,7 @@ public class AddItemsGui extends GuiScreen {
                 }
             }
         }
+
         ElementRenderer.endDrawing(target);
     }
 

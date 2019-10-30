@@ -35,8 +35,6 @@ public class HyperiumGuiControls extends GuiScreen {
     }
 
     public void actionPerformed(GuiButton button) {
-        if (button.id == 10) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiKeybinds());
-        }
+        if (button.id == 10) Minecraft.getMinecraft().displayGuiScreen(new GuiKeybinds());
     }
 }

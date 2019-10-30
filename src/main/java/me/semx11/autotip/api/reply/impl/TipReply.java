@@ -55,7 +55,7 @@ public class TipReply extends Reply {
         }
 
         public String getAsCommand() {
-            return "/tip " + this.toString();
+            return "/tip " + toString();
         }
 
         @Override

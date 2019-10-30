@@ -55,14 +55,14 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
 
     public GuiScreenKeystrokes(KeystrokesMod mod) {
         this.mod = mod;
-        this.mc = Minecraft.getMinecraft();
+        mc = Minecraft.getMinecraft();
     }
 
     @Override
     public void initGui() {
-        this.buttonList.clear();
+        buttonList.clear();
 
-        KeystrokesSettings settings = this.mod.getSettings();
+        KeystrokesSettings settings = mod.getSettings();
 
         buttonList.add(buttonEnabled = new GuiButton(0, width / 2 - 155, calculateHeight(-1), 150, 20,
             "Keystrokes: " + (settings.isEnabled() ? "On" : "Off")));
@@ -112,11 +112,11 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
-        this.mod.getRenderer().renderKeystrokes();
+        mod.getRenderer().renderKeystrokes();
 
         drawCenteredString(mc.fontRendererObj, "Keystrokes v" + mod.getVersion() + " - Created by Sk1er LLC", width / 2, 5, 16777215);
 
-        buttonColors.enabled = !this.mod.getSettings().isChroma();
+        buttonColors.enabled = !mod.getSettings().isChroma();
         buttonRightClick.enabled = !mod.getSettings().isShowingCPSOnButtons();
 
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -124,7 +124,7 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        KeystrokesSettings settings = this.mod.getSettings();
+        KeystrokesSettings settings = mod.getSettings();
         switch (button.id) {
             case 0:
                 settings.setEnabled(!settings.isEnabled());
@@ -196,7 +196,7 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
                     @Override
                     public void onScroll(double doubleAmount, int intAmount) {
                         settings.setRed(intAmount);
-                        GuiScreenKeystrokes.this.updated = true;
+                        updated = true;
                     }
                 }, new IScrollable() {
                     @Override
@@ -207,7 +207,7 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
                     @Override
                     public void onScroll(double doubleAmount, int intAmount) {
                         settings.setGreen(intAmount);
-                        GuiScreenKeystrokes.this.updated = true;
+                        updated = true;
                     }
                 }, new IScrollable() {
                     @Override
@@ -218,7 +218,7 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
                     @Override
                     public void onScroll(double doubleAmount, int intAmount) {
                         settings.setBlue(intAmount);
-                        GuiScreenKeystrokes.this.updated = true;
+                        updated = true;
                     }
                 }, new IScrollable() {
                     @Override
@@ -229,7 +229,7 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
                     @Override
                     public void onScroll(double doubleAmount, int intAmount) {
                         settings.setPressedRed(intAmount);
-                        GuiScreenKeystrokes.this.updated = true;
+                        updated = true;
                     }
                 }, new IScrollable() {
                     @Override
@@ -240,7 +240,7 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
                     @Override
                     public void onScroll(double doubleAmount, int intAmount) {
                         settings.setPressedGreen(intAmount);
-                        GuiScreenKeystrokes.this.updated = true;
+                        updated = true;
                     }
                 }, new IScrollable() {
                     @Override
@@ -251,7 +251,7 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
                     @Override
                     public void onScroll(double doubleAmount, int intAmount) {
                         settings.setPressedBlue(intAmount);
-                        GuiScreenKeystrokes.this.updated = true;
+                        updated = true;
                     }
                 }));
                 break;
@@ -323,11 +323,9 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
         }
 
         if (button == 0) {
-            KeystrokesSettings settings = this.mod.getSettings();
+            KeystrokesSettings settings = mod.getSettings();
 
-            if (!settings.isEnabled()) {
-                return;
-            }
+            if (!settings.isEnabled()) return;
 
             int x = settings.getRenderX();
             int y = settings.getRenderY();
@@ -336,9 +334,9 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
             int endX = (int) (startX + ((settings.getWidth() * settings.getScale())));
             int endY = (int) (startY + (settings.getHeight() * settings.getScale()));
             if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY) {
-                this.dragging = true;
-                this.lastMouseX = mouseX;
-                this.lastMouseY = mouseY;
+                dragging = true;
+                lastMouseX = mouseX;
+                lastMouseY = mouseY;
             }
         }
     }
@@ -346,26 +344,24 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int action) {
         super.mouseReleased(mouseX, mouseY, action);
-        this.dragging = false;
+        dragging = false;
     }
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int lastButtonClicked, long timeSinceMouseClick) {
-        if (this.dragging) {
-            KeystrokesSettings settings = this.mod.getSettings();
-            settings.setX((int) (settings.getRenderX() + (mouseX - this.lastMouseX) / settings.getScale()));
-            settings.setY((int) (settings.getRenderY() + (mouseY - this.lastMouseY) / settings.getScale()));
-            this.lastMouseX = mouseX;
-            this.lastMouseY = mouseY;
-            this.updated = true;
+        if (dragging) {
+            KeystrokesSettings settings = mod.getSettings();
+            settings.setX((int) (settings.getRenderX() + (mouseX - lastMouseX) / settings.getScale()));
+            settings.setY((int) (settings.getRenderY() + (mouseY - lastMouseY) / settings.getScale()));
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+            updated = true;
         }
     }
 
     @Override
     public void onGuiClosed() {
-        if (this.updated) {
-            this.mod.getSettings().save();
-        }
+        if (updated) mod.getSettings().save();
     }
 
     @Override
@@ -374,10 +370,10 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
     }
 
     public void setUpdated() {
-        this.updated = true;
+        updated = true;
     }
 
     public KeystrokesMod getMod() {
-        return this.mod;
+        return mod;
     }
 }

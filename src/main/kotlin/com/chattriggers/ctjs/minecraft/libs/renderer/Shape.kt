@@ -18,16 +18,16 @@ class Shape(private var color: Int) {
 
     fun copy(): Shape = clone()
     fun clone(): Shape {
-        val clone = Shape(this.color)
-        clone.vertexes.addAll(this.vertexes)
-        clone.setDrawMode(this.drawMode)
+        val clone = Shape(color)
+        clone.vertexes.addAll(vertexes)
+        clone.setDrawMode(drawMode)
         return clone
     }
 
-    fun getColor(): Int = this.color
+    fun getColor(): Int = color
     fun setColor(color: Int) = apply { this.color = color }
 
-    fun getDrawMode(): Int = this.drawMode
+    fun getDrawMode(): Int = drawMode
     /**
      * Sets the GL draw mode of the shape. Possible draw modes are:<br>
      * 0 = points<br>
@@ -43,7 +43,7 @@ class Shape(private var color: Int) {
      */
     fun setDrawMode(drawMode: Int) = apply { this.drawMode = drawMode }
 
-    fun getVertexes(): List<Vector2f> = this.vertexes
+    fun getVertexes(): List<Vector2f> = vertexes
     fun addVertex(x: Float, y: Float) = apply { this.vertexes.add(Vector2f(x, y)) }
     fun insertVertex(index: Int, x: Float, y: Float) = apply { this.vertexes.add(index, Vector2f(x, y)) }
     fun removeVertex(index: Int) = apply { this.vertexes.removeAt(index) }

@@ -34,12 +34,12 @@ abstract class XMLHttpRequest {
             this.async = async
             val url = URL(urlStr)
 
-            this.status = -1
-            this.statusText = null
-            this.responseText = null
+            status = -1
+            statusText = null
+            responseText = null
 
-            this.conn = url.openConnection() as HttpURLConnection
-            this.conn?.requestMethod = method
+            conn = url.openConnection() as HttpURLConnection
+            conn?.requestMethod = method
         } catch (e: Exception) {
             getLoader().console.printStackTrace(e)
         }
@@ -57,7 +57,7 @@ abstract class XMLHttpRequest {
      * @param method the method to be called back on completion of the request
      */
     fun setCallbackMethod(method: Any) {
-        this.methodCallback = OnRegularTrigger(method, TriggerType.OTHER, getLoader())
+        methodCallback = OnRegularTrigger(method, TriggerType.OTHER, getLoader())
     }
 
     /**
@@ -87,7 +87,7 @@ abstract class XMLHttpRequest {
 
         try {
             if (async) {
-                Thread(Runnable { this.sendGet() }).start()
+                Thread(Runnable { sendGet() }).start()
             } else {
                 sendGet()
             }
@@ -140,8 +140,8 @@ abstract class XMLHttpRequest {
 
     private fun sendGet() {
         try {
-            this.status = conn?.responseCode
-            this.statusText = conn?.responseMessage
+            status = conn?.responseCode
+            statusText = conn?.responseMessage
 
             val input = BufferedReader(
                 InputStreamReader(conn?.inputStream)
@@ -156,9 +156,9 @@ abstract class XMLHttpRequest {
 
             input.close()
 
-            this.responseText = response.toString()
+            responseText = response.toString()
 
-            this.methodCallback.trigger(this)
+            methodCallback.trigger(this)
         } catch (e: Exception) {
             getLoader().console.printStackTrace(e)
         }

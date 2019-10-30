@@ -32,10 +32,8 @@ import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
@@ -52,16 +50,10 @@ public class HyperiumRendererLivingEntity<T extends EntityLivingBase> {
                              float p_177093_7_, float p_177093_8_, List<LayerRenderer<T>> layerRenderers) {
         for (LayerRenderer<T> layerrenderer : layerRenderers) {
             boolean f = layerrenderer.shouldCombineTextures();
-            if (Settings.OLD_ARMOUR) {
-                f = true;
-            }
+            if (Settings.OLD_ARMOUR) f = true;
             boolean flag = ((IMixinRendererLivingEntity<T>) parent).callSetBrightness(entitylivingbaseIn, partialTicks, f);
-
             layerrenderer.doRenderLayer(entitylivingbaseIn, p_177093_2_, p_177093_3_, partialTicks, p_177093_5_, p_177093_6_, p_177093_7_, p_177093_8_);
-
-            if (flag) {
-                ((IMixinRendererLivingEntity) parent).callUnsetBrightness();
-            }
+            if (flag) ((IMixinRendererLivingEntity) parent).callUnsetBrightness();
         }
     }
 
@@ -71,10 +63,7 @@ public class HyperiumRendererLivingEntity<T extends EntityLivingBase> {
         if (bat.deathTime > 0) {
             float f = ((float) bat.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
             f = MathHelper.sqrt_float(f);
-
-            if (f > 1.0F) {
-                f = 1.0F;
-            }
+            if (f > 1.0F) f = 1.0F;
 
             GlStateManager.rotate(f * ((IMixinRendererLivingEntity<T>) parent).callGetDeathMaxRotation(bat), 0.0F, 0.0F, 1.0F);
         } else {
@@ -124,15 +113,10 @@ public class HyperiumRendererLivingEntity<T extends EntityLivingBase> {
                     GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                     GlStateManager.popMatrix();
                 } else {
-                    ((IMixinRender<T>) parent).callRenderOffsetLivingLabel(entity, x, y - (entity.isChild() ? (double) (entity.height / 2.0F) : 0.0D), z, s, 0.02666667F, d0);
+                    ((IMixinRender<T>) parent).callRenderOffsetLivingLabel(entity, x, y - (entity.isChild() ? (double)
+                        (entity.height / 2.0F) : 0.0D), z, s, 0.02666667F, d0);
                 }
             }
-        }
-    }
-
-    public void doRender(T entity, CallbackInfo ci) {
-        if (Settings.DISABLE_ARMORSTANDS && entity instanceof EntityArmorStand) {
-            ci.cancel();
         }
     }
 }

@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL11
 @External
 object Tessellator {
     private var tessellator = MCTessellator.getInstance()
-    private var worldRenderer = this.tessellator.getRenderer()
+    private var worldRenderer = tessellator.getRenderer()
 
     private var firstVertex = true
     private var began = false
@@ -158,14 +158,14 @@ object Tessellator {
     fun draw() {
         if (!began) return
 
-        this.worldRenderer.endVertex()
+        worldRenderer.endVertex()
 
-        if (!this.colorized)
+        if (!colorized)
             colorize(1f, 1f, 1f, 1f)
 
-        this.tessellator.draw()
-        this.began = false
-        this.colorized = false
+        tessellator.draw()
+        began = false
+        colorized = false
 
         GlStateManager.disableBlend()
 

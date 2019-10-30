@@ -66,9 +66,7 @@ public class FlossDanceHandler extends AbstractPreCopyAnglesAnimationHandler {
 
     @Override
     public void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent) {
-        if (shouldNotModify(entity, player)) {
-            return;
-        }
+        if (shouldNotModify(entity, player)) return;
 
         player.getBipedBody().rotateAngleZ = (float) Math.toRadians((right ? 10f : -10f) * heldPercent);
         player.getBipedBodywear().rotateAngleZ = (float) Math.toRadians((right ? 10f : -10f) * heldPercent);

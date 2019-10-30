@@ -87,8 +87,8 @@ public enum EnumParticleType {
     private String name;
     private IParticle particle;
 
-    EnumParticleType(String s, IParticle particle) {
-        this.name = s;
+    EnumParticleType(String name, IParticle particle) {
+        this.name = name;
         this.particle = particle;
     }
 

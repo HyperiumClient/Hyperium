@@ -1,6 +1,12 @@
 package me.semx11.autotip.core;
 
 import com.google.gson.JsonSyntaxException;
+import me.semx11.autotip.Autotip;
+import me.semx11.autotip.stats.StatsDaily;
+import me.semx11.autotip.stats.StatsRange;
+import me.semx11.autotip.util.FileUtil;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,11 +17,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
-import me.semx11.autotip.Autotip;
-import me.semx11.autotip.stats.StatsDaily;
-import me.semx11.autotip.stats.StatsRange;
-import me.semx11.autotip.util.FileUtil;
-import org.apache.commons.io.FileUtils;
 
 public class StatsManager {
 
@@ -28,9 +29,9 @@ public class StatsManager {
 
     public StatsManager(Autotip autotip) {
         this.autotip = autotip;
-        this.fileUtil = autotip.getFileUtil();
-        this.lastDate = LocalDate.now();
-        this.ticks = new AtomicInteger(-1);
+        fileUtil = autotip.getFileUtil();
+        lastDate = LocalDate.now();
+        ticks = new AtomicInteger(-1);
     }
 
     /**
@@ -40,7 +41,7 @@ public class StatsManager {
      * @return {@link StatsDaily} of today
      */
     public synchronized StatsDaily getToday() {
-        return this.getToday(false);
+        return getToday(false);
     }
 
     /**
@@ -52,14 +53,12 @@ public class StatsManager {
     private synchronized StatsDaily getToday(boolean readOnly) {
         LocalDate now = LocalDate.now();
         if (!lastDate.isEqual(now)) {
-            this.save(this.get(lastDate));
+            save(get(lastDate));
             lastDate = now;
         }
-        if (!readOnly) {
-            // Save after 7 seconds (20 ticks/sec) of no access
-            ticks.set(7 * 20);
-        }
-        return this.get(lastDate);
+        // Save after 7 seconds (20 ticks/sec) of no access
+        if (!readOnly) ticks.set(7 * 20);
+        return get(lastDate);
     }
 
     /**
@@ -70,7 +69,7 @@ public class StatsManager {
      * @see #get(LocalDate)
      */
     public StatsDaily get() {
-        return this.getToday(true);
+        return getToday(true);
     }
 
     /**
@@ -81,10 +80,8 @@ public class StatsManager {
      * @return {@link StatsDaily} for the specified date
      */
     public StatsDaily get(LocalDate date) {
-        if (cache.containsKey(date)) {
-            return cache.get(date);
-        }
-        StatsDaily stats = this.load(new StatsDaily(autotip, date));
+        if (cache.containsKey(date)) return cache.get(date);
+        StatsDaily stats = load(new StatsDaily(autotip, date));
         cache.put(date, stats);
         return stats;
     }
@@ -94,20 +91,16 @@ public class StatsManager {
      * #get(LocalDate)} to get all the {@link StatsDaily} that are contained within this range.
      *
      * @param start The starting {@link LocalDate}
-     * @param end The ending {@link LocalDate}
+     * @param end   The ending {@link LocalDate}
      * @return {@link StatsRange} for the specified date range
      */
     public StatsRange getRange(LocalDate start, LocalDate end) {
-        if (start.isBefore(fileUtil.getFirstDate())) {
-            start = fileUtil.getFirstDate();
-        }
-        if (end.isAfter(LocalDate.now())) {
-            end = LocalDate.now();
-        }
+        if (start.isBefore(fileUtil.getFirstDate())) start = fileUtil.getFirstDate();
+        if (end.isAfter(LocalDate.now())) end = LocalDate.now();
         StatsRange range = new StatsRange(autotip, start, end);
         Stream.iterate(start, date -> date.plusDays(1))
-                .limit(ChronoUnit.DAYS.between(start, end) + 1)
-                .forEach(date -> range.merge(this.get(date)));
+            .limit(ChronoUnit.DAYS.between(start, end) + 1)
+            .forEach(date -> range.merge(get(date)));
         return range;
     }
 
@@ -119,7 +112,7 @@ public class StatsManager {
      * @return {@link StatsRange} for the lifetime statistics from the current user directory
      */
     public StatsRange getAll() {
-        return this.getRange(fileUtil.getFirstDate(), LocalDate.now());
+        return getRange(fileUtil.getFirstDate(), LocalDate.now());
     }
 
     /**
@@ -158,7 +151,7 @@ public class StatsManager {
         } catch (IOException e) {
             Autotip.LOGGER.error("Could not read " + file.getName() + "!", e);
         }
-        this.save(stats);
+        save(stats);
         return stats;
     }
 
@@ -170,10 +163,10 @@ public class StatsManager {
             ticks.decrementAndGet();
             return;
         }
+
         if (ticks.get() == 0) {
-            this.save(this.get(lastDate));
+            save(get(lastDate));
             ticks.decrementAndGet();
         }
     }
-
 }

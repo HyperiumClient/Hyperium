@@ -24,10 +24,10 @@ class Item {
     /* Constructors */
     constructor(itemStack: ItemStack?) {
         if (itemStack == null) {
-            this.item = ItemBlock(Block(0).block)
+            item = ItemBlock(Block(0).block)
             this.itemStack = ItemStack(item)
         } else {
-            this.item = itemStack.item
+            item = itemStack.item
             this.itemStack = itemStack
         }
     }
@@ -48,8 +48,8 @@ class Item {
     }
 
     constructor(entityItem: EntityItem) {
-        this.item = entityItem.entityItem.item
-        this.itemStack = entityItem.entityItem
+        item = entityItem.entityItem.item
+        itemStack = entityItem.entityItem
     }
 
     /**
@@ -60,8 +60,8 @@ class Item {
      */
     constructor(entity: Entity) {
         if (entity.entity is EntityItem) {
-            this.item = entity.entity.entityItem.item
-            this.itemStack = entity.entity.entityItem
+            item = entity.entity.entityItem.item
+            itemStack = entity.entity.entityItem
         } else {
             throw IllegalArgumentException("Entity is not of type EntityItem")
         }
@@ -74,7 +74,7 @@ class Item {
         itemStack = ItemStack(item, stackSize)
     }
 
-    fun getStackSize(): Int = this.itemStack.stackSize
+    fun getStackSize(): Int = itemStack.stackSize
 
     /**
      * Gets the item's unlocalized name.<br>
@@ -118,7 +118,7 @@ class Item {
 
     fun canPlaceOn(block: Block): Boolean = itemStack.canPlaceOn(block.block)
 
-    fun canHarvest(block: Block): Boolean = this.itemStack.canHarvestBlock(block.block)
+    fun canHarvest(block: Block): Boolean = itemStack.canHarvestBlock(block.block)
 
     fun canDestroy(block: Block): Boolean = itemStack.canDestroy(block.block)
 

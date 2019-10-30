@@ -79,6 +79,7 @@ public class DefaultChromaHUDParser implements ChromaHUDParser {
             case "TIME":
                 return new TimeHud(item, ord);
         }
+
         return null;
     }
 

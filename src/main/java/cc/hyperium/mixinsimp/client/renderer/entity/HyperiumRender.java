@@ -20,7 +20,7 @@ package cc.hyperium.mixinsimp.client.renderer.entity;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.RenderNameTagEvent;
+import cc.hyperium.event.render.RenderNameTagEvent;
 import cc.hyperium.mixins.client.renderer.entity.IMixinRender;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.StaffUtils;

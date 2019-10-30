@@ -1,9 +1,8 @@
 package com.chattriggers.ctjs.minecraft.wrappers
 
 import cc.hyperium.event.InvokeEvent
-import cc.hyperium.event.MouseButtonEvent
-import cc.hyperium.event.RenderHUDEvent
-import com.chattriggers.ctjs.minecraft.wrappers.Client
+import cc.hyperium.event.interact.MouseButtonEvent
+import cc.hyperium.event.render.RenderHUDEvent
 import com.chattriggers.ctjs.utils.kotlin.KotlinListener
 import kotlin.math.roundToInt
 

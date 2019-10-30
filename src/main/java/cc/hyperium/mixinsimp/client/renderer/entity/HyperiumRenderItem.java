@@ -69,7 +69,7 @@ public class HyperiumRenderItem {
         ibakedmodel.getItemCameraTransforms()
             .applyTransform(ItemCameraTransforms.TransformType.GUI);
 
-        this.renderItem(stack, ibakedmodel, true); // Changed to true because this IS an inventory
+        renderItem(stack, ibakedmodel, true); // Changed to true because this IS an inventory
 
         GlStateManager.disableAlpha();
         GlStateManager.disableRescaleNormal();
@@ -100,10 +100,6 @@ public class HyperiumRenderItem {
 
                 TileEntityItemStackRenderer.instance.renderByItem(stack);
 
-                // BigHead implementation
-                if (isHead) {
-                    GlStateManager.scale(1.0 / headScale, 1.0 / headScale, 1.0 / headScale);
-                }
             } else {
                 // Used to detect if the item has a already had an effect rendered
                 boolean renderedAsPotion = false;
@@ -129,13 +125,12 @@ public class HyperiumRenderItem {
 
                 // Prevent double-rendering of the items effects
                 if (!renderedAsPotion && stack.hasEffect()) {
-                    this.renderEffect(model); // Render the item with the normal effects
+                    renderEffect(model); // Render the item with the normal effects
                 }
+            }
 
-                // BigHead implementation
-                if (isHead) {
-                    GlStateManager.scale(1.0 / headScale, 1.0 / headScale, 1.0 / headScale);
-                }
+            if (isHead) {
+                GlStateManager.scale(1.0 / headScale, 1.0 / headScale, 1.0 / headScale);
             }
 
             GlStateManager.popMatrix();
@@ -221,8 +216,9 @@ public class HyperiumRenderItem {
 
             Integer cached = colorCache.getIfPresent(potionId);
 
-            if (cached != null) return cached;
-            else {
+            if (cached != null) {
+                return cached;
+            } else {
                 int color = Items.potionitem.getColorFromItemStack(item, 0) | 0xFF000000;
                 colorCache.put(potionId, color);
                 return color;

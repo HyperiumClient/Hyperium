@@ -55,6 +55,7 @@ public class GuiDances extends HyperiumGui {
             AbstractAnimationHandler abstractAnimationHandler = handlers.getFlossDanceHandler();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).ensureAnimationFor(seconds);
             NettyClient client = NettyClient.getClient();
+
             if (client != null && netty) {
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", true)));
                 Multithreading.runAsync(() -> {
@@ -68,6 +69,7 @@ public class GuiDances extends HyperiumGui {
                 });
             }
         });
+
         this.handlers.put("Yeet", netty -> {
             handlers.getYeetHandler().yeet(Minecraft.getMinecraft().thePlayer.getUniqueID());
             NettyClient client = NettyClient.getClient();
@@ -75,13 +77,15 @@ public class GuiDances extends HyperiumGui {
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "yeet").put("yeeting", true)));
             }
         });
-        this.cancel.put("Yeet", () -> {
 
+        cancel.put("Yeet", () -> {
         });
-        this.cancel.put("Floss", () -> {
+
+        cancel.put("Floss", () -> {
             AbstractAnimationHandler abstractAnimationHandler = handlers.getFlossDanceHandler();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
         });
+
         this.handlers.put("Dab", (netty) -> {
             AbstractAnimationHandler abstractAnimationHandler = handlers.getDabHandler();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).ensureAnimationFor(seconds);
@@ -99,10 +103,12 @@ public class GuiDances extends HyperiumGui {
                 });
             }
         });
-        this.cancel.put("Dab", () -> {
+
+        cancel.put("Dab", () -> {
             AbstractAnimationHandler abstractAnimationHandler = handlers.getDabHandler();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
         });
+
         this.handlers.put("Twerk", (netty) -> {
             AbstractAnimationHandler abstractAnimationHandler = handlers.getTwerkDance();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).ensureAnimationFor(60);
@@ -111,7 +117,8 @@ public class GuiDances extends HyperiumGui {
             if (client != null && netty)
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "twerk_dance")));
         });
-        this.cancel.put("Twerk", () -> {
+
+        cancel.put("Twerk", () -> {
             AbstractAnimationHandler abstractAnimationHandler = handlers.getTwerkDance();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
         });
@@ -133,7 +140,8 @@ public class GuiDances extends HyperiumGui {
                 });
             }
         });
-        this.cancel.put("T-Pose", () -> {
+
+        cancel.put("T-Pose", () -> {
             AbstractAnimationHandler abstractAnimationHandler = handlers.getTPoseHandler();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
         });
@@ -153,6 +161,7 @@ public class GuiDances extends HyperiumGui {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
                     if (client != null && netty) {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", 0)));
                     }
@@ -162,7 +171,8 @@ public class GuiDances extends HyperiumGui {
                 });
                 handlers.getFlipHandler().resetTick();
             });
-            this.cancel.put("Flip", () -> handlers.getFlipHandler().state(UUIDUtil.getClientUUID(), 0));
+
+            cancel.put("Flip", () -> handlers.getFlipHandler().state(UUIDUtil.getClientUUID(), 0));
         }
     }
 
@@ -178,7 +188,6 @@ public class GuiDances extends HyperiumGui {
             mc.displayGuiScreen(null);
             handlers.get(foc).accept(true);
         }
-
     }
 
     @Override
@@ -187,8 +196,8 @@ public class GuiDances extends HyperiumGui {
         foc = null;
         int count = handlers.size();
         ScaledResolution current = ResolutionUtil.current();
-        drawScaledText("Hyperium Dances", current.getScaledWidth() / 2, 15, 2, Color.WHITE.getRGB(), true, true);
-        float radius = current.getScaledHeight() * 2 / 5;
+        drawScaledText("Hyperium Dances", current.getScaledWidth() / 2, 15, 2, -1, true, true);
+        float radius = current.getScaledHeight() * 2F / 5F;
         int centerY = current.getScaledHeight() / 2;
         int centerX = current.getScaledWidth() / 2;
         float i = 0;
@@ -213,8 +222,8 @@ public class GuiDances extends HyperiumGui {
 
             if (sqrt <= radius) {
                 double mouseTheta = MathHelper.atan2(mouseDeltaX, mouseDeltaY);
-                if (mouseTheta < 0)
-                    mouseTheta += Math.PI * 2;
+                if (mouseTheta < 0) mouseTheta += Math.PI * 2;
+
                 if (mouseTheta > startTheta && mouseTheta < endTheta) {
                     foc = s;
                     hovered = true;
@@ -231,6 +240,7 @@ public class GuiDances extends HyperiumGui {
                 float y = centerY + radius * MathHelper.cos(startTheta + (diff * j / 50F));
                 GL11.glVertex2f(x, y);
             }
+
             GL11.glEnd();
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glDisable(GL11.GL_BLEND);
@@ -241,11 +251,12 @@ public class GuiDances extends HyperiumGui {
             int textCenterX = (int) (centerX + radius * MathHelper.sin(middle) / 3 * 2);
             int textCenterY = (int) (centerY + radius * MathHelper.cos(middle) / 3 * 2);
             textCenterY -= strings.size() * 15;
+
             for (String string : strings) {
                 textCenterY += 15;
                 drawScaledText(string, textCenterX, textCenterY, 1.5F, hovered ? Color.YELLOW.getRGB() : Color.GRAY.getRGB(), true, true);
-
             }
+
             GL11.glPopMatrix();
             i++;
         }
@@ -258,6 +269,7 @@ public class GuiDances extends HyperiumGui {
             cancel.get(lastFoc).run();
             handlers.get(foc).accept(false);
         }
+
         GlStateManager.pushMatrix();
         GlStateManager.color(1, 1, 1);
 

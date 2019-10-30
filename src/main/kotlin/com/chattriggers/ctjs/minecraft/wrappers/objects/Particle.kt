@@ -5,15 +5,15 @@ import com.chattriggers.ctjs.utils.kotlin.MCParticle
 
 class Particle(val underlyingEntity: MCParticle) {
     fun scale(scale: Float) {
-        this.underlyingEntity.multipleParticleScaleBy(scale)
+        underlyingEntity.multipleParticleScaleBy(scale)
     }
 
     fun multiplyVelocity(multiplier: Float) {
-        this.underlyingEntity.multiplyVelocity(multiplier)
+        underlyingEntity.multiplyVelocity(multiplier)
     }
 
     fun setColor(r: Float, g: Float, b: Float) {
-        this.underlyingEntity.setRBGColorF(r, g, b)
+        underlyingEntity.setRBGColorF(r, g, b)
     }
 
     fun setColor(r: Float, g: Float, b: Float, a: Float) {
@@ -31,7 +31,7 @@ class Particle(val underlyingEntity: MCParticle) {
     }
 
     fun setAlpha(a: Float) {
-        this.underlyingEntity.setAlphaF(a)
+        underlyingEntity.setAlphaF(a)
     }
 
     /**
@@ -40,10 +40,10 @@ class Particle(val underlyingEntity: MCParticle) {
      * @param maxAge the particles max age (in ticks)
      */
     fun setMaxAge(maxAge: Int) {
-        (this.underlyingEntity as IMixinEntityFX).setParticleMaxAge(maxAge)
+        (underlyingEntity as IMixinEntityFX).setParticleMaxAge(maxAge)
     }
 
     fun remove() {
-        this.underlyingEntity.setDead()
+        underlyingEntity.setDead()
     }
 }

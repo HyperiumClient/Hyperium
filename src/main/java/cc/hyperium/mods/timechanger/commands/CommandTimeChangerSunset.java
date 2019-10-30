@@ -28,7 +28,7 @@ public class CommandTimeChangerSunset implements BaseCommand {
     private final TimeChanger mod;
 
     public CommandTimeChangerSunset(TimeChanger main) {
-        this.mod = main;
+        mod = main;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CommandTimeChangerSunset implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        this.mod.setTimeType(TimeType.SUNSET);
+        mod.setTimeType(TimeType.SUNSET);
         GeneralChatHandler.instance().sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to sunset.", false);
     }
 }

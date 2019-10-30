@@ -41,39 +41,39 @@ public class TypeEasy extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        Matcher chatMatcher = this.chatPattern.matcher(message);
+        Matcher chatMatcher = chatPattern.matcher(message);
         if (chatMatcher.matches() && containsEasyMessage(chatMatcher.group("message"))) {
             return true;
         }
 
-        Matcher guildMatcher = this.guildPattern.matcher(message);
+        Matcher guildMatcher = guildPattern.matcher(message);
         if (guildMatcher.matches() && containsEasyMessage(guildMatcher.group("message"))) {
             return true;
         }
 
-        Matcher partyMatcher = this.partyPattern.matcher(message);
+        Matcher partyMatcher = partyPattern.matcher(message);
         if (partyMatcher.matches() && containsEasyMessage(partyMatcher.group("message"))) {
             return true;
         }
 
-        Matcher shoutMatcher = this.shoutPattern.matcher(message);
+        Matcher shoutMatcher = shoutPattern.matcher(message);
         if (shoutMatcher.matches() && containsEasyMessage(shoutMatcher.group("message"))) {
             return true;
         }
 
-        Matcher shortGuildMatcher = this.shortGuildPattern.matcher(message);
+        Matcher shortGuildMatcher = shortGuildPattern.matcher(message);
         if (shortGuildMatcher.matches() && containsEasyMessage(shortGuildMatcher.group("message"))) {
             return true;
         }
 
-        Matcher shortPartyMatcher = this.shortPartyPattern.matcher(message);
+        Matcher shortPartyMatcher = shortPartyPattern.matcher(message);
         return shortPartyMatcher.matches() && containsEasyMessage(shortPartyMatcher.group("message"));
 
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

@@ -17,8 +17,13 @@
 
 package cc.hyperium.cosmetics;
 
+import cc.hyperium.cosmetics.butt.ButtCosmetic;
 import cc.hyperium.cosmetics.companions.dragon.DragonCompanion;
 import cc.hyperium.cosmetics.companions.hamster.HamsterCompanion;
+import cc.hyperium.cosmetics.deadmau5.Deadmau5Cosmetic;
+import cc.hyperium.cosmetics.dragon.DragonCosmetic;
+import cc.hyperium.cosmetics.flip.FlipCosmetic;
+import cc.hyperium.cosmetics.hats.CosmeticHat;
 import cc.hyperium.cosmetics.hats.ModelHatFez;
 import cc.hyperium.cosmetics.hats.ModelHatLego;
 import cc.hyperium.cosmetics.hats.ModelHatTophat;
@@ -114,19 +119,19 @@ public class HyperiumCosmetics {
         switch (givenType) {
 
             case BUTT:
-                return this.buttCosmetic;
+                return buttCosmetic;
             case FLIP:
-                return this.flipCosmetic;
+                return flipCosmetic;
             case DEADMAU5:
-                return this.deadmau5Cosmetic;
+                return deadmau5Cosmetic;
             case WINGS:
-                return this.wingsCosmetic;
+                return wingsCosmetic;
             case DRAGON:
-                return this.dragonCosmetic;
+                return dragonCosmetic;
             case HAT_TOPHAT:
-                return this.topHatCosmetic;
+                return topHatCosmetic;
             case HAT_FEZ:
-                return this.fezCosmetic;
+                return fezCosmetic;
             default:
                 return null;
 
@@ -135,22 +140,22 @@ public class HyperiumCosmetics {
     }
 
     public ButtCosmetic getButtCosmetic() {
-        return this.buttCosmetic;
+        return buttCosmetic;
     }
 
     public DragonCosmetic getDragonCosmetic() {
-        return this.dragonCosmetic;
+        return dragonCosmetic;
     }
 
     public FlipCosmetic getFlipCosmetic() {
-        return this.flipCosmetic;
+        return flipCosmetic;
     }
 
     public Deadmau5Cosmetic getDeadmau5Cosmetic() {
-        return this.deadmau5Cosmetic;
+        return deadmau5Cosmetic;
     }
 
     public WingsCosmetic getWingsCosmetic() {
-        return this.wingsCosmetic;
+        return wingsCosmetic;
     }
 }

@@ -38,19 +38,16 @@ public class ReflectionUtil {
                 err = e;
             }
         }
+
         throw new UnableToFindClassException(classNames, err);
     }
 
     public static Constructor<?> getConstructor(Class<?> clazz, Class<?>... params) {
-        if (!loadedConstructors.containsKey(clazz)) {
-            loadedConstructors.put(clazz, new HashMap<>());
-        }
+        if (!loadedConstructors.containsKey(clazz)) loadedConstructors.put(clazz, new HashMap<>());
 
         Map<Class<?>[], Constructor<?>> clazzConstructors = loadedConstructors.get(clazz);
 
-        if (clazzConstructors.containsKey(params)) {
-            clazzConstructors.get(params);
-        }
+        if (clazzConstructors.containsKey(params)) clazzConstructors.get(params);
 
         Constructor<?> constructor;
         try {
@@ -66,9 +63,7 @@ public class ReflectionUtil {
     }
 
     public static Method findMethod(Class<?> clazz, String[] methodNames, Class<?>... params) {
-        if (!loadedMethods.containsKey(clazz)) {
-            loadedMethods.put(clazz, new HashMap<>());
-        }
+        if (!loadedMethods.containsKey(clazz)) loadedMethods.put(clazz, new HashMap<>());
 
         Map<String, Method> clazzMethods = loadedMethods.get(clazz);
 
@@ -81,7 +76,6 @@ public class ReflectionUtil {
             try {
                 Method method = clazz.getMethod(methodName, params);
                 method.setAccessible(true);
-
                 clazzMethods.put(methodName, method);
                 loadedMethods.put(clazz, clazzMethods);
                 return method;
@@ -89,13 +83,12 @@ public class ReflectionUtil {
                 err = e;
             }
         }
+
         throw new UnableToFindMethodException(methodNames, err);
     }
 
     public static Field findField(Class<?> clazz, String... fieldNames) {
-        if (!loadedFields.containsKey(clazz)) {
-            loadedFields.put(clazz, new HashMap<>());
-        }
+        if (!loadedFields.containsKey(clazz)) loadedFields.put(clazz, new HashMap<>());
 
         Map<String, Field> clazzFields = loadedFields.get(clazz);
 
@@ -108,7 +101,6 @@ public class ReflectionUtil {
             try {
                 Field field = clazz.getDeclaredField(fieldName);
                 field.setAccessible(true);
-
                 clazzFields.put(fieldName, field);
                 loadedFields.put(clazz, clazzFields);
                 return field;
@@ -118,23 +110,15 @@ public class ReflectionUtil {
                 throw new UnableToAccessFieldException(fieldNames, e);
             }
         }
+
         throw new UnableToFindFieldException(fieldNames, err);
     }
 
     public static Enum<?> getEnum(Class<?> clazz, String enumName) {
-        if (!loadedEnums.containsKey(clazz)) {
-            loadedEnums.put(clazz, new HashMap<>());
-        }
-
+        if (!loadedEnums.containsKey(clazz)) loadedEnums.put(clazz, new HashMap<>());
         Map<String, Enum<?>> clazzEnums = loadedEnums.get(clazz);
-
-        if (clazzEnums.containsKey(enumName.toUpperCase())) {
-            return clazzEnums.get(enumName.toUpperCase());
-        }
-
-        if (clazz.getEnumConstants().length == 0) {
-            throw new UnableToFindEnumException(enumName);
-        }
+        if (clazzEnums.containsKey(enumName.toUpperCase())) return clazzEnums.get(enumName.toUpperCase());
+        assert clazz.getEnumConstants().length != 0 : enumName;
 
         Enum<?> theEnum = null;
         for (Object o : clazz.getEnumConstants()) {
@@ -145,10 +129,8 @@ public class ReflectionUtil {
                 break;
             }
         }
-        if (theEnum == null) {
-            throw new UnableToFindEnumException(enumName);
-        }
 
+        assert theEnum != null : enumName;
         loadedEnums.put(clazz, clazzEnums);
         return theEnum;
     }

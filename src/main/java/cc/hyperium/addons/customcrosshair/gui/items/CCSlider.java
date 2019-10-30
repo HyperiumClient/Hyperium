@@ -45,53 +45,53 @@ public class CCSlider extends CCGuiItem {
 
     public CCSlider(final GuiScreen screen, final int id, final String displayText, final int posX, final int posY, final int width, final int height, final int minValue, final int maxValue) {
         super(screen, id, displayText, posX, posY, width, height);
-        this.setMinMaxValue(minValue, maxValue);
-        this.boxWidth = 15;
-        this.boxPosition = 1;
-        this.offset = 0;
-        this.mouseDown = false;
-        this.value = 0;
-        this.boxColour = CustomCrosshairAddon.PRIMARY_T;
+        setMinMaxValue(minValue, maxValue);
+        boxWidth = 15;
+        boxPosition = 1;
+        offset = 0;
+        mouseDown = false;
+        value = 0;
+        boxColour = CustomCrosshairAddon.PRIMARY_T;
     }
 
     @Override
     public void mouseClicked(final int mouseX, final int mouseY) {
-        if (this.isMouseOverBox(mouseX, mouseY)) {
-            this.mouseDown = true;
-            this.offset = mouseX - (this.getPosX() + this.boxPosition);
+        if (isMouseOverBox(mouseX, mouseY)) {
+            mouseDown = true;
+            offset = mouseX - (getPosX() + boxPosition);
         }
     }
 
     @Override
     public void mouseReleased(final int mouseX, final int mouseY) {
-        this.mouseDown = false;
-        this.setValue(this.value);
+        mouseDown = false;
+        setValue(value);
     }
 
     @Override
     public void drawItem(final int mouseX, final int mouseY) {
         CustomCrosshairGraphics
-            .drawThemeBorderedRectangle(this.getPosX(), this.getPosY(), this.getPosX() + this.getWidth(), this.getPosY() + this.getHeight());
+            .drawThemeBorderedRectangle(getPosX(), getPosY(), getPosX() + getWidth(), getPosY() + getHeight());
         Color borderColour = new Color(255, 255, 255, 255);
-        if (this.isMouseOverBox(mouseX, mouseY) || this.mouseDown) {
+        if (isMouseOverBox(mouseX, mouseY) || mouseDown) {
             borderColour = new Color(255, 180, 0, 255);
         }
-        double x = this.getPosX() + this.boxPosition;
+        double x = getPosX() + boxPosition;
 
-        if (this.mouseDown) {
-            x = mouseX - this.offset;
-            if (x < this.getPosX() + 1) {
-                x = this.getPosX() + 1;
+        if (mouseDown) {
+            x = mouseX - offset;
+            if (x < getPosX() + 1) {
+                x = getPosX() + 1;
             }
-            if (x > this.getPosX() + this.getWidth() - this.boxWidth - 1) {
-                x = this.getPosX() + this.getWidth() - this.boxWidth - 1;
+            if (x > getPosX() + getWidth() - boxWidth - 1) {
+                x = getPosX() + getWidth() - boxWidth - 1;
             }
-            this.setCurrentPosition(x - this.getPosX());
+            setCurrentPosition(x - getPosX());
         }
         CustomCrosshairGraphics
-            .drawBorderedRectangle((int) x, this.getPosY() + 1, (int) x + this.boxWidth, this.getPosY() + this.getHeight() - 1, this.boxColour, borderColour);
+            .drawBorderedRectangle((int) x, getPosY() + 1, (int) x + boxWidth, getPosY() + getHeight() - 1, boxColour, borderColour);
         CustomCrosshairGraphics
-            .drawString(this.getDisplayText() + ": " + this.getValue(), this.getPosX() + this.getWidth() + 3, this.getPosY() + this.getHeight() / 2 - 3, 16777215);
+            .drawString(getDisplayText() + ": " + getValue(), getPosX() + getWidth() + 3, getPosY() + getHeight() / 2 - 3, 16777215);
     }
 
     public CCSlider setCallback(Runnable callback) {
@@ -101,49 +101,49 @@ public class CCSlider extends CCGuiItem {
     }
 
     private boolean isMouseOverBox(final int mouseX, final int mouseY) {
-        return mouseX >= this.getPosX() + this.boxPosition && mouseX <= this.getPosX() + this.boxPosition + this.boxWidth && mouseY >= this.getPosY() + 1 && mouseY <= this.getPosY() + this.getHeight() - 1;
+        return mouseX >= getPosX() + boxPosition && mouseX <= getPosX() + boxPosition + boxWidth && mouseY >= getPosY() + 1 && mouseY <= getPosY() + getHeight() - 1;
     }
 
     private void setCurrentPosition(final double x) {
-        this.boxPosition = x;
-        this.value = this.getMinValue() + (this.boxPosition - 1) / (this.getWidth() - this.boxWidth - 2) * (this.maxValue - this.minValue);
+        boxPosition = x;
+        value = getMinValue() + (boxPosition - 1) / (getWidth() - boxWidth - 2) * (maxValue - minValue);
 
-        if (this.callback != null) {
-            this.callback.run();
+        if (callback != null) {
+            callback.run();
         }
     }
 
     public void setValue(final double newValue) {
-        this.value = newValue;
-        this.boxPosition = (this.getWidth() - this.boxWidth - 2) * (this.getValue() - this.minValue) / (this.maxValue - this.minValue) + 1;
+        value = newValue;
+        boxPosition = (getWidth() - boxWidth - 2) * (getValue() - minValue) / (maxValue - minValue) + 1;
 
-        if (this.callback != null) {
-            this.callback.run();
+        if (callback != null) {
+            callback.run();
         }
     }
 
     public void setMinMaxValue(final double min, final double max) {
-        this.minValue = min;
-        this.maxValue = max;
+        minValue = min;
+        maxValue = max;
     }
 
     public int getMinValue() {
-        return (int) this.minValue;
+        return (int) minValue;
     }
 
     public int getMaxValue() {
-        return (int) this.maxValue;
+        return (int) maxValue;
     }
 
     public int getValue() {
-        return (int) this.value;
+        return (int) value;
     }
 
     public Color getBoxColour() {
-        return this.boxColour;
+        return boxColour;
     }
 
     public void setBoxColour(final Color colour) {
-        this.boxColour = colour;
+        boxColour = colour;
     }
 }

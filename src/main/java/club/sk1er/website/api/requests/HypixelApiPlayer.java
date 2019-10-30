@@ -41,15 +41,17 @@ public class HypixelApiPlayer implements HypixelApiObject {
     private final JsonHolder player;
 
     public HypixelApiPlayer(JsonHolder holder) {
-        this.player = holder;
+        player = holder;
     }
 
     public double getsafTotalXP() {
         return ILeveling.getTotalExpToLevel(getRoot().optInt("oldLevel") + 1) + getRoot().optInt(ILeveling.EXP_FIELD);
     }
+
     public JsonHolder getQuests() {
         return getRoot().optJSONObject("quests");
     }
+
     public int getKarma() {
         return getRoot().optInt("karma");
     }
@@ -191,15 +193,17 @@ public class HypixelApiPlayer implements HypixelApiObject {
     public String getRankForMod() {
         if (isStaff() || isYouTuber()) {
             String string = getRoot().optString("rank");
-            if (!string.equalsIgnoreCase("normal"))
+            if (!string.equalsIgnoreCase("normal")) {
                 return string;
-        } else if (getRoot().has("newPackageRank"))
+            }
+        } else if (getRoot().has("newPackageRank")) {
             return getRoot().optString("newPackageRank");
-        else if (getRoot().has("packageRank"))
+        } else if (getRoot().has("packageRank")) {
             return getRoot().optString("packageRank");
+        }
+
         return "NONE";
     }
-
 
 
     public String getDisplayString() {

@@ -70,6 +70,7 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
             case "REACH_DISPLAY":
                 return new ReachDisplay(item, ord);
         }
+
         return null;
     }
 

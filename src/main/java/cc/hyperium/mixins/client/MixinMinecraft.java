@@ -21,8 +21,8 @@ import cc.hyperium.Metadata;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.RenderTickEvent;
-import cc.hyperium.event.WorldLoadEvent;
+import cc.hyperium.event.render.RenderTickEvent;
+import cc.hyperium.event.world.WorldLoadEvent;
 import cc.hyperium.mixinsimp.client.HyperiumMinecraft;
 import com.chattriggers.ctjs.minecraft.objects.message.TextComponent;
 import net.minecraft.client.Minecraft;
@@ -142,7 +142,7 @@ public abstract class MixinMinecraft {
         cancellable = true
     )
     private void dispatchKeypresses(CallbackInfo ci) {
-        IChatComponent chatComponent = ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc);
+        IChatComponent chatComponent = ScreenShotHelper.saveScreenshot(mcDataDir, displayWidth, displayHeight, framebufferMc);
         new TextComponent(chatComponent).chat();
         ci.cancel();
     }
@@ -252,11 +252,7 @@ public abstract class MixinMinecraft {
     @Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V", at = @At(value = "INVOKE", target = "Ljava/lang/System;gc()V"), cancellable = true)
     private void fixGarbageCollection(WorldClient worldClientIn, String loadingMessage, CallbackInfo info) {
         new WorldLoadEvent().post();
-
-        if (!Settings.FAST_WORLD_LOADING) {
-            return;
-        }
-
+        if (!Settings.FAST_WORLD_LOADING) return;
         systemTime = 0;
         info.cancel();
     }

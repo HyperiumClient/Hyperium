@@ -23,6 +23,7 @@ import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSettings;
 import cc.hyperium.commands.BaseCommand;
 
 public class CommandSidebar implements BaseCommand {
+
     private SidebarAddon addon;
 
     public CommandSidebar(SidebarAddon addon) {
@@ -41,7 +42,6 @@ public class CommandSidebar implements BaseCommand {
 
     @Override
     public void onExecute(String[] strings) {
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiScreenSettings(this.addon));
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiScreenSettings(addon));
     }
-
 }

@@ -15,12 +15,12 @@ class Module(val name: String, val metadata: ModuleMetadata, val folder: File) {
     }
 
     fun getFilesWithExtension(type: String): List<File> {
-        return this.folder.walkTopDown().filter {
+        return folder.walkTopDown().filter {
             it.name.endsWith(type)
         }.filter {
-            if (this.metadata.ignored == null) return@filter true
+            if (metadata.ignored == null) return@filter true
 
-            for (ignore: String in this.metadata.ignored) {
+            for (ignore: String in metadata.ignored) {
                 if (ignore in it.name) return@filter false
             }
 

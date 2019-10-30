@@ -28,18 +28,15 @@ public class ToggleSprintStatus extends DisplayItem {
 
     public ToggleSprintStatus(JsonHolder data, int ordinal) {
         super(data, ordinal);
-        this.sprintEnabledText = data.optString("sprintEnabledText");
-        if (StringUtils.isNullOrEmpty(sprintEnabledText)) {
-            sprintEnabledText = "ToggleSprint Enabled";
-        }
-
-        this.height = 10;
+        sprintEnabledText = data.optString("sprintEnabledText");
+        if (StringUtils.isNullOrEmpty(sprintEnabledText)) sprintEnabledText = "ToggleSprint Enabled";
+        height = 10;
     }
 
     @Override
     public void draw(int x, double y, boolean config) {
         if (ToggleSprintContainer.toggleSprintActive) {
-            this.width = ElementRenderer.getFontRenderer().getStringWidth(sprintEnabledText);
+            width = ElementRenderer.getFontRenderer().getStringWidth(sprintEnabledText);
             ElementRenderer.draw(x, y, sprintEnabledText);
         }
     }
@@ -49,7 +46,7 @@ public class ToggleSprintStatus extends DisplayItem {
     }
 
     public void setSprintEnabledText(String text) {
-        this.sprintEnabledText = text;
+        sprintEnabledText = text;
         data.put("sprintEnabledText", text);
     }
 }

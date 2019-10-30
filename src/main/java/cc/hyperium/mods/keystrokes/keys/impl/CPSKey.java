@@ -19,7 +19,7 @@ package cc.hyperium.mods.keystrokes.keys.impl;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.render.RenderEvent;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.keys.AbstractKey;
 import net.minecraft.client.gui.Gui;
@@ -47,54 +47,39 @@ public class CPSKey extends AbstractKey {
     public void renderKey(int x, int y) {
         int yOffset = this.yOffset;
 
-        if (!this.mod.getSettings().isShowingMouseButtons()) {
-            yOffset -= 24;
-        }
-
-        if (!this.mod.getSettings().isShowingSpacebar()) {
-            yOffset -= 18;
-        }
-
-        if (!this.mod.getSettings().isShowingSneak()) {
-            yOffset -= 18;
-        }
-
-        if (!mod.getSettings().isShowingWASD()) {
-            yOffset -= 48;
-        }
+        if (!mod.getSettings().isShowingMouseButtons()) yOffset -= 24;
+        if (!mod.getSettings().isShowingSpacebar()) yOffset -= 18;
+        if (!mod.getSettings().isShowingSneak()) yOffset -= 18;
+        if (!mod.getSettings().isShowingWASD()) yOffset -= 48;
 
         Mouse.poll();
 
         int textColor = getColor();
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
-            Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16,
+            Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 70, y + yOffset + 16,
                 new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
                     mod.getSettings().getKeyBackgroundOpacity()).getRGB());
         }
 
-        String name = (this.mod.getSettings().isLeftClick() ? this.getLeftCPS() : this.getRightCPS()) + " CPS";
-        if (this.mod.getSettings().isChroma()) {
-            drawChromaString(name, ((x + (this.xOffset + 70) / 2) - this.mc.fontRendererObj.getStringWidth(name) / 2), y + (yOffset + 4), 1.0F);
+        String name = (mod.getSettings().isLeftClick() ? getLeftCPS() : getRightCPS()) + " CPS";
+        if (mod.getSettings().isChroma()) {
+            drawChromaString(name, ((x + (xOffset + 70) / 2) - mc.fontRendererObj.getStringWidth(name) / 2), y + (yOffset + 4), 1.0F);
         } else {
-            this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + (yOffset + 4), textColor);
+            drawCenteredString(name, x + (xOffset + 70) / 2, y + (yOffset + 4), textColor);
         }
     }
 
     int getLeftCPS() {
         long time = System.currentTimeMillis();
-
-        this.leftClicks.removeIf(o -> o + 1000L < time);
-
-        return this.leftClicks.size();
+        leftClicks.removeIf(o -> o + 1000L < time);
+        return leftClicks.size();
     }
 
     int getRightCPS() {
         long time = System.currentTimeMillis();
-
-        this.rightClicks.removeIf(o -> o + 1000L < time);
-
-        return this.rightClicks.size();
+        rightClicks.removeIf(o -> o + 1000L < time);
+        return rightClicks.size();
     }
 
     @InvokeEvent
@@ -102,15 +87,11 @@ public class CPSKey extends AbstractKey {
         Mouse.poll();
 
         boolean downNow = Mouse.isButtonDown(mod.getRenderer().getMouseButtons()[0].getButton());
-        if (downNow != leftWasDown && downNow) {
-            leftClicks.add(System.currentTimeMillis());
-        }
+        if (downNow != leftWasDown && downNow) leftClicks.add(System.currentTimeMillis());
 
         leftWasDown = downNow;
         downNow = Mouse.isButtonDown(mod.getRenderer().getMouseButtons()[1].getButton());
-        if (downNow != rightWasDown && downNow) {
-            rightClicks.add(System.currentTimeMillis());
-        }
+        if (downNow != rightWasDown && downNow) rightClicks.add(System.currentTimeMillis());
 
         rightWasDown = downNow;
     }

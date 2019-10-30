@@ -38,12 +38,12 @@ public class TypeSpectator extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        return this.spectatorPattern.matcher(message).matches();
+        return spectatorPattern.matcher(message).matches();
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

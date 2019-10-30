@@ -100,38 +100,34 @@ public class ShopTab extends AbstractTab {
         infoTab
             .addChild(new ButtonComponent(this, new ArrayList<>(), "Refresh", this::refreshData));
 
-        CollapsibleTabComponent purchaseTab = new CollapsibleTabComponent(this,
-            Arrays.asList("Purchase", "Shop"), "Purchase");
-        for (String key : cosmeticCallback.getKeys()) {
+        CollapsibleTabComponent purchaseTab = new CollapsibleTabComponent(this, Arrays.asList("Purchase", "Shop"), "Purchase");
+
+        cosmeticCallback.getKeys().forEach(key -> {
             JsonHolder cosmetic = cosmeticCallback.optJSONObject(key);
             if (cosmetic.optBoolean("cape") || key.toLowerCase().startsWith("particle") || cosmetic
                 .optString("name").toLowerCase().endsWith("animation")) {
-                continue;
+                return;
             }
-            CollapsibleTabComponent purchase = new CollapsibleTabComponent(this, new ArrayList<>(),
-                cosmetic.optString("name"));
-            purchase.addChild(new LabelComponent(this, new ArrayList<>(),
-                cosmetic.optString("name") + " (" + cosmetic.optInt("cost") + " credits)"));
-            purchase.addChild(
-                new LabelComponent(this, new ArrayList<>(), cosmetic.optString("description")));
+
+            CollapsibleTabComponent purchase = new CollapsibleTabComponent(this, new ArrayList<>(), cosmetic.optString("name"));
+            purchase.addChild(new LabelComponent(this, new ArrayList<>(), cosmetic.optString("name") + " (" + cosmetic.optInt("cost") + " credits)"));
+            purchase.addChild(new LabelComponent(this, new ArrayList<>(), cosmetic.optString("description")));
             purchase.addChild(new ButtonComponent(this, new ArrayList<>(),
                 cosmetic.optBoolean("purchased") ? "PURCHASED" : "PURCHASE", () -> {
                 if (cosmetic.optBoolean("purchased")) {
-                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(
-                        "You have already purchased " + cosmetic.optString("name") + ".");
+                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("You have already purchased " + cosmetic.optString("name") + ".");
                     return;
                 }
 
                 System.out.println("Attempting to purchase " + key);
                 NettyClient client = NettyClient.getClient();
                 if (client != null) {
-                    client.write(ServerCrossDataPacket
-                        .build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true)
-                            .put("value", key)));
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", key)));
                 }
             }));
+
             purchaseTab.addChild(purchase);
-        }
+        });
 
         components.addAll(Arrays.asList(
             infoTab,

@@ -54,9 +54,7 @@ public abstract class MixinTextureManager {
         boolean loaded = true;
 
         ITextureObject textureCopy = textures.get(textureLocation.toString());
-        if (textureCopy != null) {
-            textureObject = textureCopy;
-        }
+        if (textureCopy != null) textureObject = textureCopy;
 
         try {
             textureObject.loadTexture(Minecraft.getMinecraft().getResourceManager());
@@ -75,7 +73,6 @@ public abstract class MixinTextureManager {
         }
 
         mapTextureObjects.put(textureLocation, textureObject);
-
         return loaded;
     }
 

@@ -36,12 +36,12 @@ public class TypeParty extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        return this.partyPattern.matcher(message).matches() || this.shortPartyPattern.matcher(message).matches();
+        return partyPattern.matcher(message).matches() || shortPartyPattern.matcher(message).matches();
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

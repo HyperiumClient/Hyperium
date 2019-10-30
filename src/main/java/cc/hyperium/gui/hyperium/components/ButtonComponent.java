@@ -43,14 +43,11 @@ public class ButtonComponent extends AbstractTabComponent {
     @Override
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         HyperiumFontRenderer font = tab.gui.getFont();
-
         lines.clear();
-
         lines = font.splitString(label, (width + 25) / 2); //16 for icon, 3 for render offset and then some more
 
         GlStateManager.pushMatrix();
-        if (hover)
-            Gui.drawRect(x, y, x + width, y + 18 * lines.size(), 0xa0000000);
+        if (hover) Gui.drawRect(x, y, x + width, y + 18 * lines.size(), 0xa0000000);
         GlStateManager.popMatrix();
 
         int line1 = 0;
@@ -68,9 +65,7 @@ public class ButtonComponent extends AbstractTabComponent {
 
     @Override
     public void onClick(int x, int y) {
-        if (y < 18 * lines.size()) {
-            callback.run();
-        }
+        if (y < 18 * lines.size()) callback.run();
     }
 
     public String getLabel() {

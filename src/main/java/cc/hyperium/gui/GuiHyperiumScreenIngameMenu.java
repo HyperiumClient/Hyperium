@@ -49,29 +49,27 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
     public void initGui() {
         super.initGui();
 
-        this.buttonList.clear();
+        buttonList.clear();
         int i = -16;
 
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + i, I18n.format("menu.returnToMenu")));
+        buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 120 + i, I18n.format("menu.returnToMenu")));
 
         /* If Client is on server, add disconnect button */
-        if (!this.mc.isIntegratedServerRunning()) {
-            (this.buttonList.get(0)).displayString = I18n.format("menu.disconnect");
-        }
+        if (!mc.isIntegratedServerRunning()) (buttonList.get(0)).displayString = I18n.format("menu.disconnect");
 
         /* Add initial buttons */
-        this.buttonList.add(new GuiButton(4, this.width / 2 - 100, this.height / 4 + 24 + i, I18n.format("menu.returnToGame")));
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + i, 98, 20, I18n.format("menu.options")));
+        buttonList.add(new GuiButton(4, width / 2 - 100, height / 4 + 24 + i, I18n.format("menu.returnToGame")));
+        buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + i, 98, 20, I18n.format("menu.options")));
 
         GuiButton guibutton;
-        this.buttonList.add(guibutton = new GuiButton(7, this.width / 2 + 2, this.height / 4 + 96 + i, 98, 20, I18n.format("menu.shareToLan")));
-        this.buttonList.add(new GuiButton(5, this.width / 2 - 100, this.height / 4 + 48 + i, 98, 20, I18n.format("gui.achievements")));
-        this.buttonList.add(new GuiButton(6, this.width / 2 + 2, this.height / 4 + 48 + i, 98, 20, I18n.format("gui.stats")));
+        buttonList.add(guibutton = new GuiButton(7, width / 2 + 2, height / 4 + 96 + i, 98, 20, I18n.format("menu.shareToLan")));
+        buttonList.add(new GuiButton(5, width / 2 - 100, height / 4 + 48 + i, 98, 20, I18n.format("gui.achievements")));
+        buttonList.add(new GuiButton(6, width / 2 + 2, height / 4 + 48 + i, 98, 20, I18n.format("gui.stats")));
 
-        guibutton.enabled = this.mc.isSingleplayer() && !this.mc.getIntegratedServer().getPublic();
+        guibutton.enabled = mc.isSingleplayer() && !mc.getIntegratedServer().getPublic();
 
-        buttonList.add(new GuiButton(9, this.width / 2 - 100, height / 4 + 56, 98, 20, I18n.format("button.ingame.hyperiumsettings")));
-        buttonList.add(new GuiButton(8, this.width / 2 + 2, height / 4 + 56, 98, 20, I18n.format("button.ingame.hyperiumcredits")));
+        buttonList.add(new GuiButton(9, width / 2 - 100, height / 4 + 56, 98, 20, I18n.format("button.ingame.hyperiumsettings")));
+        buttonList.add(new GuiButton(8, width / 2 + 2, height / 4 + 56, 98, 20, I18n.format("button.ingame.hyperiumcredits")));
 
         WorldClient theWorld = Minecraft.getMinecraft().theWorld;
 
@@ -79,7 +77,8 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
         MinecraftServer integratedServer = Minecraft.getMinecraft().getIntegratedServer();
         if (theWorld != null && (integratedServer == null)) {
             GuiButton oldButton = buttonList.remove(3);
-            GuiButton newButton = new GuiButton(10, oldButton.xPosition, oldButton.yPosition, oldButton.getButtonWidth(), 20, I18n.format("button.ingame.serverlist"));
+            GuiButton newButton = new GuiButton(10, oldButton.xPosition, oldButton.yPosition, oldButton.getButtonWidth(), 20,
+                I18n.format("button.ingame.serverlist"));
             buttonList.add(newButton);
         }
 
@@ -91,40 +90,33 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
 
         switch (button.id) {
             case 0:
-                this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
+                mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
                 break;
 
             case 1:
                 if (Settings.CONFIRM_DISCONNECT) {
                     Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiConfirmDisconnect());
                 } else {
-                    boolean integratedServerRunning = this.mc.isIntegratedServerRunning();
+                    boolean integratedServerRunning = mc.isIntegratedServerRunning();
                     button.enabled = false;
-                    this.mc.theWorld.sendQuittingDisconnectingPacket();
-                    this.mc.loadWorld(null);
-
-                    if (integratedServerRunning) {
-                        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiMainMenu());
-                    } else {
-                        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiMultiplayer(new GuiMainMenu()));
-                    }
+                    mc.theWorld.sendQuittingDisconnectingPacket();
+                    mc.loadWorld(null);
+                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(integratedServerRunning ? new GuiMainMenu() : new GuiMultiplayer(new GuiMainMenu()));
                 }
-                break;
 
-            default:
                 break;
 
             case 4:
                 mc.displayGuiScreen(null);
-                this.mc.setIngameFocus();
+                mc.setIngameFocus();
                 break;
 
             case 5:
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiAchievements(this, this.mc.thePlayer.getStatFileWriter()));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiAchievements(this, mc.thePlayer.getStatFileWriter()));
                 break;
 
             case 6:
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiStats(this, this.mc.thePlayer.getStatFileWriter()));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiStats(this, mc.thePlayer.getStatFileWriter()));
                 break;
 
             case 7:
@@ -143,13 +135,15 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
                 Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiIngameMultiplayer(Minecraft.getMinecraft().currentScreen));
                 break;
 
+            default:
+                break;
         }
-
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
+
         if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf() != null) {
             JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
             int credits = response.optInt("remaining_credits");
@@ -162,9 +156,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
         GlStateManager.translate(0, height - 50, 0);
 
-        if (System.currentTimeMillis() - lastUpdate > 2000L) {
-            refreshData();
-        }
+        if (System.currentTimeMillis() - lastUpdate > 2000L) refreshData();
 
         baseAngle %= 360;
 
@@ -182,14 +174,12 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
 
         GlStateManager.translate(0.0F, 0.0F, z);
 
-        if (baseAngle < e) {
-            i = (e - Math.abs(baseAngle)) / e;
-        } else if (baseAngle > 360 - e) {
-            i = (e - (Math.abs((360) - baseAngle))) / e;
-        }
+        if (baseAngle < e) i = (e - Math.abs(baseAngle)) / e;
+        else if (baseAngle > 360 - e) i = (e - (Math.abs((360) - baseAngle))) / e;
 
         if (i > 0) {
-            drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.now", ChatColor.GREEN + formatter.format(data.optInt("online")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
+            drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.now",
+                ChatColor.GREEN + formatter.format(data.optInt("online")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
         }
 
         GlStateManager.translate(0.0F, 0.0F, -z);
@@ -198,7 +188,8 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
         i = (e - Math.abs(270 - baseAngle)) / e;
 
         if (i > 0) {
-            drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.lastday", ChatColor.GREEN + formatter.format(data.optInt("day")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
+            drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.lastday",
+                ChatColor.GREEN + formatter.format(data.optInt("day")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
         }
 
         GlStateManager.translate(0.0F, 0.0F, -z);
@@ -207,7 +198,8 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
         i = (e - Math.abs(180 - baseAngle)) / e;
 
         if (i > 0) {
-            drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.lastweek", ChatColor.GREEN + formatter.format(data.optInt("week")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
+            drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.lastweek",
+                ChatColor.GREEN + formatter.format(data.optInt("week")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
         }
 
         GlStateManager.translate(0.0F, 0.0F, -z);
@@ -216,14 +208,13 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
         i = (e - Math.abs(90 - baseAngle)) / e;
 
         if (i > 0) {
-            drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.alltime", ChatColor.GREEN + formatter.format(data.optInt("all")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
+            drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.alltime",
+                ChatColor.GREEN + formatter.format(data.optInt("all")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
         }
     }
 
     private synchronized void refreshData() {
-
         lastUpdate = System.currentTimeMillis() * 2;
-
         Multithreading.runAsync(() -> {
             data = PurchaseApi.getInstance().get("https://api.hyperium.cc/users");
             lastUpdate = System.currentTimeMillis();
@@ -237,9 +228,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
         cooldown++;
         if (cooldown > 40) {
             baseAngle += 9;
-            if (cooldown >= 50) {
-                cooldown = 0;
-            }
+            if (cooldown >= 50) cooldown = 0;
         }
     }
 }

@@ -43,8 +43,8 @@ public class DoubleCPSDisplay extends DisplayItem {
         list.add("Left CPS: " + leftCps);
         list.add("Right CPS: " + rightCps);
         list.add("Total CPS: " + (leftCps + rightCps));
-        this.height = fr.FONT_HEIGHT * list.size();
-        this.width = list.stream().mapToInt(fr::getStringWidth).filter(line -> line >= 0).max().orElse(0);
+        height = fr.FONT_HEIGHT * list.size();
+        width = list.stream().mapToInt(fr::getStringWidth).filter(line -> line >= 0).max().orElse(0);
         ElementRenderer.draw(x, y, list);
     }
 }

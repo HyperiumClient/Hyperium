@@ -39,7 +39,7 @@ public abstract class MixinInventoryEffectRenderer extends GuiContainer {
      */
     @Overwrite
     protected void updateActivePotionEffects() {
-        hyperiumInventory.updateActivePotionEffects(this.xSize);
+        hyperiumInventory.updateActivePotionEffects(xSize);
     }
 
 }

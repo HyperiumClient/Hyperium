@@ -48,12 +48,18 @@ public class CommandNameHistory implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        if (args.length == 0) {
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
-        } else if (args.length == 1) {
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui(args[0]));
-        } else {
-            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Usage: " + this.getUsage());
+        switch (args.length) {
+            case 0:
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
+                break;
+
+            case 1:
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui(args[0]));
+                break;
+
+            default:
+                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Usage: " + getUsage());
+                break;
         }
     }
 }

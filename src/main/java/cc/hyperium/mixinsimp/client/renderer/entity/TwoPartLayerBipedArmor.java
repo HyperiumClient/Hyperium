@@ -42,8 +42,8 @@ public class TwoPartLayerBipedArmor extends LayerArmorBase<ModelBiped> {
     }
 
     protected void initArmor() {
-        this.modelLeggings = new ModelBiped(0.5F);
-        this.modelArmor = new ModelBiped(1.0F);
+        modelLeggings = new ModelBiped(0.5F);
+        modelArmor = new ModelBiped(1.0F);
     }
 
     /**

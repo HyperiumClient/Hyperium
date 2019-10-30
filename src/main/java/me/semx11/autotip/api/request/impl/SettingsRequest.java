@@ -16,7 +16,7 @@ public class SettingsRequest implements Request<SettingsReply> {
     private final Version version;
 
     private SettingsRequest(Autotip autotip) {
-        this.version = autotip.getVersion();
+        version = autotip.getVersion();
     }
 
     public static SettingsRequest of(Autotip autotip) {
@@ -26,7 +26,7 @@ public class SettingsRequest implements Request<SettingsReply> {
     @Override
     public SettingsReply execute() {
         HttpUriRequest request = GetBuilder.of(this)
-                .addParameter("v", this.version.get())
+                .addParameter("v", version.get())
                 .build();
 
         Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());

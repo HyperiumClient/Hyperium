@@ -88,7 +88,7 @@ object CTCommand : BaseCommand {
         val messages = ChatListener.chatHistory
         if (toDump > messages.size) toDump = messages.size
 
-        Message("&6&m${ChatLib.getChatBreak()}").setChatLineId(this.idFixed).chat()
+        Message("&6&m${ChatLib.getChatBreak()}").setChatLineId(idFixed).chat()
         var msg: String
         for (i in 0 until toDump) {
             msg = ChatLib.replaceFormatting(messages[messages.size - toDump + i])
@@ -97,18 +97,18 @@ object CTCommand : BaseCommand {
                     .setClick("run_command", "/ct copy $msg")
                     .setHoverValue(ChatLib.addColor("&eClick here to copy this message."))
                     .setFormatted(false)
-            ).setFormatted(false).setChatLineId(this.idFixed + i + 1).chat()
+            ).setFormatted(false).setChatLineId(idFixed + i + 1).chat()
         }
-        Message("&6&m${ChatLib.getChatBreak()}").setChatLineId(this.idFixed + toDump + 1).chat()
+        Message("&6&m${ChatLib.getChatBreak()}").setChatLineId(idFixed + toDump + 1).chat()
 
-        this.idFixedOffset = this.idFixed + toDump + 1
+        idFixedOffset = idFixed + toDump + 1
     }
 
     private fun clearOldDump() {
-        if (this.idFixedOffset == -1) return
-        while (this.idFixedOffset >= this.idFixed)
-            ChatLib.clearChat(this.idFixedOffset--)
-        this.idFixedOffset = -1
+        if (idFixedOffset == -1) return
+        while (idFixedOffset >= idFixed)
+            ChatLib.clearChat(idFixedOffset--)
+        idFixedOffset = -1
     }
 
     private fun copyArgsToClipboard(args: Array<String>) {

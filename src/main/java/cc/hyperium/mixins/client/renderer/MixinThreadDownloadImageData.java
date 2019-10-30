@@ -74,10 +74,7 @@ public abstract class MixinThreadDownloadImageData extends SimpleTexture {
                         image = TextureUtil.readBufferedImage(connection.getInputStream());
                     }
 
-                    if (imageBuffer != null) {
-                        image = imageBuffer.parseUserSkin(image);
-                    }
-
+                    if (imageBuffer != null) image = imageBuffer.parseUserSkin(image);
                     setBufferedImage(image);
                 }
             } catch (Exception ignored) {

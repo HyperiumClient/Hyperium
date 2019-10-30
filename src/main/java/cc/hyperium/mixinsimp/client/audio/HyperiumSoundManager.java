@@ -19,7 +19,7 @@ package cc.hyperium.mixinsimp.client.audio;
 
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.SoundPlayEvent;
+import cc.hyperium.event.world.audio.SoundPlayEvent;
 import net.minecraft.client.audio.ISound;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -39,9 +39,7 @@ public class HyperiumSoundManager {
         SoundPlayEvent e = new SoundPlayEvent(sound);
         EventBus.INSTANCE.post(e);
 
-        if (e.isCancelled()) {
-            ci.cancel();
-        }
+        if (e.isCancelled()) ci.cancel();
     }
 
     public void startUpdate() {

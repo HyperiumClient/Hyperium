@@ -35,7 +35,7 @@ public class TPoseHandler extends AbstractPreCopyAnglesAnimationHandler {
     public float modifyState() {
         return HyperiumGui.clamp(
             HyperiumGui.easeOut(
-                this.state,
+                    state,
                 100.0f,
                 0.01f,
                 5

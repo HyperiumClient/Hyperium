@@ -19,9 +19,9 @@ package cc.hyperium.mods.levelhead.display;
 
 import cc.hyperium.mods.levelhead.Levelhead;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -33,15 +33,12 @@ public class TabDisplay extends LevelheadDisplay {
 
     @Override
     public void tick() {
-        for (NetworkPlayerInfo info : Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()) {
-            UUID id = info.getGameProfile().getId();
-
-            if (id != null) {
-                if (!cache.containsKey(id)) {
-                    Levelhead.getInstance().fetch(id, this, false);
-                }
-            }
-        }
+        Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()
+            .stream()
+            .map(info -> info.getGameProfile().getId())
+            .filter(Objects::nonNull)
+            .filter(id -> !cache.containsKey(id))
+            .forEach(id -> Levelhead.getInstance().fetch(id, this, false));
     }
 
     @Override
@@ -54,12 +51,10 @@ public class TabDisplay extends LevelheadDisplay {
             existedMoreThan5Seconds.clear();
             existedMoreThan5Seconds.addAll(safePlayers);
 
-            for (UUID uuid : cache.keySet()) {
-                if (!safePlayers.contains(uuid)) {
-                    cache.remove(uuid);
-                    trueValueCache.remove(uuid);
-                }
-            }
+            cache.keySet().stream().filter(uuid -> !safePlayers.contains(uuid)).forEach(uuid -> {
+                cache.remove(uuid);
+                trueValueCache.remove(uuid);
+            });
         }
     }
 

@@ -44,14 +44,14 @@ public class TypeBuildBattle extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        Matcher matcher = this.battlePattern.matcher(ChatColor.stripColor(message));
+        Matcher matcher = battlePattern.matcher(ChatColor.stripColor(message));
 
         return matcher.matches() && validBattleRank(matcher.group("battle"));
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

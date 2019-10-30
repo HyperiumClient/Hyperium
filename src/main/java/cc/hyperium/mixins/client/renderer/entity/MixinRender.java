@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins.client.renderer.entity;
 
-import cc.hyperium.event.EntityRenderEvent;
+import cc.hyperium.event.render.EntityRenderEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mixinsimp.client.renderer.entity.HyperiumRender;
 import net.minecraft.client.renderer.entity.Render;

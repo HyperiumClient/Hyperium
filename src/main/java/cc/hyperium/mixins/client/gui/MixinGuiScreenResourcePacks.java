@@ -58,7 +58,7 @@ public class MixinGuiScreenResourcePacks extends GuiScreen {
      */
     @Inject(method = "initGui", at = @At("RETURN"))
     private void initGui(CallbackInfo callbackInfo) {
-        hyperiumGuiResourcePack.initGui(this.buttonList);
+        hyperiumGuiResourcePack.initGui(buttonList);
     }
 
     /**
@@ -75,19 +75,13 @@ public class MixinGuiScreenResourcePacks extends GuiScreen {
     @Inject(method = "mouseClicked", at = @At("RETURN"))
     private void mouseClicked(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
         textField.mouseClicked(mouseX, mouseY, mouseButton);
-        if (textField != null) {
-            textField.mouseClicked(mouseX, mouseY, mouseButton);
-        }
+        if (textField != null) textField.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         super.keyTyped(typedChar, keyCode);
-
-        if (textField.isFocused()) {
-            textField.textboxKeyTyped(typedChar, keyCode);
-        }
-
+        if (textField.isFocused()) textField.textboxKeyTyped(typedChar, keyCode);
         availableResourcePacksList = hyperiumGuiResourcePack.updateList(textField, availableResourcePacksList, availableResourcePacks, mc, width, height);
     }
 }

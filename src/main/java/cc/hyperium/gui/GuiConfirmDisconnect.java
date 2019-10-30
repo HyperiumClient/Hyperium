@@ -31,14 +31,14 @@ public class GuiConfirmDisconnect extends GuiScreen {
     @Override
     public void initGui() {
         buttonList.clear();
-        buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + i, 98, 20, I18n.format("menu.disconnect")));
-        buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height / 4 + 96 + i, 98, 20, I18n.format("gui.cancel")));
+        buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + i, 98, 20, I18n.format("menu.disconnect")));
+        buttonList.add(new GuiButton(1, width / 2 + 5, height / 4 + 96 + i, 98, 20, I18n.format("gui.cancel")));
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
-        fontRendererObj.drawStringWithShadow(I18n.format("gui.confirmdisconnect.text"), (this.width >> 1) - 90, (this.height >> 2) + 72 + i, 16777215);
+        fontRendererObj.drawStringWithShadow(I18n.format("gui.confirmdisconnect.text"), (width >> 1) - 90, (height >> 2) + 72 + i, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -46,16 +46,11 @@ public class GuiConfirmDisconnect extends GuiScreen {
     protected void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 0:
-                boolean integratedServerRunning = this.mc.isIntegratedServerRunning();
+                boolean integratedServerRunning = mc.isIntegratedServerRunning();
                 button.enabled = false;
-                this.mc.theWorld.sendQuittingDisconnectingPacket();
-                this.mc.loadWorld(null);
-
-                if (integratedServerRunning) {
-                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiMainMenu());
-                } else {
-                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiMultiplayer(new GuiMainMenu()));
-                }
+                mc.theWorld.sendQuittingDisconnectingPacket();
+                mc.loadWorld(null);
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(integratedServerRunning ? new GuiMainMenu() : new GuiMultiplayer(new GuiMainMenu()));
                 break;
             case 1:
                 mc.displayGuiScreen(null);

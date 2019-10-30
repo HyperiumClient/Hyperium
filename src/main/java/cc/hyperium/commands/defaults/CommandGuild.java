@@ -21,7 +21,6 @@ package cc.hyperium.commands.defaults;
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
-import net.minecraft.client.gui.GuiNewChat;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

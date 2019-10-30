@@ -31,24 +31,16 @@ public abstract class MixinFontRenderer {
 
     @ModifyVariable(method = "renderString", at = @At(value = "HEAD"))
     private String mod(String in) {
-        if (NickHider.instance == null) { // When mod hasn't initialized yet.
-            return in;
-        }
-        return NickHider.instance.apply(in);
+        return NickHider.instance == null ? in : NickHider.instance.apply(in);
     }
 
     @ModifyVariable(method = "getStringWidth", at = @At(value = "HEAD"))
     private String modWidth(String in) {
-        if (NickHider.instance == null) { // When mod hasn't initialized yet.
-            return in;
-        }
-        return NickHider.instance.apply(in);
+        return NickHider.instance == null ? in : NickHider.instance.apply(in);
     }
 
     @Inject(method = "renderString", at = @At("HEAD"), cancellable = true)
     private void renderString(String text, float x, float y, int color, boolean dropShadow, CallbackInfoReturnable<Integer> cir) {
-        if (dropShadow && Settings.DISABLE_SHADOW_TEXT) {
-            cir.setReturnValue(0);
-        }
+        if (dropShadow && Settings.DISABLE_SHADOW_TEXT) cir.setReturnValue(0);
     }
 }

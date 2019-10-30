@@ -21,6 +21,7 @@ import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.utils.ChatColor;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class CommandConfigGui implements BaseCommand {
     @Override
     public List<String> getCommandAliases() {
         // Allow an alias for the main config gui
-        return Collections.singletonList("hyperium");
+        return Arrays.asList("hyperium", "config", "h");
     }
 
     @Override

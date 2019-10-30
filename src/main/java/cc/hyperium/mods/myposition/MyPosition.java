@@ -3,8 +3,8 @@ package cc.hyperium.mods.myposition;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.ServerChatEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.network.chat.ServerChatEvent;
+import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.ChatColor;
@@ -47,9 +47,7 @@ public class MyPosition extends AbstractMod {
 
     @InvokeEvent
     public void tickEvent(TickEvent event) {
-        if (isRan) {
-            Multithreading.schedule(() -> isRan = false, 15, TimeUnit.SECONDS);
-        }
+        if (isRan) Multithreading.schedule(() -> isRan = false, 15, TimeUnit.SECONDS);
     }
 
     private void sendMyPosCommand() {

@@ -19,7 +19,7 @@ package cc.hyperium.handlers.handlers.data;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.JoinHypixelEvent;
+import cc.hyperium.event.network.server.hypixel.JoinHypixelEvent;
 import cc.hyperium.handlers.handlers.data.leaderboards.Leaderboard;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
@@ -192,10 +192,7 @@ public class HypixelAPI {
         for (JsonArray array : arrays) {
             for (JsonElement element : array) {
                 JsonHolder holder = new JsonHolder(element.getAsJsonObject());
-
-                if (holder.optString("id").equalsIgnoreCase(backendName)) {
-                    return holder.optString("name");
-                }
+                if (holder.optString("id").equalsIgnoreCase(backendName)) return holder.optString("name");
             }
         }
 
@@ -309,7 +306,7 @@ public class HypixelAPI {
             if (obj instanceof GuildKey) {
                 GuildKey key = ((GuildKey) obj);
 
-                return key.type == this.type && Arrays.equals(key.formatStrings, this.formatStrings);
+                return key.type == type && Arrays.equals(key.formatStrings, formatStrings);
             }
 
             return false;

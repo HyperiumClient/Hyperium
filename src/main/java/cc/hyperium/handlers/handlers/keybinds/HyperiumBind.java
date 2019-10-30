@@ -18,13 +18,13 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import org.apache.commons.text.WordUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Our implementation of the normal Minecraft KeyBinding, uses anonymous
@@ -53,8 +53,7 @@ public class HyperiumBind {
     }
 
     public HyperiumBind(String description, int key, String category) {
-        this.defaultKeyCode = key;
-
+        defaultKeyCode = key;
         this.description = description;
         this.key = key;
     }
@@ -65,7 +64,7 @@ public class HyperiumBind {
      * @return the key code
      */
     public int getKeyCode() {
-        return this.key;
+        return key;
     }
 
     /**
@@ -84,7 +83,7 @@ public class HyperiumBind {
      * @return the default key code
      */
     public int getDefaultKeyCode() {
-        return this.defaultKeyCode;
+        return defaultKeyCode;
     }
 
     /**
@@ -94,12 +93,8 @@ public class HyperiumBind {
      * @return the keys description
      */
     public String getKeyDescription() {
-        String message = this.description;
-
-        if (this.capitalizeDescription()) {
-            message = WordUtils.capitalizeFully(message);
-        }
-
+        String message = description;
+        if (capitalizeDescription()) message = WordUtils.capitalizeFully(message);
         return message;
     }
 
@@ -109,7 +104,7 @@ public class HyperiumBind {
      * @return the real description of the KeyBind
      */
     protected String getRealDescription() {
-        return this.description;
+        return description;
     }
 
     /**
@@ -131,7 +126,7 @@ public class HyperiumBind {
     }
 
     public boolean isConflicted() {
-        return this.conflicted;
+        return conflicted;
     }
 
     /**
@@ -140,7 +135,7 @@ public class HyperiumBind {
      * @return true if the key was last pressed
      */
     public boolean wasPressed() {
-        return this.wasPressed;
+        return wasPressed;
     }
 
     /**
@@ -167,25 +162,18 @@ public class HyperiumBind {
     public void detectConflicts() {
         conflicted = false;
 
-        int currentKeyCode = this.key;
+        int currentKeyCode = key;
 
-        if (currentKeyCode == 0 || conflictExempt) {
-            // Allow multiple binds to be set to NONE.
-            return;
-        }
+        // Allow multiple binds to be set to NONE.
+        if (currentKeyCode == 0 || conflictExempt) return;
 
         List<HyperiumBind> otherBinds = new ArrayList<>(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values());
         otherBinds.remove(this);
 
         // Check for conflicts with Minecraft binds.
-        for (KeyBinding keyBinding : Minecraft.getMinecraft().gameSettings.keyBindings) {
-            int keyCode = keyBinding.getKeyCode();
-
-            if (currentKeyCode == keyCode) {
-                // There is a conflict!
-                conflicted = true;
-            }
-        }
+        // There is a conflict!
+        Arrays.stream(Minecraft.getMinecraft().gameSettings.keyBindings).mapToInt(KeyBinding::getKeyCode).filter(keyCode ->
+            currentKeyCode == keyCode).forEach(keyCode -> conflicted = true);
 
         // Check for conflicts with other Hyperium binds.
         // There is a conflict!

@@ -77,8 +77,10 @@ public abstract class AbstractTab {
         final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;           // Mouse X
         final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1; // Mouse Y
 
-        if (scrollAnim.getValue() != scroll * 18 && scrollAnim.isFinished())
+        if (scrollAnim.getValue() != scroll * 18 && scrollAnim.isFinished()) {
             scrollAnim = new SimpleAnimValue(1000L, scrollAnim.getValue(), scroll * 18);
+        }
+
         y += scrollAnim.getValue();
         /* Render each tab component */
         for (AbstractTabComponent comp : filter == null ? components : components.stream().filter(c -> c.filter(filter)).collect(Collectors.toList())) {
@@ -96,8 +98,10 @@ public abstract class AbstractTab {
                     }
                 } else if (clickStates.computeIfAbsent(comp, ignored -> false))
                     clickStates.put(comp, false);
-            } else
+            } else {
                 comp.hover = false;
+            }
+
             y += comp.getHeight();
         }
 
@@ -111,7 +115,7 @@ public abstract class AbstractTab {
      * @return - Given Title
      */
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     /**
@@ -120,20 +124,16 @@ public abstract class AbstractTab {
      * @return - Given tab filter
      */
     public String getFilter() {
-        return this.filter;
+        return filter;
     }
 
     /**
      * Handle Mouse Input - Handle mouse events/inputs
      */
     public void handleMouseInput() {
-        if (Mouse.getEventDWheel() > 0)
-            scroll++;
-        else if (Mouse.getEventDWheel() < 0)
-            scroll--;
-        if (scroll > 0)
-            scroll = 0;
-
+        if (Mouse.getEventDWheel() > 0) scroll++;
+        else if (Mouse.getEventDWheel() < 0) scroll--;
+        if (scroll > 0) scroll = 0;
     }
 
     /**
@@ -142,7 +142,7 @@ public abstract class AbstractTab {
      * @param givenTitle - Given Title Value
      */
     public void setTitle(String givenTitle) {
-        this.title = givenTitle;
+        title = givenTitle;
     }
 
     /**

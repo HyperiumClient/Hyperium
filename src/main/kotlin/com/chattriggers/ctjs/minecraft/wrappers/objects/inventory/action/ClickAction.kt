@@ -57,11 +57,11 @@ class ClickAction(slot: Int, windowId: Int) : Action(slot, windowId) {
     override fun complete() {
         var mode = 0
 
-        if (this.clickType == ClickType.MIDDLE) {
+        if (clickType == ClickType.MIDDLE) {
             mode = 3
-        } else if (slot == -999 && !this.itemInHand) {
+        } else if (slot == -999 && !itemInHand) {
             mode = 4
-        } else if (this.holdingShift) {
+        } else if (holdingShift) {
             mode = 1
         }
 

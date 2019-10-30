@@ -22,13 +22,13 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.handlers.handlers.stats.display.DisplayLine;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
+import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
 import club.sk1er.website.utils.WebsiteUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import net.hypixel.api.GameType;
-import net.minecraft.util.EnumChatFormatting;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -113,31 +113,37 @@ public abstract class AbstractHypixelStats {
             String quest_backend = quest.optString("id");
             StringBuilder tmp = new StringBuilder(HypixelAPI.INSTANCE.getFrontendNameOfQuest(quest_backend));
             //TODO get quest names
+
             JsonHolder playerQuestData = player.getQuests().optJSONObject(HypixelAPI.INSTANCE.getFrontendNameOfQuest(quest_backend));
             long last_completed = playerQuestData.optLong("last_completed");
             tmp.append(": ");
+
             JsonArray requirements = quest.optJSONArray("requirements");
-            boolean daily = requirements.size() > 0 && new JsonHolder(requirements.get(0).getAsJsonObject()).optString("type").equalsIgnoreCase("DailyResetQuestRequirement");
+            boolean daily = requirements.size() > 0 && new JsonHolder(requirements.get(0).getAsJsonObject()).optString("type")
+                .equalsIgnoreCase("DailyResetQuestRequirement");
             boolean completed = daily ? isToday(last_completed) : isWeek(last_completed);
-            if (completed) {
-                if (daily)
-                    completedDaily++;
-                else completedWeekly++;
-            }
-            if (daily)
-                totalDaily++;
+
+            if (completed) if (daily) completedDaily++;
+            else completedWeekly++;
+            if (daily) totalDaily++;
             else totalWeekly++;
+
             tmp.append(completed ? C.GREEN + "Completed" : C.RED + "Not Completed");
             statsDisplayItems.add(new DisplayLine(tmp.toString()));
             JsonArray tasks = quest.optJSONArray("objectives");
             JsonHolder objectives = playerQuestData.optJSONObject("active").optJSONObject("objectives");
+
             for (JsonElement task : tasks) {
                 JsonHolder task1 = new JsonHolder(task.getAsJsonObject());
                 String line = task1.optString("text");
-                if (task1.optString("type").equalsIgnoreCase("IntegerObjective"))
+
+                if (task1.optString("type").equalsIgnoreCase("IntegerObjective")) {
                     line += (objectives.optInt(task1.optString("id")) + "/" + task1.optInt("integer"));
-                if (!completed && !line.isEmpty())
+                }
+
+                if (!completed && !line.isEmpty()) {
                     statsDisplayItems.add(new DisplayLine("  - " + line));
+                }
             }
         }
 
@@ -162,16 +168,14 @@ public abstract class AbstractHypixelStats {
     }
 
     public String bold(String bold, String rest) {
-        return EnumChatFormatting.BOLD + bold + EnumChatFormatting.GRAY + rest;
+        return ChatColor.BOLD + bold + ChatColor.GRAY + rest;
     }
 
     public String bold(String bold, Number rest) {
-        return EnumChatFormatting.BOLD + bold + EnumChatFormatting.GRAY + WebsiteUtils.comma(rest);
+        return ChatColor.BOLD + bold + ChatColor.GRAY + WebsiteUtils.comma(rest);
     }
 
     public List<StatsDisplayItem> getDeepStats(HypixelApiPlayer player) {
         return new ArrayList<>();
     }
-
-
 }

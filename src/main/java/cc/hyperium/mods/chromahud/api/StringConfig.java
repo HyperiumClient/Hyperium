@@ -37,8 +37,6 @@ public class StringConfig {
         };
         draw = (displayItem) -> {
         };
-
-
     }
 
     public Consumer<DisplayItem> getLoad() {

@@ -21,7 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.mixinsimp.client.renderer.HyperiumEntityRenderer;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.motionblur.resource.MotionBlurResourceManager;
@@ -54,7 +54,7 @@ public class MotionBlurMod extends AbstractMod {
 
     @Override
     public AbstractMod init() {
-        this.mc = Minecraft.getMinecraft();
+        mc = Minecraft.getMinecraft();
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
                 .registerCommand(new MotionBlurCommand());
         EventBus.INSTANCE.register(this);
@@ -71,14 +71,14 @@ public class MotionBlurMod extends AbstractMod {
         if (Settings.MOTION_BLUR_ENABLED && !Minecraft.getMinecraft().entityRenderer.isShaderActive() && mc.theWorld != null && !isFastRenderEnabled()) {
             applyShader();
         }
-        if (this.domainResourceManagers == null) {
+
+        if (domainResourceManagers == null) {
             try {
                 Field[] var2 = SimpleReloadableResourceManager.class.getDeclaredFields();
                 for (Field field : var2) {
                     if (field.getType() == Map.class) {
                         field.setAccessible(true);
-                        this.domainResourceManagers = (Map) field
-                                .get(Minecraft.getMinecraft().getResourceManager());
+                        domainResourceManagers = (Map) field.get(Minecraft.getMinecraft().getResourceManager());
                         break;
                     }
                 }
@@ -87,9 +87,8 @@ public class MotionBlurMod extends AbstractMod {
             }
         }
 
-        if (!this.domainResourceManagers.containsKey("motionblur")) {
-            this.domainResourceManagers.put("motionblur", new MotionBlurResourceManager());
+        if (!domainResourceManagers.containsKey("motionblur")) {
+            domainResourceManagers.put("motionblur", new MotionBlurResourceManager());
         }
-
     }
 }

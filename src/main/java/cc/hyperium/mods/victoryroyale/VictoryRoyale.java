@@ -20,7 +20,7 @@ package cc.hyperium.mods.victoryroyale;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderHUDEvent;
+import cc.hyperium.event.render.RenderHUDEvent;
 import cc.hyperium.mods.AbstractMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -39,6 +39,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 public class VictoryRoyale extends AbstractMod {
     private static VictoryRoyale INSTANCE;
@@ -130,17 +131,14 @@ public class VictoryRoyale extends AbstractMod {
                         worldRenderer.pos(trueX, trueY, 0.0D).endVertex(); // x
                         worldRenderer.pos((double) px + 0, (double) py + point.width, 0.0D).endVertex(); // y
                         worldRenderer.pos(px, py, 0.0D).endVertex(); // z
-
                     } else if (side == 3) {
                         worldRenderer.pos(trueX, trueY, 0.0D).endVertex();
                         worldRenderer.pos(px, py, 0.0D).endVertex();
                         worldRenderer.pos((double) px + 10, py, 0.0D).endVertex();
-
                     } else if (side == 2) {
                         worldRenderer.pos(trueX, trueY, 0.0D).endVertex();
                         worldRenderer.pos(px, py, 0.0D).endVertex();
                         worldRenderer.pos((double) px + 10, py, 0.0D).endVertex();
-
                     } else {
                         worldRenderer.pos(trueX, trueY, 0.0D).endVertex();
                         worldRenderer.pos((double) px + 10, py, 0.0D).endVertex();
@@ -207,10 +205,8 @@ public class VictoryRoyale extends AbstractMod {
 
         final int maxPoints = 15;
 
-        for (int pointNumber = 0; pointNumber < maxPoints; pointNumber++) {
-            ThreadLocalRandom current = ThreadLocalRandom.current();
-            points.add(new WhiteLine(current.nextDouble(1.0), current.nextDouble(1.0), current.nextInt(5)));
-        }
+        IntStream.range(0, maxPoints).mapToObj(pointNumber -> ThreadLocalRandom.current()).forEach(current ->
+            points.add(new WhiteLine(current.nextDouble(1.0), current.nextDouble(1.0), current.nextInt(5))));
     }
 
     @Override

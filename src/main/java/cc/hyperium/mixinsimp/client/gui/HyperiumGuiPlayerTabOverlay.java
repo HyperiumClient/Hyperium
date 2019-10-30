@@ -95,15 +95,14 @@ public class HyperiumGuiPlayerTabOverlay {
                 colour = 11141120;
             }
 
-
             if (ping >= 0 && ping < 10000) {
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(0.5f, 0.5f, 0.5f);
                 mc.fontRendererObj.drawString("   " + ping + "", (2 * x) - 10, (2 * y), colour);
                 GlStateManager.scale(2.0f, 2.0f, 2.0f);
                 GlStateManager.popMatrix();
-
             }
+
             return;
         }
 
@@ -131,7 +130,8 @@ public class HyperiumGuiPlayerTabOverlay {
         ((IMixinGui) parent).setZLevel(zLevel - 100.0F);
     }
 
-    public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn, Ordering<NetworkPlayerInfo> field_175252_a, IChatComponent header, IChatComponent footer, Minecraft mc) {
+    public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn, Ordering<NetworkPlayerInfo> field_175252_a,
+                                 IChatComponent header, IChatComponent footer, Minecraft mc) {
         NetHandlerPlayClient nethandlerplayclient = mc.thePlayer.sendQueue;
         List<NetworkPlayerInfo> list = field_175252_a.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
         int i = 0;
@@ -149,7 +149,8 @@ public class HyperiumGuiPlayerTabOverlay {
             i = Math.max(i, k);
 
             if (scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
-                k = mc.fontRendererObj.getStringWidth(" " + scoreboardIn.getValueFromObjective(networkplayerinfo.getGameProfile().getName(), scoreObjectiveIn).getScorePoints());
+                k = mc.fontRendererObj.getStringWidth(" " + scoreboardIn.getValueFromObjective(networkplayerinfo.getGameProfile().getName(),
+                    scoreObjectiveIn).getScorePoints());
                 j = Math.max(j, k);
             }
         }
@@ -159,12 +160,14 @@ public class HyperiumGuiPlayerTabOverlay {
         if (Settings.FRIENDS_FIRST_IN_TAB) {
             ConcurrentLinkedDeque<NetworkPlayerInfo> friends = new ConcurrentLinkedDeque<>();
             List<UUID> friendUUIDList = HypixelAPI.INSTANCE.getListOfCurrentUsersFriends();
-            for (NetworkPlayerInfo networkPlayerInfo : list) {
+
+            list.forEach(networkPlayerInfo -> {
                 UUID id = networkPlayerInfo.getGameProfile().getId();
                 if (friendUUIDList.contains(id)) {
                     friends.add(networkPlayerInfo);
                 }
-            }
+            });
+
             list.removeAll(friends);
             friends.addAll(list);
             list.clear();
@@ -247,7 +250,8 @@ public class HyperiumGuiPlayerTabOverlay {
 
                 if (flag) {
                     EntityPlayer entityplayer = mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
-                    boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && (gameprofile.getName().equals("Dinnerbone") || gameprofile.getName().equals("Grumm"));
+                    boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && (gameprofile.getName().equals("Dinnerbone") ||
+                        gameprofile.getName().equals("Grumm"));
                     mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
                     int l2 = 8 + (flag1 ? 8 : 0);
                     int i3 = 8 * (flag1 ? -1 : 1);

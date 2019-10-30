@@ -54,8 +54,7 @@ public abstract class AbstractTabComponent {
 
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         GlStateManager.pushMatrix();
-        if (hover)
-            Gui.drawRect(x, y, x + width, y + 18, 0xa0000000);
+        if (hover) Gui.drawRect(x, y, x + width, y + 18, 0xa0000000);
         GlStateManager.popMatrix();
     }
 

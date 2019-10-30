@@ -18,7 +18,7 @@
 package cc.hyperium.mixins.client.multiplayer;
 
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.ServerJoinEvent;
+import cc.hyperium.event.network.server.ServerJoinEvent;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

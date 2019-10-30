@@ -34,12 +34,12 @@ public class CCButton extends CCGuiItem {
     @Override
     public void drawItem(final int mouseX, final int mouseY) {
         Color backgroundColour = CustomCrosshairAddon.PRIMARY_T;
-        if (mouseX >= this.getPosX() && mouseX <= this.getPosX() + this.getWidth() && mouseY >= this.getPosY() && mouseY <= this.getPosY() + this.getHeight()) {
+        if (mouseX >= getPosX() && mouseX <= getPosX() + getWidth() && mouseY >= getPosY() && mouseY <= getPosY() + getHeight()) {
             backgroundColour = new Color(255, 180, 0, 255);
         }
         CustomCrosshairGraphics
-            .drawBorderedRectangle(this.getPosX(), this.getPosY(), this.getPosX() + this.getWidth(), this.getPosY() + this.getHeight(), backgroundColour, CustomCrosshairAddon.SECONDARY);
+            .drawBorderedRectangle(getPosX(), getPosY(), getPosX() + getWidth(), getPosY() + getHeight(), backgroundColour, CustomCrosshairAddon.SECONDARY);
         CustomCrosshairGraphics
-            .drawString(this.getDisplayText(), this.getPosX() + this.getWidth() / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(this.getDisplayText()) / 2 + 1, this.getPosY() + this.getHeight() / 2 - 3, 16777215);
+            .drawString(getDisplayText(), getPosX() + getWidth() / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(getDisplayText()) / 2 + 1, getPosY() + getHeight() / 2 - 3, 16777215);
     }
 }

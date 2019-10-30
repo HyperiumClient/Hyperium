@@ -17,17 +17,14 @@
 
 package cc.hyperium.addons.sidebar.gui;
 
-/*
- * Chroma made by Sk1er (ChromaHUD)
- */
-
+import cc.hyperium.addons.sidebar.config.Configuration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.scoreboard.*;
 import net.minecraft.util.EnumChatFormatting;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,7 +32,6 @@ import java.util.List;
 
 public class GuiSidebar extends Gui {
     public enum ChromaType {
-        // Shet code i know
         ONE("Background 1"),
         TWO("Background 2"),
         THREE("Text 1"),
@@ -47,7 +43,7 @@ public class GuiSidebar extends Gui {
         }
 
         public String getName() {
-            return this.name;
+            return name;
         }
 
         public static ChromaType next(ChromaType current) {
@@ -55,146 +51,151 @@ public class GuiSidebar extends Gui {
         }
     }
 
-    private FontRenderer fr;
+    private FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
     private int sidebarX;
     private int sidebarY;
     private int sidebarWidth;
     private int sidebarHeight;
-    public boolean enabled;
-    public boolean redNumbers;
-    public boolean shadow;
-    public float scale;
-    public int offsetX;
-    public int offsetY;
-    public int color;
-    public int alpha;
-    public boolean chromaEnabled;
-    public ChromaType chromaType;
-    public int chromaSpeed;
+    public boolean enabled = Configuration.enabled;
+    public boolean redNumbers = Configuration.redNumbers;
+    public boolean shadow = Configuration.redNumbers;
+    public float scale = Configuration.scale;
+    public int offsetX = Configuration.offsetX;
+    public int offsetY = Configuration.offsetY;
+    public int color = Configuration.rgb;
+    public int alpha = Configuration.alpha;
+    public boolean chromaEnabled = Configuration.chromaEnabled;
+    public ChromaType chromaType = Configuration.chromaType;
+    public int chromaSpeed = Configuration.chromaSpeed;
 
-    public GuiSidebar() {
-        this.fr = Minecraft.getMinecraft().fontRendererObj;
+    public boolean contains(int mouseX, int mouseY) {
+        float mscale = scale - 1.0f;
+        float minX = sidebarX - sidebarWidth * mscale;
+        float maxX = minX + sidebarWidth * scale;
+        float maxY = sidebarY + (sidebarHeight >> 1) * mscale;
+        float minY = maxY - sidebarHeight * scale;
+        return mouseX > minX && mouseX < maxX && mouseY > minY - fr.FONT_HEIGHT * scale && mouseY < maxY;
     }
 
-    public boolean contains(final int mouseX, final int mouseY) {
-        final float mscale = this.scale - 1.0f;
-        final float minX = this.sidebarX - this.sidebarWidth * mscale;
-        final float maxX = minX + this.sidebarWidth * this.scale;
-        final float maxY = this.sidebarY + (this.sidebarHeight >> 1) * mscale;
-        final float minY = maxY - this.sidebarHeight * this.scale;
-        return mouseX > minX && mouseX < maxX && mouseY > minY - this.fr.FONT_HEIGHT * this.scale && mouseY < maxY;
-    }
-
-    public void drawSidebar(final ScoreObjective sidebar, final ScaledResolution res) {
-        if (!this.enabled) {
+    public void drawSidebar(ScoreObjective sidebar, ScaledResolution res) {
+        if (!enabled) {
             return;
         }
-        final FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
-        final Scoreboard scoreboard = sidebar.getScoreboard();
-        final List<Score> scores = new ArrayList<>();
-        this.sidebarWidth = fr.getStringWidth(sidebar.getDisplayName());
-        for (final Score score : scoreboard.getSortedScores(sidebar)) {
-            final String name = score.getPlayerName();
+        FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+        Scoreboard scoreboard = sidebar.getScoreboard();
+        List<Score> scores = new ArrayList<>();
+        sidebarWidth = fr.getStringWidth(sidebar.getDisplayName());
+
+        scoreboard.getSortedScores(sidebar).forEach(score -> {
+            String name = score.getPlayerName();
             if (scores.size() < 15 && name != null && !name.startsWith("#")) {
-                final Team team = scoreboard.getPlayersTeam(name);
-                final String s2 = this.redNumbers ? (": " + EnumChatFormatting.RED + score.getScorePoints()) : "";
-                final String str = ScorePlayerTeam.formatPlayerName(team, name) + s2;
-                this.sidebarWidth = Math.max(this.sidebarWidth, fr.getStringWidth(str));
+                Team team = scoreboard.getPlayersTeam(name);
+                String s2 = redNumbers ? (": " + EnumChatFormatting.RED + score.getScorePoints()) : "";
+                String str = ScorePlayerTeam.formatPlayerName(team, name) + s2;
+                sidebarWidth = Math.max(sidebarWidth, fr.getStringWidth(str));
                 scores.add(score);
             }
-        }
-        this.sidebarHeight = scores.size() * fr.FONT_HEIGHT;
-        this.sidebarX = res.getScaledWidth() - this.sidebarWidth - 3 + this.offsetX;
-        this.sidebarY = res.getScaledHeight() / 2 + this.sidebarHeight / 3 + this.offsetY;
-        final int scalePointX = this.sidebarX + this.sidebarWidth;
-        final int scalePointY = this.sidebarY - this.sidebarHeight / 2;
-        final float mscale = this.scale - 1.0f;
-        GL11.glTranslatef(-scalePointX * mscale, -scalePointY * mscale, 0.0f);
-        GL11.glScalef(this.scale, this.scale, 1.0f);
+        });
+
+        sidebarHeight = scores.size() * fr.FONT_HEIGHT;
+        sidebarX = res.getScaledWidth() - sidebarWidth - 3 + offsetX;
+        sidebarY = res.getScaledHeight() / 2 + sidebarHeight / 3 + offsetY;
+        int scalePointX = sidebarX + sidebarWidth;
+        int scalePointY = sidebarY - sidebarHeight / 2;
+        float mscale = scale - 1.0f;
+
+        GlStateManager.translate(-scalePointX * mscale, -scalePointY * mscale, 0.0f);
+        GlStateManager.scale(scale, scale, 1.0F);
+
         int index = 0;
-        for (final Score score2 : scores) {
+        for (Score score2 : scores) {
             ++index;
-            final ScorePlayerTeam team2 = scoreboard.getPlayersTeam(score2.getPlayerName());
-            final String s3 = ScorePlayerTeam.formatPlayerName(team2, score2.getPlayerName());
+            ScorePlayerTeam team2 = scoreboard.getPlayersTeam(score2.getPlayerName());
+            String s3 = ScorePlayerTeam.formatPlayerName(team2, score2.getPlayerName());
             String s4 = EnumChatFormatting.RED + "" + score2.getScorePoints();
-            if (!this.redNumbers) {
+
+            if (!redNumbers) {
                 s4 = "";
             }
-            final int scoreX = this.sidebarX + this.sidebarWidth + 1;
-            final int scoreY = this.sidebarY - index * fr.FONT_HEIGHT;
-            drawRect(this.sidebarX - 2, scoreY, scoreX, scoreY + fr.FONT_HEIGHT, this.getColor(false, true));
-            this.drawString(s3, this.sidebarX, scoreY, getColor(false, false));
-            this.drawString(s4, scoreX - fr.getStringWidth(s4), scoreY, getColor(false, false));
+
+            int scoreX = sidebarX + sidebarWidth + 1;
+            int scoreY = sidebarY - index * fr.FONT_HEIGHT;
+            drawRect(sidebarX - 2, scoreY, scoreX, scoreY + fr.FONT_HEIGHT, getColor(false, true));
+            drawString(s3, sidebarX, scoreY, getColor(false, false));
+            drawString(s4, scoreX - fr.getStringWidth(s4), scoreY, getColor(false, false));
             if (index == scores.size()) {
-                final String s5 = sidebar.getDisplayName();
-                drawRect(this.sidebarX - 2, scoreY - fr.FONT_HEIGHT - 1, scoreX, scoreY - 1, this.getColor(true, true));
-                drawRect(this.sidebarX - 2, scoreY - 1, scoreX, scoreY, this.getColor(false, true));
-                if (this.chromaEnabled) {
-                    this.drawString(s5, this.sidebarX + (this.sidebarWidth - fr.getStringWidth(s5)) / 2, scoreY - fr.FONT_HEIGHT, getColor(false, false));
-                } else {
-                    this.drawString(s5, this.sidebarX + (this.sidebarWidth - fr.getStringWidth(s5)) / 2, scoreY - fr.FONT_HEIGHT, 553648127);
-                }
+                String s5 = sidebar.getDisplayName();
+                drawRect(sidebarX - 2, scoreY - fr.FONT_HEIGHT - 1, scoreX, scoreY - 1, getColor(true, true));
+                drawRect(sidebarX - 2, scoreY - 1, scoreX, scoreY, getColor(false, true));
+
+                drawString(s5, sidebarX + (sidebarWidth - fr.getStringWidth(s5)) / 2, scoreY - fr.FONT_HEIGHT,
+                    chromaEnabled ? getColor(false, false) : 553648127);
             }
         }
-        GL11.glScalef(1.0f / this.scale, 1.0f / this.scale, 1.0f);
-        GL11.glTranslatef(scalePointX * mscale, scalePointY * mscale, 0.0f);
+
+        GlStateManager.scale(1.0F / scale, 1.0F / scale, 1.0F);
+        GlStateManager.translate(scalePointX * mscale, scalePointY * mscale, 0.0f);
     }
 
-    private int getColor(final boolean darker, final boolean isBackground) {
-        int rgb = this.color;
-        if (this.chromaEnabled && isBackground) {
+    private int getColor(boolean darker, boolean isBackground) {
+        int rgb = color;
+
+        if (chromaEnabled && isBackground) {
             long dif;
-            float ff;
-            switch (this.chromaType) {
+            float time;
+
+            switch (chromaType) {
                 case ONE:
                     dif = 0;
-                    ff = 1000.0f;
-                    long l = System.currentTimeMillis() - dif;
-                    l = l * chromaSpeed;
-                    rgb = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
+                    time = 1000.0f;
+                    long millis = System.currentTimeMillis() - dif;
+                    millis = millis * chromaSpeed;
+                    rgb = Color.HSBtoRGB((float) (millis % (int) time) / time, 0.8F, 0.8F);
                     break;
+
                 case TWO:
-                    dif = (this.sidebarX * 10) - (this.sidebarY * 10);
-                    ff = 2000.0f;
-                    long l2 = System.currentTimeMillis() - dif;
-                    rgb = Color.HSBtoRGB((float) (l2 % (int) ff) / ff, 0.8F, 0.8F);
+                    dif = (sidebarX * 10) - (sidebarY * 10);
+                    time = 2000.0f;
+                    long millisDif = System.currentTimeMillis() - dif;
+                    rgb = Color.HSBtoRGB((float) (millisDif % (int) time) / time, 0.8F, 0.8F);
                     break;
             }
-        } else if (this.chromaEnabled) {
+
+        } else if (chromaEnabled) {
             long dif;
-            float ff;
-            switch (this.chromaType) {
+            float time;
+
+            switch (chromaType) {
                 case THREE:
                     dif = 0;
-                    ff = 1000.0f;
+                    time = 1000.0f;
                     break;
                 case FOUR:
-                    dif = (this.sidebarX * 10) - (this.sidebarY * 10);
-                    ff = 2000.0f;
+                    dif = (sidebarX * 10) - (sidebarY * 10);
+                    time = 2000.0f;
                     break;
                 default:
                     return 553648127;
             }
-            long l = System.currentTimeMillis() - dif;
-            rgb = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
+
+            long millis = System.currentTimeMillis() - dif;
+            rgb = Color.HSBtoRGB((float) (millis % (int) time) / time, 0.8F, 0.8F);
         } else if (!isBackground) {
             rgb = 553648127;
         }
-        return isBackground ? (darker ? this.getColorWithAlpha(rgb, Math.min(255, this.alpha + 10)) : this.getColorWithAlpha(rgb, this.alpha)) : rgb;
+
+        return isBackground ? (darker ? getColorWithAlpha(rgb, Math.min(255, alpha + 10)) : getColorWithAlpha(rgb, alpha)) : rgb;
     }
 
-    private int getColorWithAlpha(final int rgb, final int a) {
-        final int r = rgb >> 16 & 0xFF;
-        final int g = rgb >> 8 & 0xFF;
-        final int b = rgb & 0xFF;
+    private int getColorWithAlpha(int rgb, int a) {
+        int r = rgb >> 16 & 0xFF;
+        int g = rgb >> 8 & 0xFF;
+        int b = rgb & 0xFF;
         return a << 24 | r << 16 | g << 8 | b;
     }
 
-    private void drawString(final String str, final int x, final int y, final int color) {
-        if (this.shadow) {
-            this.fr.drawStringWithShadow(str, (float) x, (float) y, color);
-        } else {
-            this.fr.drawString(str, x, y, color);
-        }
+    private void drawString(String str, int x, int y, int color) {
+        if (shadow) fr.drawStringWithShadow(str, (float) x, (float) y, color);
+        else fr.drawString(str, x, y, color);
     }
 }

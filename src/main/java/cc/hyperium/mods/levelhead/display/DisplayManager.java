@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class DisplayManager {
 
@@ -41,9 +42,7 @@ public class DisplayManager {
     private File file;
 
     public DisplayManager(LevelheadJsonHolder source, File file) {
-        if (source == null) {
-            source = new LevelheadJsonHolder();
-        }
+        if (source == null) source = new LevelheadJsonHolder();
 
         this.file = file;
 
@@ -83,9 +82,7 @@ public class DisplayManager {
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::save));
 
-        if (aboveHead.isEmpty()) {
-            aboveHead.add(new AboveHeadDisplay(new DisplayConfig()));
-        }
+        if (aboveHead.isEmpty()) aboveHead.add(new AboveHeadDisplay(new DisplayConfig()));
 
         if (tab == null) {
             DisplayConfig config = new DisplayConfig();
@@ -103,58 +100,36 @@ public class DisplayManager {
     }
 
     public void adjustIndexes() {
-        for (int i = 0; i < aboveHead.size(); i++) {
+        IntStream.range(0, aboveHead.size()).forEach(i -> {
             aboveHead.get(i).setBottomValue(i == 0);
             aboveHead.get(i).setIndex(i);
-        }
+        });
     }
 
     public void tick() {
-        if (!config.isEnabled()) {
-            return;
-        }
+        if (!config.isEnabled()) return;
 
         aboveHead.forEach(LevelheadDisplay::tick);
 
-        if (tab != null) {
-            tab.tick();
-        }
-
-        if (chat != null) {
-            chat.tick();
-        }
+        if (tab != null) tab.tick();
+        if (chat != null) chat.tick();
     }
 
     public void checkCacheSizes() {
         aboveHead.forEach(LevelheadDisplay::checkCacheSize);
 
-        if (tab != null) {
-            tab.checkCacheSize();
-        }
-
-        if (chat != null) {
-            chat.checkCacheSize();
-        }
+        if (tab != null) tab.checkCacheSize();
+        if (chat != null) chat.checkCacheSize();
     }
 
     public void save() {
         LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder();
         jsonHolder.put("master", new LevelheadJsonHolder(GSON.toJson(config)));
 
-        if (tab != null) {
-            jsonHolder.put("tab", new LevelheadJsonHolder(GSON.toJson(tab.getConfig())));
-        }
-
-        if (chat != null) {
-            jsonHolder.put("chat", new LevelheadJsonHolder(GSON.toJson(chat.getConfig())));
-        }
-
+        if (tab != null) jsonHolder.put("tab", new LevelheadJsonHolder(GSON.toJson(tab.getConfig())));
+        if (chat != null) jsonHolder.put("chat", new LevelheadJsonHolder(GSON.toJson(chat.getConfig())));
         JsonArray head = new JsonArray();
-
-        for (AboveHeadDisplay aboveHeadDisplay : aboveHead) {
-            head.add(new LevelheadJsonHolder(GSON.toJson(aboveHeadDisplay.getConfig())).getObject());
-        }
-
+        aboveHead.stream().map(aboveHeadDisplay -> new LevelheadJsonHolder(GSON.toJson(aboveHeadDisplay.getConfig())).getObject()).forEach(head::add);
         jsonHolder.put("head", head);
 
         try {
@@ -165,10 +140,10 @@ public class DisplayManager {
     }
 
     public void clearCache() {
-        for (AboveHeadDisplay aboveHeadDisplay : aboveHead) {
+        aboveHead.forEach(aboveHeadDisplay -> {
             aboveHeadDisplay.cache.clear();
             aboveHeadDisplay.trueValueCache.clear();
-        }
+        });
 
         if (tab != null) {
             tab.cache.clear();

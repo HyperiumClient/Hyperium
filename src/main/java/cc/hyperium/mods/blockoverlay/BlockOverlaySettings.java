@@ -41,13 +41,13 @@ public class BlockOverlaySettings {
             directory.mkdirs();
         }
 
-        this.configFile = new File(directory, "blockoverlay.json");
+        configFile = new File(directory, "blockoverlay.json");
     }
 
     public void load() {
         try {
-            if (this.configFile.getParentFile().exists() && this.configFile.exists()) {
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(this.configFile));
+            if (configFile.getParentFile().exists() && configFile.exists()) {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile));
                 String stringBuilder = bufferedReader.lines().collect(Collectors.joining(""));
                 BetterJsonObject json = new BetterJsonObject(stringBuilder);
                 String overlayMode = json.optString("overlayMode");
@@ -59,14 +59,14 @@ public class BlockOverlaySettings {
                     }
                 }
 
-                this.alwaysRender = json.optBoolean("alwaysRender");
-                this.isChroma = json.optBoolean("isChroma");
-                this.lineWidth = (float) json.optDouble("lineWidth");
-                this.overlayRed = (float) json.optDouble("overlayRed");
-                this.overlayGreen = (float) json.optDouble("overlayGreen");
-                this.overlayBlue = (float) json.optDouble("overlayBlue");
-                this.overlayAlpha = (float) json.optDouble("overlayAlpha");
-                this.chromaSpeed = json.optInt("chromaSpeed");
+                alwaysRender = json.optBoolean("alwaysRender");
+                isChroma = json.optBoolean("isChroma");
+                lineWidth = (float) json.optDouble("lineWidth");
+                overlayRed = (float) json.optDouble("overlayRed");
+                overlayGreen = (float) json.optDouble("overlayGreen");
+                overlayBlue = (float) json.optDouble("overlayBlue");
+                overlayAlpha = (float) json.optDouble("overlayAlpha");
+                chromaSpeed = json.optInt("chromaSpeed");
             }
         } catch (Exception exception) {
             System.out.println("[BlockOverlay] Error occurred while loading configuration!");
@@ -75,32 +75,31 @@ public class BlockOverlaySettings {
 
     public void save() {
         try {
-            if (!this.configFile.getParentFile().exists()) {
-                this.configFile.getParentFile().mkdirs();
+            if (!configFile.getParentFile().exists()) {
+                configFile.getParentFile().mkdirs();
             }
-            if (!this.configFile.exists()) {
-                //noinspection ResultOfMethodCallIgnored
-                this.configFile.createNewFile();
+            if (!configFile.exists()) {
+                configFile.createNewFile();
             }
 
             BetterJsonObject json = new BetterJsonObject();
-            json.addProperty("overlayMode", this.overlayMode.getName());
-            json.addProperty("alwaysRender", this.alwaysRender);
-            json.addProperty("isChroma", this.isChroma);
-            json.addProperty("lineWidth", this.lineWidth);
-            json.addProperty("overlayRed", this.overlayRed);
-            json.addProperty("overlayGreen", this.overlayGreen);
-            json.addProperty("overlayBlue", this.overlayBlue);
-            json.addProperty("overlayAlpha", this.overlayAlpha);
-            json.addProperty("chromaSpeed", this.chromaSpeed);
-            json.writeToFile(this.configFile);
+            json.addProperty("overlayMode", overlayMode.getName());
+            json.addProperty("alwaysRender", alwaysRender);
+            json.addProperty("isChroma", isChroma);
+            json.addProperty("lineWidth", lineWidth);
+            json.addProperty("overlayRed", overlayRed);
+            json.addProperty("overlayGreen", overlayGreen);
+            json.addProperty("overlayBlue", overlayBlue);
+            json.addProperty("overlayAlpha", overlayAlpha);
+            json.addProperty("chromaSpeed", chromaSpeed);
+            json.writeToFile(configFile);
         } catch (Exception exception) {
             System.out.println("[BlockOverlay] Error occurred while saving configuration!");
         }
     }
 
     public BlockOverlayMode getOverlayMode() {
-        return this.overlayMode;
+        return overlayMode;
     }
 
     public void setOverlayMode(BlockOverlayMode overlayMode) {
@@ -108,15 +107,15 @@ public class BlockOverlaySettings {
     }
 
     public boolean isChroma() {
-        return this.isChroma;
+        return isChroma;
     }
 
     public void setChroma(boolean chroma) {
-        this.isChroma = chroma;
+        isChroma = chroma;
     }
 
     public float getOverlayRed() {
-        return this.overlayRed;
+        return overlayRed;
     }
 
     public void setOverlayRed(float overlayRed) {
@@ -124,7 +123,7 @@ public class BlockOverlaySettings {
     }
 
     public float getOverlayGreen() {
-        return this.overlayGreen;
+        return overlayGreen;
     }
 
     public void setOverlayGreen(float overlayGreen) {
@@ -132,7 +131,7 @@ public class BlockOverlaySettings {
     }
 
     public float getOverlayBlue() {
-        return this.overlayBlue;
+        return overlayBlue;
     }
 
     public void setOverlayBlue(float overlayBlue) {
@@ -140,7 +139,7 @@ public class BlockOverlaySettings {
     }
 
     public float getOverlayAlpha() {
-        return this.overlayAlpha;
+        return overlayAlpha;
     }
 
     public void setOverlayAlpha(float overlayAlpha) {
@@ -148,7 +147,7 @@ public class BlockOverlaySettings {
     }
 
     public int getChromaSpeed() {
-        return this.chromaSpeed;
+        return chromaSpeed;
     }
 
     public void setChromaSpeed(int chromaSpeed) {
@@ -156,7 +155,7 @@ public class BlockOverlaySettings {
     }
 
     public float getLineWidth() {
-        return this.lineWidth;
+        return lineWidth;
     }
 
     public void setLineWidth(float lineWidth) {

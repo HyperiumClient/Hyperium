@@ -17,8 +17,8 @@
 
 package cc.hyperium.mixins.client.gui.inventory;
 
-import cc.hyperium.event.ActionPerformedEvent;
 import cc.hyperium.event.EventBus;
+import cc.hyperium.event.interact.ActionPerformedEvent;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiInventory;

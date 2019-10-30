@@ -104,8 +104,8 @@ class Book(bookName: String) {
     fun getCurrentPage(): Int = if (!isOpen()) -1 else (bookScreen as IMixinGuiScreenBook).currPage
 
     operator fun NBTTagCompound.set(tag: String, value: NBTBase) {
-        this.setTag(tag, value)
+        setTag(tag, value)
     }
 
-    operator fun NBTTagCompound.get(tag: String): NBTBase = this.getTag(tag)
+    operator fun NBTTagCompound.get(tag: String): NBTBase = getTag(tag)
 }

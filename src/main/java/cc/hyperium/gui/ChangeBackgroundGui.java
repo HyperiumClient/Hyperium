@@ -30,14 +30,16 @@ public class ChangeBackgroundGui extends GuiScreen {
         downloadUrlField = new GuiTextField(0, mc.fontRendererObj, width / 4, height / 2 - 10, width / 2, 20);
         downloadUrlField.setFocused(true);
         downloadUrlField.setMaxStringLength(150);
-        buttonList.add(new GuiButton(1, width / 2 - 150 / 2, height / 2 + 20, 150, 20, I18n.format("button.changebackground.seturl")));
-        buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 42, 150, 20, I18n.format("button.changebackground.choosefile")));
-        buttonList.add(new GuiButton(3, width / 2 - 150 / 2, height / 2 + 64, 150, 20, I18n.format("button.changebackground.resetbackground")));
-        buttonList.add(new GuiButton(4, width / 2 - 150 / 2, height / 2 + 86, 150, 20, I18n.format("gui.cancel")));
+        buttonList.add(new GuiButton(1, width / 2 - 150 / 2, height / 2 + 20, 150, 20,
+            I18n.format("button.changebackground.seturl")));
+        buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 42, 150, 20,
+            I18n.format("button.changebackground.choosefile")));
+        buttonList.add(new GuiButton(3, width / 2 - 150 / 2, height / 2 + 64, 150, 20,
+            I18n.format("button.changebackground.resetbackground")));
+        buttonList.add(new GuiButton(4, width / 2 - 150 / 2, height / 2 + 86, 150, 20,
+            I18n.format("gui.cancel")));
 
-        if (Minecraft.getMinecraft().isFullScreen()) {
-            Minecraft.getMinecraft().toggleFullscreen();
-        }
+        if (Minecraft.getMinecraft().isFullScreen()) Minecraft.getMinecraft().toggleFullscreen();
     }
 
     @Override
@@ -51,16 +53,10 @@ public class ChangeBackgroundGui extends GuiScreen {
 
         if (keyCode == Keyboard.KEY_ESCAPE) {
             mc.displayGuiScreen(prevGui);
-
-            if (Minecraft.getMinecraft().isFullScreen()) {
-                Minecraft.getMinecraft().toggleFullscreen();
-            }
+            if (Minecraft.getMinecraft().isFullScreen()) Minecraft.getMinecraft().toggleFullscreen();
         }
 
-        if (keyCode == Keyboard.KEY_RETURN) {
-            handleDownload();
-        }
-
+        if (keyCode == Keyboard.KEY_RETURN) handleDownload();
         super.keyTyped(typedChar, keyCode);
     }
 
@@ -81,11 +77,7 @@ public class ChangeBackgroundGui extends GuiScreen {
 
             case 4:
                 mc.displayGuiScreen(prevGui);
-
-                if (Minecraft.getMinecraft().isFullScreen()) {
-                    Minecraft.getMinecraft().toggleFullscreen();
-                }
-
+                if (Minecraft.getMinecraft().isFullScreen()) Minecraft.getMinecraft().toggleFullscreen();
                 break;
         }
 
@@ -95,11 +87,7 @@ public class ChangeBackgroundGui extends GuiScreen {
     private void handleResetBackground() {
         statusText = I18n.format("gui.changebackground.working");
         File file = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
-
-        if (file.exists()) {
-            file.delete();
-        }
-
+        if (file.exists()) file.delete();
         Settings.BACKGROUND = "4";
         statusText = I18n.format("gui.changebackground.done");
         mc.displayGuiScreen(prevGui);
@@ -115,7 +103,6 @@ public class ChangeBackgroundGui extends GuiScreen {
 
             if (!fileName.isEmpty()) {
                 statusText = I18n.format("gui.changebackground.working");
-
                 InputStream inputStream;
                 OutputStream outputStream;
 

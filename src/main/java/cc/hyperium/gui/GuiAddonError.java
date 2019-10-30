@@ -36,16 +36,16 @@ import org.lwjgl.input.Mouse;
 public class GuiAddonError extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.drawDefaultBackground();
+        drawDefaultBackground();
         int textY = 20;
-        drawCenteredString(this.fontRendererObj, ChatColor.RED.toString() + ChatColor.BOLD + "ERROR LOADING ADDONS", width / 2, textY, Color.WHITE.getRGB());
+        drawCenteredString(fontRendererObj, ChatColor.RED.toString() + ChatColor.BOLD + "ERROR LOADING ADDONS", width / 2, textY, Color.WHITE.getRGB());
         textY += 10;
-        drawCenteredString(this.fontRendererObj, ChatColor.RED.toString() + ChatColor.BOLD + "THE FOLLOWING ADDONS WON'T LOAD", width / 2, textY, Color.WHITE.getRGB());
+        drawCenteredString(fontRendererObj, ChatColor.RED.toString() + ChatColor.BOLD + "THE FOLLOWING ADDONS WON'T LOAD", width / 2, textY, Color.WHITE.getRGB());
         textY += 10;
         if (!AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty()) {
             for (Map.Entry<AddonManifest, ArrayList<String>> entry : AddonMinecraftBootstrap.getMissingDependenciesMap().entrySet()) {
                 textY += 10;
-                drawCenteredString(this.fontRendererObj, ChatColor.RED + entry.getKey().getName() + " needs " + StringUtils
+                drawCenteredString(fontRendererObj, ChatColor.RED + entry.getKey().getName() + " needs " + StringUtils
                     .join(entry.getValue(), ", ") + " to load.", width / 2, textY, Color.WHITE.getRGB());
             }
         }
@@ -54,7 +54,8 @@ public class GuiAddonError extends GuiScreen {
         if (!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty()) {
             for (Map.Entry<AddonManifest, ArrayList<AddonManifest>> entry : AddonMinecraftBootstrap.getDependenciesLoopMap().entrySet()) {
                 textY += 10;
-                drawCenteredString(this.fontRendererObj, ChatColor.RED + entry.getKey().getName() + " can't load together with " + StringUtils.join(entry.getValue().stream().map(AddonManifest::getName).collect(Collectors
+                drawCenteredString(fontRendererObj, ChatColor.RED + entry.getKey().getName() + " can't load together with " +
+                    StringUtils.join(entry.getValue().stream().map(AddonManifest::getName).collect(Collectors
                     .toList()), ", " + "."), width / 2, textY, Color.WHITE.getRGB());
             }
         }

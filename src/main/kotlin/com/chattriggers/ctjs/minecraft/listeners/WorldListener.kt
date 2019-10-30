@@ -1,6 +1,11 @@
 package com.chattriggers.ctjs.minecraft.listeners
 
 import cc.hyperium.event.*
+import cc.hyperium.event.client.TickEvent
+import cc.hyperium.event.render.RenderHUDEvent
+import cc.hyperium.event.world.WorldLoadEvent
+import cc.hyperium.event.world.WorldUnloadEvent
+import cc.hyperium.event.world.audio.SoundPlayEvent
 import com.chattriggers.ctjs.CTJS
 import com.chattriggers.ctjs.minecraft.wrappers.World
 import com.chattriggers.ctjs.triggers.TriggerType
@@ -14,8 +19,8 @@ object WorldListener {
 
     @InvokeEvent
     fun onWorldLoad(event: WorldLoadEvent) {
-        this.playerList.clear()
-        this.shouldTriggerWorldLoad = true
+        playerList.clear()
+        shouldTriggerWorldLoad = true
     }
 
     @InvokeEvent
@@ -119,7 +124,7 @@ object WorldListener {
             try {
                 World.getPlayerByName(it)
             } catch (exception: Exception) {
-                this.playerList.remove(it)
+                playerList.remove(it)
                 TriggerType.PLAYER_LEAVE.triggerAll(it)
                 break
             }

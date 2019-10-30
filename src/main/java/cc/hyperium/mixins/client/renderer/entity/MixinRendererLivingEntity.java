@@ -27,6 +27,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.Team;
 import org.spongepowered.asm.mixin.Mixin;
@@ -56,9 +57,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
      */
     @Overwrite
     protected boolean canRenderName(T entity) {
-        if (Settings.BETTERF1 && Minecraft.getMinecraft().gameSettings.hideGUI) {
-            return false;
-        }
+        if (Settings.BETTERF1 && Minecraft.getMinecraft().gameSettings.hideGUI) return false;
         EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
 
         if (entity instanceof EntityPlayer) {
@@ -82,7 +81,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
             }
         }
 
-        return Minecraft.isGuiEnabled() && entity != this.renderManager.livingPlayer && !entity.isInvisibleToPlayer(entityplayersp) && entity.riddenByEntity == null;
+        return Minecraft.isGuiEnabled() && entity != renderManager.livingPlayer && !entity.isInvisibleToPlayer(entityplayersp) && entity.riddenByEntity == null;
     }
 
     /**
@@ -90,7 +89,8 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
      * @reason 1.7 Red Armor
      */
     @Overwrite
-    protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
+    protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_,
+                                float p_177093_6_, float p_177093_7_, float p_177093_8_) {
         hyperiumRenderLivingEntity.renderLayers(entitylivingbaseIn, p_177093_2_, p_177093_3_, partialTicks, p_177093_5_, p_177093_6_, p_177093_7_, p_177093_8_, layerRenderers);
     }
 
@@ -119,6 +119,6 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
 
     @Inject(method = "doRender", at = @At("HEAD"), cancellable = true)
     private void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
-        hyperiumRenderLivingEntity.doRender(entity, ci);
+        if (Settings.DISABLE_ARMORSTANDS && entity instanceof EntityArmorStand) ci.cancel();
     }
 }

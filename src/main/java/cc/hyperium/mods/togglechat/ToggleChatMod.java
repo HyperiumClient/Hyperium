@@ -52,27 +52,27 @@ public final class ToggleChatMod extends AbstractMod {
 
         metadata.setDisplayName(ChatColor.AQUA + "ToggleChatLite");
 
-        this.meta = metadata;
+        meta = metadata;
     }
 
     public AbstractMod init() {
-        this.configLoader = new ToggleChatConfig(this, Hyperium.folder);
+        configLoader = new ToggleChatConfig(this, Hyperium.folder);
 
-        this.toggleHandler = new ToggleBaseHandler();
-        this.toggleHandler.remake();
+        toggleHandler = new ToggleBaseHandler();
+        toggleHandler.remake();
 
         EventBus.INSTANCE.register(new ToggleChatEvents(this));
 
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandToggleChat(this));
 
-        this.configLoader.loadToggles();
+        configLoader.loadToggles();
 
         return this;
     }
 
     @Override
     public Metadata getModMetadata() {
-        return this.meta;
+        return meta;
     }
 
     /**
@@ -81,7 +81,7 @@ public final class ToggleChatMod extends AbstractMod {
      * @return the configuration
      */
     public ToggleChatConfig getConfigLoader() {
-        return this.configLoader;
+        return configLoader;
     }
 
     /**
@@ -90,6 +90,6 @@ public final class ToggleChatMod extends AbstractMod {
      * @return the handlers instance
      */
     public ToggleBaseHandler getToggleHandler() {
-        return this.toggleHandler;
+        return toggleHandler;
     }
 }

@@ -18,11 +18,11 @@
 package cc.hyperium.utils.mods;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.ChatEvent;
+import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.Priority;
-import cc.hyperium.event.SpawnpointChangeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.world.SpawnpointChangeEvent;
+import cc.hyperium.event.client.TickEvent;
 import org.lwjgl.opengl.Display;
 
 public class FPSLimiter {
@@ -42,8 +42,7 @@ public class FPSLimiter {
      * @return the class instance
      */
     public static FPSLimiter getInstance() {
-        if (instance == null)
-            instance = new FPSLimiter();
+        if (instance == null) instance = new FPSLimiter();
         return instance;
     }
 
@@ -78,8 +77,7 @@ public class FPSLimiter {
      */
     @InvokeEvent
     public void tick(TickEvent event) {
-        if (limbo)
-            time++;
+        if (limbo) time++;
         else time = 0;
     }
 

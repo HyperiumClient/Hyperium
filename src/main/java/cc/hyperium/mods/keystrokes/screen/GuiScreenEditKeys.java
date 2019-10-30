@@ -47,9 +47,9 @@ public class GuiScreenEditKeys extends GuiScreen {
     private int previousOpacity;
 
     GuiScreenEditKeys(KeystrokesMod mod) {
-        this.selected = null;
-        this.currentlyDragging = null;
-        this.listeningForNewKey = false;
+        selected = null;
+        currentlyDragging = null;
+        listeningForNewKey = false;
         this.mod = mod;
         previousOpacity = mod.getSettings().getKeyBackgroundOpacity();
     }
@@ -118,9 +118,7 @@ public class GuiScreenEditKeys extends GuiScreen {
 
     @Override
     public void onGuiClosed() {
-        if (updated) {
-            mod.getSettings().save();
-        }
+        if (updated) mod.getSettings().save();
         Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiScreenKeystrokes(mod));
     }
 
@@ -140,7 +138,8 @@ public class GuiScreenEditKeys extends GuiScreen {
         mod.getRenderer().renderKeystrokes();
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        if (selected != null && Mouse.isButtonDown(0) && currentlyDragging == null && selected.getKey().getHitbox().multiply(mod.getSettings().getScale()).isMouseOver(mouseX, mouseY)) {
+        if (selected != null && Mouse.isButtonDown(0) && currentlyDragging == null &&
+            selected.getKey().getHitbox().multiply(mod.getSettings().getScale()).isMouseOver(mouseX, mouseY)) {
             currentlyDragging = selected;
         }
     }
@@ -155,17 +154,13 @@ public class GuiScreenEditKeys extends GuiScreen {
             }
         }
 
-        if (!hovered) {
-            selected = null;
-        }
+        if (!hovered) selected = null;
 
-        for (CustomKeyWrapper wrapper : getKeys()) {
-            if (wrapper.getKey().getHitbox().multiply(mod.getSettings().getScale()).isMouseOver(mouseX, mouseY)) {
-                selected = wrapper;
-                lastMouseX = mouseX;
-                lastMouseY = mouseY;
-            }
-        }
+        getKeys().stream().filter(wrapper -> wrapper.getKey().getHitbox().multiply(mod.getSettings().getScale()).isMouseOver(mouseX, mouseY)).forEach(wrapper -> {
+            selected = wrapper;
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+        });
     }
 
     @Override

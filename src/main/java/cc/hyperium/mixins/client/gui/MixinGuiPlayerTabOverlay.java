@@ -51,7 +51,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
      */
     @Overwrite
     protected void drawPing(int p_175245_1_, int p_175245_2_, int yIn, NetworkPlayerInfo networkPlayerInfoIn) {
-        hyperiumGuiPlayerTabOverlay.drawPing(p_175245_1_, p_175245_2_, yIn, networkPlayerInfoIn, this.zLevel, this.mc);
+        hyperiumGuiPlayerTabOverlay.drawPing(p_175245_1_, p_175245_2_, yIn, networkPlayerInfoIn, zLevel, mc);
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
      */
     @Overwrite
     public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn) {
-        hyperiumGuiPlayerTabOverlay.renderPlayerlist(width, scoreboardIn, scoreObjectiveIn, field_175252_a, this.header, this.footer, this.mc);
+        hyperiumGuiPlayerTabOverlay.renderPlayerlist(width, scoreboardIn, scoreObjectiveIn, field_175252_a, header, footer, mc);
     }
 
     @Inject(method = "setHeader", at = @At("HEAD"))

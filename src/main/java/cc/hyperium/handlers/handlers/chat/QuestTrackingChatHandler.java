@@ -45,12 +45,14 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler {
             json = new JsonArray();
             save();
         }
+
         load();
     }
 
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
         Matcher matcher = regexPatterns.get(ChatRegexType.QUEST_COMPLETE).matcher(text);
+
         if (matcher.matches()) {
             JsonObject record = new JsonObject();
             record.add("name", new JsonPrimitive(matcher.group("name")));
@@ -59,6 +61,7 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler {
             json.add(record);
             save();
         }
+
         return false;
     }
 
@@ -85,10 +88,12 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler {
     public List<QuestData> getTrackedQuests() {
         List<QuestData> trackedQuests = new ArrayList<>();
         load();
+
         json.forEach(e -> {
             JsonObject o = e.getAsJsonObject();
             trackedQuests.add(new QuestData(o.get("name").getAsString(), o.get("type").getAsString(), o.get("timestamp").getAsLong()));
         });
+
         return trackedQuests;
     }
 

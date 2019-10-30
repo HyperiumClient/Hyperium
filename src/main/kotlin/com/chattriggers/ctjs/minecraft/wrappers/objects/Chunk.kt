@@ -12,7 +12,7 @@ class Chunk(val chunk: MCChunk) {
      * @return the entity list
      */
     fun getAllEntities(): List<Entity> {
-        return this.chunk.entityLists.toList().flatten().map {
+        return chunk.entityLists.toList().flatten().map {
             Entity(it)
         }
     }

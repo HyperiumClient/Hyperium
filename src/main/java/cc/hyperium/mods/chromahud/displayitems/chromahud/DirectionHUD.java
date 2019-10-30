@@ -37,7 +37,7 @@ public class DirectionHUD extends DisplayItem {
 
     public DirectionHUD(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
-        this.height = 10;
+        height = 10;
         shortDirection = raw.optBoolean("shortDirection");
     }
 
@@ -46,24 +46,22 @@ public class DirectionHUD extends DisplayItem {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (player != null) {
             int d = (int) player.rotationYaw;
-            if (d < 0)
-                d += 360;
+            if (d < 0) d += 360;
             d += 22;
             int direction = (d % 360);
             direction = direction / (45);
+
             try {
                 while (direction < 0) {
                     direction += 8;
                 }
-                if (!shortDirection) {
-                    list.add(dir[direction]);
-                } else {
-                    list.add(dirShort[direction]);
-                }
+
+                list.add(!shortDirection ? dir[direction] : dirShort[direction]);
             } catch (Exception ignored) {}
         }
+
         ElementRenderer.draw(x, y, list);
-        this.width = isConfig ? ElementRenderer.maxWidth(list) : 0;
+        width = isConfig ? ElementRenderer.maxWidth(list) : 0;
     }
 
     public void toggleShortDirection() {

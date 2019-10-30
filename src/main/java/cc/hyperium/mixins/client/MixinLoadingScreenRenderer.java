@@ -58,20 +58,20 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
         if (Settings.HYPERIUM_LOADING_SCREEN) {
             long nanoTime = Minecraft.getSystemTime();
 
-            if (nanoTime - this.systemTime >= 100L) {
-                this.systemTime = nanoTime;
-                ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+            if (nanoTime - systemTime >= 100L) {
+                systemTime = nanoTime;
+                ScaledResolution scaledresolution = new ScaledResolution(mc);
                 int scaleFactor = scaledresolution.getScaleFactor();
                 int scaledWidth = scaledresolution.getScaledWidth();
                 int scaledHeight = scaledresolution.getScaledHeight();
 
                 if (OpenGlHelper.isFramebufferEnabled()) {
-                    this.framebuffer.framebufferClear();
+                    framebuffer.framebufferClear();
                 } else {
                     GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT);
                 }
 
-                this.framebuffer.bindFramebuffer(false);
+                framebuffer.bindFramebuffer(false);
                 GlStateManager.matrixMode(GL11.GL_PROJECTION);
                 GlStateManager.loadIdentity();
                 GlStateManager.ortho(0.0D, scaledresolution.getScaledWidth_double(), scaledresolution.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
@@ -79,9 +79,7 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
                 GlStateManager.loadIdentity();
                 GlStateManager.translate(0.0F, 0.0F, -200.0F);
 
-                if (!OpenGlHelper.isFramebufferEnabled()) {
-                    GlStateManager.clear(16640);
-                }
+                if (!OpenGlHelper.isFramebufferEnabled()) GlStateManager.clear(16640);
 
                 Tessellator tessellator = Tessellator.getInstance();
                 WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -90,12 +88,12 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
                 Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0f, 0.0f, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
 
                 int progress;
-                if (this.currentlyDisplayedText.equals("Loading world")) {
-                    if (this.message.isEmpty()) {
+                if ("Loading world".equals(currentlyDisplayedText)) {
+                    if (message.isEmpty()) {
                         progress = 33;
-                    } else if (this.message.equals("Converting world")) {
+                    } else if (message.equals("Converting world")) {
                         progress = 66;
-                    } else if (this.message.equals("Building terrain")) {
+                    } else if (message.equals("Building terrain")) {
                         progress = 90;
                     } else {
                         progress = 100;
@@ -130,16 +128,15 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
 
                 GlStateManager.enableBlend();
                 GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-                int white = 16777215;
-                this.mc.fontRendererObj.drawString(this.currentlyDisplayedText, 5, scaledResolution.getScaledHeight() - 30, white);
-                this.mc.fontRendererObj.drawString(this.message, 5, scaledResolution.getScaledHeight() - 15, white);
-                this.framebuffer.unbindFramebuffer();
+                mc.fontRendererObj.drawString(currentlyDisplayedText, 5, scaledResolution.getScaledHeight() - 30, -1);
+                mc.fontRendererObj.drawString(message, 5, scaledResolution.getScaledHeight() - 15, -1);
+                framebuffer.unbindFramebuffer();
 
                 if (OpenGlHelper.isFramebufferEnabled()) {
-                    this.framebuffer.framebufferRender(scaledWidth * scaleFactor, scaledHeight * scaleFactor);
+                    framebuffer.framebufferRender(scaledWidth * scaleFactor, scaledHeight * scaleFactor);
                 }
 
-                this.mc.updateDisplay();
+                mc.updateDisplay();
 
                 try {
                     Thread.yield();

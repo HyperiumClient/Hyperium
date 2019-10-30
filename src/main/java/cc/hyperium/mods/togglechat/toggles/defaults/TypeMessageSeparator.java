@@ -42,7 +42,7 @@ public class TypeMessageSeparator extends ToggleBase {
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

@@ -46,17 +46,17 @@ public class HyperiumFontRenderer {
     public HyperiumFontRenderer(String fontName, float fontSize, float kerning, float antiAliasingFactor) {
         this.antiAliasingFactor = antiAliasingFactor;
         try {
-            this.unicodeFont = new UnicodeFont(getFontByName(fontName).deriveFont(fontSize * this.antiAliasingFactor));
+            unicodeFont = new UnicodeFont(getFontByName(fontName).deriveFont(fontSize * this.antiAliasingFactor));
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
         this.kerning = kerning;
 
-        this.unicodeFont.addAsciiGlyphs();
-        this.unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
+        unicodeFont.addAsciiGlyphs();
+        unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
 
         try {
-            this.unicodeFont.loadGlyphs();
+            unicodeFont.loadGlyphs();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,20 +77,20 @@ public class HyperiumFontRenderer {
                 blue /= 4;
             }
 
-            this.colorCodes[i] = (red & 255) << 16 | (green & 255) << 8 | blue & 255;
+            colorCodes[i] = (red & 255) << 16 | (green & 255) << 8 | blue & 255;
         }
     }
 
     public HyperiumFontRenderer(Font font, float kerning, float antiAliasingFactor) {
         this.antiAliasingFactor = antiAliasingFactor;
-        this.unicodeFont = new UnicodeFont(new Font(font.getName(), font.getStyle(), (int) (font.getSize() * antiAliasingFactor)));
+        unicodeFont = new UnicodeFont(new Font(font.getName(), font.getStyle(), (int) (font.getSize() * antiAliasingFactor)));
         this.kerning = kerning;
 
-        this.unicodeFont.addAsciiGlyphs();
-        this.unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
+        unicodeFont.addAsciiGlyphs();
+        unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
 
         try {
-            this.unicodeFont.loadGlyphs();
+            unicodeFont.loadGlyphs();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,7 +111,7 @@ public class HyperiumFontRenderer {
                 blue /= 4;
             }
 
-            this.colorCodes[i] = (red & 255) << 16 | (green & 255) << 8 | blue & 255;
+            colorCodes[i] = (red & 255) << 16 | (green & 255) << 8 | blue & 255;
         }
     }
 
@@ -147,8 +147,7 @@ public class HyperiumFontRenderer {
     }
 
     public int drawString(String text, float x, float y, int color) {
-        if (text == null)
-            return 0;
+        if (text == null) return 0;
 
         x *= 2.0F;
         y *= 2.0F;
@@ -169,24 +168,18 @@ public class HyperiumFontRenderer {
         boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);
         boolean lighting = GL11.glIsEnabled(GL11.GL_LIGHTING);
         boolean texture = GL11.glIsEnabled(GL11.GL_TEXTURE_2D);
-        if (!blend)
-            GL11.glEnable(GL11.GL_BLEND);
-        if (lighting)
-            GL11.glDisable(GL11.GL_LIGHTING);
-        if (texture)
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
+        if (!blend) GL11.glEnable(GL11.GL_BLEND);
+        if (lighting) GL11.glDisable(GL11.GL_LIGHTING);
+        if (texture) GL11.glDisable(GL11.GL_TEXTURE_2D);
 
         int currentColor = color;
         char[] characters = text.toCharArray();
 
         int index = 0;
         for (char c : characters) {
-            if (c == '\r') {
-                x = originalX;
-            }
-            if (c == '\n') {
-                y += getHeight(Character.toString(c)) * 2.0F;
-            }
+            if (c == '\r') x = originalX;
+            if (c == '\n') y += getHeight(Character.toString(c)) * 2.0F;
+
             if (c != '\247' && (index == 0 || index == characters.length - 1 || characters[index - 1] != '\247')) {
                 //Line causing error
                 unicodeFont.drawString(x, y, Character.toString(c), new org.newdawn.slick.Color(currentColor));
@@ -196,8 +189,7 @@ public class HyperiumFontRenderer {
             } else if (c == '\247' && index != characters.length - 1) {
                 int codeIndex = "0123456789abcdefg".indexOf(text.charAt(index + 1));
                 if (codeIndex < 0) continue;
-
-                currentColor = this.colorCodes[codeIndex];
+                currentColor = colorCodes[codeIndex];
             }
 
             index++;
@@ -246,13 +238,12 @@ public class HyperiumFontRenderer {
     }
 
     public float getWidth(String s) {
-        if (cachedStringWidth.size() > 1000)
-            cachedStringWidth.clear();
+        if (cachedStringWidth.size() > 1000) cachedStringWidth.clear();
         return cachedStringWidth.computeIfAbsent(s, e -> {
             float width = 0.0F;
             String str = StringUtils.stripControlCodes(s);
             for (char c : str.toCharArray()) {
-                width += unicodeFont.getWidth(Character.toString(c)) + this.kerning;
+                width += unicodeFont.getWidth(Character.toString(c)) + kerning;
             }
 
             return width / 2.0F / antiAliasingFactor;
@@ -269,16 +260,14 @@ public class HyperiumFontRenderer {
 
             for (int j = 0; j < text.length(); ++j) {
                 char c0 = text.charAt(j);
-                float k = this.getWidth(String.valueOf(c0));
+                float k = getWidth(String.valueOf(c0));
 
                 if (k < 0 && j < text.length() - 1) {
                     ++j;
                     c0 = text.charAt(j);
 
                     if (c0 != 'l' && c0 != 'L') {
-                        if (c0 == 'r' || c0 == 'R') {
-                            flag = false;
-                        }
+                        if (c0 == 'r' || c0 == 'R') flag = false;
                     } else {
                         flag = true;
                     }
@@ -287,10 +276,7 @@ public class HyperiumFontRenderer {
                 }
 
                 i += k;
-
-                if (flag && k > 0) {
-                    ++i;
-                }
+                if (flag && k > 0) ++i;
             }
 
             return i;
@@ -306,7 +292,7 @@ public class HyperiumFontRenderer {
     }
 
     public UnicodeFont getFont() {
-        return this.unicodeFont;
+        return unicodeFont;
     }
 
     public String trimStringToWidth(String par1Str, int par2) {
@@ -319,15 +305,13 @@ public class HyperiumFontRenderer {
 
         for (int var10 = var6; var10 >= 0 && var10 < par1Str.length() && var5 < (float) par2; var10 += var7) {
             char var11 = par1Str.charAt(var10);
-            float var12 = this.getCharWidth(var11);
+            float var12 = getCharWidth(var11);
 
             if (var8) {
                 var8 = false;
 
                 if (var11 != 108 && var11 != 76) {
-                    if (var11 == 114 || var11 == 82) {
-                        var9 = false;
-                    }
+                    if (var11 == 114 || var11 == 82) var9 = false;
                 } else {
                     var9 = true;
                 }
@@ -335,17 +319,11 @@ public class HyperiumFontRenderer {
                 var8 = true;
             } else {
                 var5 += var12;
-
-                if (var9) {
-                    ++var5;
-                }
+                if (var9) ++var5;
             }
 
-            if (var5 > (float) par2) {
-                break;
-            } else {
-                var4.append(var11);
-            }
+            if (var5 > (float) par2) break;
+            else var4.append(var11);
         }
 
         return var4.toString();
@@ -373,8 +351,10 @@ public class HyperiumFontRenderer {
                 lines.add(currentString.toString());
                 currentString = new StringBuilder();
             }
+
             currentString.append(word).append(" ");
         }
+
         lines.add(currentString.toString());
         return lines;
     }

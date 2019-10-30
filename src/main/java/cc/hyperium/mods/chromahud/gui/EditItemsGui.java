@@ -94,32 +94,23 @@ public class EditItemsGui extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton button) {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
-        if (guiButtonConsumer != null) {
-            guiButtonConsumer.accept(button);
-        }
-
+        if (guiButtonConsumer != null) guiButtonConsumer.accept(button);
     }
 
     private void reg(GuiButton button, Consumer<GuiButton> consumer) {
         buttonList.removeIf(button1 -> button1.id == button.id);
         clicks.keySet().removeIf(button1 -> button1.id == button.id);
-
-        this.buttonList.add(button);
-
-        if (consumer != null) {
-            this.clicks.put(button, consumer);
-        }
+        buttonList.add(button);
+        if (consumer != null) clicks.put(button, consumer);
     }
 
     @Override
     public void updateScreen() {
         super.updateScreen();
-        for (GuiButton guiButton : buttonList) {
+        buttonList.forEach(guiButton -> {
             Consumer<GuiButton> guiButtonConsumer = updates.get(guiButton);
-            if (guiButtonConsumer != null) {
-                guiButtonConsumer.accept(guiButton);
-            }
-        }
+            if (guiButtonConsumer != null) guiButtonConsumer.accept(guiButton);
+        });
     }
 
     @Override
@@ -130,14 +121,10 @@ public class EditItemsGui extends GuiScreen {
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         super.keyTyped(typedChar, keyCode);
-        if (modifying == null)
-            return;
+        if (modifying == null) return;
         List<TextConfig> textConfigs = ChromaHUDApi.getInstance().getTextConfigs(modifying.getType());
         if (textConfigs != null && !textConfigs.isEmpty()) {
-            for (TextConfig config : textConfigs) {
-                GuiTextField textField = config.getTextField();
-                textField.textboxKeyTyped(typedChar, keyCode);
-            }
+            textConfigs.stream().map(TextConfig::getTextField).forEach(textField -> textField.textboxKeyTyped(typedChar, keyCode));
         }
     }
 
@@ -146,7 +133,6 @@ public class EditItemsGui extends GuiScreen {
         if (modifying != null) {
             List<ButtonConfig> configs = ChromaHUDApi.getInstance().getButtonConfigs(modifying.getType());
             if (configs != null && !configs.isEmpty()) {
-
                 for (ButtonConfig config : configs) {
                     GuiButton button = config.getButton();
                     if (button.mousePressed(mc, mouseX, mouseY)) {
@@ -155,6 +141,7 @@ public class EditItemsGui extends GuiScreen {
                     }
                 }
             }
+
             List<TextConfig> textConfigs = ChromaHUDApi.getInstance().getTextConfigs(modifying.getType());
             if (textConfigs != null && !textConfigs.isEmpty()) {
                 for (TextConfig config : textConfigs) {
@@ -163,10 +150,10 @@ public class EditItemsGui extends GuiScreen {
                     if (textField.isFocused()) {
                         return;
                     }
-
                 }
             }
         }
+
         super.mouseClicked(mouseX, mouseY, mouseButton);
         if (mouseButton == 0) {
             DisplayItem item1 = null;
@@ -182,25 +169,23 @@ public class EditItemsGui extends GuiScreen {
                         item1 = displayItem;
                         break;
                     }
+
                     //Adjust for 3 pixel gap
                     yPosition += 23;
                 }
             }
+
             for (GuiButton guiButton : super.buttonList) {
-                if (guiButton.isMouseOver())
-                    return;
-            }
-            this.modifying = item1;
-            if (this.modifying != null) {
-                ChromaHUDApi.getInstance().getTextConfigs(this.modifying.getType()).forEach((config) -> config.getLoad().accept(config.getTextField(), this.modifying));
-                ChromaHUDApi.getInstance().getButtonConfigs(this.modifying.getType()).forEach((button) -> button.getLoad().accept(button.getButton(), this.modifying));
-                ChromaHUDApi.getInstance().getStringConfigs(this.modifying.getType()).forEach((button) -> button.getLoad().accept(this.modifying));
+                if (guiButton.isMouseOver()) return;
             }
 
-
+            modifying = item1;
+            if (modifying != null) {
+                ChromaHUDApi.getInstance().getTextConfigs(modifying.getType()).forEach((config) -> config.getLoad().accept(config.getTextField(), modifying));
+                ChromaHUDApi.getInstance().getButtonConfigs(modifying.getType()).forEach((button) -> button.getLoad().accept(button.getButton(), modifying));
+                ChromaHUDApi.getInstance().getStringConfigs(modifying.getType()).forEach((button) -> button.getLoad().accept(modifying));
+            }
         }
-
-
     }
 
     @Override
@@ -209,22 +194,15 @@ public class EditItemsGui extends GuiScreen {
         if (modifying != null) {
             List<ButtonConfig> configs = ChromaHUDApi.getInstance().getButtonConfigs(modifying.getType());
             if (configs != null && !configs.isEmpty()) {
-
-                for (ButtonConfig config : configs) {
-                    GuiButton button = config.getButton();
-                    button.mouseReleased(mouseX, mouseY);
-                }
+                configs.stream().map(ButtonConfig::getButton).forEach(button -> button.mouseReleased(mouseX, mouseY));
             }
-
         }
-
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         ScaledResolution current = ResolutionUtil.current();
         drawRect(0, 0, current.getScaledWidth(), current.getScaledHeight(), new Color(0, 0, 0, 150).getRGB());
-
         super.drawScreen(mouseX, mouseY, partialTicks);
         ElementRenderer.startDrawing(element);
         element.renderEditView();
@@ -241,16 +219,20 @@ public class EditItemsGui extends GuiScreen {
             FontRenderer fontrenderer = mc.fontRendererObj;
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             boolean hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
-            drawRect(xPosition, yPosition, xPosition + width, yPosition + height, this.modifying != null && this.modifying.getOrdinal() == displayItem.getOrdinal() || hovered ? otherColor.getRGB() : defaultColor.getRGB());
+            drawRect(xPosition, yPosition, xPosition + width, yPosition + height, modifying != null && modifying.getOrdinal() == displayItem.getOrdinal() ||
+                hovered ? otherColor.getRGB() : defaultColor.getRGB());
             int j = Color.RED.getRGB();
             String displayString = ChromaHUDApi.getInstance().getName(displayItem.getType());
-            fontrenderer.drawString(displayString, (xPosition + (width >> 1) - (fontrenderer.getStringWidth(displayString) >> 1)), yPosition + ((height - 8) >> 1), j, false);
+            fontrenderer.drawString(displayString, (xPosition + (width >> 1) - (fontrenderer.getStringWidth(displayString) >> 1)), yPosition + ((height - 8) >> 1), j,
+                false);
             yPosition += 23;
         }
+
         if (modifying != null) {
             List<ButtonConfig> configs = ChromaHUDApi.getInstance().getButtonConfigs(modifying.getType());
             xPosition = 3;
             yPosition = 5 + 21 * 4;
+
             if (configs != null && !configs.isEmpty()) {
                 for (ButtonConfig config : configs) {
                     GuiButton button = config.getButton();
@@ -260,6 +242,7 @@ public class EditItemsGui extends GuiScreen {
                     yPosition += 23;
                 }
             }
+
             List<TextConfig> textConfigs = ChromaHUDApi.getInstance().getTextConfigs(modifying.getType());
             if (textConfigs != null && !textConfigs.isEmpty()) {
                 for (TextConfig config : textConfigs) {
@@ -271,6 +254,7 @@ public class EditItemsGui extends GuiScreen {
                     config.getAction().accept(textField, modifying);
                 }
             }
+
             int rightBound = (int) (ResolutionUtil.current().getScaledWidth_double() / 2 - 90);
             List<StringConfig> stringConfigs = ChromaHUDApi.getInstance().getStringConfigs(modifying.getType());
             if (stringConfigs != null && !stringConfigs.isEmpty()) {

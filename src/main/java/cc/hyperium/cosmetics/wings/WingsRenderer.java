@@ -21,7 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderPlayerEvent;
+import cc.hyperium.event.render.RenderPlayerEvent;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
@@ -32,6 +32,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.util.stream.IntStream;
 
 public class WingsRenderer extends ModelBase {
 
@@ -60,27 +62,18 @@ public class WingsRenderer extends ModelBase {
 
     @InvokeEvent
     public void onRenderPlayer(RenderPlayerEvent event) {
-        if (CosmeticsUtil.shouldHide(EnumPurchaseType.WING_COSMETIC))
-            return;
+        if (CosmeticsUtil.shouldHide(EnumPurchaseType.WING_COSMETIC)) return;
         EntityPlayer player = event.getEntity();
         if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible()) {
             HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
-            if (packageIfReady == null)
-                return;
-            if (packageIfReady.getCachedSettings().isWingsDisabled()) {
-                return;
-            }
-
+            if (packageIfReady == null || packageIfReady.getCachedSettings().isWingsDisabled()) return;
             renderWings(player, event.getPartialTicks(), event.getX(), event.getY(), event.getZ());
         }
     }
 
     private void renderWings(EntityPlayer player, float partialTicks, double x, double y, double z) {
         HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(player.getUniqueID());
-
-        if (packageIfReady == null) {
-            return;
-        }
+        if (packageIfReady == null) return;
 
         String s = packageIfReady.getCachedSettings().getWingsType();
         ResourceLocation location = wingsCosmetic.getLocation(s);
@@ -88,7 +81,7 @@ public class WingsRenderer extends ModelBase {
         // Wings scale as defined in the settings.
         double v = packageIfReady.getCachedSettings().getWingsScale();
         double scale = v / 100.0;
-        double rotate = interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
+        double rotate = CosmeticsUtil.interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
 
         GlStateManager.pushMatrix();
         // Displaces the wings by a custom value.
@@ -119,9 +112,8 @@ public class WingsRenderer extends ModelBase {
             GlStateManager.translate(0.0F, -0.125 / scale, 0.0F);
         }
 
+        // Spinning rotate mode.
         if (rotateState == 2) {
-            // Spinning rotate mode.
-
             // Translate to centre of the player.
             float difference = scaledHeight - (scaledPlayerHeight / 2);
             GlStateManager.translate(0.0F, difference, 0.0F);
@@ -144,7 +136,7 @@ public class WingsRenderer extends ModelBase {
 
         mc.getTextureManager().bindTexture(location);
 
-        for (int j = 0; j < 2; ++j) {
+        IntStream.range(0, 2).forEach(j -> {
             GL11.glEnable(GL11.GL_CULL_FACE);
             float f11 = System.currentTimeMillis() % 1000L / 1000.0f * 3.1415927f * 2.0F;
             wing.rotateAngleX = (float) Math.toRadians(-80.0) - (float) Math.cos(f11) * 0.2F;
@@ -153,24 +145,11 @@ public class WingsRenderer extends ModelBase {
             wingTip.rotateAngleZ = -(float) (Math.sin(f11 + 2.0F) + 0.5) * 0.75F;
             wing.render(0.0625F);
             GlStateManager.scale(-1.0F, 1.0F, 1.0F);
-
-            if (j == 0) {
-                GL11.glCullFace(GL11.GL_FRONT);
-            }
-        }
+            if (j == 0) GL11.glCullFace(GL11.GL_FRONT);
+        });
 
         GL11.glCullFace(GL11.GL_BACK);
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glPopMatrix();
-    }
-
-    private float interpolate(float yaw1, float yaw2, final float percent) {
-        float rotation = (yaw1 + (yaw2 - yaw1) * percent) % 360.0F;
-
-        if (rotation < 0.0F) {
-            rotation += 360.0F;
-        }
-
-        return rotation;
     }
 }

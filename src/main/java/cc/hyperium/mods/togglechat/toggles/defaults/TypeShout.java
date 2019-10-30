@@ -35,12 +35,12 @@ public class TypeShout extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        return this.shoutPattern.matcher(message).matches();
+        return shoutPattern.matcher(message).matches();
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

@@ -70,7 +70,7 @@ class AddonManifestParser {
             val json = parser.parse(contents).asJsonObject
 
             if (!json.has("version") && !json.has("name") && !json.has("mainClass")) {
-                throw AddonLoadException("Invalid addon manifest ( Must include name, verson and mainClass)")
+                throw AddonLoadException("Invalid addon manifest (Must include name, verson and mainClass)")
             }
             this.json = json
         } catch (e: Exception) {
@@ -94,6 +94,7 @@ class AddonManifestParser {
         if (!json.has("version") && !json.has("name") && !json.has("mainClass")) {
             throw AddonLoadException("Invalid addon manifest (Must include name, version and mainClass)")
         }
+
         if (json.has("overlay")) {
             OverlayChecker.checkOverlayField(json.get("overlay").asString)
         }

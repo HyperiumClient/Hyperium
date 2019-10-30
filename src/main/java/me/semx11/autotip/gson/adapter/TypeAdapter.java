@@ -13,12 +13,12 @@ public interface TypeAdapter<T> extends JsonSerializer<T>, JsonDeserializer<T> {
     @Override
     default T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
-        return this.deserialize(json);
+        return deserialize(json);
     }
 
     @Override
     default JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context) {
-        return this.serialize(src);
+        return serialize(src);
     }
 
     T deserialize(JsonElement json);

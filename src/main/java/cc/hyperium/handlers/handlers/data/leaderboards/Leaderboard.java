@@ -76,11 +76,13 @@ public class Leaderboard {
         }
 
         List<LeaderboardEntry> data = new ArrayList<>();
+
         for (JsonElement element : leaderboard.optJSONArray("data")) {
             JsonHolder holder = new JsonHolder(element.getAsJsonObject());
             data.add(new LeaderboardEntry(holder.optInt("pos"), holder.optString("value"), holder.optString("uuid"), holder.optString("display")));
         }
-        this.entries = data;
+
+        entries = data;
         loaded = true;
     }
 

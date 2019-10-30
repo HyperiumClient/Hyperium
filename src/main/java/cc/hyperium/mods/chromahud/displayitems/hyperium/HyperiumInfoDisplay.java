@@ -36,7 +36,7 @@ public class HyperiumInfoDisplay extends DisplayItem {
         list.add("Client: " + Metadata.getModid());
         list.add("Version " + Metadata.getVersion());
         ElementRenderer.draw(x, y, list);
-        this.width = config ? ElementRenderer.maxWidth(list) : 0;
-        this.height = list.size() * 10;
+        width = config ? ElementRenderer.maxWidth(list) : 0;
+        height = list.size() * 10;
     }
 }

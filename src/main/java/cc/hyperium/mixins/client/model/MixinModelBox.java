@@ -31,15 +31,15 @@ public class MixinModelBox implements IMixinModelBox {
 
     @Override
     public void offsetTextureQuad(ModelRenderer renderer, int quadId, float xOffset, float yOffset) {
-        if (quadId >= 0 & quadId < this.quadList.length) {
-            this.quadList[quadId].vertexPositions[0].texturePositionX += xOffset / renderer.textureWidth;
-            this.quadList[quadId].vertexPositions[1].texturePositionX += xOffset / renderer.textureWidth;
-            this.quadList[quadId].vertexPositions[2].texturePositionX += xOffset / renderer.textureWidth;
-            this.quadList[quadId].vertexPositions[3].texturePositionX += xOffset / renderer.textureWidth;
-            this.quadList[quadId].vertexPositions[0].texturePositionY += yOffset / renderer.textureHeight;
-            this.quadList[quadId].vertexPositions[1].texturePositionY += yOffset / renderer.textureHeight;
-            this.quadList[quadId].vertexPositions[2].texturePositionY += yOffset / renderer.textureHeight;
-            this.quadList[quadId].vertexPositions[3].texturePositionY += yOffset / renderer.textureHeight;
+        if (quadId >= 0 & quadId < quadList.length) {
+            quadList[quadId].vertexPositions[0].texturePositionX += xOffset / renderer.textureWidth;
+            quadList[quadId].vertexPositions[1].texturePositionX += xOffset / renderer.textureWidth;
+            quadList[quadId].vertexPositions[2].texturePositionX += xOffset / renderer.textureWidth;
+            quadList[quadId].vertexPositions[3].texturePositionX += xOffset / renderer.textureWidth;
+            quadList[quadId].vertexPositions[0].texturePositionY += yOffset / renderer.textureHeight;
+            quadList[quadId].vertexPositions[1].texturePositionY += yOffset / renderer.textureHeight;
+            quadList[quadId].vertexPositions[2].texturePositionY += yOffset / renderer.textureHeight;
+            quadList[quadId].vertexPositions[3].texturePositionY += yOffset / renderer.textureHeight;
         }
     }
 }

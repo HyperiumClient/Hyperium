@@ -19,7 +19,11 @@ package cc.hyperium.mods.discord;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.*;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.network.server.ServerJoinEvent;
+import cc.hyperium.event.network.server.ServerLeaveEvent;
+import cc.hyperium.event.network.server.SingleplayerJoinEvent;
+import cc.hyperium.event.network.server.hypixel.JoinMinigameEvent;
 import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.entities.RichPresence;
 import net.minecraft.client.Minecraft;
@@ -33,9 +37,7 @@ public class RPCUpdater {
     RPCUpdater(IPCClient client) {
         this.client = client;
 
-        if (!Settings.DISCORD_RP) {
-            return;
-        }
+        if (!Settings.DISCORD_RP) return;
 
         RichPresence.Builder builder = new RichPresence.Builder();
 
@@ -53,23 +55,21 @@ public class RPCUpdater {
         if (Settings.DISCORD_RP_SERVER) {
             RichPresence.Builder builder = new RichPresence.Builder();
 
-            if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
-                client.sendRichPresence(builder
+            client.sendRichPresence(Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() ?
+                builder
                     .setSmallImage("compass")
                     .setLargeImage("16", "Hypixel Network")
                     .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
                     .setDetails("In the lobby on hypixel.net")
                     .setStartTimestamp(OffsetDateTime.now())
-                    .build());
-            } else {
-                client.sendRichPresence(builder
+                    .build() :
+                builder
                     .setSmallImage("compass")
                     .setLargeImage("16", "On a server")
                     .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
                     .setDetails("On a Minecraft server")
                     .setStartTimestamp(OffsetDateTime.now())
                     .build());
-            }
         }
     }
 

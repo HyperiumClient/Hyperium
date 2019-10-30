@@ -32,38 +32,38 @@ class ConfigBoolean
     )
 
     private val stringValue: String
-        get() = if (this.value) ChatLib.addColor("&aTrue") else ChatLib.addColor("&cFalse")
+        get() = if (value) ChatLib.addColor("&aTrue") else ChatLib.addColor("&cFalse")
 
     override fun draw(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        if (this.hidden) return
+        if (hidden) return
 
         val middle = Renderer.Screen.getWidth() / 2
 
-        Rectangle(-0x80000000, (middle - 105 + this.x).toFloat(), (this.y - 5).toFloat(), 210f, 45f)
+        Rectangle(-0x80000000, (middle - 105 + x).toFloat(), (y - 5).toFloat(), 210f, 45f)
             .setShadow(-0x30000000, 3f, 3f)
             .draw()
 
-        Text(this.name!!, (middle - 100 + this.x).toFloat(), this.y.toFloat()).draw()
+        Text(name!!, (middle - 100 + x).toFloat(), y.toFloat()).draw()
 
-        this.button.xPosition = middle - 100 + this.x
-        this.button.drawButton(Client.getMinecraft(), mouseX, mouseY)
+        button.xPosition = middle - 100 + x
+        button.drawButton(Client.getMinecraft(), mouseX, mouseY)
 
         super.draw(mouseX, mouseY, partialTicks)
     }
 
     override fun mouseClicked(mouseX: Int, mouseY: Int) {
-        if (this.hidden) return
+        if (hidden) return
 
-        if (this.button.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
-            this.value = (!this.value)
-            this.button.playPressSound(Client.getMinecraft().soundHandler)
+        if (button.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
+            value = (!value)
+            button.playPressSound(Client.getMinecraft().soundHandler)
         }
 
-        if (this.resetButton.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
-            this.value = this.initial
-            this.resetButton.playPressSound(Client.getMinecraft().soundHandler)
+        if (resetButton.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
+            value = initial
+            resetButton.playPressSound(Client.getMinecraft().soundHandler)
         }
 
-        this.button.displayString = stringValue
+        button.displayString = stringValue
     }
 }

@@ -42,11 +42,8 @@ public class HyperiumGuiMainMenu {
         if (!Hyperium.INSTANCE.isAcceptedTos()) {
             System.out.println("Hasn't accepted! Redirecting them!");
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumScreenTos());
-        } else if (!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty() || !AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty()) {
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiAddonError());
-        } else {
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumScreenMainMenu());
-        }
+        } else Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty() ||
+            !AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty() ? new GuiAddonError() : new GuiHyperiumScreenMainMenu());
     }
 
 }

@@ -13,7 +13,7 @@ public class KeyHelper {
     }
 
     public ChatComponentBuilder getBuilder(String key, Object... params) {
-        return messageUtil.getBuilder(this.getKey(key), params);
+        return messageUtil.getBuilder(getKey(key), params);
     }
 
     public KeyHelper separator() {
@@ -22,7 +22,7 @@ public class KeyHelper {
     }
 
     public KeyHelper sendKey(String key, Object... params) {
-        messageUtil.sendKey(this.getAbsoluteKey(key), params);
+        messageUtil.sendKey(getAbsoluteKey(key), params);
         return this;
     }
 
@@ -32,7 +32,7 @@ public class KeyHelper {
     }
 
     public String getKey(String key) {
-        return messageUtil.getKey(this.getAbsoluteKey(key));
+        return messageUtil.getKey(getAbsoluteKey(key));
     }
 
     private String getAbsoluteKey(String relativeKey) {

@@ -52,76 +52,72 @@ public class ToggleChatMainGui extends GuiScreen {
 
         this.main = main;
 
-        this.mc = Minecraft.getMinecraft();
+        mc = Minecraft.getMinecraft();
     }
 
     @Override
     public void initGui() {
-        this.buttonList.clear();
+        buttonList.clear();
 
         setupPage();
     }
 
     private void setupPage() {
-        if (this.main.getToggleHandler().getToggles().values().size() > 0) {
+        if (main.getToggleHandler().getToggles().values().size() > 0) {
 
-            int pages = (int) Math.ceil((double) this.main.getToggleHandler().getToggles().size() / 7D);
+            int pages = (int) Math.ceil((double) main.getToggleHandler().getToggles().size() / 7D);
+            if (pageNumber < 1 || pageNumber > pages) pageNumber = 1;
 
-            if (this.pageNumber < 1 || this.pageNumber > pages) {
-                this.pageNumber = 1;
-            }
+            final int[] position = {height / 2 - 75};
 
-            final int[] position = {this.height / 2 - 75};
-
-            this.main.getToggleHandler().getToggles().values().stream().skip((this.pageNumber - 1) * 7).limit(7).forEach(baseType -> {
-                GuiButton button = new GuiButton(0, this.width / 2 - 75, position[0], 150, 20,
+            main.getToggleHandler().getToggles().values().stream().skip((pageNumber - 1) * 7).limit(7).forEach(baseType -> {
+                GuiButton button = new GuiButton(0, width / 2 - 75, position[0], 150, 20,
                     String.format(baseType.getDisplayName(), baseType.getStatus(baseType.isEnabled())));
 
-                this.data.put(button, baseType);
-                this.buttonList.add(button);
+                data.put(button, baseType);
+                buttonList.add(button);
                 position[0] += 24;
             });
 
-            GuiButton last = new GuiButton(1, this.width / 2 - 51, this.height / 2 + 90, 50, 20, "<");
-            GuiButton next = new GuiButton(2, this.width / 2 + 1, this.height / 2 + 90, 50, 20, ">");
+            GuiButton last = new GuiButton(1, width / 2 - 51, height / 2 + 90, 50, 20, "<");
+            GuiButton next = new GuiButton(2, width / 2 + 1, height / 2 + 90, 50, 20, ">");
 
-            this.buttonList.add(last);
-            this.buttonList.add(next);
+            buttonList.add(last);
+            buttonList.add(next);
 
-            last.enabled = this.pageNumber > 1;
-            next.enabled = this.pageNumber != pages;
+            last.enabled = pageNumber > 1;
+            next.enabled = pageNumber != pages;
         }
     }
 
     public void drawScreen(int x, int y, float ticks) {
         drawDefaultBackground();
 
-        drawCenteredString(this.fontRendererObj, String.format("Page %s/%s", (this.pageNumber), (int) Math.ceil((double)
-            this.main.getToggleHandler().getToggles().size() / 7D)), this.width / 2, this.height / 2 - 94, Color.WHITE.getRGB());
-
+        drawCenteredString(fontRendererObj, String.format("Page %s/%s", (pageNumber),
+            (int) Math.ceil((double) main.getToggleHandler().getToggles().size() / 7D)), width / 2, height / 2 - 94, -1);
         super.drawScreen(x, y, ticks);
 
-        checkHover(this.height / 2 - 75);
+        checkHover(height / 2 - 75);
     }
 
     @Override
     protected void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 1:
-                this.mc.displayGuiScreen(new ToggleChatMainGui(this.main, this.pageNumber - 1));
+                mc.displayGuiScreen(new ToggleChatMainGui(main, pageNumber - 1));
                 return;
             case 2:
-                this.mc.displayGuiScreen(new ToggleChatMainGui(this.main, this.pageNumber + 1));
+                mc.displayGuiScreen(new ToggleChatMainGui(main, pageNumber + 1));
                 return;
         }
 
         // Make sure the id is 0 to prevent other buttons being pressed
         if (button.id == 0) {
-            for (ToggleBase base : this.main.getToggleHandler().getToggles().values()) {
-                if (this.data.containsKey(button) && base.equals(this.data.get(button))) {
+            for (ToggleBase base : main.getToggleHandler().getToggles().values()) {
+                if (data.containsKey(button) && base.equals(data.get(button))) {
                     base.toggle();
                     button.displayString = (String.format(base.getDisplayName(), base.getStatus(base.isEnabled())));
-                    this.changed = true;
+                    changed = true;
                     break;
                 }
             }
@@ -130,35 +126,26 @@ public class ToggleChatMainGui extends GuiScreen {
 
     @Override
     public void onGuiClosed() {
-        if (this.changed) {
-            this.main.getConfigLoader().saveToggles();
-        }
+        if (changed) main.getConfigLoader().saveToggles();
 
         // Prevent memory leaks
-        this.data.clear();
-        this.buttonList.clear();
+        data.clear();
+        buttonList.clear();
     }
 
     private void checkHover(int firstPosition) {
-        if (this.buttonList.isEmpty()) {
+        if (buttonList.isEmpty()) {
             return;
         }
 
-        for (GuiButton button : this.buttonList) {
-            if (button == null || !this.data.containsKey(button)) continue;
-
-            if (button.isMouseOver()) {
-                ToggleBase toggleBase = this.data.get(button);
-
-                if (!toggleBase.hasDescription()) continue;
-
-                final int[] position = {firstPosition};
-                toggleBase.getDescription().forEach(text -> {
-                    drawCenteredString(this.mc.fontRendererObj, ChatColor.translateAlternateColorCodes('&', text), this.width / 2 + 150, position[0], Color.WHITE.getRGB());
-                    position[0] += 10;
-                });
-            }
-        }
+        buttonList.stream().filter(button -> button != null && data.containsKey(button)).filter(GuiButton::isMouseOver).map(data::get)
+            .filter(ToggleBase::hasDescription).forEach(toggleBase -> {
+            final int[] position = {firstPosition};
+            toggleBase.getDescription().forEach(text -> {
+                drawCenteredString(mc.fontRendererObj, ChatColor.translateAlternateColorCodes('&', text), width / 2 + 150, position[0], Color.WHITE.getRGB());
+                position[0] += 10;
+            });
+        });
     }
 
     @Override

@@ -36,6 +36,7 @@ public class ChargebackStopper {
                 if (clientUUID != null) {
                     JsonHolder holder = Utils.get("https://api.hyperium.cc/banned");
                     JsonArray bans = holder.optJSONArray("bans");
+
                     for (JsonElement ban : bans) {
                         JsonHolder holder1 = new JsonHolder(ban.getAsJsonObject());
                         if (holder1.optString("uuid").equalsIgnoreCase(clientUUID.toString())) {

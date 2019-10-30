@@ -18,39 +18,31 @@
 package cc.hyperium.addons.sidebar.config;
 
 import cc.hyperium.addons.sidebar.gui.GuiSidebar;
-import com.google.gson.GsonBuilder;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import cc.hyperium.config.ConfigOpt;
 
 public class Configuration {
 
-    public boolean enabled = true;
-    public int offsetX;
-    public int offsetY;
-    public float scale = 1.0f;
-    public boolean redNumbers = true;
-    public boolean shadow;
-    public int rgb;
-    public int alpha = 50;
-    public boolean chromaEnabled;
-    public int chromaSpeed = 2;
-    public GuiSidebar.ChromaType chromaType = GuiSidebar.ChromaType.ONE;
+    @ConfigOpt
+    public static boolean enabled = true;
+    @ConfigOpt
+    public static int offsetX;
+    @ConfigOpt
+    public static int offsetY;
+    @ConfigOpt
+    public static float scale = 1.0f;
+    @ConfigOpt
+    public static boolean redNumbers = true;
+    @ConfigOpt
+    public static boolean shadow;
+    @ConfigOpt
+    public static int rgb;
+    @ConfigOpt
+    public static int alpha = 50;
+    @ConfigOpt
+    public static boolean chromaEnabled;
+    @ConfigOpt
+    public static int chromaSpeed = 2;
+    @ConfigOpt
+    public static GuiSidebar.ChromaType chromaType = GuiSidebar.ChromaType.ONE;
 
-    public static Configuration load(File saveFile) throws IOException {
-        if (!saveFile.isFile()) {
-            saveFile.createNewFile();
-            return new Configuration().save(saveFile);
-        }
-        return new GsonBuilder().setPrettyPrinting().create().fromJson(new FileReader(saveFile), Configuration.class);
-    }
-
-    public Configuration save(File saveFile) throws IOException {
-        FileWriter writer = new FileWriter(saveFile);
-        writer.write(new GsonBuilder().setPrettyPrinting().create().toJson(this));
-        writer.close();
-        return this;
-    }
 }

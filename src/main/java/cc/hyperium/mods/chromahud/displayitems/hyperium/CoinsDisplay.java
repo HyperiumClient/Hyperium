@@ -29,15 +29,13 @@ public class CoinsDisplay extends DisplayItem {
 
     public CoinsDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
-        this.height = 10;
+        height = 10;
     }
 
     @Override
     public void draw(int x, double y, boolean config) {
-        String render;
-        render = "Daily Coins: " + GeneralStatisticsTracking.dailyCoins;
-
+        String render = "Daily Coins: " + GeneralStatisticsTracking.dailyCoins;
         ElementRenderer.draw(x, y, render);
-        this.width = config ? ElementRenderer.getFontRenderer().getStringWidth(render) : 0;
+        width = config ? ElementRenderer.getFontRenderer().getStringWidth(render) : 0;
     }
 }

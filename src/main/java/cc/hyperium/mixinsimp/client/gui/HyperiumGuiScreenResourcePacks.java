@@ -60,7 +60,8 @@ public class HyperiumGuiScreenResourcePacks {
             availableResourcePacksList.setSlotXBoundsFromLeft(width / 2 - 4 - 200);
             availablePacksClone.registerScrollButtons(7, 8);
         } else {
-            availableResourcePacksList = new GuiResourcePackAvailable(mc, 200, height, Arrays.asList(availablePacksClone.getList().stream().filter(resourcePackListEntry -> {
+            availableResourcePacksList = new GuiResourcePackAvailable(mc, 200, height, Arrays.asList(availablePacksClone.getList().stream()
+                .filter(resourcePackListEntry -> {
                 try {
                     String name = ChatColor.stripColor(((IMixinResourcePackListEntry) resourcePackListEntry).callFunc_148312_b().
                         replaceAll("[^A-Za-z0-9 ]", "").trim().toLowerCase());

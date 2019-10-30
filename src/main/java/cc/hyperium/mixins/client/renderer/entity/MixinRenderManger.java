@@ -45,7 +45,7 @@ public class MixinRenderManger implements IMixinRenderManager {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void injectEntities(TextureManager renderEngineIn, RenderItem itemRendererIn, CallbackInfo ci) {
-        this.entityRenderMap.put(EntityHamster.class, new RenderHamster((RenderManager) (Object) this));
+        entityRenderMap.put(EntityHamster.class, new RenderHamster((RenderManager) (Object) this));
     }
 
     @Override

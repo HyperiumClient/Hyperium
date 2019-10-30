@@ -30,41 +30,38 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TabCompletionUtil {
-    public static List<String> getListOfStringsMatchingLastWord(final String[] p_175762_0_, final Collection<?> p_175762_1_) {
-        final String s = p_175762_0_[p_175762_0_.length - 1];
-        final List<String> list = new ArrayList<>();
+    public static List<String> getListOfStringsMatchingLastWord(String[] p_175762_0_, Collection<?> p_175762_1_) {
+        String s = p_175762_0_[p_175762_0_.length - 1];
+        List<String> list = new ArrayList<>();
         if (!p_175762_1_.isEmpty()) {
-            for (final String s2 : p_175762_1_.stream().map(Functions.toStringFunction()::apply).collect(Collectors.toList())) {
-                if (doesStringStartWith(s, s2)) {
-                    list.add(s2);
-                }
-            }
+            list = p_175762_1_.stream().map(Functions.toStringFunction()::apply).collect(Collectors.toList()).stream().filter(s2 ->
+                doesStringStartWith(s, s2)).collect(Collectors.toList());
+
             if (list.isEmpty()) {
-                for (final Object object : p_175762_1_) {
+                for (Object object : p_175762_1_) {
                     if (object instanceof ResourceLocation && doesStringStartWith(s, ((ResourceLocation) object).getResourcePath())) {
                         list.add(String.valueOf(object));
                     }
                 }
             }
         }
+
         return list;
     }
 
-    public static List<String> getListOfStringsMatchingLastWord(final String[] p_175762_0_, final String[] p_175762_1_) {
+    public static List<String> getListOfStringsMatchingLastWord(String[] p_175762_0_, String[] p_175762_1_) {
         return getListOfStringsMatchingLastWord(p_175762_0_, Arrays.asList(p_175762_1_));
     }
 
-    private static boolean doesStringStartWith(final String original, final String region) {
+    private static boolean doesStringStartWith(String original, String region) {
         return region.regionMatches(true, 0, original, 0, original.length());
     }
 
     public static List<String> getTabUsernames() {
-        final EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-        final List<String> playerNames = new ArrayList<>();
-        if (player == null) {
-            return playerNames;
-        }
-        return player.sendQueue.getPlayerInfoMap().stream().map(netPlayerInfo -> netPlayerInfo.getGameProfile().getName()).collect(Collectors.toList());
+        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+        List<String> playerNames = new ArrayList<>();
+        return player == null ? playerNames : player.sendQueue.getPlayerInfoMap().stream().map(netPlayerInfo ->
+            netPlayerInfo.getGameProfile().getName()).collect(Collectors.toList());
     }
 
     public static List<EntityPlayer> getLoadedPlayers() {

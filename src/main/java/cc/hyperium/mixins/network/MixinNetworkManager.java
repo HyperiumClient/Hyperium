@@ -18,7 +18,7 @@
 package cc.hyperium.mixins.network;
 
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.PacketReceivedEvent;
+import cc.hyperium.event.network.PacketReceivedEvent;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;

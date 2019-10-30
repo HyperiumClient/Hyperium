@@ -21,7 +21,7 @@ open class Entity(val entity: MCEntity) {
      * @return the entity's pitch
      */
     fun getPitch(): Double =
-        MathHelper.wrapAngleTo180_float(this.entity.rotationPitch).toDouble()
+        MathHelper.wrapAngleTo180_float(entity.rotationPitch).toDouble()
 
     /**
      * Gets the yaw, the vertical direction the entity is facing towards.
@@ -30,7 +30,7 @@ open class Entity(val entity: MCEntity) {
      * @return the entity's yaw
      */
     fun getYaw(): Double =
-        MathHelper.wrapAngleTo180_float(this.entity.rotationYaw).toDouble()
+        MathHelper.wrapAngleTo180_float(entity.rotationYaw).toDouble()
 
     /**
      * Gets the entity's x motion.
@@ -38,7 +38,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the player's x motion
      */
-    fun getMotionX(): Double = this.entity.motionX
+    fun getMotionX(): Double = entity.motionX
 
     /**
      * Gets the entity's y motion.
@@ -46,7 +46,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the player's y motion
      */
-    fun getMotionY(): Double = this.entity.motionY
+    fun getMotionY(): Double = entity.motionY
 
     /**
      * Gets the entity's z motion.
@@ -54,7 +54,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the player's z motion
      */
-    fun getMotionZ(): Double = this.entity.motionZ
+    fun getMotionZ(): Double = entity.motionZ
 
     /**
      * Gets the entity's health, -1 if not a living entity
@@ -62,13 +62,13 @@ open class Entity(val entity: MCEntity) {
      * @return the entity's health
      */
     fun getHP(): Float {
-        return if (this.entity is EntityLivingBase)
-            this.entity.health
+        return if (entity is EntityLivingBase)
+            entity.health
         else -1f
     }
 
     fun getRiding(): Entity? {
-        val riding = this.entity.ridingEntity
+        val riding = entity.ridingEntity
 
         return if (riding == null)
             null
@@ -77,10 +77,10 @@ open class Entity(val entity: MCEntity) {
     }
 
     fun getRider(): Entity? {
-        return if (this.entity.riddenByEntity == null)
+        return if (entity.riddenByEntity == null)
             null
         else
-            Entity(this.entity.riddenByEntity)
+            Entity(entity.riddenByEntity)
     }
 
     fun getRiders(): List<Entity> = listOf()
@@ -92,21 +92,21 @@ open class Entity(val entity: MCEntity) {
      *
      * @return whether or not an entity is dead
      */
-    fun isDead(): Boolean = this.entity.isDead
+    fun isDead(): Boolean = entity.isDead
 
     /**
      * Gets the entire width of the entity's hitbox
      *
      * @return the entity's width
      */
-    fun getWidth(): Float = this.entity.width
+    fun getWidth(): Float = entity.width
 
     /**
      * Gets the entire height of the entity's hitbox
      *
      * @return the entity's height
      */
-    fun getHeight(): Float = this.entity.height
+    fun getHeight(): Float = entity.height
 
     /**
      * Gets the height of the eyes on the entity,
@@ -115,7 +115,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the height of the entity's eyes
      */
-    fun getEyeHeight(): Float = this.entity.eyeHeight
+    fun getEyeHeight(): Float = entity.eyeHeight
 
     /**
      * Gets the name of the entity, could be "Villager",
@@ -123,14 +123,14 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the (custom) name of the entity
      */
-    open fun getName(): String = this.entity.name
+    open fun getName(): String = entity.name
 
     /**
      * Gets the Java class name of the entity, for example "EntityVillager"
      *
      * @return the entity's class name
      */
-    fun getClassName(): String = this.entity.javaClass.simpleName
+    fun getClassName(): String = entity.javaClass.simpleName
 
     /**
      * Gets the Java UUID object of this entity.
@@ -138,7 +138,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the entity's uuid
      */
-    fun getUUID(): UUID = this.entity.uniqueID
+    fun getUUID(): UUID = entity.uniqueID
 
     override fun toString(): String {
         return ("Entity{"

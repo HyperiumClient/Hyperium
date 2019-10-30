@@ -60,47 +60,47 @@ public class HyperiumModIntegration {
 
     public HyperiumModIntegration() {
         // ChromaHUD implementation
-        this.chromaHUD = ((ChromaHUD) new ChromaHUD().init());
+        chromaHUD = ((ChromaHUD) new ChromaHUD().init());
 
         // LevelHead implementation
-        this.levelhead = ((Levelhead) new Levelhead().init());
+        levelhead = ((Levelhead) new Levelhead().init());
 
         // ToggleChat implementation
-        this.toggleChat = ((ToggleChatMod) new ToggleChatMod().init());
+        toggleChat = ((ToggleChatMod) new ToggleChatMod().init());
 
         // TimeChanger implementation
-        this.timeChanger = ((TimeChanger) new TimeChanger().init());
+        timeChanger = ((TimeChanger) new TimeChanger().init());
 
         // KeystrokesMod implementation
-        this.keystrokesMod = ((KeystrokesMod) new KeystrokesMod().init());
+        keystrokesMod = ((KeystrokesMod) new KeystrokesMod().init());
 
         // Autotip implementation
-        this.autotip = new Autotip();
+        autotip = new Autotip();
         autotip.init();
 
         // AutoGG implementation
-        this.autogg = ((AutoGG) new AutoGG().init());
+        autogg = ((AutoGG) new AutoGG().init());
 
         // Old Animations implementation
-        this.oldAnimations = ((OldAnimations) new OldAnimations().init());
+        oldAnimations = ((OldAnimations) new OldAnimations().init());
 
         // Block Overlay implementation
-        this.blockOverlay = ((BlockOverlay) new BlockOverlay().init());
+        blockOverlay = ((BlockOverlay) new BlockOverlay().init());
 
         //Motion Blur
-        this.motionBlur = ((MotionBlurMod) new MotionBlurMod().init());
+        motionBlur = ((MotionBlurMod) new MotionBlurMod().init());
 
         // Glint Colorizer implementation
-        this.glintColorizer = ((GlintColorizer) new GlintColorizer().init());
+        glintColorizer = ((GlintColorizer) new GlintColorizer().init());
 
         NickHider nickHider = new NickHider();
         nickHider.init();
 
-        this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
-        this.victoryRoyale = (VictoryRoyale) new VictoryRoyale().init();
-        this.chunkAnimator = (ChunkAnimator) new ChunkAnimator().init();
-        this.soundHandler = (SoundHandler) new SoundHandler().init();
-        this.myPosition = (MyPosition) new MyPosition().init();
+        itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
+        victoryRoyale = (VictoryRoyale) new VictoryRoyale().init();
+        chunkAnimator = (ChunkAnimator) new ChunkAnimator().init();
+        soundHandler = (SoundHandler) new SoundHandler().init();
+        myPosition = (MyPosition) new MyPosition().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {

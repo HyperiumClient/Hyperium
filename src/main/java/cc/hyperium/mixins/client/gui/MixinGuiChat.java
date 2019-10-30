@@ -60,14 +60,7 @@ public class MixinGuiChat {
 
     @ModifyVariable(method = "onAutocompleteResponse", at = @At("HEAD"))
     private String[] remap(String[] in) {
-        if (NickHider.instance == null) {
-            return in;
-        }
-
-        if (!NickHider.instance.getNickHiderConfig().isMasterEnabled()) {
-            return in;
-        }
-
-        return NickHider.instance.tabComplete(in, inputField.getText());
+        return NickHider.instance == null || !NickHider.instance.getNickHiderConfig().isMasterEnabled() ?
+            in : NickHider.instance.tabComplete(in, inputField.getText());
     }
 }

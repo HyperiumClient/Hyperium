@@ -61,7 +61,7 @@ public class AutoGGConfig {
      * @return the delay, capped into the limitations
      */
     public int getDelay() {
-        return this.delay < 0 ? 1 : this.delay > 5 ? 1 : this.delay;
+        return delay < 0 ? 1 : delay > 5 ? 1 : delay;
     }
 
     /**
@@ -70,16 +70,14 @@ public class AutoGGConfig {
      * @param delay the delay of AutoGG, capped within limitations
      */
     public void setDelay(int delay) {
-        if (delay >= 0 && this.delay <= 5) {
-            this.delay = delay;
-        }
+        if (delay >= 0 && this.delay <= 5) this.delay = delay;
     }
 
     /**
      * Flips the toggle
      */
     public void flipToggle() {
-        this.toggled = !this.toggled;
+        toggled = !toggled;
     }
 
     /**
@@ -88,6 +86,6 @@ public class AutoGGConfig {
      * @return true if AutoGG is enabled
      */
     public boolean isToggled() {
-        return this.toggled;
+        return toggled;
     }
 }

@@ -36,17 +36,16 @@ public class TextItem extends DisplayItem {
     public TextItem(JsonHolder object, int ordinal) {
         super(object, ordinal);
         text = object.optString("text");
-        this.height = 10;
+        height = 10;
     }
 
 
     public void draw(int x, double y, boolean isConfig) {
         List<String> list = new ArrayList<>();
-        if (text.isEmpty())
-            list.add("Text is empty??");
+        if (text.isEmpty()) list.add("Text is empty??");
         else list.add(text);
         ElementRenderer.draw(x, y, ChatColor.translateAlternateColorCodes('%', text));
-        this.width = ElementRenderer.maxWidth(list);
+        width = ElementRenderer.maxWidth(list);
     }
 
     public String getText() {

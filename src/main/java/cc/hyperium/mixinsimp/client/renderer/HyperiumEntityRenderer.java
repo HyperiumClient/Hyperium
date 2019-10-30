@@ -18,9 +18,9 @@
 package cc.hyperium.mixinsimp.client.renderer;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.DrawBlockHighlightEvent;
+import cc.hyperium.event.render.DrawBlockHighlightEvent;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.render.RenderEvent;
 import cc.hyperium.mixins.client.renderer.IMixinEntityRenderer;
 import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import net.minecraft.block.Block;
@@ -110,6 +110,7 @@ public class HyperiumEntityRenderer {
                 if (mc.gameSettings.thirdPersonView == 2) {
                     GlStateManager.rotate(180.0f, 0.0f, 1.0f, 0.0f);
                 }
+
                 if (perspectiveHandler.enabled) {
                     GlStateManager.rotate(perspectiveHandler.modifiedPitch - f3, 1.0f, 0.0f, 0.0f);
                     GlStateManager.rotate(perspectiveHandler.modifiedYaw - f2, 0.0f, 1.0f, 0.0f);
@@ -127,6 +128,7 @@ public class HyperiumEntityRenderer {
         } else {
             GlStateManager.translate(0.0f, 0.0f, -0.1f);
         }
+
         if (!mc.gameSettings.debugCamEnable) {
             float yaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0f;
             final float pitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
@@ -135,6 +137,7 @@ public class HyperiumEntityRenderer {
                 final EntityAnimal entityanimal = (EntityAnimal) entity;
                 yaw = entityanimal.prevRotationYawHead + (entityanimal.rotationYawHead - entityanimal.prevRotationYawHead) * partialTicks + 180.0f;
             }
+
             if (perspectiveHandler.enabled) {
                 GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
                 GlStateManager.rotate(perspectiveHandler.modifiedPitch, 1.0f, 0.0f, 0.0f);
@@ -145,13 +148,12 @@ public class HyperiumEntityRenderer {
                 GlStateManager.rotate(yaw, 0.0f, 1.0f, 0.0f);
             }
         }
+
         GlStateManager.translate(0.0f, -f, 0.0f);
         d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
         d2 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + f;
         d3 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
-
         ((IMixinEntityRenderer) parent).setCloudFog(mc.renderGlobal.hasCloudFog(d0, d2, d3, partialTicks));
-
     }
 
     public void loadShader(ResourceLocation resourceLocation){
@@ -160,6 +162,7 @@ public class HyperiumEntityRenderer {
             // to blur, cancel it.
             return;
         }
+
         // Uses an accessor to call the original load shader method.
         ((IMixinEntityRenderer) parent).callLoadShader(resourceLocation);
     }
@@ -177,19 +180,14 @@ public class HyperiumEntityRenderer {
         EventBus.INSTANCE.post(drawBlockHighlightEvent);
         if (drawBlockHighlightEvent.isCancelled()) {
             Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = true;
-
         }
     }
 
     public void updatePerspectiveCamera() {
-        if (Hyperium.INSTANCE.getHandlers() == null) {
+        if (Hyperium.INSTANCE.getHandlers() == null || Hyperium.INSTANCE.getHandlers().getPerspectiveHandler() == null) {
             return;
         }
-        
-        if (Hyperium.INSTANCE.getHandlers().getPerspectiveHandler() == null) {
-            return;
-        }
-        
+
         PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
         boolean flag2 = Display.isActive();
         if (Minecraft.getMinecraft().inGameHasFocus && flag2) {

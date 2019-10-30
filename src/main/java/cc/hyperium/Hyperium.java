@@ -23,7 +23,12 @@ import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.Priority;
+import cc.hyperium.event.client.GameShutDownEvent;
+import cc.hyperium.event.client.InitializationEvent;
+import cc.hyperium.event.client.PreInitializationEvent;
 import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
@@ -331,8 +336,7 @@ public class Hyperium {
         }
 
         try {
-            new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-                .getPlayerID() + ".lck").createNewFile();
+            new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession().getPlayerID() + ".lck").createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -417,10 +421,7 @@ public class Hyperium {
                     try {
                         FileReader fr = new FileReader(file);
                         BufferedReader bufferedReader = new BufferedReader(fr);
-                        String line;
-                        while ((line = bufferedReader.readLine()) != null) {
-                            Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
-                        }
+                        bufferedReader.lines().forEach(line -> Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

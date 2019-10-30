@@ -14,24 +14,24 @@ abstract class ConfigOption {
 
     internal var resetButton = GuiButton(
         0,
-        Renderer.Screen.getWidth() / 2 - 100 + this.x + 185,
-        this.y - 2,
+        Renderer.Screen.getWidth() / 2 - 100 + x + 185,
+        y - 2,
         14, 12, ""
     )
 
     open fun init() {
-        this.resetButton = GuiButton(
+        resetButton = GuiButton(
             0,
-            Renderer.Screen.getWidth() / 2 - 100 + this.x + 185, this.y - 2,
+            Renderer.Screen.getWidth() / 2 - 100 + x + 185, y - 2,
             14, 12, ""
         )
     }
 
     open fun draw(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        this.resetButton.xPosition = Renderer.Screen.getWidth() / 2 - 100 + this.x + 185
-        this.resetButton.drawButton(Client.getMinecraft(), mouseX, mouseY)
+        resetButton.xPosition = Renderer.Screen.getWidth() / 2 - 100 + x + 185
+        resetButton.drawButton(Client.getMinecraft(), mouseX, mouseY)
 
-        Text("\u21BA", (Renderer.Screen.getWidth() / 2 - 100 + this.x + 189).toFloat(), (this.y - 4).toFloat())
+        Text("\u21BA", (Renderer.Screen.getWidth() / 2 - 100 + x + 189).toFloat(), (y - 4).toFloat())
             .setScale(2f)
             .setColor(-0x1)
             .setShadow(true)

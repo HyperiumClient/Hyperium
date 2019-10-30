@@ -18,8 +18,8 @@
 package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderEntitiesEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.render.RenderEntitiesEvent;
+import cc.hyperium.event.client.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -65,9 +65,7 @@ public class YeetHandler {
             double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
 
             EntityPlayer sender = yeet.sender;
-            if (sender == null) {
-                continue;
-            }
+            if (sender == null) continue;
             double e0 = yeet.sender.lastTickPosX + (yeet.sender.posX - yeet.sender.lastTickPosX) * (double) partialTicks;
             double e1 = yeet.sender.lastTickPosY + (yeet.sender.posY - yeet.sender.lastTickPosY) * (double) partialTicks;
             double e2 = yeet.sender.lastTickPosZ + (yeet.sender.posZ - yeet.sender.lastTickPosZ) * (double) partialTicks;
@@ -80,8 +78,11 @@ public class YeetHandler {
             GlStateManager.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 
             int xMultiplier = 1; // Nametag x rotations should flip in front-facing 3rd person
-            if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().gameSettings != null && Minecraft.getMinecraft().gameSettings.thirdPersonView == 2)
+
+            if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().gameSettings != null && Minecraft.getMinecraft().gameSettings.thirdPersonView == 2) {
                 xMultiplier = -1;
+            }
+
             GlStateManager.rotate(renderManager.playerViewX * xMultiplier, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-f1, -f1, f1);
             GlStateManager.disableLighting();
@@ -117,12 +118,9 @@ public class YeetHandler {
 
     public void yeet(UUID uuid) {
         WorldClient theWorld = Minecraft.getMinecraft().theWorld;
-        if (theWorld == null)
-            return;
+        if (theWorld == null) return;
         EntityPlayer player = theWorld.getPlayerEntityByUUID(uuid);
-        if (player != null) {
-            yeets.add(new Yeet(player));
-        }
+        if (player != null) yeets.add(new Yeet(player));
     }
 
     static class Yeet {

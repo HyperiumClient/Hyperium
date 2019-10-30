@@ -24,6 +24,6 @@ public class UploadScreenshotKeybind extends HyperiumBind {
 
     public UploadScreenshotKeybind() {
         super("Upload Screenshot", Keyboard.KEY_LSHIFT);
-        this.conflictExempt = true;
+        conflictExempt = true;
     }
 }

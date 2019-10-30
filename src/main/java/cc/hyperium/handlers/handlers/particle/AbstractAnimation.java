@@ -29,5 +29,4 @@ public abstract class AbstractAnimation {
 
     public abstract List<Vec3> render(EntityPlayer player, double x, double y, double z);
 
-
 }

@@ -83,7 +83,7 @@ public abstract class AbstractMod {
             this.name = name;
             this.author = author;
             this.version = version;
-            this.displayName = name;
+            displayName = name;
         }
 
         /**
@@ -92,7 +92,7 @@ public abstract class AbstractMod {
          * @return the mod instance
          */
         public AbstractMod getMod() {
-            return this.mod;
+            return mod;
         }
 
         /**
@@ -101,7 +101,7 @@ public abstract class AbstractMod {
          * @return the identifier for the mod
          */
         public String getName() {
-            return this.name != null ? this.name : "";
+            return name != null ? name : "";
         }
 
         /**
@@ -110,7 +110,7 @@ public abstract class AbstractMod {
          * @return the mod version
          */
         public String getVersion() {
-            return this.version;
+            return version;
         }
 
         /**
@@ -119,7 +119,7 @@ public abstract class AbstractMod {
          * @return the author of the mod
          */
         public String getAuthor() {
-            return this.author != null ? this.author : "";
+            return author != null ? author : "";
         }
 
         /**
@@ -128,7 +128,7 @@ public abstract class AbstractMod {
          * @return the display name
          */
         public String getDisplayName() {
-            return this.displayName != null ? this.displayName : getName();
+            return displayName != null ? displayName : getName();
         }
 
         /**
@@ -137,7 +137,7 @@ public abstract class AbstractMod {
          * @param name the display name to be set
          */
         public void setDisplayName(String name) {
-            this.displayName = name;
+            displayName = name;
         }
     }
 }

@@ -48,9 +48,11 @@ public class CommandLogs implements BaseCommand {
             FileReader in = new FileReader(new File(Minecraft.getMinecraft().mcDataDir, "logs" + File.separator + "latest.log"));
             BufferedReader reader = new BufferedReader(in);
             String line;
+
             while ((line = reader.readLine()) != null) {
                 message.append(line).append("\n");
             }
+
             reader.close();
             in.close();
         } catch (IOException e) {
@@ -58,6 +60,7 @@ public class CommandLogs implements BaseCommand {
             e.printStackTrace();
             return;
         }
+
         message = new StringBuilder(message.toString().replaceAll(System.getProperty("user.name"), "{USERNAME}"));
 
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(message.toString()), null);

@@ -33,91 +33,91 @@ public class CCScrollbar extends CCGuiItem {
 
     public CCScrollbar(final GuiScreen screen, final int id, final int x, final int y, final int width, final int height, final int cHeight) {
         super(screen, id, "", x, y, width, height);
-        this.contentHeight = cHeight;
-        this.boxPosition = 0;
-        this.boxHeight = 30;
-        this.minValue = 0;
-        this.maxValue = Math.abs(this.contentHeight - this.getHeight());
+        contentHeight = cHeight;
+        boxPosition = 0;
+        boxHeight = 30;
+        minValue = 0;
+        maxValue = Math.abs(contentHeight - getHeight());
     }
 
     @Override
     public void drawItem(final int mouseX, final int mouseY) {
-        if (this.contentHeight <= this.getHeight()) {
+        if (contentHeight <= getHeight()) {
             return;
         }
         int y;
-        if (this.mouseDown) {
-            y = mouseY - this.offset;
-            if (y < this.getPosY()) {
-                y = this.getPosY();
+        if (mouseDown) {
+            y = mouseY - offset;
+            if (y < getPosY()) {
+                y = getPosY();
             }
-            if (y > this.getPosY() + this.getHeight() - this.boxHeight) {
-                y = this.getPosY() + this.getHeight() - this.boxHeight;
+            if (y > getPosY() + getHeight() - boxHeight) {
+                y = getPosY() + getHeight() - boxHeight;
             }
-            this.setCurrentPosition(y - this.getPosY());
+            setCurrentPosition(y - getPosY());
         }
         CustomCrosshairGraphics
-            .drawThemeBorderedRectangle(this.getPosX(), this.getPosY(), this.getPosX() + this.getWidth(), this.getPosY() + this.getHeight());
+            .drawThemeBorderedRectangle(getPosX(), getPosY(), getPosX() + getWidth(), getPosY() + getHeight());
         CustomCrosshairGraphics
-            .drawThemeBorderedRectangle(this.getPosX(), this.getPosY() + this.boxPosition, this.getPosX() + this.getWidth(), this.getPosY() + this.boxPosition + this.boxHeight);
+            .drawThemeBorderedRectangle(getPosX(), getPosY() + boxPosition, getPosX() + getWidth(), getPosY() + boxPosition + boxHeight);
     }
 
     @Override
     public void mouseClicked(final int mouseX, final int mouseY) {
-        if (this.contentHeight <= this.getHeight()) {
+        if (contentHeight <= getHeight()) {
             return;
         }
-        if (this.isMouseOverBox(mouseX, mouseY)) {
-            this.mouseDown = true;
-            this.offset = mouseY - (this.getPosY() + this.boxPosition);
+        if (isMouseOverBox(mouseX, mouseY)) {
+            mouseDown = true;
+            offset = mouseY - (getPosY() + boxPosition);
         }
     }
 
     @Override
     public void mouseReleased(final int mouseX, final int mouseY) {
-        this.mouseDown = false;
+        mouseDown = false;
     }
 
     private boolean isMouseOverBox(final int mouseX, final int mouseY) {
-        return mouseX >= this.getPosX() && mouseX <= this.getPosX() + this.getWidth() && mouseY >= this.getPosY() + this.boxPosition && mouseY <= this.getPosY() + this.boxPosition + this.boxHeight;
+        return mouseX >= getPosX() && mouseX <= getPosX() + getWidth() && mouseY >= getPosY() + boxPosition && mouseY <= getPosY() + boxPosition + boxHeight;
     }
 
     private void setCurrentPosition(final int x) {
-        if (this.contentHeight <= this.getHeight()) {
+        if (contentHeight <= getHeight()) {
             return;
         }
-        this.boxPosition = x;
-        this.value = this.minValue + this.boxPosition / (this.getHeight() - this.boxHeight) * (this.maxValue - this.minValue);
+        boxPosition = x;
+        value = minValue + boxPosition / (getHeight() - boxHeight) * (maxValue - minValue);
     }
 
     public void setValue(final int newValue) {
-        if (this.contentHeight <= this.getHeight()) {
+        if (contentHeight <= getHeight()) {
             return;
         }
-        this.value = newValue;
-        if (this.value < this.minValue) {
-            this.value = this.minValue;
+        value = newValue;
+        if (value < minValue) {
+            value = minValue;
         }
-        if (this.value > this.maxValue) {
-            this.value = this.maxValue;
+        if (value > maxValue) {
+            value = maxValue;
         }
-        this.boxPosition = (this.getHeight() - this.boxHeight) * (this.value - this.minValue) / (this.maxValue - this.minValue);
+        boxPosition = (getHeight() - boxHeight) * (value - minValue) / (maxValue - minValue);
     }
 
     public int getValue() {
-        return this.value;
+        return value;
     }
 
     public int getMinValue() {
-        return this.minValue;
+        return minValue;
     }
 
     public int getMaxValue() {
-        return this.maxValue;
+        return maxValue;
     }
 
     public boolean isMouseDown() {
-        return this.mouseDown;
+        return mouseDown;
     }
 }
 

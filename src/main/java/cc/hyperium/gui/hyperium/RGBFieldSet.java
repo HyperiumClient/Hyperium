@@ -62,6 +62,4 @@ public class RGBFieldSet {
     public Field getBlue() {
         return blue;
     }
-
-
 }

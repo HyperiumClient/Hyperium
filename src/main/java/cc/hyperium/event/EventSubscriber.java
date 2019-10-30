@@ -58,8 +58,8 @@ public final class EventSubscriber {
         this.instance = instance;
         this.method = method;
         this.priority = priority;
-        this.objName = this.instance.getClass().getSimpleName().replace(".", "_");
-        this.methodName = this.method.getName();
+        objName = this.instance.getClass().getSimpleName().replace(".", "_");
+        methodName = this.method.getName();
 
         try {
             handler = (EventHandler) createHandler(method).getConstructor(Object.class).newInstance(instance);
@@ -79,17 +79,17 @@ public final class EventSubscriber {
 
     @NotNull
     public final Object getInstance() {
-        return this.instance;
+        return instance;
     }
 
     @NotNull
     public final Method getMethod() {
-        return this.method;
+        return method;
     }
 
     @NotNull
     public final Priority getPriority() {
-        return this.priority;
+        return priority;
     }
 
     @NotNull
@@ -107,12 +107,12 @@ public final class EventSubscriber {
 
     @Override
     public String toString() {
-        return "EventSubscriber(instance=" + this.instance + ", method=" + this.method + ", priority=" + this.priority + ")";
+        return "EventSubscriber(instance=" + instance + ", method=" + method + ", priority=" + priority + ")";
     }
 
     @Override
     public int hashCode() {
-        return (this.instance.hashCode() * 31 + this.method.hashCode()) * 31 + this.priority.hashCode();
+        return (instance.hashCode() * 31 + method.hashCode()) * 31 + priority.hashCode();
     }
 
     @Override
@@ -121,9 +121,9 @@ public final class EventSubscriber {
             if (subscriberIn instanceof EventSubscriber) {
                 EventSubscriber eventSubscriber = (EventSubscriber) subscriberIn;
 
-                return this.instance.equals(eventSubscriber.instance) &&
-                    this.method.equals(eventSubscriber.method) &&
-                    this.priority.equals(eventSubscriber.priority);
+                return instance.equals(eventSubscriber.instance) &&
+                        method.equals(eventSubscriber.method) &&
+                        priority.equals(eventSubscriber.priority);
             }
 
             return false;

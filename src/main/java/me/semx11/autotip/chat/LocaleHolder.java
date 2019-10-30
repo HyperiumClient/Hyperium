@@ -31,12 +31,10 @@ public class LocaleHolder {
     }
 
     public String getKey(String key) {
-        if (cache.containsKey(key)) {
-            return cache.get(key);
-        }
+        if (cache.containsKey(key)) return cache.get(key);
         String value = "<" + key + ">";
         try {
-            value = this.resolveKey(key);
+            value = resolveKey(key);
         } catch (IllegalArgumentException e) {
             ErrorReport.reportException(e);
         }
@@ -47,19 +45,18 @@ public class LocaleHolder {
     private String resolveKey(String key) {
         JsonObject obj = root;
         for (String path : SPLIT_PATTERN.split(key)) {
-            if (!obj.has(path)) {
-                throw new IllegalArgumentException("Invalid key: " + key);
-            }
+            assert obj.has(path) : "Invalid key: " + key;
             JsonElement value = obj.get(path);
+
             if (value.isJsonObject()) {
                 obj = value.getAsJsonObject();
                 continue;
             }
+
             return value.getAsString();
         }
-        if (!obj.isJsonPrimitive()) {
-            throw new IllegalArgumentException("Incomplete key: " + key);
-        }
+
+        assert obj.isJsonPrimitive() : "Incomplete key: " + key;
         return obj.getAsString();
     }
 

@@ -49,11 +49,13 @@ public class GuiSlider extends GuiButtonExt {
 
     public boolean drawString;
 
-    public GuiSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr) {
+    public GuiSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal,
+                     double currentVal, boolean showDec, boolean drawStr) {
         this(id, xPos, yPos, width, height, prefix, suf, minVal, maxVal, currentVal, showDec, drawStr, null);
     }
 
-    public GuiSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr, ISlider par) {
+    public GuiSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal,
+                     double currentVal, boolean showDec, boolean drawStr, ISlider par) {
         super(id, xPos, yPos, width, height, prefix);
         minValue = minVal;
         maxValue = maxVal;
@@ -75,9 +77,7 @@ public class GuiSlider extends GuiButtonExt {
         displayString = dispString + val + suffix;
 
         drawString = drawStr;
-        if (!drawString) {
-            displayString = "";
-        }
+        if (!drawString) displayString = "";
     }
 
     public GuiSlider(int id, int xPos, int yPos, String displayStr, double minVal, double maxVal, double currentVal, ISlider par) {
@@ -98,15 +98,15 @@ public class GuiSlider extends GuiButtonExt {
      */
     @Override
     protected void mouseDragged(Minecraft par1Minecraft, int par2, int par3) {
-        if (this.visible) {
-            if (this.dragging) {
-                this.sliderValue = (par2 - (this.xPosition + 4)) / (float) (this.width - 8);
+        if (visible) {
+            if (dragging) {
+                sliderValue = (par2 - (xPosition + 4)) / (float) (width - 8);
                 updateSlider();
             }
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.drawTexturedModalRect(this.xPosition + (int) (this.sliderValue * (float) (this.width - 8)), this.yPosition, 0, 66, 4, 20);
-            this.drawTexturedModalRect(this.xPosition + (int) (this.sliderValue * (float) (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
+            drawTexturedModalRect(xPosition + (int) (sliderValue * (float) (width - 8)), yPosition, 0, 66, 4, 20);
+            drawTexturedModalRect(xPosition + (int) (sliderValue * (float) (width - 8)) + 4, yPosition, 196, 66, 4, 20);
         }
     }
 
@@ -117,9 +117,9 @@ public class GuiSlider extends GuiButtonExt {
     @Override
     public boolean mousePressed(Minecraft par1Minecraft, int par2, int par3) {
         if (super.mousePressed(par1Minecraft, par2, par3)) {
-            this.sliderValue = (float) (par2 - (this.xPosition + 4)) / (float) (this.width - 8);
+            sliderValue = (float) (par2 - (xPosition + 4)) / (float) (width - 8);
             updateSlider();
-            this.dragging = true;
+            dragging = true;
             return true;
         } else {
             return false;
@@ -127,13 +127,8 @@ public class GuiSlider extends GuiButtonExt {
     }
 
     public void updateSlider() {
-        if (this.sliderValue < 0.0F) {
-            this.sliderValue = 0.0F;
-        }
-
-        if (this.sliderValue > 1.0F) {
-            this.sliderValue = 1.0F;
-        }
+        if (sliderValue < 0.0F) sliderValue = 0.0F;
+        if (sliderValue > 1.0F) sliderValue = 1.0F;
 
         StringBuilder val;
 
@@ -155,13 +150,8 @@ public class GuiSlider extends GuiButtonExt {
             val = new StringBuilder(Integer.toString((int) Math.round(sliderValue * (maxValue - minValue) + minValue)));
         }
 
-        if (drawString) {
-            displayString = dispString + val + suffix;
-        }
-
-        if (parent != null) {
-            parent.onChangeSliderValue(this);
-        }
+        if (drawString) displayString = dispString + val + suffix;
+        if (parent != null) parent.onChangeSliderValue(this);
     }
 
     /**
@@ -169,7 +159,7 @@ public class GuiSlider extends GuiButtonExt {
      */
     @Override
     public void mouseReleased(int par1, int par2) {
-        this.dragging = false;
+        dragging = false;
     }
 
     public int getValueInt() {
@@ -181,7 +171,7 @@ public class GuiSlider extends GuiButtonExt {
     }
 
     public void setValue(double d) {
-        this.sliderValue = (d - minValue) / (maxValue - minValue);
+        sliderValue = (d - minValue) / (maxValue - minValue);
     }
 
     public interface ISlider {

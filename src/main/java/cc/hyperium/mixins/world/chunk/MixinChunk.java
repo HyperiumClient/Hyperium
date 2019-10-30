@@ -44,8 +44,6 @@ public class MixinChunk {
     }
 
     private void setLightValueInt(CallbackInfoReturnable<Integer> cir) {
-        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) {
-            cir.setReturnValue(15);
-        }
+        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) cir.setReturnValue(15);
     }
 }

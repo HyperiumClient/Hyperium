@@ -37,7 +37,6 @@ public class RenderHamster extends RenderLiving<EntityHamster> {
     @Override
     protected void preRenderCallback(EntityHamster entitylivingbaseIn, float partialTickTime) {
         super.preRenderCallback(entitylivingbaseIn, partialTickTime);
-
         GlStateManager.scale(0.5, 0.5, 0.5);
     }
 }

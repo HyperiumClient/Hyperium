@@ -92,9 +92,7 @@ public class AsyncScreenshotSaver implements Runnable {
 
         while (true) {
             screenshot = new File(gameDirectory, dateFormatting + ((screenshotCount == 1) ? "" : ("_" + screenshotCount)) + ".png");
-            if (!screenshot.exists()) {
-                break;
-            }
+            if (!screenshot.exists()) break;
 
             ++screenshotCount;
         }
@@ -140,9 +138,7 @@ public class AsyncScreenshotSaver implements Runnable {
         TriggerType.SCREENSHOT_TAKEN.triggerAll(screenshot, cancellable);
 
         // Cancel the process if made to cancel
-        if (cancellable.isCancelled()) {
-            return;
-        }
+        if (cancellable.isCancelled()) return;
 
         try {
 
@@ -179,7 +175,6 @@ public class AsyncScreenshotSaver implements Runnable {
                 chatComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, screenshot.getCanonicalPath()));
                 Minecraft.getMinecraft().thePlayer.addChatMessage(chatComponent);
             } else {
-
                 // Otherwise allow the Imgur uploading process to run
                 new ImgurUploader("649f2fb48e59767", screenshot).run();
             }

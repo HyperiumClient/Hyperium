@@ -21,7 +21,7 @@ import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.Color;
+import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,23 +48,24 @@ public class SelectorComponent extends AbstractTabComponent {
     }
 
     public String getCurrentValue() {
-
         try {
             String s = (String) field.get(parentObj);
             String[] strings = values.get();
             for (String s1 : strings) {
-                if (s1.equalsIgnoreCase(s))
+                if (s1.equalsIgnoreCase(s)) {
                     return s;
+                }
             }
+
             //Not found
-            if (strings.length == 0)
-                return "Error 4";
+            if (strings.length == 0) return "Error 4";
             String string = strings[0];
             setValue(string);
             return string;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
         return "Error 1";
     }
 
@@ -73,19 +74,14 @@ public class SelectorComponent extends AbstractTabComponent {
         return IntStream.range(0, strings.length).filter(i -> strings[i].equalsIgnoreCase(getCurrentValue())).findFirst().orElse(0);
     }
 
-
     @Override
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         HyperiumFontRenderer font = tab.gui.getFont();
-
-        //The lines for the label
         lines.clear();
-
         lines = font.splitString(label, (int) (width - font.getWidth(getCurrentValue()))); //16 for icon, 3 for render offset and then some more
 
         GlStateManager.pushMatrix();
-        if (hover)
-            Gui.drawRect(x, y, x + width, y + 18 * lines.size(), 0xa0000000);
+        if (hover) Gui.drawRect(x, y, x + width, y + 18 * lines.size(), 0xa0000000);
         GlStateManager.popMatrix();
 
         int line1 = 0;
@@ -104,7 +100,6 @@ public class SelectorComponent extends AbstractTabComponent {
     @Override
     public int getHeight() {
         return 18 * lines.size();
-
     }
 
     public void setValue(String newvalue) {
@@ -121,18 +116,13 @@ public class SelectorComponent extends AbstractTabComponent {
             String currentValue = getCurrentValue();
             int currentIndex = getCurrentIndex();
             String[] strings = values.get();
-            if (strings.length == 0)
-                setValue("Error 2");
+            if (strings.length == 0) setValue("Error 2");
             currentIndex++;
-            if (currentIndex > strings.length - 1)
-                currentIndex = 0;
+            if (currentIndex > strings.length - 1) currentIndex = 0;
             String string = strings[currentIndex];
             setValue(string);
-            if (!getCurrentValue().equalsIgnoreCase(currentValue))
-                stateChange(string);
+            if (!getCurrentValue().equalsIgnoreCase(currentValue)) stateChange(string);
         }
-
-
     }
 
     public String getLabel() {

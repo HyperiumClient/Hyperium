@@ -31,7 +31,7 @@ public class CommandTimeChangerFastTime implements BaseCommand {
     private final TimeChanger mod;
 
     public CommandTimeChangerFastTime(TimeChanger main) {
-        this.mod = main;
+        mod = main;
     }
 
     @Override
@@ -46,9 +46,7 @@ public class CommandTimeChangerFastTime implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) throws CommandException {
-        if (args.length == 0) {
-            throw new CommandUsageException();
-        }
+        assert args.length != 0;
 
         final double multiplier = NumberUtils.toDouble(args[0], -1.0);
 
@@ -57,8 +55,8 @@ public class CommandTimeChangerFastTime implements BaseCommand {
             return;
         }
 
-        this.mod.setTimeType(TimeType.FAST);
-        this.mod.setFastTimeMultiplier(multiplier);
+        mod.setTimeType(TimeType.FAST);
+        mod.setFastTimeMultiplier(multiplier);
         GeneralChatHandler.instance().sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to fast (" + multiplier + ").", false);
     }
 }

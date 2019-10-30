@@ -41,13 +41,13 @@ public abstract class MixinLocale {
         )
     )
     private String injectI18nData(String format, Object... args) {
-        for (Supplier<InputStream> supplier : HyperiumLocale.LANG_FILES.get(args[0].toString())) {
+        HyperiumLocale.LANG_FILES.get(args[0].toString()).forEach(supplier -> {
             try (InputStream stream = supplier.get()) {
                 loadLocaleData(stream);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        });
 
         return String.format(format, args);
     }

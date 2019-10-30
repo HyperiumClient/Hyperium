@@ -51,12 +51,13 @@ public class CommandDisableCommand implements BaseCommand {
         }
 
         // True if the command is disabled, false if it is not
-        boolean disabled = this.handler.addOrRemoveCommand(args[0]);
+        boolean disabled = handler.addOrRemoveCommand(args[0]);
 
         ChatColor color = disabled ? ChatColor.RED : ChatColor.GREEN;
 
-        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Command \'" + args[0] + "\' is " + color + (disabled ? "now" : "no longer") + ChatColor.WHITE + " disabled!");
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Command '" + args[0] + "' is " + color +
+            (disabled ? "now" : "no longer") + ChatColor.WHITE + " disabled!");
 
-        this.handler.saveDisabledCommands();
+        handler.saveDisabledCommands();
     }
 }

@@ -51,6 +51,7 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
         if (jar.getJarEntry("pack.mcmeta") != null) {
             AddonBootstrap.addonResourcePacks.add(file)
         }
+
         val manifest = AddonManifestParser(jar).getAddonManifest()
         if (BLACKLISTED.contains(manifest.name) || AddonBootstrap.pendingManifests.stream().anyMatch {
                 it.name.equals(

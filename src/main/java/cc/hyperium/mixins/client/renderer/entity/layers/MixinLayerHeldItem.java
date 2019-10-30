@@ -39,6 +39,6 @@ public class MixinLayerHeldItem {
      */
     @Overwrite
     public void doRenderLayer(EntityLivingBase entity, float f, float f2, float f3, float partialTicks, float f4, float f5, float scale) {
-        oldBlocking.doRenderLayer(entity, this.livingEntityRenderer);
+        oldBlocking.doRenderLayer(entity, livingEntityRenderer);
     }
 }

@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins.entity.item;
 
-import cc.hyperium.event.ItemPickupEvent;
+import cc.hyperium.event.world.item.ItemPickupEvent;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;

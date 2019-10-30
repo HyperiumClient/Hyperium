@@ -66,10 +66,12 @@ public abstract class MixinGuiScreen {
     @Overwrite
     public void handleKeyboardInput() throws IOException {
         char character = Keyboard.getEventCharacter();
+
         if (Keyboard.getEventKey() == 0 && character >= 32 || Keyboard.getEventKeyState()) {
-            this.keyTyped(character, Keyboard.getEventKey());
+            keyTyped(character, Keyboard.getEventKey());
         }
-        this.mc.dispatchKeypresses();
+
+        mc.dispatchKeypresses();
     }
 
     @Inject(method = "drawScreen", at = @At("HEAD"), cancellable = true)
@@ -79,9 +81,7 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci) {
-        if (mc.theWorld != null && Settings.FAST_CONTAINER) {
-            ci.cancel();
-        }
+        if (mc.theWorld != null && Settings.FAST_CONTAINER) ci.cancel();
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
@@ -96,8 +96,7 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "actionPerformed", at = @At("HEAD"), cancellable = true)
     private void actionPerformed(GuiButton button, CallbackInfo info) {
-        if (hyperiumGuiScreen.actionPerformed(button))
-            info.cancel();
+        if (hyperiumGuiScreen.actionPerformed(button)) info.cancel();
     }
 
     @Inject(
@@ -171,11 +170,7 @@ public abstract class MixinGuiScreen {
             if (tooltipX + tooltipTextWidth + 4 > screenWidth) {
                 tooltipX = mouseX - 16 - tooltipTextWidth;
                 if (tooltipX < 4) { // if the tooltip doesn't fit on the screen
-                    if (mouseX > screenWidth / 2) {
-                        tooltipTextWidth = mouseX - 12 - 8;
-                    } else {
-                        tooltipTextWidth = screenWidth - 16 - mouseX;
-                    }
+                    tooltipTextWidth = mouseX > screenWidth / 2 ? mouseX - 12 - 8 : screenWidth - 16 - mouseX;
                     needsWrap = true;
                 }
             }
@@ -191,15 +186,18 @@ public abstract class MixinGuiScreen {
                 for (int i = 0; i < textLines.size(); i++) {
                     String textLine = textLines.get(i);
                     List<String> wrappedLine = font.listFormattedStringToWidth(textLine, tooltipTextWidth);
+
                     if (i == 0) {
                         titleLinesCount = wrappedLine.size();
                     }
 
                     for (String line : wrappedLine) {
                         int lineWidth = font.getStringWidth(line);
+
                         if (lineWidth > wrappedTooltipWidth) {
                             wrappedTooltipWidth = lineWidth;
                         }
+
                         wrappedTextLines.add(line);
                     }
                 }
@@ -207,11 +205,7 @@ public abstract class MixinGuiScreen {
                 tooltipTextWidth = wrappedTooltipWidth;
                 textLines = wrappedTextLines;
 
-                if (mouseX > screenWidth / 2) {
-                    tooltipX = mouseX - 16 - tooltipTextWidth;
-                } else {
-                    tooltipX = mouseX + 12;
-                }
+                tooltipX = mouseX > screenWidth / 2 ? mouseX - 16 - tooltipTextWidth : mouseX + 12;
             }
 
             int tooltipY = mouseY - 12;

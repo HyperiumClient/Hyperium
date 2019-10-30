@@ -46,14 +46,8 @@ public class SpaceKey extends AbstractKey {
     }
 
     private boolean isButtonDown(int buttonCode) {
-        if (buttonCode < 0) {
-            // Mouse bind.
-            return Mouse.isButtonDown(buttonCode + 100);
-        } else if (buttonCode > 0) {
-            // Key bind.
-            return Keyboard.isKeyDown(buttonCode);
-        }
-
+        if (buttonCode < 0) return Mouse.isButtonDown(buttonCode + 100); // Mouse bind.
+        else if (buttonCode > 0) return Keyboard.isKeyDown(buttonCode); // Key bind.
         return false;
     }
 
@@ -61,25 +55,17 @@ public class SpaceKey extends AbstractKey {
     public void renderKey(int x, int y) {
         int yOffset = this.yOffset;
 
-        if (!this.mod.getSettings().isShowingMouseButtons()) {
-            yOffset -= 24;
-        }
-
-        if (!this.mod.getSettings().isShowingSneak()) {
-            yOffset -= 18;
-        }
-
-        if (!mod.getSettings().isShowingWASD()) {
-            yOffset -= 48;
-        }
+        if (!mod.getSettings().isShowingMouseButtons()) yOffset -= 24;
+        if (!mod.getSettings().isShowingSneak()) yOffset -= 18;
+        if (!mod.getSettings().isShowingWASD()) yOffset -= 48;
 
         Keyboard.poll();
-        boolean pressed = isButtonDown(this.key.getKeyCode());
+        boolean pressed = isButtonDown(key.getKeyCode());
         String name = this.name.equalsIgnoreCase("space") ? (mod.getSettings().isChroma() ? "------" : (ChatColor.STRIKETHROUGH.toString() + "------")) : "Sneak";
 
-        if (pressed != this.wasPressed) {
-            this.wasPressed = pressed;
-            this.lastPress = System.currentTimeMillis();
+        if (pressed != wasPressed) {
+            wasPressed = pressed;
+            lastPress = System.currentTimeMillis();
         }
 
         int textColor = getColor();
@@ -89,20 +75,20 @@ public class SpaceKey extends AbstractKey {
         int color;
 
         if (pressed) {
-            color = Math.min(255, (int) ((this.mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - this.lastPress)));
-            textBrightness = Math.max(0.0D, 1.0D - (double) (System.currentTimeMillis() - this.lastPress) / (this.mod.getSettings().getFadeTime() * 2));
+            color = Math.min(255, (int) ((mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - lastPress)));
+            textBrightness = Math.max(0.0D, 1.0D - (double) (System.currentTimeMillis() - lastPress) / (mod.getSettings().getFadeTime() * 2));
         } else {
-            color = Math.max(0, 255 - (int) ((this.mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - this.lastPress)));
-            textBrightness = Math.min(1.0D, (double) (System.currentTimeMillis() - this.lastPress) / (this.mod.getSettings().getFadeTime() * 2));
+            color = Math.max(0, 255 - (int) ((mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - lastPress)));
+            textBrightness = Math.min(1.0D, (double) (System.currentTimeMillis() - lastPress) / (mod.getSettings().getFadeTime() * 2));
         }
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
             if (mod.getSettings().getKeyBackgroundRed() == 0 && mod.getSettings().getKeyBackgroundGreen() == 0 && mod.getSettings().getKeyBackgroundBlue() == 0) {
-                Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16,
+                Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 70, y + yOffset + 16,
                     new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
                         mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
             } else {
-                Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16,
+                Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 70, y + yOffset + 16,
                     new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
                         mod.getSettings().getKeyBackgroundOpacity()).getRGB());
             }
@@ -112,23 +98,25 @@ public class SpaceKey extends AbstractKey {
         int green = textColor >> 8 & 255;
         int blue = textColor & 255;
 
-        int colorN = new Color(0, 0, 0).getRGB() + ((int) ((double) red * textBrightness) << 16) + ((int) ((double) green * textBrightness) << 8) + (int) ((double) blue * textBrightness);
+        int colorN = new Color(0, 0, 0).getRGB() + ((int) ((double) red * textBrightness) << 16) + ((int) ((double) green * textBrightness) << 8)
+            + (int) ((double) blue * textBrightness);
 
-        if (this.mod.getSettings().isChroma()) {
+        if (mod.getSettings().isChroma()) {
             if (this.name.equalsIgnoreCase("space")) {
-                int xIn = x + (this.xOffset + 76) / 4;
+                int xIn = x + (xOffset + 76) / 4;
                 int y2 = y + yOffset + 9;
                 GlStateManager.pushMatrix();
                 GlStateManager.translate((float) xIn, (float) y2, 0.0f);
                 GlStateManager.rotate(-90.0f, 0.0f, 0.0f, 1.0f);
-                this.drawGradientRect(0, 0, 2, 35, Color.HSBtoRGB((float) ((System.currentTimeMillis() - xIn * 10 - y2 * 10) % 2000L) / 2000.0f,
-                    0.8f, 0.8f), Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xIn + 35) * 10 - y2 * 10) % 2000L) / 2000.0f, 0.8f, 0.8f));
+                drawGradientRect(0, 0, 2, 35, Color.HSBtoRGB((float) ((System.currentTimeMillis() - xIn * 10 - y2 * 10) % 2000L) / 2000.0f,
+                    0.8f, 0.8f), Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xIn + 35) * 10 - y2 * 10) % 2000L) / 2000.0f,
+                    0.8f, 0.8f));
                 GlStateManager.popMatrix();
             } else {
-                drawChromaString(name, x + ((this.xOffset + 70) / 2) - Minecraft.getMinecraft().fontRendererObj.getStringWidth(name) / 2, y + yOffset + 5, 1.0F);
+                drawChromaString(name, x + ((xOffset + 70) / 2) - Minecraft.getMinecraft().fontRendererObj.getStringWidth(name) / 2, y + yOffset + 5, 1.0F);
             }
         } else {
-            this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + yOffset + 5, pressed ? pressedColor : colorN);
+            drawCenteredString(name, x + (xOffset + 70) / 2, y + yOffset + 5, pressed ? pressedColor : colorN);
         }
     }
 }

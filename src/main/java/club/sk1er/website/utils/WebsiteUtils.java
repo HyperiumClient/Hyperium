@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -60,8 +61,7 @@ public class WebsiteUtils {
     public static String numeral(int amount) {
         try {
             int l = numerals.floorKey(amount);
-            if (l == amount)
-                return numerals.get(l);
+            if (l == amount) return numerals.get(l);
             return numerals.get(l) + numeral(amount - l);
         } catch (Exception e) {
             return "-";
@@ -74,19 +74,10 @@ public class WebsiteUtils {
     }
 
     public static String buildRatio(int a, int b) {
-
-        double c = (double) a;
-        double d = (double) b;
-        if (a + b == 0) {
-            return "0";
-        }
-        if (b == 0) {
-            return Character.toString('\u221e');
-        }
-        if (a == 0) {
-            return "0";
-        }
-        double e = c / d;
+        if (a + b == 0) return "0";
+        if (b == 0) return Character.toString('\u221e');
+        if (a == 0) return "0";
+        double e = (double) a / (double) b;
         DecimalFormat df = new DecimalFormat("#.###");
         return df.format(e);
     }
@@ -141,16 +132,12 @@ public class WebsiteUtils {
                 long cur = 0;
                 JsonObject curent = tmp;
                 for (String s : path.split("#")) {
-                    if (cur >= max - 1) {
-                        return (curent.has(s) ? curent.get(s).getAsLong() : 0);
-                    } else {
-                        curent = curent.has(s) ? curent.get(s).getAsJsonObject() : new JsonObject();
-                    }
+                    if (cur >= max - 1) return (curent.has(s) ? curent.get(s).getAsLong() : 0);
+                    else curent = curent.has(s) ? curent.get(s).getAsJsonObject() : new JsonObject();
                     cur++;
                 }
             } else {
                 return tmp.has(path) ? tmp.get(path).getAsLong() : 0;
-
             }
 
             return 0;
@@ -161,16 +148,15 @@ public class WebsiteUtils {
 
     public static void main(String[] args) {
         String in = " handler.write(strongBr(\"Bedwars level: \", getUtils().getBedwarsLevel(bedwars.optInt(\"Experience\") + bedwars.optInt(\"Experience_new\"))));\n" +
-                "        handler.write(strongBr(\"Beds Broken: \", bedwars.optInt(\"beds_broken_bedwars\")));\n" +
-                "        handler.writeLine(1);\n" +
-                "        handler.write(strongBr(\"Final Kills: \", bedwars.optInt(\"final_kills_bedwars\")));\n" +
-                "        handler.write(strongBr(\"Final Deaths: \", bedwars.optInt(\"final_deaths_bedwars\")));\n" +
-                "        handler.write(strongBr(\"Final K/D: \", getUtils().buildRatio(bedwars.optInt(\"final_kills_bedwars\"), bedwars.optInt(\"final_deaths_bedwars\"))));\n" +
-                "        handler.write(strongBr(\"Final Kill / Normal deaths: \", getUtils().buildRatio(bedwars.optInt(\"final_kills_bedwars\"), bedwars.optInt(\"deaths_bedwars\"))));\n";
-        for (String s : in.split("\n")) {
-            s = s.replace("handler.write(", "items.add(new DisplayLine(").replace(";", ");").replace("strongBr", "bold").replace("<br>", "");
-            System.out.println(s);
-        }
+            "        handler.write(strongBr(\"Beds Broken: \", bedwars.optInt(\"beds_broken_bedwars\")));\n" +
+            "        handler.writeLine(1);\n" +
+            "        handler.write(strongBr(\"Final Kills: \", bedwars.optInt(\"final_kills_bedwars\")));\n" +
+            "        handler.write(strongBr(\"Final Deaths: \", bedwars.optInt(\"final_deaths_bedwars\")));\n" +
+            "        handler.write(strongBr(\"Final K/D: \", getUtils().buildRatio(bedwars.optInt(\"final_kills_bedwars\"), bedwars.optInt(\"final_deaths_bedwars\"))));\n" +
+            "        handler.write(strongBr(\"Final Kill / Normal deaths: \", getUtils().buildRatio(bedwars.optInt(\"final_kills_bedwars\"), bedwars.optInt(\"deaths_bedwars\"))));\n";
+        Arrays.stream(in.split("\n")).map(s -> s.replace("handler.write(",
+            "items.add(new DisplayLine(").replace(";", ");").replace("strongBr", "bold")
+            .replace("<br>", "")).forEach(System.out::println);
     }
 
     public static double getBedwarsLevel(double exp) {

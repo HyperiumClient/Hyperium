@@ -17,6 +17,7 @@
 
 package cc.hyperium.event;
 
+import cc.hyperium.event.render.RenderTickEvent;
 import com.google.common.reflect.TypeToken;
 import net.minecraft.client.Minecraft;
 
@@ -67,16 +68,16 @@ public class EventBus {
 
                 // where the method gets added to the event key inside of the subscription hashmap
                 // the arraylist is either sorted or created before the element is added
-                if (this.subscriptions.containsKey(event)) {
+                if (subscriptions.containsKey(event)) {
                     // sorts array on insertion
-                    this.subscriptions.get(event).add(new EventSubscriber(obj, method, priority));
-                    this.subscriptions.get(event).sort(Comparator.comparingInt(a -> a.getPriority().value));
+                    subscriptions.get(event).add(new EventSubscriber(obj, method, priority));
+                    subscriptions.get(event).sort(Comparator.comparingInt(a -> a.getPriority().value));
                 } else {
                     // event hasn't been added before so it creates a new instance
                     // sorting does not matter here since there is no other elements to compete against
-                    this.subscriptions.put(event, new CopyOnWriteArrayList<>());
-                    this.subscriptions.get(event).add(new EventSubscriber(obj, method, priority));
-                    this.subscriptions.get(event).sort(Comparator.comparingInt(a -> a.getPriority().value));
+                    subscriptions.put(event, new CopyOnWriteArrayList<>());
+                    subscriptions.get(event).add(new EventSubscriber(obj, method, priority));
+                    subscriptions.get(event).sort(Comparator.comparingInt(a -> a.getPriority().value));
                 }
             }
         }
@@ -89,7 +90,7 @@ public class EventBus {
      * @param obj An instance of the class which you would like to register as an event
      */
     public void unregister(Object obj) {
-        this.subscriptions.values().forEach(map -> map.removeIf(it -> it.getInstance() == obj));
+        subscriptions.values().forEach(map -> map.removeIf(it -> it.getInstance() == obj));
     }
 
     /**
@@ -99,7 +100,7 @@ public class EventBus {
      * @param clazz An instance of the class which you would like to register as an event
      */
     public void unregister(Class<?> clazz) {
-        this.subscriptions.values().forEach(map -> map.removeIf(it -> it.getInstance().getClass() == clazz));
+        subscriptions.values().forEach(map -> map.removeIf(it -> it.getInstance().getClass() == clazz));
     }
 
 
@@ -130,7 +131,7 @@ public class EventBus {
         if (profile) {
             Minecraft.getMinecraft().mcProfiler.startSection(event.getClass().getSimpleName());
         }
-        this.subscriptions.getOrDefault(event.getClass(), new CopyOnWriteArrayList<>()).forEach((sub) -> {
+        subscriptions.getOrDefault(event.getClass(), new CopyOnWriteArrayList<>()).forEach((sub) -> {
             if (profile) {
                 String name = sub.getObjName();
                 Minecraft.getMinecraft().mcProfiler.startSection(name);

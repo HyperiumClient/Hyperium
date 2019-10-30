@@ -18,11 +18,11 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.HypixelFriendRequestEvent;
-import cc.hyperium.event.HypixelPartyInviteEvent;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeypressEvent;
-import cc.hyperium.event.RenderHUDEvent;
+import cc.hyperium.event.interact.KeyPressEvent;
+import cc.hyperium.event.network.server.hypixel.HypixelFriendRequestEvent;
+import cc.hyperium.event.network.server.hypixel.HypixelPartyInviteEvent;
+import cc.hyperium.event.render.RenderHUDEvent;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -30,7 +30,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Keyboard;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
@@ -55,10 +55,7 @@ public class ConfirmationPopup {
     public void onParty(HypixelPartyInviteEvent e) {
         if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
             displayConfirmation("Party request from " + e.getFrom(), accept -> {
-                if (accept) {
-                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
-                }
-
+                if (accept) Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
                 currentConfirmation.framesLeft = 0;
             });
         }
@@ -71,19 +68,15 @@ public class ConfirmationPopup {
             return;
         }
 
-        if (currentConfirmation.render())
-            currentConfirmation = confirmations.poll();
+        if (currentConfirmation.render()) currentConfirmation = confirmations.poll();
     }
 
     @InvokeEvent
-    public void onKeypress(KeypressEvent e) {
+    public void onKeypress(KeyPressEvent e) {
         if (currentConfirmation == null || Minecraft.getMinecraft().currentScreen != null) return;
 
-        if (e.getKey() == Keyboard.KEY_Y) {
-            currentConfirmation.callback.accept(true);
-        } else if (e.getKey() == Keyboard.KEY_N) {
-            currentConfirmation.callback.accept(false);
-        }
+        if (e.getKey() == Keyboard.KEY_Y) currentConfirmation.callback.accept(true);
+        else if (e.getKey() == Keyboard.KEY_N) currentConfirmation.callback.accept(false);
     }
 
     private void displayConfirmation(String text, Consumer<Boolean> callback) {
@@ -108,33 +101,32 @@ public class ConfirmationPopup {
             this.framesLeft = framesLeft;
             this.text = text;
             this.callback = callback;
-
             long fifth = frames / 5;
+
             upperThreshold = frames - fifth;
             lowerThreshold = fifth;
-            this.percentComplete = 0.0f;
-            this.systemTime = Minecraft.getSystemTime();
+            percentComplete = 0.0f;
+            systemTime = Minecraft.getSystemTime();
         }
 
         public boolean render() {
-            if (framesLeft <= 0) {
-                return true;
-            }
+            if (framesLeft <= 0) return true;
+
             if (text.equalsIgnoreCase("Party request from " + acceptFrom)) {
                 callback.accept(true);
                 return true;
             }
 
-            while (this.systemTime < Minecraft.getSystemTime() + (1000 / 60)) {
-                this.framesLeft--;
-                this.systemTime += (1000 / 60);
+            while (systemTime < Minecraft.getSystemTime() + (1000 / 60)) {
+                framesLeft--;
+                systemTime += (1000 / 60);
             }
 
-            this.percentComplete = HyperiumGui.clamp(
+            percentComplete = HyperiumGui.clamp(
                 HyperiumGui.easeOut(
-                    this.percentComplete,
-                    this.framesLeft < lowerThreshold ? 0.0f :
-                        this.framesLeft > upperThreshold ? 1.0f : framesLeft,
+                    percentComplete,
+                    framesLeft < lowerThreshold ? 0.0f :
+                        framesLeft > upperThreshold ? 1.0f : framesLeft,
                     0.01f,
                     15f
                 ),
@@ -158,7 +150,7 @@ public class ConfirmationPopup {
                 new Color(27, 27, 27).getRGB()
             );
 
-            if (this.percentComplete == 1.0F) {
+            if (percentComplete == 1.0F) {
                 long length = upperThreshold - lowerThreshold;
                 long current = framesLeft - lowerThreshold;
                 float progress = 1.0F - HyperiumGui.clamp((float) current / (float) length, 0.0F, 1.0F);

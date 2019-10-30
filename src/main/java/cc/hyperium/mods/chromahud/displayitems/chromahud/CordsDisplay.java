@@ -20,13 +20,13 @@ package cc.hyperium.mods.chromahud.displayitems.chromahud;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
-import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Created by Mitchell Katz on 5/25/2017.
@@ -40,7 +40,7 @@ public class CordsDisplay extends DisplayItem {
     public CordsDisplay(JsonHolder options, int ordinal) {
         super(options, ordinal);
         state = options.optInt("state");
-        this.precision = options.optInt("precision");
+        precision = options.optInt("precision");
     }
 
     @Override
@@ -63,11 +63,8 @@ public class CordsDisplay extends DisplayItem {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (player != null) {
             StringBuilder start = new StringBuilder("0");
-            if (precision > 0)
-                start.append(".");
-            for (int i = 0; i < precision; i++) {
-                start.append("0");
-            }
+            if (precision > 0) start.append(".");
+            IntStream.range(0, precision).mapToObj(i -> "0").forEach(start::append);
             DecimalFormat df = new DecimalFormat(start.toString());
 
             if (state == 0) {
@@ -82,9 +79,9 @@ public class CordsDisplay extends DisplayItem {
         } else {
             tmp.add("X: null, Y: null, Z: null");
         }
-        ElementRenderer.draw(x, y, tmp);
-        this.width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;
-        this.height = tmp.size() * 10;
 
+        ElementRenderer.draw(x, y, tmp);
+        width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;
+        height = tmp.size() * 10;
     }
 }

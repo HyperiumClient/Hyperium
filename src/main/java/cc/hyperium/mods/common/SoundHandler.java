@@ -20,7 +20,7 @@ package cc.hyperium.mods.common;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.SoundPlayEvent;
+import cc.hyperium.event.world.audio.SoundPlayEvent;
 import cc.hyperium.mods.AbstractMod;
 
 public class SoundHandler extends AbstractMod {

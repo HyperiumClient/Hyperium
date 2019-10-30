@@ -16,7 +16,7 @@ public class HypixelApiFriends implements HypixelApiObject {
 
     public HypixelApiFriends(JsonHolder o) {
         if (o != null)
-            this.master = o;
+            master = o;
         else
             master = new JsonHolder();
     }

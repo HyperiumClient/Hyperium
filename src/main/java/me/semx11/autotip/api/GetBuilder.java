@@ -11,7 +11,7 @@ public class GetBuilder {
     private final RequestBuilder builder;
 
     private GetBuilder(Request request) {
-        this.builder = RequestBuilder.get().setUri(BASE_URL + request.getType().getEndpoint());
+        builder = RequestBuilder.get().setUri(BASE_URL + request.getType().getEndpoint());
     }
 
     public static GetBuilder of(Request request) {
@@ -19,12 +19,12 @@ public class GetBuilder {
     }
 
     public GetBuilder addParameter(String key, Object value) {
-        this.builder.addParameter(key, String.valueOf(value));
+        builder.addParameter(key, String.valueOf(value));
         return this;
     }
 
     public HttpUriRequest build() {
-        return this.builder.build();
+        return builder.build();
     }
 
 }

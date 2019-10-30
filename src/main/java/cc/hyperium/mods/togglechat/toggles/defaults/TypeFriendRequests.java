@@ -42,12 +42,12 @@ public class TypeFriendRequests extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        return this.oldPattern.matcher(message).find() || this.friendPattern.matcher(message).matches();
+        return oldPattern.matcher(message).find() || friendPattern.matcher(message).matches();
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @Override

@@ -19,7 +19,7 @@ public class HypixelApiGuild implements HypixelApiObject {
 
     public HypixelApiGuild(JsonHolder master) {
 
-        this.guild = master == null ? new JsonHolder() : master;
+        guild = master == null ? new JsonHolder() : master;
     }
 
     @Override
@@ -48,9 +48,8 @@ public class HypixelApiGuild implements HypixelApiObject {
     }
 
     public String getFormatedTag() {
-        if (!getTag().isEmpty())
-            return (getRoot().has("tagColor") ? WebsiteUtils.getColor(getRoot().optString("tagColor")) : "§7") + "[" + getTag() + "]";
-        return "";
+        return !getTag().isEmpty() ? (getRoot().has("tagColor") ?
+            WebsiteUtils.getColor(getRoot().optString("tagColor")) : "§7") + "[" + getTag() + "]" : "";
     }
 
     public String getTag() {

@@ -17,6 +17,7 @@
 
 package cc.hyperium.addons.sidebar.gui.screen;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.addons.sidebar.SidebarAddon;
 import cc.hyperium.addons.sidebar.gui.GuiSidebar;
 import net.minecraft.client.gui.GuiScreen;
@@ -33,42 +34,38 @@ public class GuiScreenSidebar extends GuiScreen {
     private int lastY;
     GuiSidebar sidebar;
 
-    GuiScreenSidebar(final SidebarAddon addon) {
+    GuiScreenSidebar(SidebarAddon addon) {
         this.addon = addon;
-        this.sidebar = addon.getSidebarGui();
+        sidebar = addon.getSidebarGui();
     }
 
-    public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
-        if (this.mc.thePlayer != null) {
-            final ScoreObjective scoreObjective = this.mc.thePlayer.getWorldScoreboard().getObjectiveInDisplaySlot(1);
-            if (scoreObjective != null) {
-                this.sidebar.drawSidebar(scoreObjective, new ScaledResolution(this.mc));
-            }
+        if (mc.thePlayer != null) {
+            ScoreObjective scoreObjective = mc.thePlayer.getWorldScoreboard().getObjectiveInDisplaySlot(1);
+            if (scoreObjective != null) sidebar.drawSidebar(scoreObjective, new ScaledResolution(mc));
         }
 
-        if (this.dragging) {
-            sidebar.offsetX += mouseX - this.lastX;
+        if (dragging) {
+            sidebar.offsetX += mouseX - lastX;
             sidebar.offsetY += mouseY - lastY;
         }
 
-        this.lastX = mouseX;
-        this.lastY = mouseY;
+        lastX = mouseX;
+        lastY = mouseY;
     }
 
-    protected void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) throws IOException {
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        if (this.sidebar.contains(mouseX, mouseY)) {
-            this.dragging = true;
-        }
+        if (sidebar.contains(mouseX, mouseY)) dragging = true;
     }
 
-    protected void mouseReleased(final int mouseX, final int mouseY, final int state) {
+    protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
-        this.dragging = false;
+        dragging = false;
     }
 
     public void onGuiClosed() {
-        this.addon.saveConfig();
+        Hyperium.CONFIG.save();
     }
 }

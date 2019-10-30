@@ -30,6 +30,6 @@ public enum Priority {
     }
 
     public int getValue() {
-        return this.value;
+        return value;
     }
 }

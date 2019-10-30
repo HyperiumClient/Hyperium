@@ -62,7 +62,7 @@ public abstract class MixinGuiNewChat {
      */
     @Overwrite
     public void drawChat(int p_146230_1_) {
-        hyperiumGuiNewChat.drawChat(p_146230_1_, this.drawnChatLines, this.scrollPos, this.isScrolled, this.mc);
+        hyperiumGuiNewChat.drawChat(p_146230_1_, drawnChatLines, scrollPos, isScrolled, mc);
     }
 
 
@@ -73,6 +73,6 @@ public abstract class MixinGuiNewChat {
      */
     @Overwrite
     private void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_) {
-        hyperiumGuiNewChat.setChatLine(chatComponent, chatLineId, p_146237_3_, p_146237_4_, this.scrollPos, this.isScrolled, this.drawnChatLines, this.chatLines, this.mc);
+        hyperiumGuiNewChat.setChatLine(chatComponent, chatLineId, p_146237_3_, p_146237_4_, scrollPos, isScrolled, drawnChatLines, chatLines, mc);
     }
 }
