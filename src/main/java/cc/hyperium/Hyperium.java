@@ -137,7 +137,7 @@ public class Hyperium {
     private Sk1erMod sk1erMod;
 
     // Expose the updateUtils
-    private UpdateUtils updateUtils;
+    private UpdateUtils updateUtils = UpdateUtils.INSTANCE;
 
     /**
      * Register things such as Languages to be used throughout the game.

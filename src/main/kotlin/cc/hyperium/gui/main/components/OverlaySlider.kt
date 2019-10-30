@@ -25,6 +25,7 @@ import java.awt.Font
 import java.util.function.Consumer
 import kotlin.math.roundToInt
 
+@Deprecated("Soon to be removed, please refrain from using.")
 class OverlaySlider @JvmOverloads constructor(
     label: String,
     private val minVal: Float,

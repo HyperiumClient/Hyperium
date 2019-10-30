@@ -23,6 +23,7 @@ import java.awt.Font
 import java.util.function.Consumer
 import java.util.function.Supplier
 
+@Deprecated("Soon to be removed, please refrain from using.")
 class OverlaySelector<T> @JvmOverloads constructor(
     label: String,
     var selected: T,

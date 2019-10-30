@@ -17,6 +17,7 @@
 
 package cc.hyperium.gui.main.components
 
+@Deprecated("Soon to be removed, please refrain from using.")
 class OverlayButton(label: String, val callback: Runnable) : OverlayLabel(label, true, Runnable { }) {
     override fun mouseClicked(mouseX: Int, mouseY: Int, overlayX: Int, overlayY: Int, w: Int, h: Int) {
         if (mouseX >= overlayX && mouseX <= overlayX + w && mouseY >= overlayY && mouseY <= overlayY + h)

@@ -18,7 +18,6 @@
 package cc.hyperium.utils;
 
 import cc.hyperium.Metadata;
-import cc.hyperium.internal.UpdateChecker;
 import com.google.common.base.Charsets;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -35,22 +34,17 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author Cubxity
  */
 public class UpdateUtils {
 
-    private static UpdateUtils instance;
-    private boolean asked;
-
-    public UpdateUtils() {
-        instance = this;
-    }
-
-    private static final HttpClient client = HttpClients.createDefault();
+    public static UpdateUtils INSTANCE = new UpdateUtils();
     private static final OkHttpClient okClient = new OkHttpClient();
+    private static final HttpClient client = HttpClients.createDefault();
     private VersionAPIUtils apiUtils = new VersionAPIUtils();
 
     public static JsonHolder get(String url) {
@@ -107,4 +101,5 @@ public class UpdateUtils {
         sink.close();
         source.close();
     }
+
 }
