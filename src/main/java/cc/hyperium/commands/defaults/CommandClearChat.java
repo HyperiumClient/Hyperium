@@ -17,7 +17,6 @@
 
 package cc.hyperium.commands.defaults;
 
-
 import cc.hyperium.commands.BaseCommand;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;

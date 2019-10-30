@@ -164,7 +164,6 @@ public class HypixelApiPlayer implements HypixelApiObject {
         return getRoot().optString("rank").equalsIgnoreCase("youtuber");
     }
 
-
     public boolean isStaffOrYT() {
         return isStaff() || isYouTuber();
     }

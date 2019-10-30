@@ -36,19 +36,19 @@ public class VersionAPIUtils {
         httpClient = HttpClients.createDefault();
     }
 
-    public String getDownloadLink(JsonObject json) {
-        JsonObject latest = json.getAsJsonObject("latest");
+    public String getDownloadLink(JsonObject json, String version) {
+        JsonObject latest = json.getAsJsonObject(version);
         return latest.get("url").getAsString();
-    }
-
-    public int getVersion(JsonObject json) {
-        JsonObject latest = json.getAsJsonObject(Hyperium.IS_BETA ? "latest_beta" : "latest");
-        return latest.get("id").getAsInt();
     }
 
     public JsonObject getJson() {
         JsonParser parser = new JsonParser();
         return parser.parse(getRaw(httpClient, versionsUrl)).getAsJsonObject();
+    }
+
+    public int getVersion(JsonObject json) {
+        JsonObject latest = json.getAsJsonObject(Hyperium.IS_BETA ? "latest_beta" : "latest");
+        return latest.get("id").getAsInt();
     }
 
     public String getRaw(HttpClient client, String url) {
