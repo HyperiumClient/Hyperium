@@ -25,6 +25,7 @@ import java.awt.*;
 /*
  * Created by Cubxity on 01/06/2018
  */
+@Deprecated // Soon to be removed, please refrain from using.
 public abstract class OverlayComponent {
     private static final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
 

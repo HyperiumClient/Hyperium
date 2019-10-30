@@ -22,7 +22,7 @@ import net.minecraft.client.gui.Gui
 import java.awt.Color
 import java.awt.Font
 
-
+@Deprecated("Soon to be removed, please refrain from using.")
 open class OverlayLabel(label: String, enabled: Boolean, var click: Runnable) : OverlayComponent(enabled) {
     private val fr = HyperiumFontRenderer("Arial", Font.PLAIN, 20)
 

@@ -28,6 +28,7 @@ import java.util.function.Consumer;
 /*
  * Created by Cubxity on 01/06/2018
  */
+@Deprecated // Soon to be removed, please refrain from using.
 public class OverlayToggle extends OverlayComponent {
     private boolean toggle;
     private Consumer<Boolean> callback;

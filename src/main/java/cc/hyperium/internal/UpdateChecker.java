@@ -3,13 +3,11 @@ package cc.hyperium.internal;
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.ServerJoinEvent;
+import cc.hyperium.event.network.server.ServerJoinEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.UpdateUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
-import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
@@ -33,7 +31,7 @@ public class UpdateChecker {
 
     @InvokeEvent
     public void serverJoinEvent(ServerJoinEvent event) {
-        if(asked) return; //If they were already asked, don't even make the new thread.
+        if (asked) return; //If they were already asked, don't even make the new thread.
         UpdateUtils updateUtils = new UpdateUtils();
         Multithreading.runAsync(() -> {
             boolean latest = updateUtils.isAbsoluteLatest();
@@ -52,7 +50,6 @@ public class UpdateChecker {
                             ChatComponentText(ChatColor.RED + "[Hyperium] " +
                             ChatColor.GRAY + "Click to be sent to update Hyperium");
                         urlComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://hyperium.cc/downloads"));
-
                         Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(urlComponent);
                     }
                 }, new Color(200, 150, 50));
