@@ -7,9 +7,7 @@ import cc.hyperium.event.ServerJoinEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.UpdateUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
-import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 

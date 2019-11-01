@@ -93,23 +93,18 @@ public class UpdateUtils {
 
         Response response = okClient.newCall(request).execute();
         ResponseBody body = response.body();
-        long contentLength = body.contentLength();
         BufferedSource source = body.source();
 
         File destFile = File.createTempFile("hyperium-installer", ".jar");
         BufferedSink sink = Okio.buffer(Okio.sink(destFile));
         Buffer sinkBuffer = sink.buffer();
 
-        long totalBytesRead = 0;
         int bufferSize = 8 * 1024;
         for (long bytesRead; (bytesRead = source.read(sinkBuffer, bufferSize)) != -1; ) {
             sink.emit();
-            totalBytesRead += bytesRead;
         }
         sink.flush();
         sink.close();
         source.close();
-
-        return body;
     }
 }

@@ -87,6 +87,8 @@ dependencies {
     embed 'com.github.FalseHonesty:reflections:855f40b80b'
     embed 'com.github.ben-manes.caffeine:caffeine:2.8.0'
 
+    embed 'com.squareup.okhttp3:okhttp:4.2.2'
+
     embed ('org.slick2d:slick2d-core:1.0.2') {
         exclude module: 'lwjgl'
     }
