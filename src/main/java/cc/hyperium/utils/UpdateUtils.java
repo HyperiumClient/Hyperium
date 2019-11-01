@@ -21,14 +21,6 @@ import cc.hyperium.Metadata;
 import com.google.common.base.Charsets;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSink;
-import okio.BufferedSource;
-import okio.Okio;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -102,5 +94,4 @@ public class UpdateUtils {
         sink.close();
         source.close();
     }
-
 }
