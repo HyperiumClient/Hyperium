@@ -95,7 +95,7 @@ public class UpdateUtils {
         Buffer sinkBuffer = sink.getBuffer();
 
         int bufferSize = 8 * 1024;
-        for (long bytesRead; (bytesRead = source.read(sinkBuffer, bufferSize)) != -1; ) {
+        for (source.read(sinkBuffer, bufferSize) != -1) {
             sink.emit();
         }
         sink.flush();
