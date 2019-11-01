@@ -77,6 +77,7 @@ public class UpdateUtils {
         return false;
     }
 
+    //TODO: Impl this
     public void downloadLatestVersion() throws IOException {
         JsonObject json = apiUtils.getJson();
         String versionNum = String.valueOf(apiUtils.getVersion(json)); //I'm not fixing this.
@@ -91,7 +92,7 @@ public class UpdateUtils {
 
         File destFile = File.createTempFile("hyperium-installer", ".jar");
         BufferedSink sink = Okio.buffer(Okio.sink(destFile));
-        Buffer sinkBuffer = sink.buffer();
+        Buffer sinkBuffer = sink.getBuffer();
 
         int bufferSize = 8 * 1024;
         for (long bytesRead; (bytesRead = source.read(sinkBuffer, bufferSize)) != -1; ) {

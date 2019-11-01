@@ -95,6 +95,7 @@ dependencies {
 
     embed ("com.github.KevinPriv:MojangAPI:1.0") {
         exclude module: "gson"
+        exclude module: "okhttp"
     }
     
     embed 'com.github.Cubxity:DeobfStack:1.2'
