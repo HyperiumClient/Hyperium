@@ -106,5 +106,5 @@ class AddonManifest {
     /**
      * Must match up to AddonMinecraftBootstrap#VERSION_CODE
      */
-//    val versionCode: String? = null
+    val versionCode: String? = null
 }

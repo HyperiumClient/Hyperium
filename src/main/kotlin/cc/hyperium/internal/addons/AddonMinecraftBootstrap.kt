@@ -45,9 +45,9 @@ object AddonMinecraftBootstrap {
     val DEPENDENCIES_LOOP_MAP = ConcurrentHashMap<AddonManifest, ArrayList<AddonManifest>>()
         @JvmName("getDependenciesLoopMap") get
 
-/*    @JvmStatic
+    @JvmStatic
     val VERSION_CODE: String = "1.0"
-        @JvmName("getVersionCode") get*/
+        @JvmName("getVersionCode") get
 
     /**
      * The <i>init</i> phase of the bootstrap where the
@@ -160,7 +160,7 @@ object AddonMinecraftBootstrap {
 
             val dontLoad: ArrayList<AddonManifest> = arrayListOf()
 
-/*            dontLoad.addAll(toLoad.filter {
+            dontLoad.addAll(toLoad.filter {
                 it.versionCode != VERSION_CODE
             }.also {
                 it.forEach { addon ->
@@ -170,7 +170,7 @@ object AddonMinecraftBootstrap {
 
                     Hyperium.LOGGER.error(output)
                 }
-            })*/
+            })
 
             toLoad.forEach { addon ->
                 try {
