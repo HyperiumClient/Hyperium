@@ -17,6 +17,7 @@
 
 package cc.hyperium.addons.sidebar.gui.screen;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.addons.sidebar.SidebarAddon;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraftforge.fml.client.config.GuiSlider;
@@ -43,6 +44,7 @@ public class GuiScreenSettings extends GuiScreenSidebar implements GuiScreenHelp
     @Override
     public void onGuiClosed() {
         super.onGuiClosed();
+        Hyperium.CONFIG.save();
     }
 
     private int getRowPos(int rowNumber) {

@@ -17,6 +17,7 @@
 
 package cc.hyperium.addons.sidebar.gui.screen;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.addons.sidebar.SidebarAddon;
 import cc.hyperium.addons.sidebar.gui.GuiSidebar;
 import net.minecraft.client.gui.GuiButton;
@@ -103,5 +104,11 @@ public class GuiScreenBackground extends GuiScreenSidebar implements GuiScreenHe
         sidebar.color = (sliderRed.getValueInt() << 16 | sliderGreen.getValueInt() << 8 | sliderBlue.getValueInt());
         sidebar.alpha = sliderAlpha.getValueInt();
         sidebar.chromaSpeed = sliderChromaSpeed.getValueInt();
+    }
+
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        Hyperium.CONFIG.save();
     }
 }
