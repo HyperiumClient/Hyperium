@@ -45,7 +45,10 @@ public class GGCommand implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) throws CommandException {
-        assert args.length != 0 && args.length <= 2;
+        if (args.length == 0 || args.length > 2) {
+            throw new CommandUsageException();
+        }
+
         final String s = args[0];
 
         switch (s) {
