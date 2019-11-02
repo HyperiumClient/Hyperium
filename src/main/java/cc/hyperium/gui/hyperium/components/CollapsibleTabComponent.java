@@ -95,7 +95,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
             int x1 = right ? x + width / 2 : x;
             comp.render(x1, y, parent != null ? width : width / 2, mouseX, mouseY);
 
-            if (mouseX >= (x1) && mouseX <= (x1) + (parent != null ? width : width / 2) && mouseY >= y && mouseY <= y + comp.getHeight()) {
+            if (mouseX >= (x1) && mouseX <= (x1) + (parent != null ? width : width / 2) && mouseY >= y && mouseY <= y + comp.getHeight() - 2) {
                 comp.hover = true;
                 comp.mouseEvent(right ? mouseX - width / 2 - x : mouseX - x, mouseY - y /* Make the Y relevant to the component */);
 

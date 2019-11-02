@@ -44,19 +44,3 @@ val VERSION_ID
 val DEVELOPMENT
     @JvmName("isDevelopment")
     get() = false
-
-/**
- * List of addons that are ported internally, addons in this list will not be loaded
- * Names in this list needs to match the addon's name in addon.json (CASE SENSITIVE)
- *
- * @since 20 (Hyperium Build 20)
- */
-val BLACKLISTED
-    @JvmName("getBlacklisted")
-    get() = arrayOf(
-        "Custom Crosshair Addon",
-        "SidebarAddon",
-        "BossbarAddon",
-        "Item Physic",
-        "oof"
-    )
