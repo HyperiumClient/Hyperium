@@ -486,6 +486,14 @@ public class Settings {
     @SliderSetting(name = "gui.settings.fireheight", min = -2, max = 2, category = GENERAL)
     public static double FIRE_HEIGHT;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.entityradiustoggle", category = ENTITYRADIUS, mods = true)
+    public static boolean ENABLE_ENTITY_RADIUS;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.entityradius", min = 1, max = 120, category = ENTITYRADIUS, mods = true)
+    public static double ENTITY_RADIUS = 120;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

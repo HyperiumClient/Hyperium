@@ -50,6 +50,7 @@ public enum Category {
     POPUP_EVENTS("Popup Events"),
     STATICFOV("Static FOV"),
     BOSSBARMOD("Bossbar"),
+    ENTITYRADIUS("Entity Radius"),
     OTHER("Other");
 
     private String display;

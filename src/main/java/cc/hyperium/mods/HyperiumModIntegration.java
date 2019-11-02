@@ -22,6 +22,7 @@ import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chunkanimator.ChunkAnimator;
 import cc.hyperium.mods.common.SoundHandler;
+import cc.hyperium.mods.entityradius.EntityRadius;
 import cc.hyperium.mods.glintcolorizer.GlintColorizer;
 import cc.hyperium.mods.itemphysic.ItemPhysicMod;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
@@ -57,6 +58,7 @@ public class HyperiumModIntegration {
     private final ChunkAnimator chunkAnimator;
     private final SoundHandler soundHandler;
     private final MyPosition myPosition;
+    private final EntityRadius entityRadius;
 
     public HyperiumModIntegration() {
         // ChromaHUD implementation
@@ -101,6 +103,7 @@ public class HyperiumModIntegration {
         chunkAnimator = (ChunkAnimator) new ChunkAnimator().init();
         soundHandler = (SoundHandler) new SoundHandler().init();
         myPosition = (MyPosition) new MyPosition().init();
+        entityRadius = (EntityRadius) new EntityRadius().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -150,5 +153,8 @@ public class HyperiumModIntegration {
     }
     public MyPosition getMyPosition() {
         return myPosition;
+    }
+    public EntityRadius getEntityRadius() {
+        return entityRadius;
     }
 }

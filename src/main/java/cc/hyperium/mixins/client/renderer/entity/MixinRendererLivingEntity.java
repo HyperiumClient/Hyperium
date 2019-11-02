@@ -18,6 +18,8 @@
 package cc.hyperium.mixins.client.renderer.entity;
 
 import cc.hyperium.config.Settings;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.render.EntityRenderEvent;
 import cc.hyperium.mixinsimp.client.renderer.entity.HyperiumRendererLivingEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -120,5 +122,12 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
     @Inject(method = "doRender", at = @At("HEAD"), cancellable = true)
     private void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
         if (Settings.DISABLE_ARMORSTANDS && entity instanceof EntityArmorStand) ci.cancel();
+
+        final EntityRenderEvent event = new EntityRenderEvent(entity, (float) x, (float) y, (float) z, entity.rotationPitch, entityYaw, 1.0F);
+        EventBus.INSTANCE.post(event);
+
+        if (event.isCancelled()) {
+            ci.cancel();
+        }
     }
 }
