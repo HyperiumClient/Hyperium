@@ -24,13 +24,13 @@ public enum Category {
     IMPROVEMENTS("Improvements"),
     INTEGRATIONS("Integrations"),
     COSMETICS("Cosmetics"),
-    ANIMATIONS("Animations"),
     MISC("Misc"),
     MODS("Mods"),
     HYPIXEL("Hypixel"),
     ADDONS("Addons"),
 
     // Mods
+    ANIMATIONS("Animations"),
     AUTOTIP("Autotip"),
     AUTO_GG("Auto GG"),
     LEVEL_HEAD("Levelhead"),
