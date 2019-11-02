@@ -25,16 +25,22 @@ import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.client.gui.IMixinGuiMultiplayer;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
+import com.google.common.util.concurrent.Runnables;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
+import java.io.IOException;
 
 public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiYesNoCallback {
 
     private static boolean FIRST_START = true;
+    private int widthCredits;
+    private int widthCreditsRest;
 
     public GuiHyperiumScreenMainMenu() {
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
@@ -53,6 +59,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
      */
     public void initGui() {
         int center = width / 2;
+        widthCredits = fontRendererObj.getStringWidth("Made by the Hyperium Team.");
+        widthCreditsRest = width - widthCredits - 2;
 
         buttonList.add(new GuiButton(0, center - 100, getRowPos(2), I18n.format("menu.singleplayer")));
         buttonList.add(new GuiButton(1, center - 100, getRowPos(3), I18n.format("menu.multiplayer")));
@@ -77,11 +85,14 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         fontRendererObj.drawStringWithShadow("Hyperium " + Metadata.getVersion(), 3, resolution.getScaledHeight() - fontRendererObj.FONT_HEIGHT, -1);
         String s1 = I18n.format("menu.right");
-        drawString(fontRendererObj, s1, width - fontRendererObj.getStringWidth(s1) - 2, height - 30, -1);
-        s1 = "Made by Sk1er, Kevin, Cubxity, CoalOres,";
         drawString(fontRendererObj, s1, width - fontRendererObj.getStringWidth(s1) - 2, height - 20, -1);
-        s1 = "boomboompower, FalseHonesty, and asbyth.";
+        s1 = "Made by the Hyperium Team.";
         drawString(fontRendererObj, s1, width - fontRendererObj.getStringWidth(s1) - 2, height - 10, -1);
+
+        // yoinked from 1.12
+        if (mouseX > widthCreditsRest && mouseX < widthCreditsRest + widthCredits && mouseY > height - 10 && mouseY < height && Mouse.isInsideWindow()) {
+            drawRect(widthCreditsRest, height - 1, widthCreditsRest + widthCredits, height, -1);
+        }
 
         if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf() != null) {
             JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
@@ -100,7 +111,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         GuiButton hypixelButton = this.hypixelButton;
 
         if (hypixelButton != null) {
-            hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? I18n.format("button.ingame.fixhypixelsession") :
+            hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ?
+                I18n.format("button.ingame.fixhypixelsession") :
                 I18n.format("button.ingame.joinhypixel");
         }
     }
@@ -150,6 +162,15 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             case 7:
                 mc.displayGuiScreen(new ChangeBackgroundGui(this));
                 break;
+        }
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+
+        if (mouseX > widthCreditsRest && mouseX < widthCreditsRest + widthCredits && mouseY > height - 10 && mouseY < height) {
+            mc.displayGuiScreen(new GuiHyperiumCredits(this));
         }
     }
 

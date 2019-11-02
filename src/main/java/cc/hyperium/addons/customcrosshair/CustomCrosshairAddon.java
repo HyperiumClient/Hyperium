@@ -25,7 +25,7 @@ import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairConfig;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.utils.ChatColor;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class CustomCrosshairAddon extends AbstractAddon {
 
@@ -60,10 +60,9 @@ public class CustomCrosshairAddon extends AbstractAddon {
 
     @Override
     public Metadata getAddonMetadata() {
-        AbstractAddon.Metadata metadata = new Metadata(this, "Custom Crosshair Addon", "0.5.3", "Amplifiable");
+        Metadata metadata = new Metadata(this, "Custom Crosshair Addon", "0.5.3", "Amplifiable");
         metadata.setDisplayName(ChatColor.GREEN + "Custom Crosshair Addon");
         metadata.setDescription("CustomCrosshair");
-
         return metadata;
     }
 

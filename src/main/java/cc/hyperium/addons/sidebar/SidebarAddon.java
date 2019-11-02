@@ -29,7 +29,6 @@ import cc.hyperium.event.render.RenderScoreboardEvent;
 public class SidebarAddon extends AbstractAddon {
 
     private GuiSidebar guiSidebar;
-    public static final String VERSION = "1.0.0";
 
     @Override
     public AbstractAddon init() {
@@ -42,7 +41,7 @@ public class SidebarAddon extends AbstractAddon {
 
     @Override
     public Metadata getAddonMetadata() {
-        AbstractAddon.Metadata metadata = new Metadata(this, "SidebarAddon", "1.0.1", "Amplifiable");
+        Metadata metadata = new Metadata(this, "SidebarAddon", "1.0.1", "Amplifiable");
         metadata.setDescription("Allows for full scoreboard customization");
         return metadata;
     }
