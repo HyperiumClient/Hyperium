@@ -174,12 +174,7 @@ public class VictoryRoyale extends AbstractMod {
         Minecraft mc = Minecraft.getMinecraft();
         EntityPlayerSP player = mc.thePlayer;
 
-        if (player == null) {
-            return;
-        }
-
-
-        if (player.isInvisible() || player.isInvisibleToPlayer(player)) {
+        if (player == null || player.isInvisible() || player.isInvisibleToPlayer(player)) {
             return;
         }
 
