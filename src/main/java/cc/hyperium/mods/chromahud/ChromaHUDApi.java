@@ -23,7 +23,6 @@ import com.google.gson.JsonArray;
 
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.stream.IntStream;
 
 /**
  * @author Sk1er
@@ -138,7 +137,9 @@ public class ChromaHUDApi {
         posted = true;
         elements.clear();
         JsonArray displayElements = config.optJSONArray("elements");
-        IntStream.range(0, displayElements.size()).mapToObj(i -> new JsonHolder(displayElements.get(i).getAsJsonObject())).forEach(object -> {
+        int bound = displayElements.size();
+        for (int i = 0; i < bound; i++) {
+            JsonHolder object = new JsonHolder(displayElements.get(i).getAsJsonObject());
             try {
                 DisplayElement e = new DisplayElement(object);
                 if (e.getDisplayItems().size() > 0) elements.add(e);
@@ -146,7 +147,7 @@ public class ChromaHUDApi {
                 e.printStackTrace();
                 Logger.getLogger("ChromaHUD").severe("A fatal error occurred while loading the display element " + object);
             }
-        });
+        }
 
         if (!config.has("elements")) {
             // setup blank

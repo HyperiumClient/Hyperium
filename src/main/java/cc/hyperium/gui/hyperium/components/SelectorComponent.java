@@ -26,7 +26,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.IntStream;
 
 /*
  * Created by Sk1er on today (It will be right for a little bit)
@@ -71,7 +70,13 @@ public class SelectorComponent extends AbstractTabComponent {
 
     public int getCurrentIndex() {
         String[] strings = values.get();
-        return IntStream.range(0, strings.length).filter(i -> strings[i].equalsIgnoreCase(getCurrentValue())).findFirst().orElse(0);
+        for (int i = 0; i < strings.length; i++) {
+            if (strings[i].equalsIgnoreCase(getCurrentValue())) {
+                return i;
+            }
+        }
+
+        return 0;
     }
 
     @Override

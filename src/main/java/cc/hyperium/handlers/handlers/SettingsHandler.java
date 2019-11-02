@@ -36,8 +36,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class SettingsHandler {
     private HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
@@ -78,7 +76,13 @@ public class SettingsHandler {
             customStates.put(hats, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 if (self != null) {
-                    List<String> pur = IntStream.range(0, hat2.length).filter(i -> self.hasPurchased(hat2[i])).mapToObj(i -> hats1[i]).collect(Collectors.toList());
+                    List<String> pur = new ArrayList<>();
+                    for (int i = 0; i < hat2.length; i++) {
+                        if (self.hasPurchased(hat2[i])) {
+                            String s = hats1[i];
+                            pur.add(s);
+                        }
+                    }
 
                     if (pur.size() > 0) {
                         pur.add("NONE");

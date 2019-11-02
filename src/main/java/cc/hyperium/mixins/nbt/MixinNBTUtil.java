@@ -27,7 +27,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 @Mixin(NBTUtil.class)
 public class MixinNBTUtil {
@@ -62,11 +61,13 @@ public class MixinNBTUtil {
                 for (String s2 : nbttagcompound.getKeySet()) {
                     NBTTagList nbttaglist = nbttagcompound.getTagList(s2, 10);
 
-                    IntStream.range(0, nbttaglist.tagCount()).mapToObj(nbttaglist::getCompoundTagAt).forEach(nbttagcompound1 -> {
+                    int bound = nbttaglist.tagCount();
+                    for (int i = 0; i < bound; i++) {
+                        NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
                         String s3 = nbttagcompound1.getString("Value");
                         gameprofile.getProperties().put(s2, nbttagcompound1.hasKey("Signature", 8) ?
                             new Property(s2, s3, nbttagcompound1.getString("Signature")) : new Property(s2, s3));
-                    });
+                    }
                 }
             }
 

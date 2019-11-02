@@ -41,7 +41,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 /**
  * @author Sk1er
@@ -86,11 +85,11 @@ public class DisplayElementConfig extends GuiScreen {
         if (hue != -1 && saturation != -1) {
             BufferedImage image1 = new BufferedImage(1, dim, BufferedImage.TYPE_INT_RGB);
 
-            IntStream.range(0, dim).forEach(y -> {
+            for (int y = 0; y < dim; y++) {
                 float hue = this.hue / 256F;
                 float saturation = this.saturation / 256F;
                 image1.setRGB(0, y, Color.HSBtoRGB(hue, saturation, 1.0F - y / 256F));
-            });
+            }
 
             texture2 = new DynamicTexture(image1);
         }
@@ -260,7 +259,7 @@ public class DisplayElementConfig extends GuiScreen {
         });
         reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"),
             (guiButton) -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GeneralConfigGui(mod)), (guiButton) -> {
-        });
+            });
         reg("Delete", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22 * 2, 100, 20, "Delete"), (guiButton) -> {
 
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GeneralConfigGui(mod));

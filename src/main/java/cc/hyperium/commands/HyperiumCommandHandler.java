@@ -29,7 +29,6 @@ import net.minecraft.command.CommandBase;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * This is our custom client-side command implementation, it handles most of the
@@ -196,8 +195,11 @@ public class HyperiumCommandHandler {
                 List<String> completions = getTabCompletionOptions(leftOfCursor);
                 if (completions != null && !completions.isEmpty()) {
                     if (leftOfCursor.indexOf(' ') == -1) {
-                        IntStream.range(0, completions.size()).forEach(i -> completions.set(i,
-                            ChatColor.GRAY + "/" + completions.get(i) + ChatColor.RESET));
+                        int bound = completions.size();
+                        for (int i = 0; i < bound; i++) {
+                            completions.set(i,
+                                ChatColor.GRAY + "/" + completions.get(i) + ChatColor.RESET);
+                        }
                     }
 
                     Collections.sort(completions);

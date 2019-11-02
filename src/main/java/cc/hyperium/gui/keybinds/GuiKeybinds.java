@@ -30,8 +30,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class GuiKeybinds extends HyperiumGui {
 
@@ -98,13 +96,14 @@ public class GuiKeybinds extends HyperiumGui {
         // Get keybinds.
         binds = new ArrayList<>(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values());
 
-        IntStream.range(0, binds.size()).forEach(i -> {
+        int bound = binds.size();
+        for (int i = 0; i < bound; i++) {
             HyperiumBind linkedBind = binds.get(i);
             String label = linkedBind.getKeyDescription();
             KeybindButton btn = new KeybindButton(i, 0, 0, buttonWidth, buttonHeight, "default", linkedBind);
             KeybindEntry keybindEntry = new KeybindEntry(label, btn);
             keybindEntries.add(keybindEntry);
-        });
+        }
 
         resetButton = new GuiButton(1337, rightGui - 100, bottomGui - 20,
             fontRendererObj.getStringWidth("Reset all binds.") + 5, buttonHeight, "Reset all binds.");
@@ -156,8 +155,11 @@ public class GuiKeybinds extends HyperiumGui {
     }
 
     private List<List<KeybindEntry>> divideList(List<KeybindEntry> inputList, int number) {
-        List<List<KeybindEntry>> partitions = IntStream.range(0, number).<List<KeybindEntry>>mapToObj(i ->
-            new ArrayList<>()).collect(Collectors.toCollection(() -> new ArrayList<>(number)));
+        List<List<KeybindEntry>> partitions = new ArrayList<>(number);
+        for (int i = 0; i < number; i++) {
+            List<KeybindEntry> entries = new ArrayList<>();
+            partitions.add(entries);
+        }
 
         int counter = 0;
 

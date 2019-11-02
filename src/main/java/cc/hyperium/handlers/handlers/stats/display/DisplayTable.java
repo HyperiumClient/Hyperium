@@ -22,10 +22,9 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class DisplayTable extends StatsDisplayItem {
     private String[][] rows;
@@ -49,8 +48,12 @@ public class DisplayTable extends StatsDisplayItem {
        4 3 2
        3 2 1
          */
-        Arrays.stream(rows).forEach(row -> IntStream.range(0, columns).forEach(i -> rowSpacing[i] =
-            Math.max(rowSpacing[i], Minecraft.getMinecraft().fontRendererObj.getStringWidth(row[i]) + 15)));
+        Arrays.stream(rows).forEach(row -> {
+            for (int i = 0; i < columns; i++) {
+                rowSpacing[i] =
+                    Math.max(rowSpacing[i], Minecraft.getMinecraft().fontRendererObj.getStringWidth(row[i]) + 15);
+            }
+        });
         Arrays.stream(rowSpacing).forEach(i -> width += i);
         height = 11 * rows.length;
     }

@@ -30,7 +30,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class DisplayManager {
 
@@ -100,10 +99,11 @@ public class DisplayManager {
     }
 
     public void adjustIndexes() {
-        IntStream.range(0, aboveHead.size()).forEach(i -> {
+        int bound = aboveHead.size();
+        for (int i = 0; i < bound; i++) {
             aboveHead.get(i).setBottomValue(i == 0);
             aboveHead.get(i).setIndex(i);
-        });
+        }
     }
 
     public void tick() {
@@ -159,12 +159,15 @@ public class DisplayManager {
     public List<AboveHeadDisplay> getAboveHead() {
         return aboveHead;
     }
+
     public LevelheadDisplay getChat() {
         return chat;
     }
+
     public LevelheadDisplay getTab() {
         return tab;
     }
+
     public MasterConfig getMasterConfig() {
         return config;
     }

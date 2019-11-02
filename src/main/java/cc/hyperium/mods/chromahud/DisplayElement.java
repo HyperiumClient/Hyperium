@@ -27,7 +27,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * Created by Mitchell Katz on 5/25/2017.
@@ -226,7 +225,10 @@ public class DisplayElement extends Dimension {
     }
 
     public void adjustOrdinal() {
-        IntStream.range(0, displayItems.size()).forEach(ord -> displayItems.get(ord).setOrdinal(ord));
+        int bound = displayItems.size();
+        for (int ord = 0; ord < bound; ord++) {
+            displayItems.get(ord).setOrdinal(ord);
+        }
     }
 
     public void setRgb(boolean state) {

@@ -27,14 +27,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 public class StaffUtils {
 
     private static final HashMap<UUID, StaffSettings> STAFF_CACHE = new HashMap<>();
+
     public static boolean isStaff(UUID uuid) {
         return STAFF_CACHE.containsKey(uuid);
     }
+
     public static DotColour getColor(UUID uuid) {
         return STAFF_CACHE.get(uuid).getDotColour();
     }
@@ -45,12 +46,14 @@ public class StaffUtils {
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(content).getAsJsonArray();
 
-        IntStream.range(0, array.size()).mapToObj(i -> array.get(i).getAsJsonObject()).forEach(item -> {
+        int bound = array.size();
+        for (int i = 0; i < bound; i++) {
+            JsonObject item = array.get(i).getAsJsonObject();
             UUID uuid = UUID.fromString(item.get("uuid").getAsString());
             String colourStr = item.get("color").getAsString().toUpperCase();
             DotColour colour = colourStr.equals("CHROMA") ? new DotColour(true, ChatColor.WHITE) : new DotColour(false, ChatColor.valueOf(colourStr));
             staff.put(uuid, new StaffSettings(colour));
-        });
+        }
 
         return staff;
     }

@@ -26,7 +26,6 @@ import net.minecraft.util.IChatComponent;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.regex.Matcher;
-import java.util.stream.IntStream;
 
 /*
  * Created by Cubxity on 21/03/2018
@@ -41,12 +40,12 @@ public class WinTrackingChatHandler extends HyperiumChatHandler {
             String[] winners = winnersString.split(", ");
 
             // Means they have a rank prefix. We don't want that
-            IntStream.range(0, winners.length).forEach(i -> {
+            for (int i = 0; i < winners.length; i++) {
                 String winner = winners[i];
                 if (winner.contains(" ")) {
                     winners[i] = winner.split(" ")[1];
                 }
-            });
+            }
 
             EventBus.INSTANCE.post(new HypixelWinEvent(Arrays.asList(winners)));
         }

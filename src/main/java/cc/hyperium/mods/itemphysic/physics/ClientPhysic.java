@@ -31,7 +31,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Random;
-import java.util.stream.IntStream;
 
 public class ClientPhysic {
 
@@ -99,7 +98,7 @@ public class ClientPhysic {
         }
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        IntStream.range(0, j).forEach(k -> {
+        for (int k = 0; k < j; k++) {
             GlStateManager.pushMatrix();
             if (flag1) {
                 if (k > 0) {
@@ -116,7 +115,7 @@ public class ClientPhysic {
                 GlStateManager.popMatrix();
                 GlStateManager.translate(0.0F, 0.0F, 0.05375F);
             }
-        });
+        }
 
         GlStateManager.popMatrix();
         GlStateManager.disableRescaleNormal();

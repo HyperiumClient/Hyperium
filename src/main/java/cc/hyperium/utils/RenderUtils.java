@@ -23,7 +23,6 @@ import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
-import java.util.stream.IntStream;
 
 import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
 
@@ -42,12 +41,12 @@ public class RenderUtils {
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
         GL11.glBegin(6);
 
-        IntStream.range(0, 50).forEach(i -> {
+        for (int i = 0; i < 50; i++) {
             float x = radius * MathHelper.sin((float) (i * 0.12566370614359174D));
             float y = radius * MathHelper.cos((float) (i * 0.12566370614359174D));
             GlStateManager.color(f2, f3, f4, f);
             GL11.glVertex2f(xx + x, yy + y);
-        });
+        }
 
         GL11.glEnd();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -70,12 +69,12 @@ public class RenderUtils {
         GL11.glShadeModel(GL11.GL_SMOOTH);
         GL11.glBegin(2);
 
-        IntStream.range(0, 70).forEach(i -> {
+        for (int i = 0; i < 70; i++) {
             float x = radius * MathHelper.cos((float) (i * 0.08975979010256552D));
             float y = radius * MathHelper.sin((float) (i * 0.08975979010256552D));
             GlStateManager.color(f2, f3, f4, f);
             GL11.glVertex2f(xx + x, yy + y);
-        });
+        }
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glEnd();

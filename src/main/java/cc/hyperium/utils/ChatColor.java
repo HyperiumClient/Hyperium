@@ -18,7 +18,6 @@
 package cc.hyperium.utils;
 
 import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 
 public enum ChatColor {
 
@@ -98,10 +97,13 @@ public enum ChatColor {
      */
     public static String translateAlternateColorCodes(char altColorChar, String textToTranslate) {
         char[] b = textToTranslate.toCharArray();
-        IntStream.range(0, b.length - 1).filter(i -> b[i] == altColorChar && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i + 1]) > -1).forEach(i -> {
-            b[i] = ChatColor.COLOR_CHAR;
-            b[i + 1] = Character.toLowerCase(b[i + 1]);
-        });
+        int bound = b.length - 1;
+        for (int i = 0; i < bound; i++) {
+            if (b[i] == altColorChar && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i + 1]) > -1) {
+                b[i] = ChatColor.COLOR_CHAR;
+                b[i + 1] = Character.toLowerCase(b[i + 1]);
+            }
+        }
 
         return new String(b);
     }

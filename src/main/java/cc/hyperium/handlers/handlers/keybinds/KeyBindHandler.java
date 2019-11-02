@@ -29,7 +29,6 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 public class KeyBindHandler {
 
@@ -71,7 +70,10 @@ public class KeyBindHandler {
         registerKeyBinding(new RearCamKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
-        IntStream.range(0, keybinds.size()).forEach(i -> mouseBinds.put(i, -100 + i));
+        int bound = keybinds.size();
+        for (int i = 0; i < bound; i++) {
+            mouseBinds.put(i, -100 + i);
+        }
         keyBindConfig.load();
     }
 

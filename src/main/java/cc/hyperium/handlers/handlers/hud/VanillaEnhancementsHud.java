@@ -50,7 +50,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class VanillaEnhancementsHud {
 
@@ -142,7 +141,9 @@ public class VanillaEnhancementsHud {
             int x = resolution.getScaledWidth() / 2 - 87;
             int y = resolution.getScaledHeight() - 18;
             int[] hotbarKeys = getHotbarKeys();
-            IntStream.range(0, 9).forEach(slot -> mc.fontRendererObj.drawString(getKeyString(hotbarKeys[slot]), x + slot * 20, y, -1));
+            for (int slot = 0; slot < 9; slot++) {
+                mc.fontRendererObj.drawString(getKeyString(hotbarKeys[slot]), x + slot * 20, y, -1);
+            }
         }
     }
 
@@ -232,7 +233,11 @@ public class VanillaEnhancementsHud {
     }
 
     private double calcProtection(int armorEpf) {
-        double protection = IntStream.rangeClosed(50, 100).mapToDouble(i -> (Math.min(Math.ceil(armorEpf * i / 100.0), 20.0))).sum();
+        double protection = 0.0;
+        for (int i = 50; i <= 100; i++) {
+            double min = (Math.min(Math.ceil(armorEpf * i / 100.0), 20.0));
+            protection += min;
+        }
         return protection / 51.0;
     }
 
@@ -254,7 +259,10 @@ public class VanillaEnhancementsHud {
     private int[] getHotbarKeys() {
         int[] result = new int[9];
         KeyBinding[] hotbarBindings = getGameSettings().keyBindsHotbar;
-        IntStream.range(0, Math.min(result.length, hotbarBindings.length)).forEach(i -> result[i] = hotbarBindings[i].getKeyCode());
+        int bound = Math.min(result.length, hotbarBindings.length);
+        for (int i = 0; i < bound; i++) {
+            result[i] = hotbarBindings[i].getKeyCode();
+        }
         return result;
     }
 

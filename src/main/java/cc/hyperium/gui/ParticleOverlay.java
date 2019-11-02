@@ -34,7 +34,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.IntStream;
 
 public class ParticleOverlay {
     private static ParticleOverlay overlay;
@@ -44,7 +43,10 @@ public class ParticleOverlay {
 
     private ParticleOverlay() {
         int max = Settings.MAX_PARTICLES;
-        IntStream.range(0, max).mapToObj(i -> new Particle()).forEach(particles::add);
+        for (int i = 0; i < max; i++) {
+            Particle particle = new Particle();
+            particles.add(particle);
+        }
     }
 
     public static ParticleOverlay getOverlay() {

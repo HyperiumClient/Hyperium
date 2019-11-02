@@ -52,7 +52,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
@@ -110,7 +109,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
         JsonHolder particle = purchaseSettings.optJSONObject("particle");
 
         CarouselItem[] particles = new CarouselItem[length];
-        IntStream.range(0, length).forEach(i -> {
+        for (int i = 0; i < length; i++) {
             EnumParticleType value = values[i];
             final boolean flag = self.hasPurchased("PARTICLE_" + value.name());
 
@@ -204,7 +203,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 Arrays.stream(particles).forEach(item -> item.setActive(false));
                 carouselItem.setActive(true);
             });
-        });
+        }
 
         int spot = 0;
         try {

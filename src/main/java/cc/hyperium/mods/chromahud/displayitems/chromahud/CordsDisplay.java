@@ -26,7 +26,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * Created by Mitchell Katz on 5/25/2017.
@@ -64,7 +63,11 @@ public class CordsDisplay extends DisplayItem {
         if (player != null) {
             StringBuilder start = new StringBuilder("0");
             if (precision > 0) start.append(".");
-            IntStream.range(0, precision).mapToObj(i -> "0").forEach(start::append);
+            int bound = precision;
+            for (int i = 0; i < bound; i++) {
+                String s = "0";
+                start.append(s);
+            }
             DecimalFormat df = new DecimalFormat(start.toString());
 
             if (state == 0) {

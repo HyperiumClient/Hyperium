@@ -134,20 +134,22 @@ public abstract class MixinGuiIngame extends Gui {
             mc.mcProfiler.startSection("armor");
 
             if (HyperiumGuiIngame.renderArmor) {
-                IntStream.range(0, 10).filter(armorPosition -> armorValue > 0).forEach(armorPosition -> {
-                    int j3 = widthLeft + armorPosition * 8;
-                    if (armorPosition * 2 + 1 < armorValue) {
-                        drawTexturedModalRect(j3, heartHeight, 34, 9, 9, 9);
-                    }
+                for (int armorPosition = 0; armorPosition < 10; armorPosition++) {
+                    if (armorValue > 0) {
+                        int j3 = widthLeft + armorPosition * 8;
+                        if (armorPosition * 2 + 1 < armorValue) {
+                            drawTexturedModalRect(j3, heartHeight, 34, 9, 9, 9);
+                        }
 
-                    if (armorPosition * 2 + 1 == armorValue) {
-                        drawTexturedModalRect(j3, heartHeight, 25, 9, 9, 9);
-                    }
+                        if (armorPosition * 2 + 1 == armorValue) {
+                            drawTexturedModalRect(j3, heartHeight, 25, 9, 9, 9);
+                        }
 
-                    if (armorPosition * 2 + 1 > armorValue) {
-                        drawTexturedModalRect(j3, heartHeight, 16, 9, 9, 9);
+                        if (armorPosition * 2 + 1 > armorValue) {
+                            drawTexturedModalRect(j3, heartHeight, 16, 9, 9, 9);
+                        }
                     }
-                });
+                }
             }
 
             mc.mcProfiler.endStartSection("health");
@@ -284,13 +286,14 @@ public abstract class MixinGuiIngame extends Gui {
                 int air = mc.thePlayer.getAir();
                 int airCheck = MathHelper.ceiling_double_int((double) (air - 2) * 10.0D / 300.0D);
                 int air2 = MathHelper.ceiling_double_int((double) air * 10.0D / 300.0D) - airCheck;
-                IntStream.range(0, airCheck + air2).forEach(airPosition -> {
+                int bound = airCheck + air2;
+                for (int airPosition = 0; airPosition < bound; airPosition++) {
                     if (airPosition < airCheck) {
                         drawTexturedModalRect(widthRight - airPosition * 8 - 9, heartHeight, 16, 18, 9, 9);
                     } else {
                         drawTexturedModalRect(widthRight - airPosition * 8 - 9, heartHeight, 25, 18, 9, 9);
                     }
-                });
+                }
             }
 
             mc.mcProfiler.endSection();

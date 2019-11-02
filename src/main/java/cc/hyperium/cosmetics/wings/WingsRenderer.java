@@ -33,8 +33,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import java.util.stream.IntStream;
-
 public class WingsRenderer extends ModelBase {
 
     private Minecraft mc;
@@ -136,7 +134,7 @@ public class WingsRenderer extends ModelBase {
 
         mc.getTextureManager().bindTexture(location);
 
-        IntStream.range(0, 2).forEach(j -> {
+        for (int j = 0; j < 2; j++) {
             GL11.glEnable(GL11.GL_CULL_FACE);
             float f11 = System.currentTimeMillis() % 1000L / 1000.0f * 3.1415927f * 2.0F;
             wing.rotateAngleX = (float) Math.toRadians(-80.0) - (float) Math.cos(f11) * 0.2F;
@@ -146,7 +144,7 @@ public class WingsRenderer extends ModelBase {
             wing.render(0.0625F);
             GlStateManager.scale(-1.0F, 1.0F, 1.0F);
             if (j == 0) GL11.glCullFace(GL11.GL_FRONT);
-        });
+        }
 
         GL11.glCullFace(GL11.GL_BACK);
         GL11.glDisable(GL11.GL_CULL_FACE);

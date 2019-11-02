@@ -17,10 +17,6 @@
 
 package cc.hyperium.mixinsimp.client.multiplayer;
 
-import java.io.File;
-import java.util.List;
-import java.util.stream.IntStream;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -28,6 +24,9 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.util.List;
 
 public class HyperiumServerList {
 
@@ -57,7 +56,11 @@ public class HyperiumServerList {
 
             NBTTagList nbttaglist = nbttagcompound.getTagList("servers", 10);
 
-            IntStream.range(0, nbttaglist.tagCount()).mapToObj(i -> ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i))).forEach(servers::add);
+            int bound = nbttaglist.tagCount();
+            for (int i = 0; i < bound; i++) {
+                ServerData serverDataFromNBTCompound = ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i));
+                servers.add(serverDataFromNBTCompound);
+            }
         } catch (Exception exception) {
             logger.error("Couldn't load server list", exception);
             System.out.println("Load server list error");

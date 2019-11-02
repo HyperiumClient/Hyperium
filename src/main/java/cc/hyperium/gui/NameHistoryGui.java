@@ -20,7 +20,6 @@ package cc.hyperium.gui;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import me.kbrewster.mojangapi.MojangAPI;
-import me.kbrewster.mojangapi.profile.Name;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
@@ -34,7 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 public class NameHistoryGui extends GuiScreen {
 
@@ -83,12 +81,13 @@ public class NameHistoryGui extends GuiScreen {
         int defaultColour = Color.WHITE.getRGB();
         // Check if names have been scrolled outside of bounding box.
         // Highlight current and original names.
-        IntStream.range(0, names.size()).forEach(i -> {
+        int bound = names.size();
+        for (int i = 0; i < bound; i++) {
             float xPos = (width >> 1) - (115 >> 1);
             float yPos = bottom + (i * 10) + offset;
-            if (yPos < (height / 5f) + 32) return;
+            if (yPos < (height / 5f) + 32) continue;
             mc.fontRendererObj.drawString(names.get(i), (int) xPos, (int) yPos, i == 0 ? Color.YELLOW.getRGB() : i == names.size() - 1 ? Color.GREEN.getRGB() : defaultColour);
-        });
+        }
     }
 
     @Override
