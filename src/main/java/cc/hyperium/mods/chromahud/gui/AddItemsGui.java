@@ -127,8 +127,8 @@ public class AddItemsGui extends GuiScreen {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
-        if (i < 0) offset -= 10;
-        else if (i > 0 && offset < 0) offset += 10;
+        if (i < 0) offset -= 20;
+        else if (i > 0 && offset < 0) offset += 20;
     }
 
     @Override

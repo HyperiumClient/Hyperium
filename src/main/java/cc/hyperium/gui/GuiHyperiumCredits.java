@@ -17,7 +17,6 @@
 
 package cc.hyperium.gui;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -41,7 +40,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.StreamSupport;
@@ -93,14 +91,16 @@ public class GuiHyperiumCredits extends HyperiumGui {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
 
-        if (i < 0) offY -= 20;
-        else if (i > 0) offY += 20;
+        if (i < 0 && offY > -240) offY -= 20; // todo: not hardcode this
+        else if (i > 0 && offY < 0) offY += 20;
+
+        System.out.println(offY);
     }
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         if (keyCode == Keyboard.KEY_ESCAPE) {
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(prevGui);
+            mc.displayGuiScreen(prevGui);
         }
 
         super.keyTyped(typedChar, keyCode);
