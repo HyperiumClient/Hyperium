@@ -201,6 +201,7 @@ gui.settings.bossbarmod.bossbarscale=Bossbar Scale
 gui.settings.bossbarmod.resetbossbar=Reset Bossbar
 gui.settings.hyperiumloadingscreen=Hyperium Ladebildschirm
 gui.settings.guialpha=Gui Transparency
+gui.settings.fireheight=Fire Height
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Spiel wird gestartet...

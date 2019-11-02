@@ -201,6 +201,7 @@ gui.settings.bossbarmod.bossbarscale=Scála Barra Boss
 gui.settings.bossbarmod.resetbossbar=Athshocraigh Barra Boss
 gui.settings.hyperiumloadingscreen=Scáileán Ualú Hyperium
 gui.settings.guialpha=Trédhearcacht GUI
+gui.settings.fireheight=Airde Tine
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Cluiche Tosaigh ...

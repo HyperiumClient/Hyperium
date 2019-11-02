@@ -97,7 +97,7 @@ public class Levelhead extends AbstractMod {
             count = object.optInt("count");
             wait = object.optInt("wait", Integer.MAX_VALUE);
             if (count == 0 || wait == Integer.MAX_VALUE) {
-                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.RED + "An error occurred whilst loading internal Levelhead info.");
+                Hyperium.LOGGER.warn("An error occurred whilst loading loading internal Levelhead info.");
             }
         });
 
@@ -107,7 +107,7 @@ public class Levelhead extends AbstractMod {
         Multithreading.runAsync(() -> {
             auth.auth();
             if (auth.isFailed()) {
-                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.RED + "An error occurred while logging into Levelhead: " + auth.getFailedMessage());
+                Hyperium.LOGGER.warn("Failed to authenticate with Levelhead: {}", auth.getFailedMessage());
             }
         });
 
@@ -282,39 +282,51 @@ public class Levelhead extends AbstractMod {
     private void clearCache() {
         displayManager.checkCacheSizes();
     }
+
     private String trimUuid(UUID uuid) {
         return uuid.toString().replace("-", "");
     }
+
     public static Levelhead getInstance() {
         return instance;
     }
+
     public LevelheadJsonHolder getTypes() {
         return types;
     }
+
     public MojangAuth getAuth() {
         return auth;
     }
+
     public int getRGBColor() {
         return Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.8f);
     }
+
     public int getDarkRGBColor() {
         return Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.2f);
     }
+
     public LevelheadPurchaseStates getLevelheadPurchaseStates() {
         return levelheadPurchaseStates;
     }
+
     public LevelheadJsonHolder getPurchaseStatus() {
         return purchaseStatus;
     }
+
     public LevelheadJsonHolder getRawPurchases() {
         return rawPurchases;
     }
+
     public LevelheadJsonHolder getPaidData() {
         return paidData;
     }
+
     public DisplayManager getDisplayManager() {
         return displayManager;
     }
+
     public String getVersion() {
         return "v" + VERSION;
     }

@@ -482,6 +482,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.hyperiumloadingscreen", category = MISC)
     public static boolean HYPERIUM_LOADING_SCREEN = true;
 
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.fireheight", min = -2, max = 2, category = MISC)
+    public static double FIRE_HEIGHT;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

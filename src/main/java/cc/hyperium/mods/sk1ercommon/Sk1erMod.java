@@ -92,8 +92,10 @@ public class Sk1erMod {
 
     public String rawWithAgent(String url) {
         System.out.println("[Sk1erMod] Fetching " + url);
-        if (!Hyperium.INSTANCE.isAcceptedTos())
+        if (!Hyperium.INSTANCE.isAcceptedTos()) {
             return new JsonHolder().put("success", false).put("cause", "TOS_NOT_ACCEPTED").toString();
+        }
+
         url = url.replace(" ", "%20");
         try {
             URL u = new URL(url);
@@ -106,10 +108,10 @@ public class Sk1erMod {
             connection.setDoOutput(true);
             InputStream is = connection.getInputStream();
             return IOUtils.toString(is, StandardCharsets.UTF_8);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         JsonObject object = new JsonObject();
         object.addProperty("success", false);
         object.addProperty("cause", "Exception");

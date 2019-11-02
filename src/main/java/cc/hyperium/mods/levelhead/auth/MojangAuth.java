@@ -36,17 +36,13 @@ public class MojangAuth {
     private String hash;
 
     public void auth() {
-        String apiAuthLink = "https://api.sk1er.club/auth/";
-
         UUID uuid = Minecraft.getMinecraft().getSession().getProfile().getId();
-        JsonHolder jsonHolder = new JsonHolder(Sk1erMod.getInstance().rawWithAgent(
-            apiAuthLink + "begin?uuid=" + uuid + "&mod=LEVEL_HEAD&ver=" + Levelhead.VERSION));
-
+        JsonHolder jsonHolder = new JsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/auth/begin?uuid="
+            + uuid + "&mod=LEVEL_HEAD&ver=" + Levelhead.VERSION));
         if (!jsonHolder.optBoolean("success")) {
             fail("Error during init: " + jsonHolder);
             return;
         }
-
         hash = jsonHolder.optString("hash");
 
         String session = Minecraft.getMinecraft().getSession().getToken();
@@ -54,15 +50,14 @@ public class MojangAuth {
 
         int statusCode = LoginUtil.joinServer(session, uuid.toString().replace("-", ""), hash);
 
-        if (statusCode != 204) { // ok
+        if (statusCode != 204) {
             fail("Error during Mojang Auth (1) " + statusCode);
             return;
         }
 
-        JsonHolder finalResponse = new JsonHolder(Sk1erMod.getInstance().rawWithAgent(
-            apiAuthLink + "final?hash=" + hash + "&name=" + Minecraft.getMinecraft().getSession().getProfile().getName()));
+        JsonHolder finalResponse = new JsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/auth/final?hash="
+            + hash + "&name=" + Minecraft.getMinecraft().getSession().getProfile().getName()));
         System.out.println("FINAL RESPONSE: " + finalResponse);
-
         if (finalResponse.optBoolean("success")) {
             accessKey = finalResponse.optString("access_key");
             success = true;
