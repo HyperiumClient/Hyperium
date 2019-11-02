@@ -39,7 +39,6 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.IntStream;
 
 public class VictoryRoyale extends AbstractMod {
     private static VictoryRoyale INSTANCE;
@@ -173,12 +172,12 @@ public class VictoryRoyale extends AbstractMod {
 
     public void gameEnded() {
         Minecraft mc = Minecraft.getMinecraft();
+        EntityPlayerSP player = mc.thePlayer;
 
-        if (mc.thePlayer == null) {
+        if (player == null) {
             return;
         }
 
-        EntityPlayerSP player = mc.thePlayer;
 
         if (player.isInvisible() || player.isInvisibleToPlayer(player)) {
             return;
@@ -204,9 +203,10 @@ public class VictoryRoyale extends AbstractMod {
         points.clear();
 
         final int maxPoints = 15;
-
-        IntStream.range(0, maxPoints).mapToObj(pointNumber -> ThreadLocalRandom.current()).forEach(current ->
-            points.add(new WhiteLine(current.nextDouble(1.0), current.nextDouble(1.0), current.nextInt(5))));
+        for (int pointNumber = 0; pointNumber < maxPoints; pointNumber++) {
+            ThreadLocalRandom current = ThreadLocalRandom.current();
+            points.add(new WhiteLine(current.nextDouble(1.0), current.nextDouble(1.0), current.nextInt(5)));
+        }
     }
 
     @Override
