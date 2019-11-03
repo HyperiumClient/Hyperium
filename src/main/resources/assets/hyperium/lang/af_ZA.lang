@@ -235,3 +235,21 @@ message.purchase=Purchase %s
 # Optifine Integration
 gui.optifinecape.opencape=Open Cape Editor
 gui.optifinecape.capebutton=Optifine Cape
+
+# Main Menu Tips
+menu.hyperiumtip1=Most of our HUD items can be found in ChromaHUD!
+menu.hyperiumtip2=Change your keybinds by going to the Controls menu and clicking the Hyperium Binds button!
+menu.hyperiumtip3=Make sure to join our Discord for support, news, and more! discord.gg/Sk1er
+menu.hyperiumtip4=Hyperium is Open Source! Check out the source code at github.com/hyperiumclient!
+menu.hyperiumtip5=Wish to make an addon? Check out an example at github.com/hyperiumclient/addon-workspace!
+menu.hyperiumtip6=Addons are additions to the client created by the community!
+menu.hyperiumtip7=You cannot use Forge mods with Hyperium!
+menu.hyperiumtip8=If you encounter any issues, please let us know at discord.gg/Sk1er!
+menu.hyperiumtip9=For a list of commands, type / then hit tab!
+menu.hyperiumtip10=You can purchase cosmetics at purchase.sk1er.club!
+
+# External Tips
+menu.externalhyperiumtip.quickplay="To configure Quickplay, type /qp config!"
+menu.externalhyperiumtip.mediamod="To configure MediaMod, type /mediamod!"
+menu.externalhyperiumtip.particlemod="To configure ParticleMod, type /particlemod!"
+menu.externalhyperiumtip.arrowtrail="To configure ArrowTrails, type /arrowpath!"

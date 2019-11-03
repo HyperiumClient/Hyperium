@@ -48,15 +48,16 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     private int widthCreditsRest;
 
     private List<String> hyperiumTips = Arrays.asList(
-        "Most of our HUD items can be found in ChromaHUD!",
-        "Change your keybinds by going to the Controls menu and clicking the Hyperium Binds button!",
-        "Make sure to join our Discord for support, news, and more! discord.gg/Sk1er",
-        "Hyperium is Open Source! Check out the source code at github.com/hyperiumclient!",
-        "Wish to make an addon? Check out an example at github.com/hyperiumclient/addon-workspace!",
-        "Addons are additions to the client created by the community!",
-        "You cannot use Forge mods with Hyperium!",
-        "If you encounter any issues, please let us know at discord.gg/Sk1er!",
-        "For a list of commands, type / then hit tab!"
+        "menu.hyperiumtip1",
+        "menu.hyperiumtip2",
+        "menu.hyperiumtip3",
+        "menu.hyperiumtip4",
+        "menu.hyperiumtip5",
+        "menu.hyperiumtip6",
+        "menu.hyperiumtip7",
+        "menu.hyperiumtip8",
+        "menu.hyperiumtip9",
+        "menu.hyperiumtip10"
     );
 
     private Random random = new Random();
@@ -79,7 +80,20 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
      */
     public void initGui() {
         if (AddonCheckerUtil.isUsingQuickplay()) {
-            hyperiumTips.add("To configure Quickplay, type /qp config!");
+            hyperiumTips.add("menu.externalhyperiumtip.quickplay");
+        }
+
+        if (AddonCheckerUtil.isUsingMediaMod()) {
+            hyperiumTips.add("menu.externalhyperiumtip.mediamod");
+        }
+
+        if (AddonCheckerUtil.isUsingParticleMod()) {
+            hyperiumTips.add("menu.externalhyperiumtip.particlemod");
+        }
+
+
+        if (AddonCheckerUtil.isUsingParticleMod()) {
+            hyperiumTips.add("menu.externalhyperiumtip.arrowtrail");
         }
 
         int center = width / 2;
@@ -114,7 +128,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         drawString(fontRendererObj, creditsString, width - fontRendererObj.getStringWidth(creditsString) - 2, height - 10, -1);
 
         if (Settings.HYPERIUM_TIPS) {
-            fontRendererObj.drawSplitString(ChatColor.YELLOW + selectedTip, width / 2 - 200 / 2,
+            fontRendererObj.drawSplitString(ChatColor.YELLOW + I18n.format(selectedTip), width / 2 - 200 / 2,
                 getRowPos(8), 196, -1);
         }
 
