@@ -3,6 +3,7 @@
 #Hyperium Disclaimers
 menu.left=Copyright 2019 Hyperium Dev Team
 menu.right=Not Affiliated with Mojang AB
+menu.credits=Created by the Hyperium Team
 
 #Hyperium Buttons
 button.menu.changebackground=Menu Background

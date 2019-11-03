@@ -27,7 +27,6 @@ import cc.hyperium.mixinsimp.client.gui.IMixinGuiMultiplayer;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
-import cc.hyperium.utils.mods.AddonCheckerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
@@ -42,7 +41,7 @@ import java.util.Random;
 public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiYesNoCallback {
 
     private static boolean FIRST_START = true;
-    private final String createdByTeam = "Created by the Hyperium Team.";
+    private final String createdByTeam = I18n.format("menu.credits");
     private final TipRegistry tipRegistry = TipRegistry.INSTANCE;
     private int widthCredits;
     private int widthCreditsRest;

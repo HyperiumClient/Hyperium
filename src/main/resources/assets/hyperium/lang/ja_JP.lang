@@ -2,6 +2,7 @@
 # Hyperium Disclaimers
 menu.left=Copyright 2019 Hyperium 開発チーム
 menu.right=Mojang ABとは提携していません
+menu.credits=Created by the Hyperium Team
 
 # Hyperium Buttons
 button.menu.changebackground=背景変更
@@ -247,9 +248,9 @@ menu.hyperiumtip7=You cannot use Forge mods with Hyperium!
 menu.hyperiumtip8=If you encounter any issues, please let us know at discord.gg/Sk1er!
 menu.hyperiumtip9=For a list of commands, type / then hit tab!
 menu.hyperiumtip10=You can purchase cosmetics at purchase.sk1er.club!
-
-# External Tips
-menu.externalhyperiumtip.quickplay="To configure Quickplay, type /qp config!"
+menu.hyperiumtip11=Performance issues? Check out the Improvements category of the Gui!
+menu.externalhyperiumtip.arrowtrail="To configure ArrowTrails, type /arrowpath!"
 menu.externalhyperiumtip.mediamod="To configure MediaMod, type /mediamod!"
 menu.externalhyperiumtip.particlemod="To configure ParticleMod, type /particlemod!"
-menu.externalhyperiumtip.arrowtrail="To configure ArrowTrails, type /arrowpath!"
+# External Tips
+menu.externalhyperiumtip.quickplay="To configure Quickplay, type /qp config!"
