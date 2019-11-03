@@ -491,8 +491,8 @@ public class Settings {
     public static boolean ENABLE_ENTITY_RADIUS;
 
     @ConfigOpt
-    @SliderSetting(name = "gui.settings.entityradius", min = 1, max = 120, category = ENTITYRADIUS, mods = true)
-    public static double ENTITY_RADIUS = 120;
+    @SliderSetting(name = "gui.settings.entityradius", min = 1, max = 64, category = ENTITYRADIUS, mods = true)
+    public static double ENTITY_RADIUS = 64;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.hyperiumtips", category = GENERAL)
