@@ -47,6 +47,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     private int widthCreditsRest;
 
     private String selectedTip;
+    private Random random = new Random();
+    private int ticksUntilNewTip;
 
     public GuiHyperiumScreenMainMenu() {
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
@@ -71,7 +73,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             "menu.hyperiumtip11"
         );
 
-        Random random = new Random();
         selectedTip = tipRegistry.getTips().get(random.nextInt(tipRegistry.getTips().size()));
     }
 
@@ -204,5 +205,16 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
     private int getRowPos(int rowNumber) {
         return 55 + rowNumber * 23;
+    }
+
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+        ticksUntilNewTip++;
+
+        if (ticksUntilNewTip > 200) {
+            ticksUntilNewTip = 0;
+            selectedTip = tipRegistry.getTips().get(random.nextInt(tipRegistry.getTips().size()));
+        }
     }
 }

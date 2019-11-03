@@ -45,6 +45,8 @@ public class DefaultConfig {
                 FileReader fr = new FileReader(file);
                 BufferedReader br = new BufferedReader(fr);
                 config = new JsonParser().parse(br.lines().collect(Collectors.joining())).getAsJsonObject();
+                fr.close();
+                br.close();
             } else {
                 config = new JsonObject();
                 saveFile();
