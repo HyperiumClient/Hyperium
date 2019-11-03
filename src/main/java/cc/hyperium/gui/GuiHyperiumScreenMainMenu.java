@@ -21,6 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
+import cc.hyperium.gui.tips.TipRegistry;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.client.gui.IMixinGuiMultiplayer;
 import cc.hyperium.purchases.PurchaseApi;
@@ -36,34 +37,17 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiYesNoCallback {
 
     private static boolean FIRST_START = true;
     private final String createdByTeam = "Created by the Hyperium Team.";
+    private final TipRegistry tipRegistry = TipRegistry.INSTANCE;
     private int widthCredits;
     private int widthCreditsRest;
 
-    private List<String> hyperiumTips = new ArrayList<>(Arrays.asList(
-        "menu.hyperiumtip1",
-        "menu.hyperiumtip2",
-        "menu.hyperiumtip3",
-        "menu.hyperiumtip4",
-        "menu.hyperiumtip5",
-        "menu.hyperiumtip6",
-        "menu.hyperiumtip7",
-        "menu.hyperiumtip8",
-        "menu.hyperiumtip9",
-        "menu.hyperiumtip10",
-        "menu.hyperiumtip11"
-    ));
-
-    private Random random = new Random();
-    private String selectedTip = hyperiumTips.get(random.nextInt(hyperiumTips.size()));
+    private String selectedTip;
 
     public GuiHyperiumScreenMainMenu() {
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
@@ -74,21 +58,22 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         if (Hyperium.INSTANCE.isFirstLaunch()) new SettingsMigrator().migrate();
 
-        if (AddonCheckerUtil.isUsingQuickplay()) {
-            hyperiumTips.add("menu.externalhyperiumtip.quickplay");
-        }
+        tipRegistry.registerTips(
+            "menu.hyperiumtip1",
+            "menu.hyperiumtip2",
+            "menu.hyperiumtip3",
+            "menu.hyperiumtip4",
+            "menu.hyperiumtip5",
+            "menu.hyperiumtip6",
+            "menu.hyperiumtip7",
+            "menu.hyperiumtip8",
+            "menu.hyperiumtip9",
+            "menu.hyperiumtip10",
+            "menu.hyperiumtip11"
+        );
 
-        if (AddonCheckerUtil.isUsingMediaMod()) {
-            hyperiumTips.add("menu.externalhyperiumtip.mediamod");
-        }
-
-        if (AddonCheckerUtil.isUsingParticleMod()) {
-            hyperiumTips.add("menu.externalhyperiumtip.particlemod");
-        }
-
-        if (AddonCheckerUtil.isUsingArrowTrails()) {
-            hyperiumTips.add("menu.externalhyperiumtip.arrowtrail");
-        }
+        Random random = new Random();
+        selectedTip = tipRegistry.getTips().get(random.nextInt(tipRegistry.getTips().size()));
     }
 
     /**
@@ -128,7 +113,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         creditsString = createdByTeam;
         drawString(fontRendererObj, creditsString, width - fontRendererObj.getStringWidth(creditsString) - 2, height - 10, -1);
 
-        if (Settings.HYPERIUM_TIPS && !hyperiumTips.isEmpty()) {
+        if (Settings.HYPERIUM_TIPS && !tipRegistry.getTips().isEmpty()) {
             fontRendererObj.drawSplitString(ChatColor.YELLOW + I18n.format(selectedTip), width / 2 - 200 / 2,
                 getRowPos(8), 196, -1);
         }
