@@ -24,8 +24,8 @@ import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.client.gui.IMixinGuiMultiplayer;
 import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
-import com.google.common.util.concurrent.Runnables;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
@@ -35,12 +35,28 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiYesNoCallback {
 
     private static boolean FIRST_START = true;
+    private final String createdByTeam = "Created by the Hyperium Team.";
     private int widthCredits;
     private int widthCreditsRest;
+
+    private List<String> hyperiumTips = Arrays.asList(
+        "Most of our HUD items can be found in ChromaHUD!",
+        "Change your keybinds by going to the Controls menu and clicking the Hyperium Binds button!",
+        "Make sure to join our Discord for support, news, and more! discord.gg/Sk1er",
+        "Hyperium is Open Source! Check out the source code at github.com/hyperiumclient!",
+        "Wish to make an addon? Check out an example at github.com/hyperiumclient/addon-workspace!",
+        "Addons are additions to the client created by the community!"
+    );
+
+    private Random random = new Random();
+    private String selectedTip = hyperiumTips.get(random.nextInt(hyperiumTips.size()));
 
     public GuiHyperiumScreenMainMenu() {
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
@@ -59,7 +75,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
      */
     public void initGui() {
         int center = width / 2;
-        widthCredits = fontRendererObj.getStringWidth("Made by the Hyperium Team.");
+        widthCredits = fontRendererObj.getStringWidth(createdByTeam);
         widthCreditsRest = width - widthCredits - 2;
 
         buttonList.add(new GuiButton(0, center - 100, getRowPos(2), I18n.format("menu.singleplayer")));
@@ -84,10 +100,15 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         ScaledResolution resolution = new ScaledResolution(mc);
 
         fontRendererObj.drawStringWithShadow("Hyperium " + Metadata.getVersion(), 3, resolution.getScaledHeight() - fontRendererObj.FONT_HEIGHT, -1);
-        String s1 = I18n.format("menu.right");
-        drawString(fontRendererObj, s1, width - fontRendererObj.getStringWidth(s1) - 2, height - 20, -1);
-        s1 = "Made by the Hyperium Team.";
-        drawString(fontRendererObj, s1, width - fontRendererObj.getStringWidth(s1) - 2, height - 10, -1);
+        String creditsString = I18n.format("menu.right");
+        drawString(fontRendererObj, creditsString, width - fontRendererObj.getStringWidth(creditsString) - 2, height - 20, -1);
+        creditsString = createdByTeam;
+        drawString(fontRendererObj, creditsString, width - fontRendererObj.getStringWidth(creditsString) - 2, height - 10, -1);
+
+        if (Settings.HYPERIUM_TIPS) {
+            fontRendererObj.drawSplitString(ChatColor.YELLOW + selectedTip, width / 2 - 200 / 2,
+                getRowPos(8), 196, -1);
+        }
 
         // yoinked from 1.12
         if (mouseX > widthCreditsRest && mouseX < widthCreditsRest + widthCredits && mouseY > height - 10 && mouseY < height && Mouse.isInsideWindow()) {

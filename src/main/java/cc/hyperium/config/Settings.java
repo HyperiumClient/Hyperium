@@ -494,6 +494,10 @@ public class Settings {
     @SliderSetting(name = "gui.settings.entityradius", min = 1, max = 120, category = ENTITYRADIUS, mods = true)
     public static double ENTITY_RADIUS = 120;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.hyperiumtips", category = GENERAL)
+    public static boolean HYPERIUM_TIPS = true;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

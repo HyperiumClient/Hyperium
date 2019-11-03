@@ -202,6 +202,9 @@ gui.settings.bossbarmod.resetbossbar=Athshocraigh Barra Boss
 gui.settings.hyperiumloadingscreen=Scáileán Ualú Hyperium
 gui.settings.guialpha=Trédhearcacht GUI
 gui.settings.fireheight=Airde Tine
+gui.settings.entityradiustoggle=Hide Entities within a radius
+gui.settings.entityradius=Hidden Entity Radius
+gui.settings.hyperiumtips=Hyperium Tips
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Cluiche Tosaigh ...
