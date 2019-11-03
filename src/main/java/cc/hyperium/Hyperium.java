@@ -54,6 +54,7 @@ import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
+import cc.hyperium.utils.mods.AddonCheckerUtil;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
@@ -271,7 +272,9 @@ public class Hyperium {
             fetchVersion();
 
             // Check if the user is running Optifine
-            runningOptifine();
+            if (AddonCheckerUtil.isUsingOptifine()) {
+                optifineInstalled = true;
+            }
 
             // Print every loaded addon
             collectAddons();
@@ -382,19 +385,6 @@ public class Hyperium {
             isLatestVersion = updateUtils.isAbsoluteLatest();
             IS_BETA = updateUtils.isBeta();
         });
-    }
-
-    /**
-     * Check for Optifines tweaker class
-     */
-    private void runningOptifine() {
-        try {
-            Class.forName("optifine.OptiFineTweaker");
-            optifineInstalled = true;
-            System.out.println("Optifine is currently installed.");
-        } catch (ClassNotFoundException e) {
-            optifineInstalled = false;
-        }
     }
 
     /**

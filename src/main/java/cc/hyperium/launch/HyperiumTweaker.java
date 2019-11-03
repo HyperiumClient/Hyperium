@@ -30,6 +30,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Contains utilities used to subscribe and invoke events
@@ -44,7 +45,7 @@ public class HyperiumTweaker implements ITweaker {
     private ArrayList<String> args = new ArrayList<>();
 
     private boolean isRunningOptifine = Launch.classLoader.getTransformers().stream()
-        .anyMatch(p -> p.getClass().getName().contains("optifine"));
+        .anyMatch(p -> p.getClass().getName().toLowerCase(Locale.ENGLISH).contains("optifine"));
 
     public HyperiumTweaker() {
         INSTANCE = this;

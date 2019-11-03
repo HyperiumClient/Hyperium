@@ -26,6 +26,7 @@ import cc.hyperium.mixinsimp.client.gui.IMixinGuiMultiplayer;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.mods.AddonCheckerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
@@ -52,7 +53,9 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         "Make sure to join our Discord for support, news, and more! discord.gg/Sk1er",
         "Hyperium is Open Source! Check out the source code at github.com/hyperiumclient!",
         "Wish to make an addon? Check out an example at github.com/hyperiumclient/addon-workspace!",
-        "Addons are additions to the client created by the community!"
+        "Addons are additions to the client created by the community!",
+        "You cannot use Forge mods with Hyperium!",
+        "If you encounter any issues, please let us know at discord.gg/Sk1er!"
     );
 
     private Random random = new Random();
@@ -74,6 +77,10 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
      * @author Cubxity
      */
     public void initGui() {
+        if (AddonCheckerUtil.isUsingQuickplay()) {
+            hyperiumTips.add("To configure Quickplay, type /qp config!");
+        }
+
         int center = width / 2;
         widthCredits = fontRendererObj.getStringWidth(createdByTeam);
         widthCreditsRest = width - widthCredits - 2;

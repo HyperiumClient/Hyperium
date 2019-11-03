@@ -22,6 +22,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.network.chat.SendChatMessageEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.mods.AddonCheckerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.command.CommandBase;
@@ -265,17 +266,13 @@ public class HyperiumCommandHandler {
             reader.close();
             fileReader.close();
         } catch (IOException ignored) {
-
         }
 
-        try {
-            Class.forName("co.bugg.quickplay.Quickplay");
-            Hyperium.LOGGER.info("Found Quickplay, disabling lobby commands/aliases");
+        if (AddonCheckerUtil.isUsingQuickplay()) {
             disabledCommands.add("l");
             disabledCommands.add("lobby");
             disabledCommands.add("hub");
             disabledCommands.add("spawn");
-        } catch (Exception ignored) {
         }
     }
 
