@@ -55,7 +55,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         "Wish to make an addon? Check out an example at github.com/hyperiumclient/addon-workspace!",
         "Addons are additions to the client created by the community!",
         "You cannot use Forge mods with Hyperium!",
-        "If you encounter any issues, please let us know at discord.gg/Sk1er!"
+        "If you encounter any issues, please let us know at discord.gg/Sk1er!",
+        "For a list of commands, type / then hit tab!"
     );
 
     private Random random = new Random();
