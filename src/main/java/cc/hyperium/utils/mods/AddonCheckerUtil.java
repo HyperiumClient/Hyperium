@@ -27,7 +27,7 @@ public class AddonCheckerUtil {
     // access any named addon for addon developers
     // mainAddonClass must be the path to the "mainClass" variable in the addon
     // ex: cc.hyperium.Hyperium
-    public static boolean isUsingNamedAddon(String mainAddonClass) {
+    public static boolean isUsingAddon(String mainAddonClass) {
         try {
             Class.forName(mainAddonClass);
             Hyperium.LOGGER.info("Found " + mainAddonClass);
