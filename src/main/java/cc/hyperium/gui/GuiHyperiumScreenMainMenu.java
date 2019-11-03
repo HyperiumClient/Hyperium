@@ -36,6 +36,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -47,7 +48,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     private int widthCredits;
     private int widthCreditsRest;
 
-    private List<String> hyperiumTips = Arrays.asList(
+    private List<String> hyperiumTips = new ArrayList<>(Arrays.asList(
         "menu.hyperiumtip1",
         "menu.hyperiumtip2",
         "menu.hyperiumtip3",
@@ -58,7 +59,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         "menu.hyperiumtip8",
         "menu.hyperiumtip9",
         "menu.hyperiumtip10"
-    );
+    ));
 
     private Random random = new Random();
     private String selectedTip = hyperiumTips.get(random.nextInt(hyperiumTips.size()));
@@ -71,14 +72,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         }
 
         if (Hyperium.INSTANCE.isFirstLaunch()) new SettingsMigrator().migrate();
-    }
 
-    /**
-     * Override initGui
-     *
-     * @author Cubxity
-     */
-    public void initGui() {
         if (AddonCheckerUtil.isUsingQuickplay()) {
             hyperiumTips.add("menu.externalhyperiumtip.quickplay");
         }
@@ -91,11 +85,17 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             hyperiumTips.add("menu.externalhyperiumtip.particlemod");
         }
 
-
         if (AddonCheckerUtil.isUsingParticleMod()) {
             hyperiumTips.add("menu.externalhyperiumtip.arrowtrail");
         }
+    }
 
+    /**
+     * Override initGui
+     *
+     * @author Cubxity
+     */
+    public void initGui() {
         int center = width / 2;
         widthCredits = fontRendererObj.getStringWidth(createdByTeam);
         widthCreditsRest = width - widthCredits - 2;
