@@ -248,6 +248,7 @@ menu.hyperiumtip7=You cannot use Forge mods with Hyperium!
 menu.hyperiumtip8=If you encounter any issues, please let us know at discord.gg/Sk1er!
 menu.hyperiumtip9=For a list of commands, type / then hit tab!
 menu.hyperiumtip10=You can purchase cosmetics at purchase.sk1er.club!
+menu.hyperiumtip11=Performance issues? Check out the Improvements category of the Gui!
 
 #External Tips
 menu.externalhyperiumtip.quickplay="To configure Quickplay, type /qp config!"

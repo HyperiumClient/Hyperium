@@ -58,7 +58,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         "menu.hyperiumtip7",
         "menu.hyperiumtip8",
         "menu.hyperiumtip9",
-        "menu.hyperiumtip10"
+        "menu.hyperiumtip10",
+        "menu.hyperiumtip11"
     ));
 
     private Random random = new Random();
@@ -85,7 +86,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             hyperiumTips.add("menu.externalhyperiumtip.particlemod");
         }
 
-        if (AddonCheckerUtil.isUsingParticleMod()) {
+        if (AddonCheckerUtil.isUsingArrowTrails()) {
             hyperiumTips.add("menu.externalhyperiumtip.arrowtrail");
         }
     }
@@ -127,7 +128,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         creditsString = createdByTeam;
         drawString(fontRendererObj, creditsString, width - fontRendererObj.getStringWidth(creditsString) - 2, height - 10, -1);
 
-        if (Settings.HYPERIUM_TIPS) {
+        if (Settings.HYPERIUM_TIPS && !hyperiumTips.isEmpty()) {
             fontRendererObj.drawSplitString(ChatColor.YELLOW + I18n.format(selectedTip), width / 2 - 200 / 2,
                 getRowPos(8), 196, -1);
         }
