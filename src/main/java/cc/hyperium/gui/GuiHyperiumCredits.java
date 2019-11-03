@@ -93,8 +93,6 @@ public class GuiHyperiumCredits extends HyperiumGui {
 
         if (i < 0 && offY > -240) offY -= 20; // todo: not hardcode this
         else if (i > 0 && offY < 0) offY += 20;
-
-        System.out.println(offY);
     }
 
     @Override
