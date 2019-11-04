@@ -113,13 +113,11 @@ public class HyperiumFontRenderer {
     }
 
     public void drawStringScaled(String text, int givenX, int givenY, int color, double givenScale) {
-
         GL11.glPushMatrix();
         GL11.glTranslated(givenX, givenY, 0);
         GL11.glScaled(givenScale, givenScale, givenScale);
         drawString(text, 0, 0, color);
         GL11.glPopMatrix();
-
     }
 
     public int drawString(String text, float x, float y, int color) {

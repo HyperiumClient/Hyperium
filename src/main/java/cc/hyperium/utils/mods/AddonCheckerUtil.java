@@ -8,21 +8,8 @@ public class AddonCheckerUtil {
         return isUsingAddon("optifine.OptiFineTweaker");
     }
 
-    // approved addons
     public static boolean isUsingQuickplay() {
         return isUsingAddon("co.bugg.quickplay.Quickplay");
-    }
-
-    public static boolean isUsingMediaMod() {
-        return isUsingAddon("me.conorthedev.mediamod.MediaMod");
-    }
-
-    public static boolean isUsingParticleMod() {
-        return isUsingAddon("net.chachy.particlemod.ParticleMod");
-    }
-
-    public static boolean isUsingArrowTrails() {
-        return isUsingAddon("dev.asbyth.arrowtrail.ArrowTrail");
     }
 
     // non-approved addons
