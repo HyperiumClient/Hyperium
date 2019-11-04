@@ -20,7 +20,6 @@ package cc.hyperium.addons.sidebar;
 import cc.hyperium.Hyperium;
 import cc.hyperium.addons.AbstractAddon;
 import cc.hyperium.addons.sidebar.commands.CommandSidebar;
-import cc.hyperium.addons.sidebar.config.Configuration;
 import cc.hyperium.addons.sidebar.gui.GuiSidebar;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
@@ -34,8 +33,8 @@ public class SidebarAddon extends AbstractAddon {
     public AbstractAddon init() {
         EventBus.INSTANCE.register(this);
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandSidebar(this));
-        Hyperium.CONFIG.register(new Configuration());
         guiSidebar = new GuiSidebar();
+        Hyperium.CONFIG.register(guiSidebar);
         return this;
     }
 

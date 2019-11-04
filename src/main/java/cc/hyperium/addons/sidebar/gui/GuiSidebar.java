@@ -18,6 +18,7 @@
 package cc.hyperium.addons.sidebar.gui;
 
 import cc.hyperium.addons.sidebar.config.Configuration;
+import cc.hyperium.config.ConfigOpt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -56,16 +57,28 @@ public class GuiSidebar extends Gui {
     private int sidebarY;
     private int sidebarWidth;
     private int sidebarHeight;
+
+    @ConfigOpt
     public boolean enabled = Configuration.enabled;
+    @ConfigOpt
     public boolean redNumbers = Configuration.redNumbers;
+    @ConfigOpt
     public boolean shadow = Configuration.redNumbers;
+    @ConfigOpt
     public float scale = Configuration.scale;
+    @ConfigOpt
     public int offsetX = Configuration.offsetX;
+    @ConfigOpt
     public int offsetY = Configuration.offsetY;
+    @ConfigOpt
     public int color = Configuration.rgb;
+    @ConfigOpt
     public int alpha = Configuration.alpha;
+    @ConfigOpt
     public boolean chromaEnabled = Configuration.chromaEnabled;
+    @ConfigOpt
     public ChromaType chromaType = Configuration.chromaType;
+    @ConfigOpt
     public int chromaSpeed = Configuration.chromaSpeed;
 
     public boolean contains(int mouseX, int mouseY) {

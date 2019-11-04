@@ -18,31 +18,18 @@
 package cc.hyperium.addons.sidebar.config;
 
 import cc.hyperium.addons.sidebar.gui.GuiSidebar;
-import cc.hyperium.config.ConfigOpt;
 
 public class Configuration {
 
-    @ConfigOpt
     public static boolean enabled = true;
-    @ConfigOpt
     public static int offsetX;
-    @ConfigOpt
     public static int offsetY;
-    @ConfigOpt
     public static float scale = 1.0f;
-    @ConfigOpt
     public static boolean redNumbers = true;
-    @ConfigOpt
     public static boolean shadow;
-    @ConfigOpt
     public static int rgb;
-    @ConfigOpt
     public static int alpha = 50;
-    @ConfigOpt
     public static boolean chromaEnabled;
-    @ConfigOpt
     public static int chromaSpeed = 2;
-    @ConfigOpt
     public static GuiSidebar.ChromaType chromaType = GuiSidebar.ChromaType.ONE;
-
 }
