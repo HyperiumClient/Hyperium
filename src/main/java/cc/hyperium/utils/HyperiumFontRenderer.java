@@ -17,9 +17,12 @@
 
 package cc.hyperium.utils;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.StringUtils;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
@@ -38,28 +41,31 @@ public class HyperiumFontRenderer {
     private final Map<String, Float> cachedStringWidth = new HashMap<>();
     private float antiAliasingFactor;
     private UnicodeFont unicodeFont;
+    private int prevScaleFactor = new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor();
+    private String name;
+    private float size;
 
     public HyperiumFontRenderer(String fontName, int fontType, int size) {
         this(fontName, fontType, size, 0);
     }
 
     public HyperiumFontRenderer(String fontName, float fontSize, float kerning, float antiAliasingFactor) {
-        this.antiAliasingFactor = antiAliasingFactor;
-        try {
-            unicodeFont = new UnicodeFont(getFontByName(fontName).deriveFont(fontSize * this.antiAliasingFactor));
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
-        this.kerning = kerning;
-
-        unicodeFont.addAsciiGlyphs();
-        unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
+        name = fontName;
+        size = fontSize;
+        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
 
         try {
+            prevScaleFactor = resolution.getScaleFactor();
+            unicodeFont = new UnicodeFont(getFontByName(fontName).deriveFont(fontSize * prevScaleFactor / 2));
+            unicodeFont.addAsciiGlyphs();
+            unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
             unicodeFont.loadGlyphs();
-        } catch (Exception e) {
+        } catch (FontFormatException | IOException | SlickException e) {
             e.printStackTrace();
         }
+
+        this.antiAliasingFactor = resolution.getScaleFactor();
+        this.kerning = kerning;
 
         for (int i = 0; i < 32; i++) {
             int shadow = (i >> 3 & 1) * 85;
@@ -82,37 +88,7 @@ public class HyperiumFontRenderer {
     }
 
     public HyperiumFontRenderer(Font font, float kerning, float antiAliasingFactor) {
-        this.antiAliasingFactor = antiAliasingFactor;
-        unicodeFont = new UnicodeFont(new Font(font.getName(), font.getStyle(), (int) (font.getSize() * antiAliasingFactor)));
-        this.kerning = kerning;
-
-        unicodeFont.addAsciiGlyphs();
-        unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
-
-        try {
-            unicodeFont.loadGlyphs();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        for (int i = 0; i < 32; i++) {
-            int shadow = (i >> 3 & 1) * 85;
-            int red = (i >> 2 & 1) * 170 + shadow;
-            int green = (i >> 1 & 1) * 170 + shadow;
-            int blue = (i & 1) * 170 + shadow;
-
-            if (i == 6) {
-                red += 85;
-            }
-
-            if (i >= 16) {
-                red /= 4;
-                green /= 4;
-                blue /= 4;
-            }
-
-            colorCodes[i] = (red & 255) << 16 | (green & 255) << 8 | blue & 255;
-        }
+        this(font.getFontName(), font.getSize(), kerning, antiAliasingFactor);
     }
 
     public HyperiumFontRenderer(String fontName, int fontType, int size, float kerning) {
@@ -149,14 +125,27 @@ public class HyperiumFontRenderer {
     public int drawString(String text, float x, float y, int color) {
         if (text == null) return 0;
 
-        x *= 2.0F;
-        y *= 2.0F;
+        boolean textureEnabled = GL11.glIsEnabled(GL11.GL_TEXTURE_2D);
+        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
+
+        try {
+            if (resolution.getScaleFactor() != prevScaleFactor) {
+                prevScaleFactor = resolution.getScaleFactor();
+                unicodeFont = new UnicodeFont(getFontByName(name).deriveFont(size * prevScaleFactor / 2));
+                unicodeFont.addAsciiGlyphs();
+                unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
+                unicodeFont.loadGlyphs();
+            }
+        } catch (FontFormatException | IOException | SlickException e) {
+            e.printStackTrace();
+        }
+
+        this.antiAliasingFactor = resolution.getScaleFactor();
 
         float originalX = x;
 
         GL11.glPushMatrix();
         GlStateManager.scale(1 / antiAliasingFactor, 1 / antiAliasingFactor, 1 / antiAliasingFactor);
-        GL11.glScaled(0.5F, 0.5F, 0.5F);
         x *= antiAliasingFactor;
         y *= antiAliasingFactor;
         float red = (float) (color >> 16 & 255) / 255.0F;
@@ -165,25 +154,23 @@ public class HyperiumFontRenderer {
         float alpha = (float) (color >> 24 & 255) / 255.0F;
         GlStateManager.color(red, green, blue, alpha);
 
-        boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);
-        boolean lighting = GL11.glIsEnabled(GL11.GL_LIGHTING);
-        boolean texture = GL11.glIsEnabled(GL11.GL_TEXTURE_2D);
-        if (!blend) GL11.glEnable(GL11.GL_BLEND);
-        if (lighting) GL11.glDisable(GL11.GL_LIGHTING);
-        if (texture) GL11.glDisable(GL11.GL_TEXTURE_2D);
-
         int currentColor = color;
         char[] characters = text.toCharArray();
+
+        GlStateManager.disableTexture2D();
+        GlStateManager.disableLighting();
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
         int index = 0;
         for (char c : characters) {
             if (c == '\r') x = originalX;
-            if (c == '\n') y += getHeight(Character.toString(c)) * 2.0F;
+            if (c == '\n') y += getHeight(Character.toString(c));
 
             if (c != '\247' && (index == 0 || index == characters.length - 1 || characters[index - 1] != '\247')) {
-                //Line causing error
                 unicodeFont.drawString(x, y, Character.toString(c), new org.newdawn.slick.Color(currentColor));
-                x += (getWidth(Character.toString(c)) * 2.0F * antiAliasingFactor);
+                x += (getWidth(Character.toString(c)) * antiAliasingFactor);
             } else if (c == ' ') {
                 x += unicodeFont.getSpaceWidth();
             } else if (c == '\247' && index != characters.length - 1) {
@@ -195,13 +182,11 @@ public class HyperiumFontRenderer {
             index++;
         }
 
-        GL11.glScaled(2.0F, 2.0F, 2.0F);
-        if (texture) GL11.glEnable(GL11.GL_TEXTURE_2D);
-        if (lighting) GL11.glEnable(GL11.GL_LIGHTING);
-        if (!blend) GL11.glDisable(GL11.GL_BLEND);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glPopMatrix();
-        return (int) x / 2;
+        GlStateManager.color(1F, 1F, 1F, 1F);
+        GlStateManager.bindTexture(0);
+        if (textureEnabled) GlStateManager.enableTexture2D();
+        GlStateManager.popMatrix();
+        return (int) x;
     }
 
     public int drawStringWithShadow(String text, float x, float y, int color) {
@@ -237,18 +222,9 @@ public class HyperiumFontRenderer {
         drawCenteredString(text, x, y, color);
     }
 
-    public float getWidth(String s) {
+    public float getWidth(String text) {
         if (cachedStringWidth.size() > 1000) cachedStringWidth.clear();
-        return cachedStringWidth.computeIfAbsent(s, e -> {
-            float width = 0.0F;
-            String str = StringUtils.stripControlCodes(s);
-            for (char c : str.toCharArray()) {
-                width += unicodeFont.getWidth(Character.toString(c)) + kerning;
-            }
-
-            return width / 2.0F / antiAliasingFactor;
-        });
-
+        return cachedStringWidth.computeIfAbsent(text, e -> unicodeFont.getWidth(ChatColor.stripColor(text)) / antiAliasingFactor);
     }
 
     public int getStringWidth(String text) {
