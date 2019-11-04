@@ -37,7 +37,6 @@ public class HyperiumFontRenderer {
 
     public final int FONT_HEIGHT = 9;
     private final int[] colorCodes = new int[32];
-    private final float kerning;
     private final Map<String, Float> cachedStringWidth = new HashMap<>();
     private float antiAliasingFactor;
     private UnicodeFont unicodeFont;
@@ -45,11 +44,7 @@ public class HyperiumFontRenderer {
     private String name;
     private float size;
 
-    public HyperiumFontRenderer(String fontName, int fontType, int size) {
-        this(fontName, fontType, size, 0);
-    }
-
-    public HyperiumFontRenderer(String fontName, float fontSize, float kerning, float antiAliasingFactor) {
+    public HyperiumFontRenderer(String fontName, float fontSize) {
         name = fontName;
         size = fontSize;
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
@@ -65,7 +60,6 @@ public class HyperiumFontRenderer {
         }
 
         this.antiAliasingFactor = resolution.getScaleFactor();
-        this.kerning = kerning;
 
         for (int i = 0; i < 32; i++) {
             int shadow = (i >> 3 & 1) * 85;
@@ -87,12 +81,12 @@ public class HyperiumFontRenderer {
         }
     }
 
-    public HyperiumFontRenderer(Font font, float kerning, float antiAliasingFactor) {
-        this(font.getFontName(), font.getSize(), kerning, antiAliasingFactor);
+    public HyperiumFontRenderer(Font font) {
+        this(font.getFontName(), font.getSize());
     }
 
-    public HyperiumFontRenderer(String fontName, int fontType, int size, float kerning) {
-        this(new Font(fontName, fontType, size), kerning, 3.0F);
+    public HyperiumFontRenderer(String fontName, int fontType, int size) {
+        this(new Font(fontName, fontType, size));
     }
 
     private Font getFontByName(String name) throws IOException, FontFormatException {
@@ -206,13 +200,11 @@ public class HyperiumFontRenderer {
      * @param givenScale - Given Scale
      */
     public void drawCenteredTextScaled(String text, int givenX, int givenY, int color, double givenScale) {
-
         GL11.glPushMatrix();
         GL11.glTranslated(givenX, givenY, 0);
         GL11.glScaled(givenScale, givenScale, givenScale);
         drawCenteredString(text, 0, 0, color);
         GL11.glPopMatrix();
-
     }
 
     public void drawCenteredStringWithShadow(String text, float x, float y, int color) {
@@ -225,38 +217,6 @@ public class HyperiumFontRenderer {
         return cachedStringWidth.computeIfAbsent(text, e -> unicodeFont.getWidth(ChatColor.stripColor(text)) / antiAliasingFactor);
     }
 
-    public int getStringWidth(String text) {
-        if (text == null) {
-            return 0;
-        } else {
-            int i = 0;
-            boolean flag = false;
-
-            for (int j = 0; j < text.length(); ++j) {
-                char c0 = text.charAt(j);
-                float k = getWidth(String.valueOf(c0));
-
-                if (k < 0 && j < text.length() - 1) {
-                    ++j;
-                    c0 = text.charAt(j);
-
-                    if (c0 != 'l' && c0 != 'L') {
-                        if (c0 == 'r' || c0 == 'R') flag = false;
-                    } else {
-                        flag = true;
-                    }
-
-                    k = 0;
-                }
-
-                i += k;
-                if (flag && k > 0) ++i;
-            }
-
-            return i;
-        }
-    }
-
     public float getCharWidth(char c) {
         return unicodeFont.getWidth(String.valueOf(c));
     }
@@ -267,40 +227,6 @@ public class HyperiumFontRenderer {
 
     public UnicodeFont getFont() {
         return unicodeFont;
-    }
-
-    public String trimStringToWidth(String par1Str, int par2) {
-        StringBuilder var4 = new StringBuilder();
-        float var5 = 0.0F;
-        int var6 = 0;
-        int var7 = 1;
-        boolean var8 = false;
-        boolean var9 = false;
-
-        for (int var10 = var6; var10 >= 0 && var10 < par1Str.length() && var5 < (float) par2; var10 += var7) {
-            char var11 = par1Str.charAt(var10);
-            float var12 = getCharWidth(var11);
-
-            if (var8) {
-                var8 = false;
-
-                if (var11 != 108 && var11 != 76) {
-                    if (var11 == 114 || var11 == 82) var9 = false;
-                } else {
-                    var9 = true;
-                }
-            } else if (var12 < 0.0F) {
-                var8 = true;
-            } else {
-                var5 += var12;
-                if (var9) ++var5;
-            }
-
-            if (var5 > (float) par2) break;
-            else var4.append(var11);
-        }
-
-        return var4.toString();
     }
 
     public void drawSplitString(ArrayList<String> lines, int x, int y, int color) {

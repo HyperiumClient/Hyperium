@@ -164,7 +164,7 @@ public class SplashProgress {
 
         // Draw the current amount of progress / max amount of progress
         String s = PROGRESS + "/" + DEFAULT_MAX;
-        sfr.drawString(s, sr.getScaledWidth() - 20 - sfr.getStringWidth(s), sr.getScaledHeight() - 25, 0xe1e1e1ff);
+        sfr.drawString(s, sr.getScaledWidth() - 20 - sfr.getWidth(s), sr.getScaledHeight() - 25, 0xe1e1e1ff);
 
         // Reset color again
         GlStateManager.resetColor();

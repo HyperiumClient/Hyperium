@@ -69,9 +69,9 @@ public class HyperiumMainGui extends HyperiumGui {
     private Queue<Alert> alerts = new ArrayDeque<>();
 
     private HyperiumMainGui() {
-        smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F, 0, 1.0F);
-        font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F, 0, 1.0F);
-        title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F, 0, 1.0F);
+        smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F);
+        font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F);
+        title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F);
         settingsObjects.add(Settings.INSTANCE);
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig());
