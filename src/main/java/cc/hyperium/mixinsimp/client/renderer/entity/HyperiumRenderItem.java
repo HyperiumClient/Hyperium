@@ -26,10 +26,8 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemPotion;
@@ -53,88 +51,21 @@ public class HyperiumRenderItem {
         this.parent = parent;
     }
 
-    public void renderItemIntoGUI(ItemStack stack, int x, int y) {
-        IBakedModel ibakedmodel = parent.getItemModelMesher().getItemModel(stack);
-        GlStateManager.pushMatrix();
-        ((IMixinRenderItem) parent).getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-        ((IMixinRenderItem) parent).getTextureManager().getTexture(TextureMap.locationBlocksTexture)
-            .setBlurMipmap(false, false);
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.enableAlpha();
-        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        ((IMixinRenderItem) parent).callSetupGuiTransform(x, y, ibakedmodel.isGui3d());
-        ibakedmodel.getItemCameraTransforms()
-            .applyTransform(ItemCameraTransforms.TransformType.GUI);
-
-        renderItem(stack, ibakedmodel, true); // Changed to true because this IS an inventory
-
-        GlStateManager.disableAlpha();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.disableLighting();
-        GlStateManager.popMatrix();
-        ((IMixinRenderItem) parent).getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-        ((IMixinRenderItem) parent).getTextureManager().getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
+    public void callHeadScale(ItemStack stack, boolean isInv, double scale) { // BigHead
+        if (!isInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull) {
+            GlStateManager.scale(scale, scale, scale);
+        }
     }
 
-    public void renderItem(ItemStack stack, IBakedModel model, boolean isInv) {
-        if (stack != null) {
-            GlStateManager.pushMatrix();
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
+    public boolean renderShinyPot(ItemStack stack, IBakedModel model, boolean isInv) {
+        boolean renderedAsPotion = false;
+        if (Settings.SHINY_POTS && isInv && stack.getItem() != null && stack.getItem() instanceof ItemPotion) {
+            int glintColor = getPotionColor(stack);
+            renderPot(model, glintColor);
 
-            boolean isHead = !isInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull;
-            double headScale = Settings.HEAD_SCALE_FACTOR;
-
-            if (model.isBuiltInRenderer()) {
-                GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-                GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                GlStateManager.enableRescaleNormal();
-
-                // BigHead implementation
-                if (isHead) {
-                    GlStateManager.scale(headScale, headScale, headScale);
-                }
-
-                TileEntityItemStackRenderer.instance.renderByItem(stack);
-
-            } else {
-                // Used to detect if the item has a already had an effect rendered
-                boolean renderedAsPotion = false;
-
-                GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-
-                // We want to render our potion effect before
-                // the item is renderer so the effect doesn't obscure the item
-                if (Settings.SHINY_POTS && isInv && stack.getItem() != null && stack.getItem() instanceof ItemPotion) {
-                    int glintColor = getPotionColor(stack);
-                    renderPot(model, glintColor);
-
-                    renderedAsPotion = true;
-                }
-
-                // BigHead implementation
-                if (isHead) {
-                    GlStateManager.scale(headScale, headScale, headScale);
-                }
-
-                // Normal item renderer
-                ((IMixinRenderItem) parent).callRenderModel(model, stack);
-
-                // Prevent double-rendering of the items effects
-                if (!renderedAsPotion && stack.hasEffect()) {
-                    renderEffect(model); // Render the item with the normal effects
-                }
-            }
-
-            if (isHead) {
-                GlStateManager.scale(1.0 / headScale, 1.0 / headScale, 1.0 / headScale);
-            }
-
-            GlStateManager.popMatrix();
+            renderedAsPotion = true;
         }
+        return renderedAsPotion;
     }
 
     /**
@@ -167,46 +98,6 @@ public class HyperiumRenderItem {
         GlStateManager.enableLighting();
         GlStateManager.depthMask(true);
 
-        ((IMixinRenderItem) parent).getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-    }
-
-    /**
-     * Normal code for rendering an effect/enchantment on an item
-     *
-     * @param model the model of the item
-     */
-    private void renderEffect(IBakedModel model) {
-        if (Settings.DISABLE_ENCHANT_GLINT) {
-            return;
-        }
-        GlStateManager.depthMask(false);
-
-        GlStateManager.depthFunc(GL11.GL_EQUAL); // This is for render depth
-        GlStateManager.disableLighting();
-        GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
-        ((IMixinRenderItem) parent).getTextureManager().bindTexture(RES_ITEM_GLINT);
-        GlStateManager.matrixMode(GL11.GL_TEXTURE);
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(8.0F, 8.0F, 8.0F);
-        float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F; // Animates the effect
-        GlStateManager.translate(f, 0.0F, 0.0F);
-        GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
-        ((IMixinRenderItem2) parent).callRenderModel(model, Colors.onepoint8glintcolorI);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(8.0F, 8.0F, 8.0F);
-        float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
-        GlStateManager.translate(-f1, 0.0F, 0.0F);
-        GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
-        ((IMixinRenderItem2) parent).callRenderModel(model, Colors.onepoint8glintcolorI);
-        GlStateManager.popMatrix();
-        GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.enableLighting();
-
-        GlStateManager.depthFunc(GL11.GL_LEQUAL); // Changes back to the normal depth
-
-        GlStateManager.depthMask(true);
         ((IMixinRenderItem) parent).getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
     }
 
