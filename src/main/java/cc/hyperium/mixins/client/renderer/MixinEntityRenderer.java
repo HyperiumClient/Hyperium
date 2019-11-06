@@ -69,6 +69,7 @@ public abstract class MixinEntityRenderer {
     private void onRenderWorld(int pass, float partialTicks, long nano, CallbackInfo info) {
         mc.mcProfiler.startSection("hyperium_render_last");
         new RenderWorldEvent(mc.renderGlobal, partialTicks).post();
+        mc.mcProfiler.endSection();
     }
 
     @Inject(method = "renderWorldPass", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", args = "ldc=outline"), cancellable = true)
