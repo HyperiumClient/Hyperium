@@ -99,7 +99,7 @@ public class GuiSidebar extends Gui {
         List<Score> scores = new ArrayList<>();
         sidebarWidth = fr.getStringWidth(sidebar.getDisplayName());
 
-        scoreboard.getSortedScores(sidebar).forEach(score -> {
+        for (Score score : scoreboard.getSortedScores(sidebar)) {
             String name = score.getPlayerName();
             if (scores.size() < 15 && name != null && !name.startsWith("#")) {
                 Team team = scoreboard.getPlayersTeam(name);
@@ -108,7 +108,7 @@ public class GuiSidebar extends Gui {
                 sidebarWidth = Math.max(sidebarWidth, fr.getStringWidth(str));
                 scores.add(score);
             }
-        });
+        }
 
         sidebarHeight = scores.size() * fr.FONT_HEIGHT;
         sidebarX = res.getScaledWidth() - sidebarWidth - 3 + offsetX;

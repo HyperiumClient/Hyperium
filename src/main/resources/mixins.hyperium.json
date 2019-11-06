@@ -83,6 +83,7 @@
     "client.renderer.texture.IMixinTextureManager",
     "client.renderer.texture.MixinTextureManager",
     "client.renderer.tileentity.MixinRenderItemFrame",
+    "client.renderer.tileentity.MixinTileEntityEndPortalRenderer",
     "client.resources.IMixinAbstractResourcePack",
     "client.resources.IMixinResourcePackListEntry",
     "client.resources.MixinAbstractResourcePack",

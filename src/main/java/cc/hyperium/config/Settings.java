@@ -494,6 +494,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.hyperiumtips", category = GENERAL)
     public static boolean HYPERIUM_TIPS = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disableendportals", category = IMPROVEMENTS)
+    public static boolean DISABLE_END_PORTALS;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

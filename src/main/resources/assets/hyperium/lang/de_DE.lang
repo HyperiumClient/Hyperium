@@ -206,6 +206,7 @@ gui.settings.fireheight=Fire Height
 gui.settings.entityradiustoggle=Hide Entities within a radius
 gui.settings.entityradius=Hidden Entity Radius
 gui.settings.hyperiumtips=Hyperium Tips
+gui.settings.disableendportals=Disable End Portals
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Spiel wird gestartet...

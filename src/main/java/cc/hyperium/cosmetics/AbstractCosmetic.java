@@ -64,8 +64,7 @@ public abstract class AbstractCosmetic {
         }
         Boolean aBoolean = purchasedBy.get(id);
         purchasedBy.clear();
-        if (aBoolean != null)
-            purchasedBy.put(id, aBoolean);
+        if (aBoolean != null) purchasedBy.put(id, aBoolean);
     }
 
     @InvokeEvent
