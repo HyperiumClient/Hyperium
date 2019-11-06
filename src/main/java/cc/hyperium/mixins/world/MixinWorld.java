@@ -104,7 +104,7 @@ public abstract class MixinWorld {
         if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) cir.setReturnValue(15);
     }
 
-    @Inject(method = "joinEntityInSurroundings", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER))
+    @Inject(method = "joinEntityInSurroundings", at = @At(remap = false, value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER))
     private void joinEntityInSurroundings(Entity entityIn, CallbackInfo ci) {
         EventBus.INSTANCE.post(new EntityJoinWorldEvent((World) (Object) this, entityIn));
     }
