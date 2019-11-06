@@ -2030,14 +2030,5 @@
         "stream": false
       }
     ]
-  },
-  "victoryroyale": {
-    "category": "ambient",
-    "sounds": [
-      {
-        "name": "victoryroyale",
-        "stream": false
-      }
-    ]
   }
 }
