@@ -389,10 +389,6 @@ public class Settings {
     public static String GUI_FONT = "Roboto Condensed";
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.victoryroyale", category = VICTORYROYALE, mods = true)
-    public static boolean VICTORY_ROYALE;
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.betterf1", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean BETTERF1;
 

@@ -43,7 +43,6 @@ public enum Category {
     FNCOMPASS("Fortnite Compass"),
     TAB_TOGGLE("Tab Toggle"),
     ITEM_PHYSIC("Item Physics"),
-    VICTORYROYALE("Victory Royale"),
     CHUNK_ANIMATOR("Chunk Animator"),
     LEVELHEAD("Levelhead"),
     AUTOMYPOSITION("Auto MyPosition"),

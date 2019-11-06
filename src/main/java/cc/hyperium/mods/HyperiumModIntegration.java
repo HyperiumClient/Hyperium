@@ -33,7 +33,6 @@ import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
-import cc.hyperium.mods.victoryroyale.VictoryRoyale;
 import me.semx11.autotip.Autotip;
 
 /**
@@ -54,7 +53,6 @@ public class HyperiumModIntegration {
     private final MotionBlurMod motionBlur;
     private final OldAnimations oldAnimations;
     private final ItemPhysicMod itemPhysicMod;
-    private final VictoryRoyale victoryRoyale;
     private final ChunkAnimator chunkAnimator;
     private final SoundHandler soundHandler;
     private final MyPosition myPosition;
@@ -99,7 +97,6 @@ public class HyperiumModIntegration {
         nickHider.init();
 
         itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
-        victoryRoyale = (VictoryRoyale) new VictoryRoyale().init();
         chunkAnimator = (ChunkAnimator) new ChunkAnimator().init();
         soundHandler = (SoundHandler) new SoundHandler().init();
         myPosition = (MyPosition) new MyPosition().init();
@@ -109,51 +106,63 @@ public class HyperiumModIntegration {
     public KeystrokesMod getKeystrokesMod() {
         return keystrokesMod;
     }
+
     public TimeChanger getTimeChanger() {
         return timeChanger;
     }
+
     public ToggleChatMod getToggleChat() {
         return toggleChat;
     }
+
     public Levelhead getLevelhead() {
         return levelhead;
     }
+
     public ChromaHUD getChromaHUD() {
         return chromaHUD;
     }
+
     public Autotip getAutotip() {
         return autotip;
     }
+
     public AutoGG getAutoGG() {
         return autogg;
     }
+
     public GlintColorizer getGlintColorizer() {
         return glintColorizer;
     }
+
     public BlockOverlay getBlockOverlay() {
         return blockOverlay;
     }
+
     public MotionBlurMod getMotionBlur() {
         return motionBlur;
     }
+
     public OldAnimations getOldAnimations() {
         return oldAnimations;
     }
+
     public ItemPhysicMod getItemPhysicMod() {
         return itemPhysicMod;
     }
-    public VictoryRoyale getVictoryRoyale() {
-        return victoryRoyale;
-    }
+
     public ChunkAnimator getChunkAnimator() {
         return chunkAnimator;
     }
+
     public SoundHandler getSoundHandler() {
         return soundHandler;
     }
+
     public MyPosition getMyPosition() {
         return myPosition;
     }
+
     public EntityRadius getEntityRadius() {
         return entityRadius;
     }
