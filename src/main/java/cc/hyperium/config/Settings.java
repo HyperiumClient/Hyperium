@@ -73,8 +73,8 @@ public class Settings {
     public static boolean NUMBER_PING = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.arrowcountwhenholdingbow", category = VANILLA_ENHANCEMENTS, mods = true)
-    public static boolean ARROW_COUNT = true;
+    @ToggleSetting(name = "gui.settings.itemcounter", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean ITEM_COUNTER = true;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.showenchantmentsabovehotbar", category = VANILLA_ENHANCEMENTS, mods = true)

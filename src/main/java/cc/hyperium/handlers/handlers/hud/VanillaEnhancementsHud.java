@@ -25,18 +25,14 @@ import cc.hyperium.event.render.RenderHUDEvent;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemPotion;
-import net.minecraft.item.ItemStack;
+import net.minecraft.init.Items;
+import net.minecraft.item.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
@@ -45,10 +41,8 @@ import net.minecraft.world.WorldSettings;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class VanillaEnhancementsHud {
@@ -64,19 +58,18 @@ public class VanillaEnhancementsHud {
     }
 
     @InvokeEvent
-    public void renderArrowCount(RenderHUDEvent event) {
-        if (Settings.ARROW_COUNT) {
-            EntityPlayerSP thePlayer = mc.thePlayer;
-            if (thePlayer != null) {
-                ItemStack heldItem = thePlayer.getHeldItem();
-                if (heldItem != null && heldItem.getUnlocalizedName().equalsIgnoreCase("item.bow")) {
-                    int c = Arrays.stream(thePlayer.inventory.mainInventory).filter(Objects::nonNull).filter(is ->
-                        is.getUnlocalizedName().equalsIgnoreCase("item.arrow")).mapToInt(is -> is.stackSize).sum();
-                    ScaledResolution current = ResolutionUtil.current();
-                    FontRenderer fontRendererObj = mc.fontRendererObj;
-                    int offset = (mc.playerController.getCurrentGameType() == WorldSettings.GameType.CREATIVE) ? 10 : 0;
-                    mc.fontRendererObj.drawString(Integer.toString(c), (float) (current.getScaledWidth() -
-                        fontRendererObj.getStringWidth(Integer.toString(c)) >> 1), (float) (current.getScaledHeight() - 46 - offset), 16777215, true);
+    public void renderItemCount(RenderHUDEvent event) {
+        if (Settings.ITEM_COUNTER) {
+            if (mc.thePlayer.getCurrentEquippedItem() != null) {
+                boolean holdingBow = mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemBow;
+                int count = getHeldItemCount(holdingBow);
+                if (count > 1 || (holdingBow && count > 0)) {
+                    int offset = mc.playerController.getCurrentGameType() == WorldSettings.GameType.CREATIVE ? 10 : 0;
+                    mc.fontRendererObj.drawString(String.valueOf(count),
+                        event.getResolution().getScaledWidth() - mc.fontRendererObj.getStringWidth(String.valueOf(count)) >> 1,
+                        event.getResolution().getScaledHeight() - 46 - offset,
+                        -1,
+                        true);
                 }
             }
         }
@@ -258,7 +251,7 @@ public class VanillaEnhancementsHud {
 
     private int[] getHotbarKeys() {
         int[] result = new int[9];
-        KeyBinding[] hotbarBindings = getGameSettings().keyBindsHotbar;
+        KeyBinding[] hotbarBindings = mc.gameSettings.keyBindsHotbar;
         int bound = Math.min(result.length, hotbarBindings.length);
         for (int i = 0; i < bound; i++) {
             result[i] = hotbarBindings[i].getKeyCode();
@@ -266,7 +259,26 @@ public class VanillaEnhancementsHud {
         return result;
     }
 
-    private GameSettings getGameSettings() {
-        return mc.gameSettings;
+    private int getHeldItemCount(boolean holdingBow) {
+        int id = Item.getIdFromItem(mc.thePlayer.getCurrentEquippedItem().getItem());
+        int data = mc.thePlayer.getCurrentEquippedItem().getItemDamage();
+        int count = 0;
+
+        if (holdingBow) {
+            id = Item.getIdFromItem(Items.arrow);
+            data = 0;
+        }
+
+        ItemStack[] inventory = mc.thePlayer.inventory.mainInventory;
+        for (ItemStack itemStack : inventory) {
+            if (itemStack != null) {
+                Item item = itemStack.getItem();
+                if (Item.getIdFromItem(item) == id && itemStack.getItemDamage() == data) {
+                    count += itemStack.stackSize;
+                }
+            }
+        }
+
+        return count;
     }
 }

@@ -54,7 +54,7 @@ public class HyperiumGuiIngame {
 
     public void renderGameOverlay(float part) {
         Minecraft.getMinecraft().mcProfiler.startSection("hyperium_overlay");
-        EventBus.INSTANCE.post(new RenderHUDEvent(part));
+        EventBus.INSTANCE.post(new RenderHUDEvent(new ScaledResolution(Minecraft.getMinecraft()), part));
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().mcProfiler.endSection();
 

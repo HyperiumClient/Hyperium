@@ -18,16 +18,23 @@
 package cc.hyperium.event.render;
 
 import cc.hyperium.event.Event;
+import net.minecraft.client.gui.ScaledResolution;
 
 /**
  * Invoked when the hud of the client is rendered
  */
 public class RenderHUDEvent extends Event {
 
+    private final ScaledResolution resolution;
     private final float partialTicks;
 
-    public RenderHUDEvent(float partialTicks) {
+    public RenderHUDEvent(ScaledResolution resolution, float partialTicks) {
+        this.resolution = resolution;
         this.partialTicks = partialTicks;
+    }
+
+    public ScaledResolution getResolution() {
+        return resolution;
     }
 
     public float getPartialTicks() {
