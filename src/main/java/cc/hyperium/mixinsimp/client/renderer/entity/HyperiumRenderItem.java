@@ -69,7 +69,7 @@ public class HyperiumRenderItem {
     }
 
     /**
-     * Basically the same as the above method, but does not include the depth code
+     * Basically the same as renderEffect, but does not include the depth code and uses custom color
      *
      * @param model the model
      */
