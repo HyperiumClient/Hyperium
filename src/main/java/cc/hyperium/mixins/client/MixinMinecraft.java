@@ -126,7 +126,7 @@ public abstract class MixinMinecraft {
      *
      * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
-    @Inject(method = "dispatchKeypresses", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
+    @Inject(method = "dispatchKeypresses", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z", remap = false))
     private void runTickKeyboard(CallbackInfo ci) {
         hyperiumMinecraft.runTickKeyboard();
     }
@@ -186,7 +186,7 @@ public abstract class MixinMinecraft {
         hyperiumMinecraft.displayFix(ci, fullscreen, displayWidth, displayHeight);
     }
 
-    @Inject(method = "toggleFullscreen", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;setVSyncEnabled(Z)V", shift = At.Shift.AFTER))
+    @Inject(method = "toggleFullscreen", at = @At(value = "INVOKE", remap = false, target = "Lorg/lwjgl/opengl/Display;setVSyncEnabled(Z)V", shift = At.Shift.AFTER))
     private void fullScreenFix(CallbackInfo ci) throws LWJGLException {
         hyperiumMinecraft.fullScreenFix(fullscreen, displayWidth, displayHeight);
     }
@@ -229,7 +229,7 @@ public abstract class MixinMinecraft {
         hyperiumMinecraft.onStartGame();
     }
 
-    @Inject(method = "startGame", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.BEFORE))
+    @Inject(method = "startGame", at = @At(value = "INVOKE", remap = false, target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.BEFORE))
     private void onLoadDefaultResourcePack(CallbackInfo ci) {
         hyperiumMinecraft.onLoadDefaultResourcePack();
     }
@@ -257,7 +257,7 @@ public abstract class MixinMinecraft {
         info.cancel();
     }
 
-    @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Mouse;getEventButton()I", ordinal = 0))
+    @Inject(method = "runTick", at = @At(value = "INVOKE", remap = false, target = "Lorg/lwjgl/input/Mouse;getEventButton()I", ordinal = 0))
     private void runTickMouseButton(CallbackInfo ci) {
         hyperiumMinecraft.runTickMouseButton();
     }
