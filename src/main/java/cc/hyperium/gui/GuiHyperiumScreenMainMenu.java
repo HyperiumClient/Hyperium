@@ -122,7 +122,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         if (Settings.HYPERIUM_TIPS && !tipRegistry.getTips().isEmpty()) {
             fontRendererObj.drawSplitString(ChatColor.YELLOW + I18n.format(selectedTip), width / 2 - 200 / 2,
-                height / 2 + 72, 196, -1);
+                height / 2 + 72, 200, -1);
         }
 
         // yoinked from 1.12
