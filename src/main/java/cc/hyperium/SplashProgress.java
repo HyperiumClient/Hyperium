@@ -49,7 +49,8 @@ public class SplashProgress {
     private static TextureManager ctm;
 
     // Font renderer
-    private static HyperiumFontRenderer sfr;
+    private static HyperiumFontRenderer raleway;
+    private static HyperiumFontRenderer roboto;
 
     /**
      * Update the splash text
@@ -143,7 +144,8 @@ public class SplashProgress {
             return;
 
         // Declare the font to be used
-        if (sfr == null) sfr = new HyperiumFontRenderer("Raleway", 20);
+        if (raleway == null) raleway = new HyperiumFontRenderer("Raleway", 20);
+        if (roboto == null) roboto = new HyperiumFontRenderer("Roboto", 20);
 
         // Get the users screen width and height to apply
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
@@ -160,11 +162,11 @@ public class SplashProgress {
         GlStateModifier.INSTANCE.reset();
 
         // Draw the current splash text
-        sfr.drawString(CURRENT, 20, sr.getScaledHeight() - 25, 0xffffffff);
+        raleway.drawString(CURRENT, 20, sr.getScaledHeight() - 25, 0xffffffff);
 
         // Draw the current amount of progress / max amount of progress
         String s = PROGRESS + "/" + DEFAULT_MAX;
-        sfr.drawString(s, sr.getScaledWidth() - 20 - sfr.getWidth(s), sr.getScaledHeight() - 25, 0xe1e1e1ff);
+        roboto.drawString(s, sr.getScaledWidth() - 20 - roboto.getWidth(s), sr.getScaledHeight() - 25, 0xe1e1e1ff);
 
         // Reset color again
         GlStateManager.resetColor();

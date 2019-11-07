@@ -90,8 +90,10 @@ public class HyperiumFontRenderer {
     }
 
     private Font getFontByName(String name) throws IOException, FontFormatException {
-        if (name.equalsIgnoreCase("roboto condensed") || name.equalsIgnoreCase("roboto")) {
+        if (name.equalsIgnoreCase("roboto condensed")) {
             return getFontFromInput("/assets/hyperium/fonts/RobotoCondensed-Regular.ttf");
+        } else if (name.equalsIgnoreCase("roboto")) {
+            return getFontFromInput("/assets/hyperium/fonts/Roboto-Regular.ttf");
         } else if (name.equalsIgnoreCase("montserrat")) {
             return getFontFromInput("/assets/hyperium/fonts/Montserrat-Regular.ttf");
         } else if (name.equalsIgnoreCase("segoeui") || name.equalsIgnoreCase("segoeui light")) {
