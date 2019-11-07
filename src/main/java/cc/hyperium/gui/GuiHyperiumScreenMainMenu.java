@@ -26,6 +26,7 @@ import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.client.gui.IMixinGuiMultiplayer;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
@@ -35,6 +36,7 @@ import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Random;
 
@@ -50,7 +52,11 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     private Random random = new Random();
     private int ticksUntilNewTip;
 
+    private HyperiumFontRenderer fontRenderer;
+
     public GuiHyperiumScreenMainMenu() {
+        fontRenderer = new HyperiumFontRenderer("Raleway", 64.0F);
+
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
             GuiHyperiumScreenMainMenu.FIRST_START = false;
             Minecraft.getMinecraft().toggleFullscreen();
@@ -131,10 +137,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             fontRendererObj.drawStringWithShadow(I18n.format("menu.profile.credits", credits), 3, 13, 0xFFFF00);
         }
 
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(4F, 4F, 1F);
-        drawCenteredString(fontRendererObj, Metadata.getModid(), width / 8, 40 / 4, -1);
-        GlStateManager.popMatrix();
+        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, 40 / 2F + 31, new Color(0, 0, 0, 150).getRGB());
+        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, 40 / 2F + 30, -1);
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         GuiButton hypixelButton = this.hypixelButton;

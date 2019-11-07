@@ -143,7 +143,7 @@ public class SplashProgress {
             return;
 
         // Declare the font to be used
-        if (sfr == null) sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
+        if (sfr == null) sfr = new HyperiumFontRenderer("Raleway", 20);
 
         // Get the users screen width and height to apply
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());

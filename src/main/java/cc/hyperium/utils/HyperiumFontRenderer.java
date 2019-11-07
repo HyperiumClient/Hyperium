@@ -96,6 +96,8 @@ public class HyperiumFontRenderer {
             return getFontFromInput("/assets/hyperium/fonts/Montserrat-Regular.ttf");
         } else if (name.equalsIgnoreCase("segoeui") || name.equalsIgnoreCase("segoeui light")) {
             return getFontFromInput("/assets/hyperium/fonts/SegoeUI-Light.ttf");
+        } else if (name.equalsIgnoreCase("raleway")) {
+            return getFontFromInput("/assets/hyperium/fonts/Raleway-SemiBold.ttf");
         } else {
             // Need to return the default font.
             return getFontFromInput("/assets/hyperium/fonts/SegoeUI-Light.ttf");
