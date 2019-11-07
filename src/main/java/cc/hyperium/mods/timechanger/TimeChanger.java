@@ -18,6 +18,7 @@
 package cc.hyperium.mods.timechanger;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
@@ -35,7 +36,10 @@ public class TimeChanger extends AbstractMod {
     private final Metadata metadata = new Metadata(this, "timechanger", "1.0", "fyu");
     private final Minecraft mc = Minecraft.getMinecraft();
 
+    @ConfigOpt
     private double fastTimeMultiplier = 1.0D;
+
+    @ConfigOpt
     private TimeType timeType = TimeType.VANILLA;
 
     public TimeChanger() {
@@ -51,6 +55,7 @@ public class TimeChanger extends AbstractMod {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandTimeChangerFastTime(this));
 
         EventBus.INSTANCE.register(this);
+        Hyperium.CONFIG.register(this);
 
         return this;
     }
