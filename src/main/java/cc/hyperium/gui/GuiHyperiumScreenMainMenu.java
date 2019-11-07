@@ -208,10 +208,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         }
     }
 
-    private int getRowPos(int rowNumber) {
-        return 55 + rowNumber * 23;
-    }
-
     @Override
     public void updateScreen() {
         super.updateScreen();
