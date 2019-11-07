@@ -22,13 +22,20 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LayerArmorBase.class)
 public abstract class MixinLayerArmorBase<T extends ModelBase> implements LayerRenderer<EntityLivingBase> {
+
+    @Shadow public abstract ItemStack getCurrentArmor(EntityLivingBase entitylivingbaseIn, int armorSlot);
 
     /**
      * @author asbyth
@@ -38,5 +45,19 @@ public abstract class MixinLayerArmorBase<T extends ModelBase> implements LayerR
     private void renderGlint(EntityLivingBase entitylivingbaseIn, T modelbaseIn, float p_177183_3_, float p_177183_4_,
                              float p_177183_5_, float p_177183_6_, float p_177183_7_, float p_177183_8_, float p_177183_9_, CallbackInfo ci) {
         if (Settings.DISABLE_ENCHANT_GLINT) ci.cancel();
+    }
+
+    @Inject(method = "renderLayer", at = @At("HEAD"), cancellable = true)
+    private void preRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177182_2_, float p_177182_3_, float partialTicks, float p_177182_5_,
+                                float p_177182_6_, float p_177182_7_, float scale, int armorSlot, CallbackInfo ci) {
+        ItemStack itemstack = this.getCurrentArmor(entitylivingbaseIn, armorSlot);
+
+        if (itemstack != null && itemstack.getItem() instanceof ItemArmor) {
+            Item item = itemstack.getItem();
+            if (Settings.HIDE_LEATHER_ARMOR &&
+                (item == Items.leather_boots || item == Items.leather_leggings || item == Items.leather_chestplate || item == Items.leather_helmet)) {
+                ci.cancel();
+            }
+        }
     }
 }

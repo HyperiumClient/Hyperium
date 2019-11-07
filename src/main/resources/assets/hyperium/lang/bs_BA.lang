@@ -207,6 +207,7 @@ gui.settings.entityradiustoggle=Hide Entities within a radius
 gui.settings.entityradius=Hidden Entity Radius
 gui.settings.hyperiumtips=Hyperium Tips
 gui.settings.disableendportals=Disable End Portals
+gui.settings.hideleatherarmor=Disable Leather Armor
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Početna igra...

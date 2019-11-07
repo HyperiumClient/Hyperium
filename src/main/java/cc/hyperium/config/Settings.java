@@ -498,6 +498,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.disableendportals", category = IMPROVEMENTS)
     public static boolean DISABLE_END_PORTALS;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.hideleatherarmor", category = HYPIXEL)
+    public static boolean HIDE_LEATHER_ARMOR;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

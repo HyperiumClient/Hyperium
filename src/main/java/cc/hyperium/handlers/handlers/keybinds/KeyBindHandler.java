@@ -68,6 +68,7 @@ public class KeyBindHandler {
         registerKeyBinding(new GuiDanceKeybind());
         registerKeyBinding(new UploadScreenshotKeybind());
         registerKeyBinding(new RearCamKeybind());
+        registerKeyBinding(new HideLeatherKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
         int bound = keybinds.size();
