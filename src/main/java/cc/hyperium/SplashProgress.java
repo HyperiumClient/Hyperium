@@ -171,7 +171,7 @@ public class SplashProgress {
         GlStateModifier.INSTANCE.reset();
 
         // Render the green progress bar
-        Gui.drawRect(0, sr.getScaledHeight() - 2, (int) calc, sr.getScaledHeight(), new Color(149, 201, 144).getRGB());
+        Gui.drawRect(0, sr.getScaledHeight() - 2, (int) calc, sr.getScaledHeight(), new Color(3, 169, 244).getRGB());
 
         // Render the bar base
         Gui.drawRect(0, sr.getScaledHeight() - 2, sr.getScaledWidth(), sr.getScaledHeight(), new Color(0, 0, 0, 10).getRGB());
