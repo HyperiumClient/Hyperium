@@ -39,7 +39,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinRenderGlobal {
 
     @Inject(method = "drawSelectionBox", at = @At("HEAD"), cancellable = true)
-    private void drawSelectionBox(EntityPlayer player, MovingObjectPosition movingObjectPositionIn, int p_72731_3_, float partialTicks, CallbackInfo info) {
+    private void drawSelectionBox(EntityPlayer player, MovingObjectPosition movingObjectPositionIn, int execute, float partialTicks, CallbackInfo info) {
         if (Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox) {
             Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = false;
             info.cancel();

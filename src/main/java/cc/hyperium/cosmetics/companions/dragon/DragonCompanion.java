@@ -38,6 +38,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DragonCompanion extends AbstractCosmetic {
@@ -119,7 +120,9 @@ public class DragonCompanion extends AbstractCosmetic {
     public void tick() {
         if (Minecraft.getMinecraft().theWorld == null) return;
 
-        dragonHashMap.forEach((player, customDragon) -> {
+        for (Map.Entry<EntityPlayer, CustomDragon> entry : dragonHashMap.entrySet()) {
+            EntityPlayer player = entry.getKey();
+            CustomDragon customDragon = entry.getValue();
             EntityDragon entityDragon = customDragon.dragon;
             AnimationState animationState = customDragon.animationState;
             if (entityDragon != null) {
@@ -157,8 +160,7 @@ public class DragonCompanion extends AbstractCosmetic {
                 entityDragon.rotationYaw = (float) angle;
                 entityDragon.onLivingUpdate();
             }
-        });
-
+        }
     }
 
     static class CustomDragon {
@@ -245,11 +247,9 @@ public class DragonCompanion extends AbstractCosmetic {
             double posY = player == null ? 0 : player.posY;
             double posZ = player == null ? 0 : player.posZ;
             double y = current.nextDouble(.5 + posY, posY + BOUNDS + (double) BOUNDS / 2D);
-            return new AnimationPoint(current.nextDouble(-BOUNDS + posX, BOUNDS + posX),
-                y,
+            return new AnimationPoint(current.nextDouble(-BOUNDS + posX, BOUNDS + posX), y,
                 current.nextDouble(-BOUNDS + posZ, BOUNDS + posZ));
         }
-
     }
 
 }

@@ -84,8 +84,13 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      * @reason Add concurrent
      */
     @Overwrite
-    public boolean add(T p_add_1_) {
-        knownKeys1.stream().filter(oclass -> oclass.isAssignableFrom(p_add_1_.getClass())).forEach(oclass -> addForClass(p_add_1_, oclass));
+    public boolean add(T clazz) {
+        for (Class<?> oclass : knownKeys1) {
+            if (oclass.isAssignableFrom(clazz.getClass())) {
+                addForClass(clazz, oclass);
+            }
+        }
+
         return true;
     }
 
@@ -111,8 +116,8 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      * @reason Add concurrent
      */
     @Overwrite
-    public boolean remove(Object p_remove_1_) {
-        T t = (T) p_remove_1_;
+    public boolean remove(Object object) {
+        T t = (T) object;
         boolean flag = false;
 
         for (Class<?> oclass : knownKeys1) {
@@ -131,8 +136,8 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      * @reason Add concurrent
      */
     @Overwrite
-    public boolean contains(Object p_contains_1_) {
-        return Iterators.contains(getByClass(p_contains_1_.getClass()).iterator(), p_contains_1_);
+    public boolean contains(Object object) {
+        return Iterators.contains(getByClass(object.getClass()).iterator(), object);
     }
 
     /**

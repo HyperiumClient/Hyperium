@@ -182,7 +182,7 @@ public class Hyperium {
 
             // Get the build id
             createBuildId();
-            System.out.println("[VERSION] Hyperium Build ID: " + BUILD_ID);
+            Hyperium.LOGGER.info("Hyperium Build ID: {}", BUILD_ID);
 
             // Check for if the user is in a developers environment
             checkForDevEnvironment();

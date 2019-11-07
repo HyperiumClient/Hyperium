@@ -55,12 +55,12 @@ public class HyperiumGuiNewChat {
         }
     }
 
-    public void drawChat(int p_146230_1_, List<ChatLine> field_146253_i, int scrollPos, boolean isScrolled, Minecraft mc) {
+    public void drawChat(int updateCounter, List<ChatLine> drawnChatLines, int scrollPos, boolean isScrolled, Minecraft mc) {
         if (mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN) {
             int i = parent.getLineCount();
             boolean flag = false;
             int j = 0;
-            int k = field_146253_i.size();
+            int k = drawnChatLines.size();
             float f = mc.gameSettings.chatOpacity * 0.9F + 0.1F;
 
             if (k > 0) {
@@ -72,11 +72,11 @@ public class HyperiumGuiNewChat {
                 GlStateManager.translate(2.0F, 20.0F, 0.0F);
                 GlStateManager.scale(f1, f1, 1.0F);
 
-                for (int i1 = 0; i1 + scrollPos < field_146253_i.size() && i1 < i; ++i1) {
-                    ChatLine chatline = field_146253_i.get(i1 + scrollPos);
+                for (int i1 = 0; i1 + scrollPos < drawnChatLines.size() && i1 < i; ++i1) {
+                    ChatLine chatline = drawnChatLines.get(i1 + scrollPos);
 
                     if (chatline != null) {
-                        int j1 = p_146230_1_ - chatline.getUpdatedCounter();
+                        int j1 = updateCounter - chatline.getUpdatedCounter();
 
                         if (j1 < 200 || flag) {
                             double d0 = (double) j1 / 200.0D;
@@ -127,7 +127,7 @@ public class HyperiumGuiNewChat {
         }
     }
 
-    public void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_, int scrollPos,
+    public void setChatLine(IChatComponent chatComponent, int chatLineId, int updateCounter, boolean displayOnly, int scrollPos,
                             boolean isScrolled, List<ChatLine> chatLineList, List<ChatLine> chatLines, Minecraft mc) {
         if (chatLineId != 0) {
             parent.deleteChatLine(chatLineId);
@@ -143,15 +143,15 @@ public class HyperiumGuiNewChat {
                 parent.scroll(1);
             }
 
-            chatLineList.add(0, new ChatLine(p_146237_3_, ichatcomponent, chatLineId));
+            chatLineList.add(0, new ChatLine(updateCounter, ichatcomponent, chatLineId));
         });
 
         while (chatLineList.size() > 500) {
             chatLineList.remove(chatLineList.size() - 1);
         }
 
-        if (!p_146237_4_) {
-            chatLines.add(0, new ChatLine(p_146237_3_, chatComponent, chatLineId));
+        if (!displayOnly) {
+            chatLines.add(0, new ChatLine(updateCounter, chatComponent, chatLineId));
 
             while (chatLines.size() > 500) {
                 chatLines.remove(chatLines.size() - 1);

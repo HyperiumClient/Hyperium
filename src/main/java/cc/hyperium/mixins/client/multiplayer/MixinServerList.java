@@ -44,8 +44,8 @@ public class MixinServerList {
      * @reason Prevent crash from NPE
      */
     @Overwrite
-    public static void func_147414_b(ServerData p_147414_0_) {
-        HyperiumServerList.func_147414_b(p_147414_0_);
+    public static void func_147414_b(ServerData serverData) {
+        HyperiumServerList.saveSingleServer(serverData);
     }
 
     /**
@@ -54,7 +54,7 @@ public class MixinServerList {
      */
     @Overwrite
     public void loadServerList() {
-        hyperiumServerList.loadServers(servers, logger, mc);
+        hyperiumServerList.loadServerList(servers, mc);
     }
 
     /**
@@ -63,7 +63,7 @@ public class MixinServerList {
      */
     @Overwrite
     public void saveServerList() {
-        hyperiumServerList.saveServerList(servers, logger, mc);
+        hyperiumServerList.saveServerList(servers, mc);
     }
 
     /**
@@ -71,8 +71,8 @@ public class MixinServerList {
      * @reason Prevent crash from NPE
      */
     @Overwrite
-    public ServerData getServerData(int p_78850_1_) {
-        return hyperiumServerList.getServerData(servers, p_78850_1_);
+    public ServerData getServerData(int index) {
+        return hyperiumServerList.getServerData(servers, index);
     }
 
     /**
@@ -80,8 +80,8 @@ public class MixinServerList {
      * @reason Prevent crash from NPE
      */
     @Overwrite
-    public void removeServerData(int p_78851_1_) {
-        hyperiumServerList.removeServerData(servers, p_78851_1_);
+    public void removeServerData(int index) {
+        hyperiumServerList.removeServerData(servers, index);
     }
 
     /**
@@ -89,8 +89,8 @@ public class MixinServerList {
      * @reason Prevent crash from NPE
      */
     @Overwrite
-    public void addServerData(ServerData p_78849_1_) {
-        hyperiumServerList.addServerData(servers, p_78849_1_);
+    public void addServerData(ServerData index) {
+        hyperiumServerList.addServerData(servers, index);
     }
 
     /**
@@ -107,8 +107,8 @@ public class MixinServerList {
      * @reason Prevent crash from NPE
      */
     @Overwrite
-    public void swapServers(int p_78857_1_, int p_78857_2_) {
-        hyperiumServerList.swapServers(servers, logger, mc, p_78857_1_, p_78857_2_);
+    public void swapServers(int pos1, int pos2) {
+        hyperiumServerList.swapServers(servers, mc, pos1, pos2);
     }
 
     /**
@@ -116,7 +116,7 @@ public class MixinServerList {
      * @reason Prevent crash from NPE
      */
     @Overwrite
-    public void func_147413_a(int p_147413_1_, ServerData p_147413_2_) {
-        hyperiumServerList.func_147413_a(servers, p_147413_1_, p_147413_2_);
+    public void func_147413_a(int index, ServerData server) {
+        hyperiumServerList.set(servers, index, server);
     }
 }

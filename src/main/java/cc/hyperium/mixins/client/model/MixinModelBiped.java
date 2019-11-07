@@ -108,11 +108,11 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
      * @param models The {@link ModelRenderer} parts you want to fix
      */
     void fixTopAndBottomOfLimbWrongTextures(ModelRenderer... models) {
-        Arrays.stream(models).forEach(model -> {
+        for (ModelRenderer model : models) {
             // We only need the first box since we know there only is one
             ModelBox box = model.cubeList.get(0);
             ((IMixinModelBox) box).offsetTextureQuad(model, 3, 0.0F, -6.0F);
-        });
+        }
     }
 
 

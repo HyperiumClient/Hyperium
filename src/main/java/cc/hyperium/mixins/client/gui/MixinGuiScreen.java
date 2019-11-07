@@ -50,13 +50,10 @@ public abstract class MixinGuiScreen {
     @Shadow protected abstract void setText(String newChatText, boolean shouldOverwrite);
     @Shadow protected abstract void actionPerformed(GuiButton button) throws IOException;
     @Shadow protected abstract void keyTyped(char typedChar, int keyCode) throws IOException;
+    @Shadow protected FontRenderer fontRendererObj;
+    @Shadow public int width;
+    @Shadow public int height;
 
-    @Shadow
-    protected FontRenderer fontRendererObj;
-    @Shadow
-    public int width;
-    @Shadow
-    public int height;
     private HyperiumGuiScreen hyperiumGuiScreen = new HyperiumGuiScreen((GuiScreen) (Object) this);
 
     /**

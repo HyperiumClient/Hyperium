@@ -61,8 +61,8 @@ public abstract class MixinGuiNewChat {
      * @reason Draws minecraft chat
      */
     @Overwrite
-    public void drawChat(int p_146230_1_) {
-        hyperiumGuiNewChat.drawChat(p_146230_1_, drawnChatLines, scrollPos, isScrolled, mc);
+    public void drawChat(int updateCounter) {
+        hyperiumGuiNewChat.drawChat(updateCounter, drawnChatLines, scrollPos, isScrolled, mc);
     }
 
 

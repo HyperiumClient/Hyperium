@@ -31,8 +31,8 @@ public class MixinLayerCape {
     private HyperiumLayerCape hyperiumLayerCape = new HyperiumLayerCape();
 
     @Inject(method = "doRenderLayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ModelPlayer;renderCape(F)V", ordinal = 0))
-    private void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks,
-                               float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale, CallbackInfo ci) {
+    private void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks,
+                               float ageInTicks, float netHeadYaw, float headPitch, float scale, CallbackInfo ci) {
         hyperiumLayerCape.doRenderLayer(entitylivingbaseIn);
     }
 }

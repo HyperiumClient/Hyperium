@@ -121,13 +121,13 @@ public abstract class MixinWorld {
      */
     @Overwrite
     public void loadEntities(Collection<Entity> entityCollection) {
-        entityCollection.forEach(entity -> {
+        for (Entity entity : entityCollection) {
             EntityJoinWorldEvent event = new EntityJoinWorldEvent((World) (Object) this, entity);
             EventBus.INSTANCE.post(event);
             if (!event.isCancelled()) {
                 loadedEntityList.add(entity);
                 onEntityAdded(entity);
             }
-        });
+        }
     }
 }

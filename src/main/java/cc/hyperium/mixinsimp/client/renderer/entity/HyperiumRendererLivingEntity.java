@@ -45,20 +45,19 @@ public class HyperiumRendererLivingEntity<T extends EntityLivingBase> {
         parent = rendererLivingEntity;
     }
 
-    public void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_,
-                             float partialTicks, float p_177093_5_, float p_177093_6_,
-                             float p_177093_7_, float p_177093_8_, List<LayerRenderer<T>> layerRenderers) {
+    public void renderLayers(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks,
+                             float netHeadYaw, float headPitch, float scale, List<LayerRenderer<T>> layerRenderers) {
         for (LayerRenderer<T> layerrenderer : layerRenderers) {
             boolean f = layerrenderer.shouldCombineTextures();
             if (Settings.OLD_ARMOUR) f = true;
             boolean flag = ((IMixinRendererLivingEntity<T>) parent).callSetBrightness(entitylivingbaseIn, partialTicks, f);
-            layerrenderer.doRenderLayer(entitylivingbaseIn, p_177093_2_, p_177093_3_, partialTicks, p_177093_5_, p_177093_6_, p_177093_7_, p_177093_8_);
+            layerrenderer.doRenderLayer(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
             if (flag) ((IMixinRendererLivingEntity) parent).callUnsetBrightness();
         }
     }
 
-    public void rotateCorpse(T bat, float p_77043_3_, float partialTicks) {
-        GlStateManager.rotate(180.0F - p_77043_3_, 0.0F, 1.0F, 0.0F);
+    public void rotateCorpse(T bat, float rotation, float partialTicks) {
+        GlStateManager.rotate(180.0F - rotation, 0.0F, 1.0F, 0.0F);
 
         if (bat.deathTime > 0) {
             float f = ((float) bat.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;

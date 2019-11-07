@@ -38,7 +38,7 @@ public class MixinLayerHeldItem {
      * @reason Adds compatibility for the 1.7 blocking animation
      */
     @Overwrite
-    public void doRenderLayer(EntityLivingBase entity, float f, float f2, float f3, float partialTicks, float f4, float f5, float scale) {
+    public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         oldBlocking.doRenderLayer(entity, livingEntityRenderer);
     }
 }

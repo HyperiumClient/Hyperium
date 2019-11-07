@@ -42,14 +42,14 @@ public abstract class MixinLayerArmorBase<T extends ModelBase> implements LayerR
      * @reason Disable Enchantment Glint on worn Armor pieces
      */
     @Inject(method = "renderGlint", at = @At("HEAD"), cancellable = true)
-    private void renderGlint(EntityLivingBase entitylivingbaseIn, T modelbaseIn, float p_177183_3_, float p_177183_4_,
-                             float p_177183_5_, float p_177183_6_, float p_177183_7_, float p_177183_8_, float p_177183_9_, CallbackInfo ci) {
+    private void renderGlint(EntityLivingBase entitylivingbaseIn, T modelbaseIn, float limbSwing, float limbSwingAmount,
+                             float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale, CallbackInfo ci) {
         if (Settings.DISABLE_ENCHANT_GLINT) ci.cancel();
     }
 
     @Inject(method = "renderLayer", at = @At("HEAD"), cancellable = true)
-    private void preRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177182_2_, float p_177182_3_, float partialTicks, float p_177182_5_,
-                                float p_177182_6_, float p_177182_7_, float scale, int armorSlot, CallbackInfo ci) {
+    private void preRenderLayer(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks,
+                                float netHeadYaw, float headPitch, float scale, int armorSlot, CallbackInfo ci) {
         ItemStack itemstack = this.getCurrentArmor(entitylivingbaseIn, armorSlot);
 
         if (itemstack != null && itemstack.getItem() instanceof ItemArmor) {

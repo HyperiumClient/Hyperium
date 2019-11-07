@@ -78,8 +78,8 @@ public abstract class MixinGuiIngame extends Gui {
     }
 
     @Inject(method = "renderSelectedItem", at = @At(value = "RETURN", target = "Lnet/minecraft/client/renderer/GlStateManager;popMatrix()V"))
-    private void onRenderSelectedItem(ScaledResolution p_181551_1_, CallbackInfo ci) {
-        hyperiumGuiIngame.renderSelectedItem(p_181551_1_);
+    private void onRenderSelectedItem(ScaledResolution resolution, CallbackInfo ci) {
+        hyperiumGuiIngame.renderSelectedItem(resolution);
     }
 
     /**
@@ -87,7 +87,7 @@ public abstract class MixinGuiIngame extends Gui {
      * @reason Add 1.7 health
      */
     @Overwrite
-    private void renderPlayerStats(ScaledResolution p_180477_1_) {
+    private void renderPlayerStats(ScaledResolution resolution) {
         if (mc.getRenderViewEntity() instanceof EntityPlayer) {
             EntityPlayer entityplayer = (EntityPlayer) mc.getRenderViewEntity();
             int currentHealth = MathHelper.ceiling_float_int(entityplayer.getHealth());
@@ -115,9 +115,9 @@ public abstract class MixinGuiIngame extends Gui {
             int foodLevel = foodstats.getFoodLevel();
             int prevFoodLevel = foodstats.getPrevFoodLevel();
             IAttributeInstance iattributeinstance = entityplayer.getEntityAttribute(SharedMonsterAttributes.maxHealth);
-            int widthLeft = p_180477_1_.getScaledWidth() / 2 - 91;
-            int widthRight = p_180477_1_.getScaledWidth() / 2 + 91;
-            int height = p_180477_1_.getScaledHeight() - 39;
+            int widthLeft = resolution.getScaledWidth() / 2 - 91;
+            int widthRight = resolution.getScaledWidth() / 2 + 91;
+            int height = resolution.getScaledHeight() - 39;
             float attributeValue = (float) iattributeinstance.getAttributeValue();
             float absorptionAmount = entityplayer.getAbsorptionAmount();
             int extraHealth = MathHelper.ceiling_float_int((attributeValue + absorptionAmount) / 2.0F / 10.0F);

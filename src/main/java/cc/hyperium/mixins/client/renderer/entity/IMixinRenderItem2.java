@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 /**
- * Mixins is incredibly dumb and doesn't allow you alias a method
+ * Mixins is incredibly dumb and doesn't allow you to alias a method
  * So you can't pair two methods with different parameters into the same class
  * so you need to create a new one, hence why this exist :-)
  */
