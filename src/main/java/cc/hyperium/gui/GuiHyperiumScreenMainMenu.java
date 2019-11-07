@@ -88,18 +88,19 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
      * @author Cubxity
      */
     public void initGui() {
-        int center = width / 2;
+        int centerX = width / 2;
+        int centerY = height / 2;
         widthCredits = fontRendererObj.getStringWidth(createdByTeam);
         widthCreditsRest = width - widthCredits - 2;
 
-        buttonList.add(new GuiButton(0, center - 100, getRowPos(2), I18n.format("menu.singleplayer")));
-        buttonList.add(new GuiButton(1, center - 100, getRowPos(3), I18n.format("menu.multiplayer")));
-        buttonList.add(hypixelButton = new GuiButton(2, center - 100, getRowPos(4), I18n.format("button.ingame.joinhypixel")));
-        buttonList.add(new GuiButton(3, center - 100, getRowPos(5), I18n.format("button.ingame.hyperiumsettings")));
-        buttonList.add(new GuiButton(4, center - 100, getRowPos(6), 98, 20, I18n.format("menu.options")));
-        buttonList.add(new GuiButton(5, center + 2, getRowPos(6), 98, 20, I18n.format("menu.quit")));
-        buttonList.add(new GuiButton(6, center - 100, getRowPos(7), 98, 20, I18n.format("button.menu.cosmeticshop")));
-        buttonList.add(new GuiButton(7, center + 2, getRowPos(7), 98, 20, I18n.format("button.menu.changebackground")));
+        buttonList.add(new GuiButton(0, centerX - 100, centerY - 60, I18n.format("menu.singleplayer")));
+        buttonList.add(new GuiButton(1, centerX - 100, centerY - 38, I18n.format("menu.multiplayer")));
+        buttonList.add(hypixelButton = new GuiButton(2, centerX - 100, centerY - 16, I18n.format("button.ingame.joinhypixel")));
+        buttonList.add(new GuiButton(3, centerX - 100, centerY + 6, I18n.format("button.ingame.hyperiumsettings")));
+        buttonList.add(new GuiButton(4, centerX - 100, centerY + 28, 98, 20, I18n.format("menu.options")));
+        buttonList.add(new GuiButton(5, centerX + 2, centerY + 28, 98, 20, I18n.format("menu.quit")));
+        buttonList.add(new GuiButton(6, centerX - 100, centerY + 50, 98, 20, I18n.format("button.menu.cosmeticshop")));
+        buttonList.add(new GuiButton(7, centerX + 2, centerY + 50, 98, 20, I18n.format("button.menu.changebackground")));
     }
 
     /**
@@ -121,7 +122,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         if (Settings.HYPERIUM_TIPS && !tipRegistry.getTips().isEmpty()) {
             fontRendererObj.drawSplitString(ChatColor.YELLOW + I18n.format(selectedTip), width / 2 - 200 / 2,
-                getRowPos(8), 196, -1);
+                height / 2 + 72, 196, -1);
         }
 
         // yoinked from 1.12
@@ -137,8 +138,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             fontRendererObj.drawStringWithShadow(I18n.format("menu.profile.credits", credits), 3, 13, 0xFFFF00);
         }
 
-        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, 40 / 2F + 31, new Color(0, 0, 0, 150).getRGB());
-        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, 40 / 2F + 30, -1);
+        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 107, new Color(0, 0, 0, 150).getRGB());
+        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 108, -1);
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         GuiButton hypixelButton = this.hypixelButton;
