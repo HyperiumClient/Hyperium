@@ -26,6 +26,7 @@ import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.network.LoginReplyHandler;
+import cc.hyperium.utils.ChatColor;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ObjectArrays;
 import io.netty.buffer.Unpooled;
@@ -231,13 +232,12 @@ public abstract class MixinNetHandlerPlayClient {
 
             url = URLDecoder.decode(url.substring("level://".length()), StandardCharsets.UTF_8.toString());
             if (isLevelProtocol && (url.contains("..") || !url.endsWith("/resources.zip"))) {
-                System.out.println("[Resource Exploit Fix Warning] Malicious server tried to access " + url);
+                Hyperium.LOGGER.warn("[Resource Exploit Fix Warning] Malicious server tried to access {}", url);
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
 
                 if (thePlayer != null) {
-                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
-                        .sendMessage(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() +
-                            "[EXPLOIT FIX WARNING] The current server has attempted to be malicious but we have stopped them!");
+                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.RED + ChatColor.BOLD.toString() +
+                        "[EXPLOIT FIX WARNING] The current server has attempted to be malicious but we have stopped them!");
                 }
 
                 throw new URISyntaxException(url, "Invalid levelstorage resourcepack path");

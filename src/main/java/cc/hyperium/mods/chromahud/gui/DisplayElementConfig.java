@@ -331,7 +331,6 @@ public class DisplayElementConfig extends GuiScreen {
                         lastX = mouseX;
                         lastY = mouseY;
                     } else if (x > 256 + 15 && x < 256 + 15 + 15) {
-                        System.out.println(y);
                         brightness = (int) y;
                         regenImage();
                     }

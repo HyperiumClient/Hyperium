@@ -33,7 +33,6 @@ public class GuildChatHandler extends HyperiumChatHandler {
 
             String playerName = String.valueOf(text.subSequence(rankHeader, text.length() - playerJoinEndStr.length())).trim();
             String message = "/gc Welcome to the guild " + playerName + "!";
-            System.out.println(message);
 
             Minecraft.getMinecraft().thePlayer.sendChatMessage(message);
         }

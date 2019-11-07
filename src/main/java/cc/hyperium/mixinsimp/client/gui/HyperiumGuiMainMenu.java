@@ -40,7 +40,7 @@ public class HyperiumGuiMainMenu {
 
     public void drawScreen() {
         if (!Hyperium.INSTANCE.isAcceptedTos()) {
-            System.out.println("Hasn't accepted! Redirecting them!");
+            Hyperium.LOGGER.info("Hasn't accepted! Redirecting them!");
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumScreenTos());
         } else Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty() ||
             !AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty() ? new GuiAddonError() : new GuiHyperiumScreenMainMenu());

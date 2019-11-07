@@ -152,7 +152,7 @@ public class Levelhead extends AbstractMod {
     }
 
     private String rawWithAgent(String url) {
-        System.out.println("Fetching " + url);
+        Hyperium.LOGGER.debug("Fetching " + url);
 
         try {
             URL u = new URL(url);

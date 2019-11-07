@@ -17,6 +17,7 @@
 
 package cc.hyperium.event;
 
+import cc.hyperium.Hyperium;
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.ClassWriter;
@@ -64,7 +65,7 @@ public final class EventSubscriber {
         try {
             handler = (EventHandler) createHandler(method).getConstructor(Object.class).newInstance(instance);
         } catch (Exception e) {
-            System.out.println("Failed to register event handler " + method);
+            Hyperium.LOGGER.error("Failed to register event handler {}", method);
             e.printStackTrace();
         }
     }

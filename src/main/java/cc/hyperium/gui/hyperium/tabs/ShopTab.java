@@ -119,7 +119,7 @@ public class ShopTab extends AbstractTab {
                     return;
                 }
 
-                System.out.println("Attempting to purchase " + key);
+                Hyperium.LOGGER.info("Attempting to purchase {}", key);
                 NettyClient client = NettyClient.getClient();
                 if (client != null) {
                     client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", key)));

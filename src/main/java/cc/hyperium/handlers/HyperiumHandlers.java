@@ -91,7 +91,7 @@ public class HyperiumHandlers {
     private UpdateChecker updateChecker;
 
     public HyperiumHandlers() {
-        System.out.println("[Handlers] Loading handlers");
+        Hyperium.LOGGER.info("Loading handlers");
         register(network = new HyperiumNetwork());
         settingsHandler = new SettingsHandler();
         chatHandlers = new ArrayList<>();

@@ -130,8 +130,7 @@ public class HyperiumGuiPlayerTabOverlay {
         ((IMixinGui) parent).setZLevel(zLevel - 100.0F);
     }
 
-    public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn, Ordering<NetworkPlayerInfo> field_175252_a,
-                                 IChatComponent header, IChatComponent footer, Minecraft mc) {
+    public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn, Ordering<NetworkPlayerInfo> field_175252_a, IChatComponent header, IChatComponent footer, Minecraft mc) {
         NetHandlerPlayClient nethandlerplayclient = mc.thePlayer.sendQueue;
         List<NetworkPlayerInfo> list = field_175252_a.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
         int i = 0;
@@ -149,8 +148,7 @@ public class HyperiumGuiPlayerTabOverlay {
             i = Math.max(i, k);
 
             if (scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
-                k = mc.fontRendererObj.getStringWidth(" " + scoreboardIn.getValueFromObjective(networkplayerinfo.getGameProfile().getName(),
-                    scoreObjectiveIn).getScorePoints());
+                k = mc.fontRendererObj.getStringWidth(" " + scoreboardIn.getValueFromObjective(networkplayerinfo.getGameProfile().getName(), scoreObjectiveIn).getScorePoints());
                 j = Math.max(j, k);
             }
         }
@@ -161,12 +159,12 @@ public class HyperiumGuiPlayerTabOverlay {
             ConcurrentLinkedDeque<NetworkPlayerInfo> friends = new ConcurrentLinkedDeque<>();
             List<UUID> friendUUIDList = HypixelAPI.INSTANCE.getListOfCurrentUsersFriends();
 
-            list.forEach(networkPlayerInfo -> {
+            for (NetworkPlayerInfo networkPlayerInfo : list) {
                 UUID id = networkPlayerInfo.getGameProfile().getId();
                 if (friendUUIDList.contains(id)) {
                     friends.add(networkPlayerInfo);
                 }
-            });
+            }
 
             list.removeAll(friends);
             friends.addAll(list);
@@ -250,8 +248,8 @@ public class HyperiumGuiPlayerTabOverlay {
 
                 if (flag) {
                     EntityPlayer entityplayer = mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
-                    boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && (gameprofile.getName().equals("Dinnerbone") ||
-                        gameprofile.getName().equals("Grumm"));
+                    boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) &&
+                        (gameprofile.getName().equals("Dinnerbone") || gameprofile.getName().equals("Grumm"));
                     mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
                     int l2 = 8 + (flag1 ? 8 : 0);
                     int i3 = 8 * (flag1 ? -1 : 1);
@@ -271,13 +269,7 @@ public class HyperiumGuiPlayerTabOverlay {
                 if (Settings.SHOW_ONLINE_PLAYERS) {
                     String s = "⚫";
 
-                    boolean online;
-
-                    if (mc.getSession().getProfile().getId() == gameprofile.getId()) {
-                        online = true;
-                    } else {
-                        online = Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
-                    }
+                    boolean online = mc.getSession().getProfile().getId() == gameprofile.getId() || Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
 
                     if (StaffUtils.isStaff(gameprofile.getId())) {
                         StaffUtils.DotColour colour = StaffUtils.getColor(gameprofile.getId());

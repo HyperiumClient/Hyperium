@@ -420,7 +420,7 @@ public class Hyperium {
                     }
                 }
             } else {
-                System.out.println("[Chat Handler] chat.txt not found, not restoring chat");
+                Hyperium.LOGGER.debug("chat.txt not found, not restoring chat");
             }
         });
     }

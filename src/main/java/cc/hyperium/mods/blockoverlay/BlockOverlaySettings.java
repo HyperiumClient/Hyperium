@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.blockoverlay;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.utils.BetterJsonObject;
 
 import java.io.BufferedReader;
@@ -69,7 +70,7 @@ public class BlockOverlaySettings {
                 chromaSpeed = json.optInt("chromaSpeed");
             }
         } catch (Exception exception) {
-            System.out.println("[BlockOverlay] Error occurred while loading configuration!");
+            Hyperium.LOGGER.error("Error occurred while loading BlockOverlay configuration!");
         }
     }
 
@@ -94,7 +95,7 @@ public class BlockOverlaySettings {
             json.addProperty("chromaSpeed", chromaSpeed);
             json.writeToFile(configFile);
         } catch (Exception exception) {
-            System.out.println("[BlockOverlay] Error occurred while saving configuration!");
+            Hyperium.LOGGER.error("Error occurred while saving BlockOverlay configuration!");
         }
     }
 

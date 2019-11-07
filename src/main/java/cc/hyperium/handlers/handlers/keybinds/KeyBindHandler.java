@@ -37,12 +37,12 @@ public class KeyBindHandler {
     public final HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
-            System.out.println("debug keybind pressed");
+            Hyperium.LOGGER.debug("debug keybind pressed");
         }
 
         @Override
         public void onRelease() {
-            System.out.println("debug keybind released");
+            Hyperium.LOGGER.debug("debug keybind released");
         }
     };
 

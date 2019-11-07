@@ -91,7 +91,7 @@ public class Sk1erMod {
     }
 
     public String rawWithAgent(String url) {
-        System.out.println("[Sk1erMod] Fetching " + url);
+        Hyperium.LOGGER.info("[Sk1erMod] Fetching " + url);
         if (!Hyperium.INSTANCE.isAcceptedTos()) {
             return new JsonHolder().put("success", false).put("cause", "TOS_NOT_ACCEPTED").toString();
         }

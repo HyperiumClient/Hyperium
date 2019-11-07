@@ -17,6 +17,7 @@
 
 package cc.hyperium.purchases;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.network.PurchaseLoadEvent;
@@ -58,10 +59,11 @@ public class PurchaseApi {
     private PurchaseApi() {
         register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
 
-        //todo: causes deadlock, threads freeze, check out sometime
-        Arrays.stream(EnumPurchaseType.values()).forEach(enumPurchaseType -> purchaseClasses.putIfAbsent(enumPurchaseType, DefaultCosmetic.class));
+        for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
+            purchaseClasses.putIfAbsent(enumPurchaseType, DefaultCosmetic.class);
+        }
 
-        getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
+        getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> Hyperium.LOGGER.info("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
         Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));
         getSelf();
     }

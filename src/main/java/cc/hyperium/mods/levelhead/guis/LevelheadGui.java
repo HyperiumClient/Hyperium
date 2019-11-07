@@ -76,7 +76,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
 
         Multithreading.runAsync(() -> {
             String raw = Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelhead/" + uuid.toString().replace("-", ""));
-            System.out.println(raw);
+            Hyperium.LOGGER.debug(raw);
             isCustom = new JsonHolder(raw).optBoolean("custom");
         });
 
@@ -713,7 +713,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
     private void attemptPurchase(String key) {
         Levelhead instance = Levelhead.getInstance();
         LevelheadJsonHolder paidData = instance.getPaidData();
-        System.out.println(paidData);
+        Hyperium.LOGGER.debug(paidData);
         LevelheadJsonHolder extraDisplays = paidData.optJsonObject("extra_displays");
         LevelheadJsonHolder stats = paidData.optJsonObject("stats");
         boolean found;

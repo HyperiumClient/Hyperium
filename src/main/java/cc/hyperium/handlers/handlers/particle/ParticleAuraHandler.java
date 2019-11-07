@@ -78,7 +78,6 @@ public class ParticleAuraHandler {
 
         if (!purchase.hasPurchased("PARTICLE_" + type.name()) || !purchase.hasPurchased(
             "ANIMATION_" + (particle_animation1.toUpperCase().replace(" ", "_")))) {
-            System.out.println("cancel");
             return;
         }
 

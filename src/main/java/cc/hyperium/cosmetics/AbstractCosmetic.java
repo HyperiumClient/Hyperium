@@ -26,6 +26,7 @@ import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.UUIDUtil;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,7 +47,7 @@ public abstract class AbstractCosmetic {
         try {
             PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
                 if (hyperiumPurchase == null && !Hyperium.INSTANCE.isDevEnv) {
-                    System.out.println("[Cosmetics] Detected " + this.purchaseType.toString().toLowerCase() + " is null!");
+                    Hyperium.LOGGER.error("Detected {} is null!", purchaseType.toString().toLowerCase(Locale.ENGLISH));
                     return;
                 }
                 selfUnlocked = hyperiumPurchase.hasPurchased(purchaseType);

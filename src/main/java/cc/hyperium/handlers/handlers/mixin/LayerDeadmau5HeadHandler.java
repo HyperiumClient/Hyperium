@@ -111,7 +111,7 @@ public class LayerDeadmau5HeadHandler {
                         playerRenderer.getMainModel().renderDeadmau5Head(0.0625F);
                         g++;
                     } catch (Exception e) {
-                        System.out.println("[Deadmau5Handler] Failed to render deadmau5 at g " + g);
+                        Hyperium.LOGGER.error("Failed to render deadmau5 at g " + g);
                         e.printStackTrace();
                     } finally {
                         GlStateManager.popMatrix();
@@ -123,7 +123,7 @@ public class LayerDeadmau5HeadHandler {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("[Deadmau5Handler] Failed to render Deadmau5 at point " + k);
+            Hyperium.LOGGER.error("Failed to render Deadmau5 at point " + k);
         }
     }
 }

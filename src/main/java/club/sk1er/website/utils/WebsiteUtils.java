@@ -1,5 +1,6 @@
 package club.sk1er.website.utils;
 
+import cc.hyperium.Hyperium;
 import com.google.gson.JsonObject;
 
 import java.text.DecimalFormat;
@@ -154,9 +155,11 @@ public class WebsiteUtils {
             "        handler.write(strongBr(\"Final Deaths: \", bedwars.optInt(\"final_deaths_bedwars\")));\n" +
             "        handler.write(strongBr(\"Final K/D: \", getUtils().buildRatio(bedwars.optInt(\"final_kills_bedwars\"), bedwars.optInt(\"final_deaths_bedwars\"))));\n" +
             "        handler.write(strongBr(\"Final Kill / Normal deaths: \", getUtils().buildRatio(bedwars.optInt(\"final_kills_bedwars\"), bedwars.optInt(\"deaths_bedwars\"))));\n";
-        Arrays.stream(in.split("\n")).map(s -> s.replace("handler.write(",
-            "items.add(new DisplayLine(").replace(";", ");").replace("strongBr", "bold")
-            .replace("<br>", "")).forEach(System.out::println);
+        for (String s : in.split("\n")) {
+            s = s.replace("handler.write(",
+                "items.add(new DisplayLine(").replace(";", ");").replace("strongBr", "bold").replace("<br>", "");
+            Hyperium.LOGGER.debug(s);
+        }
     }
 
     public static double getBedwarsLevel(double exp) {

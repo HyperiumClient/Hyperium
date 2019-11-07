@@ -17,6 +17,7 @@
 
 package cc.hyperium.gui.hyperium.components;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -53,7 +54,7 @@ public class ToggleComponent extends AbstractTabComponent {
     }
 
     private boolean getStateFromField() {
-        if (field == null) System.out.println(label);
+        if (field == null) Hyperium.LOGGER.error(label);
         try {
             return field.getBoolean(parentObj);
         } catch (IllegalAccessException e) {

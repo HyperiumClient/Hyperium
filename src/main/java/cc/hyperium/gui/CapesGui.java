@@ -315,7 +315,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                         GuiBlock block = new GuiBlock(left, left + stringWidth, i, i + 10);
 
                         actions.put(block, () -> {
-                            System.out.println("Attempting to purchase " + s);
+                            Hyperium.LOGGER.debug("Attempting to purchase " + s);
                             purchasing = true;
                             Integer integer = intMap.computeIfAbsent(s, s3 -> ++purchaseIds);
                             GuiYesNo gui = new GuiYesNo(this, "Purchase " + s, "", integer);
