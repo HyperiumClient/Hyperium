@@ -17,7 +17,6 @@
 
 package cc.hyperium;
 
-import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -28,8 +27,7 @@ import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 public class SplashProgress {
 
@@ -110,9 +108,6 @@ public class SplashProgress {
         // Bind the texture
         tm.bindTexture(splash);
 
-        // Reset colors
-        GlStateManager.resetColor();
-        GlStateModifier.INSTANCE.reset();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         // Draw the image
@@ -157,10 +152,6 @@ public class SplashProgress {
         // Draw the transparent bar before the green bar
         Gui.drawRect(0, sr.getScaledHeight() - 35, sr.getScaledWidth(), sr.getScaledHeight(), new Color(0, 0, 0, 50).getRGB());
 
-        // Reset color
-        GlStateManager.resetColor();
-        GlStateModifier.INSTANCE.reset();
-
         // Draw the current splash text
         raleway.drawString(CURRENT, 20, sr.getScaledHeight() - 25, 0xffffffff);
 
@@ -168,11 +159,7 @@ public class SplashProgress {
         String s = PROGRESS + "/" + DEFAULT_MAX;
         roboto.drawString(s, sr.getScaledWidth() - 20 - roboto.getWidth(s), sr.getScaledHeight() - 25, 0xe1e1e1ff);
 
-        // Reset color again
-        GlStateManager.resetColor();
-        GlStateModifier.INSTANCE.reset();
-
-        // Render the green progress bar
+        // Render the blue progress bar
         Gui.drawRect(0, sr.getScaledHeight() - 2, (int) calc, sr.getScaledHeight(), new Color(3, 169, 244).getRGB());
 
         // Render the bar base
