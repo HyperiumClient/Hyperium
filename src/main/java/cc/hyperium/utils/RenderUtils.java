@@ -28,32 +28,37 @@ import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
 
 public class RenderUtils {
 
-    public static void drawFilledCircle(int xx, int yy, float radius, int col) {
-        float f = (col >> 24 & 0xFF) / 255.0F;
-        float f2 = (col >> 16 & 0xFF) / 255.0F;
-        float f3 = (col >> 8 & 0xFF) / 255.0F;
-        float f4 = (col & 0xFF) / 255.0F;
+    public static void drawFilledCircle(int x, int y, float radius, int color) {
+        GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
-        GL11.glBegin(6);
+        GlStateManager.disableTexture2D();
+
+        GL11.glBegin(GL11.GL_TRIANGLE_FAN);
 
         for (int i = 0; i < 50; i++) {
-            float x = radius * MathHelper.sin((float) (i * 0.12566370614359174D));
-            float y = radius * MathHelper.cos((float) (i * 0.12566370614359174D));
-            GlStateManager.color(f2, f3, f4, f);
-            GL11.glVertex2f(xx + x, yy + y);
+            float px = x + radius * MathHelper.sin((float) (i * (6.28318530718 / 50)));
+            float py = y + radius * MathHelper.cos((float) (i * (6.28318530718 / 50)));
+
+            float alpha = (color >> 24 & 255) / 255.0F;
+            float red = (color >> 16 & 255) / 255.0F;
+            float green = (color >> 8 & 255) / 255.0F;
+            float blue = (color & 255) / 255.0F;
+            GL11.glColor4f(red, green, blue, alpha);
+
+            GL11.glVertex2d(px, py);
         }
 
         GL11.glEnd();
+
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.popAttrib();
         GlStateManager.popMatrix();
+        GlStateManager.bindTexture(0);
+        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     public static void drawCircle(int xx, int yy, int radius, int col) {
