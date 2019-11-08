@@ -41,6 +41,7 @@ import cc.hyperium.internal.MemoryHelper;
 import cc.hyperium.internal.UpdateChecker;
 import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
+import cc.hyperium.utils.MouseListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -87,8 +88,8 @@ public class HyperiumHandlers {
     private ThankWatchdog thankWatchdog;
     private MemoryHelper memoryHelper;
     private MinigameListener minigameListener;
-
     private UpdateChecker updateChecker;
+    private MouseListener mouseListener;
 
     public HyperiumHandlers() {
         Hyperium.LOGGER.info("Loading handlers");
@@ -123,6 +124,7 @@ public class HyperiumHandlers {
         register(memoryHelper = new MemoryHelper());
         register(minigameListener = new MinigameListener());
         register(updateChecker = new UpdateChecker());
+        register(mouseListener = new MouseListener());
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
         // Chat Handlers
@@ -272,4 +274,7 @@ public class HyperiumHandlers {
         return minigameListener;
     }
     private UpdateChecker getUpdateChecker() { return updateChecker; }
+    public MouseListener getMouseListener() {
+        return mouseListener;
+    }
 }
