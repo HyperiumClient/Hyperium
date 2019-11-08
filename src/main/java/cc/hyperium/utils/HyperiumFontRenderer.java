@@ -166,7 +166,7 @@ public class HyperiumFontRenderer {
 
             if (c != '\247' && (index == 0 || index == characters.length - 1 || characters[index - 1] != '\247')) {
                 unicodeFont.drawString(x, y, Character.toString(c), new org.newdawn.slick.Color(currentColor));
-                x += (getWidth(Character.toString(c)) * antiAliasingFactor);
+                x += unicodeFont.getWidth(Character.toString(c));
             } else if (c == ' ') {
                 x += unicodeFont.getSpaceWidth();
             } else if (c == '\247' && index != characters.length - 1) {
