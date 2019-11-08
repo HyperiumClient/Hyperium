@@ -33,10 +33,10 @@ public class RenderUtils {
         float f2 = (col >> 16 & 0xFF) / 255.0F;
         float f3 = (col >> 8 & 0xFF) / 255.0F;
         float f4 = (col & 0xFF) / 255.0F;
-        GL11.glPushMatrix();
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
         GL11.glBegin(6);
@@ -49,11 +49,11 @@ public class RenderUtils {
         }
 
         GL11.glEnd();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 
     public static void drawCircle(int xx, int yy, int radius, int col) {
@@ -165,22 +165,22 @@ public class RenderUtils {
         float blue = (float) (colour & 0xFF) / 255F;
         float alpha = (float) (colour >> 24 & 0xFF) / 255F;
 
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
 
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
         GlStateManager.color(red, green, blue, alpha);
         GL11.glLineWidth(width);
         GL11.glBegin(GL11.GL_LINE_STRIP);
         GL11.glVertex2f(x, y);
         GL11.glVertex2f(x1, y1);
         GL11.glEnd();
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
     }
 
@@ -196,11 +196,11 @@ public class RenderUtils {
         Gui.drawRect(left - circleSize, top + i, left, bottom - i, color);
         Gui.drawRect(right, top + i, right + circleSize, bottom - i, color);
 
-        RenderUtils.drawFilledCircle(left, top + circleSize, circleSize, color);
-        RenderUtils.drawFilledCircle(left, bottom - circleSize, circleSize, color);
+        drawFilledCircle(left, top + circleSize, circleSize, color);
+        drawFilledCircle(left, bottom - circleSize, circleSize, color);
 
-        RenderUtils.drawFilledCircle(right, top + circleSize, circleSize, color);
-        RenderUtils.drawFilledCircle(right, bottom - circleSize, circleSize, color);
+        drawFilledCircle(right, top + circleSize, circleSize, color);
+        drawFilledCircle(right, bottom - circleSize, circleSize, color);
 
     }
 

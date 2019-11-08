@@ -1,0 +1,13 @@
+<Configuration>
+    <Appenders>
+        <Console name="Console">
+            <PatternLayout
+                    pattern="%cyan{%d{HH:mm:ss.SSS}} | %blue{%thread} %style{%highlight{%-5level}}{bright} %-20.20logger{1.} %cyan{>} %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

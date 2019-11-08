@@ -278,9 +278,9 @@ public class Hyperium {
 
             // Print every loaded addon
             collectAddons();
-        } catch (Throwable t) {
 
-            // If an issue is thrown, crash the game
+        } catch (Throwable t) {
+            // If an issue is caught, crash the game
             Minecraft.getMinecraft().crashed(new CrashReport("Hyperium Startup Failure", t));
         }
     }
@@ -457,10 +457,10 @@ public class Hyperium {
             List<AddonManifest> addons = AddonBootstrap.INSTANCE.getAddonManifests();
 
             // for all the addons
-            addons.forEach(addon -> {
+            for (AddonManifest addon : addons) {
                 // print the addon as being loaded
                 LOGGER.warn("User has the addon: " + addon.getName() + ", version: " + addon.getVersion());
-            });
+            }
         }
     }
 
