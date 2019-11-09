@@ -1,0 +1,103 @@
+{
+  "latest": {
+    "build": "1.2",
+    "id": 2732,
+    "url": "https://static.sk1er.club/repo/cc/hyperium/Hyperium/2732/Hyperium-2732.jar",
+    "size": 29831239,
+    "target_installer": 3,
+    "sha1": "09312fbc0cdbb01b8cce7ea8b4e35deb10708c16",
+    "time": 1573231818808,
+    "beta": false,
+    "sha256": "e9ae5da6f74c2cffbd3a5085bb7c29c0c4fe89f35e4d87571eff01432dcb6e54"
+  },
+  "versions": [
+    {
+      "build": "1.0",
+      "id": 2085,
+      "url": "https://static.sk1er.club/hyperium_files/Hyperium-1.0%20(2085).jar",
+      "size": 41510957,
+      "target_installer": 3,
+      "sha1": "576858e7a9cb2bae4857d198200f1cd4d100e9bb",
+      "time": 1540081900421,
+      "beta": false,
+      "sha256": "68ad708fdce3fd823b9292caeacebfd3a3f4eb18f1154098c12a9b0cdedd3eee"
+    },
+    {
+      "build": "1.0.1",
+      "id": 2095,
+      "url": "https://static.sk1er.club/hyperium_files/Hyperium-1.0.1%20(2095).jar",
+      "size": 41508337,
+      "target_installer": 3,
+      "sha1": "3e6dfbab2a1158979f4663dda5b18641a3b0ca72",
+      "time": 1540337446481,
+      "beta": false,
+      "sha256": "6c42583cc80e0bc04bb3d6ec084d7cbf9f7568df02e4db88c8a662429741c283"
+    },
+    {
+      "build": "1.0.2",
+      "id": 2179,
+      "url": "https://static.sk1er.club/hyperium_files/Hyperium-1.0.2%20(2179).jar",
+      "size": 38003275,
+      "target_installer": 3,
+      "sha1": "8abd4d863d0a221e603052bd42697bd48e3ddd52",
+      "time": 1541539950138,
+      "beta": false,
+      "sha256": "3af93038b9300e5b048c7b8b3fe28e8eb541b8b8ad5876e51e1d0af0ea35bcb2"
+    },
+    {
+      "build": "1.1",
+      "id": 2694,
+      "url": "https://static.sk1er.club/repo/cc/hyperium/Hyperium/2694/Hyperium-2694.jar",
+      "size": 32854050,
+      "target_installer": 3,
+      "sha1": "63b5580c5a167303e9bfb14086fcf6257465e5b4",
+      "time": 1570817097617,
+      "beta": false,
+      "sha256": "d02259f46aeecb854a2289c363c0fed19c8c0b3ff6da5cd50e881100bfb823ac"
+    },
+    {
+      "build": "1.1.1",
+      "id": 2695,
+      "url": "https://static.sk1er.club/repo/cc/hyperium/Hyperium/2695/Hyperium-2695.jar",
+      "size": 32854445,
+      "target_installer": 3,
+      "sha1": "df346202bf70c5ab744ee49c090ffaaaa6443de8",
+      "time": 1570899871454,
+      "beta": false,
+      "sha256": "1ad890a1eb340b100b2b7a94e09b2eb0742379eb505373b0587a9665373a6336"
+    },
+    {
+      "build": "1.1.2",
+      "id": 2716,
+      "url": "https://static.sk1er.club/repo/cc/hyperium/Hyperium/2716/Hyperium-2716.jar",
+      "size": 32848339,
+      "target_installer": 3,
+      "sha1": "02288d9fe2be44cb62da87ac7b5705c88f9557ac",
+      "time": 1572636302309,
+      "beta": false,
+      "sha256": "d950e336853f1799a670510c3c67609900f15f869cd846a3e8bc520e3e73c8a2"
+    },
+    {
+      "build": "1.2",
+      "id": 2732,
+      "url": "https://static.sk1er.club/repo/cc/hyperium/Hyperium/2732/Hyperium-2732.jar",
+      "size": 29831239,
+      "target_installer": 3,
+      "sha1": "09312fbc0cdbb01b8cce7ea8b4e35deb10708c16",
+      "time": 1573231818808,
+      "beta": false,
+      "sha256": "e9ae5da6f74c2cffbd3a5085bb7c29c0c4fe89f35e4d87571eff01432dcb6e54"
+    }
+  ],
+  "latest_beta": {
+    "build": "1.2",
+    "id": 2732,
+    "url": "https://static.sk1er.club/repo/cc/hyperium/Hyperium/2732/Hyperium-2732.jar",
+    "size": 29831239,
+    "target_installer": 3,
+    "sha1": "09312fbc0cdbb01b8cce7ea8b4e35deb10708c16",
+    "time": 1573231818808,
+    "beta": true,
+    "sha256": "e9ae5da6f74c2cffbd3a5085bb7c29c0c4fe89f35e4d87571eff01432dcb6e54"
+  }
+}

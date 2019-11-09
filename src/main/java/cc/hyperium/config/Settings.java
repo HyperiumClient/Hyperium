@@ -317,7 +317,7 @@ public class Settings {
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.fastworldswitching", category = IMPROVEMENTS)
-    public static boolean FAST_WORLD_LOADING;
+    public static boolean FAST_WORLD_LOADING = true;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.showparticlein1stperson", category = COSMETICS)
