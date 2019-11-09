@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +85,7 @@ public class Levelhead extends AbstractMod {
         LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder();
 
         try {
-            jsonHolder = new LevelheadJsonHolder(FileUtils.readFileToString(new File(Hyperium.folder, "levelhead.json")));
+            jsonHolder = new LevelheadJsonHolder(FileUtils.readFileToString(new File(Hyperium.folder, "levelhead.json"), StandardCharsets.UTF_8));
         } catch (Exception e) {
             e.printStackTrace();
         }
