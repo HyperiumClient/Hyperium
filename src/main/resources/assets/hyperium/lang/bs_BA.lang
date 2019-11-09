@@ -204,10 +204,10 @@ gui.settings.entityradius=Hidden Entity Radius
 gui.settings.hyperiumtips=Hyperium Tips
 gui.settings.disableendportals=Disable End Portals
 gui.settings.hideleatherarmor=Disable Leather Armor
-gui.settings.sprintfovmodifier=Sprint FOV Modifier
-gui.settings.bowfovmodifier=Bow FOV Modifier
-gui.settings.speedfovmodifier=Speed FOV Modifier
-gui.settings.slownessfovmodifier=Slowness FOV Modifier
+gui.settings.sprintfovmodifier=Sprint Modifier
+gui.settings.bowfovmodifier=Bow Modifier
+gui.settings.speedfovmodifier=Speed Modifier
+gui.settings.slownessfovmodifier=Slowness Modifier
 
 # Settings Categories
 gui.category.general=General
