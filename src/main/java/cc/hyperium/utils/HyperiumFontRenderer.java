@@ -26,17 +26,36 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class HyperiumFontRenderer {
-
+    private static final Pattern COLOR_CODE_PATTERN = Pattern.compile("§[0123456789abcdefklmnor]");
     public final int FONT_HEIGHT = 9;
-    private final int[] colorCodes = new int[32];
+    private final int[] colorCodes = {
+        0x000000,
+        0x0000AA,
+        0x00AA00,
+        0x00AAAA,
+        0xAA0000,
+        0xAA00AA,
+        0xFFAA00,
+        0xAAAAAA,
+        0x555555,
+        0x5555FF,
+        0x55FF55,
+        0x55FFFF,
+        0xFF5555,
+        0xFF55FF,
+        0xFFFF55,
+        0xFFFFFF
+    };
     private final Map<String, Float> cachedStringWidth = new HashMap<>();
     private float antiAliasingFactor;
     private UnicodeFont unicodeFont;
@@ -60,25 +79,6 @@ public class HyperiumFontRenderer {
         }
 
         this.antiAliasingFactor = resolution.getScaleFactor();
-
-        for (int i = 0; i < 32; i++) {
-            int shadow = (i >> 3 & 1) * 85;
-            int red = (i >> 2 & 1) * 170 + shadow;
-            int green = (i >> 1 & 1) * 170 + shadow;
-            int blue = (i & 1) * 170 + shadow;
-
-            if (i == 6) {
-                red += 85;
-            }
-
-            if (i >= 16) {
-                red /= 4;
-                green /= 4;
-                blue /= 4;
-            }
-
-            colorCodes[i] = (red & 255) << 16 | (green & 255) << 8 | blue & 255;
-        }
     }
 
     public HyperiumFontRenderer(Font font) {
@@ -121,7 +121,6 @@ public class HyperiumFontRenderer {
     public int drawString(String text, float x, float y, int color) {
         if (text == null) return 0;
 
-        boolean textureEnabled = GL11.glIsEnabled(GL11.GL_TEXTURE_2D);
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
 
         try {
@@ -138,12 +137,11 @@ public class HyperiumFontRenderer {
 
         this.antiAliasingFactor = resolution.getScaleFactor();
 
-        float originalX = x;
-
         GL11.glPushMatrix();
         GlStateManager.scale(1 / antiAliasingFactor, 1 / antiAliasingFactor, 1 / antiAliasingFactor);
         x *= antiAliasingFactor;
         y *= antiAliasingFactor;
+        float originalX = x;
         float red = (float) (color >> 16 & 255) / 255.0F;
         float green = (float) (color >> 8 & 255) / 255.0F;
         float blue = (float) (color & 255) / 255.0F;
@@ -151,36 +149,55 @@ public class HyperiumFontRenderer {
         GlStateManager.color(red, green, blue, alpha);
 
         int currentColor = color;
+
         char[] characters = text.toCharArray();
 
-        GlStateManager.disableTexture2D();
         GlStateManager.disableLighting();
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
+        String[] parts = COLOR_CODE_PATTERN.split(text);
         int index = 0;
-        for (char c : characters) {
-            if (c == '\r') x = originalX;
-            if (c == '\n') y += getHeight(Character.toString(c));
+        for (String s : parts) {
+            for (String s2 : s.split("\n")) {
+                for (String s3 : s2.split("\r")) {
 
-            if (c != '\247' && (index == 0 || index == characters.length - 1 || characters[index - 1] != '\247')) {
-                unicodeFont.drawString(x, y, Character.toString(c), new org.newdawn.slick.Color(currentColor));
-                x += unicodeFont.getWidth(Character.toString(c));
-            } else if (c == ' ') {
-                x += unicodeFont.getSpaceWidth();
-            } else if (c == '\247' && index != characters.length - 1) {
-                int codeIndex = "0123456789abcdefg".indexOf(text.charAt(index + 1));
-                if (codeIndex < 0) continue;
-                currentColor = colorCodes[codeIndex];
+                    unicodeFont.drawString(x, y, s3, new org.newdawn.slick.Color(currentColor));
+                    x += unicodeFont.getWidth(s3);
+
+                    index += s3.length();
+                    if (index  < characters.length && characters[index ] == '\r') {
+                        x = originalX;
+                        index++;
+                    }
+                }
+                if (index < characters.length && characters[index] == '\n') {
+                    x = originalX;
+                    y += getHeight(s2) * 2;
+                    index++;
+                }
             }
-
-            index++;
+            if (index < characters.length) {
+                char colorCode = characters[index];
+                if (colorCode == '§') {
+                    char colorChar = characters[index + 1];
+                    int codeIndex = ("0123456789" +
+                        "abcdef").indexOf(colorChar);
+                    if (codeIndex < 0) {
+                        if (colorChar == 'r') {
+                            currentColor = color;
+                        }
+                    } else {
+                        currentColor = colorCodes[codeIndex];
+                    }
+                    index += 2;
+                }
+            }
         }
 
         GlStateManager.color(1F, 1F, 1F, 1F);
         GlStateManager.bindTexture(0);
-        if (textureEnabled) GlStateManager.enableTexture2D();
         GlStateManager.popMatrix();
         return (int) x;
     }
