@@ -147,7 +147,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         GuiButton serverButton = this.serverButton;
 
         if (serverButton != null) {
-            serverButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ?
+            serverButton.displayString = (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) ?
                 I18n.format("gui.serverjoin.customizeserver") :
                 Settings.SERVER_BUTTON_NAME;
         }
@@ -165,7 +165,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                 break;
 
             case 2:
-                if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                if (!(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))) {
                     GuiMultiplayer guiMultiplayer = new GuiMultiplayer(new GuiMainMenu());
                     guiMultiplayer.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
                     ((IMixinGuiMultiplayer) guiMultiplayer).makeDirectConnect();
