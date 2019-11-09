@@ -22,6 +22,7 @@ import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.tips.TipRegistry;
+import cc.hyperium.gui.util.CreateServerButton;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.client.gui.IMixinGuiMultiplayer;
 import cc.hyperium.purchases.PurchaseApi;
@@ -76,7 +77,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             "menu.hyperiumtip8",
             "menu.hyperiumtip9",
             "menu.hyperiumtip10",
-            "menu.hyperiumtip11"
+            "menu.hyperiumtip11",
+            "menu.hyperiumtip12"
         );
 
         selectedTip = tipRegistry.getTips().get(random.nextInt(tipRegistry.getTips().size()));
@@ -95,7 +97,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         buttonList.add(new GuiButton(0, centerX - 100, centerY - 60, I18n.format("menu.singleplayer")));
         buttonList.add(new GuiButton(1, centerX - 100, centerY - 38, I18n.format("menu.multiplayer")));
-        buttonList.add(hypixelButton = new GuiButton(2, centerX - 100, centerY - 16, I18n.format("button.ingame.joinhypixel")));
+        buttonList.add(serverButton = new GuiButton(2, centerX - 100, centerY - 16, I18n.format("button.ingame.joinhypixel")));
         buttonList.add(new GuiButton(3, centerX - 100, centerY + 6, I18n.format("button.ingame.hyperiumsettings")));
         buttonList.add(new GuiButton(4, centerX - 100, centerY + 28, 98, 20, I18n.format("menu.options")));
         buttonList.add(new GuiButton(5, centerX + 2, centerY + 28, 98, 20, I18n.format("menu.quit")));
@@ -142,12 +144,12 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 108, -1);
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        GuiButton hypixelButton = this.hypixelButton;
+        GuiButton serverButton = this.serverButton;
 
-        if (hypixelButton != null) {
-            hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ?
-                I18n.format("button.ingame.fixhypixelsession") :
-                I18n.format("button.ingame.joinhypixel");
+        if (serverButton != null) {
+            serverButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ?
+                I18n.format("gui.serverjoin.customizeserver") :
+                Settings.SERVER_BUTTON_NAME;
         }
     }
 
@@ -163,14 +165,18 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                 break;
 
             case 2:
-                GuiMultiplayer guiMultiplayer = new GuiMultiplayer(new GuiMainMenu());
-                guiMultiplayer.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
-                ((IMixinGuiMultiplayer) guiMultiplayer).makeDirectConnect();
-                String hostName = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net";
-                ServerData data = new ServerData("hypixel", hostName, false);
-                ((IMixinGuiMultiplayer) guiMultiplayer).setIp(data);
-                guiMultiplayer.confirmClicked(true, 0);
+                if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                    GuiMultiplayer guiMultiplayer = new GuiMultiplayer(new GuiMainMenu());
+                    guiMultiplayer.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
+                    ((IMixinGuiMultiplayer) guiMultiplayer).makeDirectConnect();
+                    ServerData data = new ServerData("customServer", Settings.SERVER_IP, false);
+                    ((IMixinGuiMultiplayer) guiMultiplayer).setIp(data);
+                    guiMultiplayer.confirmClicked(true, 0);
+                } else {
+                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new CreateServerButton(this));
+                }
                 break;
+
 
             case 3:
                 HyperiumMainGui.INSTANCE.show();

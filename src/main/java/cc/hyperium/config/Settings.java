@@ -499,6 +499,12 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.hideleatherarmor", category = HYPIXEL)
     public static boolean HIDE_LEATHER_ARMOR;
 
+    @ConfigOpt
+    public static String SERVER_BUTTON_NAME = "Join Hypixel";
+
+    @ConfigOpt
+    public static String SERVER_IP = "mc.hypixel.net";
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

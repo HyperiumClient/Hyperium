@@ -9,8 +9,6 @@ button.menu.changebackground=Cúlra an Menu
 button.menu.cosmeticshop=Siopa Cosmaideacha
 button.ingame.hyperiumsettings=Socruithe Hyperium
 button.ingame.hyperiumcredits=Rannpháirtithe
-button.ingame.joinhypixel=Tar ar Hypixel
-button.ingame.fixhypixelsession=Deisigh Seisiún Hypixel
 button.ingame.serverlist=Liosta Freastalaí
 button.changebackground.seturl=Socraigh URL
 button.changebackground.choosefile=Roghnaigh File
@@ -239,6 +237,11 @@ message.purchase=Ceannach %s
 gui.optifinecape.opencape=Oscail Eagarthóir Cape
 gui.optifinecape.capebutton=Rinn Optifine
 
+# Server Fast Join Customization
+gui.serverjoin.enterservername=Enter server name...
+gui.serverjoin.enterserverip=Enter server ip...
+gui.serverjoin.customizeserver=Customize Server
+
 # Main Menu Tips
 menu.hyperiumtip1=Most of our HUD items can be found in ChromaHUD!
 menu.hyperiumtip2=Change your keybinds by going to the Controls menu and clicking the Hyperium Binds button!
@@ -251,3 +254,4 @@ menu.hyperiumtip8=If you encounter any issues, please let us know at discord.gg/
 menu.hyperiumtip9=For a list of commands, type / then hit tab!
 menu.hyperiumtip10=You can purchase cosmetics at purchase.sk1er.club!
 menu.hyperiumtip11=Performance issues? Check out the Improvements category of the Gui!
+menu.hyperiumtip12=You can change what server appears on the main menu by holding right shift and clicking the button!

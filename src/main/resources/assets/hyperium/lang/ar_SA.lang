@@ -9,8 +9,6 @@ button.menu.changebackground=تغيير خلفية القائمة
 button.menu.cosmeticshop=متجر الجماليات
 button.ingame.hyperiumsettings=إعدادات Hyperium
 button.ingame.hyperiumcredits=رصيد Hyperium
-button.ingame.joinhypixel=الدخول إلى Hypixel
-button.ingame.fixhypixelsession=إصلاح سيرفر Hypixel
 button.ingame.serverlist=قائمة السيرفرات
 button.changebackground.seturl=تحديد الرابط
 button.changebackground.choosefile=اختيار ملف
@@ -239,6 +237,11 @@ message.purchase=Purchase %s
 gui.optifinecape.opencape=Open Cape Editor
 gui.optifinecape.capebutton=Optifine Cape
 
+# Server Fast Join Customization
+gui.serverjoin.enterservername=Enter server name...
+gui.serverjoin.enterserverip=Enter server ip...
+gui.serverjoin.customizeserver=Customize Server
+
 # Main Menu Tips
 menu.hyperiumtip1=Most of our HUD items can be found in ChromaHUD!
 menu.hyperiumtip2=Change your keybinds by going to the Controls menu and clicking the Hyperium Binds button!
@@ -251,3 +254,4 @@ menu.hyperiumtip8=If you encounter any issues, please let us know at discord.gg/
 menu.hyperiumtip9=For a list of commands, type / then hit tab!
 menu.hyperiumtip10=You can purchase cosmetics at purchase.sk1er.club!
 menu.hyperiumtip11=Performance issues? Check out the Improvements category of the Gui!
+menu.hyperiumtip12=You can change what server appears on the main menu by holding right shift and clicking the button!
