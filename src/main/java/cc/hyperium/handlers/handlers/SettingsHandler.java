@@ -270,13 +270,6 @@ public class SettingsHandler {
                 }
             });
 
-            registerCallback(Settings.class.getField("HEAD_SCALE_FACTOR_STRING"), o -> {
-                try {
-                    Settings.HEAD_SCALE_FACTOR = Double.parseDouble(o.toString());
-                } catch (Exception ignored) {
-                }
-            });
-
             Field flip_type_string = Settings.class.getField("FLIP_TYPE_STRING");
             customStates.put(flip_type_string, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();

@@ -252,12 +252,8 @@ public class Settings {
     public static String MAX_PARTICLE_STRING = "200";
 
     @ConfigOpt
+    @SliderSetting(name = "gui.settings.headitemscale", category = ANIMATIONS, min = 1, max = 3, mods = true)
     public static double HEAD_SCALE_FACTOR = 1.0;
-
-    @ConfigOpt
-    @SelectorSetting(name = "gui.settings.headitemscale", category = ANIMATIONS, items = {"1.0", "1.25", "1.5", "1.75", "2.0", "2.5"}, mods = true)
-    // Items configured in override
-    public static String HEAD_SCALE_FACTOR_STRING = "1.0";
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;renderOverInventory")
     @ToggleSetting(name = "gui.settings.particlesininventory", category = COSMETICS)
