@@ -113,7 +113,6 @@ gui.settings.armorprojectileprotpotentional=Taispeáin Cosaint Teilgeáin Armúr
 gui.settings.hidecrosshairinf5=Folaigh Crosshair nuair atá tú sa Tríú Duine
 gui.settings.holdperspectivekey=Coinnigh Eochair Pheirspictíochta
 gui.settings.windowedfullscreen=Fuinneog ar an Scáileán Iomlán
-gui.settings.staticfov=FOV statach
 gui.settings.uploadscreenshots=Uaslódáil scáileáin scáileáin (de réir réamhshocraithe)
 gui.settings.blurredguibackground=GUI Doiléir Cúlra
 gui.settings.screenshotonkill=Gabháil scáileáin Ar Kill
@@ -147,7 +146,6 @@ gui.settings.persistentchatmessages=Teachtaireachtaí Comhrá Seasmhacha
 gui.settings.friendsfirstintab=Cluaisín Cairde Chéad I
 gui.settings.onlineindicator=Táscaire Ar Líne
 gui.settings.pingondm=Ping ar Teachtaireacht
-gui.settings.sprintbypassstaticfov=Déan neamhaird de FOV statach agus tú ag sprioncadh
 gui.settings.sprintandperspectivemessages=Teachtaireachtaí Sprint Agus Perspect
 gui.settings.showdragonhead=Taispeáin Ceann an Dragan
 gui.settings.wingsheight=Airde Sciatháin
@@ -206,6 +204,38 @@ gui.settings.entityradius=Hidden Entity Radius
 gui.settings.hyperiumtips=Hyperium Tips
 gui.settings.disableendportals=Disable End Portals
 gui.settings.hideleatherarmor=Disable Leather Armor
+gui.settings.sprintfovmodifier=Sprint FOV Modifier
+gui.settings.bowfovmodifier=Bow FOV Modifier
+gui.settings.speedfovmodifier=Speed FOV Modifier
+gui.settings.slownessfovmodifier=Slowness FOV Modifier
+
+# Settings Categories
+gui.category.general=General
+gui.category.improvements=Improvements
+gui.category.integrations=Integrations
+gui.category.cosmetics=Cosmetics
+gui.category.misc=Misc
+gui.category.mods=Mods
+gui.category.hypixel=Hypixel
+gui.category.addons=Addons
+
+# Settings Subcategories
+gui.subcategory.animations=Animations
+gui.subcategory.autotip=Autotip
+gui.subcategory.autogg=AutoGG
+gui.subcategory.reachdisplay=Reach Display
+gui.subcategory.vanillaenhancements=Vanilla Enhancements
+gui.subcategory.keystrokes=Keystrokes
+gui.subcategory.motionblur=Motion Blur
+gui.subcategory.glintcolorizer=Glint Colorizer
+gui.subcategory.itemphysics=Item Physics
+gui.subcategory.chunkanimator=Chunk Animator
+gui.subcategory.automypos=Auto MyPosition
+gui.subcategory.popupevents=Popup Events
+gui.subcategory.bossbarmod=Bossbar
+gui.subcategory.entityradius=Entity Radius
+gui.subcategory.fovmodifier=Fov Modifier
+gui.subcategory.other=Other
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Cluiche Tosaigh ...

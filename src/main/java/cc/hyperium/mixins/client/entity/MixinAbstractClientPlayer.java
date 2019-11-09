@@ -17,14 +17,16 @@
 
 package cc.hyperium.mixins.client.entity;
 
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.entity.FovUpdateEvent;
 import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
-import cc.hyperium.mixinsimp.client.entity.HyperiumAbstractClientPlayer;
 import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.nickhider.config.NickHiderConfig;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -33,13 +35,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(AbstractClientPlayer.class)
 public abstract class MixinAbstractClientPlayer extends EntityPlayer {
 
     private HyperiumCapeHandler hook;
-
-    private HyperiumAbstractClientPlayer hyperiumAbstractClientPlayer = new HyperiumAbstractClientPlayer();
 
     public MixinAbstractClientPlayer(World worldIn, GameProfile gameProfileIn) {
         super(worldIn, gameProfileIn);
@@ -57,13 +58,15 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
     @Inject(method = "getLocationCape", at = @At("HEAD"), cancellable = true)
     private void getHyperiumCape(CallbackInfoReturnable<ResourceLocation> cir) {
         if (hook.getLocationCape() != null) {
-           cir.setReturnValue(hook.getLocationCape());
+            cir.setReturnValue(hook.getLocationCape());
         }
     }
 
-    @Inject(method = "getFovModifier", at = @At("HEAD"), cancellable = true)
-    private void getFovModifier(CallbackInfoReturnable<Float> ci) {
-        hyperiumAbstractClientPlayer.getFovModifier(ci);
+    @Inject(method = "getFovModifier", at = @At("RETURN"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+    private void getFovModifier(CallbackInfoReturnable<Float> cir, float f, IAttributeInstance iattributeinstance) {
+        FovUpdateEvent event = new FovUpdateEvent((AbstractClientPlayer) (Object) this, f);
+        EventBus.INSTANCE.post(event);
+        cir.setReturnValue(event.getNewFov());
     }
 
 

@@ -104,10 +104,6 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.windowedfullscreen", category = IMPROVEMENTS)
     public static boolean WINDOWED_FULLSCREEN;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;staticFovEnabled")
-    @ToggleSetting(name = "gui.settings.staticfov", category = STATICFOV, mods = true)
-    public static boolean STATIC_FOV;
-
     @ConfigOpt
     @SliderSetting(name = "gui.settings.guialpha", min = 0, max = 255, category = GENERAL)
     public static double SETTINGS_ALPHA = 100;
@@ -286,10 +282,6 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;pingOnDm")
     @ToggleSetting(category = HYPIXEL, name = "gui.settings.pingondm")
     public static boolean PING_ON_DM = true;
-
-    @ConfigOpt
-    @ToggleSetting(category = STATICFOV, mods = true, name = "gui.settings.sprintbypassstaticfov")
-    public static boolean staticFovSprintModifier;
 
     @ConfigOpt
     @ToggleSetting(category = GENERAL, name = "gui.settings.sprintandperspectivemessages")
@@ -504,6 +496,22 @@ public class Settings {
 
     @ConfigOpt
     public static String SERVER_IP = "mc.hypixel.net";
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.sprintfovmodifier", min = -5, max = 5, category = FOV_MODIFIER, mods = true)
+    public static double SPRINTING_FOV_MODIFIER = 1;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.bowfovmodifier", min = -5, max = 5, category = FOV_MODIFIER, mods = true)
+    public static double BOW_FOV_MODIFIER = 1;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.speedfovmodifier", min = -5, max = 5, category = FOV_MODIFIER, mods = true)
+    public static double SPEED_FOV_MODIFIER = 1;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.slownessfovmodifier", min = -5, max = 5, category = FOV_MODIFIER, mods = true)
+    public static double SLOWNESS_FOV_MODIFIER = 1;
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);

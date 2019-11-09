@@ -17,48 +17,45 @@
 
 package cc.hyperium.config;
 
+import net.minecraft.client.resources.I18n;
+
 public enum Category {
 
     // Settings Tab
-    GENERAL("General"),
-    IMPROVEMENTS("Improvements"),
-    INTEGRATIONS("Integrations"),
-    COSMETICS("Cosmetics"),
-    MISC("Misc"),
-    MODS("Mods"),
-    HYPIXEL("Hypixel"),
-    ADDONS("Addons"),
+    GENERAL("gui.category.general"),
+    IMPROVEMENTS("gui.category.improvements"),
+    INTEGRATIONS("gui.category.integrations"),
+    COSMETICS("gui.category.cosmetics"),
+    MISC("gui.category.misc"),
+    MODS("gui.category.mods"),
+    HYPIXEL("gui.category.hypixel"),
+    ADDONS("gui.category.addons"),
 
     // Mods
-    ANIMATIONS("Animations"),
-    AUTOTIP("Autotip"),
-    AUTO_GG("Auto GG"),
-    LEVEL_HEAD("Levelhead"),
-    REACH("Reach Display"),
-    VANILLA_ENHANCEMENTS("Vanilla Enhancements"),
-    KEYSTROKES("Keystrokes"),
-    MOTION_BLUR("Motion Blur"),
-    AUTOFRIEND("Auto Friend"),
-    GLINTCOLORIZER("Glint Colorizer"),
-    FNCOMPASS("Fortnite Compass"),
-    TAB_TOGGLE("Tab Toggle"),
-    ITEM_PHYSIC("Item Physics"),
-    CHUNK_ANIMATOR("Chunk Animator"),
-    LEVELHEAD("Levelhead"),
-    AUTOMYPOSITION("Auto MyPosition"),
-    POPUP_EVENTS("Popup Events"),
-    STATICFOV("Static FOV"),
-    BOSSBARMOD("Bossbar"),
-    ENTITYRADIUS("Entity Radius"),
-    OTHER("Other");
+    ANIMATIONS("gui.subcategory.animations"),
+    AUTOTIP("gui.subcategory.autotip"),
+    AUTO_GG("gui.subcategory.autogg"),
+    REACH("gui.subcategory.reachdisplay"),
+    VANILLA_ENHANCEMENTS("gui.subcategory.vanillaenhancements"),
+    KEYSTROKES("gui.subcategory.keystrokes"),
+    MOTION_BLUR("gui.subcategory.motionblur"),
+    GLINTCOLORIZER("gui.subcategory.glintcolorizer"),
+    ITEM_PHYSIC("gui.subcategory.itemphysics"),
+    CHUNK_ANIMATOR("gui.subcategory.chunkanimator"),
+    AUTOMYPOSITION("gui.subcategory.automypos"),
+    POPUP_EVENTS("gui.subcategory.popupevents"),
+    BOSSBARMOD("gui.subcategory.bossbarmod"),
+    ENTITYRADIUS("gui.subcategory.entityradius"),
+    FOV_MODIFIER("gui.subcategory.fovmodifier"),
+    OTHER("gui.subcategory.other");
 
     private String display;
 
     Category(String display) {
-        this.display = display;
+        this.display = I18n.format(display);
     }
 
     public String getDisplay() {
-        return display;
+        return I18n.format(display);
     }
 }

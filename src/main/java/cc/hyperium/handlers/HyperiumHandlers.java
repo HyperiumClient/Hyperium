@@ -29,6 +29,7 @@ import cc.hyperium.handlers.handlers.*;
 import cc.hyperium.handlers.handlers.animation.*;
 import cc.hyperium.handlers.handlers.chat.*;
 import cc.hyperium.handlers.handlers.data.HypixelAPI;
+import cc.hyperium.handlers.handlers.fov.FovModifier;
 import cc.hyperium.handlers.handlers.hud.VanillaEnhancementsHud;
 import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
@@ -90,6 +91,7 @@ public class HyperiumHandlers {
     private MinigameListener minigameListener;
     private UpdateChecker updateChecker;
     private MouseListener mouseListener;
+    private FovModifier fovModifier;
 
     public HyperiumHandlers() {
         Hyperium.LOGGER.info("Loading handlers");
@@ -125,6 +127,7 @@ public class HyperiumHandlers {
         register(minigameListener = new MinigameListener());
         register(updateChecker = new UpdateChecker());
         register(mouseListener = new MouseListener());
+        register(fovModifier = new FovModifier());
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
         // Chat Handlers

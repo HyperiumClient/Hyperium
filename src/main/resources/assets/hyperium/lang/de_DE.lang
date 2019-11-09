@@ -113,7 +113,6 @@ gui.settings.armorprojectileprotpotentional=Schutz vor Projektilen im Inventar a
 gui.settings.hidecrosshairinf5=Fadenkreuz in der dritten Person verbergen
 gui.settings.holdperspectivekey=Perspektiven-Knopf halten
 gui.settings.windowedfullscreen=Fenster-Vollbild
-gui.settings.staticfov=Statisches FOV
 gui.settings.uploadscreenshots=Screenshots automatisch hochladen
 gui.settings.blurredguibackground=Verschwommener GUI-Hintergrund
 gui.settings.screenshotonkill=Screenshot nach Kill
@@ -147,7 +146,6 @@ gui.settings.persistentchatmessages=Langlebige Chatnachrichten
 gui.settings.friendsfirstintab=Freunde im Tab zuerst anzeigen
 gui.settings.onlineindicator=Online-Indikator
 gui.settings.pingondm=Ton bei Nachrichten
-gui.settings.sprintbypassstaticfov=Sprinten umgeht statisches FOV
 gui.settings.sprintandperspectivemessages=Sprint- und Perspektivbenachrichtigungen
 gui.settings.showdragonhead=Drachenkopf anzeigen
 gui.settings.wingsheight=Flügelhöhe
@@ -206,6 +204,38 @@ gui.settings.entityradius=Hidden Entity Radius
 gui.settings.hyperiumtips=Hyperium Tips
 gui.settings.disableendportals=Disable End Portals
 gui.settings.hideleatherarmor=Disable Leather Armor
+gui.settings.sprintfovmodifier=Sprint FOV Modifier
+gui.settings.bowfovmodifier=Bow FOV Modifier
+gui.settings.speedfovmodifier=Speed FOV Modifier
+gui.settings.slownessfovmodifier=Slowness FOV Modifier
+
+# Settings Categories
+gui.category.general=General
+gui.category.improvements=Improvements
+gui.category.integrations=Integrations
+gui.category.cosmetics=Cosmetics
+gui.category.misc=Misc
+gui.category.mods=Mods
+gui.category.hypixel=Hypixel
+gui.category.addons=Addons
+
+# Settings Subcategories
+gui.subcategory.animations=Animations
+gui.subcategory.autotip=Autotip
+gui.subcategory.autogg=AutoGG
+gui.subcategory.reachdisplay=Reach Display
+gui.subcategory.vanillaenhancements=Vanilla Enhancements
+gui.subcategory.keystrokes=Keystrokes
+gui.subcategory.motionblur=Motion Blur
+gui.subcategory.glintcolorizer=Glint Colorizer
+gui.subcategory.itemphysics=Item Physics
+gui.subcategory.chunkanimator=Chunk Animator
+gui.subcategory.automypos=Auto MyPosition
+gui.subcategory.popupevents=Popup Events
+gui.subcategory.bossbarmod=Bossbar
+gui.subcategory.entityradius=Entity Radius
+gui.subcategory.fovmodifier=Fov Modifier
+gui.subcategory.other=Other
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Spiel wird gestartet...
