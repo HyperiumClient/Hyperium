@@ -17,10 +17,8 @@
 
 package cc.hyperium.mixinsimp.client;
 
-import cc.hyperium.Metadata;
-
 public class HyperiumClientBrand {
     public static String getClientModName() {
-        return "hyperium " + Metadata.getVersion();
+        return "hyperium";
     }
 }
