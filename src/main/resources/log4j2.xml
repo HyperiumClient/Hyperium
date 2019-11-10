@@ -1,17 +1,13 @@
 <Configuration>
-    <Properties>
-        <Property name="logPattern">%cyan{%d{HH:mm:ss.SSS}} | %blue{%thread} %style{%highlight{%-5level}}{bright} %logger{1.} %cyan{>} %msg%n
-        </Property>
-    </Properties>
     <Appenders>
         <Console name="Console">
-            <PatternLayout pattern="${logPattern}"/>
+            <PatternLayout pattern="%cyan{%d{HH:mm:ss.SSS}} | %blue{%thread} %style{%highlight{%level}}{bright} %logger{1.} %cyan{>} %msg%n"/>
         </Console>
         <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="${logPattern}"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} | %thread %level %logger{1.} > %msg%n" />
             <Policies>
-                <TimeBasedTriggeringPolicy/>
-                <OnStartupTriggeringPolicy/>
+                <TimeBasedTriggeringPolicy />
+                <OnStartupTriggeringPolicy />
             </Policies>
         </RollingRandomAccessFile>
     </Appenders>
