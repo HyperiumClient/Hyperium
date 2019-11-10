@@ -1,7 +1,6 @@
 <Configuration>
     <Properties>
-        <Property name="logPattern">%cyan{%d{HH:mm:ss.SSS}} | %blue{%thread} %style{%highlight{%-5level}}{bright}
-            %-20.20logger{1.} %cyan{>} %msg%n
+        <Property name="logPattern">%cyan{%d{HH:mm:ss.SSS}} | %blue{%thread} %style{%highlight{%-5level}}{bright} %logger{1.} %cyan{>} %msg%n
         </Property>
     </Properties>
     <Appenders>
@@ -17,7 +16,7 @@
         </RollingRandomAccessFile>
     </Appenders>
     <Loggers>
-        <Root level="DEBUG">
+        <Root level="INFO">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
         </Root>
