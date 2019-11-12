@@ -54,8 +54,8 @@ public class TypeBoop extends ToggleBase {
             "Toggles all incoming",
             "boops",
             "",
-            "",
-            "This is the format",
+            "No more annoying boops",
+            "disturbing your amazing game!",
             "&dFrom &7Player&r: &d&lBoop!",
             ""
         );
