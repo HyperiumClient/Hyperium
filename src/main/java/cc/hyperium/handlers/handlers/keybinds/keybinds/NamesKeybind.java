@@ -24,7 +24,7 @@ import org.lwjgl.input.Keyboard;
 
 public class NamesKeybind extends HyperiumBind {
     public NamesKeybind() {
-        super("nameHistory", Keyboard.KEY_H);
+        super("Name History", Keyboard.KEY_H);
     }
 
     @Override

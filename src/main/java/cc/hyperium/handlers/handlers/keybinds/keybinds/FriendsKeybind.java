@@ -24,7 +24,7 @@ import org.lwjgl.input.Keyboard;
 
 public class FriendsKeybind extends HyperiumBind {
     public FriendsKeybind() {
-        super("friends", Keyboard.KEY_L);
+        super("Friends", Keyboard.KEY_L);
     }
 
     @Override

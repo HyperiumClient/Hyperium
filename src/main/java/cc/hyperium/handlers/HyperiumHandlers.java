@@ -280,4 +280,7 @@ public class HyperiumHandlers {
     public MouseListener getMouseListener() {
         return mouseListener;
     }
+    public FovModifier getFovModifier() {
+        return fovModifier;
+    }
 }

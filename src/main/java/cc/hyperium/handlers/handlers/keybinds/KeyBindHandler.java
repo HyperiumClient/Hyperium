@@ -25,6 +25,7 @@ import cc.hyperium.event.interact.KeyReleaseEvent;
 import cc.hyperium.event.interact.MouseButtonEvent;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
 import net.minecraft.client.Minecraft;
+import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 
 import java.util.HashMap;
@@ -81,20 +82,28 @@ public class KeyBindHandler {
     @InvokeEvent
     public void onKeyPress(KeyPressEvent event) {
         if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
-            keybinds.values().stream().filter(bind -> !bind.isConflicted()).filter(bind -> event.getKey() == bind.getKeyCode()).forEach(bind -> {
-                bind.onPress();
-                bind.setWasPressed(true);
-            });
+            for (HyperiumBind bind : keybinds.values()) {
+                if (!bind.isConflicted()) {
+                    if (event.getKey() == bind.getKeyCode()) {
+                        bind.onPress();
+                        bind.setWasPressed(true);
+                    }
+                }
+            }
         }
     }
 
     @InvokeEvent
     public void onKeyRelease(KeyReleaseEvent event) {
         if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
-            keybinds.values().stream().filter(bind -> !bind.isConflicted()).filter(bind -> event.getKey() == bind.getKeyCode()).forEach(bind -> {
-                bind.onRelease();
-                bind.setWasPressed(false);
-            });
+            for (HyperiumBind bind : keybinds.values()) {
+                if (!bind.isConflicted()) {
+                    if (event.getKey() == bind.getKeyCode()) {
+                        bind.onRelease();
+                        bind.setWasPressed(false);
+                    }
+                }
+            }
         }
     }
 
@@ -104,15 +113,19 @@ public class KeyBindHandler {
         if (event.getValue() >= 0) {
             if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
                 // Gets Minecraft value of the mouse value and checks to see if it matches a keybind.
-                keybinds.values().stream().filter(bind -> !bind.isConflicted()).filter(bind -> mouseBinds.get(event.getValue()) == bind.getKeyCode()).forEach(bind -> {
-                    if (event.getState()) {
-                        bind.onPress();
-                        bind.setWasPressed(true);
-                    } else {
-                        bind.onRelease();
-                        bind.setWasPressed(false);
+                for (HyperiumBind bind : keybinds.values()) {
+                    if (!bind.isConflicted()) {
+                        if (mouseBinds.get(event.getValue()) == bind.getKeyCode()) {
+                            if (event.getState()) {
+                                bind.onPress();
+                                bind.setWasPressed(true);
+                            } else {
+                                bind.onRelease();
+                                bind.setWasPressed(false);
+                            }
+                        }
                     }
-                });
+                }
             }
         }
     }
@@ -142,6 +155,8 @@ public class KeyBindHandler {
     public void registerKeyBinding(HyperiumBind bind) {
         keybinds.put(bind.getRealDescription(), bind);
         keyBindConfig.attemptKeyBindLoad(bind);
+        Minecraft.getMinecraft().gameSettings.keyBindings =
+            ArrayUtils.add(Minecraft.getMinecraft().gameSettings.keyBindings, bind);
     }
 
     /**

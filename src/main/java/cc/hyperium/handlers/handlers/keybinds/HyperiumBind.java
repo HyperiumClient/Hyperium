@@ -33,7 +33,7 @@ import java.util.List;
  * @author CoalOres
  * @author boomboompower
  */
-public class HyperiumBind {
+public class HyperiumBind extends KeyBinding {
 
     /**
      * The default key code
@@ -53,6 +53,7 @@ public class HyperiumBind {
     }
 
     public HyperiumBind(String description, int key, String category) {
+        super(description, key, category);
         defaultKeyCode = key;
         this.description = description;
         this.key = key;
@@ -63,6 +64,7 @@ public class HyperiumBind {
      *
      * @return the key code
      */
+    @Override
     public int getKeyCode() {
         return key;
     }
@@ -73,8 +75,10 @@ public class HyperiumBind {
      *
      * @param key the key
      */
+    @Override
     public void setKeyCode(int key) {
         this.key = key;
+        super.setKeyCode(key);
     }
 
     /**
@@ -171,15 +175,24 @@ public class HyperiumBind {
         otherBinds.remove(this);
 
         // Check for conflicts with Minecraft binds.
-        // There is a conflict!
-        Arrays.stream(Minecraft.getMinecraft().gameSettings.keyBindings).mapToInt(KeyBinding::getKeyCode).filter(keyCode ->
-            currentKeyCode == keyCode).forEach(keyCode -> conflicted = true);
+        for (KeyBinding keyBinding : Minecraft.getMinecraft().gameSettings.keyBindings) {
+            int code = keyBinding.getKeyCode();
+            if (currentKeyCode == code) {
+                // There is a conflict!
+                conflicted = true;
+            }
+        }
 
         // Check for conflicts with other Hyperium binds.
-        // There is a conflict!
-        if (otherBinds.stream().filter(hyperiumBind ->
-            !hyperiumBind.conflictExempt).mapToInt(hyperiumBind -> hyperiumBind.key).anyMatch(keyCode -> currentKeyCode == keyCode)) {
-            conflicted = true;
+        for (HyperiumBind hyperiumBind : otherBinds) {
+            if (!hyperiumBind.conflictExempt) {
+                int keyCode = hyperiumBind.key;
+                if (currentKeyCode == keyCode) {
+                    // There is a conflict!
+                    conflicted = true;
+                    break;
+                }
+            }
         }
     }
 }
