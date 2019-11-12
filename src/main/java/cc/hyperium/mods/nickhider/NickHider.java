@@ -167,10 +167,12 @@ public class NickHider extends AbstractMod {
     }
 
     public void remap(String key, String newKey) {
-        key = key.toLowerCase();
+        key = key.toLowerCase(Locale.ROOT);
         if (usedNicks.contains(key) || key.isEmpty() || key.contains(" ")) return;
         usedNicks.add(key);
-        Nick nick = new Nick(Pattern.compile(key.toLowerCase(), Pattern.CASE_INSENSITIVE), key, key.length() > 2 ? newKey : key);
+
+        String newName = key.length() > 2 ? newKey : key;
+        Nick nick = new Nick(Pattern.compile(Pattern.quote(key), Pattern.CASE_INSENSITIVE), key, newName);
         nicks.add(nick);
         Comparator<Nick> c = Comparator.comparingInt(o -> o.oldName.length());
         nicks.sort(c.reversed());
@@ -220,9 +222,14 @@ public class NickHider extends AbstractMod {
         List<String> tmp1;
         Arrays.setAll(in, i -> apply(in[i]));
 
-        tmp1 = nicks.stream().filter(nick ->
-            nick.newName.toLowerCase().startsWith(tmp.toLowerCase())).map(nick ->
-            nick.newName).collect(Collectors.toList());
+        List<String> list = new ArrayList<>();
+        for (Nick nick : nicks) {
+            if (nick.newName.toLowerCase(Locale.ROOT).startsWith(tmp.toLowerCase(Locale.ROOT))) {
+                String newName = nick.newName;
+                list.add(newName);
+            }
+        }
+        tmp1 = list;
 
         HashSet<String> strings = Sets.newHashSet(in);
         strings.addAll(tmp1);
@@ -238,12 +245,12 @@ public class NickHider extends AbstractMod {
     public ResourceLocation getPlayerSkin() {
         if (playerSkin == null && !startedLoadingSkin) {
             startedLoadingSkin = true;
-            Minecraft.getMinecraft().getSkinManager().loadProfileTextures(Minecraft.getMinecraft().getSession().getProfile(), (profile, location, profileTexture) -> {
-                if (profile == MinecraftProfileTexture.Type.SKIN) {
+            Minecraft.getMinecraft().getSkinManager().loadProfileTextures(Minecraft.getMinecraft().getSession().getProfile(), (type, location, profileTexture) -> {
+                if (type == MinecraftProfileTexture.Type.SKIN) {
                     playerSkin = location;
                     playerRealSkinType = profileTexture.getMetadata("model");
                     if (playerRealSkinType == null) playerRealSkinType = "default";
-                } else if (profile == MinecraftProfileTexture.Type.CAPE) {
+                } else if (type == MinecraftProfileTexture.Type.CAPE) {
                     playerCape = location;
                 }
             }, true);
