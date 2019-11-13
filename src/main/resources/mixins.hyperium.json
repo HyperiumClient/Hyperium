@@ -101,6 +101,7 @@
     "entity.player.MixinEntityPlayerMP",
     "item.MixinItemBow",
     "item.MixinItemStack",
+    "nbt.MixinNBTTagCompound",
     "nbt.MixinNBTUtil",
     "network.MixinNetworkManager",
     "network.play.client.MixinC01PacketChatMessage",
