@@ -39,7 +39,7 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [Victory Royale](https://sk1er.club/mods/victory_royale)
 
 ### Beta Test the Client ###  
-You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://discord.gg/sk1er), or for beta versions, head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
+You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://discord.gg/sk1er) and do `$rank beta testing` in the [`#commands`](https://discordapp.com/channels/411619823445999637/411620555960352787) channel. You can then access betas in [`#beta-announcements`](https://discordapp.com/channels/411619823445999637/595634170336641045)
 
 ### FAQ ###  
 Q: Please help, I can't build Hyperium!
@@ -56,14 +56,14 @@ A: Yes, simply [follow this nice video](https://www.youtube.com/watch?v=RXTIFdoN
 
 Q: I found a bug. Where do I report it?
 
-A: Join the [Discord](https://discord.gg/sk1er) and explain your issue in as much detail as you can in the `#support` channel and wait for a staff member to assist you!
+A: Join the [Discord](https://discord.gg/sk1er) and explain your issue in as much detail as you can in the [`#bug-reports`](https://discordapp.com/channels/411619823445999637/429311217862180867) channel and wait for a staff member to assist you!
 
 Q: My game keeps crashing!
 
-A: Join the [Discord](https://discord.gg/sk1er) and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
+A: Join the [Discord](https://discord.gg/sk1er) and ask a member of the staff team or a developer to review your issue in the [`#support`](https://discordapp.com/channels/411619823445999637/412310617442091008) channel. Please be patient if there are no developers online!
 
 ### Addons ###
-Addons are Hyperium's system of mods, like Forge, except they're done using the Addon Workspace / Addon API. The selection to currently available addons is low, so if you wish to make some, feel free to share it with other Hyperium members.
+Addons are Hyperium's system of mods, like Forge, except they're done using the [Addon Workspace / Addon API](https://github.com/HyperiumClient/Addon-Workspace/). The selection to currently available addons is low, so if you wish to make some, feel free to share it with other Hyperium members.
 
 ### License ###  
 Hyperium is licensed under the GNU Lesser General Public License. You can view it [here](./LICENSE).
@@ -71,7 +71,7 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 ## Developer Resources ##
 	
 ### Building the Project with IntelliJ ###
-If you don't know how, then you shouldn't try. Join our beta in [Discord](https://discord.gg/Sk1er), or wait for releases!
+If you don't know how, then you shouldn't try. Join our beta in [Discord](https://discord.gg/Sk1er), or [download the latest release](https://hyperium.cc/downloads)!
 
 ### Addon Development ###
 To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
