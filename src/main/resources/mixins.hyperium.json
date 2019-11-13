@@ -109,6 +109,7 @@
     "network.play.server.MixinS19PacketEntityHeadLook",
     "network.play.server.MixinS19PacketEntityStatus",
     "scoreboard.MixinScoreboard",
+    "server.MixinMinecraftServer",
     "util.MixinChatComponentStyle",
     "util.MixinChatStyle",
     "util.MixinClassInheritanceMultiMap",
@@ -116,6 +117,7 @@
     "util.MixinMultiMap",
     "util.MixinScreenShotHelper",
     "world.chunk.MixinChunk",
+    "world.gen.feature.MixinWorldGenBigTree",
     "world.IMixinWorld",
     "world.MixinWorld"
   ]
