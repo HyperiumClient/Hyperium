@@ -81,6 +81,7 @@ public class HyperiumMinecraft {
     }
 
     public void preinit(List<IResourcePack> defaultResourcePacks, DefaultResourcePack mcDefaultResourcePack) {
+        Hyperium.INSTANCE.setLaunchTime(System.currentTimeMillis());
         EventBus.INSTANCE.register(Hyperium.INSTANCE);
 
         defaultResourcePacks.add(mcDefaultResourcePack);

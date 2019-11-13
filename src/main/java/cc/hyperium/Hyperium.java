@@ -140,6 +140,8 @@ public class Hyperium {
     // Expose the updateUtils
     private UpdateUtils updateUtils = UpdateUtils.INSTANCE;
 
+    private long launchTime;
+
     /**
      * Register things such as Languages to be used throughout the game.
      *
@@ -279,6 +281,7 @@ public class Hyperium {
             // Print every loaded addon
             collectAddons();
 
+            LOGGER.info("Hyperium loaded in {} seconds", (System.currentTimeMillis() - launchTime) / 1000F);
         } catch (Throwable t) {
             // If an issue is caught, crash the game
             Minecraft.getMinecraft().crashed(new CrashReport("Hyperium Startup Failure", t));
@@ -510,5 +513,13 @@ public class Hyperium {
 
     public boolean isDevEnv() {
         return this.isDevEnv;
+    }
+
+    public long getLaunchTime() {
+        return launchTime;
+    }
+
+    public void setLaunchTime(long launchTime) {
+        this.launchTime = launchTime;
     }
 }
