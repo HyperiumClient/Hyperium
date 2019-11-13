@@ -80,6 +80,7 @@ public class ToggleBaseHandler {
         toggles.put("friend_requests", new TypeFriendRequests());
         toggles.put("officer", new TypeOfficer());
         toggles.put("generosity_messages", new TypeAfterGift());
+        toggles.put("boop", new TypeBoop());
     }
 
     /**
