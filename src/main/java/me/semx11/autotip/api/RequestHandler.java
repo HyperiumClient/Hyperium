@@ -40,8 +40,9 @@ public class RequestHandler {
 
     public static Optional<Reply> getReply(Request request, URI uri) {
         String json = null;
+        HttpURLConnection conn = null;
         try {
-            HttpURLConnection conn = (HttpURLConnection) uri.toURL().openConnection();
+            conn = (HttpURLConnection) uri.toURL().openConnection();
             conn.setRequestProperty("User-Agent", "Autotip v" + autotip.getVersion());
 
             InputStream input = conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST ? conn.getInputStream() : conn.getErrorStream();
@@ -55,6 +56,8 @@ public class RequestHandler {
             ErrorReport.reportException(e);
             Autotip.LOGGER.info(request.getType() + " JSON: " + json);
             return Optional.empty();
+        } finally {
+            if (conn != null) conn.disconnect();
         }
     }
 

@@ -198,9 +198,10 @@ public class SessionManager {
     }
 
     private int authenticate(String token, String uuid, String serverHash) {
+        HttpURLConnection conn = null;
         try {
             URL url = new URL("https://sessionserver.mojang.com/session/minecraft/join");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
 
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
@@ -224,6 +225,8 @@ public class SessionManager {
         } catch (IOException e) {
             ErrorReport.reportException(e);
             return HttpStatus.SC_BAD_REQUEST;
+        } finally {
+            if (conn != null) conn.disconnect();
         }
     }
 }

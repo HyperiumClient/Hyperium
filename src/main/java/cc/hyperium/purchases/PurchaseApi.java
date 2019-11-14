@@ -166,9 +166,10 @@ public class PurchaseApi {
 
     public JsonHolder get(String url) {
         url = url.replace(" ", "%20");
+        HttpURLConnection connection = null;
         try {
             URL u = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) u.openConnection();
+            connection = (HttpURLConnection) u.openConnection();
             connection.setRequestMethod("GET");
             connection.setUseCaches(true);
             connection.addRequestProperty("User-Agent", "Mozilla/4.76 Hyperium ");
@@ -178,6 +179,8 @@ public class PurchaseApi {
             InputStream is = connection.getInputStream();
             return new JsonHolder(IOUtils.toString(is, StandardCharsets.UTF_8));
         } catch (Exception ignored) {
+        } finally {
+            if (connection != null) connection.disconnect();
         }
 
         JsonObject object = new JsonObject();

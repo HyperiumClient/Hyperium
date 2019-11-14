@@ -154,10 +154,10 @@ public class Levelhead extends AbstractMod {
 
     private String rawWithAgent(String url) {
         Hyperium.LOGGER.debug("Fetching " + url);
-
+        HttpURLConnection connection = null;
         try {
             URL u = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) u.openConnection();
+            connection = (HttpURLConnection) u.openConnection();
             connection.setRequestMethod("GET");
             connection.setUseCaches(true);
             connection.addRequestProperty("User-Agent", "Mozilla/4.76 (SK1ER LEVEL HEAD V" + VERSION + ")");
@@ -169,6 +169,8 @@ public class Levelhead extends AbstractMod {
             return IOUtils.toString(is, Charset.defaultCharset());
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (connection != null) connection.disconnect();
         }
 
         return new LevelheadJsonHolder().put("success", false).put("cause", "API_DOWN").toString();

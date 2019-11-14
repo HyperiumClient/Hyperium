@@ -28,11 +28,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -63,12 +59,13 @@ public class ImgurUploader implements Runnable {
      * Threaded task that uploads whatever the uploadFile is
      */
     public void run() {
+        HttpURLConnection conn = null;
         try {
             // Create the URL it's being uploaded to
             URL url = new URL("https://api.imgur.com/3/image");
 
             // Create a connection
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
 
             // Create the image
             BufferedImage image;
@@ -158,7 +155,8 @@ public class ImgurUploader implements Runnable {
             rd.close();
         } catch (Exception e) {
             GeneralChatHandler.instance().sendMessage("Error occurred while uploading.");
+        } finally {
+            if (conn != null) conn.disconnect();
         }
     }
-
 }

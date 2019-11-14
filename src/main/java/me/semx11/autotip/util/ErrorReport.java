@@ -23,9 +23,10 @@ public class ErrorReport {
 
     public static void reportException(Throwable t) {
         Autotip.LOGGER.error(t.getMessage(), t);
+        HttpURLConnection conn = null;
         try {
             URL url = new URL("https://api.autotip.pro/error_report.php");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
 
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
@@ -64,6 +65,8 @@ public class ErrorReport {
         } catch (IOException e) {
             // Hmm... what would happen if I were to report this one?
             e.printStackTrace();
+        } finally {
+            if (conn != null) conn.disconnect();
         }
     }
 

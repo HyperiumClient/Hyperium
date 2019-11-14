@@ -68,10 +68,10 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
             for (String s : capeAtlas.getKeys()) {
                 Multithreading.runAsync(() -> {
                     JsonHolder jsonHolder = capeAtlas.optJSONObject(s);
-
+                    HttpURLConnection connection = null;
                     try {
                         URL url = new URL(jsonHolder.optString("url"));
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("GET");
                         connection.setUseCaches(true);
                         connection.addRequestProperty("User-Agent", "Mozilla/4.76 Hyperium ");
@@ -84,6 +84,10 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                         is.close();
                     } catch (IOException e) {
                         e.printStackTrace();
+                    } finally {
+                        if (connection != null) {
+                            connection.disconnect();
+                        }
                     }
                 });
 

@@ -89,10 +89,11 @@ public class PlayerStatsGui extends HyperiumGui {
 
         for (AbstractHypixelStats field : fields) {
             Multithreading.runAsync(() -> {
-                if (!logos.containsKey(field))
+                if (!logos.containsKey(field)) {
+                    HttpURLConnection connection = null;
                     try {
                         URL url = new URL("https://static.sk1er.club/hypixel_games/" + field.getImage() + ".png");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("GET");
                         connection.setUseCaches(true);
                         connection.addRequestProperty("User-Agent", "Mozilla/4.76 Hyperium ");
@@ -106,9 +107,11 @@ public class PlayerStatsGui extends HyperiumGui {
                     } catch (Exception e) {
                         Hyperium.LOGGER.error(field.getClass().getName());
                         e.printStackTrace();
+                    } finally {
+                        if (connection != null) connection.disconnect();
                     }
+                }
             });
-
         }
     }
 
