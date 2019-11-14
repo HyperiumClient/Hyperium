@@ -18,8 +18,6 @@
 package cc.hyperium.mixinsimp.client.gui;
 
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
-import cc.hyperium.integrations.optifine.GuiScreenCapeOF;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.resources.I18n;
@@ -43,16 +41,9 @@ public class HyperiumGuiOptions {
 
         buttonList.add(new GuiButton(114514, parent.width / 2 - 155, parent.height / 6 + 18, 150, 20,
             I18n.format("button.ingame.hyperiumsettings")));
-
-        GuiButton optifineCape;
-        buttonList.add(optifineCape = new GuiButton(62727568, parent.width / 2 + 5, parent.height / 6 + 18, 150,
-            20, I18n.format("gui.optifinecape.capebutton")));
-
-        if (Minecraft.getMinecraft().theWorld == null) optifineCape.visible = false;
     }
 
     public void actionPerformed(GuiButton button) {
         if (button.id == 114514) HyperiumMainGui.INSTANCE.show();
-        if (button.id == 62727568) Minecraft.getMinecraft().displayGuiScreen(new GuiScreenCapeOF());
     }
 }

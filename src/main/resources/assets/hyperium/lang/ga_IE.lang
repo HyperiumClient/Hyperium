@@ -263,10 +263,6 @@ message.invalidparticle=Cineál neamhbhailí na gcáithníní
 message.invalidanimation=Cineál beochan neamhbhailí
 message.purchase=Ceannach %s
 
-# Optifine Integration
-gui.optifinecape.opencape=Oscail Eagarthóir Cape
-gui.optifinecape.capebutton=Rinn Optifine
-
 # Server Fast Join Customization
 gui.serverjoin.enterservername=Cuir isteach ainm an fhreastalaí...
 gui.serverjoin.enterserverip=Cuir isteach ip an fhreastalaí...

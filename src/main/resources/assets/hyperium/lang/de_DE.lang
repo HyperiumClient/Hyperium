@@ -263,10 +263,6 @@ message.invalidparticle=Ungültiger Partikeltyp
 message.invalidanimation=Ungültige Animation
 message.purchase=Kaufe %s
 
-# Optifine Integration
-gui.optifinecape.opencape=Cape-Editor öffnen
-gui.optifinecape.capebutton=Optifine Umhang
-
 # Server Fast Join Customization
 gui.serverjoin.enterservername=Geben Sie den Servernamen ein...
 gui.serverjoin.enterserverip=Geben Sie die Serveradresse ein...
