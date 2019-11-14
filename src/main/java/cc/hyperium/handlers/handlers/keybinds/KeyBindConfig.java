@@ -73,6 +73,8 @@ public class KeyBindConfig {
                 FileReader fileReader = new FileReader(keybindFile);
                 BufferedReader reader = new BufferedReader(fileReader);
                 keyBindJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
+                fileReader.close();
+                reader.close();
             } catch (Exception ex) {
                 // Error occured while loading
                 save();

@@ -193,6 +193,8 @@ public class CustomCrosshairConfig {
                     }
                 }
             }
+
+            fileReader.close();
             bufferedReader.close();
             return true;
         } catch (Exception readingException) {

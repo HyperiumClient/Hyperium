@@ -68,6 +68,8 @@ public class BlockOverlaySettings {
                 overlayBlue = (float) json.optDouble("overlayBlue");
                 overlayAlpha = (float) json.optDouble("overlayAlpha");
                 chromaSpeed = json.optInt("chromaSpeed");
+
+                bufferedReader.close();
             }
         } catch (Exception exception) {
             Hyperium.LOGGER.error("Error occurred while loading BlockOverlay configuration!");

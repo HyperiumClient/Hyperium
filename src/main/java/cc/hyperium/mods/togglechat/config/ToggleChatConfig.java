@@ -51,6 +51,8 @@ public class ToggleChatConfig {
                 FileReader fileReader = new FileReader(toggleFile);
                 BufferedReader reader = new BufferedReader(fileReader);
                 toggleJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
+                fileReader.close();
+                reader.close();
             } catch (Exception ex) {
                 log("Could not read toggles properly, saving.");
                 saveToggles();

@@ -88,6 +88,7 @@ public class KeystrokesSettings {
             if (options.isEmpty()) return;
             String builder = String.join("", options);
             if (builder.trim().length() > 0) parseSettings(new BetterJsonObject(builder.trim()));
+            f.close();
         } catch (Exception ex) {
             Hyperium.LOGGER.warn("Could not load config file! {}", configFile.getName());
             save();

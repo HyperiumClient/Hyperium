@@ -82,6 +82,8 @@ public class ChromaHUD extends AbstractMod {
             FileReader fr = new FileReader(suggestedConfigurationFile);
             BufferedReader br = new BufferedReader(fr);
             data = new JsonHolder(br.lines().collect(Collectors.joining()));
+            fr.close();
+            br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
