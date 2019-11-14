@@ -400,6 +400,7 @@ public class Hyperium {
                 BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
                 BUILD_ID = Integer.parseInt(br.readLine());
                 br.close();
+                resourceAsStream.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -418,6 +419,8 @@ public class Hyperium {
                         FileReader fr = new FileReader(file);
                         BufferedReader bufferedReader = new BufferedReader(fr);
                         bufferedReader.lines().forEach(line -> Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line));
+                        fr.close();
+                        bufferedReader.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

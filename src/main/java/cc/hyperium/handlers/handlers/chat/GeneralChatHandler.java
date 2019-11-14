@@ -134,16 +134,19 @@ public class GeneralChatHandler {
 
         HyperiumChatHandler.regexPatterns = new EnumMap<>(HyperiumChatHandler.ChatRegexType.class);
 
-        Arrays.stream(HyperiumChatHandler.ChatRegexType.values()).forEach(type -> {
+        for (HyperiumChatHandler.ChatRegexType type : HyperiumChatHandler.ChatRegexType.values()) {
             if (!data.has(type.name().toLowerCase())) {
                 Hyperium.LOGGER.error("Could not find chat regex type " + type.name().toLowerCase() + " in the remote file.");
-                return;
+                continue;
             }
             HyperiumChatHandler.regexPatterns.put(type, Pattern.compile(data.optString(type.name().toLowerCase())));
-        });
+        }
 
         posted = true;
-        handlerList.forEach(chatHandler -> chatHandler.callback(data));
+
+        for (HyperiumChatHandler chatHandler : handlerList) {
+            chatHandler.callback(data);
+        }
     }
 
     /**
