@@ -20,12 +20,10 @@ package cc.hyperium.gui.hyperium.tabs;
 import cc.hyperium.Hyperium;
 import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditCrosshair;
 import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSettings;
-import cc.hyperium.config.Category;
-import cc.hyperium.config.SelectorSetting;
-import cc.hyperium.config.SliderSetting;
-import cc.hyperium.config.ToggleSetting;
+import cc.hyperium.config.*;
 import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
+import cc.hyperium.gui.hyperium.RGBFieldSet;
 import cc.hyperium.gui.hyperium.components.*;
 import cc.hyperium.gui.keybinds.GuiKeybinds;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
@@ -45,9 +43,7 @@ public class SettingsTab extends AbstractTab {
     public SettingsTab(HyperiumMainGui gui) {
         super(gui, "tab.settings.name");
 
-        //TODO add other settings objects
-        //TODO maybe readd separate thing for mods
-        //TODO enabled / disabled status
+        //TODO maybe readd separate thing for addons
 
         HashMap<Category, CollapsibleTabComponent> items = new HashMap<>();
         for (Object o : gui.getSettingsObjects()) {
@@ -107,12 +103,23 @@ public class SettingsTab extends AbstractTab {
         apply(new LinkComponent(this, Collections.emptyList(), "Custom Crosshair",
             new GuiCustomCrosshairEditCrosshair(Hyperium.INSTANCE.getInternalAddons().getCustomCrosshairAddon())), true, Category.OTHER, items);
 
-        gui.getRgbFields().forEach(field -> apply(new RGBComponent(this, field), field.isMods(), field.getCategory(), items));
+        apply(new ButtonComponent(this, new ArrayList<>(), "Reset Modifiers", () -> {
+            Settings.BOW_FOV_MODIFIER = 1;
+            Settings.SPRINTING_FOV_MODIFIER = 1;
+            Settings.SLOWNESS_FOV_MODIFIER = 1;
+            Settings.SPEED_FOV_MODIFIER = 1;
+        }), true, Category.FOV_MODIFIER, items);
+
+        for (RGBFieldSet field : gui.getRgbFields()) {
+            apply(new RGBComponent(this, field), field.isMods(), field.getCategory(), items);
+        }
 
         Collection<CollapsibleTabComponent> values = items.values();
         List<CollapsibleTabComponent> c = new ArrayList<>(values);
 
-        values.forEach(CollapsibleTabComponent::sortSelf);
+        for (CollapsibleTabComponent value : values) {
+            value.sortSelf();
+        }
 
         c.sort(Comparator.comparing(CollapsibleTabComponent::getLabel));
         components.addAll(c);
