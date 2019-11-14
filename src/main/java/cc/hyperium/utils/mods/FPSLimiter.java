@@ -21,6 +21,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.Priority;
+import cc.hyperium.event.network.server.ServerLeaveEvent;
 import cc.hyperium.event.world.SpawnpointChangeEvent;
 import cc.hyperium.event.client.TickEvent;
 import org.lwjgl.opengl.Display;
@@ -89,6 +90,13 @@ public class FPSLimiter {
     @InvokeEvent(priority = Priority.LOW)
     public void onWorldChange(SpawnpointChangeEvent event) {
         limbo = false;
+    }
+
+    @InvokeEvent
+    public void leaveServer(ServerLeaveEvent event) {
+        if (limbo) {
+            limbo = false;
+        }
     }
 
     /**
