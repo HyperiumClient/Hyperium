@@ -26,16 +26,18 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(AbstractClientPlayer.class)
 public abstract class MixinAbstractClientPlayer extends EntityPlayer {
@@ -62,11 +64,41 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
         }
     }
 
-    @Inject(method = "getFovModifier", at = @At("RETURN"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
-    private void getFovModifier(CallbackInfoReturnable<Float> cir, float f, IAttributeInstance iattributeinstance) {
+    /**
+     * @author asbyth
+     * @reason update fov event
+     */
+    @Overwrite
+    public float getFovModifier() {
+        float f = 1.0F;
+
+        if (capabilities.isFlying) {
+            f *= 1.1F;
+        }
+
+        IAttributeInstance iAttributeInstance = getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+        f = (float) ((double) f * ((iAttributeInstance.getAttributeValue() / (double) capabilities.getWalkSpeed() + 1.0D) / 2.0D));
+
+        if (capabilities.getWalkSpeed() == 0.0F || Float.isNaN(f) || Float.isInfinite(f)) {
+            f = 1.0F;
+        }
+
+        if (isUsingItem() && getItemInUse().getItem() == Items.bow) {
+            int duration = getItemInUseDuration();
+            float f1 = (float) duration / 20.0F;
+
+            if (f1 > 1.0F) {
+                f1 = 1.0F;
+            } else {
+                f1 = f1 * f1;
+            }
+
+            f *= 1.0F - f1 * 0.15F;
+        }
+
         FovUpdateEvent event = new FovUpdateEvent((AbstractClientPlayer) (Object) this, f);
         EventBus.INSTANCE.post(event);
-        cir.setReturnValue(event.getNewFov());
+        return event.getNewFov();
     }
 
 
