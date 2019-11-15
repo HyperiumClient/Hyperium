@@ -31,8 +31,8 @@ menu.profile.credits=%s Credits
 
 #Hyperium Tabs
 tabs.searchbar=Search...
-tab.settings.name=Settings
-tab.shop.name=Shop
+tab.settings.name=SETTINGS
+tab.shop.name=SHOP
 
 #Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Player Count:

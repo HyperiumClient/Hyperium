@@ -31,7 +31,7 @@ menu.profile.credits=%s クレジット
 # Hyperium Tabs
 tabs.searchbar=検索...
 tab.settings.name=設定
-tab.shop.name=Shop
+tab.shop.name=SHOP
 
 # Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperiumユーザー数:

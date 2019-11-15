@@ -30,8 +30,8 @@ menu.profile.credits=%s Impressum
 
 # Hyperium Tabs
 tabs.searchbar=Suchen...
-tab.settings.name=Einstellungen
-tab.shop.name=Shop
+tab.settings.name=EINSTELLUNGEN
+tab.shop.name=SHOP
 
 # Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Spieleranzahl:

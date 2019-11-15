@@ -94,6 +94,8 @@ public class HyperiumFontRenderer {
             return getFontFromInput("/assets/hyperium/fonts/RobotoCondensed-Regular.ttf");
         } else if (name.equalsIgnoreCase("roboto")) {
             return getFontFromInput("/assets/hyperium/fonts/Roboto-Regular.ttf");
+        } else if (name.equalsIgnoreCase("roboto medium")) {
+            return getFontFromInput("/assets/hyperium/fonts/Roboto-Medium.ttf");
         } else if (name.equalsIgnoreCase("montserrat")) {
             return getFontFromInput("/assets/hyperium/fonts/Montserrat-Regular.ttf");
         } else if (name.equalsIgnoreCase("segoeui") || name.equalsIgnoreCase("segoeui light")) {

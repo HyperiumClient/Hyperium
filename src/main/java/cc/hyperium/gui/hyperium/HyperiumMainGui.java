@@ -61,6 +61,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private HyperiumFontRenderer smol;
     private HyperiumFontRenderer font;
     private HyperiumFontRenderer title;
+    private HyperiumFontRenderer title2;
     private List<AbstractTab> tabs;
     private AbstractTab currentTab;
     private List<RGBFieldSet> rgbFields = new ArrayList<>();
@@ -72,6 +73,7 @@ public class HyperiumMainGui extends HyperiumGui {
         smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F);
         font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F);
         title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F);
+        title2 = new HyperiumFontRenderer("roboto medium", 24.0F);
         settingsObjects.add(Settings.INSTANCE);
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig());
@@ -154,8 +156,8 @@ public class HyperiumMainGui extends HyperiumGui {
         searchField.render(mouseX, mouseY);
         GlStateModifier.INSTANCE.reset();
 
-        title.drawCenteredString(I18n.format(currentTab.getTitle()), width >> 1,
-            yg + ((yg >> 1) - 8), 0xFFFFFF);
+        title2.drawCenteredString(I18n.format(currentTab.getTitle()), width >> 1,
+            yg + ((yg >> 1) - 6), 0xFFFFFF);
 
         /* Render Body */
         currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());

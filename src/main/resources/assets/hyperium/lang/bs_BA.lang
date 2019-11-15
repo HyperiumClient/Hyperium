@@ -30,8 +30,8 @@ menu.profile.credits=%s Krediti
 
 # Hyperium Tabs
 tabs.searchbar=Traži...
-tab.settings.name=Postavci
-tab.shop.name=Trgovina
+tab.settings.name=POSTAVCI
+tab.shop.name=TRGOVINA
 
 # Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Korisnici:

@@ -275,6 +275,7 @@ public class Hyperium {
 
             // Check if the user is running Optifine
             if (AddonCheckerUtil.isUsingOptifine()) {
+                // 🦀
                 optifineInstalled = true;
             }
 

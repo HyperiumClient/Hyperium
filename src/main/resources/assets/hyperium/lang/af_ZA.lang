@@ -30,8 +30,8 @@ menu.profile.credits=%s Krediete
 
 # Hyperium Tabs
 tabs.searchbar=Soek...
-tab.settings.name=Instellings
-tab.shop.name=Winkel
+tab.settings.name=INSTELLINGS
+tab.shop.name=WINKEL
 
 # Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Speler Telling:
