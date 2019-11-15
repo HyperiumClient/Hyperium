@@ -23,7 +23,6 @@ import net.minecraft.client.settings.KeyBinding;
 import org.apache.commons.text.WordUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -176,8 +175,7 @@ public class HyperiumBind extends KeyBinding {
 
         // Check for conflicts with Minecraft binds.
         for (KeyBinding keyBinding : Minecraft.getMinecraft().gameSettings.keyBindings) {
-            int code = keyBinding.getKeyCode();
-            if (currentKeyCode == code) {
+            if (keyBinding != this && keyBinding.getKeyCode() == currentKeyCode) {
                 // There is a conflict!
                 conflicted = true;
             }
