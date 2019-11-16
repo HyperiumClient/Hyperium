@@ -22,9 +22,9 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
-import cc.hyperium.mixinsimp.client.renderer.HyperiumEntityRenderer;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.motionblur.resource.MotionBlurResourceManager;
+import cc.hyperium.utils.renderer.shader.ShaderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
@@ -49,7 +49,7 @@ public class MotionBlurMod extends AbstractMod {
     }
 
     static void applyShader() {
-        HyperiumEntityRenderer.INSTANCE.loadShader(new ResourceLocation("motionblur", "motionblur"));
+        ShaderHelper.INSTANCE.loadShader(new ResourceLocation("motionblur", "motionblur"));
     }
 
     @Override

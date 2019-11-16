@@ -20,7 +20,7 @@ package cc.hyperium.mods.motionblur;
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.config.Settings;
-import cc.hyperium.mixinsimp.client.renderer.HyperiumEntityRenderer;
+import cc.hyperium.utils.renderer.shader.ShaderHelper;
 import org.apache.commons.lang3.math.NumberUtils;
 
 public class MotionBlurCommand implements BaseCommand {
@@ -55,7 +55,7 @@ public class MotionBlurCommand implements BaseCommand {
                 }
             } else {
                 Settings.MOTION_BLUR_ENABLED = false;
-                HyperiumEntityRenderer.INSTANCE.disableBlurShader();
+                ShaderHelper.INSTANCE.disableBlurShader();
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Motion blur disabled.");
             }
         }

@@ -1,0 +1,9 @@
+root = true
+
+[{.travis.yml,*.json}]
+indent_style = space
+indent_size = 2
+
+[*.{java,kt}]
+charset = utf-8
+insert_final_newline = true
