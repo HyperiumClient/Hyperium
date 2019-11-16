@@ -23,14 +23,12 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -129,7 +127,7 @@ public class GeneralChatHandler {
     }
 
     public void post() {
-        JsonHolder data = new JsonHolder(new JsonParser().parse(new InputStreamReader(GeneralChatHandler.class
+/*        JsonHolder data = new JsonHolder(new JsonParser().parse(new InputStreamReader(GeneralChatHandler.class
             .getResourceAsStream("/remoteresources/chat_regex.json"))).getAsJsonObject());
 
         HyperiumChatHandler.regexPatterns = new EnumMap<>(HyperiumChatHandler.ChatRegexType.class);
@@ -146,7 +144,7 @@ public class GeneralChatHandler {
 
         for (HyperiumChatHandler chatHandler : handlerList) {
             chatHandler.callback(data);
-        }
+        }*/
     }
 
     /**

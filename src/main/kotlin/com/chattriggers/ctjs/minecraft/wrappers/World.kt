@@ -1,6 +1,5 @@
 package com.chattriggers.ctjs.minecraft.wrappers
 
-import cc.hyperium.mixins.world.IMixinWorld
 import com.chattriggers.ctjs.minecraft.libs.ChatLib
 import com.chattriggers.ctjs.minecraft.wrappers.objects.Chunk
 import com.chattriggers.ctjs.minecraft.wrappers.objects.Entity
@@ -76,7 +75,7 @@ object World {
     fun isRaining(): Boolean = getWorld()?.worldInfo?.isRaining ?: false
 
     @JvmStatic
-    fun getRainingStrength(): Float = (getWorld() as? IMixinWorld)?.rainingStrength ?: -1f
+    fun getRainingStrength(): Float = (getWorld() as? net.minecraft.world.World)?.rainingStrength ?: -1f
 
     @JvmStatic
     fun getTime(): Long = getWorld()?.worldTime ?: -1L

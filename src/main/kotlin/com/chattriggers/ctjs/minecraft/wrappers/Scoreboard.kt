@@ -1,6 +1,6 @@
 package com.chattriggers.ctjs.minecraft.wrappers
 
-import cc.hyperium.mixinsimp.client.gui.HyperiumGuiIngame
+import net.minecraft.client.gui.GuiIngame
 import net.minecraft.scoreboard.ScorePlayerTeam
 
 object Scoreboard {
@@ -103,11 +103,11 @@ object Scoreboard {
 
     @JvmStatic
     fun setShouldRender(shouldRender: Boolean) {
-        HyperiumGuiIngame.renderScoreboard = shouldRender
+        GuiIngame.renderScoreboard = shouldRender
     }
 
     @JvmStatic
-    fun getShouldRender() = HyperiumGuiIngame.renderScoreboard
+    fun getShouldRender() = GuiIngame.renderScoreboard
 
     private fun updateNames() {
         scoreboardNames.clear()

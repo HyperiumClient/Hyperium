@@ -1,0 +1,80 @@
+--- original/net/minecraft/client/renderer/ThreadDownloadImageData.java
++++ changed/net/minecraft/client/renderer/ThreadDownloadImageData.java
+@@ -7,6 +7,8 @@
+ import java.net.URL;
+ import java.util.concurrent.atomic.AtomicInteger;
+ import javax.imageio.ImageIO;
++
++import cc.hyperium.mods.sk1ercommon.Multithreading;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.renderer.IImageBuffer;
+ import net.minecraft.client.renderer.texture.SimpleTexture;
+@@ -90,45 +92,35 @@
+    }
+ 
+    protected void loadTextureFromServer() {
+-      this.imageThread = new Thread("Texture Downloader #" + threadDownloadCounter.incrementAndGet()) {
+-         public void run() {
+-            HttpURLConnection httpurlconnection = null;
+-            ThreadDownloadImageData.logger.debug("Downloading http texture from {} to {}", new Object[]{ThreadDownloadImageData.this.imageUrl, ThreadDownloadImageData.this.cacheFile});
++      Multithreading.runAsync(() -> {
++         HttpURLConnection connection = null;
+ 
+-            try {
+-               httpurlconnection = (HttpURLConnection)(new URL(ThreadDownloadImageData.this.imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
+-               httpurlconnection.setDoInput(true);
+-               httpurlconnection.setDoOutput(false);
+-               httpurlconnection.connect();
+-               if(httpurlconnection.getResponseCode() / 100 == 2) {
+-                  BufferedImage bufferedimage;
+-                  if(ThreadDownloadImageData.this.cacheFile != null) {
+-                     FileUtils.copyInputStreamToFile(httpurlconnection.getInputStream(), ThreadDownloadImageData.this.cacheFile);
+-                     bufferedimage = ImageIO.read(ThreadDownloadImageData.this.cacheFile);
+-                  } else {
+-                     bufferedimage = TextureUtil.readBufferedImage(httpurlconnection.getInputStream());
+-                  }
++         try {
++            connection = (HttpURLConnection) (new URL(imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
++            connection.setRequestProperty("User-Agent", "Hyperium Client");
++            connection.setDoInput(true);
++            connection.setDoOutput(true);
++            connection.connect();
+ 
+-                  if(ThreadDownloadImageData.this.imageBuffer != null) {
+-                     bufferedimage = ThreadDownloadImageData.this.imageBuffer.parseUserSkin(bufferedimage);
+-                  }
++            if (connection.getResponseCode() / 100 == 2) {
++               BufferedImage image;
+ 
+-                  ThreadDownloadImageData.this.setBufferedImage(bufferedimage);
+-                  return;
++               if (cacheFile != null) {
++                  FileUtils.copyInputStreamToFile(connection.getInputStream(), cacheFile);
++                  image = ImageIO.read(cacheFile);
++               } else {
++                  image = TextureUtil.readBufferedImage(connection.getInputStream());
+                }
+-            } catch (Exception exception) {
+-               ThreadDownloadImageData.logger.error((String)"Couldn\'t download http texture", (Throwable)exception);
+-               return;
+-            } finally {
+-               if(httpurlconnection != null) {
+-                  httpurlconnection.disconnect();
+-               }
+ 
++               if (imageBuffer != null) image = imageBuffer.parseUserSkin(image);
++               setBufferedImage(image);
+             }
+-
++         } catch (Exception ignored) {
++         } finally {
++            if (connection != null) {
++               connection.disconnect();
++            }
+          }
+-      };
+-      this.imageThread.setDaemon(true);
+-      this.imageThread.start();
++      });
+    }
+ }

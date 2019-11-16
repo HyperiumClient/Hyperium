@@ -1,0 +1,13 @@
+--- original/net/minecraft/client/gui/GuiVideoSettings.java
++++ changed/net/minecraft/client/gui/GuiVideoSettings.java
+@@ -116,4 +116,10 @@
+       this.drawCenteredString(this.fontRendererObj, this.screenTitle, this.width / 2, 5, 16777215);
+       super.drawScreen(mouseX, mouseY, partialTicks);
+    }
++
++   @Override
++   public void onGuiClosed() {
++      super.onGuiClosed();
++      mc.gameSettings.onGuiClosed();
++   }
+ }

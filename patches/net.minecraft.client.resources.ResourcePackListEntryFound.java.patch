@@ -1,0 +1,11 @@
+--- original/net/minecraft/client/resources/ResourcePackListEntryFound.java
++++ changed/net/minecraft/client/resources/ResourcePackListEntryFound.java
+@@ -27,7 +27,7 @@
+       return this.field_148319_c.getTexturePackDescription();
+    }
+ 
+-   protected String func_148312_b() {
++   public String func_148312_b() {
+       return this.field_148319_c.getResourcePackName();
+    }
+ 

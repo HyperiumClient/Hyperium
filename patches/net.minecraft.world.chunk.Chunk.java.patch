@@ -1,0 +1,35 @@
+--- original/net/minecraft/world/chunk/Chunk.java
++++ changed/net/minecraft/world/chunk/Chunk.java
+@@ -1,5 +1,6 @@
+ package net.minecraft.world.chunk;
+ 
++import cc.hyperium.config.Settings;
+ import com.google.common.base.Predicate;
+ import com.google.common.collect.Maps;
+ import com.google.common.collect.Queues;
+@@ -13,6 +14,7 @@
+ import net.minecraft.block.ITileEntityProvider;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.state.IBlockState;
++import net.minecraft.client.Minecraft;
+ import net.minecraft.crash.CrashReport;
+ import net.minecraft.crash.CrashReportCategory;
+ import net.minecraft.entity.Entity;
+@@ -595,6 +597,8 @@
+    }
+ 
+    public int getLightFor(EnumSkyBlock p_177413_1_, BlockPos pos) {
++      if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
++
+       int i = pos.getX() & 15;
+       int j = pos.getY();
+       int k = pos.getZ() & 15;
+@@ -624,6 +628,8 @@
+    }
+ 
+    public int getLightSubtracted(BlockPos pos, int amount) {
++      if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
++
+       int i = pos.getX() & 15;
+       int j = pos.getY();
+       int k = pos.getZ() & 15;

@@ -1,0 +1,18 @@
+--- original/net/minecraft/network/NetworkManager.java
++++ changed/net/minecraft/network/NetworkManager.java
+@@ -1,5 +1,7 @@
+ package net.minecraft.network;
+ 
++import cc.hyperium.event.EventBus;
++import cc.hyperium.event.network.PacketReceivedEvent;
+ import com.google.common.collect.Queues;
+ import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ import io.netty.bootstrap.Bootstrap;
+@@ -139,6 +141,7 @@
+       if(this.channel.isOpen()) {
+          try {
+             p_channelRead0_2_.processPacket(this.packetListener);
++            EventBus.INSTANCE.post(new PacketReceivedEvent(p_channelRead0_2_));
+          } catch (ThreadQuickExitException var4) {
+             ;
+          }

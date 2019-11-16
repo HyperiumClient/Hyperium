@@ -1,0 +1,15 @@
+--- original/net/minecraft/client/gui/GuiMultiplayer.java
++++ changed/net/minecraft/client/gui/GuiMultiplayer.java
+@@ -384,4 +384,12 @@
+ 
+       this.serverListSelector.func_148195_a(this.savedServerList);
+    }
++
++   public void makeDirectConnect() {
++      directConnect = true;
++   }
++
++   public void setIp(ServerData ip) {
++      selectedServer = ip;
++   }
+ }

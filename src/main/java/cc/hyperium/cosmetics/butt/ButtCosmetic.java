@@ -21,7 +21,7 @@ import cc.hyperium.cosmetics.AbstractCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.model.PreCopyPlayerModelAnglesEvent;
 import cc.hyperium.event.Priority;
-import cc.hyperium.mixinsimp.client.model.IMixinModelPlayer;
+import cc.hyperium.utils.model.IModelPlayer;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
@@ -33,18 +33,18 @@ public class ButtCosmetic extends AbstractCosmetic {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void preCopy(PreCopyPlayerModelAnglesEvent event) {
-        if (!(event.getModel() instanceof IMixinModelPlayer)) return;
+        if (!(event.getModel() instanceof IModelPlayer)) return;
 
         if (!isPurchasedBy(event.getEntity().getUniqueID())) {
-            ((IMixinModelPlayer) event.getModel()).getButt().showModel = false;
+            ((IModelPlayer) event.getModel()).getButt().showModel = false;
             return;
         }
 
         HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
         if (packageIfReady == null) return;
 
-        ((IMixinModelPlayer) event.getModel()).getButt().showModel = !packageIfReady.getCachedSettings().isButtDisabled();
-        ((IMixinModelPlayer) event.getModel()).getButt().offsetY = event.getEntity().isSneaking() ? -.45F : -.4F;
-        ((IMixinModelPlayer) event.getModel()).getButt().offsetZ = event.getEntity().isSneaking() ? .3F : 0F;
+        ((IModelPlayer) event.getModel()).getButt().showModel = !packageIfReady.getCachedSettings().isButtDisabled();
+        ((IModelPlayer) event.getModel()).getButt().offsetY = event.getEntity().isSneaking() ? -.45F : -.4F;
+        ((IModelPlayer) event.getModel()).getButt().offsetZ = event.getEntity().isSneaking() ? .3F : 0F;
     }
 }

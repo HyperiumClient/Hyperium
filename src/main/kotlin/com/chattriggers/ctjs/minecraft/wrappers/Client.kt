@@ -1,7 +1,6 @@
 package com.chattriggers.ctjs.minecraft.wrappers
 
 import com.chattriggers.ctjs.minecraft.libs.renderer.Renderer
-import cc.hyperium.mixins.client.gui.IMixinGuiChat
 import com.chattriggers.ctjs.minecraft.objects.KeyBind
 import com.chattriggers.ctjs.utils.kotlin.External
 import net.minecraft.client.Minecraft
@@ -149,7 +148,7 @@ object Client {
     @JvmStatic
     fun getCurrentChatMessage(): String {
         return if (isInChat()) {
-            val chatGui = getMinecraft().currentScreen as IMixinGuiChat
+            val chatGui = getMinecraft().currentScreen as GuiChat
             chatGui.inputField.text
         } else ""
     }
@@ -162,7 +161,7 @@ object Client {
     @JvmStatic
     fun setCurrentChatMessage(message: String) {
         if (isInChat()) {
-            val chatGui = getMinecraft().currentScreen as IMixinGuiChat
+            val chatGui = getMinecraft().currentScreen as GuiChat
             chatGui.inputField.text = message
         } else getMinecraft().displayGuiScreen(GuiChat(message))
     }

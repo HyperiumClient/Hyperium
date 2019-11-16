@@ -1,0 +1,27 @@
+--- original/net/minecraft/crash/CrashReport.java
++++ changed/net/minecraft/crash/CrashReport.java
+@@ -1,5 +1,8 @@
+ package net.minecraft.crash;
+ 
++import cc.hyperium.Metadata;
++import cc.hyperium.commands.defaults.CommandDebug;
++import com.chattriggers.ctjs.engine.ModuleManager;
+ import com.google.common.collect.Lists;
+ import java.io.File;
+ import java.io.FileWriter;
+@@ -48,6 +51,15 @@
+     * environment
+     */
+    private void populateEnvironment() {
++      theReportCategory.addCrashSectionCallable(
++              "ct.js modules",
++              () -> ModuleManager.INSTANCE.getCachedModules().toString()
++      );
++
++      CrashReportCategory category = makeCategoryDepth("Affected level", 1);
++      category.addCrashSection("Hyperium Version", Metadata.getVersion() + " (" + Metadata.getVersionID() + ")");
++      category.addCrashSection("Everything else", CommandDebug.get());
++
+       this.theReportCategory.addCrashSectionCallable("Minecraft Version", new Callable<String>() {
+          public String call() {
+             return "1.8.9";

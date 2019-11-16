@@ -1,0 +1,11 @@
+--- original/net/minecraft/client/resources/ResourcePackListEntry.java
++++ changed/net/minecraft/client/resources/ResourcePackListEntry.java
+@@ -106,7 +106,7 @@
+ 
+    protected abstract String func_148311_a();
+ 
+-   protected abstract String func_148312_b();
++   public abstract String func_148312_b();
+ 
+    protected abstract void func_148313_c();
+ 

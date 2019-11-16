@@ -18,7 +18,7 @@
 package cc.hyperium.handlers.handlers.particle.particle;
 
 import cc.hyperium.handlers.handlers.particle.IParticle;
-import cc.hyperium.mixinsimp.client.particle.IMixinEffectRenderer;
+import cc.hyperium.utils.particle.IEffectRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.IParticleFactory;
@@ -33,7 +33,7 @@ import java.util.Map;
 public class VillagerHappyParticle implements IParticle {
     @Override
     public EntityFX spawn(World world, double x, double y, double z) {
-        Map<Integer, IParticleFactory> particleMap = ((IMixinEffectRenderer) Minecraft.getMinecraft().effectRenderer).getParticleMap();
+        Map<Integer, IParticleFactory> particleMap = ((IEffectRenderer) Minecraft.getMinecraft().effectRenderer).getParticleMap();
         IParticleFactory iParticleFactory = particleMap.get(EnumParticleTypes.VILLAGER_HAPPY.getParticleID());
         return iParticleFactory.getEntityFX(EnumParticleTypes.VILLAGER_HAPPY.getParticleID(), world, x, y, z, 0.0F, -0.1F, 0.0F, 0);
     }

@@ -1,0 +1,34 @@
+--- original/net/minecraft/client/settings/GameSettings.java
++++ changed/net/minecraft/client/settings/GameSettings.java
+@@ -223,7 +223,7 @@
+     */
+    public void setOptionKeyBinding(KeyBinding key, int keyCode) {
+       key.setKeyCode(keyCode);
+-      this.saveOptions();
++      Minecraft.getMinecraft().gameSettings.saveOptions();
+    }
+ 
+    /**
+@@ -281,7 +281,7 @@
+             this.mc.getTextureMapBlocks().setMipmapLevels(this.mipmapLevels);
+             this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+             this.mc.getTextureMapBlocks().setBlurMipmapDirect(false, this.mipmapLevels > 0);
+-            this.mc.scheduleResourcesRefresh();
++            needsResourceRefresh = true;
+          }
+       }
+ 
+@@ -1148,4 +1148,13 @@
+          return value;
+       }
+    }
++
++   private boolean needsResourceRefresh;
++
++   public void onGuiClosed() {
++      if (needsResourceRefresh) {
++         mc.scheduleResourcesRefresh();
++         needsResourceRefresh = false;
++      }
++   }
+ }

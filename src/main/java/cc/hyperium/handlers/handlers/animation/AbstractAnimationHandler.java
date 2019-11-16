@@ -22,8 +22,8 @@ import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.render.RenderEvent;
 import cc.hyperium.event.world.WorldChangeEvent;
-import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
-import cc.hyperium.mixinsimp.client.model.IMixinModelPlayer;
+import cc.hyperium.utils.model.IModelBiped;
+import cc.hyperium.utils.model.IModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelRenderer;
@@ -94,7 +94,7 @@ public abstract class AbstractAnimationHandler {
         get(uuid).stopAnimation();
     }
 
-    protected void modify(AbstractClientPlayer entity, IMixinModelBiped player, boolean pre) {
+    protected void modify(AbstractClientPlayer entity, IModelBiped player, boolean pre) {
         if (Settings.DISABLE_DANCES) {
             if (!reset) {
                 resetAnimation(player);
@@ -117,8 +117,8 @@ public abstract class AbstractAnimationHandler {
         player.getBipedHeadwear().rotateAngleZ = 0F;
 
 
-        if (player instanceof IMixinModelPlayer) {
-            IMixinModelPlayer player1 = (IMixinModelPlayer) player;
+        if (player instanceof IModelPlayer) {
+            IModelPlayer player1 = (IModelPlayer) player;
             player1.getBipedBodywear().rotateAngleZ = 0F;
             player1.getBipedRightUpperLegwear().rotateAngleZ = 0F;
             player1.getBipedLeftUpperLegwear().rotateAngleZ = 0F;
@@ -152,8 +152,8 @@ public abstract class AbstractAnimationHandler {
                 player.getBipedRightForeArm().offsetY = 0;
                 player.getBipedRightForeArm().offsetX = 0;
 
-                if (player instanceof IMixinModelPlayer) {
-                    IMixinModelPlayer player1 = (IMixinModelPlayer) player;
+                if (player instanceof IModelPlayer) {
+                    IModelPlayer player1 = (IModelPlayer) player;
                     player1.getBipedLeftUpperArmwear().offsetY = 0;
                     player1.getBipedRightUpperArmwear().offsetY = 0;
                     player1.getBipedBodywear().offsetY = 0;
@@ -177,15 +177,15 @@ public abstract class AbstractAnimationHandler {
 
         float heldPercent = state / 100F;
         if (CosmeticsUtil.shouldHide(null)) return;
-        if (player instanceof IMixinModelPlayer) modifyPlayer(entity, ((IMixinModelPlayer) player), heldPercent);
+        if (player instanceof IModelPlayer) modifyPlayer(entity, ((IModelPlayer) player), heldPercent);
         else modifyPlayer(entity, player, heldPercent);
     }
 
-    public abstract void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent);
+    public abstract void modifyPlayer(AbstractClientPlayer entity, IModelPlayer player, float heldPercent);
 
-    public abstract void modifyPlayer(AbstractClientPlayer entity, IMixinModelBiped player, float heldPercent);
+    public abstract void modifyPlayer(AbstractClientPlayer entity, IModelBiped player, float heldPercent);
 
-    protected void resetAnimation(IMixinModelBiped player) {
+    protected void resetAnimation(IModelBiped player) {
         resetModelRenderers(
             player.getBipedHead(), player.getBipedHeadwear(),
             player.getBipedBody(),
@@ -195,8 +195,8 @@ public abstract class AbstractAnimationHandler {
             player.getBipedLeftUpperArm(), player.getBipedLeftForeArm()
         );
 
-        if (player instanceof IMixinModelPlayer) {
-            IMixinModelPlayer modelPlayer = (IMixinModelPlayer) player;
+        if (player instanceof IModelPlayer) {
+            IModelPlayer modelPlayer = (IModelPlayer) player;
             resetModelRenderers(
                 modelPlayer.getBipedBodywear(),
                 modelPlayer.getBipedRightUpperLegwear(), modelPlayer.getBipedRightLowerLegwear(),

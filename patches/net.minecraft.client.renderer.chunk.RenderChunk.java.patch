@@ -1,0 +1,29 @@
+--- original/net/minecraft/client/renderer/chunk/RenderChunk.java
++++ changed/net/minecraft/client/renderer/chunk/RenderChunk.java
+@@ -1,5 +1,7 @@
+ package net.minecraft.client.renderer.chunk;
+ 
++import cc.hyperium.Hyperium;
++import cc.hyperium.mods.chunkanimator.AnimationHandler;
+ import com.google.common.collect.Maps;
+ import com.google.common.collect.Sets;
+ import java.nio.FloatBuffer;
+@@ -53,6 +55,8 @@
+    private boolean needsUpdate = true;
+    private EnumMap<EnumFacing, BlockPos> mapEnumFacing = Maps.newEnumMap(EnumFacing.class);
+ 
++   private AnimationHandler handler;
++
+    public RenderChunk(World worldIn, RenderGlobal renderGlobalIn, BlockPos blockPosIn, int indexIn) {
+       this.world = worldIn;
+       this.renderGlobal = renderGlobalIn;
+@@ -83,6 +87,9 @@
+    }
+ 
+    public void setPosition(BlockPos pos) {
++      if (handler == null) handler = Hyperium.INSTANCE.getModIntegration().getChunkAnimator().getAnimationHandler();
++      handler.setPosition(this, pos);
++
+       this.stopCompileTask();
+       this.position = pos;
+       this.boundingBox = new AxisAlignedBB(pos, pos.add(16, 16, 16));

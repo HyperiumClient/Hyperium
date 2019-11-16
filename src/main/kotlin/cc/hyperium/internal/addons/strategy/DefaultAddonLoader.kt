@@ -21,7 +21,6 @@ import cc.hyperium.internal.addons.AddonBootstrap
 import cc.hyperium.internal.addons.AddonManifest
 import cc.hyperium.internal.addons.misc.AddonLoadException
 import cc.hyperium.internal.addons.misc.AddonManifestParser
-import net.minecraft.launchwrapper.Launch
 
 import java.io.File
 import java.util.jar.JarFile
@@ -61,7 +60,7 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
             return null
         }
         val uri = file.toURI()
-        Launch.classLoader.addURL(uri.toURL())
+//        Launch.classLoader.addURL(uri.toURL())
 
         return manifest
     }

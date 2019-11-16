@@ -1,0 +1,119 @@
+--- original/net/minecraft/client/audio/SoundManager.java
++++ changed/net/minecraft/client/audio/SoundManager.java
+@@ -1,29 +1,11 @@
+ package net.minecraft.client.audio;
+ 
+-import com.google.common.collect.BiMap;
+-import com.google.common.collect.HashBiMap;
+-import com.google.common.collect.HashMultimap;
+-import com.google.common.collect.Lists;
+-import com.google.common.collect.Maps;
+-import com.google.common.collect.Multimap;
++import cc.hyperium.config.Settings;
++import cc.hyperium.event.EventBus;
++import cc.hyperium.event.world.audio.SoundPlayEvent;
++import com.google.common.collect.*;
+ import io.netty.util.internal.ThreadLocalRandom;
+-import java.io.IOException;
+-import java.io.InputStream;
+-import java.net.MalformedURLException;
+-import java.net.URL;
+-import java.net.URLConnection;
+-import java.net.URLStreamHandler;
+-import java.util.Iterator;
+-import java.util.List;
+-import java.util.Map;
+-import java.util.Map.Entry;
+ import net.minecraft.client.Minecraft;
+-import net.minecraft.client.audio.ISound;
+-import net.minecraft.client.audio.ITickableSound;
+-import net.minecraft.client.audio.SoundCategory;
+-import net.minecraft.client.audio.SoundEventAccessorComposite;
+-import net.minecraft.client.audio.SoundHandler;
+-import net.minecraft.client.audio.SoundPoolEntry;
+ import net.minecraft.client.settings.GameSettings;
+ import net.minecraft.entity.player.EntityPlayer;
+ import net.minecraft.util.MathHelper;
+@@ -34,14 +16,23 @@
+ import org.apache.logging.log4j.Logger;
+ import org.apache.logging.log4j.Marker;
+ import org.apache.logging.log4j.MarkerManager;
+-import paulscode.sound.SoundSystem;
+-import paulscode.sound.SoundSystemConfig;
+-import paulscode.sound.SoundSystemException;
+-import paulscode.sound.SoundSystemLogger;
+-import paulscode.sound.Source;
++import org.lwjgl.opengl.Display;
++import paulscode.sound.*;
+ import paulscode.sound.codecs.CodecJOrbis;
+ import paulscode.sound.libraries.LibraryLWJGLOpenAL;
+ 
++import java.io.IOException;
++import java.io.InputStream;
++import java.net.MalformedURLException;
++import java.net.URL;
++import java.net.URLConnection;
++import java.net.URLStreamHandler;
++import java.util.Iterator;
++import java.util.List;
++import java.util.Map;
++import java.util.Map.Entry;
++import java.util.concurrent.locks.ReentrantLock;
++
+ @SideOnly(Side.CLIENT)
+ public class SoundManager {
+    /** The marker used for logging */
+@@ -180,6 +171,8 @@
+     * Stops all currently playing sounds
+     */
+    public void stopAllSounds() {
++       // Hyperium - lock the entry
++       lock.lock();
+       if(this.loaded) {
+          for(String s : this.playingSounds.keySet()) {
+             this.sndSystem.stop(s);
+@@ -193,9 +186,13 @@
+          this.playingSoundsStopTime.clear();
+       }
+ 
++       // Hyperium - unlock the entry
++       lock.unlock();
+    }
+ 
+    public void updateAllSounds() {
++       // Hyperium - lock the entry
++       lock.lock();
+       ++this.playTime;
+ 
+       for(ITickableSound itickablesound : this.tickableSounds) {
+@@ -258,6 +255,9 @@
+          }
+       }
+ 
++       // Hyperium - unlock the entry
++       lock.unlock();
++
+    }
+ 
+    /**
+@@ -282,11 +282,19 @@
+       }
+    }
+ 
+-   public void playSound(ISound p_sound) {
++    private ReentrantLock lock = new ReentrantLock();
++
++    public void playSound(ISound p_sound) {
+       if(this.loaded) {
+          if(this.sndSystem.getMasterVolume() <= 0.0F) {
+             logger.debug(LOG_MARKER, "Skipped playing soundEvent: {}, master volume was zero", new Object[]{p_sound.getSoundLocation()});
+          } else {
++
++             if (Settings.SMART_SOUNDS && !Display.isActive()) return;
++             SoundPlayEvent e = new SoundPlayEvent(p_sound);
++             EventBus.INSTANCE.post(e);
++             if (e.isCancelled()) return;
++
+             SoundEventAccessorComposite soundeventaccessorcomposite = this.sndHandler.getSound(p_sound.getSoundLocation());
+             if(soundeventaccessorcomposite == null) {
+                logger.warn(LOG_MARKER, "Unable to play unknown soundEvent: {}", new Object[]{p_sound.getSoundLocation()});

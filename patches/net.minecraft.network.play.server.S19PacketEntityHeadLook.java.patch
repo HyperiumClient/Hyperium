@@ -1,0 +1,11 @@
+--- original/net/minecraft/network/play/server/S19PacketEntityHeadLook.java
++++ changed/net/minecraft/network/play/server/S19PacketEntityHeadLook.java
+@@ -46,7 +46,7 @@
+ 
+    @SideOnly(Side.CLIENT)
+    public Entity getEntity(World worldIn) {
+-      return worldIn.getEntityByID(this.entityId);
++      return worldIn != null ? worldIn.getEntityByID(entityId) : null;
+    }
+ 
+    @SideOnly(Side.CLIENT)

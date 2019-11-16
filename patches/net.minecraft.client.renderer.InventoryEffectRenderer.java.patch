@@ -1,0 +1,28 @@
+--- original/net/minecraft/client/renderer/InventoryEffectRenderer.java
++++ changed/net/minecraft/client/renderer/InventoryEffectRenderer.java
+@@ -1,6 +1,8 @@
+ package net.minecraft.client.renderer;
+ 
+ import java.util.Collection;
++
++import net.minecraft.client.Minecraft;
+ import net.minecraft.client.gui.inventory.GuiContainer;
+ import net.minecraft.client.renderer.GlStateManager;
+ import net.minecraft.client.resources.I18n;
+@@ -29,14 +31,8 @@
+    }
+ 
+    protected void updateActivePotionEffects() {
+-      if(!this.mc.thePlayer.getActivePotionEffects().isEmpty()) {
+-         this.guiLeft = 160 + (this.width - this.xSize - 200) / 2;
+-         this.hasActivePotionEffects = true;
+-      } else {
+-         this.guiLeft = (this.width - this.xSize) / 2;
+-         this.hasActivePotionEffects = false;
+-      }
+-
++      hasActivePotionEffects = !Minecraft.getMinecraft().thePlayer.getActivePotionEffects().isEmpty();
++      guiLeft = (width - xSize) / 2;
+    }
+ 
+    /**

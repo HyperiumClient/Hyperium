@@ -1,0 +1,51 @@
+--- original/net/minecraft/util/Session.java
++++ changed/net/minecraft/util/Session.java
+@@ -2,9 +2,12 @@
+ 
+ import com.google.common.collect.Maps;
+ import com.mojang.authlib.GameProfile;
++import com.mojang.authlib.properties.PropertyMap;
+ import com.mojang.util.UUIDTypeAdapter;
+ import java.util.Map;
+ import java.util.UUID;
++
++import net.minecraft.entity.player.EntityPlayer;
+ import net.minecraftforge.fml.relauncher.Side;
+ import net.minecraftforge.fml.relauncher.SideOnly;
+ 
+@@ -15,6 +18,8 @@
+    private final String token;
+    private final Session.Type sessionType;
+ 
++   private PropertyMap properties;
++
+    public Session(String usernameIn, String playerIDIn, String tokenIn, String sessionTypeIn) {
+       this.username = usernameIn;
+       this.playerID = playerIDIn;
+@@ -40,13 +45,23 @@
+ 
+    public GameProfile getProfile() {
+       try {
+-         UUID uuid = UUIDTypeAdapter.fromString(this.getPlayerID());
+-         return new GameProfile(uuid, this.getUsername());
++         UUID uuid = UUIDTypeAdapter.fromString(getPlayerID());
++         GameProfile ret = new GameProfile(uuid, getUsername());
++         if (properties != null) ret.getProperties().putAll(properties);
++         return ret;
+       } catch (IllegalArgumentException var2) {
+-         return new GameProfile((UUID)null, this.getUsername());
++         return new GameProfile(EntityPlayer.getUUID(new GameProfile(null, getUsername())), getUsername());
+       }
+    }
+ 
++   public void setProperties(PropertyMap properties) {
++      this.properties = properties;
++   }
++
++   public boolean hasCachedProperties() {
++      return properties != null;
++   }
++
+    /**
+     * Returns either 'legacy' or 'mojang' whether the account is migrated or not
+     */

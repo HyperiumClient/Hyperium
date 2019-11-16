@@ -1,0 +1,15 @@
+--- original/net/minecraft/client/resources/ResourcePackRepository.java
++++ changed/net/minecraft/client/resources/ResourcePackRepository.java
+@@ -211,6 +211,12 @@
+     * Keep only the 10 most recent resources packs, delete the others
+     */
+    private void deleteOldServerResourcesPacks() {
++      try {
++         FileUtils.listFiles(dirServerResourcepacks, TrueFileFilter.TRUE, null);
++      } catch (Exception e) {
++         return;
++      }
++
+       List<File> list = Lists.newArrayList(FileUtils.listFiles(this.dirServerResourcepacks, TrueFileFilter.TRUE, (IOFileFilter)null));
+       Collections.sort(list, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
+       int i = 0;

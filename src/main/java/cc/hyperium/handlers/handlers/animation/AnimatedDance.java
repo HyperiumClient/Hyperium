@@ -20,8 +20,8 @@ package cc.hyperium.handlers.handlers.animation;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.model.PostCopyPlayerModelAnglesEvent;
 import cc.hyperium.event.world.WorldChangeEvent;
-import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
-import cc.hyperium.mixinsimp.client.model.IMixinModelPlayer;
+import cc.hyperium.utils.model.IModelBiped;
+import cc.hyperium.utils.model.IModelPlayer;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonElement;
@@ -121,14 +121,14 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
     @InvokeEvent
     public void onPostCopyPlayerModelAngles(PostCopyPlayerModelAnglesEvent event) {
         AbstractClientPlayer entity = event.getEntity();
-        IMixinModelBiped player = event.getModel();
+        IModelBiped player = event.getModel();
         modify(entity, player, false);
     }
 
     public abstract JsonHolder getData();
 
     @Override
-    public void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent) {
+    public void modifyPlayer(AbstractClientPlayer entity, IModelPlayer player, float heldPercent) {
         if (!loaded) return;
         Long aLong = states.get(entity.getUniqueID());
 
@@ -222,7 +222,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
     }
 
     @Override
-    public void modifyPlayer(AbstractClientPlayer entity, IMixinModelBiped player, float heldPercent) {
+    public void modifyPlayer(AbstractClientPlayer entity, IModelBiped player, float heldPercent) {
         if (!loaded) return;
 
         Long aLong = states.get(entity.getUniqueID());

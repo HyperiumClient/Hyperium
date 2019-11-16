@@ -2,7 +2,6 @@ package com.chattriggers.ctjs.minecraft.libs
 
 import cc.hyperium.Hyperium
 import cc.hyperium.event.network.chat.ServerChatEvent
-import cc.hyperium.mixins.client.gui.IMixinGuiNewChat
 import com.chattriggers.ctjs.engine.ModuleManager
 import com.chattriggers.ctjs.minecraft.libs.renderer.Renderer
 import com.chattriggers.ctjs.minecraft.listeners.ChatListener
@@ -14,6 +13,7 @@ import com.chattriggers.ctjs.utils.kotlin.External
 import com.chattriggers.ctjs.utils.kotlin.times
 import jdk.nashorn.api.scripting.ScriptObjectMirror
 import net.minecraft.client.gui.ChatLine
+import net.minecraft.client.gui.GuiNewChat
 import java.util.regex.Pattern
 
 @External
@@ -275,8 +275,8 @@ object ChatLib {
      */
     @JvmStatic
     private fun editChat(toReplace: (Message) -> Boolean, vararg replacements: Message) {
-        val drawnChatLines = (Client.getChatGUI() as IMixinGuiNewChat).drawnChatLines
-        val chatLines = (Client.getChatGUI() as IMixinGuiNewChat).chatLines
+        val drawnChatLines = (Client.getChatGUI() as GuiNewChat).drawnChatLines
+        val chatLines = (Client.getChatGUI() as GuiNewChat).chatLines
 
         editChatLineList(chatLines, toReplace, *replacements)
         editChatLineList(drawnChatLines, toReplace, *replacements)

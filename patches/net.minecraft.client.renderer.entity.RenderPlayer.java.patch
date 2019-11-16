@@ -1,0 +1,89 @@
+--- original/net/minecraft/client/renderer/entity/RenderPlayer.java
++++ changed/net/minecraft/client/renderer/entity/RenderPlayer.java
+@@ -1,17 +1,16 @@
+ package net.minecraft.client.renderer.entity;
+ 
++import cc.hyperium.event.EventBus;
++import cc.hyperium.event.render.RenderNameTagEvent;
++import cc.hyperium.event.render.RenderPlayerEvent;
++import cc.hyperium.utils.renderer.TwoPartLayerBipedArmor;
++import net.minecraft.client.Minecraft;
+ import net.minecraft.client.entity.AbstractClientPlayer;
+ import net.minecraft.client.entity.EntityPlayerSP;
+ import net.minecraft.client.model.ModelPlayer;
+ import net.minecraft.client.renderer.GlStateManager;
+-import net.minecraft.client.renderer.entity.RenderManager;
+-import net.minecraft.client.renderer.entity.RendererLivingEntity;
+-import net.minecraft.client.renderer.entity.layers.LayerArrow;
+-import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+-import net.minecraft.client.renderer.entity.layers.LayerCape;
+-import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
+-import net.minecraft.client.renderer.entity.layers.LayerDeadmau5Head;
+-import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
++import net.minecraft.client.renderer.entity.layers.*;
++import net.minecraft.entity.EntityLivingBase;
+ import net.minecraft.entity.player.EnumPlayerModelParts;
+ import net.minecraft.item.EnumAction;
+ import net.minecraft.item.ItemStack;
+@@ -34,7 +33,8 @@
+    public RenderPlayer(RenderManager renderManager, boolean useSmallArms) {
+       super(renderManager, new ModelPlayer(0.0F, useSmallArms), 0.5F);
+       this.smallArms = useSmallArms;
+-      this.addLayer(new LayerBipedArmor(this));
++      LayerBipedArmor var3 = new LayerBipedArmor(this);
++      this.addLayer(injectTwoPartLayerBipedArmor(var3));
+       this.addLayer(new LayerHeldItem(this));
+       this.addLayer(new LayerArrow(this));
+       this.addLayer(new LayerDeadmau5Head(this));
+@@ -50,6 +50,9 @@
+     * Renders the desired {@code T} type Entity.
+     */
+    public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks) {
++      GlStateManager.resetColor();
++      EventBus.INSTANCE.post(new RenderPlayerEvent(entity, renderManager, x, y, z, partialTicks));
++
+       if(!entity.isUser() || this.renderManager.livingPlayer == entity) {
+          double d0 = y;
+          if(entity.isSneaking() && !(entity instanceof EntityPlayerSP)) {
+@@ -117,13 +120,19 @@
+    }
+ 
+    protected void renderOffsetLivingLabel(AbstractClientPlayer entityIn, double x, double y, double z, String str, float p_177069_9_, double p_177069_10_) {
+-      if(p_177069_10_ < 100.0D) {
++      if (p_177069_10_ < 100.0D) {
+          Scoreboard scoreboard = entityIn.getWorldScoreboard();
+          ScoreObjective scoreobjective = scoreboard.getObjectiveInDisplaySlot(2);
+-         if(scoreobjective != null) {
++
++         if (scoreobjective != null) {
+             Score score = scoreboard.getValueFromObjective(entityIn.getName(), scoreobjective);
+-            this.renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
+-            y += (double)((float)this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_);
++            RenderNameTagEvent.CANCEL = true;
++            if (entityIn != Minecraft.getMinecraft().thePlayer) {
++               renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
++               y += (float) getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_;
++            }
++
++            RenderNameTagEvent.CANCEL = false;
+          }
+       }
+ 
+@@ -136,7 +145,7 @@
+       ModelPlayer modelplayer = this.getMainModel();
+       this.setModelVisibilities(clientPlayer);
+       modelplayer.swingProgress = 0.0F;
+-      modelplayer.isSneak = false;
++      modelplayer.isRiding = modelplayer.isSneak = false;
+       modelplayer.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, clientPlayer);
+       modelplayer.renderRightArm();
+    }
+@@ -174,4 +183,8 @@
+       }
+ 
+    }
++
++   public <V extends EntityLivingBase, U extends LayerRenderer<V>> U injectTwoPartLayerBipedArmor(U original) {
++      return (U) new TwoPartLayerBipedArmor(this);
++   }
+ }

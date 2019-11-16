@@ -18,8 +18,8 @@
 package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
-import cc.hyperium.mixinsimp.client.model.IMixinModelPlayer;
+import cc.hyperium.utils.model.IModelBiped;
+import cc.hyperium.utils.model.IModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 
@@ -65,7 +65,7 @@ public class FlossDanceHandler extends AbstractPreCopyAnglesAnimationHandler {
     }
 
     @Override
-    public void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent) {
+    public void modifyPlayer(AbstractClientPlayer entity, IModelPlayer player, float heldPercent) {
         if (shouldNotModify(entity, player)) return;
 
         player.getBipedBody().rotateAngleZ = (float) Math.toRadians((right ? 10f : -10f) * heldPercent);
@@ -99,7 +99,7 @@ public class FlossDanceHandler extends AbstractPreCopyAnglesAnimationHandler {
     }
 
     @Override
-    public void modifyPlayer(AbstractClientPlayer entity, IMixinModelBiped player, float heldPercent) {
+    public void modifyPlayer(AbstractClientPlayer entity, IModelBiped player, float heldPercent) {
         if (shouldNotModify(entity, player)) {
             return;
         }
@@ -125,7 +125,7 @@ public class FlossDanceHandler extends AbstractPreCopyAnglesAnimationHandler {
         player.getBipedLeftUpperArm().rotateAngleX = (float) Math.toRadians((armsDirection == ArmsDirection.BACK ? 30.0f : -30.0f) * heldPercent);
     }
 
-    private boolean shouldNotModify(AbstractClientPlayer entity, IMixinModelBiped player) {
+    private boolean shouldNotModify(AbstractClientPlayer entity, IModelBiped player) {
         AnimationState animationState = get(entity.getUniqueID());
         int ticks = animationState.getFrames();
 

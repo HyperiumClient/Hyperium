@@ -24,10 +24,7 @@ import cc.hyperium.internal.addons.strategy.AddonLoaderStrategy
 import cc.hyperium.internal.addons.strategy.DefaultAddonLoader
 import cc.hyperium.internal.addons.strategy.WorkspaceAddonLoader
 import cc.hyperium.internal.addons.translate.InstanceTranslator
-import cc.hyperium.internal.addons.translate.MixinTranslator
-import cc.hyperium.internal.addons.translate.TransformerTranslator
 import com.google.common.base.Stopwatch
-import net.minecraft.launchwrapper.Launch
 import org.apache.commons.io.FileUtils
 import java.io.File
 import java.util.jar.JarFile
@@ -82,9 +79,7 @@ object AddonBootstrap {
      * at a certain phase
      */
     internal val translators = arrayListOf(
-        InstanceTranslator(),
-        MixinTranslator(),
-        TransformerTranslator()
+        InstanceTranslator()
     )
 
     /**
@@ -127,8 +122,8 @@ object AddonBootstrap {
         }
 
         phase = Phase.PREINIT
-        Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonBootstrap")
-        Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonManifest")
+//        Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonBootstrap")
+//        Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonManifest")
 
         with(addonManifests) {
             val workspaceAddon = loadWorkspaceAddon()

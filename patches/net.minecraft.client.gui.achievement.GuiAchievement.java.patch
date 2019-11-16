@@ -1,0 +1,18 @@
+--- original/net/minecraft/client/gui/achievement/GuiAchievement.java
++++ changed/net/minecraft/client/gui/achievement/GuiAchievement.java
+@@ -1,5 +1,6 @@
+ package net.minecraft.client.gui.achievement;
+ 
++import cc.hyperium.config.Settings;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.gui.Gui;
+ import net.minecraft.client.gui.ScaledResolution;
+@@ -67,6 +68,8 @@
+    }
+ 
+    public void updateAchievementWindow() {
++       if (Settings.DISABLE_ACHIEVEMENTS) return;
++       
+       if(this.theAchievement != null && this.notificationTime != 0L && Minecraft.getMinecraft().thePlayer != null) {
+          double d0 = (double)(Minecraft.getSystemTime() - this.notificationTime) / 3000.0D;
+          if(!this.permanentNotification) {

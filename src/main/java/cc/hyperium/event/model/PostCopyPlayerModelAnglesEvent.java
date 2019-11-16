@@ -17,8 +17,7 @@
 
 package cc.hyperium.event.model;
 
-import cc.hyperium.event.model.CopyPlayerModelAnglesEvent;
-import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
+import cc.hyperium.utils.model.IModelBiped;
 
 import net.minecraft.client.entity.AbstractClientPlayer;
 
@@ -30,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class PostCopyPlayerModelAnglesEvent extends CopyPlayerModelAnglesEvent {
 
-    public PostCopyPlayerModelAnglesEvent(@NotNull AbstractClientPlayer entity, @NotNull IMixinModelBiped model) {
+    public PostCopyPlayerModelAnglesEvent(@NotNull AbstractClientPlayer entity, @NotNull IModelBiped model) {
         super(entity, model);
     }
 }

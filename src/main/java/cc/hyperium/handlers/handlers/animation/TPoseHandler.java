@@ -18,8 +18,8 @@
 package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
-import cc.hyperium.mixinsimp.client.model.IMixinModelPlayer;
+import cc.hyperium.utils.model.IModelBiped;
+import cc.hyperium.utils.model.IModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 
@@ -47,7 +47,7 @@ public class TPoseHandler extends AbstractPreCopyAnglesAnimationHandler {
 
 
     @Override
-    public void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent) {
+    public void modifyPlayer(AbstractClientPlayer entity, IModelPlayer player, float heldPercent) {
         player.getBipedLeftUpperArm().rotateAngleZ = (float) Math.toRadians(-90.0f * heldPercent);
         player.getBipedLeftUpperArmwear().rotateAngleZ = (float) Math.toRadians(-90.0f * heldPercent);
 
@@ -68,7 +68,7 @@ public class TPoseHandler extends AbstractPreCopyAnglesAnimationHandler {
     }
 
     @Override
-    public void modifyPlayer(AbstractClientPlayer entity, IMixinModelBiped player, float heldPercent) {
+    public void modifyPlayer(AbstractClientPlayer entity, IModelBiped player, float heldPercent) {
         player.getBipedLeftUpperArm().rotateAngleZ = (float) Math.toRadians(-90.0f * heldPercent);
         player.getBipedLeftUpperArm().rotateAngleY = 0;
         player.getBipedLeftUpperArm().rotateAngleX = 0;

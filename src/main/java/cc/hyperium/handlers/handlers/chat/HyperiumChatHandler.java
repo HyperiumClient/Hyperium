@@ -18,7 +18,6 @@
 package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.utils.JsonHolder;
 import net.minecraft.util.IChatComponent;
 
 import java.util.Map;
@@ -43,9 +42,9 @@ public abstract class HyperiumChatHandler {
      */
     public abstract boolean chatReceived(IChatComponent component, String text);
 
-    public void callback(JsonHolder data) {
+//    public void callback(JsonHolder data) {
 
-    }
+//    }
 
     public enum ChatRegexType {
         SKYWARS_RATING,

@@ -1,0 +1,115 @@
+--- original/net/minecraft/client/renderer/entity/RenderManager.java
++++ changed/net/minecraft/client/renderer/entity/RenderManager.java
+@@ -1,5 +1,8 @@
+ package net.minecraft.client.renderer.entity;
+ 
++import cc.hyperium.cosmetics.companions.hamster.EntityHamster;
++import cc.hyperium.cosmetics.companions.hamster.RenderHamster;
++import cc.hyperium.utils.renderer.IRenderManager;
+ import com.google.common.collect.Maps;
+ import java.util.Map;
+ import net.minecraft.block.Block;
+@@ -24,60 +27,6 @@
+ import net.minecraft.client.renderer.Tessellator;
+ import net.minecraft.client.renderer.WorldRenderer;
+ import net.minecraft.client.renderer.culling.ICamera;
+-import net.minecraft.client.renderer.entity.ArmorStandRenderer;
+-import net.minecraft.client.renderer.entity.Render;
+-import net.minecraft.client.renderer.entity.RenderArrow;
+-import net.minecraft.client.renderer.entity.RenderBat;
+-import net.minecraft.client.renderer.entity.RenderBlaze;
+-import net.minecraft.client.renderer.entity.RenderBoat;
+-import net.minecraft.client.renderer.entity.RenderCaveSpider;
+-import net.minecraft.client.renderer.entity.RenderChicken;
+-import net.minecraft.client.renderer.entity.RenderCow;
+-import net.minecraft.client.renderer.entity.RenderCreeper;
+-import net.minecraft.client.renderer.entity.RenderDragon;
+-import net.minecraft.client.renderer.entity.RenderEnderman;
+-import net.minecraft.client.renderer.entity.RenderEndermite;
+-import net.minecraft.client.renderer.entity.RenderEntity;
+-import net.minecraft.client.renderer.entity.RenderEntityItem;
+-import net.minecraft.client.renderer.entity.RenderFallingBlock;
+-import net.minecraft.client.renderer.entity.RenderFireball;
+-import net.minecraft.client.renderer.entity.RenderFish;
+-import net.minecraft.client.renderer.entity.RenderGhast;
+-import net.minecraft.client.renderer.entity.RenderGiantZombie;
+-import net.minecraft.client.renderer.entity.RenderGuardian;
+-import net.minecraft.client.renderer.entity.RenderHorse;
+-import net.minecraft.client.renderer.entity.RenderIronGolem;
+-import net.minecraft.client.renderer.entity.RenderItem;
+-import net.minecraft.client.renderer.entity.RenderLeashKnot;
+-import net.minecraft.client.renderer.entity.RenderLightningBolt;
+-import net.minecraft.client.renderer.entity.RenderMagmaCube;
+-import net.minecraft.client.renderer.entity.RenderMinecart;
+-import net.minecraft.client.renderer.entity.RenderMinecartMobSpawner;
+-import net.minecraft.client.renderer.entity.RenderMooshroom;
+-import net.minecraft.client.renderer.entity.RenderOcelot;
+-import net.minecraft.client.renderer.entity.RenderPainting;
+-import net.minecraft.client.renderer.entity.RenderPig;
+-import net.minecraft.client.renderer.entity.RenderPigZombie;
+-import net.minecraft.client.renderer.entity.RenderPlayer;
+-import net.minecraft.client.renderer.entity.RenderPotion;
+-import net.minecraft.client.renderer.entity.RenderRabbit;
+-import net.minecraft.client.renderer.entity.RenderSheep;
+-import net.minecraft.client.renderer.entity.RenderSilverfish;
+-import net.minecraft.client.renderer.entity.RenderSkeleton;
+-import net.minecraft.client.renderer.entity.RenderSlime;
+-import net.minecraft.client.renderer.entity.RenderSnowMan;
+-import net.minecraft.client.renderer.entity.RenderSnowball;
+-import net.minecraft.client.renderer.entity.RenderSpider;
+-import net.minecraft.client.renderer.entity.RenderSquid;
+-import net.minecraft.client.renderer.entity.RenderTNTPrimed;
+-import net.minecraft.client.renderer.entity.RenderTntMinecart;
+-import net.minecraft.client.renderer.entity.RenderVillager;
+-import net.minecraft.client.renderer.entity.RenderWitch;
+-import net.minecraft.client.renderer.entity.RenderWither;
+-import net.minecraft.client.renderer.entity.RenderWolf;
+-import net.minecraft.client.renderer.entity.RenderXPOrb;
+-import net.minecraft.client.renderer.entity.RenderZombie;
+-import net.minecraft.client.renderer.entity.RendererLivingEntity;
+ import net.minecraft.client.renderer.texture.TextureManager;
+ import net.minecraft.client.renderer.tileentity.RenderEnderCrystal;
+ import net.minecraft.client.renderer.tileentity.RenderItemFrame;
+@@ -158,7 +107,7 @@
+ import net.minecraftforge.fml.relauncher.SideOnly;
+ 
+ @SideOnly(Side.CLIENT)
+-public class RenderManager {
++public class RenderManager implements IRenderManager {
+    private Map<Class<? extends Entity>, Render<? extends Entity>> entityRenderMap = Maps.<Class<? extends Entity>, Render<? extends Entity>>newHashMap();
+    private Map<String, RenderPlayer> skinMap = Maps.<String, RenderPlayer>newHashMap();
+    private RenderPlayer playerRenderer;
+@@ -249,6 +198,8 @@
+       this.playerRenderer = new RenderPlayer(this);
+       this.skinMap.put("default", this.playerRenderer);
+       this.skinMap.put("slim", new RenderPlayer(this, true));
++
++      entityRenderMap.put(EntityHamster.class, new RenderHamster(this));
+    }
+ 
+    public void setRenderPosition(double renderPosXIn, double renderPosYIn, double renderPosZIn) {
+@@ -488,4 +439,24 @@
+    public void setRenderOutlines(boolean renderOutlinesIn) {
+       this.renderOutlines = renderOutlinesIn;
+    }
++
++   @Override
++   public double getPosX() {
++      return renderPosX;
++   }
++
++   @Override
++   public double getPosY() {
++      return renderPosY;
++   }
++
++   @Override
++   public double getPosZ() {
++      return renderPosZ;
++   }
++
++   @Override
++   public Map<String, RenderPlayer> getSkinMap() {
++      return skinMap;
++   }
+ }

@@ -1,0 +1,11 @@
+--- original/net/minecraft/server/management/ItemInWorldManager.java
++++ changed/net/minecraft/server/management/ItemInWorldManager.java
+@@ -105,7 +105,7 @@
+             this.isDestroyingBlock = false;
+          } else {
+             int k = this.curblockDamage - this.initialDamage;
+-            float f1 = block1.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.worldObj, this.field_180241_i) * (float)(k + 1);
++            float f1 = block1.getPlayerRelativeBlockHardness(this.thisPlayerMP, this.thisPlayerMP.worldObj, this.field_180240_f) * (float)(k + 1);
+             int l = (int)(f1 * 10.0F);
+             if(l != this.durabilityRemainingOnBlock) {
+                this.theWorld.sendBlockBreakProgress(this.thisPlayerMP.getEntityId(), this.field_180240_f, l);

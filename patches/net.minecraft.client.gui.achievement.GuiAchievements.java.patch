@@ -1,0 +1,20 @@
+--- original/net/minecraft/client/gui/achievement/GuiAchievements.java
++++ changed/net/minecraft/client/gui/achievement/GuiAchievements.java
+@@ -232,7 +232,7 @@
+       GlStateManager.depthFunc(518);
+       GlStateManager.pushMatrix();
+       GlStateManager.translate((float)i1, (float)j1, -200.0F);
+-      GlStateManager.scale(1.0F / this.field_146570_r, 1.0F / this.field_146570_r, 0.0F);
++      GlStateManager.scale(1.0F / this.field_146570_r, 1.0F / this.field_146570_r, 1.0F);
+       GlStateManager.enableTexture2D();
+       GlStateManager.disableLighting();
+       GlStateManager.enableRescaleNormal();
+@@ -369,7 +369,7 @@
+                this.itemRender.isNotRenderingEffectsInGUI(false);
+             }
+ 
+-            GlStateManager.enableLighting();
++            GlStateManager.disableLighting();
+             GlStateManager.enableCull();
+             this.itemRender.renderItemAndEffectIntoGUI(achievement2.theItemStack, l6 + 3, j7 + 3);
+             GlStateManager.blendFunc(770, 771);

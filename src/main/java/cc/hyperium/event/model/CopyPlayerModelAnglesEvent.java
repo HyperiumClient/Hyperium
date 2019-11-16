@@ -18,7 +18,7 @@
 package cc.hyperium.event.model;
 
 import cc.hyperium.event.Event;
-import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
+import cc.hyperium.utils.model.IModelBiped;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -29,9 +29,9 @@ public abstract class CopyPlayerModelAnglesEvent extends Event {
     @NotNull
     private final AbstractClientPlayer entity;
     @NotNull
-    private final IMixinModelBiped model;
+    private final IModelBiped model;
 
-    public CopyPlayerModelAnglesEvent(@NotNull AbstractClientPlayer entity, @NotNull IMixinModelBiped model) {
+    public CopyPlayerModelAnglesEvent(@NotNull AbstractClientPlayer entity, @NotNull IModelBiped model) {
         Preconditions.checkNotNull(entity, "entity");
         Preconditions.checkNotNull(model, "model");
 
@@ -45,7 +45,7 @@ public abstract class CopyPlayerModelAnglesEvent extends Event {
     }
 
     @NotNull
-    public final IMixinModelBiped getModel() {
+    public final IModelBiped getModel() {
         return model;
     }
 }

@@ -2,12 +2,11 @@ package com.chattriggers.ctjs
 
 import cc.hyperium.Hyperium
 import cc.hyperium.event.EventBus
-import cc.hyperium.event.client.InitializationEvent
 import cc.hyperium.event.InvokeEvent
+import cc.hyperium.event.client.InitializationEvent
 import cc.hyperium.event.client.PreInitializationEvent
-import cc.hyperium.mixins.client.renderer.entity.IMixinRendererLivingEntity
-import cc.hyperium.mixinsimp.client.renderer.entity.IMixinRenderManager
 import cc.hyperium.mods.sk1ercommon.Multithreading
+import cc.hyperium.utils.renderer.IRenderManager
 import com.chattriggers.ctjs.commands.CTCommand
 import com.chattriggers.ctjs.engine.ModuleManager
 import com.chattriggers.ctjs.minecraft.libs.FileLib
@@ -19,6 +18,7 @@ import com.chattriggers.ctjs.utils.capes.LayerCape
 import com.chattriggers.ctjs.utils.config.Config
 import com.chattriggers.ctjs.utils.kotlin.AnnotationHandler
 import com.google.gson.JsonParser
+import net.minecraft.client.renderer.entity.RendererLivingEntity
 import org.apache.commons.codec.digest.DigestUtils
 import org.reflections.Reflections
 import java.io.File
@@ -69,8 +69,8 @@ object CTJS {
             FileLib.getUrlContent("https://www.chattriggers.com/tracker/?uuid=$sha256uuid")
         })
 
-        (Client.getMinecraft().renderManager as IMixinRenderManager).skinMap.values.forEach {
-            (it as IMixinRendererLivingEntity<*>).callAddLayer(LayerCape(it))
+        (Client.getMinecraft().renderManager as IRenderManager).skinMap.values.forEach {
+            (it as RendererLivingEntity<*>).addLayer(LayerCape(it))
         }
     }
 

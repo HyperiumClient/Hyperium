@@ -1,0 +1,102 @@
+--- original/net/minecraft/client/entity/AbstractClientPlayer.java
++++ changed/net/minecraft/client/entity/AbstractClientPlayer.java
+@@ -1,5 +1,10 @@
+ package net.minecraft.client.entity;
+ 
++import cc.hyperium.event.EventBus;
++import cc.hyperium.event.entity.FovUpdateEvent;
++import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
++import cc.hyperium.mods.nickhider.NickHider;
++import cc.hyperium.mods.nickhider.config.NickHiderConfig;
+ import com.mojang.authlib.GameProfile;
+ import java.io.File;
+ import net.minecraft.client.Minecraft;
+@@ -24,8 +29,11 @@
+ public abstract class AbstractClientPlayer extends EntityPlayer {
+    private NetworkPlayerInfo playerInfo;
+ 
+-   public AbstractClientPlayer(World worldIn, GameProfile playerProfile) {
++//    private HyperiumCapeHandler hook;
++
++    public AbstractClientPlayer(World worldIn, GameProfile playerProfile) {
+       super(worldIn, playerProfile);
++//        hook = new HyperiumCapeHandler(playerProfile);
+    }
+ 
+    /**
+@@ -43,7 +51,7 @@
+       return this.getPlayerInfo() != null;
+    }
+ 
+-   protected NetworkPlayerInfo getPlayerInfo() {
++   public NetworkPlayerInfo getPlayerInfo() {
+       if(this.playerInfo == null) {
+          this.playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(this.getUniqueID());
+       }
+@@ -63,11 +71,37 @@
+     * Returns true if the player instance has an associated skin.
+     */
+    public ResourceLocation getLocationSkin() {
++       NickHider instance = NickHider.instance;
++       if (instance != null && instance.getNickHiderConfig().isHideSkins() && instance.getNickHiderConfig().isMasterEnabled()) {
++           NickHiderConfig config = instance.getNickHiderConfig();
++
++           if (getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {
++               return config.isUseRealSkinForSelf() && instance.getPlayerSkin() != null ? instance.getPlayerSkin() : DefaultPlayerSkin.getDefaultSkin(getUniqueID());
++           } else {
++               if (config.isHideOtherSkins()) {
++                   return config.isUsePlayerSkinForAll() && instance.getPlayerSkin() != null ? instance.getPlayerSkin() : DefaultPlayerSkin.getDefaultSkin(getUniqueID());
++               }
++           }
++       }
++
+       NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
+       return networkplayerinfo == null?DefaultPlayerSkin.getDefaultSkin(this.getUniqueID()):networkplayerinfo.getLocationSkin();
+    }
+ 
+    public ResourceLocation getLocationCape() {
++/*       if (hook.getLocationCape() != null) {
++           return hook.getLocationCape();
++       }*/
++
++       NickHider instance = NickHider.instance;
++       if (instance != null && instance.getNickHiderConfig().isHideSkins() && instance.getNickHiderConfig().isMasterEnabled()) {
++           NickHiderConfig config = instance.getNickHiderConfig();
++
++           if (getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID()) && config.isUseRealSkinForSelf()) {
++               return instance.getPlayerCape();
++           }
++       }
++
+       NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
+       return networkplayerinfo == null?null:networkplayerinfo.getLocationCape();
+    }
+@@ -91,6 +125,18 @@
+    }
+ 
+    public String getSkinType() {
++       NickHider instance = NickHider.instance;
++       if (instance != null && instance.getNickHiderConfig().isHideSkins() && instance.getNickHiderConfig().isMasterEnabled()) {
++           NickHiderConfig config = instance.getNickHiderConfig();
++           if (getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {
++               if (config.isUseRealSkinForSelf() && instance.getPlayerSkin() != null) {
++                   return instance.getPlayerRealSkinType();
++               }
++           } else if (config.isHideOtherSkins() && config.isUsePlayerSkinForAll() && instance.getPlayerSkin() != null) {
++               return instance.getPlayerRealSkinType();
++           }
++       }
++
+       NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
+       return networkplayerinfo == null?DefaultPlayerSkin.getSkinType(this.getUniqueID()):networkplayerinfo.getSkinType();
+    }
+@@ -119,6 +165,8 @@
+          f *= 1.0F - f1 * 0.15F;
+       }
+ 
+-      return f;
++       FovUpdateEvent event = new FovUpdateEvent(this, f);
++       EventBus.INSTANCE.post(event);
++       return event.getNewFov();
+    }
+ }

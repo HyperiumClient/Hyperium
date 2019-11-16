@@ -1,0 +1,10 @@
+--- original/net/minecraft/client/gui/GuiGameOver.java
++++ changed/net/minecraft/client/gui/GuiGameOver.java
+@@ -24,6 +24,7 @@
+     * window resizes, the buttonList is cleared beforehand.
+     */
+    public void initGui() {
++      enableButtonsTimer = 0;
+       this.buttonList.clear();
+       if(this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
+          if(this.mc.isIntegratedServerRunning()) {
