@@ -11,8 +11,6 @@ import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.tooling.GradleConnectionException;
-import tk.amplifiable.mcgradle.MCGradle;
 import tk.amplifiable.mcgradle.MCGradleConstants;
 import tk.amplifiable.mcgradle.Names;
 import tk.amplifiable.mcgradle.Utils;
@@ -21,9 +19,9 @@ import tk.amplifiable.mcgradle.mc.DependencyUtilities;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class TaskGenerateProject extends DefaultTask {
     @Input
@@ -128,7 +126,7 @@ public class TaskGenerateProject extends DefaultTask {
         writer.close();
 
         MCGradleConstants.prepareDirectory(startOutput.getParentFile());
-        String source = IOUtils.toString(getClass().getResourceAsStream("/sources/Start.java"));
+        String source = IOUtils.toString(getClass().getResourceAsStream("/sources/Start.java"), StandardCharsets.UTF_8);
         for (Map.Entry<String, String> entry : options.entrySet()) {
             source = source.replace("${" + entry.getKey() + "}", Utils.escape(entry.getValue()));
         }
