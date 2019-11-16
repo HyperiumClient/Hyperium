@@ -21,7 +21,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
-import cc.hyperium.mixins.client.gui.IMixinGuiScreenBook;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.nickhider.command.CommandNickHider;
 import cc.hyperium.mods.nickhider.config.NickHiderConfig;
@@ -118,8 +117,8 @@ public class NickHider extends AbstractMod {
         if (currentScreen == null) return;
 
         if (currentScreen instanceof GuiScreenBook) {
-            NBTTagList bookPages = ((IMixinGuiScreenBook) currentScreen).getBookPages();
-            int currPage = ((IMixinGuiScreenBook) currentScreen).getCurrPage();
+            NBTTagList bookPages = ((GuiScreenBook) currentScreen).getBookPages();
+            int currPage = ((GuiScreenBook) currentScreen).getCurrPage();
 
             if (currPage < bookPages.tagCount()) {
                 try {

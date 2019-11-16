@@ -303,3 +303,13 @@
        this.drawWorldBackground(0);
     }
  
+@@ -638,4 +749,9 @@
+    public void onResize(Minecraft mcIn, int w, int h) {
+       this.setWorldAndResolution(mcIn, w, h);
+    }
++
++   // Hyperium: Add button list getter
++   public List<GuiButton> getButtonList() {
++      return buttonList;
++   }
+ }

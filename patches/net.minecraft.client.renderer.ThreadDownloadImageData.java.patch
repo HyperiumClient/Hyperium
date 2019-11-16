@@ -9,7 +9,7 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.renderer.IImageBuffer;
  import net.minecraft.client.renderer.texture.SimpleTexture;
-@@ -90,45 +92,35 @@
+@@ -90,45 +92,40 @@
     }
  
     protected void loadTextureFromServer() {
@@ -77,4 +77,9 @@
 -      this.imageThread.start();
 +      });
     }
++
++   // Hyperium: Add image buffer getter
++   public IImageBuffer getImageBuffer() {
++      return imageBuffer;
++   }
  }

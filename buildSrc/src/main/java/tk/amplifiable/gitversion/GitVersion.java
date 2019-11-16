@@ -48,7 +48,7 @@ public class GitVersion {
             String rev = revs.get(depth);
             if (commitHashToTag.containsKey(rev)) {
                 String exactTag = commitHashToTag.get(rev).getTag();
-                return depth == 0 ? exactTag : String.format("%s-%s-SNAPSHOT", exactTag, revs.get(0).substring(0, 7));
+                return depth == 0 ? exactTag : String.format("%s-SNAPSHOT", revs.get(0).substring(0, 7));
             }
         }
         return headId.getName().substring(0, 7) + "-SNAPSHOT";

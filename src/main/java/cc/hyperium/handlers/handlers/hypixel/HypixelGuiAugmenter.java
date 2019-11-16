@@ -22,7 +22,6 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.gui.InitGuiEvent;
 import cc.hyperium.event.interact.ActionPerformedEvent;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
-import cc.hyperium.mixins.client.gui.IMixinGuiScreen;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -55,7 +54,7 @@ public class HypixelGuiAugmenter {
         if (screen == null) return;
 
         lobbyAdds.keySet().forEach(guiButton -> {
-            ((IMixinGuiScreen) screen).getButtonList().add(guiButton);
+            screen.getButtonList().add(guiButton);
             guiButton.visible = true;
         });
     }

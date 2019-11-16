@@ -24,7 +24,6 @@ import cc.hyperium.event.render.RenderPlayerEvent;
 import cc.hyperium.event.world.WorldChangeEvent;
 import cc.hyperium.gui.GuiHyperiumScreenIngameMenu;
 import cc.hyperium.handlers.handlers.particle.animations.*;
-import cc.hyperium.mixins.client.particle.IMixinEntityFX;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
@@ -121,7 +120,6 @@ public class ParticleAuraHandler {
                 if (type != null) {
                     EntityFX entityFX = type.spawn(entity.worldObj, vec3.xCoord, vec3.yCoord, vec3.zCoord);
                     int particleMaxAge = particleAura.getParticleMaxAge();
-                    IMixinEntityFX e = (IMixinEntityFX) entityFX;
 
                     if (particleAura.isChroma()) {
                         int i = Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.8f);
@@ -131,8 +129,8 @@ public class ParticleAuraHandler {
                         entityFX.setRBGColorF(particleAura.getRed() / 255F, particleAura.getBlue() / 255F, particleAura.getBlue() / 255F);
                     }
 
-                    e.setParticleGravity(10);
-                    e.setParticleMaxAge(particleMaxAge);
+                    entityFX.setParticleGravity(10);
+                    entityFX.setParticleMaxAge(particleMaxAge);
                     Minecraft.getMinecraft().effectRenderer.addEffect(entityFX);
                 }
             });

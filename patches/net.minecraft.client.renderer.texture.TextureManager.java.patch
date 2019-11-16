@@ -114,3 +114,13 @@
     }
  
     public void tick() {
+@@ -121,4 +126,9 @@
+       }
+ 
+    }
++
++   // Hyperium: Add getter for texture object map
++   public Map<ResourceLocation, ITextureObject> getMapTextureObjects() {
++      return mapTextureObjects;
++   }
+ }

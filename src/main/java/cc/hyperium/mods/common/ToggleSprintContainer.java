@@ -20,7 +20,6 @@ package cc.hyperium.mods.common;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
-import cc.hyperium.mixins.client.settings.IMixinKeyBinding;
 import net.minecraft.client.Minecraft;
 
 public class ToggleSprintContainer {
@@ -31,7 +30,7 @@ public class ToggleSprintContainer {
     @InvokeEvent
     public void onTick(TickEvent e) {
         if (toggleSprintActive) {
-            ((IMixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
+            Minecraft.getMinecraft().gameSettings.keyBindSprint.setPressed(true);
         }
     }
 }

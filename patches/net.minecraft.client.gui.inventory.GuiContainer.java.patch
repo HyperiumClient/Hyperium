@@ -7,24 +7,23 @@
  import com.google.common.collect.Sets;
  import java.io.IOException;
  import java.util.Set;
-@@ -87,7 +88,15 @@
+@@ -87,6 +88,15 @@
        int i = this.guiLeft;
        int j = this.guiTop;
        this.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
--      GlStateManager.disableRescaleNormal();
-+       ParticleOverlay overlay = ParticleOverlay.getOverlay();
-+       if (overlay.getMode() == ParticleOverlay.Mode.OFF) return;
-+       overlay.render(mouseX,
-+           mouseY,
-+           guiLeft - (Minecraft.getMinecraft().thePlayer.getActivePotionEffects().isEmpty() ? 0 : xSize * 3 / 4),
-+           guiTop - 5,
-+           guiLeft + (240 * 4 / 5),
-+           guiTop + (240 * 4 / 5 - 10));
-+       GlStateManager.disableRescaleNormal();
++      ParticleOverlay overlay = ParticleOverlay.getOverlay();
++      if (overlay.getMode() != ParticleOverlay.Mode.OFF) {
++         overlay.render(mouseX,
++                 mouseY,
++                 guiLeft - (Minecraft.getMinecraft().thePlayer.getActivePotionEffects().isEmpty() ? 0 : xSize * 3 / 4),
++                 guiTop - 5,
++                 guiLeft + (240 * 4 / 5),
++                 guiTop + (240 * 4 / 5 - 10));
++      }
+       GlStateManager.disableRescaleNormal();
        RenderHelper.disableStandardItemLighting();
        GlStateManager.disableLighting();
-       GlStateManager.disableDepth();
-@@ -306,6 +315,7 @@
+@@ -306,6 +316,7 @@
           int j = this.guiLeft;
           int k = this.guiTop;
           boolean flag1 = mouseX < j || mouseY < k || mouseX >= j + this.xSize || mouseY >= k + this.ySize;
@@ -32,7 +31,7 @@
           int l = -1;
           if(slot != null) {
              l = slot.slotNumber;
-@@ -363,6 +373,8 @@
+@@ -363,6 +374,8 @@
           }
        }
  
@@ -41,7 +40,7 @@
        this.lastClickSlot = slot;
        this.lastClickTime = i;
        this.lastClickButton = mouseButton;
-@@ -408,10 +420,12 @@
+@@ -408,10 +421,12 @@
      * Called when a mouse button is released.  Args : mouseX, mouseY, releaseButton
      */
     protected void mouseReleased(int mouseX, int mouseY, int state) {
@@ -54,7 +53,7 @@
        int k = -1;
        if(slot != null) {
           k = slot.slotNumber;
-@@ -580,6 +594,7 @@
+@@ -580,6 +595,7 @@
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
     public void onGuiClosed() {
