@@ -126,7 +126,7 @@ public class TaskGenerateProject extends DefaultTask {
         writer.close();
 
         MCGradleConstants.prepareDirectory(startOutput.getParentFile());
-        String source = IOUtils.toString(getClass().getResourceAsStream("/sources/Start.java"), StandardCharsets.UTF_8);
+        String source = IOUtils.toString(getClass().getResourceAsStream("/sources/Start.java"), "UTF-8");
         for (Map.Entry<String, String> entry : options.entrySet()) {
             source = source.replace("${" + entry.getKey() + "}", Utils.escape(entry.getValue()));
         }

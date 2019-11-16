@@ -1,14 +1,11 @@
 package tk.amplifiable.mcgradle.tasks.mc;
 
-import com.github.difflib.DiffUtils;
-import com.github.difflib.UnifiedDiffUtils;
-import com.github.difflib.algorithm.DiffException;
-import com.github.difflib.patch.Patch;
+import com.cloudbees.diff.Diff;
+import com.cloudbees.diff.Hunk;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
-import org.apache.commons.io.IOUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.FileTree;
 import org.gradle.api.file.FileVisitDetails;
@@ -98,23 +95,27 @@ public class TaskGeneratePatches extends DefaultTask {
         for (String s : commonPaths) {
             try (InputStream o = new FileInputStream(new File(clean, s)); InputStream c = new FileInputStream(new File(input, s))) {
                 processFile(s, o, c);
-            } catch (IOException | DiffException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void processFile(String name, InputStream original, InputStream changed) throws IOException, DiffException {
+    private void processFile(String name, InputStream original, InputStream changed) throws IOException {
         File patchFile = new File(output, name.replace('\\', '/').replace('/', '.') + ".patch").getCanonicalFile();
         if (changed == null) return;
-        List<String> originalData = IOUtils.readLines(original, "UTF-8");
-        List<String> changedData = IOUtils.readLines(original, "UTF-8");
-        Patch<String> diff = DiffUtils.diff(originalData, changedData);
+        byte[] oData = ByteStreams.toByteArray(original);
+        byte[] cData = ByteStreams.toByteArray(changed);
+        Diff diff = Diff.diff(new InputStreamReader(new ByteArrayInputStream(oData), StandardCharsets.UTF_8), new InputStreamReader(new ByteArrayInputStream(cData), StandardCharsets.UTF_8), false);
         if (!name.startsWith("/")) name = "/" + name;
-        if (!diff.getDeltas().isEmpty()) {
-            List<String> unifiedDiff = UnifiedDiffUtils.generateUnifiedDiff("original" + name, "changed" + name, originalData, diff, 0);
+        if (!diff.isEmpty()) {
+            String diffStr = diff.toUnifiedDiff("original" + name, "changed" + name,
+                    new InputStreamReader(new ByteArrayInputStream(oData), StandardCharsets.UTF_8),
+                    new InputStreamReader(new ByteArrayInputStream(cData), StandardCharsets.UTF_8), 3);
+            diffStr = diffStr.replace("\r\n", "\n");
+            diffStr = diffStr.replace("\n" + Hunk.ENDING_NEWLINE + "\n", "\n");
             Files.touch(patchFile);
-            Files.asCharSink(patchFile, StandardCharsets.UTF_8).writeLines(unifiedDiff);
+            Files.asCharSink(patchFile, StandardCharsets.UTF_8).write(diffStr);
             created.add(patchFile);
         }
     }
