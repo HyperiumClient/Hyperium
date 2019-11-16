@@ -222,7 +222,7 @@
 +            int renderX = j2 + mc.fontRendererObj.getStringWidth(s1) + 2;
 +
 +            if (Settings.SHOW_ONLINE_PLAYERS) {
-+               String s = "�?�";
++               String s = "⚫";
 +
 +               boolean online = mc.getSession().getProfile().getId() == gameprofile.getId() || Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
 +
