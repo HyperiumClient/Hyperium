@@ -39,6 +39,15 @@
        try {
           this.theShaderGroup = new ShaderGroup(this.mc.getTextureManager(), this.resourceManager, this.mc.getFramebuffer(), resourceLocationIn);
           this.theShaderGroup.createBindFramebuffers(this.mc.displayWidth, this.mc.displayHeight);
+@@ -303,7 +313,7 @@
+          this.mc.setRenderViewEntity(this.mc.thePlayer);
+       }
+ 
+-      float f3 = this.mc.theWorld.getLightBrightness(new BlockPos(this.mc.getRenderViewEntity()));
++      float f3 = this.mc.theWorld.getLightBrightness(new BlockPos(this.mc.getRenderViewEntity().getPositionEyes(1.0F)));
+       float f4 = (float)this.mc.gameSettings.renderDistanceChunks / 32.0F;
+       float f2 = f3 * (1.0F - f4) + f4;
+       this.fogColor1 += (f2 - this.fogColor1) * 0.1F;
 @@ -342,86 +352,80 @@
      * Finds what block or object the mouse is over at the specified partial tick time. Args: partialTickTime
      */
