@@ -1,6 +1,9 @@
 package tk.amplifiable.mcgradle.tasks.mc;
 
-import com.cloudbees.diff.ContextualPatch;
+import com.github.difflib.DiffUtils;
+import com.github.difflib.UnifiedDiffUtils;
+import com.github.difflib.patch.Patch;
+import org.apache.commons.io.FileUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.file.FileVisitDetails;
@@ -11,6 +14,8 @@ import org.gradle.api.tasks.TaskAction;
 import tk.amplifiable.mcgradle.MCGradleConstants;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.util.List;
 
 public class TaskApplyPatches extends DefaultTask {
 
@@ -60,13 +65,12 @@ public class TaskApplyPatches extends DefaultTask {
                 if (!toPatch.exists()) {
                     throw new GradleException("File " + toPatch + " doesn't exist");
                 }
-                ContextualPatch patch = ContextualPatch.create(patchFile, toPatch);
                 try {
-                    for (ContextualPatch.PatchReport report : patch.patch(false)) {
-                        if (report.getStatus() != ContextualPatch.PatchStatus.Patched) {
-                            throw report.getFailure();
-                        }
-                    }
+                    List<String> original = Files.readAllLines(toPatch.toPath());
+                    List<String> patchContent = Files.readAllLines(patchFile.toPath());
+                    Patch<String> patch = UnifiedDiffUtils.parseUnifiedDiff(patchContent);
+                    List<String> result = DiffUtils.patch(original, patch);
+                    FileUtils.writeLines(toPatch, "UTF-8", result);
                 } catch (Throwable e) {
                     throw new GradleException("Failed to patch file " + patchFile.getName(), e);
                 }
