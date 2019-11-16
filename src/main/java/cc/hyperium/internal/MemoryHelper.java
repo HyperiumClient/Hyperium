@@ -21,8 +21,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.event.world.WorldUnloadEvent;
-import cc.hyperium.mixins.client.renderer.IMixinThreadDownloadImageData;
-import cc.hyperium.mixins.client.renderer.texture.IMixinTextureManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.IImageBuffer;
@@ -57,12 +55,12 @@ public class MemoryHelper {
     public void worldEvent(WorldUnloadEvent event) {
         try {
             TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
-            Map<ResourceLocation, ITextureObject> mapTextureObjects = ((IMixinTextureManager) textureManager).getMapTextureObjects();
+            Map<ResourceLocation, ITextureObject> mapTextureObjects = textureManager.getMapTextureObjects();
             List<ResourceLocation> removes = new ArrayList<>();
 
             mapTextureObjects.forEach((key, iTextureObject) -> {
                 if (iTextureObject instanceof ThreadDownloadImageData) {
-                    IImageBuffer imageBuffer = ((IMixinThreadDownloadImageData) iTextureObject).getImageBuffer();
+                    IImageBuffer imageBuffer = ((ThreadDownloadImageData) iTextureObject).getImageBuffer();
 
                     if (imageBuffer == null) return;
 
@@ -164,7 +162,7 @@ public class MemoryHelper {
     private void deleteSkin(ResourceLocation skinLocation) {
         if (skinLocation == null) return;
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
-        Map<ResourceLocation, ITextureObject> mapTextureObjects = ((IMixinTextureManager) textureManager).getMapTextureObjects();
+        Map<ResourceLocation, ITextureObject> mapTextureObjects = textureManager.getMapTextureObjects();
         textureManager.deleteTexture(skinLocation);
         mapTextureObjects.remove(skinLocation); // not needed with optifine but needed without it
     }

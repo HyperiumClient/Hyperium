@@ -1,17 +1,16 @@
 --- original/net/minecraft/util/ChatStyle.java
 +++ changed/net/minecraft/util/ChatStyle.java
-@@ -28,6 +28,10 @@
+@@ -28,6 +28,9 @@
     private ClickEvent chatClickEvent;
     private HoverEvent chatHoverEvent;
     private String insertion;
 +
 +   private String cachedState;
-+   private ChatStyle parent;
 +
     /** The base of the ChatStyle hierarchy.  All ChatStyle instances are implicitly children of this. */
     private static final ChatStyle rootStyle = new ChatStyle() {
        /**
-@@ -268,6 +272,7 @@
+@@ -268,6 +271,7 @@
      * specific methods.
      */
     public ChatStyle setColor(EnumChatFormatting color) {
@@ -19,7 +18,7 @@
        this.color = color;
        return this;
     }
-@@ -277,6 +282,7 @@
+@@ -277,6 +281,7 @@
      * you want text of this style to be unbolded.
      */
     public ChatStyle setBold(Boolean boldIn) {
@@ -27,7 +26,7 @@
        this.bold = boldIn;
        return this;
     }
-@@ -286,6 +292,7 @@
+@@ -286,6 +291,7 @@
      * italicized and you want to override that for this style.
      */
     public ChatStyle setItalic(Boolean italic) {
@@ -35,7 +34,7 @@
        this.italic = italic;
        return this;
     }
-@@ -295,6 +302,7 @@
+@@ -295,6 +301,7 @@
      * uses strikethrough and you want to override that for this style.
      */
     public ChatStyle setStrikethrough(Boolean strikethrough) {
@@ -43,7 +42,7 @@
        this.strikethrough = strikethrough;
        return this;
     }
-@@ -304,6 +312,7 @@
+@@ -304,6 +311,7 @@
      * underlined and you want to override that for this style.
      */
     public ChatStyle setUnderlined(Boolean underlined) {
@@ -51,7 +50,7 @@
        this.underlined = underlined;
        return this;
     }
-@@ -313,6 +322,7 @@
+@@ -313,6 +321,7 @@
      * obfuscated and you want to override that for this style.
      */
     public ChatStyle setObfuscated(Boolean obfuscated) {
@@ -59,7 +58,7 @@
        this.obfuscated = obfuscated;
        return this;
     }
-@@ -321,6 +331,7 @@
+@@ -321,6 +330,7 @@
      * Sets the event that should be run when text of this ChatStyle is clicked on.
      */
     public ChatStyle setChatClickEvent(ClickEvent event) {
@@ -67,7 +66,7 @@
        this.chatClickEvent = event;
        return this;
     }
-@@ -329,6 +340,7 @@
+@@ -329,6 +339,7 @@
      * Sets the event that should be run when text of this ChatStyle is hovered over.
      */
     public ChatStyle setChatHoverEvent(HoverEvent event) {
@@ -75,7 +74,7 @@
        this.chatHoverEvent = event;
        return this;
     }
-@@ -337,6 +349,7 @@
+@@ -337,6 +348,7 @@
      * Set a text to be inserted into Chat when the component is shift-clicked
      */
     public ChatStyle setInsertion(String insertion) {
@@ -83,7 +82,7 @@
        this.insertion = insertion;
        return this;
     }
-@@ -346,6 +359,7 @@
+@@ -346,6 +358,7 @@
      * defaults are used (bold: false, underlined: false, etc).
      */
     public ChatStyle setParentStyle(ChatStyle parent) {
@@ -91,14 +90,14 @@
        this.parentStyle = parent;
        return this;
     }
-@@ -355,35 +369,22 @@
+@@ -355,35 +368,22 @@
      */
     @SideOnly(Side.CLIENT)
     public String getFormattingCode() {
 -      if(this.isEmpty()) {
 -         return this.parentStyle != null?this.parentStyle.getFormattingCode():"";
 +      if (cachedState != null) return cachedState;
-+      if (parent.isEmpty()) {
++      if (isEmpty()) {
 +         return parentStyle != null ? parentStyle.getFormattingCode() : "";
        } else {
           StringBuilder stringbuilder = new StringBuilder();
@@ -109,12 +108,12 @@
 -         if(this.getBold()) {
 -            stringbuilder.append((Object)EnumChatFormatting.BOLD);
 -         }
-+         if (parent.getColor() != null) stringbuilder.append(parent.getColor());
-+         if (parent.getBold()) stringbuilder.append(EnumChatFormatting.BOLD);
-+         if (parent.getItalic()) stringbuilder.append(EnumChatFormatting.ITALIC);
-+         if (parent.getUnderlined()) stringbuilder.append(EnumChatFormatting.UNDERLINE);
-+         if (parent.getObfuscated()) stringbuilder.append(EnumChatFormatting.OBFUSCATED);
-+         if (parent.getStrikethrough()) stringbuilder.append(EnumChatFormatting.STRIKETHROUGH);
++         if (getColor() != null) stringbuilder.append(getColor());
++         if (getBold()) stringbuilder.append(EnumChatFormatting.BOLD);
++         if (getItalic()) stringbuilder.append(EnumChatFormatting.ITALIC);
++         if (getUnderlined()) stringbuilder.append(EnumChatFormatting.UNDERLINE);
++         if (getObfuscated()) stringbuilder.append(EnumChatFormatting.OBFUSCATED);
++         if (getStrikethrough()) stringbuilder.append(EnumChatFormatting.STRIKETHROUGH);
  
 -         if(this.getItalic()) {
 -            stringbuilder.append((Object)EnumChatFormatting.ITALIC);
@@ -139,7 +138,7 @@
        }
     }
  
-@@ -613,4 +614,8 @@
+@@ -613,4 +613,8 @@
           }
        }
     }

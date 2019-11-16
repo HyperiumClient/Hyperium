@@ -24,7 +24,6 @@ import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.tips.TipRegistry;
 import cc.hyperium.gui.util.CreateServerButton;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
-import cc.hyperium.mixinsimp.client.gui.IMixinGuiMultiplayer;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -168,9 +167,9 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                 if (!(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))) {
                     GuiMultiplayer guiMultiplayer = new GuiMultiplayer(new GuiMainMenu());
                     guiMultiplayer.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
-                    ((IMixinGuiMultiplayer) guiMultiplayer).makeDirectConnect();
+                    guiMultiplayer.makeDirectConnect();
                     ServerData data = new ServerData("customServer", Settings.SERVER_IP, false);
-                    ((IMixinGuiMultiplayer) guiMultiplayer).setIp(data);
+                    guiMultiplayer.setIp(data);
                     guiMultiplayer.confirmClicked(true, 0);
                 } else {
                     Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new CreateServerButton(this));
