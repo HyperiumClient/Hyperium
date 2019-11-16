@@ -124,7 +124,7 @@ public class HyperiumRender<T extends Entity> {
                     String s = "⚫";
                     UUID gameProfileId = ((EntityPlayer) entityIn).getGameProfile().getId();
                     boolean online = Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameProfileId);
-                    if (StaffUtils.isStaff(gameProfileId)) {
+                    if (StaffUtils.isStaff(gameProfileId) || StaffUtils.isBooster(gameProfileId)) {
                         StaffUtils.DotColour colour = StaffUtils.getColor(gameProfileId);
                         if (colour.isChroma) {
                             drawChromaWaveString(s, (fontrenderer.getStringWidth(str) + fontrenderer.getStringWidth(s)) / 2, -2);
