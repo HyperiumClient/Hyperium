@@ -271,7 +271,7 @@ public class HyperiumGuiPlayerTabOverlay {
 
                     boolean online = mc.getSession().getProfile().getId() == gameprofile.getId() || Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
 
-                    if (StaffUtils.isStaff(gameprofile.getId())) {
+                    if (StaffUtils.isStaff(gameprofile.getId()) || StaffUtils.isBooster(gameprofile.getId())) {
                         StaffUtils.DotColour colour = StaffUtils.getColor(gameprofile.getId());
                         if (colour.isChroma) {
                             drawChromaWaveString(s, renderX, (k2 - 2));
