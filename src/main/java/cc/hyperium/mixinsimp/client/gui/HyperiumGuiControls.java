@@ -31,7 +31,7 @@ public class HyperiumGuiControls extends GuiScreen {
 
     public void initGui(List<GuiButton> buttonList) {
         buttonList.add(new GuiButton(10, width / 2 + buttonList.get(1).xPosition, height / 2 + buttonList.get(2).yPosition + 24,
-            150, 20, "Hyperium Binds"));
+            150, 20, "Hyperium Keybinds"));
     }
 
     public void actionPerformed(GuiButton button) {

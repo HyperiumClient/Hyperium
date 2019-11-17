@@ -25,7 +25,6 @@ import cc.hyperium.event.interact.KeyReleaseEvent;
 import cc.hyperium.event.interact.MouseButtonEvent;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
 import net.minecraft.client.Minecraft;
-import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 
 import java.util.HashMap;
@@ -155,8 +154,6 @@ public class KeyBindHandler {
     public void registerKeyBinding(HyperiumBind bind) {
         keybinds.put(bind.getRealDescription(), bind);
         keyBindConfig.attemptKeyBindLoad(bind);
-        Minecraft.getMinecraft().gameSettings.keyBindings =
-            ArrayUtils.add(Minecraft.getMinecraft().gameSettings.keyBindings, bind);
     }
 
     /**
