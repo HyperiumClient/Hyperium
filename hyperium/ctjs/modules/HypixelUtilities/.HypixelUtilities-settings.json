@@ -1,0 +1,54 @@
+[
+  {
+    "name": "HypixelFriends",
+    "settings": [
+      {
+        "type": "toggle",
+        "name": "toggle",
+        "value": true,
+        "hidden": false
+      },
+      {
+        "type": "toggle",
+        "name": "delete old page",
+        "value": true,
+        "hidden": false
+      },
+      {
+        "type": "toggle",
+        "name": "auto accept",
+        "value": false,
+        "hidden": false
+      },
+      {
+        "type": "toggle",
+        "name": "ask to remove",
+        "value": true,
+        "hidden": false
+      }
+    ]
+  },
+  {
+    "name": "CleanChat",
+    "settings": [
+      {
+        "type": "toggle",
+        "name": "PartyPlus",
+        "value": true,
+        "hidden": false
+      },
+      {
+        "type": "toggle",
+        "name": "AllWhiteChat",
+        "value": false,
+        "hidden": false
+      },
+      {
+        "type": "toggle",
+        "name": "BetterBreak",
+        "value": true,
+        "hidden": false
+      }
+    ]
+  }
+]

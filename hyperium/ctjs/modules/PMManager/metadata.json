@@ -1,0 +1,10 @@
+{
+	"name":"PMManager",
+	"description":"Manage your private messages in style",
+	"author":"kerbybit",
+	"version":"2.2",
+	"requires":[
+		"HypixelUtilities", 
+		"SettingsManager"
+	]
+}

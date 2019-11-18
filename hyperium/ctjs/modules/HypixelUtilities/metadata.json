@@ -1,0 +1,6 @@
+{
+  "name":"&6Hypixel Utilities",
+  "description":"A set of ported utilities from old ChatTriggers. This pack includes\n&lHypixelFriends\n&lPartyPlus\n&lWhiteChat\n\n&r&l/hu&r&7&o - open settings",
+  "requires":["SettingsManager"],
+  "version":"4.3"
+}

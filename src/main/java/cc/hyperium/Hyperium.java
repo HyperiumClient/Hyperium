@@ -216,7 +216,6 @@ public class Hyperium {
             EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
             EventBus.INSTANCE.register(confirmation);
             EventBus.INSTANCE.register(statTrack);
-            EventBus.INSTANCE.register(new BruhEvent());
             CONFIG.register(statTrack);
             CONFIG.register(new ToggleSprintContainer());
 
