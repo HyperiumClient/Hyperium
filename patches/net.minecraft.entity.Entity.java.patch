@@ -8,11 +8,10 @@
  import net.minecraft.command.CommandResultStats;
  import net.minecraft.command.ICommandSender;
  import net.minecraft.crash.CrashReport;
-@@ -2108,14 +2109,25 @@
+@@ -2108,14 +2109,24 @@
        return true;
     }
  
-+   private Entity parent;
 +   private long nameCacheTime = System.currentTimeMillis();
 +   private IChatComponent cachedName;
 +
@@ -25,11 +24,11 @@
 -      chatcomponenttext.getChatStyle().setInsertion(this.getUniqueID().toString());
 -      return chatcomponenttext;
 +      if (cachedName == null || System.currentTimeMillis() - nameCacheTime > 50L) {
-+         ChatComponentText chatcomponenttext = new ChatComponentText(parent.getName());
++         ChatComponentText chatcomponenttext = new ChatComponentText(getName());
 +         //not needed otherwise
 +         if (Minecraft.getMinecraft().isIntegratedServerRunning())
 +            chatcomponenttext.getChatStyle().setChatHoverEvent(getHoverEvent());
-+         chatcomponenttext.getChatStyle().setInsertion(parent.getUniqueID().toString());
++         chatcomponenttext.getChatStyle().setInsertion(getUniqueID().toString());
 +         cachedName = chatcomponenttext;
 +         nameCacheTime = System.currentTimeMillis();
 +      }

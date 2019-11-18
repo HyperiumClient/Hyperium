@@ -155,8 +155,6 @@ public class KeyBindHandler {
     public void registerKeyBinding(HyperiumBind bind) {
         keybinds.put(bind.getRealDescription(), bind);
         keyBindConfig.attemptKeyBindLoad(bind);
-        Minecraft.getMinecraft().gameSettings.keyBindings =
-            ArrayUtils.add(Minecraft.getMinecraft().gameSettings.keyBindings, bind);
     }
 
     /**

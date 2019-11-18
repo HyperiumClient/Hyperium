@@ -17,8 +17,19 @@
 
 package cc.hyperium.handlers.handlers.animation.cape;
 
+import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.purchases.HyperiumPurchase;
+import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.utils.HyperiumCapeUtils;
+import cc.hyperium.utils.JsonHolder;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IImageBuffer;
+import net.minecraft.client.renderer.ThreadDownloadImageData;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 
+import java.awt.image.BufferedImage;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -29,7 +40,7 @@ public class HyperiumCapeHandler {
     private ResourceLocation location;
     private boolean ready;
 
-    /*public HyperiumCapeHandler(GameProfile profile) {
+    public HyperiumCapeHandler(GameProfile profile) {
         Multithreading.runAsync(() -> {
             HyperiumPurchase purchase = PurchaseApi.getInstance().getPackageSync(profile.getId());
             JsonHolder holder = purchase.getPurchaseSettings().optJSONObject("cape");
@@ -66,7 +77,7 @@ public class HyperiumCapeHandler {
                 e.printStackTrace();
             }
         });
-    }*/
+    }
 
     @SuppressWarnings("unused")
     public ResourceLocation getLocationCape() {

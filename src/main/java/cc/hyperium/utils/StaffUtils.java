@@ -31,13 +31,23 @@ import java.util.UUID;
 public class StaffUtils {
 
     private static final HashMap<UUID, StaffSettings> STAFF_CACHE = new HashMap<>();
+    private static final HashMap<UUID, StaffSettings> BOOSTER_CACHE = new HashMap<>();
 
     public static boolean isStaff(UUID uuid) {
         return STAFF_CACHE.containsKey(uuid);
     }
 
+    public static boolean isBooster(UUID uuid) {
+        return BOOSTER_CACHE.containsKey(uuid);
+    }
+
     public static DotColour getColor(UUID uuid) {
-        return STAFF_CACHE.get(uuid).getDotColour();
+        // prioritize staff color
+        if (STAFF_CACHE.containsKey(uuid)) {
+            return STAFF_CACHE.get(uuid).getDotColour();
+        }
+
+        return BOOSTER_CACHE.get(uuid).getDotColour();
     }
 
     private static HashMap<UUID, StaffSettings> getStaff() throws IOException {
@@ -58,9 +68,30 @@ public class StaffUtils {
         return staff;
     }
 
+    private static HashMap<UUID, StaffSettings> getBoosters() throws IOException {
+        HashMap<UUID, StaffSettings> boosters = new HashMap<>();
+        String raw = HttpUtil.get(new URL("https://api.github.com/gists/b070e7f75a9083d2e211caffa0c772cc"));
+        String content = new JsonHolder(raw).optJSONObject("files").optJSONObject("boosters.json").optString("content");
+        JsonParser parser = new JsonParser();
+        JsonArray array = parser.parse(content).getAsJsonArray();
+
+        int bound = array.size();
+        for (int i = 0; i < bound; i++) {
+            JsonObject item = array.get(i).getAsJsonObject();
+            UUID uuid = UUID.fromString(item.get("uuid").getAsString());
+            String colourStr = item.get("color").getAsString().toUpperCase();
+            DotColour colour = colourStr.equals("CHROMA") ? new DotColour(true, ChatColor.WHITE) : new DotColour(false, ChatColor.valueOf(colourStr));
+            boosters.put(uuid, new StaffSettings(colour));
+        }
+
+        return boosters;
+    }
+
     public static void clearCache() throws IOException {
         STAFF_CACHE.clear();
         STAFF_CACHE.putAll(getStaff());
+        BOOSTER_CACHE.clear();
+        BOOSTER_CACHE.putAll(getBoosters());
     }
 
     public static class DotColour {

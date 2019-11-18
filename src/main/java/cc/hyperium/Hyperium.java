@@ -66,7 +66,6 @@ import org.lwjgl.opengl.Display;
 import java.io.*;
 import java.util.List;
 
-@SuppressWarnings("all")
 public class Hyperium {
 
     // Create an instance so that anything in this class can be used from outside of it
@@ -312,7 +311,7 @@ public class Hyperium {
     }
 
     /**
-     * Called on {@link MixinMinecraft#shutdown(CallbackInfo)}
+     * Called on {@link Minecraft#shutdown()}
      */
     private void shutdown() {
         // Close the Netty client

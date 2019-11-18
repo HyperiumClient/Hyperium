@@ -16,11 +16,11 @@
     private NetworkPlayerInfo playerInfo;
  
 -   public AbstractClientPlayer(World worldIn, GameProfile playerProfile) {
-+//    private HyperiumCapeHandler hook;
++    private HyperiumCapeHandler hook;
 +
 +    public AbstractClientPlayer(World worldIn, GameProfile playerProfile) {
        super(worldIn, playerProfile);
-+//        hook = new HyperiumCapeHandler(playerProfile);
++        hook = new HyperiumCapeHandler(playerProfile);
     }
  
     /**
@@ -55,9 +55,9 @@
     }
  
     public ResourceLocation getLocationCape() {
-+/*       if (hook.getLocationCape() != null) {
++       if (hook.getLocationCape() != null) {
 +           return hook.getLocationCape();
-+       }*/
++       }
 +
 +       NickHider instance = NickHider.instance;
 +       if (instance != null && instance.getNickHiderConfig().isHideSkins() && instance.getNickHiderConfig().isMasterEnabled()) {

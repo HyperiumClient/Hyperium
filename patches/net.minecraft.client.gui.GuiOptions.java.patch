@@ -1,15 +1,16 @@
 --- original/net/minecraft/client/gui/GuiOptions.java
 +++ changed/net/minecraft/client/gui/GuiOptions.java
-@@ -1,6 +1,8 @@
+@@ -1,6 +1,9 @@
  package net.minecraft.client.gui;
  
  import java.io.IOException;
 +
 +import cc.hyperium.gui.hyperium.HyperiumMainGui;
++import cc.hyperium.gui.keybinds.GuiKeybinds;
  import net.minecraft.client.audio.PositionedSoundRecord;
  import net.minecraft.client.audio.SoundCategory;
  import net.minecraft.client.audio.SoundEventAccessorComposite;
-@@ -104,6 +106,15 @@
+@@ -104,6 +107,17 @@
        this.buttonList.add(new GuiButton(105, this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.resourcepack", new Object[0])));
        this.buttonList.add(new GuiButton(104, this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.snooper.view", new Object[0])));
        this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
@@ -22,14 +23,17 @@
 +
 +      buttonList.add(new GuiButton(114514, width / 2 - 155, height / 6 + 18, 150, 20,
 +              I18n.format("button.ingame.hyperiumsettings")));
++      buttonList.add(new GuiButton(62727568, width / 2 + 5, height / 6 + 18, 150, 20,
++              "Hyperium Keybinds"));
     }
  
     public String func_175355_a(EnumDifficulty p_175355_1_) {
-@@ -204,7 +215,9 @@
+@@ -204,7 +218,10 @@
              }
           }
  
 +         if (button.id == 114514) HyperiumMainGui.INSTANCE.show();
++         if (button.id == 62727568) mc.displayGuiScreen(new GuiKeybinds());
        }
 +
     }
