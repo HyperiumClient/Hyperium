@@ -400,7 +400,29 @@
     }
  
     /**
-@@ -1353,6 +1379,8 @@
+@@ -1327,6 +1353,11 @@
+                BlockPos blockpos = this.objectMouseOver.getBlockPos();
+                if(this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
+                   int i = itemstack != null?itemstack.stackSize:0;
++
++                  PlayerInteractEvent event = new PlayerInteractEvent(thePlayer, PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK, blockpos, theWorld, objectMouseOver.sideHit, objectMouseOver.hitVec);
++                  EventBus.INSTANCE.post(event);
++                  if (event.isCancelled()) return;
++
+                   if(this.playerController.onPlayerRightClick(this.thePlayer, this.theWorld, itemstack, blockpos, this.objectMouseOver.sideHit, this.objectMouseOver.hitVec)) {
+                      flag = false;
+                      this.thePlayer.swingItem();
+@@ -1347,12 +1378,18 @@
+ 
+          if(flag) {
+             ItemStack itemstack1 = this.thePlayer.inventory.getCurrentItem();
++            PlayerInteractEvent event = new PlayerInteractEvent(thePlayer, PlayerInteractEvent.Action.RIGHT_CLICK_AIR, null, theWorld, null, null);
++            EventBus.INSTANCE.post(event);
++            if (event.isCancelled()) return;
++
+             if(itemstack1 != null && this.playerController.sendUseItem(this.thePlayer, this.theWorld, itemstack1)) {
+                this.entityRenderer.itemRenderer.resetEquippedProgress2();
+             }
           }
  
        }
@@ -409,7 +431,7 @@
     }
  
     /**
-@@ -1394,6 +1422,25 @@
+@@ -1394,6 +1431,25 @@
  
           Display.setFullscreen(this.fullscreen);
           Display.setVSyncEnabled(this.gameSettings.enableVsync);
@@ -435,7 +457,7 @@
           this.updateDisplay();
        } catch (Exception exception) {
           logger.error((String)"Couldn\'t toggle fullscreen", (Throwable)exception);
-@@ -1505,6 +1552,9 @@
+@@ -1505,6 +1561,9 @@
  
           while(Mouse.next()) {
              int i = Mouse.getEventButton();
@@ -445,7 +467,7 @@
              KeyBinding.setKeyBindState(i - 100, Mouse.getEventButtonState());
              if(Mouse.getEventButtonState()) {
                 if(this.thePlayer.isSpectator() && i == 2) {
-@@ -1820,12 +1870,18 @@
+@@ -1820,12 +1879,18 @@
  
        this.mcProfiler.endSection();
        this.systemTime = getSystemTime();
@@ -464,7 +486,7 @@
        this.loadWorld((WorldClient)null);
        System.gc();
        ISaveHandler isavehandler = this.saveLoader.getSaveLoader(folderName, false);
-@@ -1873,7 +1929,15 @@
+@@ -1873,7 +1938,15 @@
        NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
        networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, this, (GuiScreen)null));
        networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
@@ -481,7 +503,7 @@
        this.myNetworkManager = networkmanager;
     }
  
-@@ -1881,6 +1945,9 @@
+@@ -1881,6 +1954,9 @@
      * unloads the current world first
      */
     public void loadWorld(WorldClient worldClientIn) {
@@ -491,7 +513,7 @@
        this.loadWorld(worldClientIn, "");
     }
  
-@@ -1944,8 +2011,9 @@
+@@ -1944,8 +2020,9 @@
           this.thePlayer = null;
        }
  
@@ -503,7 +525,7 @@
     }
  
     public void setDimensionAndSpawnPlayer(int dimension) {
-@@ -2520,6 +2588,12 @@
+@@ -2520,6 +2597,12 @@
        int i = Keyboard.getEventKey() == 0?Keyboard.getEventCharacter():Keyboard.getEventKey();
        if(i != 0 && !Keyboard.isRepeatEvent()) {
           if(!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L) {
@@ -516,7 +538,7 @@
              if(Keyboard.getEventKeyState()) {
                 if(i == this.gameSettings.keyBindStreamStartStop.getKeyCode()) {
                    if(this.getTwitchStream().isBroadcasting()) {
-@@ -2558,7 +2632,9 @@
+@@ -2558,7 +2641,9 @@
                 } else if(i == this.gameSettings.keyBindFullscreen.getKeyCode()) {
                    this.toggleFullscreen();
                 } else if(i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
