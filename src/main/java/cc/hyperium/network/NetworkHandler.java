@@ -93,9 +93,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
     @Override
     public void handleCrossClientData(UUID uuid, JsonHolder jsonHolder) {
         String type = jsonHolder.optString("type");
-        if (type.equalsIgnoreCase("yeet")) {
-            Hyperium.INSTANCE.getHandlers().getYeetHandler().yeet(uuid);
-        } else if (type.equalsIgnoreCase("twerk_dance")) {
+        if (type.equalsIgnoreCase("twerk_dance")) {
             Hyperium.INSTANCE.getHandlers().getTwerkDance().startAnimation(uuid);
             Hyperium.INSTANCE.getHandlers().getTwerkDance().getStates().put(uuid, System.currentTimeMillis());
         } else if (type.equalsIgnoreCase("tpose_update"))
@@ -106,6 +104,10 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
             if (jsonHolder.optBoolean("dabbing"))
                 Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).ensureAnimationFor(60);
             else Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).stopAnimation();
+        else if (type.equalsIgnoreCase("armwave_update"))
+            if (jsonHolder.optBoolean("wavingwarm"))
+                Hyperium.INSTANCE.getHandlers().getArmWaveHandler().get(uuid).ensureAnimationFor(60);
+            else Hyperium.INSTANCE.getHandlers().getArmWaveHandler().get(uuid).stopAnimation();
         else if (type.equalsIgnoreCase("floss_update")) {
             if (jsonHolder.optBoolean("flossing"))
                 Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().get(uuid).ensureAnimationFor(60);

@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.chromahud.displayitems.hyperium;
 
+import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -39,15 +40,16 @@ public class PlayerDisplay extends DisplayItem {
 
     @Override
     public void draw(int x, double y, boolean config) {
+        double scale = ElementRenderer.getCurrentScale();
+
         GlStateManager.pushMatrix();
         GlStateManager.color(1, 1, 1);
 
-        GlStateManager.translate(x, y, 0);
+        GlStateManager.translate(x / scale, y / scale, 0);
         RenderHelper.enableStandardItemLighting();
         GlStateManager.enableAlpha();
 
         GlStateManager.shadeModel(GL11.GL_FLAT);
-        GlStateManager.enableAlpha();
         GlStateManager.enableDepth();
 
         GlStateManager.rotate(30, 0, 1.0F, 0);

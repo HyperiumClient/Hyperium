@@ -85,7 +85,6 @@ public class HyperiumHandlers {
     private StatsHandler statsHandler;
     private BroadcastEvents broadcastEvents;
     private SettingsHandler settingsHandler;
-    private YeetHandler yeetHandler;
     private BlurHandler blurHandler;
     private ThankWatchdog thankWatchdog;
     private MemoryHelper memoryHelper;
@@ -115,7 +114,6 @@ public class HyperiumHandlers {
         register(dabHandler = new DabHandler());
         register(twerkDance = new TwerkDance());
         register(particleAuraHandler = new ParticleAuraHandler());
-        register(yeetHandler = new YeetHandler());
         register(hypixelGuiAugmenter = new HypixelGuiAugmenter());
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
@@ -173,9 +171,6 @@ public class HyperiumHandlers {
         EventBus.INSTANCE.register(object);
     }
 
-    public YeetHandler getYeetHandler() {
-        return yeetHandler;
-    }
     public HypixelGuiAugmenter getHypixelGuiAugmenter() {
         return hypixelGuiAugmenter;
     }

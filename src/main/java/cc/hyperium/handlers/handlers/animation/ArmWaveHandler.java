@@ -32,20 +32,20 @@ public class ArmWaveHandler extends AbstractPreCopyAnglesAnimationHandler {
 
     @Override
     public void modifyPlayer(AbstractClientPlayer entity, IModelPlayer player, float heldPercent) {
-        player.getBipedRightForeArm().rotateAngleZ = (float) Math.toRadians(-150.0f * heldPercent);
-        player.getBipedRightForeArmwear().rotateAngleZ = (float) Math.toRadians(-150.0f * heldPercent);
+        player.getBipedRightUpperArm().rotateAngleZ = (float) Math.toRadians(150.0f * heldPercent);
+        player.getBipedRightUpperArmwear().rotateAngleZ = (float) Math.toRadians(150.0f * heldPercent);
 
-        player.getBipedRightForeArm().rotateAngleX = 0;
-        player.getBipedRightForeArmwear().rotateAngleX = 0;
+        player.getBipedRightUpperArm().rotateAngleX = 0;
+        player.getBipedRightUpperArmwear().rotateAngleX = 0;
 
-        player.getBipedRightForeArm().rotateAngleY = 0;
-        player.getBipedRightForeArmwear().rotateAngleY = 0;
+        player.getBipedRightUpperArm().rotateAngleY = 0;
+        player.getBipedRightUpperArmwear().rotateAngleY = 0;
     }
 
     @Override
     public void modifyPlayer(AbstractClientPlayer entity, IModelBiped player, float heldPercent) {
-        player.getBipedRightForeArm().rotateAngleZ = (float) Math.toRadians(-150.0f * heldPercent);
-        player.getBipedRightForeArm().rotateAngleY = 0;
-        player.getBipedRightForeArm().rotateAngleX = 0;
+        player.getBipedRightUpperArm().rotateAngleZ = (float) Math.toRadians(150.0f * heldPercent);
+        player.getBipedRightUpperArm().rotateAngleY = 0;
+        player.getBipedRightUpperArm().rotateAngleX = 0;
     }
 }

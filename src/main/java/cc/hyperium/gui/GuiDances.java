@@ -70,17 +70,6 @@ public class GuiDances extends HyperiumGui {
             }
         });
 
-        this.handlers.put("Yeet", netty -> {
-            handlers.getYeetHandler().yeet(Minecraft.getMinecraft().thePlayer.getUniqueID());
-            NettyClient client = NettyClient.getClient();
-            if (client != null && netty) {
-                client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "yeet").put("yeeting", true)));
-            }
-        });
-
-        cancel.put("Yeet", () -> {
-        });
-
         cancel.put("Floss", () -> {
             AbstractAnimationHandler abstractAnimationHandler = handlers.getFlossDanceHandler();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
@@ -146,6 +135,29 @@ public class GuiDances extends HyperiumGui {
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
         });
 
+        this.handlers.put("Wave Arm", (netty) -> {
+            AbstractAnimationHandler abstractAnimationHandler = handlers.getArmWaveHandler();
+            abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).ensureAnimationFor(seconds);
+            NettyClient client = NettyClient.getClient();
+            if (client != null && netty) {
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "armwave_update").put("posing", true)));
+                Multithreading.runAsync(() -> {
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "armwave_update").put("posing", false)));
+
+                });
+            }
+        });
+
+        cancel.put("Wave Arm", () -> {
+            AbstractAnimationHandler abstractAnimationHandler = handlers.getArmWaveHandler();
+            abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
+        });
+
         if (Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked()) {
             this.handlers.put("Flip", (netty) -> {
                 int state = Settings.flipType;
@@ -203,13 +215,13 @@ public class GuiDances extends HyperiumGui {
         float i = 0;
 
         for (String s : handlers.keySet()) {
-            GL11.glPushMatrix();
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.pushMatrix();
+            GlStateManager.enableBlend();
+            GlStateManager.disableTexture2D();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glEnable(GL11.GL_LINE_SMOOTH);
             GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
-            GL11.glBegin(6);
+            GL11.glBegin(GL11.GL_TRIANGLE_FAN);
             GlStateManager.resetColor();
             float startTheta = (float) (i / (float) count * Math.PI * 2);
             float endTheta = (float) ((i + 1) / (float) count * Math.PI * 2);
@@ -242,8 +254,8 @@ public class GuiDances extends HyperiumGui {
             }
 
             GL11.glEnd();
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_BLEND);
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableBlend();
             GL11.glDisable(GL11.GL_LINE_SMOOTH);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             float middle = (startTheta + endTheta) / 2;
@@ -254,7 +266,7 @@ public class GuiDances extends HyperiumGui {
 
             for (String string : strings) {
                 textCenterY += 15;
-                drawScaledText(string, textCenterX, textCenterY, 1.5F, hovered ? Color.YELLOW.getRGB() : Color.GRAY.getRGB(), true, true);
+                drawScaledText(string, textCenterX, textCenterY, 1.5F, hovered ? Color.YELLOW.getRGB() : Color.decode("#f5f5f5").getRGB(), true, true);
             }
 
             GL11.glPopMatrix();
@@ -273,12 +285,11 @@ public class GuiDances extends HyperiumGui {
         GlStateManager.pushMatrix();
         GlStateManager.color(1, 1, 1);
 
-        GlStateManager.translate(current.getScaledWidth() >> 1, current.getScaledHeight() >> 1, 5);
+        GlStateManager.translate(current.getScaledWidth() >> 1, current.getScaledHeight() >> 1,  0);
         RenderHelper.enableStandardItemLighting();
         GlStateManager.enableAlpha();
 
         GlStateManager.shadeModel(GL11.GL_FLAT);
-        GlStateManager.enableAlpha();
         GlStateManager.enableDepth();
 
         GlStateManager.translate(0, 50, 0);
@@ -293,5 +304,10 @@ public class GuiDances extends HyperiumGui {
         GlStateManager.disableDepth();
         GlStateManager.popMatrix();
         lastFoc = foc;
+    }
+
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
     }
 }
