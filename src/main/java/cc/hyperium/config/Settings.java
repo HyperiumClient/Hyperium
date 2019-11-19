@@ -513,6 +513,14 @@ public class Settings {
     @SliderSetting(name = "gui.settings.slownessfovmodifier", min = -5, max = 5, category = FOV_MODIFIER, mods = true)
     public static double SLOWNESS_FOV_MODIFIER = 1;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.armwavetogglemode", category = COSMETICS)
+    public static boolean ARM_WAVE_TOGGLE;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.armwavetogglemode", category = COSMETICS)
+    public static boolean ARM_WAVE_TOGGLE_MODE;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

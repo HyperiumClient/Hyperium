@@ -79,6 +79,7 @@ public class HyperiumHandlers {
     private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
     private PerspectiveModifierHandler perspectiveHandler;
     private TPoseHandler tPoseHandler;
+    private ArmWaveHandler armWaveHandler;
     private HypixelGuiAugmenter hypixelGuiAugmenter;
     private TwerkDance twerkDance;
     private StatsHandler statsHandler;
@@ -119,6 +120,7 @@ public class HyperiumHandlers {
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
         register(tPoseHandler = new TPoseHandler());
+        register(armWaveHandler = new ArmWaveHandler());
         register(statsHandler = new StatsHandler());
         register(broadcastEvents = new BroadcastEvents());
         register(blurHandler = new BlurHandler());
@@ -282,5 +284,8 @@ public class HyperiumHandlers {
     }
     public FovModifier getFovModifier() {
         return fovModifier;
+    }
+    public ArmWaveHandler getArmWaveHandler() {
+        return armWaveHandler;
     }
 }

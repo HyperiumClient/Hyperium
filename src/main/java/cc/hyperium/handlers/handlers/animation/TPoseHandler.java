@@ -31,18 +31,19 @@ public class TPoseHandler extends AbstractPreCopyAnglesAnimationHandler {
             state = 0.0f;
     }
 
+    private long systemTime;
+
     @Override
     public float modifyState() {
-        return HyperiumGui.clamp(
-            HyperiumGui.easeOut(
-                    state,
-                100.0f,
-                0.01f,
-                5
-            ),
-            0.0f,
-            100.0f
-        );
+        if (systemTime == 0) systemTime = Minecraft.getSystemTime();
+
+        while (systemTime < Minecraft.getSystemTime() + (1000 / 120)) {
+            state = HyperiumGui.clamp(HyperiumGui.easeOut(state, asc ? 100.0f : 0.0f, 0.01f, 6), 0.0f, 100.0f);
+
+            systemTime += (1000 / 120);
+        }
+
+        return state;
     }
 
 
