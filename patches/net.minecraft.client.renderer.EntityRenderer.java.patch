@@ -1,6 +1,6 @@
 --- original/net/minecraft/client/renderer/EntityRenderer.java
 +++ changed/net/minecraft/client/renderer/EntityRenderer.java
-@@ -1,5 +1,12 @@
+@@ -1,5 +1,13 @@
  package net.minecraft.client.renderer;
  
 +import cc.hyperium.Hyperium;
@@ -10,27 +10,19 @@
 +import cc.hyperium.event.render.RenderWorldEvent;
 +import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 +import cc.hyperium.mods.common.PerspectiveModifierHandler;
++import cc.hyperium.utils.renderer.shader.ShaderHelper;
  import com.google.common.base.Predicate;
  import com.google.common.base.Predicates;
  import com.google.gson.JsonSyntaxException;
-@@ -223,6 +230,8 @@
+@@ -183,6 +191,7 @@
+          }
        }
+ 
++      new ShaderHelper(this);
     }
  
-+   public boolean isUsingShader;
-+
-    public void activateNextShader() {
-       if(OpenGlHelper.shadersSupported) {
-          if(this.mc.getRenderViewEntity() instanceof EntityPlayer) {
-@@ -232,6 +241,7 @@
- 
-             this.shaderIndex = (this.shaderIndex + 1) % (shaderResourceLocations.length + 1);
-             if(this.shaderIndex != shaderCount) {
-+               isUsingShader = true;
-                this.loadShader(shaderResourceLocations[this.shaderIndex]);
-             } else {
-                this.theShaderGroup = null;
-@@ -241,7 +251,7 @@
+    public boolean isShaderActive() {
+@@ -241,7 +250,7 @@
        }
     }
  
@@ -39,7 +31,7 @@
        try {
           this.theShaderGroup = new ShaderGroup(this.mc.getTextureManager(), this.resourceManager, this.mc.getFramebuffer(), resourceLocationIn);
           this.theShaderGroup.createBindFramebuffers(this.mc.displayWidth, this.mc.displayHeight);
-@@ -303,7 +313,7 @@
+@@ -303,7 +312,7 @@
           this.mc.setRenderViewEntity(this.mc.thePlayer);
        }
  
@@ -48,7 +40,7 @@
        float f4 = (float)this.mc.gameSettings.renderDistanceChunks / 32.0F;
        float f2 = f3 * (1.0F - f4) + f4;
        this.fogColor1 += (f2 - this.fogColor1) * 0.1F;
-@@ -342,86 +352,80 @@
+@@ -342,86 +351,80 @@
      * Finds what block or object the mouse is over at the specified partial tick time. Args: partialTickTime
      */
     public void getMouseOver(float partialTicks) {
@@ -195,7 +187,7 @@
        }
     }
  
-@@ -521,86 +525,108 @@
+@@ -521,86 +524,108 @@
      * sets up player's eye (or camera in third person mode)
      */
     private void orientCamera(float partialTicks) {
@@ -365,7 +357,7 @@
     }
  
     /**
-@@ -879,6 +905,40 @@
+@@ -879,6 +904,40 @@
           this.prevFrameTime = Minecraft.getSystemTime();
        }
  
@@ -406,7 +398,7 @@
        this.mc.mcProfiler.startSection("mouse");
        if(flag && Minecraft.isRunningOnMac && this.mc.inGameHasFocus && !Mouse.isInsideWindow()) {
           Mouse.setGrabbed(false);
-@@ -943,6 +1003,7 @@
+@@ -943,6 +1002,7 @@
  
              this.renderEndNanoTime = System.nanoTime();
              this.mc.mcProfiler.endStartSection("gui");
@@ -414,7 +406,7 @@
              if(!this.mc.gameSettings.hideGUI || this.mc.currentScreen != null) {
                 GlStateManager.alphaFunc(516, 0.1F);
                 this.mc.ingameGUI.renderGameOverlay(partialTicks);
-@@ -1146,6 +1207,13 @@
+@@ -1146,6 +1206,13 @@
           if(this.mc.objectMouseOver != null && entity.isInsideOfMaterial(Material.water) && flag) {
              EntityPlayer entityplayer = (EntityPlayer)entity;
              GlStateManager.disableAlpha();
@@ -428,7 +420,7 @@
              this.mc.mcProfiler.endStartSection("outline");
              renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, partialTicks);
              GlStateManager.enableAlpha();
-@@ -1207,6 +1275,10 @@
+@@ -1207,6 +1274,10 @@
           this.renderCloudsCheck(renderglobal, partialTicks, pass);
        }
  
