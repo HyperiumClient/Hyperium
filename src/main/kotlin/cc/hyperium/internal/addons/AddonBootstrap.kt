@@ -24,6 +24,7 @@ import cc.hyperium.internal.addons.strategy.AddonLoaderStrategy
 import cc.hyperium.internal.addons.strategy.DefaultAddonLoader
 import cc.hyperium.internal.addons.strategy.WorkspaceAddonLoader
 import cc.hyperium.internal.addons.translate.InstanceTranslator
+import cc.hyperium.internal.addons.translate.MixinTranslator
 import com.google.common.base.Stopwatch
 import org.apache.commons.io.FileUtils
 import java.io.File
@@ -78,8 +79,9 @@ object AddonBootstrap {
      * Translators which can change, add or parse an addons manifest
      * at a certain phase
      */
-    internal val translators = arrayListOf(
-        InstanceTranslator()
+    private val translators = arrayListOf(
+        InstanceTranslator(),
+        MixinTranslator()
     )
 
     /**
