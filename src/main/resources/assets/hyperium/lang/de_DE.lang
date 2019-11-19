@@ -208,6 +208,7 @@ gui.settings.sprintfovmodifier=Sprint Modifier
 gui.settings.bowfovmodifier=Bow Modifier
 gui.settings.speedfovmodifier=Speed Modifier
 gui.settings.slownessfovmodifier=Slowness Modifier
+gui.settings.armwavetogglemode=Arm Wave - Toggle Mode
 
 # Settings Categories
 gui.category.general=Allgemeines

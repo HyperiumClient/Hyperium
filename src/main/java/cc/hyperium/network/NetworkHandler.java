@@ -138,7 +138,9 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
 
     @Override
     public void party(List<String> list) {
-        list.forEach(s -> Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party invite " + s));
+        for (String s : list) {
+            Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party invite " + s);
+        }
     }
 
     @Override

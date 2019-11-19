@@ -514,7 +514,6 @@ public class Settings {
     public static double SLOWNESS_FOV_MODIFIER = 1;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.armwavetogglemode", category = COSMETICS)
     public static boolean ARM_WAVE_TOGGLE;
 
     @ConfigOpt
