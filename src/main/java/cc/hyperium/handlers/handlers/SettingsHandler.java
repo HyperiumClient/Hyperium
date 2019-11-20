@@ -136,7 +136,7 @@ public class SettingsHandler {
                     return;
                 }
                 JsonHolder put = new JsonHolder().put("internal", true).put("companion", true).put("type", o.toString().equalsIgnoreCase("NONE") ?
-                    "NONE" : EnumPurchaseType.parse(o.toString()).toString());
+                        "NONE" : EnumPurchaseType.parse(o.toString()).toString());
                 ServerCrossDataPacket build = ServerCrossDataPacket.build(put);
                 client.write(build);
             });
@@ -159,8 +159,8 @@ public class SettingsHandler {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 if (self != null && self.hasPurchased(EnumPurchaseType.BUTT)) {
                     return new String[]{
-                        "YES",
-                        "NO"
+                            "YES",
+                            "NO"
                     };
                 }
 
@@ -189,13 +189,13 @@ public class SettingsHandler {
                 ParticleOverlay overlay = ParticleOverlay.getOverlay();
                 if (overlay.purchased()) {
                     return new String[]{
-                        "25",
-                        "50",
-                        "100",
-                        "150",
-                        "200",
-                        "250",
-                        "300"};
+                            "25",
+                            "50",
+                            "100",
+                            "150",
+                            "200",
+                            "250",
+                            "300"};
                 }
 
                 return new String[]{"NOT PURCHASED"};
@@ -206,8 +206,8 @@ public class SettingsHandler {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 if (self != null && self.hasPurchased(EnumPurchaseType.WING_COSMETIC)) {
                     return new String[]{
-                        "ON",
-                        "OFF"
+                            "ON",
+                            "OFF"
                     };
                 }
 
@@ -232,13 +232,47 @@ public class SettingsHandler {
                 }
             });
 
+            registerCallback(Settings.class.getField("WINGS_RED"), o -> {
+                if (PurchaseApi.getInstance() == null || PurchaseApi.getInstance().getSelf() == null ||
+                        PurchaseApi.getInstance().getSelf().getPurchaseSettings() == null) {
+                    return;
+                }
+
+                int wingsRed = ((Double) o).intValue();
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+
+                if (self == null) {
+                    GeneralChatHandler.instance().sendMessage("Error: Could not update cosmetic state because your purchase profile is not loaded.");
+                    return;
+                }
+
+                JsonHolder purchaseSettings = self.getPurchaseSettings();
+                if (!purchaseSettings.has("wings")) purchaseSettings.put("wings", new JsonHolder());
+                purchaseSettings.optJSONObject("wings")
+                        .put("wings_color", true)
+                        .put("color_red", wingsRed)
+                        .put("color_green", Settings.WINGS_GREEN)
+                        .put("color_blue", Settings.WINGS_BLUE);
+
+                Settings.WINGS_RED = wingsRed;
+
+                NettyClient client = NettyClient.getClient();
+                if (client != null) {
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true)
+                            .put("wings_color", true)
+                            .put("color_red", wingsRed)
+                            .put("color_green", Settings.WINGS_GREEN)
+                            .put("color_blue",  Settings.WINGS_BLUE)));
+                }
+            });
+
             Field show_dragonhead_string = Settings.class.getField("SHOW_DRAGON_HEAD");
             customStates.put(show_dragonhead_string, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 if (self != null && self.hasPurchased(EnumPurchaseType.DRAGON_HEAD)) {
                     return new String[]{
-                        "ON",
-                        "OFF"
+                            "ON",
+                            "OFF"
                     };
                 }
 
@@ -274,7 +308,7 @@ public class SettingsHandler {
             customStates.put(flip_type_string, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 return self == null || !self.hasPurchased(EnumPurchaseType.FLIP_COSMETIC) ?
-                    new String[]{"NOT PURCHASED"} : new String[]{"FLIP", "ROTATE"};
+                        new String[]{"NOT PURCHASED"} : new String[]{"FLIP", "ROTATE"};
             });
 
             registerCallback(flip_type_string, o -> {
@@ -285,7 +319,7 @@ public class SettingsHandler {
 
             registerCallback(Settings.class.getField("WINGS_SCALE"), o -> {
                 if (PurchaseApi.getInstance() == null || PurchaseApi.getInstance().getSelf() == null ||
-                    PurchaseApi.getInstance().getSelf().getPurchaseSettings() == null) {
+                        PurchaseApi.getInstance().getSelf().getPurchaseSettings() == null) {
                     return;
                 }
 
