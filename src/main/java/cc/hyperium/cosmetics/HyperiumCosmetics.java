@@ -48,9 +48,14 @@ public class HyperiumCosmetics {
     private final ButtCosmetic buttCosmetic;
     private DragonCompanion dragonCompanion;
     private HamsterCompanion hamsterCompanion;
-    private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT).setModel(new ModelHatTophat(), new ResourceLocation("textures/cosmetics/hats/tophat.png"));
-    private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ).setModel(new ModelHatFez(), new ResourceLocation("textures/cosmetics/hats/fez.png"));
-    private final CosmeticHat legoCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_LEGO).setModel(new ModelHatLego(), new ResourceLocation("textures/cosmetics/hats/lego.png"));
+    private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT)
+            .setModel(new ModelHatTophat(), new ResourceLocation("hyperium","textures/cosmetics/hats/tophat.png"));
+
+    private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ)
+            .setModel(new ModelHatFez(), new ResourceLocation("hyperium","textures/cosmetics/hats/fez.png"));
+
+    private final CosmeticHat legoCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_LEGO)
+            .setModel(new ModelHatLego(), new ResourceLocation("hyperium","textures/cosmetics/hats/lego.png"));
 
     /**
      * Hyperium Cosmetics - Default Constructor/Cosmetic Registry

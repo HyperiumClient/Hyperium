@@ -25,15 +25,15 @@ import net.minecraft.util.ResourceLocation;
  */
 public enum Icons {
 
-    SETTINGS(new ResourceLocation("textures/material/settings.png")),
-    EXTENSION(new ResourceLocation("textures/material/extension.png")),
-    DOWNLOAD(new ResourceLocation("textures/material/download.png")),
-    EXIT(new ResourceLocation("textures/material/exit.png")),
-    CLOSE(new ResourceLocation("textures/material/close.png")),
-    ARROW_DOWN_ALT(new ResourceLocation("textures/material/arrow_down_alt.png")),
-    ARROW_UP_ALT(new ResourceLocation("textures/material/arrow_up_alt.png")),
-    ARROW_LEFT(new ResourceLocation("textures/material/arrow_left.png")),
-    ARROW_RIGHT(new ResourceLocation("textures/material/arrow_right.png"));
+    SETTINGS(new ResourceLocation("hyperium","textures/material/settings.png")),
+    EXTENSION(new ResourceLocation("hyperium","textures/material/extension.png")),
+    DOWNLOAD(new ResourceLocation("hyperium","textures/material/download.png")),
+    EXIT(new ResourceLocation("hyperium","textures/material/exit.png")),
+    CLOSE(new ResourceLocation("hyperium","textures/material/close.png")),
+    ARROW_DOWN_ALT(new ResourceLocation("hyperium","textures/material/arrow_down_alt.png")),
+    ARROW_UP_ALT(new ResourceLocation("hyperium","textures/material/arrow_up_alt.png")),
+    ARROW_LEFT(new ResourceLocation("hyperium","textures/material/arrow_left.png")),
+    ARROW_RIGHT(new ResourceLocation("hyperium","textures/material/arrow_right.png"));
 
     private ResourceLocation res;
 

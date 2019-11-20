@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 public class HypixelDetector {
 
     private static final Pattern HYPIXEL_PATTERN =
-        Pattern.compile("^(?:(?:(?:.+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3})|(?:99\\.198\\.123\\.[123]?\\d?))\\.?(?::\\d{1,5}\\.?)?$", Pattern.CASE_INSENSITIVE);
+            Pattern.compile("^(?:(?:(?:.+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3})|(?:99\\.198\\.123\\.[123]?\\d?))\\.?(?::\\d{1,5}\\.?)?$", Pattern.CASE_INSENSITIVE);
 
     private static HypixelDetector instance;
     private boolean hypixel;
@@ -93,18 +93,18 @@ public class HypixelDetector {
     public void join(JoinHypixelEvent event) {
         if (Settings.HYPIXEL_ZOO) {
             Hyperium.INSTANCE.getNotification().display("Welcome to the Hypixel Zoo.", "Click to visit https://hypixel.net/", 5f,
-                null, () -> {
-                    try {
-                        Desktop.getDesktop().browse(new URI("https://hypixel.net/"));
-                    } catch (IOException | URISyntaxException e) {
-                        e.printStackTrace();
-                    }
-                }, new Color(200, 150, 50));
+                    null, () -> {
+                        try {
+                            Desktop.getDesktop().browse(new URI("https://hypixel.net/"));
+                        } catch (IOException | URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    }, new Color(200, 150, 50));
 
             SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
             if (soundHandler == null || Minecraft.getMinecraft().theWorld == null) return;
-            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"),
-                (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("hyperium", "zoo"),
+                    (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
         }
     }
 

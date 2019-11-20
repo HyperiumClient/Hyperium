@@ -50,6 +50,7 @@ import cc.hyperium.netty.UniversalNetty;
 import cc.hyperium.network.LoginReplyHandler;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.resources.ClassLoaderResourcePack;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.locale.HyperiumLocale;
@@ -139,6 +140,8 @@ public class Hyperium {
 
     private long launchTime;
 
+    private ClassLoaderResourcePack resourcePack = new ClassLoaderResourcePack("hyperium");
+
     /**
      * Register things such as Languages to be used throughout the game.
      *
@@ -147,7 +150,7 @@ public class Hyperium {
     @InvokeEvent
     public void preinit(PreInitializationEvent event) {
         EventBus.INSTANCE.register(new AutoGG());
-
+        Minecraft.getMinecraft().getDefaultResourcePacks().add(resourcePack);
         HyperiumLocale.registerHyperiumLang("af_ZA");
         HyperiumLocale.registerHyperiumLang("ar_SA");
         HyperiumLocale.registerHyperiumLang("bs_BA");
@@ -522,5 +525,9 @@ public class Hyperium {
 
     public void setLaunchTime(long launchTime) {
         this.launchTime = launchTime;
+    }
+
+    public ClassLoaderResourcePack getResourcePack() {
+        return resourcePack;
     }
 }

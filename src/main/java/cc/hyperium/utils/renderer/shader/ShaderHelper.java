@@ -6,29 +6,29 @@ import net.minecraft.util.ResourceLocation;
 
 public class ShaderHelper {
 
-  private EntityRenderer parent;
-  public static ShaderHelper INSTANCE;
+    private EntityRenderer parent;
+    public static ShaderHelper INSTANCE;
 
-  public ShaderHelper(EntityRenderer parent) {
-    this.parent = parent;
-    INSTANCE = this;
-  }
-
-  public void loadShader(ResourceLocation resourceLocation) {
-    if (resourceLocation.equals(new ResourceLocation("shaders/hyperium_blur.json")) && Minecraft.getMinecraft().currentScreen == null) {
-      // If a gui is closed and we are asked
-      // to blur, cancel it.
-      return;
+    public ShaderHelper(EntityRenderer parent) {
+        this.parent = parent;
+        INSTANCE = this;
     }
 
-    parent.loadShader(resourceLocation);
-  }
+    public void loadShader(ResourceLocation resourceLocation) {
+        if (resourceLocation.equals(new ResourceLocation("hyperium", "shaders/hyperium_blur.json")) && Minecraft.getMinecraft().currentScreen == null) {
+            // If a gui is closed and we are asked
+            // to blur, cancel it.
+            return;
+        }
 
-  public void enableBlurShader() {
-    loadShader(new ResourceLocation("shaders/hyperium_blur.json"));
-  }
+        parent.loadShader(resourceLocation);
+    }
 
-  public void disableBlurShader() {
-    Minecraft.getMinecraft().addScheduledTask(() -> Minecraft.getMinecraft().entityRenderer.stopUseShader());
-  }
+    public void enableBlurShader() {
+        loadShader(new ResourceLocation("hyperium", "shaders/hyperium_blur.json"));
+    }
+
+    public void disableBlurShader() {
+        Minecraft.getMinecraft().addScheduledTask(() -> Minecraft.getMinecraft().entityRenderer.stopUseShader());
+    }
 }

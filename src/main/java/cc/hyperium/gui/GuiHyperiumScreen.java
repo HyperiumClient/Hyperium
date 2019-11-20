@@ -43,10 +43,10 @@ public class GuiHyperiumScreen extends GuiScreen {
             if (success) {
                 Minecraft.getMinecraft().getTextureManager().bindTexture(dynamicBackgroundTexture);
                 Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0,
-                    ResolutionUtil.current().getScaledWidth(),
-                    ResolutionUtil.current().getScaledHeight(),
-                    ResolutionUtil.current().getScaledWidth(),
-                    ResolutionUtil.current().getScaledHeight());
+                        ResolutionUtil.current().getScaledWidth(),
+                        ResolutionUtil.current().getScaledHeight(),
+                        ResolutionUtil.current().getScaledWidth(),
+                        ResolutionUtil.current().getScaledHeight());
 
                 return;
             } else {
@@ -54,12 +54,12 @@ public class GuiHyperiumScreen extends GuiScreen {
             }
         }
 
-        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/material/backgrounds/" + Settings.BACKGROUND + ".png"));
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/" + Settings.BACKGROUND + ".png"));
         Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0,
-            ResolutionUtil.current().getScaledWidth(),
-            ResolutionUtil.current().getScaledHeight(),
-            ResolutionUtil.current().getScaledWidth(),
-            ResolutionUtil.current().getScaledHeight());
+                ResolutionUtil.current().getScaledWidth(),
+                ResolutionUtil.current().getScaledHeight(),
+                ResolutionUtil.current().getScaledWidth(),
+                ResolutionUtil.current().getScaledHeight());
     }
 
     private static boolean getCustomBackground() {

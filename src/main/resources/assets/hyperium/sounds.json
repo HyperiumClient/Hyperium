@@ -1,0 +1,11 @@
+{
+  "zoo": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "zoo",
+        "stream": false
+      }
+    ]
+  }
+}

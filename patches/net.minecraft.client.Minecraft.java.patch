@@ -549,3 +549,13 @@
                 }
              } else if(i == this.gameSettings.keyBindStreamToggleMic.getKeyCode()) {
                 this.stream.muteMicrophone(false);
+@@ -2665,4 +2750,9 @@
+    public void setConnectedToRealms(boolean isConnected) {
+       this.connectedToRealms = isConnected;
+    }
++
++   // Allow access to the default packs list
++   public List<IResourcePack> getDefaultResourcePacks() {
++      return defaultResourcePacks;
++   }
+ }

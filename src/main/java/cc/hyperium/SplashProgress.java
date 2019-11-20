@@ -103,7 +103,7 @@ public class SplashProgress {
         GlStateManager.enableTexture2D();
 
         // Initialize the splash texture
-        if (splash == null) splash = new ResourceLocation("textures/hyperium-splash.png");
+        if (splash == null) splash = new ResourceLocation("hyperium","textures/hyperium-splash.png");
 
         // Bind the texture
         tm.bindTexture(splash);

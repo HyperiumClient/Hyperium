@@ -23,7 +23,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderHamster extends RenderLiving<EntityHamster> {
-    private ResourceLocation hamsterTexture = new ResourceLocation("textures/cosmetics/companions/hamsterbrown.png");
+    private ResourceLocation hamsterTexture = new ResourceLocation("hyperium","textures/cosmetics/companions/hamsterbrown.png");
 
     public RenderHamster(RenderManager rendermanagerIn) {
         super(rendermanagerIn, new HamsterModel(), 0.2f);

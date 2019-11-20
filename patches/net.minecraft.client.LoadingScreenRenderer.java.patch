@@ -53,7 +53,7 @@
 +
 +            Tessellator tessellator = Tessellator.getInstance();
 +            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-+            mc.getTextureManager().bindTexture(new ResourceLocation("textures/world-loading.png"));
++            mc.getTextureManager().bindTexture(new ResourceLocation("hyperium","textures/world-loading.png"));
 +
 +            Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0f, 0.0f, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
 +

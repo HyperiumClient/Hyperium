@@ -27,7 +27,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class WingsCosmetic extends AbstractCosmetic {
 
-    private final ResourceLocation dragon = new ResourceLocation("textures/cosmetics/wings/dragonwings.png");
+    private final ResourceLocation dragon = new ResourceLocation("hyperium","textures/cosmetics/wings/dragonwings.png");
     private WingsRenderer wingsRenderer;
 
     public WingsCosmetic() {

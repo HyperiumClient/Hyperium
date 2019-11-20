@@ -9,7 +9,7 @@
  import java.awt.image.BufferedImage;
  import java.io.BufferedReader;
  import java.io.File;
-@@ -76,7 +78,13 @@
+@@ -76,10 +78,21 @@
     }
  
     public BufferedImage getPackImage() throws IOException {
@@ -24,3 +24,11 @@
     }
  
     public String getPackName() {
+       return this.resourcePackFile.getName();
+    }
++
++   // Hyperium - Allow for custom resource domains
++   public static <T extends IMetadataSection> T readMetadataPublic(IMetadataSerializer serializer, InputStream stream, String type) {
++      return readMetadata(serializer, stream, type);
++   }
+ }

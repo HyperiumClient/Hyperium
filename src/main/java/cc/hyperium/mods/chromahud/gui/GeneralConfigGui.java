@@ -69,7 +69,7 @@ public class GeneralConfigGui extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        reg((edit = new GuiButtonIcon(1, new ResourceLocation("textures/chromahud/iconsheet.png"), 5, 0, 1, .4f)), button -> {
+        reg((edit = new GuiButtonIcon(1, new ResourceLocation("hyperium","textures/chromahud/iconsheet.png"), 5, 0, 1, .4f)), button -> {
             //Open Gui for editing element
             if (currentElement != null) {
                 Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new DisplayElementConfig(currentElement, mod));
