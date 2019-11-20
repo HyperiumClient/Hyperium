@@ -209,6 +209,9 @@ gui.settings.bowfovmodifier=Athraitheoir Bogha
 gui.settings.speedfovmodifier=Athraitheoir Luas
 gui.settings.slownessfovmodifier=Athraitheoir Suaimhneas
 gui.settings.armwavetogglemode=Arm Wave - Toggle Mode
+gui.settings.wingsred=Wings Red
+gui.settings.wingsgreen=Wings Green
+gui.settings.wingsblue=Wings Blue
 
 # Settings Categories
 gui.category.general=Ginearálta

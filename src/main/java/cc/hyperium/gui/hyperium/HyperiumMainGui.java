@@ -98,6 +98,16 @@ public class HyperiumMainGui extends HyperiumGui {
             e.printStackTrace();
         }
 
+        try {
+            rgbFields.add(new RGBFieldSet(
+                    Settings.class.getDeclaredField("WINGS_RED"),
+                    Settings.class.getDeclaredField("WINGS_GREEN"),
+                    Settings.class.getDeclaredField("WINGS_BLUE"), Category.COSMETICS, false,
+                    Settings.INSTANCE));
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
         tabs = Arrays.asList(
             new SettingsTab(this),
             new ShopTab(this)

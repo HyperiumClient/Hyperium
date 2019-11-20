@@ -209,6 +209,9 @@ gui.settings.bowfovmodifier=Bow Modifier
 gui.settings.speedfovmodifier=Speed Modifier
 gui.settings.slownessfovmodifier=Slowness Modifier
 gui.settings.armwavetogglemode=Arm Wave - Toggle Mode
+gui.settings.wingsred=Wings Red
+gui.settings.wingsgreen=Wings Green
+gui.settings.wingsblue=Wings Blue
 
 # Settings Categories
 gui.category.general=General
