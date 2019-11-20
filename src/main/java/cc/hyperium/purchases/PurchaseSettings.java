@@ -26,9 +26,10 @@ public class PurchaseSettings {
     private boolean wingsDisabled;
     private String wingsType;
     private double wingsScale;
-    private double wingsRed;
-    private double wingsGreen;
-    private double wingsBlue;
+    private boolean wingsColor;
+    private int wingsRed;
+    private int wingsGreen;
+    private int wingsBlue;
     private boolean dragonHeadDisabled;
     private EnumPurchaseType currentHatType;
     private EnumPurchaseType companion;
@@ -38,9 +39,10 @@ public class PurchaseSettings {
         wingsDisabled = source.optJSONObject("wings").optBoolean("disabled");
         wingsType = source.optJSONObject("wings").optString("type");
         wingsScale = source.optJSONObject("wings").optDouble("scale", Settings.WINGS_SCALE);
-        wingsRed = source.optJSONObject("wings").optDouble("color_red", Settings.WINGS_RED);
-        wingsGreen = source.optJSONObject("wings").optDouble("color_green", Settings.WINGS_GREEN);
-        wingsBlue = source.optJSONObject("wings").optDouble("color_blue", Settings.WINGS_BLUE);
+        wingsColor = source.optJSONObject("wings").optBoolean("wings_color", true);
+        wingsRed = source.optJSONObject("wings").optInt("color_red", Settings.WINGS_RED);
+        wingsGreen = source.optJSONObject("wings").optInt("color_green", Settings.WINGS_GREEN);
+        wingsBlue = source.optJSONObject("wings").optInt("color_blue", Settings.WINGS_BLUE);
         dragonHeadDisabled = source.optJSONObject("dragon").optBoolean("disabled");
         currentHatType = EnumPurchaseType.parse(source.optJSONObject("hat").optString("current_type"));
         companion = EnumPurchaseType.parse(source.optJSONObject("companion").optString("type"));
@@ -59,13 +61,16 @@ public class PurchaseSettings {
     public boolean isWingsDisabled() {
         return wingsDisabled;
     }
-    public double getWingsRed() {
+    public boolean isWingsColor() {
+        return wingsColor;
+    }
+    public int getWingsRed() {
         return wingsRed;
     }
-    public double getWingsGreen() {
+    public int getWingsGreen() {
         return wingsGreen;
     }
-    public double getWingsBlue() {
+    public int getWingsBlue() {
         return wingsBlue;
     }
 

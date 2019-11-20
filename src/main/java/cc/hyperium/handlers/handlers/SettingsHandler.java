@@ -266,6 +266,74 @@ public class SettingsHandler {
                 }
             });
 
+            registerCallback(Settings.class.getField("WINGS_GREEN"), o -> {
+                if (PurchaseApi.getInstance() == null || PurchaseApi.getInstance().getSelf() == null ||
+                        PurchaseApi.getInstance().getSelf().getPurchaseSettings() == null) {
+                    return;
+                }
+
+                int wingsGreen = ((Double) o).intValue();
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+
+                if (self == null) {
+                    GeneralChatHandler.instance().sendMessage("Error: Could not update cosmetic state because your purchase profile is not loaded.");
+                    return;
+                }
+
+                JsonHolder purchaseSettings = self.getPurchaseSettings();
+                if (!purchaseSettings.has("wings")) purchaseSettings.put("wings", new JsonHolder());
+                purchaseSettings.optJSONObject("wings")
+                        .put("wings_color", true)
+                        .put("color_red", Settings.WINGS_RED)
+                        .put("color_green", wingsGreen)
+                        .put("color_blue", Settings.WINGS_BLUE);
+
+                Settings.WINGS_GREEN = wingsGreen;
+
+                NettyClient client = NettyClient.getClient();
+                if (client != null) {
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true)
+                            .put("wings_color", true)
+                            .put("color_red", Settings.WINGS_GREEN)
+                            .put("color_green", wingsGreen)
+                            .put("color_blue",  Settings.WINGS_BLUE)));
+                }
+            });
+
+            registerCallback(Settings.class.getField("WINGS_BLUE"), o -> {
+                if (PurchaseApi.getInstance() == null || PurchaseApi.getInstance().getSelf() == null ||
+                        PurchaseApi.getInstance().getSelf().getPurchaseSettings() == null) {
+                    return;
+                }
+
+                int wingsBlue = ((Double) o).intValue();
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+
+                if (self == null) {
+                    GeneralChatHandler.instance().sendMessage("Error: Could not update cosmetic state because your purchase profile is not loaded.");
+                    return;
+                }
+
+                JsonHolder purchaseSettings = self.getPurchaseSettings();
+                if (!purchaseSettings.has("wings")) purchaseSettings.put("wings", new JsonHolder());
+                purchaseSettings.optJSONObject("wings")
+                        .put("wings_color", true)
+                        .put("color_red", Settings.WINGS_RED)
+                        .put("color_green", Settings.WINGS_GREEN)
+                        .put("color_blue", wingsBlue);
+
+                Settings.WINGS_BLUE = wingsBlue;
+
+                NettyClient client = NettyClient.getClient();
+                if (client != null) {
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true)
+                            .put("wings_color", true)
+                            .put("color_red", Settings.WINGS_GREEN)
+                            .put("color_green", Settings.WINGS_GREEN)
+                            .put("color_blue",  wingsBlue)));
+                }
+            });
+
             Field show_dragonhead_string = Settings.class.getField("SHOW_DRAGON_HEAD");
             customStates.put(show_dragonhead_string, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();

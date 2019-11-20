@@ -140,9 +140,9 @@ public class WingsRenderer extends ModelBase {
             wing.rotateAngleY = (float) Math.toRadians(20.0) + (float) Math.sin(f11) * 0.4F;
             wing.rotateAngleZ = (float) Math.toRadians(20.0);
             wingTip.rotateAngleZ = -(float) (Math.sin(f11 + 2.0F) + 0.5) * 0.75F;
-            GlStateManager.color((float) packageIfReady.getCachedSettings().getWingsRed(),
-                    (float) packageIfReady.getCachedSettings().getWingsGreen(),
-                    (float) packageIfReady.getCachedSettings().getWingsBlue());
+            GlStateManager.color(packageIfReady.getCachedSettings().getWingsRed(),
+                    packageIfReady.getCachedSettings().getWingsGreen(),
+                    packageIfReady.getCachedSettings().getWingsBlue());
             wing.render(0.0625F);
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             GlStateManager.scale(-1.0F, 1.0F, 1.0F);
