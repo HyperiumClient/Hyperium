@@ -396,13 +396,13 @@ public class KeystrokesSettings {
     // spaghetti code because it doesnt work otherwise ( why :-( )
     public int getHeight() {
         int height = 50;
-        if (showCPS || showSpacebar || showingFPS) height += 24;
         if (mouseButtons) height += 24;
-        if (showingWASD) height += 48;
-        if (!showingFPS) height -= 18;
-        if (!showingSneak) height -= 18;
-        if (!showCPS) height -= 18;
-        if (showCPSOnButtons) height -= 18;
+        if (showCPS) height += 18;
+        if (showSpacebar) height += 18;
+        if (showingSneak) height += 18;
+        if (showingFPS) height += 18;
+        if (showCPSOnButtons && showCPS) height -= 18;
+        if (!showingWASD) height -= 48;
         return height;
     }
 
@@ -436,7 +436,7 @@ public class KeystrokesSettings {
         int width = getWidth();
 
         //Commenting out set calls to only create local override
-        int x = getX();
+        int x = this.x;
         if (x < 0) {
             x = 0;
         } else if (x * getScale() > res.getScaledWidth() - (width * getScale())) {
@@ -448,7 +448,7 @@ public class KeystrokesSettings {
     public int getRenderY() {
         ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
         int height = getHeight();
-        int y = getY();
+        int y = this.y;
         if (y < 0) {
             y = 0;
         } else if (y * getScale() > res.getScaledHeight() - (height * getScale())) {
