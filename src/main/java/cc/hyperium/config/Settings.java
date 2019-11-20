@@ -514,6 +514,18 @@ public class Settings {
     public static double SLOWNESS_FOV_MODIFIER = 1;
 
     @ConfigOpt
+    @SliderSetting(name = "gui.settings.wingsred", min = 0, max = 255, category = COSMETICS)
+    public static double WINGS_RED = 255;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.wingsgreen", min = 0, max = 255, category = COSMETICS)
+    public static double WINGS_GREEN = 255;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.wingsblue", min = 0, max = 255, category = COSMETICS)
+    public static double WINGS_BLUE = 255;
+
+    @ConfigOpt
     public static boolean ARM_WAVE_TOGGLE;
 
     @ConfigOpt

@@ -87,7 +87,6 @@ public class WingsRenderer extends ModelBase {
         GlStateManager.translate(0, customOffset, 0);
         GlStateManager.translate(x, y, z);
 
-
         GlStateManager.scale(-scale, -scale, scale);
         GlStateManager.rotate((float) (180.0F + rotate), 0.0F, 1.0F, 0.0F);
 
@@ -141,13 +140,17 @@ public class WingsRenderer extends ModelBase {
             wing.rotateAngleY = (float) Math.toRadians(20.0) + (float) Math.sin(f11) * 0.4F;
             wing.rotateAngleZ = (float) Math.toRadians(20.0);
             wingTip.rotateAngleZ = -(float) (Math.sin(f11 + 2.0F) + 0.5) * 0.75F;
+            GlStateManager.color((float) packageIfReady.getCachedSettings().getWingsRed(),
+                    (float) packageIfReady.getCachedSettings().getWingsGreen(),
+                    (float) packageIfReady.getCachedSettings().getWingsBlue());
             wing.render(0.0625F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F);
             GlStateManager.scale(-1.0F, 1.0F, 1.0F);
             if (j == 0) GL11.glCullFace(GL11.GL_FRONT);
         }
 
         GL11.glCullFace(GL11.GL_BACK);
         GL11.glDisable(GL11.GL_CULL_FACE);
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 }
