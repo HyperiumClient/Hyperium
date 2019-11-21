@@ -22,6 +22,9 @@ import cc.hyperium.addons.sidebar.SidebarAddon;
 import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSettings;
 import cc.hyperium.commands.BaseCommand;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CommandSidebar implements BaseCommand {
 
     private SidebarAddon addon;
@@ -43,5 +46,10 @@ public class CommandSidebar implements BaseCommand {
     @Override
     public void onExecute(String[] strings) {
         Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiScreenSettings(addon));
+    }
+
+    @Override
+    public List<String> getCommandAliases() {
+        return Arrays.asList("sidebarmod", "sidebar");
     }
 }
