@@ -532,6 +532,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.armwavetogglemode", category = COSMETICS)
     public static boolean ARM_WAVE_TOGGLE_MODE;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.tabheads", category = IMPROVEMENTS)
+    public static boolean TAB_HEADS = true;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

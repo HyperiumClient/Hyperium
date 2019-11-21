@@ -212,6 +212,7 @@ gui.settings.armwavetogglemode=Tonn Láimhe - Scoránaigh Mód
 gui.settings.wingsred=Sciatháin Dearg
 gui.settings.wingsgreen=Sciatháin Ghlas
 gui.settings.wingsblue=Sciatháin Ghorm
+gui.settings.tabheads=Tab Heads
 
 # Settings Categories
 gui.category.general=Ginearálta
