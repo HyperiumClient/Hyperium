@@ -212,6 +212,7 @@ gui.settings.armwavetogglemode=Arm Wave - Toggle Mode
 gui.settings.wingsred=Wings Red
 gui.settings.wingsgreen=Wings Green
 gui.settings.wingsblue=Wings Blue
+gui.settings.tabheads=Tab Heads
 
 # Settings Categories
 gui.category.general=Allgemeines
