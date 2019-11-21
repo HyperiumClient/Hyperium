@@ -17,9 +17,10 @@
 
 package cc.hyperium.commands.defaults;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import net.minecraft.client.gui.GuiNewChat;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,16 +33,21 @@ public class CommandGarbageCollect implements BaseCommand {
 
     @Override
     public List<String> getCommandAliases() {
-        return Collections.singletonList("garbagecollect");
+        return Arrays.asList("garbagecollect", "gc");
     }
 
     @Override
     public String getUsage() {
-        return "/gc";
+        return "/gcollect";
     }
 
     @Override
     public void onExecute(String[] args) {
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Performing a Garbage Collect.");
+        long start = System.currentTimeMillis();
         System.gc();
+        long end = System.currentTimeMillis();
+        float sec = (end - start) / 1000F;
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Garbage Collect took " + sec + " seconds.");
     }
 }
