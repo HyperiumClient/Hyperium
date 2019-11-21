@@ -24,7 +24,6 @@ import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
-import org.spongepowered.asm.mixin.Mixins;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -45,7 +44,7 @@ public class HyperiumTweaker implements ITweaker {
     private ArrayList<String> args = new ArrayList<>();
 
     private boolean isRunningOptifine = Launch.classLoader.getTransformers().stream()
-        .anyMatch(p -> p.getClass().getName().toLowerCase(Locale.ENGLISH).contains("optifine"));
+            .anyMatch(p -> p.getClass().getName().toLowerCase(Locale.ENGLISH).contains("optifine"));
 
     public HyperiumTweaker() {
         INSTANCE = this;
@@ -102,9 +101,5 @@ public class HyperiumTweaker implements ITweaker {
     private void addArg(String label, Object value) {
         args.add("--" + label);
         args.add(value instanceof String ? (String) value : value instanceof File ? ((File) value).getAbsolutePath() : ".");
-    }
-
-    public boolean isUsingOptifine() {
-        return isRunningOptifine;
     }
 }

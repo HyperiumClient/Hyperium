@@ -83,7 +83,7 @@ object AddonMinecraftBootstrap {
                         if (dependencyManifest == null) {
                             toLoadMap.remove(manifest.name)
                             Hyperium.LOGGER.error("Can't load addon ${manifest.name}. Its dependency, $dependency, isn't available.")
-                            MISSING_DEPENDENCIES_MAP.computeIfAbsent(manifest) { ArrayList() }.add(dependency)
+                            MISSING_DEPENDENCIES_MAP.computeIfAbsent(manifest) { arrayListOf() }.add(dependency)
                             continue@loadBeforeLoop
                         }
 
@@ -93,7 +93,7 @@ object AddonMinecraftBootstrap {
                             toLoadMap.remove(manifest.name)
                             done = false
                             Hyperium.LOGGER.error("Can't load addon ${manifest.name} because it and ${dependencyManifest.name} depend on each other.")
-                            DEPENDENCIES_LOOP_MAP.computeIfAbsent(manifest) { ArrayList() }.add(dependencyManifest)
+                            DEPENDENCIES_LOOP_MAP.computeIfAbsent(manifest) { arrayListOf() }.add(dependencyManifest)
                             continue@loadBeforeLoop
                         }
                     }
@@ -102,8 +102,8 @@ object AddonMinecraftBootstrap {
 
             val toLoad = toLoadMap.map { it.value }.toMutableList()
 
-            val inEdges = toLoad.map { it to HashSet<AddonManifest>() }.toMap().toMutableMap()
-            val outEdges = toLoad.map { it to HashSet<AddonManifest>() }.toMap().toMutableMap()
+            val inEdges = toLoad.map { it to hashSetOf<AddonManifest>() }.toMap().toMutableMap()
+            val outEdges = toLoad.map { it to hashSetOf<AddonManifest>() }.toMap().toMutableMap()
 
             toLoad.forEach { manifest ->
                 manifest.dependencies.forEach {
@@ -115,7 +115,7 @@ object AddonMinecraftBootstrap {
                 }
             }
 
-            val toSort = HashSet<AddonManifest>()
+            val toSort = hashSetOf<AddonManifest>()
             toLoad.forEach {
                 if (inEdges[it]?.size == 0) {
                     toSort.add(it)
