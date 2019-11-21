@@ -1,0 +1,26 @@
+--- original/net/minecraft/client/resources/AbstractResourcePack.java
++++ changed/net/minecraft/client/resources/AbstractResourcePack.java
+@@ -4,6 +4,8 @@
+ import com.google.gson.JsonObject;
+ import com.google.gson.JsonParseException;
+ import com.google.gson.JsonParser;
++
++import java.awt.*;
+ import java.awt.image.BufferedImage;
+ import java.io.BufferedReader;
+ import java.io.File;
+@@ -76,7 +78,13 @@
+    }
+ 
+    public BufferedImage getPackImage() throws IOException {
+-      return TextureUtil.readBufferedImage(this.getInputStreamByName("pack.png"));
++      BufferedImage originalIcon = TextureUtil.readBufferedImage(getInputStreamByName("pack.png"));
++      if (originalIcon == null) return null;
++      BufferedImage resizedIcon = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
++      Graphics graphics = resizedIcon.getGraphics();
++      graphics.drawImage(originalIcon, 0, 0, 64, 64, null);
++      graphics.dispose();
++      return resizedIcon;
+    }
+ 
+    public String getPackName() {
