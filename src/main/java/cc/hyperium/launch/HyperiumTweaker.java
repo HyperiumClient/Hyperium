@@ -19,6 +19,7 @@ package cc.hyperium.launch;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.internal.addons.AddonBootstrap;
+import cc.hyperium.launch.patching.PatchManager;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
@@ -26,6 +27,7 @@ import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +62,13 @@ public class HyperiumTweaker implements ITweaker {
 
     @Override
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
+        Hyperium.LOGGER.info("Initialising patcher...");
+        try {
+            PatchManager.INSTANCE.setup(classLoader, false);
+        } catch (IOException e) {
+            throw new RuntimeException(e); // we want to crash because users will bug us if we just return so just throw it
+        }
+        classLoader.registerTransformer("cc.hyperium.launch.patching.PatchTransformer");
         Hyperium.LOGGER.info("[Addons] Loading Addons...");
 
         Hyperium.LOGGER.info("Initialising Bootstraps...");
