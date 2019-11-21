@@ -130,11 +130,11 @@ public class PurchaseCarousel {
         if (index > 0) {
             //Draw left side
             RenderUtils.drawSmoothRect(centerX - panel * 2, centerY - sideHeight / 2, centerX,
-                centerY + sideHeight / 2, 4, new Color(23, 23, 23, 100).getRGB());
+                centerY + sideHeight / 2, 4, new Color(23, 23, 23).getRGB());
         }
         if (index < items.length - 1) {
             RenderUtils.drawSmoothRect(centerX, centerY - sideHeight / 2, centerX + panel * 2,
-                centerY + sideHeight / 2, 4, new Color(23, 23, 23, 100).getRGB());
+                centerY + sideHeight / 2, 4, new Color(23, 23, 23).getRGB());
         }
 
         RenderUtils.drawSmoothRect(objLeft, centerY - mainHeight / 2, objRight, objBottom, 10, new Color(23, 23, 23, 255).getRGB());
@@ -151,7 +151,7 @@ public class PurchaseCarousel {
         GlStateManager.scale(2 / 3F, 2 / 3F, 2 / 3F);
 
         fr.drawString(item.isPurchased() ? I18n.format("gui.purchase.purchased") : I18n.format("gui.purchase.purchase"),
-            (objLeft + 5) * 3, (objBottom - 18) * 3, new Color(23, 23, 23, 255).getRGB());
+            (objLeft + 5) * 3, (objBottom - 20) * 3, new Color(23, 23, 23, 255).getRGB());
 
         GlStateManager.scale(3 / 2F, 3 / 2f, 3 / 2F);
 

@@ -39,16 +39,10 @@ import java.util.Locale;
  */
 public class HyperiumTweaker implements ITweaker {
 
-    public static HyperiumTweaker INSTANCE;
-
     private ArrayList<String> args = new ArrayList<>();
 
     private boolean isRunningOptifine = Launch.classLoader.getTransformers().stream()
             .anyMatch(p -> p.getClass().getName().toLowerCase(Locale.ENGLISH).contains("optifine"));
-
-    public HyperiumTweaker() {
-        INSTANCE = this;
-    }
 
     @Override
     public void acceptOptions(List<String> args, File gameDir, final File assetsDir, String profile) {

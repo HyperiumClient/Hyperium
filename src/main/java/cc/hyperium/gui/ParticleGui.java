@@ -49,7 +49,6 @@ import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -67,6 +66,8 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
     private GuiBlock previewBlock;
     private boolean queueBuild;
 
+    private int previousPerspective;
+
     @Override
     public void confirmClicked(boolean result, int id) {
         super.confirmClicked(result, id);
@@ -81,6 +82,8 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
     @Override
     public void initGui() {
+        previousPerspective = Minecraft.getMinecraft().gameSettings.thirdPersonView;
+        Minecraft.getMinecraft().gameSettings.thirdPersonView = 1;
         EventBus.INSTANCE.register(this);
         super.initGui();
         queueBuild = true;
@@ -129,7 +132,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                         NettyClient client = NettyClient.getClient();
                         if (client != null) {
                             client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase",
-                                true).put("value", "PARTICLE_" + value.name())));
+                                    true).put("value", "PARTICLE_" + value.name())));
                         }
                     });
                 } else {
@@ -239,7 +242,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                         NettyClient client = NettyClient.getClient();
                         if (client != null) {
                             client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase",
-                                true).put("value", "ANIMATION_" + s.replace(" ", "_").toUpperCase())));
+                                    true).put("value", "ANIMATION_" + s.replace(" ", "_").toUpperCase())));
                         }
                     });
                 } else {
@@ -255,7 +258,9 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                     client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("particle_animation", s)));
                 }
 
-                Arrays.stream(animationItems).forEach(animationItem -> animationItem.setActive(false));
+                for (CarouselItem animationItem : animationItems) {
+                    animationItem.setActive(false);
+                }
                 carouselItem.setActive(true);
             });
 
@@ -289,21 +294,21 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
         String s = I18n.format("gui.cosmetics.credits") + ": " + credits;
         fontRendererObj.drawString(s, (ResolutionUtil.current().getScaledWidth() >> 2) - (fontRendererObj.getStringWidth(s) >> 1),
-            15, Color.MAGENTA.getRGB(), true);
+                15, Color.MAGENTA.getRGB(), true);
 
         GlStateManager.scale(.5, .5, .5);
         s = I18n.format("gui.cosmetics.line1");
         fontRendererObj.drawString(s, (ResolutionUtil.current().getScaledWidth() >> 1) - (fontRendererObj.getStringWidth(s) >> 1),
-            50, Color.MAGENTA.getRGB(), true);
+                50, Color.MAGENTA.getRGB(), true);
         s = I18n.format("gui.cosmetics.line2");
         fontRendererObj.drawString(s, (ResolutionUtil.current().getScaledWidth() >> 1) - (fontRendererObj.getStringWidth(s) >> 1),
-            61, Color.MAGENTA.getRGB(), true);
+                61, Color.MAGENTA.getRGB(), true);
 
         s = I18n.format("gui.cosmetics.preview");
         GlStateManager.scale(2.0, 2.0, 2.0);
         int stringWidth = fontRendererObj.getStringWidth(s);
-        int x1 = ResolutionUtil.current().getScaledWidth() / 4 - stringWidth / 4;
-        int y1 = ResolutionUtil.current().getScaledHeight() / 4;
+        int x1 = ResolutionUtil.current().getScaledWidth() / 4 - stringWidth / 2;
+        int y1 = (int) (ResolutionUtil.current().getScaledHeight() / 2.5F);
         fontRendererObj.drawString(s, x1, y1, Color.MAGENTA.getRGB(), true);
         GlStateManager.scale(.5, .5, .5);
         previewBlock = new GuiBlock(x1 * 2, x1 * 2 + stringWidth * 2, y1 * 2, y1 * 2 + 20);
@@ -320,7 +325,6 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         if (previewBlock != null && previewBlock.isMouseOver(mouseX, mouseY) && overlay == null) {
             mc.displayGuiScreen(null);
-            Minecraft.getMinecraft().gameSettings.thirdPersonView = 2;
             EnumParticleType type = null;
 
             for (EnumParticleType enumParticleType : EnumParticleType.values()) {
@@ -393,5 +397,16 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         if (overlay != null) overlay.handleMouseInput();
+    }
+
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        Minecraft.getMinecraft().gameSettings.thirdPersonView = previousPerspective;
+    }
+
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
     }
 }
