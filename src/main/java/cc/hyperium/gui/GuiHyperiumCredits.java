@@ -40,6 +40,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.StreamSupport;
@@ -71,14 +72,16 @@ public class GuiHyperiumCredits extends HyperiumGui {
         GlStateManager.scale(0.5f, 0.5f, 0.5f);
         int x = width / 2 - 100;
         AtomicInteger y = new AtomicInteger(70 + offY);
-        contributors.forEach((contributorStatistic, textureId) -> {
+        for (Map.Entry<String, DynamicTexture> entry : contributors.entrySet()) {
+            String contributorStatistic = entry.getKey();
+            DynamicTexture textureId = entry.getValue();
             GlStateManager.color(1f, 1f, 1f);
             GlStateManager.bindTexture(textureId.getGlTextureId());
             drawScaledCustomSizeModalRect(x, y.get(), 0, 0, 20, 20, 20, 20, 20, 20);
             drawString(fr, contributorStatistic, x + 25, y.get(), 0xE0E0E0);
             drawString(fr, commits.get(contributorStatistic) + " commits", x + 25, y.get() + 10, 0x757575);
             y.addAndGet(25);
-        });
+        }
     }
 
     @Override

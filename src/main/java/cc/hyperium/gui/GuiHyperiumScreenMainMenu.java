@@ -139,8 +139,10 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             fontRendererObj.drawStringWithShadow(I18n.format("menu.profile.credits", credits), 3, 13, 0xFFFF00);
         }
 
+        GlStateManager.pushMatrix();
         fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 107, new Color(0, 0, 0, 150).getRGB());
         fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 108, -1);
+        GlStateManager.popMatrix();
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         GuiButton serverButton = this.serverButton;

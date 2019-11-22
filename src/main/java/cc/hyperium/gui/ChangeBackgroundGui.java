@@ -88,7 +88,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         statusText = I18n.format("gui.changebackground.working");
         File file = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
         if (file.exists()) file.delete();
-        Settings.BACKGROUND = "4";
+        Settings.BACKGROUND = "1";
         statusText = I18n.format("gui.changebackground.done");
         mc.displayGuiScreen(prevGui);
     }
@@ -163,10 +163,9 @@ public class ChangeBackgroundGui extends GuiScreen {
             dataInputStream.close();
             fileOutputStream = new FileOutputStream(new File(mc.mcDataDir, "customImage.png"));
             fileOutputStream.write(fileData);
+            fileOutputStream.close();
             Settings.BACKGROUND = "CUSTOM";
             statusText = I18n.format("gui.changebackground.done");
-            dataInputStream.close();
-            fileOutputStream.close();
             mc.displayGuiScreen(prevGui);
         } catch (Exception e) {
             statusText = I18n.format("gui.changebackground.downloaderror");

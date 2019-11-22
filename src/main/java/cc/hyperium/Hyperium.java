@@ -222,7 +222,7 @@ public class Hyperium {
             CONFIG.register(new ToggleSprintContainer());
 
             SplashProgress.setProgress(7, I18n.format("splashprogress.startinghyperium"));
-            LOGGER.info("[Hyperium] Started!");
+            LOGGER.info("Hyperium Started!");
 
             // Set the window title
             Display.setTitle("Hyperium " + Metadata.getVersion());

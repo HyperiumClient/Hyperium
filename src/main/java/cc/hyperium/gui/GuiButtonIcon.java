@@ -49,11 +49,11 @@ public class GuiButtonIcon extends GuiButton {
             int height = 52;
             mc.getTextureManager().bindTexture(icon);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glPushMatrix();
-            GL11.glScalef(scale, scale, scale);
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(scale, scale, scale);
             GlStateManager.enableBlend();
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-            GL11.glTranslatef(xPosition / scale + this.width / scale / 2, yPosition / scale + this.height / scale / 2, 0);
+            GlStateManager.translate(xPosition / scale + this.width / scale / 2, yPosition / scale + this.height / scale / 2, 0);
             GlStateManager.color(0, 0, 0, 1.0F);
             float mag = 1.25F;
             GlStateManager.scale(mag, mag, mag);
@@ -62,7 +62,7 @@ public class GuiButtonIcon extends GuiButton {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, width, height);
             GlStateManager.disableBlend();
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
     }
 }

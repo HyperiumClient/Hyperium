@@ -269,7 +269,7 @@ public class GuiDances extends HyperiumGui {
                 drawScaledText(string, textCenterX, textCenterY, 1.5F, hovered ? Color.YELLOW.getRGB() : Color.decode("#f5f5f5").getRGB(), true, true);
             }
 
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
             i++;
         }
 

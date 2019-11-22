@@ -23,7 +23,6 @@ import cc.hyperium.internal.addons.misc.AddonManifestParser
 import cc.hyperium.internal.addons.strategy.AddonLoaderStrategy
 import cc.hyperium.internal.addons.strategy.DefaultAddonLoader
 import cc.hyperium.internal.addons.strategy.WorkspaceAddonLoader
-import cc.hyperium.internal.addons.translate.InstanceTranslator
 import cc.hyperium.internal.addons.translate.MixinTranslator
 import com.google.common.base.Stopwatch
 import org.apache.commons.io.FileUtils
@@ -80,7 +79,6 @@ object AddonBootstrap {
      * at a certain phase
      */
     private val translators = arrayListOf(
-        InstanceTranslator(),
         MixinTranslator()
     )
 

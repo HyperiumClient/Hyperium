@@ -58,11 +58,13 @@ public class MemoryHelper {
             Map<ResourceLocation, ITextureObject> mapTextureObjects = textureManager.getMapTextureObjects();
             List<ResourceLocation> removes = new ArrayList<>();
 
-            mapTextureObjects.forEach((key, iTextureObject) -> {
+            for (Map.Entry<ResourceLocation, ITextureObject> entry : mapTextureObjects.entrySet()) {
+                ResourceLocation key = entry.getKey();
+                ITextureObject iTextureObject = entry.getValue();
                 if (iTextureObject instanceof ThreadDownloadImageData) {
                     IImageBuffer imageBuffer = ((ThreadDownloadImageData) iTextureObject).getImageBuffer();
 
-                    if (imageBuffer == null) return;
+                    if (imageBuffer == null) continue;
 
                     Class<? extends IImageBuffer> aClass = imageBuffer.getClass();
                     // Optifine
@@ -70,7 +72,7 @@ public class MemoryHelper {
                         removes.add(key);
                     }
                 }
-            });
+            }
 
             removes.forEach(this::deleteSkin);
 //            locations.forEach(this::deleteSkin);
