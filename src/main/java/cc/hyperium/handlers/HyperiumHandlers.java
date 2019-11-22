@@ -28,6 +28,7 @@ import cc.hyperium.gui.ScoreboardRenderer;
 import cc.hyperium.handlers.handlers.*;
 import cc.hyperium.handlers.handlers.animation.*;
 import cc.hyperium.handlers.handlers.chat.*;
+import cc.hyperium.handlers.handlers.cloud.CloudHandler;
 import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.handlers.handlers.fov.FovModifier;
 import cc.hyperium.handlers.handlers.hud.VanillaEnhancementsHud;
@@ -92,6 +93,7 @@ public class HyperiumHandlers {
     private UpdateChecker updateChecker;
     private MouseListener mouseListener;
     private FovModifier fovModifier;
+    private CloudHandler cloudHandler;
 
     public HyperiumHandlers() {
         Hyperium.LOGGER.info("Loading handlers");
@@ -128,6 +130,7 @@ public class HyperiumHandlers {
         register(updateChecker = new UpdateChecker());
         register(mouseListener = new MouseListener());
         register(fovModifier = new FovModifier());
+        register(cloudHandler = new CloudHandler());
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
         // Chat Handlers
@@ -282,5 +285,8 @@ public class HyperiumHandlers {
     }
     public ArmWaveHandler getArmWaveHandler() {
         return armWaveHandler;
+    }
+    public CloudHandler getCloudHandler() {
+        return cloudHandler;
     }
 }

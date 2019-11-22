@@ -213,6 +213,7 @@ gui.settings.wingsred=Wings Red
 gui.settings.wingsgreen=Wings Green
 gui.settings.wingsblue=Wings Blue
 gui.settings.tabheads=Tab Heads
+gui.settings.gpucloudrenderer=Optimized Cloud Renderer
 
 # Settings Categories
 gui.category.general=General

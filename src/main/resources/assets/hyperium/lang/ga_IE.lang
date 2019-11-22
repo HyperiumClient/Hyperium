@@ -213,6 +213,7 @@ gui.settings.wingsred=Sciatháin Dearg
 gui.settings.wingsgreen=Sciatháin Ghlas
 gui.settings.wingsblue=Sciatháin Ghorm
 gui.settings.tabheads=Tab Heads
+gui.settings.gpucloudrenderer=Optimized Cloud Renderer
 
 # Settings Categories
 gui.category.general=Ginearálta

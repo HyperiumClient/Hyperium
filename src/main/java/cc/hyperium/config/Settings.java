@@ -536,6 +536,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.tabheads", category = IMPROVEMENTS)
     public static boolean TAB_HEADS = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.gpucloudrenderer", category = IMPROVEMENTS)
+    public static boolean GPU_CLOUD_RENDERER;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }
