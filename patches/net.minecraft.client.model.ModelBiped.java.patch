@@ -133,7 +133,7 @@
 +      bipedRightLeg.render(scale);
 +      bipedLeftLeg.render(scale);
 +      bipedHeadwear.render(scale);
-+      if (getClass().equals(net.minecraft.client.model.ModelBiped.class)) renderBiped(scale);
++      if (getClass().equals(ModelBiped.class)) renderBiped(scale);
        GlStateManager.popMatrix();
     }
  
@@ -360,7 +360,7 @@
  
 -      copyModelAngles(this.bipedHead, this.bipedHeadwear);
 +      copyModelAngles(bipedHead, bipedHeadwear);
-+      if (getClass().equals(net.minecraft.client.model.ModelBiped.class)) {
++      if (getClass().equals(ModelBiped.class)) {
 +         boolean isPlayer = entityIn instanceof AbstractClientPlayer;
 +         if (isPlayer) {
 +            EventBus.INSTANCE.post(new PreCopyPlayerModelAnglesEvent(((AbstractClientPlayer) entityIn), this));
@@ -393,7 +393,7 @@
        this.bipedRightLeg.showModel = invisible;
        this.bipedLeftLeg.showModel = invisible;
 +
-+      if (getClass().equals(net.minecraft.client.model.ModelBiped.class)) {
++      if (getClass().equals(ModelBiped.class)) {
 +         bipedLeftForeArm.showModel = invisible;
 +         bipedRightForeArm.showModel = invisible;
 +         bipedLeftLowerLeg.showModel = invisible;
