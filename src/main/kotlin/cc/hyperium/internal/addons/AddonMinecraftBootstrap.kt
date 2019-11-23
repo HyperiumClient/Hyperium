@@ -46,7 +46,7 @@ object AddonMinecraftBootstrap {
         @JvmName("getDependenciesLoopMap") get
 
     @JvmStatic
-    val VERSION_CODE: String = "1.0"
+    val VERSION_CODE: String = "1.1"
         @JvmName("getVersionCode") get
 
     /**
