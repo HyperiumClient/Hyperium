@@ -20,11 +20,10 @@ package cc.hyperium.cosmetics.companions.dragon;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.AbstractCosmetic;
 import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.event.render.RenderEntitiesEvent;
 import cc.hyperium.event.render.RenderPlayerEvent;
-import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.event.world.WorldChangeEvent;
-import cc.hyperium.utils.renderer.IRenderManager;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
@@ -95,9 +94,9 @@ public class DragonCompanion extends AbstractCosmetic {
         entityDragon.posY = current.y / scale;
         entityDragon.posZ = current.z / scale;
 
-        GlStateManager.translate(-((IRenderManager) renderManager).getPosX(),
-            -((IRenderManager) renderManager).getPosY(),
-            -((IRenderManager) renderManager).getPosZ());
+        GlStateManager.translate(-renderManager.getPosX(),
+            -renderManager.getPosY(),
+            -renderManager.getPosZ());
 
         GlStateManager.translate(d0 * scale, d1 * scale, d2 * scale);
         GlStateManager.scale(scale, scale, scale);
