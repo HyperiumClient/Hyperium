@@ -19,7 +19,9 @@ after_success:
 after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
-  - ./send.sh failure $WEBHOOK_URL
+  - ./send.sh failure $WEBHOOK_URL\
+script:
+  - ./gradlew distrib
 before_deploy:
   - git config --local user.name "HyperiumDeploy"
   - git config --local user.email "hyperiumclient@gmail.com"
