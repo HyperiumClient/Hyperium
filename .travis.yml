@@ -9,7 +9,7 @@ notifications:
   email: false
 before_install:
   - chmod +x gradlew
-  - ./gradlew wrapper --gradle-version 4.10.3
+  - ./gradlew wrapper --gradle-version 5.6.2
   - ./gradlew setup
   - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_DIR/src/main/resources/build.txt
 after_success:
@@ -19,7 +19,7 @@ after_success:
 after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
-  - ./send.sh failure $WEBHOOK_URL\
+  - ./send.sh failure $WEBHOOK_URL
 script:
   - ./gradlew distrib
 before_deploy:
