@@ -3,7 +3,6 @@ jdk:
   - openjdk8
 os:
   - linux
-sudo: required
 git:
   quiet: true
 notifications:
@@ -35,7 +34,7 @@ after_deploy:
   #- ./deploy-hook.sh $CUBE_MAN
 deploy:
   provider: releases
-  api_key: $GIT_TOKEN
+  token: $GIT_TOKEN
   skip_cleanup: true
   file_glob: true
   file: $TRAVIS_BUILD_DIR/build/distrib/distrib.jar
