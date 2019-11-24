@@ -18,7 +18,6 @@
 package cc.hyperium.handlers.handlers.particle.particle;
 
 import cc.hyperium.handlers.handlers.particle.IParticle;
-import cc.hyperium.utils.particle.IEffectRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.IParticleFactory;
@@ -33,7 +32,7 @@ import java.util.Map;
 public class FootstepParticle implements IParticle {
     @Override
     public EntityFX spawn(World world, double x, double y, double z) {
-        Map<Integer, IParticleFactory> particleMap = ((IEffectRenderer) Minecraft.getMinecraft().effectRenderer).getParticleMap();
+        Map<Integer, IParticleFactory> particleMap = Minecraft.getMinecraft().effectRenderer.getParticleMap();
         IParticleFactory iParticleFactory = particleMap.get(EnumParticleTypes.FOOTSTEP.getParticleID());
         return iParticleFactory.getEntityFX(EnumParticleTypes.FOOTSTEP.getParticleID(), world, x, y, z, 0.0F, -0.1F, 0.0F, 0);
     }

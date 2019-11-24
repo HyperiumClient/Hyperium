@@ -17,12 +17,11 @@
     /** The (x,y,z) vertex positions and (u,v) texture coordinates for each of the 8 points on a cube */
     private PositionTextureVertex[] vertexPositions;
     /** An array of 6 TexturedQuads, one for each face of a cube */
-@@ -96,4 +94,18 @@
+@@ -96,4 +94,17 @@
        this.boxName = name;
        return this;
     }
 +
-+   @Override
 +   public void offsetTextureQuad(ModelRenderer renderer, int quadId, float xOffset, float yOffset) {
 +      if (quadId >= 0 & quadId < quadList.length) {
 +         quadList[quadId].vertexPositions[0].texturePositionX += xOffset / renderer.textureWidth;

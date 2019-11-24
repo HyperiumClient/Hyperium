@@ -1,6 +1,6 @@
 --- original/net/minecraft/client/model/ModelBiped.java
 +++ changed/net/minecraft/client/model/ModelBiped.java
-@@ -1,7 +1,12 @@
+@@ -1,7 +1,11 @@
  package net.minecraft.client.model;
  
 -import net.minecraft.client.model.ModelBase;
@@ -9,13 +9,12 @@
 +import cc.hyperium.event.EventBus;
 +import cc.hyperium.event.model.PostCopyPlayerModelAnglesEvent;
 +import cc.hyperium.event.model.PreCopyPlayerModelAnglesEvent;
-+import cc.hyperium.utils.model.IModelBox;
 +import cc.hyperium.utils.model.IModelBiped;
 +import net.minecraft.client.entity.AbstractClientPlayer;
  import net.minecraft.client.renderer.GlStateManager;
  import net.minecraft.entity.Entity;
  import net.minecraft.util.MathHelper;
-@@ -9,7 +14,7 @@
+@@ -9,7 +13,7 @@
  import net.minecraftforge.fml.relauncher.SideOnly;
  
  @SideOnly(Side.CLIENT)
@@ -24,7 +23,7 @@
     public ModelRenderer bipedHead;
     /** The Biped's Headwear. Used for the outer layer of player skins. */
     public ModelRenderer bipedHeadwear;
-@@ -38,6 +43,11 @@
+@@ -38,6 +42,11 @@
        this(modelSize, 0.0F, 64, 32);
     }
  
@@ -36,7 +35,7 @@
     public ModelBiped(float modelSize, float p_i1149_2_, int textureWidthIn, int textureHeightIn) {
        this.textureWidth = textureWidthIn;
        this.textureHeight = textureHeightIn;
-@@ -64,154 +74,245 @@
+@@ -64,154 +73,245 @@
        this.bipedLeftLeg.mirror = true;
        this.bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, modelSize);
        this.bipedLeftLeg.setRotationPoint(1.9F, 12.0F + p_i1149_2_, 0.0F);
@@ -83,7 +82,7 @@
 +      for (ModelRenderer model : models) {
 +         // We only need the first box since we know there only is one
 +         ModelBox box = model.cubeList.get(0);
-+         ((IModelBox) box).offsetTextureQuad(model, 3, 0.0F, -6.0F);
++         box.offsetTextureQuad(model, 3, 0.0F, -6.0F);
 +      }
 +   }
 +
@@ -134,7 +133,7 @@
 +      bipedRightLeg.render(scale);
 +      bipedLeftLeg.render(scale);
 +      bipedHeadwear.render(scale);
-+      if (getClass().equals(net.minecraft.client.model.ModelBiped.class)) renderBiped(scale);
++      if (getClass().equals(ModelBiped.class)) renderBiped(scale);
        GlStateManager.popMatrix();
     }
  
@@ -361,7 +360,7 @@
  
 -      copyModelAngles(this.bipedHead, this.bipedHeadwear);
 +      copyModelAngles(bipedHead, bipedHeadwear);
-+      if (getClass().equals(net.minecraft.client.model.ModelBiped.class)) {
++      if (getClass().equals(ModelBiped.class)) {
 +         boolean isPlayer = entityIn instanceof AbstractClientPlayer;
 +         if (isPlayer) {
 +            EventBus.INSTANCE.post(new PreCopyPlayerModelAnglesEvent(((AbstractClientPlayer) entityIn), this));
@@ -389,12 +388,12 @@
     public void setModelAttributes(ModelBase model) {
        super.setModelAttributes(model);
        if(model instanceof ModelBiped) {
-@@ -232,9 +333,77 @@
+@@ -232,9 +332,66 @@
        this.bipedLeftArm.showModel = invisible;
        this.bipedRightLeg.showModel = invisible;
        this.bipedLeftLeg.showModel = invisible;
 +
-+      if (getClass().equals(net.minecraft.client.model.ModelBiped.class)) {
++      if (getClass().equals(ModelBiped.class)) {
 +         bipedLeftForeArm.showModel = invisible;
 +         bipedRightForeArm.showModel = invisible;
 +         bipedLeftLowerLeg.showModel = invisible;
@@ -407,62 +406,51 @@
     }
 +
 +   /* Right leg wrappers */
-+   @Override
 +   public ModelRenderer getBipedRightUpperLeg() {
 +      return bipedRightLeg;
 +   }
 +
-+   @Override
 +   public ModelRenderer getBipedRightLowerLeg() {
 +      return bipedRightLowerLeg;
 +   }
 +
 +   /* Left leg wrappers */
-+   @Override
 +   public ModelRenderer getBipedLeftUpperLeg() {
 +      return bipedLeftLeg;
 +   }
 +
-+   @Override
 +   public ModelRenderer getBipedLeftLowerLeg() {
 +      return bipedLeftLowerLeg;
 +   }
 +
 +   /* Right arm wrappers */
-+   @Override
 +   public ModelRenderer getBipedRightUpperArm() {
 +      return bipedRightArm;
 +   }
 +
-+   @Override
 +   public ModelRenderer getBipedRightForeArm() {
 +      return bipedRightForeArm;
 +   }
 +
 +   /* Left arm wrappers */
-+   @Override
 +   public ModelRenderer getBipedLeftUpperArm() {
 +      return bipedLeftArm;
 +   }
 +
-+   @Override
 +   public ModelRenderer getBipedLeftForeArm() {
 +      return bipedLeftForeArm;
 +   }
 +
 +   /* Body wrappers */
-+   @Override
 +   public ModelRenderer getBipedBody() {
 +      return bipedBody;
 +   }
 +
 +   /* Head wrappers */
-+   @Override
 +   public ModelRenderer getBipedHead() {
 +      return bipedHead;
 +   }
 +
-+   @Override
 +   public ModelRenderer getBipedHeadwear() {
 +      return bipedHeadwear;
 +   }
