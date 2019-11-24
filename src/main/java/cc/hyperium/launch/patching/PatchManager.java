@@ -24,20 +24,96 @@ import com.nothome.delta.GDiffPatcher;
 import lzma.sdk.lzma.Decoder;
 import lzma.streams.LzmaInputStream;
 import net.minecraft.launchwrapper.LaunchClassLoader;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
 import java.util.regex.Pattern;
 import java.util.zip.Adler32;
+import java.util.zip.ZipEntry;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PatchManager {
     private static final Logger LOGGER = LogManager.getLogger();
+    private static final List<String> OF_CONFLICTS = Arrays.asList(
+            "avh",
+            "avh$1",
+            "avh$a",
+            "bnm",
+            "bnm$1",
+            "bmj",
+            "avn",
+            "bjh",
+            "bjh$5",
+            "bjh$6",
+            "bjh$7",
+            "bjh$8",
+            "bjh$9",
+            "biu",
+            "biv",
+            "bjl",
+            "bct",
+            "bcr",
+            "bkn",
+            "bjg",
+            "bbr",
+            "bkp",
+            "bfn",
+            "bfk",
+            "bfr",
+            "bfh",
+            "bht",
+            "bec",
+            "avo",
+            "avv",
+            "avi",
+            "avh$2"
+    );
+    private static final List<String> UNFIXED_CONFLICTS = Arrays.asList(
+            "avh",
+            "avh$1",
+            "avh$a",
+            "bnm",
+            "bnm$1",
+            "bmj",
+            "avn",
+            "bjh",
+            "bjh$5",
+            "bjh$6",
+            "bjh$7",
+            "bjh$8",
+            "bjh$9",
+            "biu",
+            "biv",
+            "bjl",
+            "bct",
+            "bcr",
+            "bkn",
+            "bjg",
+            "bbr",
+            "bkp",
+            "bfn",
+            "bfk",
+            "bfr",
+            "bfh",
+            "bht",
+            "bec",
+            "avo",
+            "avv",
+            "avi",
+            "avh$2"
+    );
     public static final PatchManager INSTANCE = new PatchManager();
     private boolean setupComplete = false;
     private boolean disableInputCheck = false;
@@ -48,15 +124,18 @@ public class PatchManager {
     byte[] patch(String className, byte[] classData) {
         if (processedClasses.containsKey(className)) return processedClasses.get(className);
         if (!patches.containsKey(className)) {
-            return classData;
+            return getVanillaClassData(className, classData);
         }
-        LOGGER.info("Patching {} (c1: {}, c2: {}, ch: {})", className, processedClasses.containsKey(className), patches.containsKey(className), hash(classData));
+        LOGGER.debug("Patching {} (c1: {}, c2: {}, ch: {})", className, processedClasses.containsKey(className), patches.containsKey(className), hash(classData));
         long start = System.nanoTime();
         Patch patch = patches.get(className);
         if (!disableInputCheck) {
             long hash = hash(classData);
             if (patch.checksum != hash) {
-                throw new IllegalStateException(String.format("Failed to verify patch input for %s (got %x, expected %x)", className, hash, patch.checksum));
+                if (UNFIXED_CONFLICTS.contains(className)) {
+                    LOGGER.warn("Detected OptiFine conflict with class {}, using vanilla class data", className);
+                }
+                classData = getVanillaClassData(className, classData);
             }
         }
         synchronized (patcher) {
@@ -65,12 +144,39 @@ public class PatchManager {
                 patches.remove(className);
                 processedClasses.put(className, data);
                 long end = System.nanoTime();
-                LOGGER.info("Patched {} in {}ms", className, ((double) end - (double) start) / 1_000_000.0);
+                LOGGER.debug("Patched {} in {}ms", className, ((double) end - (double) start) / 1_000_000.0);
                 return data;
             } catch (IOException e) {
                 LOGGER.warn("Failed to patch class {}", className, e);
                 return classData;
             }
+        }
+    }
+
+    private byte[] getVanillaClassData(String name, byte[] d) {
+        try {
+            Class<?> mcClass = Class.forName("ave", false, ClassLoader.getSystemClassLoader());
+            File mcJar = new File(mcClass.getProtectionDomain().getCodeSource().getLocation().toURI());
+            if (mcJar.isFile()) {
+                try (JarFile file = new JarFile(mcJar)) {
+                    ZipEntry e = file.getEntry(name + ".class");
+                    if (e != null) {
+                        return IOUtils.toByteArray(file.getInputStream(e));
+                    } else {
+                        return d;
+                    }
+                }
+            } else {
+                File classFile = new File(mcJar, name + ".class");
+                if (!classFile.isFile()) {
+                    return d;
+                }
+                return FileUtils.readFileToByteArray(classFile);
+            }
+        } catch (ClassNotFoundException | URISyntaxException e) {
+            throw new IllegalStateException("Couldn't find MC jarfile", e);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to read vanilla class file", e);
         }
     }
 
@@ -101,7 +207,11 @@ public class PatchManager {
                     if (entry == null) break;
                     if (patchFilePattern.matcher(entry.getName()).matches()) {
                         Patch patch = readPatch(jis);
-                        patches.put(patch.sourceName.replace('.', '/'), patch);
+                        String name = patch.sourceName.replace('.', '/');
+                        if (OF_CONFLICTS.contains(name) && UNFIXED_CONFLICTS.contains(name)) {
+                            throw new IllegalStateException("Patch present for " + name + ", but it's incompatible with OptiFine (or not marked as incompatibility fixed).");
+                        }
+                        patches.put(name, patch);
                     } else jis.closeEntry();
                 } catch (IOException ex) {
                     LOGGER.warn("Failed to load a patch", ex);
