@@ -19,31 +19,33 @@ package cc.hyperium.event.network.server.hypixel.minigames;
 
 public enum Minigame {
 
-    QUAKECRAFT("Quakecraft", "Quake", 2),
-    WALLS("Walls", "Walls", 3),
+ARCADE("Arcade Games", "Arcade", 0),
+    BEDWARS("Bed Wars", "Bedwars", 1),
+    ARENA("Arena Brawl", "Arena", 2),
+    GINGERBREAD("Turbo Kart Racers", "GingerBread", 2),
+    LEGACY("Classic Games", "Legacy", 2),
     PAINTBALL("Paintball", "Paintball", 2),
-    SURVIVAL_GAMES("Blitz SG", "HungerGames", 8),
-    TNTGAMES("The TNT Games", "TNTGames", 13),
+    QUAKECRAFT("Quakecraft", "Quake", 2),
+    TRUE_COMBAT("Crazy Walls", "TrueCombat", 2),
+    WALLS("Walls", "Walls", 3),
+    MCGO("Cops and Crims", "MCGO", 4),
+    HOUSING("Housing", "Housing", 5),
     VAMPIREZ("VampireZ", "VampireZ", 6),
     WALLS3("Mega Walls", "Walls3", 6),
-    ARCADE("Arcade Games", "Arcade", 0),
-    ARENA("Arena Brawl", "Arena", 2),
-    MCGO("Cops and Crims", "MCGO", 4),
+    BUILD_BATTLE("Build Battle", "BuildBattle", 7),
+    DUELS("Duels", "Duels", 7),
+    PROTOTYPE("Prototype", "Prototype", 7),
+    SURVIVAL_GAMES("Blitz SG", "HungerGames", 8),
+    SKYWARS("SkyWars", "SkyWars", 10),
+    SUPER_SMASH("Smash Heroes", "SuperSmash", 11),
+    SPEED_UHC("Speed UHC", "SpeedUHC", 12),
+    TNTGAMES("The TNT Games", "TNTGames", 13),
     UHC("UHC Champions", "UHC", 14),
     BATTLEGROUND("Warlords", "Battleground", 15),
-    SUPER_SMASH("Smash Heroes", "SuperSmash", 11),
-    GINGERBREAD("Turbo Kart Racers", "GingerBread", 2),
-    HOUSING("Housing", "Housing", 5),
-    SKYWARS("SkyWars", "SkyWars", 10),
-    TRUE_COMBAT("Crazy Walls", "TrueCombat", 2),
-    SPEED_UHC("Speed UHC", "SpeedUHC", 12),
-    SKYCLASH("SkyClash", "SkyClash", 9),
-    LEGACY("Classic Games", "Legacy", 2),
-    PROTOTYPE("Prototype", "Prototype", 7),
-    BEDWARS("Bed Wars", "Bedwars", 1),
     MURDER_MYSTERY("Murder Mystery", "MurderMystery", 17),
-    BUILD_BATTLE("Build Battle", "BuildBattle", 7),
-    DUELS("Duels", "Duels", 7);
+    PIT("The Hypixel Pit", "Pit", 18),
+    SKYBLOCK("SkyBlock", "SkyBlock", 19);
+
 
     public final String scoreName;
     public final String dbName;
