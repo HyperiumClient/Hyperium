@@ -35,7 +35,6 @@ public enum Category {
     ANIMATIONS("gui.subcategory.animations"),
     AUTOTIP("gui.subcategory.autotip"),
     AUTO_GG("gui.subcategory.autogg"),
-    REACH("gui.subcategory.reachdisplay"),
     VANILLA_ENHANCEMENTS("gui.subcategory.vanillaenhancements"),
     KEYSTROKES("gui.subcategory.keystrokes"),
     MOTION_BLUR("gui.subcategory.motionblur"),

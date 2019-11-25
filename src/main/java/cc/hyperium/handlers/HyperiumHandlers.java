@@ -36,7 +36,6 @@ import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
-import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.internal.MemoryHelper;
@@ -75,7 +74,6 @@ public class HyperiumHandlers {
     private ParticleAuraHandler particleAuraHandler;
     private VanillaEnhancementsHud vanillaEnhancementsHud;
     private QuestTrackingChatHandler questTracking;
-    private ReachDisplay reachDisplay;
     private FlipHandler flipHandler;
     private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
     private PerspectiveModifierHandler perspectiveHandler;
@@ -106,7 +104,6 @@ public class HyperiumHandlers {
         register(keybindHandler = new KeyBindHandler());
         register(hypixelDetector = new HypixelDetector());
         register(flipHandler = new FlipHandler());
-        register(reachDisplay = new ReachDisplay());
         register(locationHandler = new LocationHandler());
         register(vanillaEnhancementsHud = new VanillaEnhancementsHud());
         register(layerDeadmau5HeadHandler = new LayerDeadmau5HeadHandler());
@@ -257,9 +254,6 @@ public class HyperiumHandlers {
     }
     public StatusHandler getStatusHandler() {
         return statusHandler;
-    }
-    public ReachDisplay getReachDisplay() {
-        return reachDisplay;
     }
     public PerspectiveModifierHandler getPerspectiveHandler() {
         return perspectiveHandler;

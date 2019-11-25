@@ -90,16 +90,6 @@ public class HyperiumMainGui extends HyperiumGui {
 
         try {
             rgbFields.add(new RGBFieldSet(
-                Settings.class.getDeclaredField("REACH_RED"),
-                Settings.class.getDeclaredField("REACH_GREEN"),
-                Settings.class.getDeclaredField("REACH_BLUE"), Category.REACH, true,
-                Settings.INSTANCE));
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            rgbFields.add(new RGBFieldSet(
                     Settings.class.getDeclaredField("WINGS_RED"),
                     Settings.class.getDeclaredField("WINGS_GREEN"),
                     Settings.class.getDeclaredField("WINGS_BLUE"), Category.COSMETICS, false,
