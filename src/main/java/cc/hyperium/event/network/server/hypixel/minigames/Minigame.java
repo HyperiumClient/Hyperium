@@ -19,7 +19,7 @@ package cc.hyperium.event.network.server.hypixel.minigames;
 
 public enum Minigame {
 
-ARCADE("Arcade Games", "Arcade", 0),
+    ARCADE("Arcade Games", "Arcade", 0),
     BEDWARS("Bed Wars", "Bedwars", 1),
     ARENA("Arena Brawl", "Arena", 2),
     GINGERBREAD("Turbo Kart Racers", "GingerBread", 2),
