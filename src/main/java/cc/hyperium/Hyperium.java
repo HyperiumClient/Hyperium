@@ -32,6 +32,7 @@ import cc.hyperium.event.client.PreInitializationEvent;
 import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
+import cc.hyperium.gui.SplashProgress;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.internal.addons.AddonBootstrap;
