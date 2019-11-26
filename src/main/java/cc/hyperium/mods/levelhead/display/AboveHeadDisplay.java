@@ -66,8 +66,8 @@ public class AboveHeadDisplay extends LevelheadDisplay {
         int max = Math.max(150, Levelhead.getInstance().getDisplayManager().getMasterConfig().getPurgeSize());
         if (cache.size() > max) {
             ArrayList<UUID> safePlayers = Minecraft.getMinecraft().theWorld.playerEntities.stream().filter(player ->
-                existedMoreThan5Seconds.contains(player.getUniqueID())).
-                map(Entity::getUniqueID).collect(Collectors.toCollection(ArrayList::new));
+                    existedMoreThan5Seconds.contains(player.getUniqueID())).
+                    map(Entity::getUniqueID).collect(Collectors.toCollection(ArrayList::new));
 
             existedMoreThan5Seconds.clear();
             existedMoreThan5Seconds.addAll(safePlayers);
@@ -99,13 +99,13 @@ public class AboveHeadDisplay extends LevelheadDisplay {
         int renderDistance = Levelhead.getInstance().getDisplayManager().getMasterConfig().getRenderDistance();
         int min = Math.min(64 * 64, renderDistance * renderDistance);
         return !(player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min) &&
-            (!player.hasCustomName() || !player.getCustomNameTag().isEmpty()) &&
-            !player.getDisplayName().toString().isEmpty() &&
-            existedMoreThan5Seconds.contains(player.getUniqueID()) &&
-            !player.getDisplayName().getFormattedText().contains(ChatColor.COLOR_CHAR + "k") &&
-            !player.isInvisible() &&
-            !player.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) &&
-            !player.isSneaking();
+                (!player.hasCustomName() || !player.getCustomNameTag().isEmpty()) &&
+                !player.getDisplayName().toString().isEmpty() &&
+                existedMoreThan5Seconds.contains(player.getUniqueID()) &&
+                !player.getDisplayName().getFormattedText().contains(ChatColor.COLOR_CHAR + "k") &&
+                !player.isInvisible() &&
+                !player.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) &&
+                !player.isSneaking();
     }
 
     private boolean renderFromTeam(EntityPlayer player) {

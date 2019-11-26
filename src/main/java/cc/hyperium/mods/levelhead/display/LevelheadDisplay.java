@@ -79,6 +79,7 @@ public abstract class LevelheadDisplay {
     public DisplayPosition getPosition() {
         return position;
     }
+
     public DisplayConfig getConfig() {
         return config;
     }
@@ -86,17 +87,22 @@ public abstract class LevelheadDisplay {
     public ConcurrentHashMap<UUID, LevelheadTag> getCache() {
         return cache;
     }
+
     public ConcurrentHashMap<UUID, String> getTrueValueCache() {
         return trueValueCache;
     }
+
     public List<UUID> getExistedMoreThan5Seconds() {
         return existedMoreThan5Seconds;
     }
+
     public HashMap<UUID, Integer> getTimeCheck() {
         return timeCheck;
     }
 
     public abstract void tick();
+
     public abstract void checkCacheSize();
+
     public abstract void onDelete();
 }

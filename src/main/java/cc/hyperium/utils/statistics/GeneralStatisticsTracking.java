@@ -15,7 +15,7 @@
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.statistics;
+package cc.hyperium.utils.statistics;
 
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.network.chat.ChatEvent;

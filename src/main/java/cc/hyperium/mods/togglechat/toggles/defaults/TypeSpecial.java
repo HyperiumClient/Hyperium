@@ -86,13 +86,13 @@ public class TypeSpecial extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Toggles all uhc",
-            "or bedwars chat",
-            "",
-            "Message format",
-            "&6[1\u272B] &7Player&r: Hi",
-            "&6[2\u272B] &a[VIP] Player&r: Hi",
-            "&6[3\u272B] &b[MVP] Player&r: Hi"
+                "Toggles all uhc",
+                "or bedwars chat",
+                "",
+                "Message format",
+                "&6[1\u272B] &7Player&r: Hi",
+                "&6[2\u272B] &a[VIP] Player&r: Hi",
+                "&6[3\u272B] &b[MVP] Player&r: Hi"
         );
     }
 }

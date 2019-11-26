@@ -55,7 +55,7 @@ public class DisplayManager {
         if (config == null) {
             config = new MasterConfig();
             Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&',
-                "&cCould not load previous Levelhead settings! If this is your first time, nothing is wrong."));
+                    "&cCould not load previous Levelhead settings! If this is your first time, nothing is wrong."));
         }
 
         for (JsonElement head : source.optJSONArray("head")) {
@@ -140,10 +140,10 @@ public class DisplayManager {
     }
 
     public void clearCache() {
-        aboveHead.forEach(aboveHeadDisplay -> {
+        for (AboveHeadDisplay aboveHeadDisplay : aboveHead) {
             aboveHeadDisplay.cache.clear();
             aboveHeadDisplay.trueValueCache.clear();
-        });
+        }
 
         if (tab != null) {
             tab.cache.clear();

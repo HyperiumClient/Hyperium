@@ -39,7 +39,7 @@ public class MojangAuth {
     public void auth() {
         UUID uuid = Minecraft.getMinecraft().getSession().getProfile().getId();
         JsonHolder jsonHolder = new JsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/auth/begin?uuid="
-            + uuid + "&mod=LEVEL_HEAD&ver=" + Levelhead.VERSION));
+                + uuid + "&mod=LEVEL_HEAD&ver=" + Levelhead.VERSION));
         if (!jsonHolder.optBoolean("success")) {
             fail("Error during init: " + jsonHolder);
             return;
@@ -57,7 +57,7 @@ public class MojangAuth {
         }
 
         JsonHolder finalResponse = new JsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/auth/final?hash="
-            + hash + "&name=" + Minecraft.getMinecraft().getSession().getProfile().getName()));
+                + hash + "&name=" + Minecraft.getMinecraft().getSession().getProfile().getName()));
         Hyperium.LOGGER.debug("FINAL RESPONSE: " + finalResponse);
         if (finalResponse.optBoolean("success")) {
             accessKey = finalResponse.optString("access_key");

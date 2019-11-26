@@ -18,9 +18,9 @@
 package cc.hyperium.mods.togglechat.toggles.defaults;
 
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
-import java.util.regex.Pattern;
 
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 public class TypeBoop extends ToggleBase {
 
@@ -51,13 +51,13 @@ public class TypeBoop extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Toggles all incoming",
-            "boops",
-            "",
-            "No more annoying boops",
-            "disturbing your amazing game!",
-            "&dFrom &7Player&r: &d&lBoop!",
-            ""
+                "Toggles all incoming",
+                "boops",
+                "",
+                "No more annoying boops",
+                "disturbing your amazing game!",
+                "&dFrom &7Player&r: &d&lBoop!",
+                ""
         );
     }
 }

@@ -57,14 +57,14 @@ public class TypeMysteryBox extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Turns finding mystery box",
-            "messages on or off",
-            "",
-            "&7I &rfound a &e\u2730\u2730 &bMystery Box&r!",
-            "&b[Mystery Box] &7I &rfound a &6Dab&r!",
-            "",
-            "Useful to prevent those",
-            "weird box opening messages"
+                "Turns finding mystery box",
+                "messages on or off",
+                "",
+                "&7I &rfound a &e\u2730\u2730 &bMystery Box&r!",
+                "&b[Mystery Box] &7I &rfound a &6Dab&r!",
+                "",
+                "Useful to prevent those",
+                "weird box opening messages"
         );
     }
 }

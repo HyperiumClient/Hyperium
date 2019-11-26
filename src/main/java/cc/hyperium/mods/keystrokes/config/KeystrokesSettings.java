@@ -129,14 +129,14 @@ public class KeystrokesSettings {
             object.addProperty("keyBackgroundBlue", keyBackgroundBlue);
             object.addProperty("arrowKeys", arrowKeys);
             JsonArray keys = new JsonArray();
-            theMod.getRenderer().getCustomKeys().forEach(wrapper -> {
+            for (CustomKeyWrapper wrapper : theMod.getRenderer().getCustomKeys()) {
                 JsonHolder holder = new JsonHolder();
                 holder.put("key", wrapper.getKey().getKey());
                 holder.put("type", wrapper.getKey().getType());
                 holder.put("xOffset", wrapper.getxOffset());
                 holder.put("yOffset", wrapper.getyOffset());
                 keys.add(holder.getObject());
-            });
+            }
 
             object.getData().add("custom", keys);
             object.writeToFile(configFile);
@@ -179,7 +179,7 @@ public class KeystrokesSettings {
             for (JsonElement element : custom) {
                 JsonHolder holder = new JsonHolder(element.getAsJsonObject());
                 CustomKeyWrapper wrapper = new CustomKeyWrapper(new CustomKey(
-                    theMod, holder.optInt("key"), holder.optInt("type")), holder.optInt("xOffset"), holder.optInt("yOffset"));
+                        theMod, holder.optInt("key"), holder.optInt("type")), holder.optInt("xOffset"), holder.optInt("yOffset"));
                 configWrappers.add(wrapper);
             }
         }

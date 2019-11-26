@@ -28,7 +28,7 @@ import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -139,7 +139,7 @@ public class GuiScreenEditKeys extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         if (selected != null && Mouse.isButtonDown(0) && currentlyDragging == null &&
-            selected.getKey().getHitbox().multiply(mod.getSettings().getScale()).isMouseOver(mouseX, mouseY)) {
+                selected.getKey().getHitbox().multiply(mod.getSettings().getScale()).isMouseOver(mouseX, mouseY)) {
             currentlyDragging = selected;
         }
     }
@@ -151,6 +151,7 @@ public class GuiScreenEditKeys extends GuiScreen {
         for (GuiButton button : buttonList) {
             if (button.isMouseOver()) {
                 hovered = true;
+                break;
             }
         }
 

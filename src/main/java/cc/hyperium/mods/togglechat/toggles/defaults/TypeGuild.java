@@ -52,18 +52,18 @@ public class TypeGuild extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Toggles all guild",
-            "chat messages",
-            "",
-            "&2Guild > &7Player&r: Hi",
-            "",
-            "This is a feature",
-            "which should be",
-            "offered, but isn\'t",
-            "",
-            "This toggle works",
-            "regardless of the",
-            "rank a player has"
+                "Toggles all guild",
+                "chat messages",
+                "",
+                "&2Guild > &7Player&r: Hi",
+                "",
+                "This is a feature",
+                "which should be",
+                "offered, but isn't",
+                "",
+                "This toggle works",
+                "regardless of the",
+                "rank a player has"
         );
     }
 }

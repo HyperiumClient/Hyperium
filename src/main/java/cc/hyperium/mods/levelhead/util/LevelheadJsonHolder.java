@@ -19,7 +19,6 @@ package cc.hyperium.mods.levelhead.util;
 
 import com.google.gson.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;

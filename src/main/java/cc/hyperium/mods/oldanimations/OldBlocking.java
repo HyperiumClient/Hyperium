@@ -56,17 +56,17 @@ public class OldBlocking {
                             GlStateManager.scale(1.05f, 1.05f, 1.05f);
                             GlStateManager.translate(-0.58f, 0.32f, -0.07f);
                             GlStateManager
-                                .rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
+                                    .rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
                         } else {
                             ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0325f);
                             GlStateManager.scale(1.05f, 1.05f, 1.05f);
                             GlStateManager.translate(-0.45f, 0.25f, -0.07f);
                             GlStateManager
-                                .rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
+                                    .rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
                         }
                     } else {
                         ((ModelBiped) livingEntityRenderer.getMainModel())
-                            .postRenderArm(0.0625f);
+                                .postRenderArm(0.0625f);
                     }
                 } else {
                     ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);

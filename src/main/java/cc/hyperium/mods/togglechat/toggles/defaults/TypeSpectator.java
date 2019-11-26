@@ -54,17 +54,17 @@ public class TypeSpectator extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Toggles all spectator",
-            "chat messages",
-            "",
-            "Message format",
-            "&7[SPECTATOR] &7Player&r: Hi",
-            "&7[SPECTATOR] &a[VIP] Player&r: Hi",
-            "&7[SPECTATOR] &b[MVP] Player&r: Hi",
-            "",
-            "Useful to ignore",
-            "post-game chat",
-            "messages"
+                "Toggles all spectator",
+                "chat messages",
+                "",
+                "Message format",
+                "&7[SPECTATOR] &7Player&r: Hi",
+                "&7[SPECTATOR] &a[VIP] Player&r: Hi",
+                "&7[SPECTATOR] &b[MVP] Player&r: Hi",
+                "",
+                "Useful to ignore",
+                "post-game chat",
+                "messages"
         );
     }
 }

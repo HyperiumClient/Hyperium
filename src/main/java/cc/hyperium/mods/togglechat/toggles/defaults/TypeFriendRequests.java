@@ -25,10 +25,10 @@ import java.util.regex.Pattern;
 public class TypeFriendRequests extends ToggleBase {
 
     private final Pattern friendPattern = Pattern.compile(
-        "----------------------------------------------------\n" +
-            "Friend request from (?<rank>\\[.+] )?(?<player>\\S{1,16})\n" +
-            "\\[ACCEPT] - \\[DENY] - \\[IGNORE]\n" +
-            "----------------------------------------------------");
+            "----------------------------------------------------\n" +
+                    "Friend request from (?<rank>\\[.+] )?(?<player>\\S{1,16})\n" +
+                    "\\[ACCEPT] - \\[DENY] - \\[IGNORE]\n" +
+                    "----------------------------------------------------");
 
     // This is used for expiry messages
     private final Pattern oldPattern = Pattern.compile(Pattern.quote("Friend request from "), Pattern.CASE_INSENSITIVE);
@@ -58,14 +58,14 @@ public class TypeFriendRequests extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Toggles the ability to see",
-            "new friend requests from",
-            "other players.",
-            "",
-            "It can be useful if you",
-            "wish to keep friend",
-            "requests open, but don\'t",
-            "want to see notifications"
+                "Toggles the ability to see",
+                "new friend requests from",
+                "other players.",
+                "",
+                "It can be useful if you",
+                "wish to keep friend",
+                "requests open, but don't",
+                "want to see notifications"
         );
     }
 }

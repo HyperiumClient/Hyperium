@@ -19,7 +19,6 @@ package cc.hyperium.mods.togglechat.config;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
-import cc.hyperium.mods.togglechat.toggles.ToggleBase;
 import cc.hyperium.utils.BetterJsonObject;
 
 import java.io.BufferedReader;
@@ -59,8 +58,8 @@ public class ToggleChatConfig {
             }
 
             theMod.getToggleHandler().getToggles().values().forEach(base ->
-                base.setEnabled(toggleJson.has("show" + base.getName().replace(" ",
-                    "_")) && toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean()));
+                    base.setEnabled(toggleJson.has("show" + base.getName().replace(" ",
+                            "_")) && toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean()));
         } else {
             saveToggles();
         }

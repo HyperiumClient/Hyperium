@@ -20,7 +20,7 @@ package cc.hyperium.handlers.handlers.keybinds.keybinds;
 import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
-import cc.hyperium.mods.common.ToggleSprintContainer;
+import cc.hyperium.integrations.sprint.ToggleSprintContainer;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 

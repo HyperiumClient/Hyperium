@@ -17,7 +17,7 @@
 
 package cc.hyperium.mods.itemphysic.physics;
 
-import cc.hyperium.mods.itemphysic.ItemDummyContainer;
+import cc.hyperium.mods.itemphysic.ItemPhysicMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -44,7 +44,7 @@ public class ClientPhysic {
     }
 
     public static void doRender(Entity entity, double x, double y, double z) {
-        rotation = (double) (System.nanoTime() - tick) / 2500000 * ItemDummyContainer.rotateSpeed;
+        rotation = (double) (System.nanoTime() - tick) / 2500000 * ItemPhysicMod.rotateSpeed;
         if (!mc.inGameHasFocus) rotation = 0;
         EntityItem item = ((EntityItem) entity);
 
@@ -54,7 +54,7 @@ public class ClientPhysic {
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(getEntityTexture());
         Minecraft.getMinecraft().getTextureManager().getTexture(getEntityTexture())
-            .setBlurMipmap(false, false);
+                .setBlurMipmap(false, false);
 
         GlStateManager.enableRescaleNormal();
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);

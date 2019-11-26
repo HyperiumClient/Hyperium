@@ -51,16 +51,16 @@ public class TypeJoin extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Toggles all join",
-            "notification messages",
-            "or anything matching",
-            "this format",
-            "",
-            "&ePlayer joined.",
-            "",
-            "This is good for",
-            "people with a large",
-            "friends list"
+                "Toggles all join",
+                "notification messages",
+                "or anything matching",
+                "this format",
+                "",
+                "&ePlayer joined.",
+                "",
+                "This is good for",
+                "people with a large",
+                "friends list"
         );
     }
 }

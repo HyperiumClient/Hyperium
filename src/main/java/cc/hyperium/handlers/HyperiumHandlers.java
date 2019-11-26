@@ -40,7 +40,7 @@ import cc.hyperium.handlers.handlers.stats.StatsHandler;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.internal.MemoryHelper;
 import cc.hyperium.internal.UpdateChecker;
-import cc.hyperium.mods.common.PerspectiveModifierHandler;
+import cc.hyperium.integrations.perspective.PerspectiveModifierHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.MouseListener;
 import net.minecraft.client.Minecraft;

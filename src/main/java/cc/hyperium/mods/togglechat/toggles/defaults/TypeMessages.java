@@ -48,13 +48,13 @@ public class TypeMessages extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Toggles all incoming",
-            "private messages",
-            "or any being sent",
-            "",
-            "These are the formats",
-            "&dFrom &7Player&r: Hello",
-            "&dTo &7Player&r: Hello"
+                "Toggles all incoming",
+                "private messages",
+                "or any being sent",
+                "",
+                "These are the formats",
+                "&dFrom &7Player&r: Hello",
+                "&dTo &7Player&r: Hello"
         );
     }
 }

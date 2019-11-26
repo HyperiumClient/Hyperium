@@ -76,12 +76,12 @@ public class Key extends AbstractKey {
         if (mod.getSettings().isKeyBackgroundEnabled()) {
             if (mod.getSettings().getKeyBackgroundRed() == 0 && mod.getSettings().getKeyBackgroundGreen() == 0 && mod.getSettings().getKeyBackgroundBlue() == 0) {
                 Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 22, y + yOffset + 22,
-                    new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
-                        mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
+                        new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                                mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
             } else {
                 Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 22, y + yOffset + 22,
-                    new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
-                        mod.getSettings().getKeyBackgroundOpacity()).getRGB());
+                        new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                                mod.getSettings().getKeyBackgroundOpacity()).getRGB());
             }
         }
 

@@ -46,7 +46,7 @@ public class GlintColorizer extends AbstractMod {
         }
         if (Colors.chroma) {
             Colors.onepoint8glintcolorI = Color.HSBtoRGB(System.currentTimeMillis() %
-                (10000L / Colors.chromaSpeed) / (10000.0f / Colors.chromaSpeed), 0.8f, 0.8f);
+                    (10000L / Colors.chromaSpeed) / (10000.0f / Colors.chromaSpeed), 0.8f, 0.8f);
             return;
         }
 

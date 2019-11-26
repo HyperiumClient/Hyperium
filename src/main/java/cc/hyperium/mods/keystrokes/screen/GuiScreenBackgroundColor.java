@@ -26,7 +26,7 @@ public class GuiScreenBackgroundColor extends GuiScreen implements IScreen {
     @Override
     public void initGui() {
         buttonList.add(new GuiSlider(0, width / 2 - 80, calculateHeight(3), 150, 20, "Red: ", "",
-            0, 255, red.getAmount(), false, true) {
+                0, 255, red.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();
@@ -36,7 +36,7 @@ public class GuiScreenBackgroundColor extends GuiScreen implements IScreen {
         });
 
         buttonList.add(new GuiSlider(1, width / 2 - 80, calculateHeight(4), 150, 20, "Green: ", "",
-            0, 255, green.getAmount(), false, true) {
+                0, 255, green.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();
@@ -46,7 +46,7 @@ public class GuiScreenBackgroundColor extends GuiScreen implements IScreen {
         });
 
         buttonList.add(new GuiSlider(2, width / 2 - 80, calculateHeight(5), 150, 20, "Blue: ", "",
-            0, 255, blue.getAmount(), false, true) {
+                0, 255, blue.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();
