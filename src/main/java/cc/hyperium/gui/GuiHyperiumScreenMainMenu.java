@@ -66,18 +66,19 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         if (Hyperium.INSTANCE.isFirstLaunch()) new SettingsMigrator().migrate();
 
         tipRegistry.registerTips(
-            "menu.hyperiumtip1",
-            "menu.hyperiumtip2",
-            "menu.hyperiumtip3",
-            "menu.hyperiumtip4",
-            "menu.hyperiumtip5",
-            "menu.hyperiumtip6",
-            "menu.hyperiumtip7",
-            "menu.hyperiumtip8",
-            "menu.hyperiumtip9",
-            "menu.hyperiumtip10",
-            "menu.hyperiumtip11",
-            "menu.hyperiumtip12"
+                "menu.hyperiumtip.1",
+                "menu.hyperiumtip.2",
+                "menu.hyperiumtip.3",
+                "menu.hyperiumtip.4",
+                "menu.hyperiumtip.5",
+                "menu.hyperiumtip.6",
+                "menu.hyperiumtip.7",
+                "menu.hyperiumtip.8",
+                "menu.hyperiumtip.9",
+                "menu.hyperiumtip.10",
+                "menu.hyperiumtip.11",
+                "menu.hyperiumtip.12",
+                "menu.hyperiumtip.13"
         );
 
         selectedTip = tipRegistry.getTips().get(random.nextInt(tipRegistry.getTips().size()));
@@ -123,7 +124,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         if (Settings.HYPERIUM_TIPS && !tipRegistry.getTips().isEmpty()) {
             fontRendererObj.drawSplitString(ChatColor.YELLOW + I18n.format(selectedTip), width / 2 - 200 / 2,
-                height / 2 + 72, 200, -1);
+                    height / 2 + 72, 200, -1);
         }
 
         // yoinked from 1.12
@@ -149,8 +150,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         if (serverButton != null) {
             serverButton.displayString = (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) ?
-                I18n.format("gui.serverjoin.customizeserver") :
-                Settings.SERVER_BUTTON_NAME;
+                    I18n.format("gui.serverjoin.customizeserver") :
+                    Settings.SERVER_BUTTON_NAME;
         }
     }
 
