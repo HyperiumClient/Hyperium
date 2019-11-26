@@ -74,7 +74,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                         connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("GET");
                         connection.setUseCaches(true);
-                        connection.addRequestProperty("User-Agent", "Mozilla/4.76 Hyperium ");
+                        connection.addRequestProperty("User-Agent", "Mozilla/4.76 Hyperium");
                         connection.setReadTimeout(15000);
                         connection.setConnectTimeout(15000);
                         connection.setDoOutput(true);
