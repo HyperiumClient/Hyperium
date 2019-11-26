@@ -302,6 +302,7 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandDebug());
         hyperiumCommandHandler.registerCommand(new CommandDisableCommand());
         hyperiumCommandHandler.registerCommand(new CommandGarbageCollect());
+        hyperiumCommandHandler.registerCommand(new CommandFetchStaff());
         hyperiumCommandHandler.registerCommand(new CommandGuild());
         hyperiumCommandHandler.registerCommand(new CommandKeybinds());
         hyperiumCommandHandler.registerCommand(new CommandLogs());
@@ -371,8 +372,8 @@ public class Hyperium {
     }
 
     /**
-     * Hyperium allows for custom dot colors for staff, so fetch the JSON file containing
-     * all the staff members
+     * Hyperium allows for custom dot colors for staff and boosters, so fetch the JSON files containing
+     * all the staff members and boosters
      */
     private void fetchStaffMembers() {
         Multithreading.runAsync(() -> {
@@ -380,7 +381,7 @@ public class Hyperium {
                 StaffUtils.clearCache();
             } catch (IOException e) {
                 e.printStackTrace();
-                LOGGER.warn("[Staff] Failed to fetch staff");
+                LOGGER.warn("[Staff] Failed to fetch staff & boosters");
             }
         });
     }

@@ -22,6 +22,7 @@ import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.HyperiumCapeUtils;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.StaffUtils;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
@@ -47,9 +48,11 @@ public class HyperiumCapeHandler {
             String type = holder.optString("type");
             String url = null;
 
-            if (type.equals("CUSTOM_IMAGE")) {
+            if (StaffUtils.isBooster(profile.getId())) {
+                url = "https://github.com/HyperiumClient/Hyperium-Repo/blob/master/files/booster_cape.png?raw=true";
+            } else if (type.equals("CUSTOM_IMAGE")) {
                 url = holder.optString("url");
-            } else if (!type.isEmpty()) {
+            } else if (!type.isEmpty() && type != "default") {
                 JsonHolder atlasHolder = PurchaseApi.getInstance().getCapeAtlas().optJSONObject(type);
                 url = atlasHolder.optString("url");
                 if (url.isEmpty()) return;
