@@ -90,10 +90,8 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                         }
                     }
                 });
-
             }
         });
-
     }
 
     @Override
@@ -180,12 +178,12 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
             GlStateManager.scale(2F, 2F, 2F);
             fontRendererObj.drawString("Capes", (current.getScaledWidth() / 2F - fontRendererObj.getStringWidth("Capes")) / 2,
-                printY / 2F, new Color(249, 99, 0).getRGB(), true);
+                    printY / 2F, new Color(249, 99, 0).getRGB(), true);
             String s1;
 
             try {
                 s1 = PurchaseApi.getInstance().getSelf().getPurchaseSettings()
-                    .optJSONObject("cape").optString("type");
+                        .optJSONObject("cape").optString("type");
             } catch (NullPointerException ignored) {
                 return;
             }
@@ -219,8 +217,8 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
             printY += 35;
             int scaledWidth = current.getScaledWidth();
             RenderUtils.drawSmoothRect(scaledWidth / 2 - (blockWidth + 16) * blocksPerLine / 2, printY - 4,
-                scaledWidth / 2 + (blockWidth + 16) * blocksPerLine / 2, printY +
-                    (blockHeight + 16) * totalRows + 4, new Color(53, 106, 110).getRGB());
+                    scaledWidth / 2 + (blockWidth + 16) * blocksPerLine / 2, printY +
+                            (blockHeight + 16) * totalRows + 4, new Color(53, 106, 110).getRGB());
 
             for (String s : capeAtlas.getKeys()) {
                 JsonHolder cape = capeAtlas.optJSONObject(s);
@@ -260,7 +258,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                 if (cosmeticCallback.getKeys().size() == 0 || purchasing) {
                     String string = "Loading";
                     fontRendererObj.drawString(string, thisBlocksCenter - fontRendererObj.getStringWidth(string), (thisTopY - 8 +
-                        (blockHeight >> 1) + 64 + 48), new Color(91, 102, 249).getRGB(), true);
+                            (blockHeight >> 1) + 64 + 48), new Color(91, 102, 249).getRGB(), true);
                     return;
                 }
 
@@ -354,8 +352,8 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     public void updatePurchases() {
         Multithreading.runAsync(() -> {
             cosmeticCallback = PurchaseApi.getInstance().get(
-                "https://api.hyperium.cc/cosmetics/" + Objects.requireNonNull(UUIDUtil.getClientUUID()).toString()
-                    .replace("-", ""));
+                    "https://api.hyperium.cc/cosmetics/" + Objects.requireNonNull(UUIDUtil.getClientUUID()).toString()
+                            .replace("-", ""));
             purchasing = false;
         });
     }

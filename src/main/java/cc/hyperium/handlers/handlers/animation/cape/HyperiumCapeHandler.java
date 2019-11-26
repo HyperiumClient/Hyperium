@@ -48,11 +48,11 @@ public class HyperiumCapeHandler {
             String type = holder.optString("type");
             String url = null;
 
-            if (StaffUtils.isBooster(profile.getId())) {
-                url = "https://github.com/HyperiumClient/Hyperium-Repo/blob/master/files/booster_cape.png?raw=true";
-            } else if (type.equals("CUSTOM_IMAGE")) {
+            if (type.equals("CUSTOM_IMAGE")) {
                 url = holder.optString("url");
-            } else if (!type.isEmpty() && type != "default") {
+            } else if (StaffUtils.isBooster(profile.getId())) {
+                url = "https://github.com/HyperiumClient/Hyperium-Repo/blob/master/files/booster_cape.png?raw=true";
+            } else if (!type.isEmpty() && !type.equals("default")) {
                 JsonHolder atlasHolder = PurchaseApi.getInstance().getCapeAtlas().optJSONObject(type);
                 url = atlasHolder.optString("url");
                 if (url.isEmpty()) return;

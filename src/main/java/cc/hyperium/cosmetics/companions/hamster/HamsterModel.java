@@ -23,7 +23,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 public class HamsterModel extends ModelBase {
     /**
