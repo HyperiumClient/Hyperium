@@ -1,0 +1,51 @@
+--- original/net/minecraft/client/gui/GuiSlot.java
++++ changed/net/minecraft/client/gui/GuiSlot.java
+@@ -1,5 +1,7 @@
+ package net.minecraft.client.gui;
+ 
++import cc.hyperium.config.Settings;
++import cc.hyperium.gui.GuiHyperiumScreen;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.gui.Gui;
+ import net.minecraft.client.gui.GuiButton;
+@@ -193,13 +195,30 @@
+       if(this.field_178041_q) {
+          this.mouseX = mouseXIn;
+          this.mouseY = mouseYIn;
++
++         Tessellator tessellator = Tessellator.getInstance();
++         int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
++         int l = this.top + 4 - (int)this.amountScrolled;
++
++         if (Settings.REPLACE_DIRT_TEXTURE) {
++            GuiHyperiumScreen.renderBackgroundImage();
++
++            if (hasListHeader) {
++               drawListHeader(k, l, tessellator);
++            }
++
++            drawSelectionBox(k, l, mouseXIn, mouseYIn);
++            bindAmountScrolled();
++            func_148142_b(mouseXIn, mouseYIn);
++            return;
++         }
++
+          this.drawBackground();
+          int i = this.getScrollBarX();
+          int j = i + 6;
+          this.bindAmountScrolled();
+          GlStateManager.disableLighting();
+          GlStateManager.disableFog();
+-         Tessellator tessellator = Tessellator.getInstance();
+          WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+          this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
+          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+@@ -210,8 +229,6 @@
+          worldrenderer.pos((double)this.right, (double)this.top, 0.0D).tex((double)((float)this.right / f), (double)((float)(this.top + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
+          worldrenderer.pos((double)this.left, (double)this.top, 0.0D).tex((double)((float)this.left / f), (double)((float)(this.top + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
+          tessellator.draw();
+-         int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
+-         int l = this.top + 4 - (int)this.amountScrolled;
+          if(this.hasListHeader) {
+             this.drawListHeader(k, l, tessellator);
+          }

@@ -211,6 +211,7 @@ gui.settings.wingsblue=Wings Blue
 gui.settings.tabheads=Tab Heads
 gui.settings.gpucloudrenderer=Optimized Cloud Renderer
 gui.settings.showofflinedots=Show Offline Indicators
+gui.settings.replacedirtwithbg=Replace Dirt Background
 
 #Settings Categories
 gui.category.general=General

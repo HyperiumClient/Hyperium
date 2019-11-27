@@ -1,0 +1,22 @@
+--- original/net/minecraft/client/gui/GuiSlider.java
++++ changed/net/minecraft/client/gui/GuiSlider.java
+@@ -8,6 +8,8 @@
+ import net.minecraftforge.fml.relauncher.Side;
+ import net.minecraftforge.fml.relauncher.SideOnly;
+ 
++import java.awt.*;
++
+ @SideOnly(Side.CLIENT)
+ public class GuiSlider extends GuiButton {
+    private float sliderPosition = 1.0F;
+@@ -78,8 +80,8 @@
+          }
+ 
+          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+-         this.drawTexturedModalRect(this.xPosition + (int)(this.sliderPosition * (float)(this.width - 8)), this.yPosition, 0, 66, 4, 20);
+-         this.drawTexturedModalRect(this.xPosition + (int)(this.sliderPosition * (float)(this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
++         drawRect(xPosition + (int) (sliderPosition * (float) (width - 8)) + 2, yPosition,
++                 xPosition + (int) (sliderPosition * (float) (width - 8)) + 8, yPosition + 20, new Color(0, 0, 0, 150).getRGB());
+       }
+    }
+ 

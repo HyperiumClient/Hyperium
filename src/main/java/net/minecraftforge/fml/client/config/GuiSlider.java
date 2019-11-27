@@ -20,6 +20,8 @@ package net.minecraftforge.fml.client.config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 
+import java.awt.*;
+
 /**
  * This class is blatantly stolen from iChunUtils with permission.
  *
@@ -105,8 +107,8 @@ public class GuiSlider extends GuiButtonExt {
             }
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            drawTexturedModalRect(xPosition + (int) (sliderValue * (float) (width - 8)), yPosition, 0, 66, 4, 20);
-            drawTexturedModalRect(xPosition + (int) (sliderValue * (float) (width - 8)) + 4, yPosition, 196, 66, 4, 20);
+            drawRect(xPosition + (int) (sliderValue * (float) (width - 8)) + 2, yPosition,
+                    xPosition + (int) (sliderValue * (float) (width - 8)) + 8, yPosition + 20, new Color(0, 0, 0, 150).getRGB());
         }
     }
 

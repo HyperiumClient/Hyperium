@@ -524,6 +524,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.showofflinedots", category = GENERAL)
     public static boolean OFFLINE_DOTS = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.replacedirtwithbg", category = MISC)
+    public static boolean REPLACE_DIRT_TEXTURE;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

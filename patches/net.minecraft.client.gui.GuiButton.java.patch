@@ -19,7 +19,7 @@
     public GuiButton(int buttonId, int x, int y, String buttonText) {
        this(buttonId, x, y, 200, 20, buttonText);
     }
-@@ -66,26 +71,22 @@
+@@ -66,26 +71,27 @@
      * Draws this button to the screen.
      */
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
@@ -43,13 +43,17 @@
 -            j = 10526880;
 -         } else if(this.hovered) {
 -            j = 16777120;
--         }
 +         hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
 +         double hoverInc = (System.currentTimeMillis() - prevDeltaTime) / 2F;
 +         hoverFade = hovered ? Math.min(100, hoverFade + hoverInc) : Math.max(0, hoverInc - hoverInc);
++
++         drawRect(xPosition, yPosition, xPosition + width, yPosition + height, new Color(0, 0, 0, (int) (100 - (hoverFade / 2))).getRGB());
++
++         if (hovered) {
++            drawRect(xPosition, yPosition + 19, xPosition + width, yPosition + height, new Color(3, 169, 244).getRGB());
+          }
  
 -         this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
-+         drawRect(xPosition, yPosition, xPosition + width, yPosition + height, new Color(0, 0, 0, (int) (100 - (hoverFade / 2))).getRGB());
 +         mouseDragged(mc, mouseX, mouseY);
 +
 +         int textColor = enabled ? 255 : 180;
