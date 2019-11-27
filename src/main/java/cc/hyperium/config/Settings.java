@@ -520,6 +520,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.gpucloudrenderer", category = IMPROVEMENTS)
     public static boolean GPU_CLOUD_RENDERER;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.showofflinedots", category = GENERAL)
+    public static boolean OFFLINE_DOTS = true;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

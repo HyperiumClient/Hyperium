@@ -209,6 +209,7 @@ gui.settings.wingsgreen=Wings Green
 gui.settings.wingsblue=Wings Blue
 gui.settings.tabheads=Tab Heads
 gui.settings.gpucloudrenderer=Optimized Cloud Renderer
+gui.settings.showofflinedots=Show Offline Indicators
 
 # Settings Categories
 gui.category.general=Allgemeines
