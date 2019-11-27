@@ -237,7 +237,7 @@
 +                     mc.fontRendererObj.drawString(format, renderX, (k2 - 2), Color.WHITE.getRGB());
 +                  }
 +               } else {
-+                  String format = online ? ChatColor.GREEN + s : ChatColor.RED + s;
++                  String format = online ? ChatColor.GREEN + s : (Settings.OFFLINE_DOTS ? ChatColor.RED + s : "");
 +                  mc.fontRendererObj.drawString(format, renderX, (k2 - 2), Color.WHITE.getRGB());
 +               }
              }
