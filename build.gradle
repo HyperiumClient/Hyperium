@@ -10,7 +10,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.60"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61"
         classpath 'tk.amplifiable.mcgradle:MCGradle:1.2.1'
     }
 }
@@ -61,8 +61,8 @@ subprojects {
     }
 
     dependencies {
-        embed "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.60"
-        embed "org.jetbrains.kotlin:kotlin-reflect:1.3.60"
+        embed "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61"
+        embed "org.jetbrains.kotlin:kotlin-reflect:1.3.61"
 
         embed 'com.github.jagrosh:DiscordIPC:e29d6d8'
 
