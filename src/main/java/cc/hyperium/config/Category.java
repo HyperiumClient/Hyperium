@@ -46,7 +46,6 @@ public enum Category {
     BOSSBARMOD("gui.subcategory.bossbarmod"),
     ENTITYRADIUS("gui.subcategory.entityradius"),
     FOV_MODIFIER("gui.subcategory.fovmodifier"),
-    NICKHIDER("gui.subcategory.nickhider"),
     OTHER("gui.subcategory.other");
 
     private String display;
