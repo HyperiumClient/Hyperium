@@ -58,10 +58,10 @@ public class MaterialTextField {
         boolean hover = mx > x && my > y && mx < x + width && my < y + height;
         Gui.drawRect(x, y + height - 1, x + width, y + height, hover || focused ? 0xffffffff : 0xff969696);
         boolean em = text.isEmpty();
-        fr.drawString(em && !focused ? hint : text, x + 2, y + height / 2f - fr.FONT_HEIGHT / 2f, em ? 0xff969696 : 0xffffffff);
+        fr.drawString(em && !focused ? hint : text, x, y + height / 2f - fr.FONT_HEIGHT / 2f + 2.5f, em ? 0xff969696 : 0xffffffff);
         int x = (int) (this.x + 3 + fr.getWidth(text));
         if (focused && blink >= 10) {
-            Gui.drawRect(x, y + 4, x + 1, y + height - 4, 0xffffffff);
+            Gui.drawRect(x - 2, y + 6, x - 1, y + height - 2, 0xffffffff);
             if (blink >= 20) blink = -1;
         }
     }

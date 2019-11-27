@@ -114,9 +114,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
         renderBackgroundImage();
-        ScaledResolution resolution = new ScaledResolution(mc);
 
-        fontRendererObj.drawStringWithShadow("Hyperium " + Metadata.getVersion(), 3, resolution.getScaledHeight() - fontRendererObj.FONT_HEIGHT, -1);
+        fontRendererObj.drawStringWithShadow("Hyperium " + Metadata.getVersion(), 3, height - 10, -1);
         String creditsString = I18n.format("menu.right");
         drawString(fontRendererObj, creditsString, width - fontRendererObj.getStringWidth(creditsString) - 2, height - 20, -1);
         creditsString = createdByTeam;
@@ -136,14 +135,13 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
             int credits = response.optInt("remaining_credits");
 
-            fontRendererObj.drawStringWithShadow(mc.getSession().getUsername(), 3, 3, 0xFFFFFF);
-            fontRendererObj.drawStringWithShadow(I18n.format("menu.profile.credits", credits), 3, 13, 0xFFFF00);
+            fontRendererObj.drawStringWithShadow(mc.getSession().getUsername() + " - " +
+                    I18n.format("menu.profile.credits", credits), 3, height - 20, 0xFFFF00);
         }
 
-        GlStateManager.pushMatrix();
         fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 107, new Color(0, 0, 0, 150).getRGB());
         fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 108, -1);
-        GlStateManager.popMatrix();
+
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         GuiButton serverButton = this.serverButton;
