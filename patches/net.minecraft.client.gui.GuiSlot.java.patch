@@ -9,18 +9,7 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.Gui;
  import net.minecraft.client.gui.GuiButton;
-@@ -11,7 +14,10 @@
- import net.minecraftforge.fml.relauncher.Side;
- import net.minecraftforge.fml.relauncher.SideOnly;
- import org.lwjgl.input.Mouse;
-+import org.lwjgl.opengl.GL11;
- 
-+import java.awt.*;
-+
- @SideOnly(Side.CLIENT)
- public abstract class GuiSlot {
-    protected final Minecraft mc;
-@@ -193,14 +199,33 @@
+@@ -193,14 +196,33 @@
        if(this.field_178041_q) {
           this.mouseX = mouseXIn;
           this.mouseY = mouseYIn;
@@ -58,7 +47,7 @@
           this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
           GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
           float f = 32.0F;
-@@ -238,40 +263,9 @@
+@@ -238,40 +260,9 @@
           worldrenderer.pos((double)this.right, (double)(this.bottom - i1), 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 0).endVertex();
           worldrenderer.pos((double)this.left, (double)(this.bottom - i1), 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 0).endVertex();
           tessellator.draw();
@@ -102,7 +91,7 @@
        }
     }
  
-@@ -439,4 +433,46 @@
+@@ -439,4 +430,46 @@
     public int getSlotHeight() {
        return this.slotHeight;
     }
