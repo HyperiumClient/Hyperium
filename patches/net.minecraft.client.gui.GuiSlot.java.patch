@@ -1,14 +1,26 @@
 --- original/net/minecraft/client/gui/GuiSlot.java
 +++ changed/net/minecraft/client/gui/GuiSlot.java
-@@ -1,5 +1,7 @@
+@@ -1,5 +1,8 @@
  package net.minecraft.client.gui;
  
 +import cc.hyperium.config.Settings;
 +import cc.hyperium.gui.GuiHyperiumScreen;
++import cc.hyperium.gui.ScissorState;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.Gui;
  import net.minecraft.client.gui.GuiButton;
-@@ -193,14 +195,31 @@
+@@ -11,7 +14,10 @@
+ import net.minecraftforge.fml.relauncher.Side;
+ import net.minecraftforge.fml.relauncher.SideOnly;
+ import org.lwjgl.input.Mouse;
++import org.lwjgl.opengl.GL11;
+ 
++import java.awt.*;
++
+ @SideOnly(Side.CLIENT)
+ public abstract class GuiSlot {
+    protected final Minecraft mc;
+@@ -193,14 +199,33 @@
        if(this.field_178041_q) {
           this.mouseX = mouseXIn;
           this.mouseY = mouseYIn;
@@ -27,7 +39,9 @@
 +               drawListHeader(x, y, tessellator);
 +            }
 +
++            ScissorState.scissor(0, top, width, bottom - top, true);
 +            drawSelectionBox(x, y, mouseXIn, mouseYIn);
++            ScissorState.endScissor();
 +
 +            renderScroll(tessellator, worldrenderer, getScrollBarX(), getScrollBarX() + 6, mouseXIn, mouseYIn);
 +            return;
@@ -44,7 +58,7 @@
           this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
           GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
           float f = 32.0F;
-@@ -238,40 +257,9 @@
+@@ -238,40 +263,9 @@
           worldrenderer.pos((double)this.right, (double)(this.bottom - i1), 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 0).endVertex();
           worldrenderer.pos((double)this.left, (double)(this.bottom - i1), 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 0).endVertex();
           tessellator.draw();
@@ -88,7 +102,7 @@
        }
     }
  
-@@ -439,4 +427,46 @@
+@@ -439,4 +433,46 @@
     public int getSlotHeight() {
        return this.slotHeight;
     }
