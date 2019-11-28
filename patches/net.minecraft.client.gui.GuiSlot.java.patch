@@ -8,44 +8,130 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.Gui;
  import net.minecraft.client.gui.GuiButton;
-@@ -193,13 +195,30 @@
+@@ -193,14 +195,31 @@
        if(this.field_178041_q) {
           this.mouseX = mouseXIn;
           this.mouseY = mouseYIn;
 +
 +         Tessellator tessellator = Tessellator.getInstance();
-+         int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
-+         int l = this.top + 4 - (int)this.amountScrolled;
++         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 +
 +         if (Settings.REPLACE_DIRT_TEXTURE) {
 +            GuiHyperiumScreen.renderBackgroundImage();
++            bindAmountScrolled();
++
++            int x = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
++            int y = this.top + 4 - (int)this.amountScrolled;
 +
 +            if (hasListHeader) {
-+               drawListHeader(k, l, tessellator);
++               drawListHeader(x, y, tessellator);
 +            }
 +
-+            drawSelectionBox(k, l, mouseXIn, mouseYIn);
-+            bindAmountScrolled();
-+            func_148142_b(mouseXIn, mouseYIn);
++            drawSelectionBox(x, y, mouseXIn, mouseYIn);
++
++            renderScroll(tessellator, worldrenderer, getScrollBarX(), getScrollBarX() + 6, mouseXIn, mouseYIn);
 +            return;
 +         }
 +
           this.drawBackground();
-          int i = this.getScrollBarX();
-          int j = i + 6;
+-         int i = this.getScrollBarX();
+-         int j = i + 6;
           this.bindAmountScrolled();
           GlStateManager.disableLighting();
           GlStateManager.disableFog();
 -         Tessellator tessellator = Tessellator.getInstance();
-          WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+-         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
           this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
           GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-@@ -210,8 +229,6 @@
-          worldrenderer.pos((double)this.right, (double)this.top, 0.0D).tex((double)((float)this.right / f), (double)((float)(this.top + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
-          worldrenderer.pos((double)this.left, (double)this.top, 0.0D).tex((double)((float)this.left / f), (double)((float)(this.top + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
+          float f = 32.0F;
+@@ -238,40 +257,9 @@
+          worldrenderer.pos((double)this.right, (double)(this.bottom - i1), 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 0).endVertex();
+          worldrenderer.pos((double)this.left, (double)(this.bottom - i1), 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 0).endVertex();
           tessellator.draw();
--         int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
--         int l = this.top + 4 - (int)this.amountScrolled;
-          if(this.hasListHeader) {
-             this.drawListHeader(k, l, tessellator);
-          }
+-         int j1 = this.func_148135_f();
+-         if(j1 > 0) {
+-            int k1 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
+-            k1 = MathHelper.clamp_int(k1, 32, this.bottom - this.top - 8);
+-            int l1 = (int)this.amountScrolled * (this.bottom - this.top - k1) / j1 + this.top;
+-            if(l1 < this.top) {
+-               l1 = this.top;
+-            }
+-
+-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+-            worldrenderer.pos((double)i, (double)this.bottom, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+-            worldrenderer.pos((double)j, (double)this.bottom, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+-            worldrenderer.pos((double)j, (double)this.top, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+-            worldrenderer.pos((double)i, (double)this.top, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+-            tessellator.draw();
+-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+-            worldrenderer.pos((double)i, (double)(l1 + k1), 0.0D).tex(0.0D, 1.0D).color(128, 128, 128, 255).endVertex();
+-            worldrenderer.pos((double)j, (double)(l1 + k1), 0.0D).tex(1.0D, 1.0D).color(128, 128, 128, 255).endVertex();
+-            worldrenderer.pos((double)j, (double)l1, 0.0D).tex(1.0D, 0.0D).color(128, 128, 128, 255).endVertex();
+-            worldrenderer.pos((double)i, (double)l1, 0.0D).tex(0.0D, 0.0D).color(128, 128, 128, 255).endVertex();
+-            tessellator.draw();
+-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+-            worldrenderer.pos((double)i, (double)(l1 + k1 - 1), 0.0D).tex(0.0D, 1.0D).color(192, 192, 192, 255).endVertex();
+-            worldrenderer.pos((double)(j - 1), (double)(l1 + k1 - 1), 0.0D).tex(1.0D, 1.0D).color(192, 192, 192, 255).endVertex();
+-            worldrenderer.pos((double)(j - 1), (double)l1, 0.0D).tex(1.0D, 0.0D).color(192, 192, 192, 255).endVertex();
+-            worldrenderer.pos((double)i, (double)l1, 0.0D).tex(0.0D, 0.0D).color(192, 192, 192, 255).endVertex();
+-            tessellator.draw();
+-         }
+-
+-         this.func_148142_b(mouseXIn, mouseYIn);
+-         GlStateManager.enableTexture2D();
+-         GlStateManager.shadeModel(7424);
+-         GlStateManager.enableAlpha();
+-         GlStateManager.disableBlend();
++         int i = this.getScrollBarX();
++         int j = i + 6;
++         renderScroll(tessellator, worldrenderer, i, j, mouseXIn, mouseYIn);
+       }
+    }
+ 
+@@ -439,4 +427,46 @@
+    public int getSlotHeight() {
+       return this.slotHeight;
+    }
++
++   private void renderScroll(Tessellator tessellator, WorldRenderer worldrenderer, int i, int j, int mouseXIn, int mouseYIn) {
++      GlStateManager.enableBlend();
++      GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
++      GlStateManager.disableAlpha();
++      GlStateManager.shadeModel(7425);
++      GlStateManager.disableTexture2D();
++      int j1 = this.func_148135_f();
++      if(j1 > 0) {
++         int k1 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
++         k1 = MathHelper.clamp_int(k1, 32, this.bottom - this.top - 8);
++         int l1 = (int)this.amountScrolled * (this.bottom - this.top - k1) / j1 + this.top;
++         if(l1 < this.top) {
++            l1 = this.top;
++         }
++
++         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
++         worldrenderer.pos(i, this.bottom, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
++         worldrenderer.pos(j, this.bottom, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
++         worldrenderer.pos(j, this.top, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
++         worldrenderer.pos(i, this.top, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
++         tessellator.draw();
++         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
++         worldrenderer.pos(i, l1 + k1, 0.0D).tex(0.0D, 1.0D).color(128, 128, 128, 255).endVertex();
++         worldrenderer.pos(j, l1 + k1, 0.0D).tex(1.0D, 1.0D).color(128, 128, 128, 255).endVertex();
++         worldrenderer.pos(j, l1, 0.0D).tex(1.0D, 0.0D).color(128, 128, 128, 255).endVertex();
++         worldrenderer.pos(i, l1, 0.0D).tex(0.0D, 0.0D).color(128, 128, 128, 255).endVertex();
++         tessellator.draw();
++         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
++         worldrenderer.pos(i, l1 + k1 - 1, 0.0D).tex(0.0D, 1.0D).color(192, 192, 192, 255).endVertex();
++         worldrenderer.pos(j - 1, l1 + k1 - 1, 0.0D).tex(1.0D, 1.0D).color(192, 192, 192, 255).endVertex();
++         worldrenderer.pos(j - 1, l1, 0.0D).tex(1.0D, 0.0D).color(192, 192, 192, 255).endVertex();
++         worldrenderer.pos(i, l1, 0.0D).tex(0.0D, 0.0D).color(192, 192, 192, 255).endVertex();
++         tessellator.draw();
++      }
++
++      this.func_148142_b(mouseXIn, mouseYIn);
++      GlStateManager.enableTexture2D();
++      GlStateManager.shadeModel(7424);
++      GlStateManager.enableAlpha();
++      GlStateManager.disableBlend();
++   }
+ }
