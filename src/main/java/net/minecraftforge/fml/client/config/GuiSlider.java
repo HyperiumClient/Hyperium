@@ -107,8 +107,8 @@ public class GuiSlider extends GuiButtonExt {
             }
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            drawRect(xPosition + (int) (sliderValue * (float) (width - 8)) + 2, yPosition,
-                    xPosition + (int) (sliderValue * (float) (width - 8)) + 8, yPosition + 20, new Color(0, 0, 0, 150).getRGB());
+            drawRect(xPosition + (int) (sliderValue * (float) (width - 6)), yPosition,
+                    xPosition + (int) (sliderValue * (float) (width - 6)) + 6, yPosition + 20, new Color(0, 0, 0, 150).getRGB());
         }
     }
 
