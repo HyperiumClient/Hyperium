@@ -17,17 +17,24 @@
 
 package cc.hyperium.launch.patching;
 
+import cc.hyperium.launch.patching.conflicts.ConflictTransformer;
+import cc.hyperium.launch.patching.conflicts.GameSettingsTransformer;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.nothome.delta.GDiffPatcher;
 import lzma.sdk.lzma.Decoder;
 import lzma.streams.LzmaInputStream;
+import net.minecraft.crash.CrashReport;
 import net.minecraft.launchwrapper.LaunchClassLoader;
+import net.minecraft.util.ReportedException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,40 +87,7 @@ public class PatchManager {
             "avi",
             "avh$2"
     );
-    private static final List<String> UNFIXED_CONFLICTS = Arrays.asList(
-            "avh",
-            "avh$1",
-            "avh$a",
-            "bnm",
-            "bnm$1",
-            "bmj",
-            "avn",
-            "bjh",
-            "bjh$5",
-            "bjh$6",
-            "bjh$7",
-            "bjh$8",
-            "bjh$9",
-            "biu",
-            "biv",
-            "bjl",
-            "bct",
-            "bcr",
-            "bkn",
-            "bjg",
-            "bbr",
-            "bkp",
-            "bfn",
-            "bfk",
-            "bfr",
-            "bfh",
-            "bht",
-            "bec",
-            "avo",
-            "avv",
-            "avi",
-            "avh$2"
-    );
+    private static final Map<String, ConflictTransformer> transformers = Maps.newHashMap();
     public static final PatchManager INSTANCE = new PatchManager();
     private boolean setupComplete = false;
     private boolean disableInputCheck = false;
@@ -132,10 +106,18 @@ public class PatchManager {
         if (!disableInputCheck) {
             long hash = hash(classData);
             if (patch.checksum != hash) {
-                if (UNFIXED_CONFLICTS.contains(className)) {
-                    LOGGER.warn("Detected OptiFine conflict with class {}, using vanilla class data", className);
+                if (transformers.containsKey(className)) {
+                    ClassReader reader = new ClassReader(classData);
+                    ClassNode node = new ClassNode();
+                    reader.accept(node, 0);
+                    ClassWriter writer = new ClassWriter(0);
+                    transformers.get(className).transform(node).accept(writer);
+                    return writer.toByteArray();
                 }
-                classData = getVanillaClassData(className, classData);
+                throw new ReportedException(new CrashReport(
+                        "OptiFine conflict - " + className,
+                        new Error()
+                ));
             }
         }
         synchronized (patcher) {
@@ -150,6 +132,12 @@ public class PatchManager {
                 LOGGER.warn("Failed to patch class {}", className, e);
                 return classData;
             }
+        }
+    }
+
+    private static void registerTransformers(ConflictTransformer... transformers) {
+        for (ConflictTransformer transformer : transformers) {
+            PatchManager.transformers.put(transformer.getClassName(), transformer);
         }
     }
 
@@ -208,9 +196,6 @@ public class PatchManager {
                     if (patchFilePattern.matcher(entry.getName()).matches()) {
                         Patch patch = readPatch(jis);
                         String name = patch.sourceName.replace('.', '/');
-                        if (OF_CONFLICTS.contains(name) && UNFIXED_CONFLICTS.contains(name)) {
-                            throw new IllegalStateException("Patch present for " + name + ", but it's incompatible with OptiFine (or not marked as incompatibility fixed).");
-                        }
                         patches.put(name, patch);
                     } else jis.closeEntry();
                 } catch (IOException ex) {
@@ -261,5 +246,11 @@ public class PatchManager {
             this.patchData = patchData;
             this.checksum = checksum;
         }
+    }
+
+    static {
+        registerTransformers(
+                new GameSettingsTransformer()
+        );
     }
 }

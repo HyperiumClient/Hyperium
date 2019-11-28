@@ -11,7 +11,7 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61"
-        classpath 'tk.amplifiable.mcgradle:MCGradle:1.2.2'
+        classpath 'tk.amplifiable.mcgradle:MCGradle:1.2.3'
     }
 }
 
