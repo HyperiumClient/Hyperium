@@ -159,7 +159,7 @@ public class CommandNickHider implements BaseCommand {
         ChatComponentText chatComponent = new ChatComponentText(ChatColor.YELLOW + message);
         if (hover != null && !hover.isEmpty()) {
             chatComponent.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                new ChatComponentText(ChatColor.AQUA + hover + (!click.isEmpty() ? "\n" + click : ""))));
+                    new ChatComponentText(ChatColor.AQUA + hover + (!click.isEmpty() ? "\n" + click : ""))));
         }
 
         if (click != null && !click.isEmpty()) {

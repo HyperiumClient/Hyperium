@@ -74,7 +74,7 @@ public abstract class AbstractKey extends Gui {
      */
     protected final int getColor() {
         return mod.getSettings().isChroma() ? Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xOffset * 10) - (yOffset * 10)) % 2000) / 2000.0F,
-            0.8F, 0.8F) : new Color(mod.getSettings().getRed(), mod.getSettings().getGreen(), mod.getSettings().getBlue()).getRGB();
+                0.8F, 0.8F) : new Color(mod.getSettings().getRed(), mod.getSettings().getGreen(), mod.getSettings().getBlue()).getRGB();
     }
 
     /**
@@ -86,7 +86,7 @@ public abstract class AbstractKey extends Gui {
      */
     protected final int getPressedColor() {
         return mod.getSettings().isChroma() ? new Color(0, 0, 0).getRGB() : new Color(mod.getSettings().getPressedRed(), mod.getSettings().getPressedGreen(),
-            mod.getSettings().getPressedBlue()).getRGB();
+                mod.getSettings().getPressedBlue()).getRGB();
     }
 
     /**

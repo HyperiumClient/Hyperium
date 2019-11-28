@@ -1,6 +1,6 @@
 --- original/net/minecraft/client/gui/GuiScreen.java
 +++ changed/net/minecraft/client/gui/GuiScreen.java
-@@ -1,5 +1,13 @@
+@@ -1,5 +1,14 @@
  package net.minecraft.client.gui;
  
 +import cc.hyperium.Hyperium;
@@ -10,11 +10,12 @@
 +import cc.hyperium.event.gui.GuiDrawScreenEvent;
 +import cc.hyperium.event.gui.InitGuiEvent;
 +import cc.hyperium.event.interact.ActionPerformedEvent;
++import cc.hyperium.gui.GuiHyperiumScreen;
 +import com.chattriggers.ctjs.triggers.TriggerType;
  import com.google.common.base.Splitter;
  import com.google.common.collect.Lists;
  import com.google.common.collect.Sets;
-@@ -12,6 +20,7 @@
+@@ -12,6 +21,7 @@
  import java.io.IOException;
  import java.net.URI;
  import java.net.URISyntaxException;
@@ -22,7 +23,7 @@
  import java.util.Arrays;
  import java.util.List;
  import java.util.Set;
-@@ -43,6 +52,7 @@
+@@ -43,6 +53,7 @@
  import net.minecraft.util.ChatComponentTranslation;
  import net.minecraft.util.EnumChatFormatting;
  import net.minecraft.util.IChatComponent;
@@ -30,7 +31,7 @@
  import net.minecraftforge.fml.relauncher.Side;
  import net.minecraftforge.fml.relauncher.SideOnly;
  import org.apache.commons.lang3.StringUtils;
-@@ -82,6 +92,7 @@
+@@ -82,6 +93,7 @@
      * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -38,7 +39,7 @@
        for(int i = 0; i < this.buttonList.size(); ++i) {
           ((GuiButton)this.buttonList.get(i)).drawButton(this.mc, mouseX, mouseY);
        }
-@@ -159,70 +170,154 @@
+@@ -159,70 +171,154 @@
        this.drawHoveringText(Arrays.<String>asList(new String[]{tabName}), mouseX, mouseY);
     }
  
@@ -230,7 +231,7 @@
        }
     }
  
-@@ -351,6 +446,7 @@
+@@ -351,6 +447,7 @@
              } else if(clickevent.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
                 this.setText(clickevent.getValue(), true);
              } else if(clickevent.getAction() == ClickEvent.Action.RUN_COMMAND) {
@@ -238,7 +239,7 @@
                 this.sendChatMessage(clickevent.getValue(), false);
              } else if(clickevent.getAction() == ClickEvent.Action.TWITCH_USER_INFO) {
                 ChatUserInfo chatuserinfo = this.mc.getTwitchStream().func_152926_a(clickevent.getValue());
-@@ -378,6 +474,8 @@
+@@ -378,6 +475,8 @@
     }
  
     public void sendChatMessage(String msg, boolean addToChat) {
@@ -247,7 +248,7 @@
        if(addToChat) {
           this.mc.ingameGUI.getChatGUI().addToSentMessages(msg);
        }
-@@ -389,6 +487,12 @@
+@@ -389,6 +488,12 @@
      * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
      */
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
@@ -260,7 +261,7 @@
        if(mouseButton == 0) {
           for(int i = 0; i < this.buttonList.size(); ++i) {
              GuiButton guibutton = (GuiButton)this.buttonList.get(i);
-@@ -424,6 +528,9 @@
+@@ -424,6 +529,9 @@
      * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
      */
     protected void actionPerformed(GuiButton button) throws IOException {
@@ -270,7 +271,7 @@
     }
  
     /**
-@@ -455,6 +562,7 @@
+@@ -455,6 +563,7 @@
      * window resizes, the buttonList is cleared beforehand.
      */
     public void initGui() {
@@ -278,7 +279,7 @@
     }
  
     /**
-@@ -508,11 +616,13 @@
+@@ -508,11 +617,13 @@
      * Handles keyboard input.
      */
     public void handleKeyboardInput() throws IOException {
@@ -295,15 +296,28 @@
     }
  
     /**
-@@ -531,6 +641,7 @@
+@@ -531,6 +642,8 @@
      * Draws either a gradient over the background screen (when it exists) or a flat gradient over background.png
      */
     public void drawDefaultBackground() {
 +      if (mc.theWorld != null && Settings.FAST_CONTAINER) return;
++
        this.drawWorldBackground(0);
     }
  
-@@ -638,4 +749,9 @@
+@@ -547,6 +660,11 @@
+     * Draws the background (i is always 0 as of 1.2.2)
+     */
+    public void drawBackground(int tint) {
++      if (Settings.REPLACE_DIRT_TEXTURE) {
++         GuiHyperiumScreen.renderBackgroundImage();
++         return;
++      }
++
+       GlStateManager.disableLighting();
+       GlStateManager.disableFog();
+       Tessellator tessellator = Tessellator.getInstance();
+@@ -638,4 +756,9 @@
     public void onResize(Minecraft mcIn, int w, int h) {
        this.setWorldAndResolution(mcIn, w, h);
     }

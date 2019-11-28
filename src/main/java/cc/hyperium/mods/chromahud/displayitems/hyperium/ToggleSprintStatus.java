@@ -19,7 +19,7 @@ package cc.hyperium.mods.chromahud.displayitems.hyperium;
 
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.common.ToggleSprintContainer;
+import cc.hyperium.integrations.sprint.ToggleSprintContainer;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.util.StringUtils;
 

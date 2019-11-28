@@ -60,12 +60,12 @@ public class TypePartyInvites extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Toggles the ability to see",
-            "party invites from",
-            "other players.",
-            "",
-            "This goes well with",
-            "separators toggled"
+                "Toggles the ability to see",
+                "party invites from",
+                "other players.",
+                "",
+                "This goes well with",
+                "separators toggled"
         );
     }
 }

@@ -22,7 +22,6 @@ import java.util.Arrays;
 public enum EnumPurchaseType {
     PARTICLE_BACKGROUND("Particle Background"),
     WING_COSMETIC("wings"),
-    CHROMA_WIN("Chroma on Win"),
     LEVEL_HEAD("Custom Levelhead"),
     FLIP_COSMETIC("Flip Cosmetic"),
     BUTT("Butt"),

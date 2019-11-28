@@ -18,7 +18,6 @@
 package cc.hyperium.mods.keystrokes.screen;
 
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.config.GuiSlider;
@@ -52,7 +51,7 @@ public class GuiScreenColor extends GuiScreen implements IScreen {
     @Override
     public void initGui() {
         buttonList.add(new GuiSlider(0, width / 2 - 150, calculateHeight(3), 150, 20, "Red: ", "",
-            0, 255, red.getAmount(), false, true) {
+                0, 255, red.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();
@@ -61,7 +60,7 @@ public class GuiScreenColor extends GuiScreen implements IScreen {
             }
         });
         buttonList.add(new GuiSlider(1, width / 2 - 150, calculateHeight(4), 150, 20, "Green: ", "",
-            0, 255, green.getAmount(), false, true) {
+                0, 255, green.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();
@@ -70,7 +69,7 @@ public class GuiScreenColor extends GuiScreen implements IScreen {
             }
         });
         buttonList.add(new GuiSlider(2, width / 2 - 150, calculateHeight(5), 150, 20, "Blue: ", "",
-            0, 255, blue.getAmount(), false, true) {
+                0, 255, blue.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();
@@ -79,7 +78,7 @@ public class GuiScreenColor extends GuiScreen implements IScreen {
             }
         });
         buttonList.add(new GuiSlider(3, width / 2 + 5, calculateHeight(3), 150, 20, "Pressed Red: ", "",
-            0, 255, pressedRed.getAmount(), false, true) {
+                0, 255, pressedRed.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();
@@ -88,7 +87,7 @@ public class GuiScreenColor extends GuiScreen implements IScreen {
             }
         });
         buttonList.add(new GuiSlider(4, width / 2 + 5, calculateHeight(4), 150, 20, "Pressed Green: ", "",
-            0, 255, pressedGreen.getAmount(), false, true) {
+                0, 255, pressedGreen.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();
@@ -97,7 +96,7 @@ public class GuiScreenColor extends GuiScreen implements IScreen {
             }
         });
         buttonList.add(new GuiSlider(5, width / 2 + 5, calculateHeight(5), 150, 20, "Pressed Blue: ", "",
-            0, 255, pressedBlue.getAmount(), false, true) {
+                0, 255, pressedBlue.getAmount(), false, true) {
             @Override
             public void updateSlider() {
                 super.updateSlider();

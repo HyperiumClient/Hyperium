@@ -62,11 +62,11 @@ public class TypeBuildBattle extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Turns all build battle",
-            "chat on or off",
-            "",
-            "You can now play build",
-            "battle chat free!"
+                "Turns all build battle",
+                "chat on or off",
+                "",
+                "You can now play build",
+                "battle chat free!"
         );
     }
 

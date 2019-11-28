@@ -32,12 +32,6 @@ import java.util.regex.Pattern;
 public abstract class ToggleBase {
 
     /**
-     * Default constructor for ToggleBase
-     */
-    public ToggleBase() {
-    }
-
-    /**
      * Returns the name of the specified ToggleBase
      *
      * @return the name of the specified ToggleBase, cannot be null

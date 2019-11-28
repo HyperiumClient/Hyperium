@@ -37,7 +37,6 @@ import cc.hyperium.mods.levelhead.renderer.NullLevelheadTag;
 import cc.hyperium.mods.levelhead.util.LevelheadJsonHolder;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
-import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -48,7 +47,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -131,10 +129,10 @@ public class Levelhead extends AbstractMod {
     @InvokeEvent
     public void tick(TickEvent event) {
         if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()
-            || displayManager == null
-            || displayManager.getMasterConfig() == null
-            || !displayManager.getMasterConfig().isEnabled()
-            || !Sk1erMod.getInstance().isEnabled()) {
+                || displayManager == null
+                || displayManager.getMasterConfig() == null
+                || !displayManager.getMasterConfig().isEnabled()
+                || !Sk1erMod.getInstance().isEnabled()) {
             return;
         }
 
@@ -198,9 +196,9 @@ public class Levelhead extends AbstractMod {
 
         Multithreading.runAsync(() -> {
             String raw = rawWithAgent(
-                "https://api.sk1er.club/levelheadv5/" + trimUuid(uuid) + "/" + type
-                    + "/" + trimUuid(Minecraft.getMinecraft().getSession().getProfile().getId()) +
-                    "/" + VERSION + "/" + auth.getHash() + "/" + display.getPosition().name());
+                    "https://api.sk1er.club/levelheadv5/" + trimUuid(uuid) + "/" + type
+                            + "/" + trimUuid(Minecraft.getMinecraft().getSession().getProfile().getId()) +
+                            "/" + VERSION + "/" + auth.getHash() + "/" + display.getPosition().name());
 
             LevelheadJsonHolder object = new LevelheadJsonHolder(raw);
             if (!object.optBoolean("success")) {

@@ -19,6 +19,9 @@ package net.minecraftforge.fml.client.config;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
+
+import java.awt.*;
 
 /**
  * This class provides a button that fixes several bugs present in the vanilla GuiButton drawing code.
@@ -39,34 +42,35 @@ public class GuiButtonExt extends GuiButton {
         super(id, xPos, yPos, width, height, displayString);
     }
 
+    private double hoverFade;
+    private long prevDeltaTime;
+
     /**
      * Draws this button to the Screen.
      */
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+        if (prevDeltaTime == 0) prevDeltaTime = System.currentTimeMillis();
+
         if (visible) {
+            mc.getTextureManager().bindTexture(buttonTextures);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
-            int k = getHoverState(hovered);
-            GuiUtils.drawContinuousTexturedBox(buttonTextures, xPosition, yPosition, 0, 46 + k * 20, width, height,
-                200, 20, 2, 3, 2, 2, zLevel);
+            double hoverInc = (System.currentTimeMillis() - prevDeltaTime) / 2F;
+            hoverFade = hovered ? Math.min(100, hoverFade + hoverInc) : Math.max(0, hoverInc - hoverInc);
+
+            drawRect(xPosition, yPosition, xPosition + width, yPosition + height, new Color(0, 0, 0, (int) (100 - (hoverFade / 2))).getRGB());
+
+            if (hovered) {
+                drawRect(xPosition, yPosition + 19, xPosition + width, yPosition + height, new Color(3, 169, 244).getRGB());
+            }
+
             mouseDragged(mc, mouseX, mouseY);
-            int color = 14737632;
 
-            if (!enabled) {
-                color = 10526880;
-            } else if (hovered) {
-                color = 16777120;
-            }
-
-            String buttonText = displayString;
-            int strWidth = mc.fontRendererObj.getStringWidth(buttonText);
-            int ellipsisWidth = mc.fontRendererObj.getStringWidth("...");
-
-            if (strWidth > width - 6 && strWidth > ellipsisWidth) {
-                buttonText = mc.fontRendererObj.trimStringToWidth(buttonText, width - 6 - ellipsisWidth).trim() + "...";
-            }
-
-            drawCenteredString(mc.fontRendererObj, buttonText, xPosition + width / 2, yPosition + (height - 8) / 2, color);
+            int textColor = enabled ? 255 : 180;
+            drawCenteredString(mc.fontRendererObj, displayString, xPosition + width / 2, yPosition + (height - 8) / 2,
+                    new Color(textColor, textColor, textColor, 255).getRGB());
+            prevDeltaTime = System.currentTimeMillis();
         }
     }
 }

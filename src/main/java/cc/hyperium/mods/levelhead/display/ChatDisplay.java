@@ -19,7 +19,6 @@ package cc.hyperium.mods.levelhead.display;
 
 import cc.hyperium.mods.levelhead.Levelhead;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -36,11 +35,11 @@ public class ChatDisplay extends LevelheadDisplay {
     public void tick() {
         if (Levelhead.getInstance().getLevelheadPurchaseStates().isChat()) {
             Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()
-                .stream()
-                .map(network -> network.getGameProfile().getId())
-                .filter(Objects::nonNull)
-                .filter(uuid -> !cache.containsKey(uuid))
-                .forEach(uuid -> Levelhead.getInstance().fetch(uuid, this, false));
+                    .stream()
+                    .map(network -> network.getGameProfile().getId())
+                    .filter(Objects::nonNull)
+                    .filter(uuid -> !cache.containsKey(uuid))
+                    .forEach(uuid -> Levelhead.getInstance().fetch(uuid, this, false));
         }
     }
 
@@ -48,8 +47,8 @@ public class ChatDisplay extends LevelheadDisplay {
     public void checkCacheSize() {
         if (cache.size() > Math.max(Levelhead.getInstance().getDisplayManager().getMasterConfig().getPurgeSize(), 150)) {
             ArrayList<UUID> safePlayers = Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap().stream().map(info ->
-                info.getGameProfile().getId()).filter(existedMoreThan5Seconds::contains).
-                collect(Collectors.toCollection(ArrayList::new));
+                    info.getGameProfile().getId()).filter(existedMoreThan5Seconds::contains).
+                    collect(Collectors.toCollection(ArrayList::new));
 
             existedMoreThan5Seconds.clear();
             existedMoreThan5Seconds.addAll(safePlayers);

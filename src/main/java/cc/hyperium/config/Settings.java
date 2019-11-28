@@ -320,10 +320,6 @@ public class Settings {
     public static boolean SHOW_COMPANION_IN_1ST_PERSON = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.showhitdistances", category = REACH, mods = true)
-    public static boolean SHOW_HIT_DISTANCES;
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.motionblurenabled", category = Category.MOTION_BLUR, mods = true)
     public static boolean MOTION_BLUR_ENABLED;
 
@@ -333,22 +329,6 @@ public class Settings {
 
     @ToggleSetting(name = "gui.settings.showuserdotsonnametags", category = INTEGRATIONS)
     public static boolean SHOW_DOTS_ON_NAME_TAGS;
-
-    @ConfigOpt
-    @SelectorSetting(name = "gui.settings.colortype", mods = true, category = REACH, items = {"RGB", "CHROMA"})
-    public static String REACH_COLOR_TYPE = "RGB";
-
-    @ConfigOpt
-    @SliderSetting(name = "gui.settings.red", mods = true, category = REACH, isInt = true, min = 0, max = 255)
-    public static int REACH_RED = 255;
-
-    @ConfigOpt
-    @SliderSetting(name = "gui.settings.blue", mods = true, category = REACH, isInt = true, min = 0, max = 255)
-    public static int REACH_BLUE = 255;
-
-    @ConfigOpt
-    @SliderSetting(name = "gui.settings.green", mods = true, category = REACH, isInt = true, min = 0, max = 255)
-    public static int REACH_GREEN = 255;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.broadcastachievements", category = HYPIXEL)
@@ -539,6 +519,14 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.gpucloudrenderer", category = IMPROVEMENTS)
     public static boolean GPU_CLOUD_RENDERER;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.showofflinedots", category = GENERAL)
+    public static boolean OFFLINE_DOTS = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.replacedirtwithbg", category = MISC)
+    public static boolean REPLACE_DIRT_TEXTURE;
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);

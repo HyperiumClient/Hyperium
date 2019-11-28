@@ -52,9 +52,9 @@ public class AboveHeadRenderer {
     @InvokeEvent
     public void render(RenderPlayerEvent event) {
         if (levelhead == null ||
-            levelhead.getDisplayManager() == null ||
-            levelhead.getDisplayManager().getMasterConfig() == null ||
-            !levelhead.getDisplayManager().getMasterConfig().isEnabled()) {
+                levelhead.getDisplayManager() == null ||
+                levelhead.getDisplayManager().getMasterConfig() == null ||
+                !levelhead.getDisplayManager().getMasterConfig().isEnabled()) {
             return;
         }
 
@@ -70,7 +70,7 @@ public class AboveHeadRenderer {
 
             if (display.loadOrRender(player) && levelheadTag != null && !(levelheadTag instanceof NullLevelheadTag)) {
                 if ((event.getEntity().getUniqueID().equals(Levelhead.getInstance().userUuid) && !display.getConfig().isShowSelf()
-                    || !Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())) {
+                        || !Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())) {
                     continue;
                 }
 
@@ -163,7 +163,7 @@ public class AboveHeadRenderer {
         int y = 0;
         if (header.isRgb()) {
             fontRenderer.drawString(header.getValue(), x, y, new Color((float) header.getRed() / 255F, (float) header.getGreen() / 255F,
-                (float) header.getBlue() / 255F, .2F).getRGB());
+                    (float) header.getBlue() / 255F, .2F).getRGB());
         } else if (header.isChroma()) {
             fontRenderer.drawString(header.getValue(), x, y, Levelhead.getInstance().getDarkRGBColor());
         } else {

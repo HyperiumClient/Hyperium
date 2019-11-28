@@ -3,8 +3,8 @@ package cc.hyperium.mods.myposition;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.network.chat.ServerChatEvent;
 import cc.hyperium.event.client.TickEvent;
+import cc.hyperium.event.network.chat.ServerChatEvent;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.ChatColor;
@@ -52,7 +52,7 @@ public class MyPosition extends AbstractMod {
 
     private void sendMyPosCommand() {
         Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(
-            ChatColor.RED.toString() + ChatColor.BOLD + "------| Auto MyPosition |------"));
+                ChatColor.RED.toString() + ChatColor.BOLD + "------| Auto MyPosition |------"));
         Minecraft.getMinecraft().thePlayer.sendChatMessage("/myposition");
     }
 }

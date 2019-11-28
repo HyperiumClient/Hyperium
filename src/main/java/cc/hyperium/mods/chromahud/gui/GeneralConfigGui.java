@@ -218,8 +218,10 @@ public class GeneralConfigGui extends GuiScreen {
         boolean isOver = false;
 
         for (GuiButton button : buttonList) {
-            if (button.isMouseOver())
+            if (button.isMouseOver()) {
                 isOver = true;
+                break;
+            }
         }
 
         if (!mouseDown && Mouse.isButtonDown(0) && !isOver) {
@@ -284,7 +286,6 @@ public class GeneralConfigGui extends GuiScreen {
     public void display() {
         Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
-
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {

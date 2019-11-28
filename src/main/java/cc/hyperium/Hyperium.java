@@ -32,6 +32,7 @@ import cc.hyperium.event.client.PreInitializationEvent;
 import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
+import cc.hyperium.gui.SplashProgress;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.internal.addons.AddonBootstrap;
@@ -39,12 +40,12 @@ import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autogg.AutoGG;
-import cc.hyperium.mods.common.ToggleSprintContainer;
-import cc.hyperium.mods.discord.DiscordPresence;
+import cc.hyperium.integrations.sprint.ToggleSprintContainer;
+import cc.hyperium.integrations.discord.DiscordPresence;
 import cc.hyperium.mods.levelhead.command.CustomLevelheadCommand;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
-import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
+import cc.hyperium.utils.statistics.GeneralStatisticsTracking;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.UniversalNetty;
 import cc.hyperium.network.LoginReplyHandler;
@@ -301,6 +302,7 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandDebug());
         hyperiumCommandHandler.registerCommand(new CommandDisableCommand());
         hyperiumCommandHandler.registerCommand(new CommandGarbageCollect());
+        hyperiumCommandHandler.registerCommand(new CommandFetchStaff());
         hyperiumCommandHandler.registerCommand(new CommandGuild());
         hyperiumCommandHandler.registerCommand(new CommandKeybinds());
         hyperiumCommandHandler.registerCommand(new CommandLogs());
@@ -370,8 +372,8 @@ public class Hyperium {
     }
 
     /**
-     * Hyperium allows for custom dot colors for staff, so fetch the JSON file containing
-     * all the staff members
+     * Hyperium allows for custom dot colors for staff and boosters, so fetch the JSON files containing
+     * all the staff members and boosters
      */
     private void fetchStaffMembers() {
         Multithreading.runAsync(() -> {
@@ -379,7 +381,7 @@ public class Hyperium {
                 StaffUtils.clearCache();
             } catch (IOException e) {
                 e.printStackTrace();
-                LOGGER.warn("[Staff] Failed to fetch staff");
+                LOGGER.warn("[Staff] Failed to fetch staff & boosters");
             }
         });
     }

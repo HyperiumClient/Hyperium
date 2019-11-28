@@ -38,8 +38,8 @@ public class TypeLobbyJoin extends ToggleBase {
     @Override
     public boolean shouldToggle(String message) {
         return message.endsWith("joined the lobby!") || // normal join messages
-            (message.contains("joined the lobby") && message.startsWith(" >>>")) || // mvp++ join messages
-            message.endsWith("spooked in the lobby!"); // halloween join messages
+                (message.contains("joined the lobby") && message.startsWith(" >>>")) || // mvp++ join messages
+                message.endsWith("spooked in the lobby!"); // halloween join messages
     }
 
     @Override
@@ -55,13 +55,13 @@ public class TypeLobbyJoin extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Removes all &bMVP&c+",
-            "and &6MVP&c++&r lobby join",
-            "messages",
-            "",
-            "Such as:",
-            "&b[MVP&c+&b] I &6joined the lobby!",
-            "&6[MVP&c++&6] I joined the lobby!"
+                "Removes all &bMVP&c+",
+                "and &6MVP&c++&r lobby join",
+                "messages",
+                "",
+                "Such as:",
+                "&b[MVP&c+&b] I &6joined the lobby!",
+                "&6[MVP&c++&6] I joined the lobby!"
         );
     }
 }

@@ -124,7 +124,7 @@ public class PatchManager {
     byte[] patch(String className, byte[] classData) {
         if (processedClasses.containsKey(className)) return processedClasses.get(className);
         if (!patches.containsKey(className)) {
-            return getVanillaClassData(className, classData);
+            return patches.isEmpty() ? classData : getVanillaClassData(className, classData);
         }
         LOGGER.debug("Patching {} (c1: {}, c2: {}, ch: {})", className, processedClasses.containsKey(className), patches.containsKey(className), hash(classData));
         long start = System.nanoTime();

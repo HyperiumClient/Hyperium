@@ -14,7 +14,6 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 ## Features ##
 - Discord Rich Presence (Custom)
 - Old Animations (Custom)
-- Reach Display (Custom)
 - Togglesprint (Custom)
 - [360 Degrees Perspective](https://www.youtube.com/watch?v=7FdMMpzNdUk)
 - [AutoGG](https://2pi.pw/mods/autogg)
@@ -36,7 +35,6 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
 - [TimeChanger](https://2pi.pw/mods/timechanger)
 - [ToggleChat](https://2pi.pw/mods/togglechat)
-- [Victory Royale](https://sk1er.club/mods/victory_royale)
 
 ### Beta Test the Client ###  
 You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://discord.gg/sk1er) and do `$rank beta testing` in the [`#commands`](https://discordapp.com/channels/411619823445999637/411620555960352787) channel. You can then access betas in [`#beta-announcements`](https://discordapp.com/channels/411619823445999637/595634170336641045)

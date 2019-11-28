@@ -54,12 +54,12 @@ public class TypeAfterGift extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Removes all messages saying",
-            "a user is radiating",
-            "with Generosity.",
-            "",
-            "&cSk1er &ris radiating",
-            "with &bGenerosity!"
+                "Removes all messages saying",
+                "a user is radiating",
+                "with Generosity.",
+                "",
+                "&cSk1er &ris radiating",
+                "with &bGenerosity!"
         );
     }
 }

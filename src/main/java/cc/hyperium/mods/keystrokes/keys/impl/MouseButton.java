@@ -73,12 +73,12 @@ public class MouseButton extends AbstractKey {
         if (mod.getSettings().isKeyBackgroundEnabled()) {
             if (mod.getSettings().getKeyBackgroundRed() == 0 && mod.getSettings().getKeyBackgroundGreen() == 0 && mod.getSettings().getKeyBackgroundBlue() == 0) {
                 Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 34, y + yOffset + 22,
-                    new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
-                        mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
+                        new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                                mod.getSettings().getKeyBackgroundOpacity()).getRGB() + (color << 16) + (color << 8) + color);
             } else {
                 Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 34, y + yOffset + 22,
-                    new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
-                        mod.getSettings().getKeyBackgroundOpacity()).getRGB());
+                        new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+                                mod.getSettings().getKeyBackgroundOpacity()).getRGB());
             }
         }
 
@@ -95,13 +95,13 @@ public class MouseButton extends AbstractKey {
                 GL11.glPushMatrix();
                 GL11.glScalef(0.5f, 0.5f, 0.0f);
                 drawChromaString((name.equals(BUTTONS[0]) ? mod.getRenderer().getCPSKeys()[0].getLeftCPS() :
-                    mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + xOffset / 0.5f + 10 / 0.5f), round, .5);
+                        mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + xOffset / 0.5f + 10 / 0.5f), round, .5);
             } else {
                 mc.fontRendererObj.drawString(name, x + xOffset + 8, y + yOffset + 4, pressed ? pressedColor : colorN);
                 GL11.glPushMatrix();
                 GL11.glScalef(0.5f, 0.5f, 0.0f);
                 mc.fontRendererObj.drawString((name.equals(MouseButton.BUTTONS[0]) ? mod.getRenderer().getCPSKeys()[0].getLeftCPS() :
-                    mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + xOffset / 0.5f + 20.0f), round, pressed ? pressedColor : colorN);
+                        mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + xOffset / 0.5f + 20.0f), round, pressed ? pressedColor : colorN);
             }
             GL11.glPopMatrix();
         } else {

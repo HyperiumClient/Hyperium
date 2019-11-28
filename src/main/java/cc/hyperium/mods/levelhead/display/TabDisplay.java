@@ -34,19 +34,19 @@ public class TabDisplay extends LevelheadDisplay {
     @Override
     public void tick() {
         Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()
-            .stream()
-            .map(info -> info.getGameProfile().getId())
-            .filter(Objects::nonNull)
-            .filter(id -> !cache.containsKey(id))
-            .forEach(id -> Levelhead.getInstance().fetch(id, this, false));
+                .stream()
+                .map(info -> info.getGameProfile().getId())
+                .filter(Objects::nonNull)
+                .filter(id -> !cache.containsKey(id))
+                .forEach(id -> Levelhead.getInstance().fetch(id, this, false));
     }
 
     @Override
     public void checkCacheSize() {
         if (cache.size() > Math.max(Levelhead.getInstance().getDisplayManager().getMasterConfig().getPurgeSize(), 150)) {
             ArrayList<UUID> safePlayers = Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap().stream().map(info ->
-                info.getGameProfile().getId()).filter(existedMoreThan5Seconds::contains).
-                collect(Collectors.toCollection(ArrayList::new));
+                    info.getGameProfile().getId()).filter(existedMoreThan5Seconds::contains).
+                    collect(Collectors.toCollection(ArrayList::new));
 
             existedMoreThan5Seconds.clear();
             existedMoreThan5Seconds.addAll(safePlayers);

@@ -25,7 +25,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,7 +72,7 @@ public class ToggleChatMainGui extends GuiScreen {
 
             main.getToggleHandler().getToggles().values().stream().skip((pageNumber - 1) * 7).limit(7).forEach(baseType -> {
                 GuiButton button = new GuiButton(0, width / 2 - 75, position[0], 150, 20,
-                    String.format(baseType.getDisplayName(), baseType.getStatus(baseType.isEnabled())));
+                        String.format(baseType.getDisplayName(), baseType.getStatus(baseType.isEnabled())));
 
                 data.put(button, baseType);
                 buttonList.add(button);
@@ -94,7 +94,7 @@ public class ToggleChatMainGui extends GuiScreen {
         drawDefaultBackground();
 
         drawCenteredString(fontRendererObj, String.format("Page %s/%s", (pageNumber),
-            (int) Math.ceil((double) main.getToggleHandler().getToggles().size() / 7D)), width / 2, height / 2 - 94, -1);
+                (int) Math.ceil((double) main.getToggleHandler().getToggles().size() / 7D)), width / 2, height / 2 - 94, -1);
         super.drawScreen(x, y, ticks);
 
         checkHover(height / 2 - 75);
@@ -139,7 +139,7 @@ public class ToggleChatMainGui extends GuiScreen {
         }
 
         buttonList.stream().filter(button -> button != null && data.containsKey(button)).filter(GuiButton::isMouseOver).map(data::get)
-            .filter(ToggleBase::hasDescription).forEach(toggleBase -> {
+                .filter(ToggleBase::hasDescription).forEach(toggleBase -> {
             final int[] position = {firstPosition};
             toggleBase.getDescription().forEach(text -> {
                 drawCenteredString(mc.fontRendererObj, ChatColor.translateAlternateColorCodes('&', text), width / 2 + 150, position[0], Color.WHITE.getRGB());

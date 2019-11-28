@@ -51,16 +51,16 @@ public class TypeShout extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-            "Toggles all shout",
-            "chat messages",
-            "",
-            "Message format",
-            "&6[SHOUT] &7Player&r: Hello",
-            "&6[SHOUT] &a[VIP] Player&r: Hello",
-            "&6[SHOUT] &b[MVP] Player&r: Hello",
-            "",
-            "Good for large minigames",
-            "such as Mega Skywars"
+                "Toggles all shout",
+                "chat messages",
+                "",
+                "Message format",
+                "&6[SHOUT] &7Player&r: Hello",
+                "&6[SHOUT] &a[VIP] Player&r: Hello",
+                "&6[SHOUT] &b[MVP] Player&r: Hello",
+                "",
+                "Good for large minigames",
+                "such as Mega Skywars"
         );
     }
 }

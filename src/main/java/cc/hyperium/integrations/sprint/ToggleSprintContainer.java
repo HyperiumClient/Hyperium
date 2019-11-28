@@ -15,17 +15,22 @@
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.itemphysic;
+package cc.hyperium.integrations.sprint;
 
 import cc.hyperium.config.ConfigOpt;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.client.TickEvent;
+import net.minecraft.client.Minecraft;
 
-public class ItemDummyContainer {
-
-    public static final Logger logger = LogManager.getLogger("ItemPhysics");
+public class ToggleSprintContainer {
 
     @ConfigOpt
-    public static float rotateSpeed = 1.0F;
+    public static boolean toggleSprintActive;
 
+    @InvokeEvent
+    public void onTick(TickEvent e) {
+        if (toggleSprintActive) {
+            Minecraft.getMinecraft().gameSettings.keyBindSprint.setPressed(true);
+        }
+    }
 }

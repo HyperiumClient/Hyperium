@@ -52,13 +52,16 @@ public class CustomLevelheadConfigurer extends GuiScreen {
         level.setMaxStringLength(50);
 
         Multithreading.runAsync(() -> {
-            LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://sk1er.club/newlevel/" + mc.getSession().getProfile().getId().toString().replace("-", "")));
+            LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://sk1er.club/newlevel/" +
+                    mc.getSession().getProfile().getId().toString().replace("-", "")));
             header.setText(jsonHolder.optString("header"));
             level.setText(jsonHolder.optString("true_footer"));
         });
-        Multithreading.runAsync(() -> levelheadPropose = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/levelhead_propose" + mc.getSession().getProfile().getId().toString().replace("-", ""))));
+        Multithreading.runAsync(() -> levelheadPropose = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/levelhead_propose" +
+                mc.getSession().getProfile().getId().toString().replace("-", ""))));
         Multithreading.runAsync(() -> {
-            LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelheadv5/" + mc.getSession().getProfile().getId().toString().replace("-", "") + "/LEVEL"));
+            LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelheadv5/" +
+                    mc.getSession().getProfile().getId().toString().replace("-", "") + "/LEVEL"));
             if (!jsonHolder.has("uuid")) {
                 if (mc.currentScreen instanceof CustomLevelheadConfigurer) {
                     mc.displayGuiScreen(null);
@@ -85,26 +88,26 @@ public class CustomLevelheadConfigurer extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
         header.drawTextBox();
         level.drawTextBox();
-        drawScaledText(ChatColor.UNDERLINE.toString() + ChatColor.BOLD + "Custom Levelhead Message Configurer", width / 2, 5, 2, 16777215, true, true);
+        drawScaledText(ChatColor.UNDERLINE.toString() + ChatColor.BOLD + "Custom Levelhead Message Configurer", width / 2, 5, 2, -1, true, true);
         if (levelheadPropose.getKeys().size() == 0) {
             drawScaledText(ChatColor.RED + "Loading: Error", width / 2, 115, 1.25, Color.RED.getRGB(), true, true);
             return;
         }
         if (levelheadPropose.optBoolean("denied")) {
-            drawScaledText(ChatColor.YELLOW + "Status: " + ChatColor.RED + "Denied", width / 2, 115, 1.25, 16777215, true, true);
+            drawScaledText(ChatColor.YELLOW + "Status: " + ChatColor.RED + "Denied", width / 2, 115, 1.25, -1, true, true);
             return;
         }
         if (levelheadPropose.optBoolean("enabled")) {
             int i = 115;
-            drawScaledText(ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Accepted", width / 2, i - 5, 1.25, 16777215, true, true);
-            drawScaledText(ChatColor.YELLOW + "Header: " + ChatColor.GRAY + levelheadPropose.optString("header"), width / 2, 125, 1.25, 16777215, true, true);
-            drawScaledText(ChatColor.YELLOW + "Level: " + ChatColor.GRAY + levelheadPropose.optString("strlevel"), width / 2, 140, 1.25, 16777215, true, true);
+            drawScaledText(ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Accepted", width / 2, i - 5, 1.25, -1, true, true);
+            drawScaledText(ChatColor.YELLOW + "Header: " + ChatColor.GRAY + levelheadPropose.optString("header"), width / 2, 125, 1.25, -1, true, true);
+            drawScaledText(ChatColor.YELLOW + "Level: " + ChatColor.GRAY + levelheadPropose.optString("strlevel"), width / 2, 140, 1.25, -1, true, true);
         } else {
             int i = 115;
-            drawScaledText(ChatColor.YELLOW + "Status: Pending", width / 2, i - 5, 1.25, 16777215, true, true);
-            drawScaledText(ChatColor.YELLOW + "Header: " + ChatColor.GRAY + levelheadPropose.optString("header"), width / 2, 125, 1.25, 16777215, true, true);
-            drawScaledText(ChatColor.YELLOW + "Level: " + ChatColor.GRAY + levelheadPropose.optString("strlevel"), width / 2, 140, 1.25, 16777215, true, true);
-            drawScaledText(ChatColor.YELLOW + "It will be reviewed soon!", width / 2, 155, 1.25, 16777215, true, true);
+            drawScaledText(ChatColor.YELLOW + "Status: Pending", width / 2, i - 5, 1.25, -1, true, true);
+            drawScaledText(ChatColor.YELLOW + "Header: " + ChatColor.GRAY + levelheadPropose.optString("header"), width / 2, 125, 1.25, -1, true, true);
+            drawScaledText(ChatColor.YELLOW + "Level: " + ChatColor.GRAY + levelheadPropose.optString("strlevel"), width / 2, 140, 1.25, -1, true, true);
+            drawScaledText(ChatColor.YELLOW + "It will be reviewed soon!", width / 2, 155, 1.25, -1, true, true);
         }
     }
 
