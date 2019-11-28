@@ -19,6 +19,7 @@ package cc.hyperium.launch.patching;
 
 import cc.hyperium.launch.patching.conflicts.ConflictTransformer;
 import cc.hyperium.launch.patching.conflicts.GameSettingsTransformer;
+import cc.hyperium.launch.patching.conflicts.WorldClientTransformer;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
@@ -250,7 +251,8 @@ public class PatchManager {
 
     static {
         registerTransformers(
-                new GameSettingsTransformer()
+                new GameSettingsTransformer(),
+                new WorldClientTransformer()
         );
     }
 }
