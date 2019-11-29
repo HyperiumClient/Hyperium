@@ -252,7 +252,8 @@ public class PatchManager {
                 new GameSettingsTransformer(),
                 new WorldClientTransformer(),
                 new AbstractClientPlayerTransformer(),
-                new GuiMainMenuTransformer()
+                new GuiMainMenuTransformer(),
+                new AbstractResourcePackTransformer()
         );
     }
 }
