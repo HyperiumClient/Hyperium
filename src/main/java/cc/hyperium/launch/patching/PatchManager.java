@@ -17,6 +17,7 @@
 
 package cc.hyperium.launch.patching;
 
+import cc.hyperium.launch.patching.conflicts.AbstractClientPlayerTransformer;
 import cc.hyperium.launch.patching.conflicts.ConflictTransformer;
 import cc.hyperium.launch.patching.conflicts.GameSettingsTransformer;
 import cc.hyperium.launch.patching.conflicts.WorldClientTransformer;
@@ -252,7 +253,8 @@ public class PatchManager {
     static {
         registerTransformers(
                 new GameSettingsTransformer(),
-                new WorldClientTransformer()
+                new WorldClientTransformer(),
+                new AbstractClientPlayerTransformer()
         );
     }
 }
