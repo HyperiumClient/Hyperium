@@ -37,7 +37,7 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [ToggleChat](https://2pi.pw/mods/togglechat)
 
 ### Beta Test the Client ###  
-You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://discord.gg/sk1er) and do `$rank beta testing` in the [`#commands`](https://discordapp.com/channels/411619823445999637/411620555960352787) channel. You can then access betas in [`#beta-announcements`](https://discordapp.com/channels/411619823445999637/595634170336641045)
+You can easily beta test the client for free, all you have to do is join [the official Discord](https://discord.gg/sk1er) and do `$rank beta testing` in the [`#commands`](https://discordapp.com/channels/411619823445999637/411620555960352787) channel. You can then access betas in [`#beta-announcements`](https://discordapp.com/channels/411619823445999637/595634170336641045)
 
 ### FAQ ###  
 Q: Please help, I can't build Hyperium!
@@ -69,12 +69,47 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 ## Developer Resources ##
 	
 ### Building the Project with IntelliJ ###
-If you don't know how, then you shouldn't try. Join our beta in [Discord](https://discord.gg/Sk1er), or [download the latest release](https://hyperium.cc/downloads)!
+
+#### Step 1 - Cloning
+- Click 'Clone or Download' and download as ZIP.
+- Extract the file inside called 'Hyperium-master' to wherever you want your workspace to be.
+
+#### Step 2 - Importing
+- Launch IntelliJ.
+- Click New -> Project from existing sources, and select the build.gradle in the Hyperium-master folder.
+- Select 'Use Gradle wrapper configuration' when it asks for it.
+- Open the new project and wait for all the processes to finish.
+
+#### Step 3 - Decompiling
+- Open the Gradle tab on the right hand side of IntelliJ, if it's not there, click 'View', 'Tool Windows', then 'Gradle'.
+- In the Gradle tab, expand `Tasks`, `mcgradle`, and run `setup`.
+
+#### Step 4 - Creating a profile
+- Open the run configuration in the top right of IntelliJ, next to the green 'Run' button, click 'Edit Configurations'.
+- Expand "Application", select 'Minecraft Client', change 'Use classpath of module' to 'Hyperium.generated.main'.
+- Click the plus above the hammer saying 'Build', select 'Run Gradle Task', click the Folder icon, select 'Hyperium',
+and type 'genProperties', select the one that comes up, click 'Ok', then press the up arrow beside the pencil icon.
+- Make sure genProperties task is above the 'Build' task.
+- In 'Program Arguments', make sure `--tweakClass cc.hyperium.launch.HyperiumTweaker` is added.
+- Append `\run` to the end of the working directory.
+- Press 'Apply' then 'Ok'.
+- Once you've finished all of that, click the green 'Run' button beside the application.
+
+#### Notes
+##### Logging into Minecraft
+- Include `--username example@examplesuite.com --password examplepassword` after the `HyperiumTweaker` argument.
+- Press 'Apply' then 'Ok'.
+
+##### Changing Minecraft source code
+- If you change any of the source code to Minecraft (`net/minecraft` package), open the Gradle tab, expand `Tasks`, `mcgradle`, then run `generatePatches`.
+
+##### Pulling Changes
+- If you've made any changes to Minecraft, make sure you run `generatePatches` as mentioned in 'Changing Minecraft source code'
+- When you pull anything, make sure you rerun the `setup` task as mentioned in 'Step 3 - Decompiling'.
 
 ### Addon Development ###
 To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
 **An example comes with the workspace.**
-Follow [this tutorial](https://www.youtube.com/watch?v=RXTIFdoNA8c) to get started.
 
 ### Developers ###
 [![Sk1er](https://avatars1.githubusercontent.com/u/18709703?s=128&v=4)](https://github.com/Sk1er)
