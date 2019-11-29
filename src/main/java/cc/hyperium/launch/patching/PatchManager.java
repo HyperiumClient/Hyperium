@@ -17,10 +17,7 @@
 
 package cc.hyperium.launch.patching;
 
-import cc.hyperium.launch.patching.conflicts.AbstractClientPlayerTransformer;
-import cc.hyperium.launch.patching.conflicts.ConflictTransformer;
-import cc.hyperium.launch.patching.conflicts.GameSettingsTransformer;
-import cc.hyperium.launch.patching.conflicts.WorldClientTransformer;
+import cc.hyperium.launch.patching.conflicts.*;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
@@ -254,7 +251,8 @@ public class PatchManager {
         registerTransformers(
                 new GameSettingsTransformer(),
                 new WorldClientTransformer(),
-                new AbstractClientPlayerTransformer()
+                new AbstractClientPlayerTransformer(),
+                new GuiMainMenuTransformer()
         );
     }
 }

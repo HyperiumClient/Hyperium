@@ -27,6 +27,8 @@ import java.lang.reflect.Method;
 public class Reflector {
     private static final Logger LOGGER = LogManager.getLogger();
 
+    public static final ReflectorClass<?> CONFIG = new ReflectorClass<>("Config");
+    public static final ReflectorField<String, ?> OF_VERSION = new ReflectorField<>(CONFIG, "VERSION");
 
 
     private static abstract class ReflectorData<T, R> {

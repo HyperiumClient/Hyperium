@@ -24,6 +24,7 @@ import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.tips.TipRegistry;
 import cc.hyperium.gui.util.CreateServerButton;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
+import cc.hyperium.optifine.Reflector;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -115,7 +116,11 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
         renderBackgroundImage();
 
-        fontRendererObj.drawStringWithShadow("Hyperium " + Metadata.getVersion(), 3, height - 10, -1);
+        int versionOffset = Reflector.OF_VERSION.exists() ? 20 : 10;
+        if (versionOffset == 20) {
+            fontRenderer.drawStringWithShadow("OptiFine " + Reflector.OF_VERSION.get(null).substring(9), 3, height - 10, -1);
+        }
+        fontRendererObj.drawStringWithShadow("Hyperium " + Metadata.getVersion(), 3, height - versionOffset, -1);
         String creditsString = I18n.format("menu.right");
         drawString(fontRendererObj, creditsString, width - fontRendererObj.getStringWidth(creditsString) - 2, height - 20, -1);
         creditsString = createdByTeam;
