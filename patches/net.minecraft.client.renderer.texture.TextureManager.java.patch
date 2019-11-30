@@ -18,7 +18,7 @@
     private final Map<String, Integer> mapTextureCounters = Maps.<String, Integer>newHashMap();
     private IResourceManager theResourceManager;
  
-+   private HashMap<String, ITextureObject> textures = new HashMap<>();
++   private HashMap<String, ITextureObject> textures = Maps.newHashMap();
 +
     public TextureManager(IResourceManager resourceManager) {
        this.theResourceManager = resourceManager;

@@ -53,7 +53,8 @@ import java.util.zip.ZipEntry;
 public class PatchManager {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final List<String> OF_DEBUG_INFO = Arrays.asList(
-            "bmx"
+            "bmx",
+            "bbr"
     );
     private static final Map<String, ConflictTransformer> transformers = Maps.newHashMap();
     public static final PatchManager INSTANCE = new PatchManager();
@@ -66,7 +67,7 @@ public class PatchManager {
     byte[] patch(String className, byte[] classData) {
         if (processedClasses.containsKey(className)) return processedClasses.get(className);
         if (!patches.containsKey(className)) {
-            return patches.isEmpty() ? classData : getVanillaClassData(className, classData);
+            return classData;
         }
         LOGGER.debug("Patching {} (c1: {}, c2: {}, ch: {})", className, processedClasses.containsKey(className), patches.containsKey(className), hash(classData));
         long start = System.nanoTime();
@@ -80,7 +81,7 @@ public class PatchManager {
                     ClassReader reader = new ClassReader(classData);
                     ClassNode node = new ClassNode();
                     reader.accept(node, 0);
-                    ClassWriter writer = new ClassWriter(0);
+                    ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
                     transformers.get(className).transform(node).accept(writer);
                     return writer.toByteArray();
                 } else {
@@ -195,7 +196,7 @@ public class PatchManager {
         return new Patch(name, srcName, targetName, exists, patchData, checksum);
     }
 
-    private long hash(byte[] bytes) {
+    long hash(byte[] bytes) {
         Adler32 hasher = new Adler32();
         hasher.update(bytes);
         return hasher.getValue();
@@ -232,7 +233,43 @@ public class PatchManager {
                 new NoopTransformer("b$4"),
                 new NoopTransformer("b$5"),
                 new NoopTransformer("b$6"),
-                new NoopTransformer("b$7")
+                new NoopTransformer("b$7"),
+                new NoopTransformer("avh$1"),
+                new NoopTransformer("avh$2"),
+                new NoopTransformer("avh$a"),
+                new NoopTransformer("bnm$1"),
+                new NoopTransformer("bkp"),
+                new EntityRendererTransformer(), // TODO: Complete this transformer
+                new RenderManagerTransformer(),
+                new RenderItemFrameTransformer(),
+                new ModelRendererTransformer(),
+                new TextureManagerTransformer(),
+                new EffectRendererTransformer(),
+                new FontRendererTransformer(),
+                new ResourcePackRepositoryTransformer(),
+                new ModelBoxTransformer(),
+                // TODO: Write actual transformers for these classes
+                new NoopTransformer("biv"),
+                new NoopTransformer("bjl"),
+                new NoopTransformer("bfr"),
+                new NoopTransformer("bjh"),
+                new NoopTransformer("bjh$1"),
+                new NoopTransformer("bjh$2"),
+                new NoopTransformer("bjh$3"),
+                new NoopTransformer("bjh$4"),
+                new NoopTransformer("bjh$5"),
+                new NoopTransformer("bjh$6"),
+                new NoopTransformer("bjh$7"),
+                new NoopTransformer("bjh$8"),
+                new NoopTransformer("bjh$9"),
+                new NoopTransformer("bfn"),
+                new NoopTransformer("avi"),
+                new NoopTransformer("avo"),
+                new NoopTransformer("bkn"),
+                new NoopTransformer("bfh"),
+                new NoopTransformer("bht"),
+                new NoopTransformer("avv"),
+                new NoopTransformer("bhl")
         );
     }
 }
