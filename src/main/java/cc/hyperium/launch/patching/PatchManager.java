@@ -248,6 +248,7 @@ public class PatchManager {
                 new FontRendererTransformer(),
                 new ResourcePackRepositoryTransformer(),
                 new ModelBoxTransformer(),
+                new GuiVideoSettingsTransformer(),
                 // TODO: Write actual transformers for these classes
                 new NoopTransformer("biv"),
                 new NoopTransformer("bjl"),
