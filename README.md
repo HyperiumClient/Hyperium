@@ -9,7 +9,7 @@
 # Hyperium #  
 
 ## What is Hyperium? ##
-Hyperium is an open-source and community-driven Minecraft 1.8.9 client that aims to provide many popular features, implement suggestions from the community, and adds performance improvements to make Minecraft an easier to use, and generally a better platform for everybody.
+Hyperium is an open-source and community-driven Minecraft 1.8.9 client that aims to provide many popular features and add performance improvements to make Minecraft an easier to use, and generally a better platform for all people.
 
 ## Features ##
 - Discord Rich Presence (Custom)
