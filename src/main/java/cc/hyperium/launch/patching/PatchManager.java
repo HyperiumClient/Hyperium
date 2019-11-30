@@ -52,39 +52,8 @@ import java.util.zip.ZipEntry;
 @SuppressWarnings("UnstableApiUsage")
 public class PatchManager {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final List<String> OF_CONFLICTS = Arrays.asList(
-            "avh",
-            "avh$1",
-            "avh$a",
-            "bnm",
-            "bnm$1",
-            "bmj",
-            "avn",
-            "bjh",
-            "bjh$5",
-            "bjh$6",
-            "bjh$7",
-            "bjh$8",
-            "bjh$9",
-            "biu",
-            "biv",
-            "bjl",
-            "bct",
-            "bcr",
-            "bkn",
-            "bjg",
-            "bbr",
-            "bkp",
-            "bfn",
-            "bfk",
-            "bfr",
-            "bfh",
-            "bht",
-            "bec",
-            "avo",
-            "avv",
-            "avi",
-            "avh$2"
+    private static final List<String> OF_DEBUG_INFO = Arrays.asList(
+            "bmx"
     );
     private static final Map<String, ConflictTransformer> transformers = Maps.newHashMap();
     public static final PatchManager INSTANCE = new PatchManager();
@@ -105,18 +74,21 @@ public class PatchManager {
         if (!disableInputCheck) {
             long hash = hash(classData);
             if (patch.checksum != hash) {
-                if (transformers.containsKey(className)) {
+                if (OF_DEBUG_INFO.contains(className)) {
+                    classData = getVanillaClassData(className, classData);
+                } else if (transformers.containsKey(className)) {
                     ClassReader reader = new ClassReader(classData);
                     ClassNode node = new ClassNode();
                     reader.accept(node, 0);
                     ClassWriter writer = new ClassWriter(0);
                     transformers.get(className).transform(node).accept(writer);
                     return writer.toByteArray();
+                } else {
+                    throw new ReportedException(new CrashReport(
+                            "OptiFine conflict - " + className,
+                            new Error()
+                    ));
                 }
-                throw new ReportedException(new CrashReport(
-                        "OptiFine conflict - " + className,
-                        new Error()
-                ));
             }
         }
         synchronized (patcher) {
@@ -253,7 +225,14 @@ public class PatchManager {
                 new WorldClientTransformer(),
                 new AbstractClientPlayerTransformer(),
                 new GuiMainMenuTransformer(),
-                new AbstractResourcePackTransformer()
+                new CrashReportTransformer(),
+                new NoopTransformer("b$1"),
+                new NoopTransformer("b$2"),
+                new NoopTransformer("b$3"),
+                new NoopTransformer("b$4"),
+                new NoopTransformer("b$5"),
+                new NoopTransformer("b$6"),
+                new NoopTransformer("b$7")
         );
     }
 }

@@ -69,7 +69,6 @@ import java.io.*;
 import java.util.List;
 
 public class Hyperium {
-
     // Create an instance so that anything in this class can be used from outside of it
     public static final Hyperium INSTANCE = new Hyperium();
 
