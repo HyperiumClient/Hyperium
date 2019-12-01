@@ -526,7 +526,7 @@ public class Settings {
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.replacedirtwithbg", category = MISC)
-    public static boolean REPLACE_DIRT_TEXTURE;
+    public static boolean REPLACE_DIRT_TEXTURE = true;
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
