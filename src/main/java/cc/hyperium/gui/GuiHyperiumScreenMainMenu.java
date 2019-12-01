@@ -118,7 +118,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         int versionOffset = Reflector.OF_VERSION.exists() ? 20 : 10;
         if (versionOffset == 20) {
-            fontRenderer.drawStringWithShadow("OptiFine " + Reflector.OF_VERSION.get(null).substring(9), 3, height - 10, -1);
+            fontRendererObj.drawStringWithShadow("OptiFine " + Reflector.OF_VERSION.get(null).substring(9), 3, height - 10, -1);
         }
         fontRendererObj.drawStringWithShadow("Hyperium " + Metadata.getVersion(), 3, height - versionOffset, -1);
         String creditsString = I18n.format("menu.right");
@@ -141,7 +141,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             int credits = response.optInt("remaining_credits");
 
             fontRendererObj.drawStringWithShadow(mc.getSession().getUsername() + " - " +
-                    I18n.format("menu.profile.credits", credits), 3, height - 20, 0xFFFF00);
+                    I18n.format("menu.profile.credits", credits), 3, height - (versionOffset + 10), 0xFFFF00);
         }
 
         fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 107, new Color(0, 0, 0, 150).getRGB());

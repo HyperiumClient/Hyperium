@@ -52,9 +52,10 @@ import java.util.zip.ZipEntry;
 @SuppressWarnings("UnstableApiUsage")
 public class PatchManager {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final List<String> OF_DEBUG_INFO = Arrays.asList(
+    private static final List<String> IGNORED_OF_CHANGES = Arrays.asList(
             "bmx",
-            "bbr"
+            "bbr",
+            "avj"
     );
     private static final Map<String, ConflictTransformer> transformers = Maps.newHashMap();
     public static final PatchManager INSTANCE = new PatchManager();
@@ -75,7 +76,7 @@ public class PatchManager {
         if (!disableInputCheck) {
             long hash = hash(classData);
             if (patch.checksum != hash) {
-                if (OF_DEBUG_INFO.contains(className)) {
+                if (IGNORED_OF_CHANGES.contains(className)) {
                     classData = getVanillaClassData(className, classData);
                 } else if (transformers.containsKey(className)) {
                     ClassReader reader = new ClassReader(classData);
@@ -228,6 +229,10 @@ public class PatchManager {
                 new GuiMainMenuTransformer(),
                 new CrashReportTransformer(),
                 new NoopTransformer("b$1"),
+                new NoopTransformer("bdb$1"),
+                new NoopTransformer("bdb$2"),
+                new NoopTransformer("bdb$3"),
+                new NoopTransformer("bdb$4"),
                 new NoopTransformer("b$2"),
                 new NoopTransformer("b$3"),
                 new NoopTransformer("b$4"),
@@ -239,6 +244,14 @@ public class PatchManager {
                 new NoopTransformer("avh$a"),
                 new NoopTransformer("bnm$1"),
                 new NoopTransformer("bkp"),
+                new NoopTransformer("bfk$1"),
+                new NoopTransformer("bfk$2"),
+                new NoopTransformer("bfk$3"),
+                new NoopTransformer("bfk$4"),
+                new NoopTransformer("ne"),
+                new NoopTransformer("ne$1"),
+                new NoopTransformer("bma"),
+                new ThreadDownloadImageDataTransformer(),
                 new EntityRendererTransformer(), // TODO: Complete this transformer
                 new RenderManagerTransformer(),
                 new RenderItemFrameTransformer(),
@@ -252,7 +265,11 @@ public class PatchManager {
                 // TODO: Write actual transformers for these classes
                 new NoopTransformer("biv"),
                 new NoopTransformer("bjl"),
+                new NoopTransformer("bjl$1"),
                 new NoopTransformer("bfr"),
+                new NoopTransformer("bfr$1"),
+                new NoopTransformer("bfr$2"),
+                new NoopTransformer("bfr$a"),
                 new NoopTransformer("bjh"),
                 new NoopTransformer("bjh$1"),
                 new NoopTransformer("bjh$2"),
@@ -267,10 +284,14 @@ public class PatchManager {
                 new NoopTransformer("avi"),
                 new NoopTransformer("avo"),
                 new NoopTransformer("bkn"),
+                new NoopTransformer("bkn$1"),
                 new NoopTransformer("bfh"),
+                new NoopTransformer("bfn$1"),
                 new NoopTransformer("bht"),
                 new NoopTransformer("avv"),
-                new NoopTransformer("bhl")
+                new NoopTransformer("avv$1"),
+                new NoopTransformer("bhl"),
+                new NoopTransformer("awi")
         );
     }
 }

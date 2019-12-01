@@ -46,7 +46,7 @@ public class Reflector {
                 data = (T) getRaw();
             } catch (Exception ignored) {
             }
-            if (data == null) LOGGER.debug("{} not present: {}", describeType(), describeValue());
+            if (data == null) LOGGER.info("{} not present: {}", describeType(), describeValue());
         }
 
         public boolean exists() {
@@ -171,6 +171,21 @@ public class Reflector {
             Method m = owner.get().getDeclaredMethod(name, convertedParameterTypes);
             m.setAccessible(true);
             return m;
+        }
+    }
+
+    static {
+        for (Field f : Reflector.class.getDeclaredFields()) {
+            if (ReflectorData.class.isAssignableFrom(f.getType())) {
+                f.setAccessible(true);
+                ReflectorData aaaa;
+                try {
+                    aaaa = (ReflectorData) f.get(null);
+                } catch (IllegalAccessException e) {
+                    continue;
+                }
+                aaaa.refresh();
+            }
         }
     }
 }

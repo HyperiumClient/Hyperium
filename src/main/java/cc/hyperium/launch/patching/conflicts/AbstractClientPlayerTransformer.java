@@ -26,15 +26,19 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     l.add(new VarInsnNode(Opcodes.ALOAD, 2));
                     l.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "cc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler", "<init>", "(Lcom/mojang/authlib/GameProfile;)V", false));
                     l.add(new FieldInsnNode(Opcodes.PUTFIELD, "bet", "hook", "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;"));
-                    l.add(new InsnNode(Opcodes.RETURN));
-                    node.instructions.remove(new InsnNode(Opcodes.RETURN));
-                    node.instructions.add(l);
+                    Iterator<AbstractInsnNode> it = node.instructions.iterator();
+                    while (it.hasNext()) {
+                        AbstractInsnNode insn = it.next();
+                        if (insn.getOpcode() == Opcodes.RETURN) {
+                            node.instructions.insertBefore(insn, l);
+                        }
+                    }
                     break;
                 }
                 case "b":  // there's only one method called b
                     node.access = Opcodes.ACC_PUBLIC;
                     break;
-                case "c": { // there's only one method called c
+                case "i": { // there's only one method called c
                     InsnList l = new InsnList();
                     LabelNode l2 = new LabelNode();
                     LabelNode l5 = new LabelNode();
@@ -211,7 +215,7 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     l.add(new JumpInsnNode(Opcodes.IFEQ, l2));
                     l.add(new VarInsnNode(Opcodes.ALOAD, 1));
                     l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "cc/hyperium/mods/nickhider/NickHider", "getPlayerSkin", "()Ljy;", false));
-                    l.add(new JumpInsnNode(Opcodes.IFEQ, l2));
+                    l.add(new JumpInsnNode(Opcodes.IFNULL, l2));
                     // return instance.getPlayerCape();
                     l.add(new VarInsnNode(Opcodes.ALOAD, 1));
                     l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "cc/hyperium/mods/nickhider/NickHider", "getPlayerRealSkinType", "()Ljava/lang/String;", false));
