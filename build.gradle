@@ -94,6 +94,12 @@ subprojects {
         // patching
         embed group: 'com.nothome', name: 'javaxdelta', version: '2.0.1'
         embed 'com.github.jponge:lzma-java:1.3'
+        // conflicts
+        embed('com.github.half-cambodian-hacker-man:Koffee:2e8004f') {
+            exclude module: 'asm-commons'
+            exclude module: 'asm-tree'
+            exclude module: 'asm'
+        }
     }
 
     jar {

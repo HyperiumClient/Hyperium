@@ -17,17 +17,23 @@
 
 package cc.hyperium.launch.patching;
 
+import cc.hyperium.launch.patching.conflicts.*;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.nothome.delta.GDiffPatcher;
 import lzma.sdk.lzma.Decoder;
 import lzma.streams.LzmaInputStream;
+import net.minecraft.crash.CrashReport;
 import net.minecraft.launchwrapper.LaunchClassLoader;
+import net.minecraft.util.ReportedException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,74 +52,12 @@ import java.util.zip.ZipEntry;
 @SuppressWarnings("UnstableApiUsage")
 public class PatchManager {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final List<String> OF_CONFLICTS = Arrays.asList(
-            "avh",
-            "avh$1",
-            "avh$a",
-            "bnm",
-            "bnm$1",
-            "bmj",
-            "avn",
-            "bjh",
-            "bjh$5",
-            "bjh$6",
-            "bjh$7",
-            "bjh$8",
-            "bjh$9",
-            "biu",
-            "biv",
-            "bjl",
-            "bct",
-            "bcr",
-            "bkn",
-            "bjg",
+    private static final List<String> IGNORED_OF_CHANGES = Arrays.asList(
+            "bmx",
             "bbr",
-            "bkp",
-            "bfn",
-            "bfk",
-            "bfr",
-            "bfh",
-            "bht",
-            "bec",
-            "avo",
-            "avv",
-            "avi",
-            "avh$2"
+            "avj"
     );
-    private static final List<String> UNFIXED_CONFLICTS = Arrays.asList(
-            "avh",
-            "avh$1",
-            "avh$a",
-            "bnm",
-            "bnm$1",
-            "bmj",
-            "avn",
-            "bjh",
-            "bjh$5",
-            "bjh$6",
-            "bjh$7",
-            "bjh$8",
-            "bjh$9",
-            "biu",
-            "biv",
-            "bjl",
-            "bct",
-            "bcr",
-            "bkn",
-            "bjg",
-            "bbr",
-            "bkp",
-            "bfn",
-            "bfk",
-            "bfr",
-            "bfh",
-            "bht",
-            "bec",
-            "avo",
-            "avv",
-            "avi",
-            "avh$2"
-    );
+    private static final Map<String, ConflictTransformer> transformers = Maps.newHashMap();
     public static final PatchManager INSTANCE = new PatchManager();
     private boolean setupComplete = false;
     private boolean disableInputCheck = false;
@@ -124,18 +68,26 @@ public class PatchManager {
     byte[] patch(String className, byte[] classData) {
         if (processedClasses.containsKey(className)) return processedClasses.get(className);
         if (!patches.containsKey(className)) {
-            return patches.isEmpty() ? classData : getVanillaClassData(className, classData);
+            return classData;
         }
-        LOGGER.debug("Patching {} (c1: {}, c2: {}, ch: {})", className, processedClasses.containsKey(className), patches.containsKey(className), hash(classData));
         long start = System.nanoTime();
         Patch patch = patches.get(className);
         if (!disableInputCheck) {
             long hash = hash(classData);
             if (patch.checksum != hash) {
-                if (UNFIXED_CONFLICTS.contains(className)) {
-                    LOGGER.warn("Detected OptiFine conflict with class {}, using vanilla class data", className);
+                if (IGNORED_OF_CHANGES.contains(className)) {
+                    classData = getVanillaClassData(className, classData);
+                } else if (transformers.containsKey(className)) {
+                    System.out.println("crab");
+                    ClassReader reader = new ClassReader(classData);
+                    ClassNode node = new ClassNode();
+                    reader.accept(node, 0);
+                    ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+                    transformers.get(className).transform(node).accept(writer);
+                    return writer.toByteArray();
+                } else {
+                    throw new IllegalStateException("crab - " + className);
                 }
-                classData = getVanillaClassData(className, classData);
             }
         }
         synchronized (patcher) {
@@ -150,6 +102,12 @@ public class PatchManager {
                 LOGGER.warn("Failed to patch class {}", className, e);
                 return classData;
             }
+        }
+    }
+
+    private static void registerTransformers(ConflictTransformer... transformers) {
+        for (ConflictTransformer transformer : transformers) {
+            PatchManager.transformers.put(transformer.getClassName(), transformer);
         }
     }
 
@@ -189,14 +147,14 @@ public class PatchManager {
         if (patchArchive == null) {
             // probably in dev env, but check just in case
             if (classLoader.getClassBytes("net.minecraft.client.Minecraft") == null) {
-                throw new IllegalStateException("Couldn't find binary patch files in production. Something is very wrong.");
+                throw new IllegalStateException("Couldn't find crab files in production. Something is very wrong.");
             } else {
-                LOGGER.warn("Failed to find binary patches, but client is probably in dev env so we're skipping them");
+                LOGGER.warn("Failed to find crabs, but client is probably in dev env so we're skipping them");
             }
         } else {
             // Load all patches. There's probably some performance/memory usage balancing needed here, but at the moment it loads everything into memory
             // and once they're used they get deleted (or at least removed from map, so gc needed to actually delete them)
-            LOGGER.info("Loading class patches");
+            LOGGER.info("Loading crab");
             long start = System.nanoTime();
             Pattern patchFilePattern = Pattern.compile("binpatch/client/.*.binpatch");
             LzmaInputStream decompressedInput = new LzmaInputStream(patchArchive, new Decoder());
@@ -208,17 +166,14 @@ public class PatchManager {
                     if (patchFilePattern.matcher(entry.getName()).matches()) {
                         Patch patch = readPatch(jis);
                         String name = patch.sourceName.replace('.', '/');
-                        if (OF_CONFLICTS.contains(name) && UNFIXED_CONFLICTS.contains(name)) {
-                            throw new IllegalStateException("Patch present for " + name + ", but it's incompatible with OptiFine (or not marked as incompatibility fixed).");
-                        }
                         patches.put(name, patch);
                     } else jis.closeEntry();
                 } catch (IOException ex) {
-                    LOGGER.warn("Failed to load a patch", ex);
+                    LOGGER.warn("Failed to load a crab", ex);
                 }
             }
             long end = System.nanoTime();
-            LOGGER.info("Loaded {} binary patches in {} milliseconds", patches.size(), ((double) end - (double) start) / 1_000_000.0);
+            LOGGER.info("Loaded {} crabs in {} milliseconds", patches.size(), ((double) end - (double) start) / 1_000_000.0);
         }
         setupComplete = true;
     }
@@ -239,7 +194,7 @@ public class PatchManager {
         return new Patch(name, srcName, targetName, exists, patchData, checksum);
     }
 
-    private long hash(byte[] bytes) {
+    long hash(byte[] bytes) {
         Adler32 hasher = new Adler32();
         hasher.update(bytes);
         return hasher.getValue();
@@ -261,5 +216,79 @@ public class PatchManager {
             this.patchData = patchData;
             this.checksum = checksum;
         }
+    }
+
+    static {
+        registerTransformers(
+                new GameSettingsTransformer(),
+                new WorldClientTransformer(),
+                new AbstractClientPlayerTransformer(),
+                new GuiMainMenuTransformer(),
+                new CrashReportTransformer(),
+                new NoopTransformer("b$1"),
+                new NoopTransformer("bdb$1"),
+                new NoopTransformer("bdb$2"),
+                new NoopTransformer("bdb$3"),
+                new NoopTransformer("bdb$4"),
+                new NoopTransformer("b$2"),
+                new NoopTransformer("b$3"),
+                new NoopTransformer("b$4"),
+                new NoopTransformer("b$5"),
+                new NoopTransformer("b$6"),
+                new NoopTransformer("b$7"),
+                new NoopTransformer("avh$1"),
+                new NoopTransformer("avh$2"),
+                new NoopTransformer("avh$a"),
+                new NoopTransformer("bnm$1"),
+                new NoopTransformer("bkp"),
+                new NoopTransformer("bfk$1"),
+                new NoopTransformer("bfk$2"),
+                new NoopTransformer("bfk$3"),
+                new NoopTransformer("bfk$4"),
+                new NoopTransformer("ne"),
+                new NoopTransformer("ne$1"),
+                new NoopTransformer("bma"),
+                new ThreadDownloadImageDataTransformer(),
+                new EntityRendererTransformer(), // TODO: Complete this transformer
+                new RenderManagerTransformer(),
+                new RenderItemFrameTransformer(),
+                new ModelRendererTransformer(),
+                new TextureManagerTransformer(),
+                new EffectRendererTransformer(),
+                new FontRendererTransformer(),
+                new ResourcePackRepositoryTransformer(),
+                new ModelBoxTransformer(),
+                new GuiVideoSettingsTransformer(),
+                // TODO: Write actual transformers for these classes
+                new NoopTransformer("biv"),
+                new NoopTransformer("bjl"),
+                new NoopTransformer("bjl$1"),
+                new NoopTransformer("bfr"),
+                new NoopTransformer("bfr$1"),
+                new NoopTransformer("bfr$2"),
+                new NoopTransformer("bfr$a"),
+                new NoopTransformer("bjh"),
+                new NoopTransformer("bjh$1"),
+                new NoopTransformer("bjh$2"),
+                new NoopTransformer("bjh$3"),
+                new NoopTransformer("bjh$4"),
+                new NoopTransformer("bjh$5"),
+                new NoopTransformer("bjh$6"),
+                new NoopTransformer("bjh$7"),
+                new NoopTransformer("bjh$8"),
+                new NoopTransformer("bjh$9"),
+                new NoopTransformer("bfn"),
+                new NoopTransformer("avi"),
+                new NoopTransformer("avo"),
+                new NoopTransformer("bkn"),
+                new NoopTransformer("bkn$1"),
+                new NoopTransformer("bfh"),
+                new NoopTransformer("bfn$1"),
+                new NoopTransformer("bht"),
+                new NoopTransformer("avv"),
+                new NoopTransformer("avv$1"),
+                new NoopTransformer("bhl"),
+                new NoopTransformer("awi")
+        );
     }
 }

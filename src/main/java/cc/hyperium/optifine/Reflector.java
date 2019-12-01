@@ -27,6 +27,8 @@ import java.lang.reflect.Method;
 public class Reflector {
     private static final Logger LOGGER = LogManager.getLogger();
 
+    public static final ReflectorClass<?> CONFIG = new ReflectorClass<>("Config");
+    public static final ReflectorField<String, ?> OF_VERSION = new ReflectorField<>(CONFIG, "VERSION");
 
 
     private static abstract class ReflectorData<T, R> {
@@ -44,7 +46,7 @@ public class Reflector {
                 data = (T) getRaw();
             } catch (Exception ignored) {
             }
-            if (data == null) LOGGER.debug("{} not present: {}", describeType(), describeValue());
+            if (data == null) LOGGER.info("{} not present: {}", describeType(), describeValue());
         }
 
         public boolean exists() {
@@ -169,6 +171,21 @@ public class Reflector {
             Method m = owner.get().getDeclaredMethod(name, convertedParameterTypes);
             m.setAccessible(true);
             return m;
+        }
+    }
+
+    static {
+        for (Field f : Reflector.class.getDeclaredFields()) {
+            if (ReflectorData.class.isAssignableFrom(f.getType())) {
+                f.setAccessible(true);
+                ReflectorData aaaa;
+                try {
+                    aaaa = (ReflectorData) f.get(null);
+                } catch (IllegalAccessException e) {
+                    continue;
+                }
+                aaaa.refresh();
+            }
         }
     }
 }

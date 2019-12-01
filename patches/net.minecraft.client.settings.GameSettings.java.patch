@@ -1,14 +1,5 @@
 --- original/net/minecraft/client/settings/GameSettings.java
 +++ changed/net/minecraft/client/settings/GameSettings.java
-@@ -223,7 +223,7 @@
-     */
-    public void setOptionKeyBinding(KeyBinding key, int keyCode) {
-       key.setKeyCode(keyCode);
--      this.saveOptions();
-+      Minecraft.getMinecraft().gameSettings.saveOptions();
-    }
- 
-    /**
 @@ -281,7 +281,7 @@
              this.mc.getTextureMapBlocks().setMipmapLevels(this.mipmapLevels);
              this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
