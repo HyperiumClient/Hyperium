@@ -9,18 +9,24 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.renderer.IImageBuffer;
  import net.minecraft.client.renderer.texture.SimpleTexture;
-@@ -90,45 +92,40 @@
+@@ -90,45 +92,48 @@
     }
  
     protected void loadTextureFromServer() {
 -      this.imageThread = new Thread("Texture Downloader #" + threadDownloadCounter.incrementAndGet()) {
--         public void run() {
++      // Please don't use a lambda.
++      // Please.
++      // It makes the transformer 10 times harder to make
++      // please
++      // i just want to implement this easily
++      Multithreading.runAsync(new Runnable() {
++         @Override
+          public void run() {
 -            HttpURLConnection httpurlconnection = null;
 -            ThreadDownloadImageData.logger.debug("Downloading http texture from {} to {}", new Object[]{ThreadDownloadImageData.this.imageUrl, ThreadDownloadImageData.this.cacheFile});
-+      Multithreading.runAsync(() -> {
-+         HttpURLConnection connection = null;
++            HttpURLConnection connection = null;
  
--            try {
+             try {
 -               httpurlconnection = (HttpURLConnection)(new URL(ThreadDownloadImageData.this.imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
 -               httpurlconnection.setDoInput(true);
 -               httpurlconnection.setDoOutput(false);
@@ -30,47 +36,45 @@
 -                  if(ThreadDownloadImageData.this.cacheFile != null) {
 -                     FileUtils.copyInputStreamToFile(httpurlconnection.getInputStream(), ThreadDownloadImageData.this.cacheFile);
 -                     bufferedimage = ImageIO.read(ThreadDownloadImageData.this.cacheFile);
--                  } else {
++               connection = (HttpURLConnection) (new URL(imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
++               connection.setRequestProperty("User-Agent", "Hyperium Client");
++               connection.setDoInput(true);
++               connection.setDoOutput(true);
++               connection.connect();
++
++               if (connection.getResponseCode() / 100 == 2) {
++                  BufferedImage image;
++
++                  if (cacheFile != null) {
++                     FileUtils.copyInputStreamToFile(connection.getInputStream(), cacheFile);
++                     image = ImageIO.read(cacheFile);
+                   } else {
 -                     bufferedimage = TextureUtil.readBufferedImage(httpurlconnection.getInputStream());
--                  }
-+         try {
-+            connection = (HttpURLConnection) (new URL(imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
-+            connection.setRequestProperty("User-Agent", "Hyperium Client");
-+            connection.setDoInput(true);
-+            connection.setDoOutput(true);
-+            connection.connect();
++                     image = TextureUtil.readBufferedImage(connection.getInputStream());
+                   }
  
 -                  if(ThreadDownloadImageData.this.imageBuffer != null) {
 -                     bufferedimage = ThreadDownloadImageData.this.imageBuffer.parseUserSkin(bufferedimage);
 -                  }
-+            if (connection.getResponseCode() / 100 == 2) {
-+               BufferedImage image;
- 
+-
 -                  ThreadDownloadImageData.this.setBufferedImage(bufferedimage);
 -                  return;
-+               if (cacheFile != null) {
-+                  FileUtils.copyInputStreamToFile(connection.getInputStream(), cacheFile);
-+                  image = ImageIO.read(cacheFile);
-+               } else {
-+                  image = TextureUtil.readBufferedImage(connection.getInputStream());
++                  if (imageBuffer != null) image = imageBuffer.parseUserSkin(image);
++                  setBufferedImage(image);
                 }
 -            } catch (Exception exception) {
 -               ThreadDownloadImageData.logger.error((String)"Couldn\'t download http texture", (Throwable)exception);
 -               return;
--            } finally {
++            } catch (Exception ignored) {
+             } finally {
 -               if(httpurlconnection != null) {
 -                  httpurlconnection.disconnect();
--               }
- 
-+               if (imageBuffer != null) image = imageBuffer.parseUserSkin(image);
-+               setBufferedImage(image);
++               if (connection != null) {
++                  connection.disconnect();
+                }
+-
              }
 -
-+         } catch (Exception ignored) {
-+         } finally {
-+            if (connection != null) {
-+               connection.disconnect();
-+            }
           }
 -      };
 -      this.imageThread.setDaemon(true);

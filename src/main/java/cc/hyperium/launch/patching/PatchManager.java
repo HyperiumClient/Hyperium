@@ -70,7 +70,6 @@ public class PatchManager {
         if (!patches.containsKey(className)) {
             return classData;
         }
-        LOGGER.debug("Patching {} (c1: {}, c2: {}, ch: {})", className, processedClasses.containsKey(className), patches.containsKey(className), hash(classData));
         long start = System.nanoTime();
         Patch patch = patches.get(className);
         if (!disableInputCheck) {
@@ -79,6 +78,7 @@ public class PatchManager {
                 if (IGNORED_OF_CHANGES.contains(className)) {
                     classData = getVanillaClassData(className, classData);
                 } else if (transformers.containsKey(className)) {
+                    System.out.println("crab");
                     ClassReader reader = new ClassReader(classData);
                     ClassNode node = new ClassNode();
                     reader.accept(node, 0);
@@ -86,10 +86,7 @@ public class PatchManager {
                     transformers.get(className).transform(node).accept(writer);
                     return writer.toByteArray();
                 } else {
-                    throw new ReportedException(new CrashReport(
-                            "OptiFine conflict - " + className,
-                            new Error()
-                    ));
+                    throw new IllegalStateException("crab - " + className);
                 }
             }
         }
@@ -150,14 +147,14 @@ public class PatchManager {
         if (patchArchive == null) {
             // probably in dev env, but check just in case
             if (classLoader.getClassBytes("net.minecraft.client.Minecraft") == null) {
-                throw new IllegalStateException("Couldn't find binary patch files in production. Something is very wrong.");
+                throw new IllegalStateException("Couldn't find crab files in production. Something is very wrong.");
             } else {
-                LOGGER.warn("Failed to find binary patches, but client is probably in dev env so we're skipping them");
+                LOGGER.warn("Failed to find crabs, but client is probably in dev env so we're skipping them");
             }
         } else {
             // Load all patches. There's probably some performance/memory usage balancing needed here, but at the moment it loads everything into memory
             // and once they're used they get deleted (or at least removed from map, so gc needed to actually delete them)
-            LOGGER.info("Loading class patches");
+            LOGGER.info("Loading crab");
             long start = System.nanoTime();
             Pattern patchFilePattern = Pattern.compile("binpatch/client/.*.binpatch");
             LzmaInputStream decompressedInput = new LzmaInputStream(patchArchive, new Decoder());
@@ -172,11 +169,11 @@ public class PatchManager {
                         patches.put(name, patch);
                     } else jis.closeEntry();
                 } catch (IOException ex) {
-                    LOGGER.warn("Failed to load a patch", ex);
+                    LOGGER.warn("Failed to load a crab", ex);
                 }
             }
             long end = System.nanoTime();
-            LOGGER.info("Loaded {} binary patches in {} milliseconds", patches.size(), ((double) end - (double) start) / 1_000_000.0);
+            LOGGER.info("Loaded {} crabs in {} milliseconds", patches.size(), ((double) end - (double) start) / 1_000_000.0);
         }
         setupComplete = true;
     }
