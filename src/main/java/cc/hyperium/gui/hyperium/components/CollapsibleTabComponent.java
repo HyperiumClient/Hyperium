@@ -22,10 +22,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*
@@ -89,7 +86,9 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         boolean right = false; // left right column stuff
         int prevH = 0;
 
-        for (AbstractTabComponent comp : tmpf == null ? children : children.stream().filter(c -> c.filter(tmpf)).collect(Collectors.toList())) {
+        for (AbstractTabComponent comp : tmpf == null || label.toLowerCase(Locale.ROOT).startsWith(tmpf.toLowerCase(Locale.ROOT)) ?
+                children :
+                children.stream().filter(c -> c.filter(tmpf)).collect(Collectors.toList())) {
             if (parent != null) right = false;
 
             int x1 = right ? x + width / 2 : x;
@@ -168,9 +167,8 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
     @Override
     public boolean filter(String s) {
         boolean b = super.filter(s);
-        if (b)
-            tmpf = s;
-        return b;
+        tmpf = s;
+        return b || label.toLowerCase(Locale.ROOT).startsWith(s.toLowerCase(Locale.ROOT)) || children.stream().anyMatch(c -> c.filter(s));
     }
 
     public void sortSelf() {

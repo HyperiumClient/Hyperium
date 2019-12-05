@@ -35,17 +35,16 @@ import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.SplashProgress;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
+import cc.hyperium.integrations.discord.DiscordPresence;
+import cc.hyperium.integrations.sprint.ToggleSprintContainer;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autogg.AutoGG;
-import cc.hyperium.integrations.sprint.ToggleSprintContainer;
-import cc.hyperium.integrations.discord.DiscordPresence;
 import cc.hyperium.mods.levelhead.command.CustomLevelheadCommand;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
-import cc.hyperium.utils.statistics.GeneralStatisticsTracking;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.UniversalNetty;
 import cc.hyperium.network.LoginReplyHandler;
@@ -54,10 +53,10 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.resources.ClassLoaderResourcePack;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
-import cc.hyperium.utils.locale.HyperiumLocale;
 import cc.hyperium.utils.mods.AddonCheckerUtil;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
+import cc.hyperium.utils.statistics.GeneralStatisticsTracking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.crash.CrashReport;
@@ -151,13 +150,6 @@ public class Hyperium {
     public void preinit(PreInitializationEvent event) {
         EventBus.INSTANCE.register(new AutoGG());
         Minecraft.getMinecraft().getDefaultResourcePacks().add(resourcePack);
-        HyperiumLocale.registerHyperiumLang("af_ZA");
-        HyperiumLocale.registerHyperiumLang("ar_SA");
-        HyperiumLocale.registerHyperiumLang("bs_BA");
-        HyperiumLocale.registerHyperiumLang("de_DE");
-        HyperiumLocale.registerHyperiumLang("en_US");
-        HyperiumLocale.registerHyperiumLang("ga_IE");
-        HyperiumLocale.registerHyperiumLang("ja_JP");
     }
 
     /**
@@ -200,8 +192,8 @@ public class Hyperium {
 
             // Create a lock file if the user accepts the TOS
             this.acceptedTos = new File(
-                folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-                    .getPlayerID() + ".lck").exists();
+                    folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
+                            .getPlayerID() + ".lck").exists();
 
             SplashProgress.setProgress(5, I18n.format("splashprogress.loadinghandlers"));
 
