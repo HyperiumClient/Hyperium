@@ -10,7 +10,7 @@ import org.objectweb.asm.tree.ClassNode
 class RenderItemFrameTransformer : ConflictTransformer {
     override fun transform(original: ClassNode): ClassNode {
         for (method in original.methods) {
-            if (method.name == "a" && method.desc == "(Lpk;DDDFF)V") {
+            if (method.name == "doRender") {
                 val instructions = assembleBlock {
                     getstatic(Settings::class, "DISABLE_ITEMFRAMES", boolean)
                     ifeq(L["1"])
@@ -24,5 +24,5 @@ class RenderItemFrameTransformer : ConflictTransformer {
         return original
     }
 
-    override fun getClassName() = "bjg"
+    override fun getClassName() = "net.minecraft.client.renderer.tileentity.RenderItemFrame"
 }

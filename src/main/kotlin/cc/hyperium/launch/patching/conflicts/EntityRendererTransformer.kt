@@ -34,22 +34,22 @@ class EntityRendererTransformer : ConflictTransformer {
                         method.instructions.insertBefore(it, list)
                     }
                 }
-            } else if (method.name == "a" && method.desc == "(Ljy;)V") {
+            } else if (method.name == "loadShader" && method.desc == "(Lnet/minecraft/util/ResourceLocation;)V") {
                 method.access = Opcodes.ACC_PUBLIC
-            } else if (method.name == "e" && method.desc == "()V") {
+            } else if (method.name == "updateRenderer" && method.desc == "()V") {
                 val list = assembleBlock {
                     fconst_1
-                    invokevirtual(Entity::class, "e", Vec3::class, float)
+                    invokevirtual(Entity::class, "getPositionEyes", Vec3::class, float)
                 }.first
 
                 for (insn in method.instructions.iterator()) {
                     // new BlockPos(Vec3)
-                    if (insn.opcode == Opcodes.INVOKESPECIAL && insn is MethodInsnNode && insn.owner == "cj" && insn.name == "<init>" && insn.desc == "(Lnet/minecraft/util/Vec3;)V") {
+                    if (insn.opcode == Opcodes.INVOKESPECIAL && insn is MethodInsnNode && insn.owner == "net/minecraft/util/BlockPos" && insn.name == "<init>" && insn.desc == "(Lnet/minecraft/util/Vec3;)V") {
                         method.instructions.insertBefore(insn, list)
                         break
                     }
                 }
-            } else if (method.name == "f" && method.desc == "(F)V") {
+            } else if (method.name == "orientCamera" && method.desc == "(F)V") {
                 val list = assembleBlock {
                     getstatic(Hyperium::class, "INSTANCE", Hyperium::class)
                     invokevirtual(Hyperium::class, "getHandlers", HyperiumHandlers::class)
@@ -80,7 +80,7 @@ class EntityRendererTransformer : ConflictTransformer {
                     fconst_1
                     fconst_0
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
 
                     aload(method.maxLocals)
                     getfield(PerspectiveModifierHandler::class, "modifiedYaw", float)
@@ -89,14 +89,14 @@ class EntityRendererTransformer : ConflictTransformer {
                     fconst_0
                     fconst_1
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
 
                     fconst_0
                     fconst_0
                     dload(11)
                     dneg
                     d2f
-                    invokestatic(GlStateManager::class, "b", void, float, float, float)
+                    invokestatic(GlStateManager::class, "translate", void, float, float, float)
 
                     fload(12)
                     aload(method.maxLocals)
@@ -105,7 +105,7 @@ class EntityRendererTransformer : ConflictTransformer {
                     fconst_0
                     fconst_1
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
 
                     fload(13)
                     aload(method.maxLocals)
@@ -114,52 +114,52 @@ class EntityRendererTransformer : ConflictTransformer {
                     fconst_1
                     fconst_0
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
                     goto(L["26"])
 
                     +L["53"]
                     aload_3
-                    getfield(Entity::class, "z", float)
+                    getfield(Entity::class, "rotationPitch", float)
                     fload(13)
                     fsub
                     fconst_1
                     fconst_0
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
 
                     aload_3
-                    getfield(Entity::class, "y", float)
+                    getfield(Entity::class, "rotationYaw", float)
                     fload(12)
                     fsub
                     fconst_0
                     fconst_1
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
 
                     fconst_0
                     fconst_0
                     dload(11)
                     dneg
                     d2f
-                    invokestatic(GlStateManager::class, "b", void, float, float, float)
+                    invokestatic(GlStateManager::class, "translate", void, float, float, float)
 
                     fload(12)
                     aload_3
-                    getfield(Entity::class, "y", float)
+                    getfield(Entity::class, "rotationYaw", float)
                     fsub
                     fconst_0
                     fconst_1
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
 
                     fload(13)
                     aload_3
-                    getfield(Entity::class, "z", float)
+                    getfield(Entity::class, "rotationPitch", float)
                     fsub
                     fconst_1
                     fconst_0
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
                     +L["26"]
                 }.first
 
@@ -172,14 +172,14 @@ class EntityRendererTransformer : ConflictTransformer {
                     fconst_0
                     fconst_0
                     fconst_1
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
 
                     aload(method.maxLocals)
                     getfield(PerspectiveModifierHandler::class, "modifiedPitch", float)
                     fconst_1
                     fconst_0
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
 
                     aload(method.maxLocals)
                     getfield(PerspectiveModifierHandler::class, "modifiedYaw", float)
@@ -188,7 +188,7 @@ class EntityRendererTransformer : ConflictTransformer {
                     fconst_0
                     fconst_1
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
                     goto(L["63"])
 
                     +L["71"]
@@ -196,19 +196,19 @@ class EntityRendererTransformer : ConflictTransformer {
                     fconst_0
                     fconst_0
                     fconst_1
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
 
                     fload(12)
                     fconst_1
                     fconst_0
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
 
                     fload(11)
                     fconst_0
                     fconst_1
                     fconst_0
-                    invokestatic(GlStateManager::class, "b", void, float, float, float, float)
+                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
 
                     +L["63"]
                 }.first
@@ -222,11 +222,11 @@ class EntityRendererTransformer : ConflictTransformer {
                 method.instructions.iterator().forEach {
                     if (!added2 && it is VarInsnNode && it.opcode == Opcodes.ALOAD && it.`var` == 0) {
                         var next = it.next
-                        if (next is FieldInsnNode && next.opcode == Opcodes.GETFIELD && next.owner == "bfk" && next.name == "h") {
+                        if (next is FieldInsnNode && next.opcode == Opcodes.GETFIELD && next.owner == "net/minecraft/client/renderer/EntityRenderer" && next.name == "mc") {
                             next = next.next
-                            if (next is FieldInsnNode && next.opcode == Opcodes.GETFIELD && next.owner == "ave" && next.name == "t") {
+                            if (next is FieldInsnNode && next.opcode == Opcodes.GETFIELD && next.owner == "net/minecraft/client/Minecraft" && next.name == "gameSettings") {
                                 next = next.next
-                                if (next is FieldInsnNode && next.opcode == Opcodes.GETFIELD && next.owner == "avh" && next.name == "aB") {
+                                if (next is FieldInsnNode && next.opcode == Opcodes.GETFIELD && next.owner == "net/minecraft/client/settings/GameSettings" && next.name == "thirdPersonView") {
                                     next = next.next
                                     if (next.opcode == Opcodes.ICONST_2) {
                                         next = next.next
@@ -245,5 +245,5 @@ class EntityRendererTransformer : ConflictTransformer {
         return original
     }
 
-    override fun getClassName() = "bfk"
+    override fun getClassName() = "net.minecraft.client.renderer.EntityRenderer"
 }

@@ -10,12 +10,10 @@ import org.objectweb.asm.tree.VarInsnNode
 import java.net.HttpURLConnection
 
 class ThreadDownloadImageDataTransformer : ConflictTransformer {
-    override fun getClassName() = "bma$1"
+    override fun getClassName() = "net.minecraft.client.renderer.ThreadDownloadImageData"
 
     override fun transform(original: ClassNode): ClassNode {
-        println("Patching bma$1 ($original)")
         for (method in original.methods) {
-            println("Checking method ${method.name}")
             if (method.name == "run") {
                 val list = assembleBlock {
                     aload_1
@@ -24,14 +22,10 @@ class ThreadDownloadImageDataTransformer : ConflictTransformer {
                     invokevirtual(HttpURLConnection::class, "setRequestProperty", void, String::class, String::class)
                 }.first
 
-                println("Attempting to patch")
                 for (insn in method.instructions.iterator()) {
                     if (insn is VarInsnNode && insn.opcode == Opcodes.ALOAD && insn.`var` == 1) {
                         method.instructions.insertBefore(insn, list)
-                        println("Successfully patched!")
                         break
-                    } else {
-                        println("C ${insn.javaClass.name} O ${insn.opcode} V ${if (insn is VarInsnNode) insn.`var` else -1}")
                     }
                 }
             }

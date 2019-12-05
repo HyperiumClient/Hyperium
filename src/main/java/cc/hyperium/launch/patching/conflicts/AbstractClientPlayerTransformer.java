@@ -8,7 +8,7 @@ import java.util.Iterator;
 public class AbstractClientPlayerTransformer implements ConflictTransformer {
     @Override
     public String getClassName() {
-        return "bet";
+        return "net.minecraft.client.entity.AbstractClientPlayer";
     }
 
     @Override
@@ -24,7 +24,8 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     l.add(new TypeInsnNode(Opcodes.NEW, "cc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler"));
                     l.add(new InsnNode(Opcodes.DUP));
                     l.add(new VarInsnNode(Opcodes.ALOAD, 2));
-                    l.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "cc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler", "<init>", "(Lcom/mojang/authlib/GameProfile;)V", false));
+                    l.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, "cc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler", "<init>",
+                            "(Lcom/mojang/authlib/GameProfile;)V", false));
                     l.add(new FieldInsnNode(Opcodes.PUTFIELD, "bet", "hook", "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;"));
                     Iterator<AbstractInsnNode> it = node.instructions.iterator();
                     while (it.hasNext()) {
@@ -35,10 +36,10 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     }
                     break;
                 }
-                case "b":  // there's only one method called b
+                case "getPlayerInfo":  // there's only one method called b
                     node.access = Opcodes.ACC_PUBLIC;
                     break;
-                case "i": { // there's only one method called c
+                case "getSkinType": { // there's only one method called c
                     InsnList l = new InsnList();
                     LabelNode l2 = new LabelNode();
                     LabelNode l5 = new LabelNode();
@@ -68,9 +69,9 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     l.add(new VarInsnNode(Opcodes.ASTORE, 2));
                     // getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())
                     l.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "bet", "aK", "()Ljava/util/UUID;", false));
-                    l.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "ave", "A", "()Lave;", false));
-                    l.add(new FieldInsnNode(Opcodes.GETFIELD, "ave", "h", "Lbew;"));
+                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/client/entity/AbstractClientPlayer", "getUniqueID", "()Ljava/util/UUID;", false));
+                    l.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "net/minecraft/client/Minecraft", "getMinecraft", "()Lnet/minecraft/client/Minecraft;", false));
+                    l.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/Minecraft", "thePlayer", "Lnet/minecraft/client/entity/EntityPlayerSP;"));
                     l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "bew", "aK", "()Ljava/util/UUID;", false));
                     l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "java/util/UUID", "equals", "(Ljava/lang/Object;)Z", false));
                     l.add(new JumpInsnNode(Opcodes.IFEQ, l5));
@@ -87,8 +88,8 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     // some other stuff
                     l.add(l7);
                     l.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "bet", "aK", "()Ljava/util/UUID;", false));
-                    l.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "bmz", "a", "(Ljava/util/UUID;)Ljy;", false));
+                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/client/entity/AbstractClientPlayer", "getUniqueID", "()Ljava/util/UUID;", false));
+                    l.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "net/minecraft/client/resources/DefaultPlayerSkin", "getDefaultSkin", "(Ljava/util/UUID;)Lnet/minecraft/util/ResourceLocation;", false));
                     // actually return
                     l.add(l8);
                     l.add(new InsnNode(Opcodes.ARETURN));
@@ -110,8 +111,8 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     // more return stuff
                     l.add(l10);
                     l.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "bet", "aK", "()Ljava/util/UUID;", false));
-                    l.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "bmz", "a", "(Ljava/util/UUID;)Ljy;", false));
+                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/client/entity/AbstractClientPlayer", "getUniqueID", "()Ljava/util/UUID;", false));
+                    l.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "net/minecraft/client/resources/DefaultPlayerSkin", "getDefaultSkin", "(Ljava/util/UUID;)Lnet/minecraft/util/ResourceLocation;", false));
                     // actually return
                     l.add(l11);
                     l.add(new InsnNode(Opcodes.ARETURN));
@@ -127,13 +128,13 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     LabelNode l4 = new LabelNode();
                     // if (hook.getLocationCape() != null)
                     l.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                    l.add(new FieldInsnNode(Opcodes.GETFIELD, "bet", "hook", "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;"));
-                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "cc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler", "getLocationCape", "()Ljy;", false));
+                    l.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/entity/AbstractClientPlayer", "hook", "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;"));
+                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "cc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler", "getLocationCape", "()Lnet/minecraft/util/ResourceLocation;", false));
                     l.add(new JumpInsnNode(Opcodes.IFNULL, l1));
                     // return hook.getLocationCape();
                     l.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                    l.add(new FieldInsnNode(Opcodes.GETFIELD, "bet", "hook", "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;"));
-                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "cc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler", "getLocationCape", "()Ljy;", false));
+                    l.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/entity/AbstractClientPlayer", "hook", "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;"));
+                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "cc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler", "getLocationCape", "()Lnet/minecraft/util/ResourceLocation;", false));
                     l.add(new InsnNode(Opcodes.ARETURN));
                     // NickHider instance = NickHider.instance;
                     l.add(l1);
@@ -158,10 +159,10 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     l.add(new VarInsnNode(Opcodes.ASTORE, 2));
                     // getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID()) && config.isUseRealSkinForSelf()
                     l.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "bet", "aK", "()Ljava/util/UUID;", false));
-                    l.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "ave", "A", "()Lave;", false));
-                    l.add(new FieldInsnNode(Opcodes.GETFIELD, "ave", "h", "Lbew;"));
-                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "bew", "aK", "()Ljava/util/UUID;", false));
+                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/client/entity/AbstractClientPlayer", "getUniqueID", "()Ljava/util/UUID;", false));
+                    l.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "net/minecraft/client/Minecraft", "getMinecraft", "()Lnet/minecraft/client/Minecraft;", false));
+                    l.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/Minecraft", "thePlayer", "Lnet/minecraft/client/entity/EntityPlayerSP;"));
+                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/client/entity/EntityPlayerSP", "getUniqueID", "()Ljava/util/UUID;", false));
                     l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "java/util/UUID", "equals", "(Ljava/lang/Object;)Z", false));
                     l.add(new JumpInsnNode(Opcodes.IFEQ, l4));
                     l.add(new VarInsnNode(Opcodes.ALOAD, 2));
@@ -203,10 +204,10 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     l.add(new VarInsnNode(Opcodes.ASTORE, 2));
                     // if (getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID()))
                     l.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "bet", "aK", "()Ljava/util/UUID;", false));
-                    l.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "ave", "A", "()Lave;", false));
-                    l.add(new FieldInsnNode(Opcodes.GETFIELD, "ave", "h", "Lbew;"));
-                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "bew", "aK", "()Ljava/util/UUID;", false));
+                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/client/entity/AbstractClientPlayer", "getUniqueID", "()Ljava/util/UUID;", false));
+                    l.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "net/minecraft/client/Minecraft", "getMinecraft", "()Lnet/minecraft/client/Minecraft;", false));
+                    l.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/Minecraft", "thePlayer", "Lbew;"));
+                    l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/client/entity/EntityPlayerSP", "getUniqueID", "()Ljava/util/UUID;", false));
                     l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "java/util/UUID", "equals", "(Ljava/lang/Object;)Z", false));
                     l.add(new JumpInsnNode(Opcodes.IFEQ, l5));
                     // if (config.isUseRealSkinForSelf() && instance.getPlayerSkin() != null)

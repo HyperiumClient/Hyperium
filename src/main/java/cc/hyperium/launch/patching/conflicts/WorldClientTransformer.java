@@ -11,13 +11,13 @@ import java.util.Iterator;
 public class WorldClientTransformer implements ConflictTransformer {
     @Override
     public String getClassName() {
-        return "bdb";
+        return "net.minecraft.client.multiplayer.WorldClient";
     }
 
     @Override
     public ClassNode transform(ClassNode original) {
         for (MethodNode node : original.methods) {
-            if (node.name.equals("b") && node.desc.equals("(III)V")) {
+            if (node.name.equals("doVoidFogParticles")) {
                 Iterator<AbstractInsnNode> iterator = node.instructions.iterator();
                 while (iterator.hasNext()) {
                     AbstractInsnNode insn = iterator.next();

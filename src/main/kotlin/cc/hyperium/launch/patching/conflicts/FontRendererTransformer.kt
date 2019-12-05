@@ -7,11 +7,11 @@ import codes.som.anthony.koffee.insns.jvm.*
 import org.objectweb.asm.tree.ClassNode
 
 class FontRendererTransformer : ConflictTransformer {
-    override fun getClassName() = "avn"
+    override fun getClassName() = "net.minecraft.client.gui.FontRenderer"
 
     override fun transform(original: ClassNode): ClassNode {
         for (method in original.methods) {
-            if (method.name == "b" && method.desc == "(Ljava/lang/String;FFIZ)I") {
+            if (method.name == "renderString" && method.desc == "(Ljava/lang/String;FFIZ)I") {
                 val list = assembleBlock {
                     getstatic(NickHider::class, "instance", NickHider::class)
                     ifnonnull(L["1"])
@@ -34,7 +34,7 @@ class FontRendererTransformer : ConflictTransformer {
                 }.first
                 list.add(method.instructions)
                 method.instructions = list
-            } else if (method.name == "a" && method.desc == "(Ljava/lang/String;)I") {
+            } else if (method.name == "getStringWidth" && method.desc == "(Ljava/lang/String;)I") {
                 val list = assembleBlock {
                     getstatic(NickHider::class, "instance", NickHider::class)
                     ifnonnull(L["1"])

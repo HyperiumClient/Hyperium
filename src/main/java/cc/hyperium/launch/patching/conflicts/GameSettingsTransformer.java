@@ -9,7 +9,7 @@ import java.util.Iterator;
 public class GameSettingsTransformer implements ConflictTransformer {
     @Override
     public String getClassName() {
-        return "avh";
+        return "net.minecraft.client.settings.GameSettings";
     }
 
     @Override
@@ -21,26 +21,30 @@ public class GameSettingsTransformer implements ConflictTransformer {
         node.instructions.add(createOnGuiClosedList());
         original.methods.add(node);
         for (MethodNode method : original.methods) {
-            if (method.name.equals("a") && method.desc.equals("(Lavh$a;F)V")) {
+            if (method.name.equals("setOptionFloatValue") && method.desc.equals("(Lnet/minecraft/client/settings/GameSettings$Options;F)V")) {
                 // needsResourceRefresh = true; return;
                 InsnList l = new InsnList();
                 l.add(new VarInsnNode(Opcodes.ALOAD, 0));
                 l.add(new InsnNode(Opcodes.ICONST_1));
-                l.add(new FieldInsnNode(Opcodes.PUTFIELD, "avh", "needsResourceRefresh", "Z"));
+                l.add(new FieldInsnNode(Opcodes.PUTFIELD, "net/minecraft/client/settings/GameSettings", "needsResourceRefresh", "Z"));
                 l.add(new InsnNode(Opcodes.RETURN));
                 // insert it after setBlurMipmapDirect
                 Iterator<AbstractInsnNode> it = method.instructions.iterator();
                 while (it.hasNext()) {
                     AbstractInsnNode insn = it.next();
                     if (insn instanceof MethodInsnNode && insn.getOpcode() == Opcodes.INVOKEVIRTUAL
-                            && ((MethodInsnNode) insn).owner.equals("ave")
-                            && ((MethodInsnNode) insn).name.equals("B")
+                            && ((MethodInsnNode) insn).owner.equals("net/minecraft/client/Minecraft")
+                            && ((MethodInsnNode) insn).name.equals("scheduleResourcesRefresh")
                             && ((MethodInsnNode) insn).desc.equals("()Lcom/google/common/util/concurrent/ListenableFuture;")) {
                         method.instructions.insertBefore(insn.getPrevious().getPrevious(), l);
                         break;
                     }
                 }
-                method.instructions.insert(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "bmh", "a", "(ZZ)V", false), l);
+                method.instructions.insert(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,
+                        "net/minecraft/client/renderer/texture/TextureMap",
+                        "setBlurMipmapDirect",
+                        "(ZZ)V",
+                        false), l);
             }
         }
         return original;
@@ -51,17 +55,18 @@ public class GameSettingsTransformer implements ConflictTransformer {
         LabelNode label = new LabelNode(new Label());
         // if (this.needsResourceRefresh)
         l.add(new VarInsnNode(Opcodes.ALOAD, 0));
-        l.add(new FieldInsnNode(Opcodes.GETFIELD, "avh", "needsResourceRefresh", "Z"));
+        l.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/settings/GameSettings", "needsResourceRefresh", "Z"));
         l.add(new JumpInsnNode(Opcodes.IFEQ, label));
         // this.mc.scheduleResourcesRefresh()
         l.add(new VarInsnNode(Opcodes.ALOAD, 0));
-        l.add(new FieldInsnNode(Opcodes.GETFIELD, "avh", "ay", "Lave;")); // this.mc
-        l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "ave", "B", "()Lcom/google/common/util/concurrent/ListenableFuture;", false)); // scheduleResourcesRefresh()
+        l.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/settings/GameSettings", "mc", "Lnet/minecraft/client/Minecraft;")); // this.mc
+        l.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraft/client/Minecraft", "scheduleResourcesRefresh",
+                "()Lcom/google/common/util/concurrent/ListenableFuture;", false)); // scheduleResourcesRefresh()
         l.add(new InsnNode(Opcodes.POP));
         // this.needsResourceRefresh = false
         l.add(new VarInsnNode(Opcodes.ALOAD, 0));
         l.add(new InsnNode(Opcodes.ICONST_2));
-        l.add(new FieldInsnNode(Opcodes.PUTFIELD, "avh", "needsResourceRefresh", "Z"));
+        l.add(new FieldInsnNode(Opcodes.PUTFIELD, "net/minecraft/client/settings/GameSettings", "needsResourceRefresh", "Z"));
         // return
         l.add(label);
         l.add(new InsnNode(Opcodes.RETURN));

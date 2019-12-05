@@ -12,14 +12,14 @@ import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.VarInsnNode
 
 class TextureManagerTransformer : ConflictTransformer {
-    override fun getClassName() = "bmj"
+    override fun getClassName() = "net.minecraft.client.renderer.texture.TextureManager"
 
     override fun transform(original: ClassNode): ClassNode {
         original.visitField(Opcodes.ACC_PRIVATE, "textures", "Ljava/util/HashMap;", null, null).visitEnd()
         original.koffee {
             method5(public, "getMapTextureObjects", Map::class) {
                 aload_0
-                getfield(TextureManager::class, "b", Map::class)
+                getfield(TextureManager::class, "mapTextureObjects", Map::class)
                 areturn
                 maxStack = 1
                 maxLocals = 1
@@ -35,7 +35,7 @@ class TextureManagerTransformer : ConflictTransformer {
                 }.first
                 list.add(method.instructions)
                 method.instructions = list
-            } else if (method.name == "a" && method.desc == "(Ljy;Lbmn;)Z") {
+            } else if (method.name == "loadTickableTexture") {
                 val list = assembleBlock {
                     aload_0
                     getfield(TextureManager::class, "textures", HashMap::class)
@@ -50,7 +50,7 @@ class TextureManagerTransformer : ConflictTransformer {
                         break
                     }
                 }
-            } else if (method.name == "a" && method.desc == "(Ljy;Lbmk;)Z") {
+            } else if (method.name == "loadTexture") {
                 val list = assembleBlock {
                     aload_0
                     getfield(TextureManager::class, "textures", HashMap::class)
@@ -72,7 +72,7 @@ class TextureManagerTransformer : ConflictTransformer {
                         break
                     }
                 }
-            } else if (method.name == "a" && method.desc == "(Ljava/lang/String;Lblz;)Ljy;") {
+            } else if (method.name == "getDynamicTextureLocation") {
                 val list = assembleBlock {
                     aload_0
                     getfield(TextureManager::class, "textures", HashMap::class)

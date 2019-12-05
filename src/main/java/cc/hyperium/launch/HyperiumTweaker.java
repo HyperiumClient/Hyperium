@@ -69,7 +69,12 @@ public class HyperiumTweaker implements ITweaker {
             throw new RuntimeException(e); // we want to crash because users will bug us if we just return so just throw it
         }
         classLoader.registerTransformer("cc.hyperium.launch.patching.PatchTransformer");
-        classLoader.registerTransformer("cc.hyperium.launch.deobf.DeobfTransformer");
+        try {
+            if (Launch.classLoader.getClassBytes("ave") != null) {
+                // we are in obfuscated environment. nobody wants obfuscation. begone
+                classLoader.registerTransformer("cc.hyperium.launch.deobf.DeobfTransformer");
+            }
+        } catch (IOException ignored) {}
         Hyperium.LOGGER.info("[Addons] Loading Addons...");
 
         Hyperium.LOGGER.info("Initialising Bootstraps...");

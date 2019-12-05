@@ -14,7 +14,7 @@ class ModelRendererTransformer : ConflictTransformer {
             method5(public, "reset", void) {
                 aload_0
                 iconst_0
-                putfield(ModelRenderer::class, "t", boolean)
+                putfield(ModelRenderer::class, "compiled", boolean)
                 _return
                 maxStack = 2
                 maxLocals = 1
@@ -23,5 +23,5 @@ class ModelRendererTransformer : ConflictTransformer {
         return original
     }
 
-    override fun getClassName() = "bct"
+    override fun getClassName() = "net.minecraft.client.model.ModelRenderer"
 }

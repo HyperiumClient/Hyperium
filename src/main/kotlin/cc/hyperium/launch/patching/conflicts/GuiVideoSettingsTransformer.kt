@@ -13,11 +13,11 @@ class GuiVideoSettingsTransformer : ConflictTransformer {
         original.koffee {
             method5(public, "m", void) {
                 aload_0
-                invokespecial(GuiScreen::class, "m", void)
+                invokespecial(GuiScreen::class, "onGuiClosed", void)
 
                 aload_0
-                getfield(GuiVideoSettings::class, "j", Minecraft::class)
-                getfield(Minecraft::class, "t", GameSettings::class)
+                getfield(GuiVideoSettings::class, "mc", Minecraft::class)
+                getfield(Minecraft::class, "gameSettings", GameSettings::class)
                 invokevirtual(GameSettings::class, "onGuiClosed", void)
 
                 _return
@@ -26,5 +26,5 @@ class GuiVideoSettingsTransformer : ConflictTransformer {
         return original
     }
 
-    override fun getClassName() = "ayb"
+    override fun getClassName() = "net.minecraft.client.gui.GuiVideoSettings"
 }

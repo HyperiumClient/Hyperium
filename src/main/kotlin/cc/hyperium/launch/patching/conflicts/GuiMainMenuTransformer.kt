@@ -10,16 +10,17 @@ import cc.hyperium.internal.addons.AddonMinecraftBootstrap
 import codes.som.anthony.koffee.assembleBlock
 import codes.som.anthony.koffee.insns.jvm.*
 import codes.som.anthony.koffee.koffee
+import net.minecraft.client.gui.GuiScreen
 import org.apache.logging.log4j.Logger
 import org.objectweb.asm.tree.ClassNode
 import java.util.concurrent.ConcurrentHashMap
 
 class GuiMainMenuTransformer : ConflictTransformer {
-    override fun getClassName() = "aya"
+    override fun getClassName() = "net.minecraft.client.gui.GuiMainMenu"
 
     override fun transform(original: ClassNode): ClassNode {
         for (method in original.methods) {
-            if (method.name == "b" && method.desc == "()V") {
+            if (method.name == "initGui" && method.desc == "()V") {
                 method.instructions.clear()
                 method.tryCatchBlocks.clear()
                 method.instructions.koffee {
@@ -27,11 +28,11 @@ class GuiMainMenuTransformer : ConflictTransformer {
                     invokevirtual(Hyperium::class, "isAcceptedTos", boolean)
                     ifeq(L["label"])
                     aload_0
-                    invokevirtual("aya", "c", void)
+                    invokevirtual("net/minecraft/client/gui/GuiMainMenu", "drawDefaultBackground", void)
                     +L["label"]
                     _return
                 }
-            } else if (method.name == "a" && method.desc == "(IIF)V") {
+            } else if (method.name == "drawScreen" && method.desc == "(IIF)V") {
                 method.instructions = assembleBlock {
                     getstatic(Hyperium::class, "INSTANCE", Hyperium::class)
                     invokevirtual(Hyperium::class, "isAcceptedTos", boolean)
@@ -45,7 +46,7 @@ class GuiMainMenuTransformer : ConflictTransformer {
                     new(GuiHyperiumScreenTos::class)
                     dup
                     invokespecial(GuiHyperiumScreenTos::class, "<init>", void)
-                    invokevirtual(GuiDisplayHandler::class, "setDisplayNextTick", void, "axu")
+                    invokevirtual(GuiDisplayHandler::class, "setDisplayNextTick", void, GuiScreen::class)
                     goto(L["l4"])
                     +L["l1"]
                     getstatic(Hyperium::class, "INSTANCE", Hyperium::class)
@@ -67,7 +68,7 @@ class GuiMainMenuTransformer : ConflictTransformer {
                     dup
                     invokespecial(GuiHyperiumScreenMainMenu::class, "<init>", void)
                     +L["l8"]
-                    invokevirtual(GuiDisplayHandler::class, "setDisplayNextTick", void, "axu")
+                    invokevirtual(GuiDisplayHandler::class, "setDisplayNextTick", void, GuiScreen::class)
                     +L["l4"]
                     _return
                 }.first
