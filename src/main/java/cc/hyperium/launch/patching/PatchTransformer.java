@@ -22,6 +22,6 @@ import net.minecraft.launchwrapper.IClassTransformer;
 public class PatchTransformer implements IClassTransformer {
     @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass) {
-        return PatchManager.INSTANCE.patch(name, basicClass);
+        return PatchManager.INSTANCE.patch(name, basicClass, true);
     }
 }

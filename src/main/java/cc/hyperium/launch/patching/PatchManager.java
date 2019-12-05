@@ -65,7 +65,7 @@ public class PatchManager {
     private Map<String, byte[]> processedClasses = Maps.newConcurrentMap();
     private final GDiffPatcher patcher = new GDiffPatcher();
 
-    byte[] patch(String className, byte[] classData) {
+    public byte[] patch(String className, byte[] classData, boolean cache) {
         if (processedClasses.containsKey(className)) return processedClasses.get(className);
         if (!patches.containsKey(className)) {
             return classData;
@@ -93,8 +93,8 @@ public class PatchManager {
         synchronized (patcher) {
             try {
                 byte[] data = patcher.patch(classData, patch.patchData);
-                patches.remove(className);
-                processedClasses.put(className, data);
+                if (cache) patches.remove(className);
+                if (cache) processedClasses.put(className, data);
                 long end = System.nanoTime();
                 LOGGER.debug("Patched {} in {}ms", className, ((double) end - (double) start) / 1_000_000.0);
                 return data;

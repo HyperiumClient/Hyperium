@@ -69,6 +69,7 @@ public class HyperiumTweaker implements ITweaker {
             throw new RuntimeException(e); // we want to crash because users will bug us if we just return so just throw it
         }
         classLoader.registerTransformer("cc.hyperium.launch.patching.PatchTransformer");
+        classLoader.registerTransformer("cc.hyperium.launch.deobf.DeobfTransformer");
         Hyperium.LOGGER.info("[Addons] Loading Addons...");
 
         Hyperium.LOGGER.info("Initialising Bootstraps...");
