@@ -36,7 +36,7 @@
  @SideOnly(Side.CLIENT)
  public class GuiPlayerTabOverlay extends Gui {
     private static final Ordering<NetworkPlayerInfo> field_175252_a = Ordering.from(new GuiPlayerTabOverlay.PlayerComparator());
-@@ -64,33 +74,60 @@
+@@ -64,33 +74,62 @@
      * Renders the playerlist, its background, headers and footers.
      */
     public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn) {
@@ -52,11 +52,13 @@
 +      for (NetworkPlayerInfo networkplayerinfo : list) {
 +         int k = mc.fontRendererObj.getStringWidth(getPlayerName(networkplayerinfo));
 +
-+         if (Settings.SHOW_ONLINE_PLAYERS) {
-+            k += LevelheadGui.getLevelheadWidth(networkplayerinfo) + mc.fontRendererObj.getStringWidth("⚫") + (Settings.TAB_HEADS ? 0 : 10);
-+         } else {
-+            k += LevelheadGui.getLevelheadWidth(networkplayerinfo) + (Settings.TAB_HEADS ? 0 : 10);
-+         }
++         k += mc.fontRendererObj.getStringWidth("⚫");
++
++//         if (Settings.SHOW_ONLINE_PLAYERS) {
++//            k += LevelheadGui.getLevelheadWidth(networkplayerinfo) + mc.fontRendererObj.getStringWidth("⚫") + (Settings.TAB_HEADS ? 0 : 10);
++//         } else {
++//            k += LevelheadGui.getLevelheadWidth(networkplayerinfo) + (Settings.TAB_HEADS ? 0 : 10);
++//         }
 +
           i = Math.max(i, k);
 -         if(scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
@@ -108,7 +110,7 @@
              l = 90;
           } else {
              l = j;
-@@ -99,126 +136,204 @@
+@@ -99,126 +138,205 @@
           l = 0;
        }
  
@@ -199,7 +201,9 @@
 -                  int j3 = 8 + (flag1?8:0);
 -                  int k3 = 8 * (flag1?-1:1);
 -                  Gui.drawScaledCustomSizeModalRect(j2, k2, 40.0F, (float)j3, 8, k3, 8, 8, 64.0F, 64.0F);
-+
+-               }
+ 
+-               j2 += 9;
 +            if (Settings.TAB_HEADS) {
 +               if (flag) {
 +                  EntityPlayer entityplayer = mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
@@ -217,32 +221,32 @@
 +                  }
 +
 +                  j2 += 9;
-                }
-+            }
- 
--               j2 += 9;
-+            int renderX = j2 + mc.fontRendererObj.getStringWidth(s1) + 2;
-+
-+            if (Settings.SHOW_ONLINE_PLAYERS) {
-+               String s = "⚫";
-+
-+               boolean online = mc.getSession().getProfile().getId() == gameprofile.getId() || Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
-+
-+               if (StaffUtils.isStaff(gameprofile.getId()) || StaffUtils.isBooster(gameprofile.getId())) {
-+                  StaffUtils.DotColour colour = StaffUtils.getColor(gameprofile.getId());
-+                  if (colour.isChroma) {
-+                     drawChromaWaveString(s, renderX, (k2 - 2));
-+                  } else {
-+                     String format = StaffUtils.getColor(gameprofile.getId()).baseColour + s;
-+                     mc.fontRendererObj.drawString(format, renderX, (k2 - 2), Color.WHITE.getRGB());
-+                  }
-+               } else {
-+                  String format = online ? ChatColor.GREEN + s : (Settings.OFFLINE_DOTS ? ChatColor.RED + s : "");
-+                  mc.fontRendererObj.drawString(format, renderX, (k2 - 2), Color.WHITE.getRGB());
 +               }
              }
  
 -            if(networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
++            int renderX = j2 + mc.fontRendererObj.getStringWidth(s1) + 2;
++            mc.fontRendererObj.drawString("⚫", renderX, (k2 - 2), Color.PINK.getRGB());
++
++//            if (Settings.SHOW_ONLINE_PLAYERS) {
++//               String s = "⚫";
++//
++//               boolean online = mc.getSession().getProfile().getId() == gameprofile.getId() || Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
++//
++//               if (StaffUtils.isStaff(gameprofile.getId()) || StaffUtils.isBooster(gameprofile.getId())) {
++//                  StaffUtils.DotColour colour = StaffUtils.getColor(gameprofile.getId());
++//                  if (colour.isChroma) {
++//                     drawChromaWaveString(s, renderX, (k2 - 2));
++//                  } else {
++//                     String format = StaffUtils.getColor(gameprofile.getId()).baseColour + s;
++//                     mc.fontRendererObj.drawString(format, renderX, (k2 - 2), Color.WHITE.getRGB());
++//                  }
++//               } else {
++//                  String format = online ? ChatColor.GREEN + s : (Settings.OFFLINE_DOTS ? ChatColor.RED + s : "");
++//                  mc.fontRendererObj.drawString(format, renderX, (k2 - 2), Color.WHITE.getRGB());
++//               }
++//            }
++
 +            if (networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
                 s1 = EnumChatFormatting.ITALIC + s1;
 -               this.mc.fontRendererObj.drawStringWithShadow(s1, (float)j2, (float)k2, -1862270977);
@@ -373,7 +377,7 @@
     }
  
     private void drawScoreboardValues(ScoreObjective p_175247_1_, int p_175247_2_, String p_175247_3_, int p_175247_4_, int p_175247_5_, NetworkPlayerInfo p_175247_6_) {
-@@ -296,6 +411,7 @@
+@@ -296,6 +414,7 @@
     }
  
     public void setHeader(IChatComponent headerIn) {
