@@ -120,7 +120,10 @@ public class PlayerStatsGui extends HyperiumGui {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         boolean flag = false;
         for (GuiButton guiButton : buttonList) {
-            if (guiButton.isMouseOver()) flag = true;
+            if (guiButton.isMouseOver()) {
+                flag = true;
+                break;
+            }
         }
 
         boolean flag2 = focused == null;
