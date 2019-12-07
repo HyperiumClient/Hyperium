@@ -25,9 +25,7 @@ import com.google.common.io.ByteStreams;
 import com.nothome.delta.GDiffPatcher;
 import lzma.sdk.lzma.Decoder;
 import lzma.streams.LzmaInputStream;
-import net.minecraft.crash.CrashReport;
 import net.minecraft.launchwrapper.LaunchClassLoader;
-import net.minecraft.util.ReportedException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -261,6 +259,9 @@ public class PatchManager {
                 new ModelBoxTransformer(),
                 new GuiVideoSettingsTransformer(),
                 new RenderGlobalTransformer(),
+                new TextureStateTransformer(),
+                new BooleanStateTransformer(),
+                new GlStateManagerTransformer(),
                 // TODO: Write actual transformers for these classes
                 new NoopTransformer("biv"),
                 new NoopTransformer("bjl"),
@@ -289,7 +290,26 @@ public class PatchManager {
                 new NoopTransformer("avv"),
                 new NoopTransformer("avv$1"),
                 new NoopTransformer("bhl"),
-                new NoopTransformer("awi")
+                new NoopTransformer("awi"),
+
+                // dont need actual transformers
+                new NoopTransformer("bfl$1"),
+                new NoopTransformer("bfl$a"),
+                new NoopTransformer("bfl$b"),
+                new NoopTransformer("bfl$d"),
+                new NoopTransformer("bfl$e"),
+                new NoopTransformer("bfl$f"),
+                new NoopTransformer("bfl$g"),
+                new NoopTransformer("bfl$h"),
+                new NoopTransformer("bfl$i"),
+                new NoopTransformer("bfl$j"),
+                new NoopTransformer("bfl$k"),
+                new NoopTransformer("bfl$l"),
+                new NoopTransformer("bfl$m"),
+                new NoopTransformer("bfl$n"),
+                new NoopTransformer("bfl$o"),
+                new NoopTransformer("bfl$p"),
+                new NoopTransformer("bfl$q")
         );
     }
 }

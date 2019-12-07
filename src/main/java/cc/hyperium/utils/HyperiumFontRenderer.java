@@ -22,12 +22,12 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.StringUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,22 +39,22 @@ public class HyperiumFontRenderer {
     private static final Pattern COLOR_CODE_PATTERN = Pattern.compile("§[0123456789abcdefklmnor]");
     public final int FONT_HEIGHT = 9;
     private final int[] colorCodes = {
-        0x000000,
-        0x0000AA,
-        0x00AA00,
-        0x00AAAA,
-        0xAA0000,
-        0xAA00AA,
-        0xFFAA00,
-        0xAAAAAA,
-        0x555555,
-        0x5555FF,
-        0x55FF55,
-        0x55FFFF,
-        0xFF5555,
-        0xFF55FF,
-        0xFFFF55,
-        0xFFFFFF
+            0x000000,
+            0x0000AA,
+            0x00AA00,
+            0x00AAAA,
+            0xAA0000,
+            0xAA00AA,
+            0xFFAA00,
+            0xAAAAAA,
+            0x555555,
+            0x5555FF,
+            0x55FF55,
+            0x55FFFF,
+            0xFF5555,
+            0xFF55FF,
+            0xFFFF55,
+            0xFFFFFF
     };
     private final Map<String, Float> cachedStringWidth = new HashMap<>();
     private float antiAliasingFactor;
@@ -122,6 +122,8 @@ public class HyperiumFontRenderer {
 
     public int drawString(String text, float x, float y, int color) {
         if (text == null) return 0;
+        boolean textureEnabled = GlStateManager.isTexture2DEnabled();
+        int texture = GL11.glGetInteger(GL13.GL_ACTIVE_TEXTURE);
 
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
 
@@ -139,7 +141,7 @@ public class HyperiumFontRenderer {
 
         this.antiAliasingFactor = resolution.getScaleFactor();
 
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
         GlStateManager.scale(1 / antiAliasingFactor, 1 / antiAliasingFactor, 1 / antiAliasingFactor);
         x *= antiAliasingFactor;
         y *= antiAliasingFactor;
@@ -169,7 +171,7 @@ public class HyperiumFontRenderer {
                     x += unicodeFont.getWidth(s3);
 
                     index += s3.length();
-                    if (index  < characters.length && characters[index ] == '\r') {
+                    if (index < characters.length && characters[index] == '\r') {
                         x = originalX;
                         index++;
                     }
@@ -185,7 +187,7 @@ public class HyperiumFontRenderer {
                 if (colorCode == '§') {
                     char colorChar = characters[index + 1];
                     int codeIndex = ("0123456789" +
-                        "abcdef").indexOf(colorChar);
+                            "abcdef").indexOf(colorChar);
                     if (codeIndex < 0) {
                         if (colorChar == 'r') {
                             currentColor = color;
@@ -199,7 +201,10 @@ public class HyperiumFontRenderer {
         }
 
         GlStateManager.color(1F, 1F, 1F, 1F);
-        GlStateManager.bindTexture(0);
+        if (textureEnabled) {
+            GlStateManager.bindTexture(texture);
+            GlStateManager.enableTexture2D();
+        }
         GlStateManager.popMatrix();
         return (int) x;
     }
@@ -254,10 +259,10 @@ public class HyperiumFontRenderer {
 
     public void drawSplitString(ArrayList<String> lines, int x, int y, int color) {
         drawString(
-            String.join("\n\r", lines),
-            x,
-            y,
-            color
+                String.join("\n\r", lines),
+                x,
+                y,
+                color
         );
     }
 
