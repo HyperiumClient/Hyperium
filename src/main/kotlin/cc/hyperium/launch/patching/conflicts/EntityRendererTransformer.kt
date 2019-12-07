@@ -6,6 +6,7 @@ import cc.hyperium.integrations.perspective.PerspectiveModifierHandler
 import cc.hyperium.utils.renderer.shader.ShaderHelper
 import codes.som.anthony.koffee.assembleBlock
 import codes.som.anthony.koffee.insns.jvm.*
+import codes.som.anthony.koffee.koffee
 import net.minecraft.block.Block
 import net.minecraft.block.BlockBed
 import net.minecraft.block.properties.IProperty
@@ -15,9 +16,11 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.WorldClient
 import net.minecraft.client.renderer.EntityRenderer
 import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.client.renderer.RenderGlobal
 import net.minecraft.client.settings.GameSettings
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLivingBase
+import net.minecraft.entity.passive.EntityAnimal
 import net.minecraft.init.Blocks
 import net.minecraft.util.*
 import org.objectweb.asm.Opcodes
@@ -36,7 +39,11 @@ class EntityRendererTransformer : ConflictTransformer {
                     pop
                 }.first
 
-                method.instructions.insert(method.instructions.last, createShaderHelper)
+                method.instructions.iterator().forEach {
+                    if (it.opcode == Opcodes.RETURN) {
+                        method.instructions.insertBefore(it, createShaderHelper)
+                    }
+                }
             }
 
             if (method.name == "loadShader") {
@@ -45,54 +52,59 @@ class EntityRendererTransformer : ConflictTransformer {
 
             if (method.name == "updateRenderer") {
                 val setPositionEyes = assembleBlock {
+                    aload_0
+                    getfield(EntityRenderer::class, "mc", Minecraft::class)
+                    invokevirtual(Minecraft::class, "getRenderViewEntity", Entity::class)
                     fconst_1
                     invokevirtual(Entity::class, "getPositionEyes", Vec3::class, float)
+                    invokespecial(BlockPos::class, "<init>", void, Vec3::class)
                 }.first
 
                 for (insn in method.instructions.iterator()) {
                     if (insn.opcode == Opcodes.INVOKESPECIAL && insn is MethodInsnNode && insn.owner == "net/minecraft/util/BlockPos"
-                        && insn.name == "<init>" && insn.desc == "(Lnet/minecraft/util/Vec3;)V"
+                        && insn.name == "<init>" && insn.desc == "(DDD)V"
                     ) {
-                        method.instructions.insertBefore(insn, setPositionEyes)
+                        method.instructions.insertBefore(insn.previous.previous.previous, setPositionEyes)
+                        method.instructions.remove(insn.previous.previous.previous)
+                        method.instructions.remove(insn.previous.previous)
+                        method.instructions.remove(insn.previous)
+                        method.instructions.remove(insn)
+                        break
                     }
                 }
             }
 
             if (method.name == "orientCamera") {
                 method.instructions = assembleBlock {
-                    getstatic(Hyperium::class, "INSTANCE", Hyperium::class)
-                    invokevirtual(Hyperium::class, "getHandlers", HyperiumHandlers::class)
-                    invokevirtual(HyperiumHandlers::class, "getPerspectiveHandler", PerspectiveModifierHandler::class)
+                    getstatic("cc/hyperium/Hyperium", "INSTANCE", "cc/hyperium/Hyperium")
+                    invokevirtual("cc/hyperium/Hyperium", "getHandlers", "cc/hyperium/handlers/HyperiumHandlers")
+                    invokevirtual("cc/hyperium/handlers/HyperiumHandlers", "getPerspectiveHandler", "cc/hyperium/integrations/perspective/PerspectiveModifierHandler")
                     astore_2
-
                     aload_0
-                    getfield(EntityRenderer::class, "mc", Minecraft::class)
-                    invokevirtual(Minecraft::class, "getRenderViewEntity", Entity::class)
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "mc", "net/minecraft/client/Minecraft")
+                    invokevirtual("net/minecraft/client/Minecraft", "getRenderViewEntity", "net/minecraft/entity/Entity")
                     astore_3
-
                     aload_3
-                    invokevirtual(Entity::class, "getEyeHeight", float)
+                    invokevirtual("net/minecraft/entity/Entity", "getEyeHeight", float)
                     fstore(4)
-
                     aload_3
-                    getfield(Entity::class, "prevPosX", double)
+                    getfield("net/minecraft/entity/Entity", "prevPosX", double)
                     aload_3
-                    getfield(Entity::class, "posX", double)
+                    getfield("net/minecraft/entity/Entity", "posX", double)
                     aload_3
-                    getfield(Entity::class, "prevPosX", double)
+                    getfield("net/minecraft/entity/Entity", "prevPosX", double)
                     dsub
                     fload_1
                     f2d
                     dmul
                     dadd
                     dstore(5)
-
                     aload_3
-                    getfield(Entity::class, "prevPosY", double)
+                    getfield("net/minecraft/entity/Entity", "prevPosY", double)
                     aload_3
-                    getfield(Entity::class, "posY", double)
+                    getfield("net/minecraft/entity/Entity", "posY", double)
                     aload_3
-                    getfield(Entity::class, "prevPosY", double)
+                    getfield("net/minecraft/entity/Entity", "prevPosY", double)
                     dsub
                     fload_1
                     f2d
@@ -102,72 +114,61 @@ class EntityRendererTransformer : ConflictTransformer {
                     f2d
                     dadd
                     dstore(7)
-
                     aload_3
-                    getfield(Entity::class, "prevPosZ", double)
+                    getfield("net/minecraft/entity/Entity", "prevPosZ", double)
                     aload_3
-                    getfield(Entity::class, "posZ", double)
+                    getfield("net/minecraft/entity/Entity", "posZ", double)
                     aload_3
-                    getfield(Entity::class, "prevPosZ", double)
+                    getfield("net/minecraft/entity/Entity", "prevPosZ", double)
                     dsub
                     fload_1
                     f2d
                     dmul
                     dadd
                     dstore(9)
-
                     aload_3
-                    instanceof(EntityLivingBase::class)
-                    ifeq(L["7"])
+                    instanceof("net/minecraft/entity/EntityLivingBase")
+                    ifeq(L[2])
                     aload_3
-                    checkcast(EntityLivingBase::class)
-                    invokevirtual(EntityLivingBase::class, "isPlayerSleeping", boolean)
-                    ifeq(L["7"])
-
+                    checkcast("net/minecraft/entity/EntityLivingBase")
+                    invokevirtual("net/minecraft/entity/EntityLivingBase", "isPlayerSleeping", boolean)
+                    ifeq(L[2])
                     fload(4)
                     fconst_1
                     fadd
                     fstore(4)
-
                     fconst_0
-                    ldc(0.3)
+                    ldc(0.3F)
                     fconst_0
-                    invokestatic(GlStateManager::class, "translate", void, float, float, float)
-
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "translate", void, float, float, float)
                     aload_0
-                    getfield(EntityRenderer::class, "mc", Minecraft::class)
-                    getfield(Minecraft::class, "gameSettings", GameSettings::class)
-                    getfield(GameSettings::class, "debugCamEnable", boolean)
-                    ifne(L["11"])
-
-                    new(BlockPos::class)
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "mc", "net/minecraft/client/Minecraft")
+                    getfield("net/minecraft/client/Minecraft", "gameSettings", "net/minecraft/client/settings/GameSettings")
+                    getfield("net/minecraft/client/settings/GameSettings", "debugCamEnable", boolean)
+                    ifne(L[13])
+                    new("net/minecraft/util/BlockPos")
                     dup
                     aload_3
-                    invokespecial(BlockPos::class, "<init>", void, Entity::class)
+                    invokespecial("net/minecraft/util/BlockPos", "<init>", void, "net/minecraft/entity/Entity")
                     astore(11)
-
                     aload_0
-                    getfield(EntityRenderer::class, "mc", Minecraft::class)
-                    getfield(Minecraft::class, "theWorld", WorldClient::class)
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "mc", "net/minecraft/client/Minecraft")
+                    getfield("net/minecraft/client/Minecraft", "theWorld", "net/minecraft/client/multiplayer/WorldClient")
                     aload(11)
-                    invokevirtual(WorldClient::class, "getBlockState", IBlockState::class, BlockPos::class)
+                    invokevirtual("net/minecraft/client/multiplayer/WorldClient", "getBlockState", "net/minecraft/block/state/IBlockState", "net/minecraft/util/BlockPos")
                     astore(12)
-
                     aload(12)
-                    invokeinterface(IBlockState::class, "getBlock", Block::class)
+                    invokeinterface("net/minecraft/block/state/IBlockState", "getBlock", "net/minecraft/block/Block")
                     astore(13)
-
                     aload(13)
-                    getstatic(Blocks::class, "bed", Block::class)
-                    if_acmpne(L["16"])
-
+                    getstatic("net/minecraft/init/Blocks", "bed", "net/minecraft/block/Block")
+                    if_acmpne(L[1])
                     aload(12)
-                    getstatic(BlockBed::class, "FACING", PropertyDirection::class)
-                    invokeinterface(IBlockState::class, "getValue", java.lang.Comparable::class, IProperty::class)
-                    checkcast(EnumFacing::class)
-                    invokevirtual(EnumFacing::class, "getHorizontalIndex", int)
+                    getstatic("net/minecraft/block/BlockBed", "FACING", "net/minecraft/block/properties/PropertyDirection")
+                    invokeinterface("net/minecraft/block/state/IBlockState", "getValue", "java/lang/Comparable", "net/minecraft/block/properties/IProperty")
+                    checkcast("net/minecraft/util/EnumFacing")
+                    invokevirtual("net/minecraft/util/EnumFacing", "getHorizontalIndex", int)
                     istore(14)
-
                     iload(14)
                     bipush(90)
                     imul
@@ -175,173 +176,155 @@ class EntityRendererTransformer : ConflictTransformer {
                     fconst_0
                     fconst_1
                     fconst_0
-                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
 
-                    +L["16"]
-
+                    +L[1]
                     aload_3
-                    getfield(Entity::class, "prevRotationYaw", float)
+                    getfield("net/minecraft/entity/Entity", "prevRotationYaw", float)
                     aload_3
-                    getfield(Entity::class, "rotationYaw", float)
+                    getfield("net/minecraft/entity/Entity", "rotationYaw", float)
                     aload_3
-                    getfield(Entity::class, "prevRotationYaw", float)
+                    getfield("net/minecraft/entity/Entity", "prevRotationYaw", float)
                     fsub
                     fload_1
                     fmul
                     fadd
-                    ldc(180.0)
+                    ldc(180.0F)
                     fadd
                     fconst_0
-                    ldc(-1.0)
+                    ldc(-1.0F)
                     fconst_0
-                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
-
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
                     aload_3
-                    getfield(Entity::class, "prevRotationPitch", float)
+                    getfield("net/minecraft/entity/Entity", "prevRotationPitch", float)
                     aload_3
-                    getfield(Entity::class, "rotationPitch", float)
+                    getfield("net/minecraft/entity/Entity", "rotationPitch", float)
                     aload_3
-                    getfield(Entity::class, "prevRotationPitch", float)
+                    getfield("net/minecraft/entity/Entity", "prevRotationPitch", float)
                     fsub
                     fload_1
                     fmul
                     fadd
-                    ldc(-1.0)
+                    ldc(-1.0F)
                     fconst_0
                     fconst_0
-                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+                    goto(L[13])
 
-                    goto(L["11"])
-
-                    +L["7"]
-
+                    +L[2]
                     aload_0
-                    getfield(EntityRenderer::class, "mc", Minecraft::class)
-                    getfield(Minecraft::class, "gameSettings", GameSettings::class)
-                    getfield(GameSettings::class, "thirdPersonView", int)
-                    ifne(L["21"])
-
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "mc", "net/minecraft/client/Minecraft")
+                    getfield("net/minecraft/client/Minecraft", "gameSettings", "net/minecraft/client/settings/GameSettings")
+                    getfield("net/minecraft/client/settings/GameSettings", "thirdPersonView", int)
+                    ifle(L[12])
                     aload_0
-                    getfield(EntityRenderer::class, "thirdPersonDistanceTemp", float)
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "thirdPersonDistanceTemp", float)
                     aload_0
-                    getfield(EntityRenderer::class, "thirdPersonDistance", float)
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "thirdPersonDistance", float)
                     aload_0
-                    getfield(EntityRenderer::class, "thirdPersonDistanceTemp", float)
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "thirdPersonDistanceTemp", float)
                     fsub
                     fload_1
                     fmul
                     fadd
                     f2d
                     dstore(11)
-
                     aload_0
-                    getfield(EntityRenderer::class, "mc", Minecraft::class)
-                    getfield(Minecraft::class, "gameSettings", GameSettings::class)
-                    getfield(GameSettings::class, "debugCamEnable", boolean)
-                    ifeq(L["24"])
-
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "mc", "net/minecraft/client/Minecraft")
+                    getfield("net/minecraft/client/Minecraft", "gameSettings", "net/minecraft/client/settings/GameSettings")
+                    getfield("net/minecraft/client/settings/GameSettings", "debugCamEnable", boolean)
+                    ifeq(L[3])
                     fconst_0
                     fconst_0
                     dload(11)
                     dneg
                     d2f
-                    invokestatic(GlStateManager::class, "translate", void, float, float, float)
-                    goto(L["26"])
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "translate", void, float, float, float)
+                    goto(L[11])
 
-                    +L["24"]
-
+                    +L[3]
                     aload_3
-                    getfield(Entity::class, "rotationYaw", float)
+                    getfield("net/minecraft/entity/Entity", "rotationYaw", float)
                     fstore(13)
-
                     aload_3
-                    getfield(Entity::class, "rotationPitch", float)
+                    getfield("net/minecraft/entity/Entity", "rotationPitch", float)
+                    fstore(14)
+                    aload_2
+                    getfield("cc/hyperium/integrations/perspective/PerspectiveModifierHandler", "enabled", boolean)
+                    ifeq(L[4])
+                    aload_2
+                    getfield("cc/hyperium/integrations/perspective/PerspectiveModifierHandler", "modifiedYaw", float)
+                    fstore(13)
+                    aload_2
+                    getfield("cc/hyperium/integrations/perspective/PerspectiveModifierHandler", "modifiedPitch", float)
                     fstore(14)
 
-                    aload_2
-                    getfield(PerspectiveModifierHandler::class, "enabled", boolean)
-                    ifeq(L["29"])
-
-                    aload_2
-                    getfield(PerspectiveModifierHandler::class, "modifiedYaw", float)
-                    fstore(13)
-
-                    aload_2
-                    getfield(PerspectiveModifierHandler::class, "modifiedPitch", float)
-                    fstore(14)
-
-                    +L["29"]
-
+                    +L[4]
                     aload_0
-                    getfield(EntityRenderer::class, "mc", Minecraft::class)
-                    getfield(Minecraft::class, "gameSettings", GameSettings::class)
-                    getfield(GameSettings::class, "thirdPersonView", int)
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "mc", "net/minecraft/client/Minecraft")
+                    getfield("net/minecraft/client/Minecraft", "gameSettings", "net/minecraft/client/settings/GameSettings")
+                    getfield("net/minecraft/client/settings/GameSettings", "thirdPersonView", int)
                     iconst_2
-                    if_icmpne(L["32"])
-
+                    if_icmpne(L[5])
                     fload(14)
-                    ldc(180.0)
+                    ldc(180.0F)
                     fadd
                     fstore(14)
 
-                    +L["32"]
-
+                    +L[5]
                     fload(13)
-                    ldc(180.0)
+                    ldc(180.0F)
                     fdiv
-                    ldc(3.1415927)
+                    ldc(3.1415927F)
                     fmul
-                    invokestatic(MathHelper::class, "sin", float, float)
+                    invokestatic("net/minecraft/util/MathHelper", "sin", float, float)
                     fneg
                     fload(14)
-                    ldc(180.0)
+                    ldc(180.0F)
                     fdiv
-                    ldc(3.1415927)
+                    ldc(3.1415927F)
                     fmul
-                    invokestatic(MathHelper::class, "cos", float, float)
+                    invokestatic("net/minecraft/util/MathHelper", "cos", float, float)
                     fmul
                     f2d
                     dload(11)
                     dmul
                     dstore(15)
-
                     fload(13)
-                    ldc(180.0)
+                    ldc(180.0F)
                     fdiv
-                    ldc(3.1415927)
+                    ldc(3.1415927F)
                     fmul
-                    invokestatic(MathHelper::class, "cos", float, float)
+                    invokestatic("net/minecraft/util/MathHelper", "cos", float, float)
                     fload(14)
-                    ldc(180.0)
+                    ldc(180.0F)
                     fdiv
-                    ldc(3.1415927)
+                    ldc(3.1415927F)
                     fmul
-                    invokestatic(MathHelper::class, "cos", float, float)
+                    invokestatic("net/minecraft/util/MathHelper", "cos", float, float)
                     fmul
                     f2d
                     dload(11)
                     dmul
                     dstore(17)
-
                     fload(14)
-                    ldc(180.0)
+                    ldc(180.0F)
                     fdiv
-                    ldc(3.1415927)
+                    ldc(3.1415927F)
                     fmul
-                    invokestatic(MathHelper::class, "sin", float, float)
+                    invokestatic("net/minecraft/util/MathHelper", "sin", float, float)
                     fneg
                     f2d
                     dload(11)
                     dmul
                     dstore(19)
-
                     iconst_0
                     istore(21)
 
+                    +L[6]
                     iload(21)
                     bipush(8)
-                    if_icmpge(L["38"])
-
+                    if_icmpge(L[8])
                     iload(21)
                     iconst_1
                     iand
@@ -351,7 +334,6 @@ class EntityRendererTransformer : ConflictTransformer {
                     isub
                     i2f
                     fstore(22)
-
                     iload(21)
                     iconst_1
                     ishr
@@ -363,7 +345,6 @@ class EntityRendererTransformer : ConflictTransformer {
                     isub
                     i2f
                     fstore(23)
-
                     iload(21)
                     iconst_2
                     ishr
@@ -375,26 +356,22 @@ class EntityRendererTransformer : ConflictTransformer {
                     isub
                     i2f
                     fstore(24)
-
                     fload(22)
-                    ldc(0.1)
+                    ldc(0.1F)
                     fmul
                     fstore(22)
-
                     fload(23)
-                    ldc(0.1)
+                    ldc(0.1F)
                     fmul
                     fstore(23)
-
                     fload(24)
-                    ldc(0.1)
+                    ldc(0.1F)
                     fmul
                     fstore(24)
-
                     aload_0
-                    getfield(EntityRenderer::class, "mc", Minecraft::class)
-                    getfield(Minecraft::class, "theWorld", WorldClient::class)
-                    new(Vec3::class)
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "mc", "net/minecraft/client/Minecraft")
+                    getfield("net/minecraft/client/Minecraft", "theWorld", "net/minecraft/client/multiplayer/WorldClient")
+                    new("net/minecraft/util/Vec3")
                     dup
                     dload(5)
                     fload(22)
@@ -408,8 +385,8 @@ class EntityRendererTransformer : ConflictTransformer {
                     fload(24)
                     f2d
                     dadd
-                    invokespecial(Vec3::class, "<init>", void, double, double, double)
-                    new(Vec3::class)
+                    invokespecial("net/minecraft/util/Vec3", "<init>", void, double, double, double)
+                    new("net/minecraft/util/Vec3")
                     dup
                     dload(5)
                     dload(15)
@@ -432,99 +409,294 @@ class EntityRendererTransformer : ConflictTransformer {
                     fload(24)
                     f2d
                     dadd
-                    invokespecial(Vec3::class, "<init>", void, double, double, double)
-                    invokevirtual(WorldClient::class, "rayTraceBlocks", MovingObjectPosition::class, Vec3::class, Vec3::class)
+                    invokespecial("net/minecraft/util/Vec3", "<init>", void, double, double, double)
+                    invokevirtual("net/minecraft/client/multiplayer/WorldClient", "rayTraceBlocks", "net/minecraft/util/MovingObjectPosition", "net/minecraft/util/Vec3", "net/minecraft/util/Vec3")
                     astore(25)
-
                     aload(25)
-                    ifnull(L["47"])
-
+                    ifnull(L[7])
                     aload(25)
-                    getfield(MovingObjectPosition::class, "hitVec", Vec3::class)
-                    new(Vec3::class)
+                    getfield("net/minecraft/util/MovingObjectPosition", "hitVec", "net/minecraft/util/Vec3")
+                    new("net/minecraft/util/Vec3")
                     dup
                     dload(5)
                     dload(7)
                     dload(9)
-                    invokespecial(Vec3::class, "<init>", void, double, double, double)
-                    invokevirtual(Vec3::class, "distanceTo", double, Vec3::class)
+                    invokespecial("net/minecraft/util/Vec3", "<init>", void, double, double, double)
+                    invokevirtual("net/minecraft/util/Vec3", "distanceTo", double, "net/minecraft/util/Vec3")
                     dstore(26)
-
                     dload(26)
                     dload(11)
                     dcmpg
-                    ifge(L["47"])
-
+                    ifge(L[7])
                     dload(26)
                     dstore(11)
 
+                    +L[7]
                     iinc(21, 1)
-                    goto(L["37"])
+                    goto(L[6])
 
+                    +L[8]
                     aload_0
-                    getfield(EntityRenderer::class, "mc", Minecraft::class)
-                    getfield(Minecraft::class, "gameSettings", GameSettings::class)
-                    getfield(GameSettings::class, "thirdPersonView", int)
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "mc", "net/minecraft/client/Minecraft")
+                    getfield("net/minecraft/client/Minecraft", "gameSettings", "net/minecraft/client/settings/GameSettings")
+                    getfield("net/minecraft/client/settings/GameSettings", "thirdPersonView", int)
                     iconst_2
-                    if_icmpne(L["51"])
-
-                    ldc(180.0)
+                    if_icmpne(L[9])
+                    ldc(180.0F)
                     fconst_0
                     fconst_1
                     fconst_0
-                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
 
-                    +L["51"]
-
+                    +L[9]
                     aload_2
-                    getfield(PerspectiveModifierHandler::class, "enabled", boolean)
-                    ifeq(L["53"])
-
+                    getfield("cc/hyperium/integrations/perspective/PerspectiveModifierHandler", "enabled", boolean)
+                    ifeq(L[10])
                     aload_2
-                    getfield(PerspectiveModifierHandler::class, "modifiedPitch", float)
+                    getfield("cc/hyperium/integrations/perspective/PerspectiveModifierHandler", "modifiedPitch", float)
                     fload(14)
                     fsub
                     fconst_1
                     fconst_0
                     fconst_0
-                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
-
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
                     aload_2
-                    getfield(PerspectiveModifierHandler::class, "modifiedYaw", float)
+                    getfield("cc/hyperium/integrations/perspective/PerspectiveModifierHandler", "modifiedYaw", float)
                     fload(13)
                     fsub
                     fconst_0
                     fconst_1
                     fconst_0
-                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
-
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
                     fconst_0
                     fconst_0
                     dload(11)
                     dneg
                     d2f
-                    invokestatic(GlStateManager::class, "translate", void, float, float, float)
-
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "translate", void, float, float, float)
                     fload(13)
                     aload_2
-                    getfield(PerspectiveModifierHandler::class, "modifiedYaw", float)
+                    getfield("cc/hyperium/integrations/perspective/PerspectiveModifierHandler", "modifiedYaw", float)
                     fsub
                     fconst_0
                     fconst_1
                     fconst_0
-                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
-
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
                     fload(14)
                     aload_2
-                    getfield(PerspectiveModifierHandler::class, "modifiedPitch", float)
+                    getfield("cc/hyperium/integrations/perspective/PerspectiveModifierHandler", "modifiedPitch", float)
                     fsub
                     fconst_1
                     fconst_0
                     fconst_0
-                    invokestatic(GlStateManager::class, "rotate", void, float, float, float, float)
-                    goto(L["26"])
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+                    goto(L[11])
+
+                    +L[10]
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "rotationPitch", float)
+                    fload(14)
+                    fsub
+                    fconst_1
+                    fconst_0
+                    fconst_0
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "rotationYaw", float)
+                    fload(13)
+                    fsub
+                    fconst_0
+                    fconst_1
+                    fconst_0
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+                    fconst_0
+                    fconst_0
+                    dload(11)
+                    dneg
+                    d2f
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "translate", void, float, float, float)
+                    fload(13)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "rotationYaw", float)
+                    fsub
+                    fconst_0
+                    fconst_1
+                    fconst_0
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+                    fload(14)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "rotationPitch", float)
+                    fsub
+                    fconst_1
+                    fconst_0
+                    fconst_0
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+
+                    +L[11]
+                    goto(L[13])
+
+                    +L[12]
+                    fconst_0
+                    fconst_0
+                    ldc(-0.1F)
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "translate", void, float, float, float)
+
+                    +L[13]
+                    aload_0
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "mc", "net/minecraft/client/Minecraft")
+                    getfield("net/minecraft/client/Minecraft", "gameSettings", "net/minecraft/client/settings/GameSettings")
+                    getfield("net/minecraft/client/settings/GameSettings", "debugCamEnable", boolean)
+                    ifne(L[16])
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "prevRotationYaw", float)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "rotationYaw", float)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "prevRotationYaw", float)
+                    fsub
+                    fload_1
+                    fmul
+                    fadd
+                    ldc(180.0F)
+                    fadd
+                    fstore(11)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "prevRotationPitch", float)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "rotationPitch", float)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "prevRotationPitch", float)
+                    fsub
+                    fload_1
+                    fmul
+                    fadd
+                    fstore(12)
+                    fconst_0
+                    fstore(13)
+                    aload_3
+                    instanceof("net/minecraft/entity/passive/EntityAnimal")
+                    ifeq(L[14])
+                    aload_3
+                    checkcast("net/minecraft/entity/passive/EntityAnimal")
+                    astore(14)
+                    aload(14)
+                    getfield("net/minecraft/entity/passive/EntityAnimal", "prevRotationYawHead", float)
+                    aload(14)
+                    getfield("net/minecraft/entity/passive/EntityAnimal", "rotationYawHead", float)
+                    aload(14)
+                    getfield("net/minecraft/entity/passive/EntityAnimal", "prevRotationYawHead", float)
+                    fsub
+                    fload_1
+                    fmul
+                    fadd
+                    ldc(180.0F)
+                    fadd
+                    fstore(11)
+
+                    +L[14]
+                    aload_2
+                    getfield("cc/hyperium/integrations/perspective/PerspectiveModifierHandler", "enabled", boolean)
+                    ifeq(L[15])
+                    fconst_0
+                    fconst_0
+                    fconst_0
+                    fconst_1
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+                    aload_2
+                    getfield("cc/hyperium/integrations/perspective/PerspectiveModifierHandler", "modifiedPitch", float)
+                    fconst_1
+                    fconst_0
+                    fconst_0
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+                    aload_2
+                    getfield("cc/hyperium/integrations/perspective/PerspectiveModifierHandler", "modifiedYaw", float)
+                    ldc(180.0F)
+                    fadd
+                    fconst_0
+                    fconst_1
+                    fconst_0
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+                    goto(L[16])
+
+                    +L[15]
+                    fconst_0
+                    fconst_0
+                    fconst_0
+                    fconst_1
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+                    fload(12)
+                    fconst_1
+                    fconst_0
+                    fconst_0
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+                    fload(11)
+                    fconst_0
+                    fconst_1
+                    fconst_0
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "rotate", void, float, float, float, float)
+
+                    +L[16]
+                    fconst_0
+                    fload(4)
+                    fneg
+                    fconst_0
+                    invokestatic("net/minecraft/client/renderer/GlStateManager", "translate", void, float, float, float)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "prevPosX", double)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "posX", double)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "prevPosX", double)
+                    dsub
+                    fload_1
+                    f2d
+                    dmul
+                    dadd
+                    dstore(5)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "prevPosY", double)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "posY", double)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "prevPosY", double)
+                    dsub
+                    fload_1
+                    f2d
+                    dmul
+                    dadd
+                    fload(4)
+                    f2d
+                    dadd
+                    dstore(7)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "prevPosZ", double)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "posZ", double)
+                    aload_3
+                    getfield("net/minecraft/entity/Entity", "prevPosZ", double)
+                    dsub
+                    fload_1
+                    f2d
+                    dmul
+                    dadd
+                    dstore(9)
+                    aload_0
+                    aload_0
+                    getfield("net/minecraft/client/renderer/EntityRenderer", "mc", "net/minecraft/client/Minecraft")
+                    getfield("net/minecraft/client/Minecraft", "renderGlobal", "net/minecraft/client/renderer/RenderGlobal")
+                    dload(5)
+                    dload(7)
+                    dload(9)
+                    fload_1
+                    invokevirtual("net/minecraft/client/renderer/RenderGlobal", "hasCloudFog", boolean, double, double, double, float)
+                    putfield("net/minecraft/client/renderer/EntityRenderer", "cloudFog", boolean)
+                    _return
                 }.first
             }
+        }
+
+        original.methods.forEach {
+            println(it.name)
         }
 
         return original

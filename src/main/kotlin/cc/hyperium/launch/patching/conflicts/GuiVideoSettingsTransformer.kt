@@ -11,7 +11,7 @@ import org.objectweb.asm.tree.ClassNode
 class GuiVideoSettingsTransformer : ConflictTransformer {
     override fun transform(original: ClassNode): ClassNode {
         original.koffee {
-            method5(public, "m", void) {
+            method5(public, "onGuiClosed", void) {
                 aload_0
                 invokespecial(GuiScreen::class, "onGuiClosed", void)
 

@@ -21,7 +21,7 @@ public class GameSettingsTransformer implements ConflictTransformer {
         node.instructions.add(createOnGuiClosedList());
         original.methods.add(node);
         for (MethodNode method : original.methods) {
-            if (method.name.equals("setOptionFloatValue") && method.desc.equals("(Lnet/minecraft/client/settings/GameSettings$Options;F)V")) {
+            if (method.name.equals("setOptionFloatValue")) {
                 // needsResourceRefresh = true; return;
                 InsnList l = new InsnList();
                 l.add(new VarInsnNode(Opcodes.ALOAD, 0));
