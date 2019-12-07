@@ -92,6 +92,10 @@ public final class DeobfRemapper extends Remapper {
         }
     }
 
+    public void unmapMethod(String owner, String deobfName, String deobfDesc) {
+
+    }
+
     private void loadCsv(BufferedReader bis, Map<String, String> output) throws IOException {
         Map<String, String> map = Maps.newHashMap();
         bis.readLine();

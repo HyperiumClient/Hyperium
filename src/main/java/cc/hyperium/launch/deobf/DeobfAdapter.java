@@ -4,7 +4,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.commons.RemappingClassAdapter;
 
 public class DeobfAdapter extends RemappingClassAdapter {
-    DeobfAdapter(ClassVisitor cv) {
+    public DeobfAdapter(ClassVisitor cv) {
         super(cv, DeobfRemapper.INSTANCE);
     }
 

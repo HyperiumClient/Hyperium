@@ -80,10 +80,9 @@ public class PatchManager {
                 } else if (transformers.containsKey(className)) {
                     System.out.println("crab");
                     ClassReader reader = new ClassReader(classData);
-                    reader.accept(new DeobfAdapter(), ClassReader.EXPAND_FRAMES);
                     ClassNode node = new ClassNode();
-                    reader.accept(node, ClassReader.EXPAND_FRAMES);
-                    ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+                    reader.accept(new DeobfAdapter(node), ClassReader.EXPAND_FRAMES);
+                    ClassWriter writer = new PatchDeobfClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
                     transformers.get(className.replace('.', '/')).transform(node).accept(writer);
                     return writer.toByteArray();
                 } else {

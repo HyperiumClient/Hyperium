@@ -40,6 +40,7 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     node.access = Opcodes.ACC_PUBLIC;
                     break;
                 case "getLocationSkin": { // there's only one method called c
+                    if (!node.desc.equals("()Lnet/minecraft/util/ResourceLocation;")) break;
                     InsnList l = new InsnList();
                     LabelNode l2 = new LabelNode();
                     LabelNode l5 = new LabelNode();
