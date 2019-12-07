@@ -225,28 +225,6 @@ public class PatchManager {
                 new AbstractClientPlayerTransformer(),
                 new GuiMainMenuTransformer(),
                 new CrashReportTransformer(),
-                new NoopTransformer("b$1"),
-                new NoopTransformer("bdb$1"),
-                new NoopTransformer("bdb$2"),
-                new NoopTransformer("bdb$3"),
-                new NoopTransformer("bdb$4"),
-                new NoopTransformer("b$2"),
-                new NoopTransformer("b$3"),
-                new NoopTransformer("b$4"),
-                new NoopTransformer("b$5"),
-                new NoopTransformer("b$6"),
-                new NoopTransformer("b$7"),
-                new NoopTransformer("avh$1"),
-                new NoopTransformer("avh$2"),
-                new NoopTransformer("avh$a"),
-                new NoopTransformer("bnm$1"),
-                new NoopTransformer("bkp"),
-                new NoopTransformer("bfk$1"),
-                new NoopTransformer("bfk$2"),
-                new NoopTransformer("bfk$3"),
-                new NoopTransformer("bfk$4"),
-                new NoopTransformer("ne"),
-                new NoopTransformer("ne$1"),
                 new NoopTransformer("bma"),
                 new ThreadDownloadImageDataTransformer(),
                 new EntityRendererTransformer(), // TODO: Complete this transformer
@@ -263,6 +241,10 @@ public class PatchManager {
                 new TextureStateTransformer(),
                 new BooleanStateTransformer(),
                 new GlStateManagerTransformer(),
+                new ClassInheritanceMultiMapTransformer(),
+                new ChunkRenderContainerTransformer(),
+                new RenderChunkTransformer(),
+                new TileEntityEndPortalRendererTransformer(),
                 // TODO: Write actual transformers for these classes
                 new NoopTransformer("biv"),
                 new NoopTransformer("bjl"),
@@ -285,15 +267,29 @@ public class PatchManager {
                 new NoopTransformer("avo"),
                 new NoopTransformer("bkn"),
                 new NoopTransformer("bkn$1"),
-                new NoopTransformer("bfh"),
                 new NoopTransformer("bfn$1"),
-                new NoopTransformer("bht"),
                 new NoopTransformer("avv"),
                 new NoopTransformer("avv$1"),
-                new NoopTransformer("bhl"),
                 new NoopTransformer("awi"),
 
                 // dont need actual transformers
+                new NoopTransformer("avh$1"),
+                new NoopTransformer("avh$2"),
+                new NoopTransformer("avh$a"),
+
+                new NoopTransformer("b$1"),
+                new NoopTransformer("b$2"),
+                new NoopTransformer("b$3"),
+                new NoopTransformer("b$4"),
+                new NoopTransformer("b$5"),
+                new NoopTransformer("b$6"),
+                new NoopTransformer("b$7"),
+
+                new NoopTransformer("bfk$1"),
+                new NoopTransformer("bfk$2"),
+                new NoopTransformer("bfk$3"),
+                new NoopTransformer("bfk$4"),
+
                 new NoopTransformer("bfl$1"),
                 new NoopTransformer("bfl$a"),
                 new NoopTransformer("bfl$b"),
@@ -310,7 +306,16 @@ public class PatchManager {
                 new NoopTransformer("bfl$n"),
                 new NoopTransformer("bfl$o"),
                 new NoopTransformer("bfl$p"),
-                new NoopTransformer("bfl$q")
+                new NoopTransformer("bfl$q"),
+
+                new NoopTransformer("bdb$1"),
+                new NoopTransformer("bdb$2"),
+                new NoopTransformer("bdb$3"),
+                new NoopTransformer("bdb$4"),
+
+                new NoopTransformer("bnm$1"),
+
+                new NoopTransformer("ne$1")
         );
     }
 }
