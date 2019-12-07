@@ -10,7 +10,7 @@ import org.objectweb.asm.tree.VarInsnNode
 import java.net.HttpURLConnection
 
 class ThreadDownloadImageDataTransformer : ConflictTransformer {
-    override fun getClassName() = "net.minecraft.client.renderer.ThreadDownloadImageData"
+    override fun getClassName() = "bma$1"
 
     override fun transform(original: ClassNode): ClassNode {
         for (method in original.methods) {
