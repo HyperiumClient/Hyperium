@@ -39,7 +39,7 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                 case "getPlayerInfo":  // there's only one method called b
                     node.access = Opcodes.ACC_PUBLIC;
                     break;
-                case "getSkinType": { // there's only one method called c
+                case "getLocationSkin": { // there's only one method called c
                     InsnList l = new InsnList();
                     LabelNode l2 = new LabelNode();
                     LabelNode l5 = new LabelNode();
@@ -122,7 +122,7 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     node.instructions = l;
                     break;
                 }
-                case "k": {
+                case "getLocationCape": {
                     InsnList l = new InsnList();
                     LabelNode l1 = new LabelNode();
                     LabelNode l4 = new LabelNode();
@@ -177,7 +177,7 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     node.instructions = l;
                     break;
                 }
-                case "l": {
+                case "getSkinType": {
                     InsnList l = new InsnList();
 
                     LabelNode l2 = new LabelNode();
@@ -243,7 +243,7 @@ public class AbstractClientPlayerTransformer implements ConflictTransformer {
                     node.instructions = l;
                     break;
                 }
-                case "o":
+                case "getFovModifier":
                     Iterator<AbstractInsnNode> iterator = node.instructions.iterator();
                     while (iterator.hasNext()) {
                         AbstractInsnNode insn = iterator.next();

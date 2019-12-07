@@ -1,0 +1,22 @@
+--- original/net/minecraft/client/renderer/entity/layers/LayerCape.java
++++ changed/net/minecraft/client/renderer/entity/layers/LayerCape.java
+@@ -1,5 +1,6 @@
+ package net.minecraft.client.renderer.entity.layers;
+ 
++import cc.hyperium.Hyperium;
+ import net.minecraft.client.entity.AbstractClientPlayer;
+ import net.minecraft.client.renderer.GlStateManager;
+ import net.minecraft.client.renderer.entity.RenderPlayer;
+@@ -47,6 +48,12 @@
+          GlStateManager.rotate(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
+          GlStateManager.rotate(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
+          GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
++
++         if (entitylivingbaseIn.isSneaking() && !Hyperium.INSTANCE.isOptifineInstalled()) {
++            // Optifine does this by default.
++            GlStateManager.translate(0, 0, .1);
++         }
++
+          this.playerRenderer.getMainModel().renderCape(0.0625F);
+          GlStateManager.popMatrix();
+       }

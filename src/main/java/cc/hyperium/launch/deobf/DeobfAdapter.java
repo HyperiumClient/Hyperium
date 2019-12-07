@@ -3,7 +3,7 @@ package cc.hyperium.launch.deobf;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.commons.RemappingClassAdapter;
 
-class DeobfAdapter extends RemappingClassAdapter {
+public class DeobfAdapter extends RemappingClassAdapter {
     DeobfAdapter(ClassVisitor cv) {
         super(cv, DeobfRemapper.INSTANCE);
     }

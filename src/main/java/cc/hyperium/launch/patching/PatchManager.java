@@ -17,6 +17,7 @@
 
 package cc.hyperium.launch.patching;
 
+import cc.hyperium.launch.deobf.DeobfAdapter;
 import cc.hyperium.launch.deobf.DeobfRemapper;
 import cc.hyperium.launch.patching.conflicts.*;
 import com.google.common.collect.Maps;
@@ -79,8 +80,9 @@ public class PatchManager {
                 } else if (transformers.containsKey(className)) {
                     System.out.println("crab");
                     ClassReader reader = new ClassReader(classData);
+                    reader.accept(new DeobfAdapter(), ClassReader.EXPAND_FRAMES);
                     ClassNode node = new ClassNode();
-                    reader.accept(node, 0);
+                    reader.accept(node, ClassReader.EXPAND_FRAMES);
                     ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
                     transformers.get(className.replace('.', '/')).transform(node).accept(writer);
                     return writer.toByteArray();
