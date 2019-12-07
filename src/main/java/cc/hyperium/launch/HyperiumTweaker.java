@@ -86,11 +86,11 @@ public class HyperiumTweaker implements ITweaker {
         MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
 
         if (isRunningOptifine) {
-            environment.setObfuscationContext("notch"); // Switch's to notch mappings
+            environment.setObfuscationContext("notch");
         }
 
         if (environment.getObfuscationContext() == null) {
-            environment.setObfuscationContext("notch"); // Switch's to notch mappings
+            environment.setObfuscationContext("notch");
         }
 
         try {

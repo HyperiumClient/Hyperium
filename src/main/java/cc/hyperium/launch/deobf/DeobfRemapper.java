@@ -130,7 +130,7 @@ public final class DeobfRemapper extends Remapper {
         return map.get(unmap(owner));
     }
 
-    String unmap(String deobf) {
+    public String unmap(String deobf) {
         deobf = deobf.replace('.', '/');
         if (classNames.isEmpty()) return deobf;
         if (classNames.containsValue(deobf)) return classNames.inverse().get(deobf);

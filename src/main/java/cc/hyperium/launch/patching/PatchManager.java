@@ -17,6 +17,7 @@
 
 package cc.hyperium.launch.patching;
 
+import cc.hyperium.launch.deobf.DeobfRemapper;
 import cc.hyperium.launch.patching.conflicts.*;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
@@ -83,7 +84,7 @@ public class PatchManager {
                     ClassNode node = new ClassNode();
                     reader.accept(node, 0);
                     ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
-                    transformers.get(className).transform(node).accept(writer);
+                    transformers.get(className.replace('.', '/')).transform(node).accept(writer);
                     return writer.toByteArray();
                 } else {
                     throw new IllegalStateException("crab - " + className);
@@ -107,7 +108,7 @@ public class PatchManager {
 
     private static void registerTransformers(ConflictTransformer... transformers) {
         for (ConflictTransformer transformer : transformers) {
-            PatchManager.transformers.put(transformer.getClassName(), transformer);
+            PatchManager.transformers.put(DeobfRemapper.INSTANCE.unmap(transformer.getClassName()), transformer);
         }
     }
 
@@ -259,11 +260,11 @@ public class PatchManager {
                 new ResourcePackRepositoryTransformer(),
                 new ModelBoxTransformer(),
                 new GuiVideoSettingsTransformer(),
+                new RenderGlobalTransformer(),
                 // TODO: Write actual transformers for these classes
                 new NoopTransformer("biv"),
                 new NoopTransformer("bjl"),
                 new NoopTransformer("bjl$1"),
-                new NoopTransformer("bfr"),
                 new NoopTransformer("bfr$1"),
                 new NoopTransformer("bfr$2"),
                 new NoopTransformer("bfr$a"),

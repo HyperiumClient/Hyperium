@@ -9,11 +9,10 @@
           }
        }
  
-@@ -1148,4 +1148,13 @@
-          return value;
-       }
+@@ -1025,6 +1025,15 @@
+       return this.useNativeTransport;
     }
-+
+ 
 +   private boolean needsResourceRefresh;
 +
 +   public void onGuiClosed() {
@@ -22,4 +21,7 @@
 +         needsResourceRefresh = false;
 +      }
 +   }
- }
++
+    @SideOnly(Side.CLIENT)
+    public static enum Options {
+       INVERT_MOUSE("options.invertMouse", false, true),

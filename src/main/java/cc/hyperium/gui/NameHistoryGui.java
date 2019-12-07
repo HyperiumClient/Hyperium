@@ -57,6 +57,7 @@ public class NameHistoryGui extends GuiScreen {
         super.initGui();
         nameField = new GuiTextField(1, mc.fontRendererObj, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
         nameField.setText(name);
+        nameField.setFocused(true);
     }
 
     @Override
