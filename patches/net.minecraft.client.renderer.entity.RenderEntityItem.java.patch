@@ -1,21 +1,34 @@
 --- original/net/minecraft/client/renderer/entity/RenderEntityItem.java
 +++ changed/net/minecraft/client/renderer/entity/RenderEntityItem.java
-@@ -1,6 +1,9 @@
+@@ -1,6 +1,12 @@
  package net.minecraft.client.renderer.entity;
  
  import java.util.Random;
 +
 +import cc.hyperium.config.Settings;
 +import cc.hyperium.mods.itemphysic.physics.ClientPhysic;
++import net.minecraft.block.Block;
++import net.minecraft.client.Minecraft;
++import net.minecraft.client.entity.EntityPlayerSP;
  import net.minecraft.client.renderer.GlStateManager;
  import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
  import net.minecraft.client.renderer.entity.Render;
-@@ -76,6 +79,11 @@
+@@ -11,6 +17,7 @@
+ import net.minecraft.entity.item.EntityItem;
+ import net.minecraft.item.Item;
+ import net.minecraft.item.ItemStack;
++import net.minecraft.util.BlockPos;
+ import net.minecraft.util.MathHelper;
+ import net.minecraft.util.ResourceLocation;
+ import net.minecraftforge.fml.relauncher.Side;
+@@ -76,6 +83,13 @@
      * Renders the desired {@code T} type Entity.
      */
     public void doRender(EntityItem entity, double x, double y, double z, float entityYaw, float partialTicks) {
 +      if (Settings.ITEM_PHYSIC_ENABLED) {
-+         ClientPhysic.doRender(entity, x, y, z);
++         EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
++         Block snow = entity.getEntityWorld().getBlockState(new BlockPos(player.posX + x, player.posY + y, player.posZ + z)).getBlock();
++         ClientPhysic.doRender(entity, x, y, z, snow.toString().contains("snow_layer"));
 +         return;
 +      }
 +

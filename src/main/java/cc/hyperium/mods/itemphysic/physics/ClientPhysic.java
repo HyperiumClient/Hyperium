@@ -43,7 +43,7 @@ public class ClientPhysic {
         return TextureMap.locationBlocksTexture;
     }
 
-    public static void doRender(Entity entity, double x, double y, double z) {
+    public static void doRender(Entity entity, double x, double y, double z, boolean snow) {
         rotation = (double) (System.nanoTime() - tick) / 2500000 * ItemPhysicMod.rotateSpeed;
         if (!mc.inGameHasFocus) rotation = 0;
         EntityItem item = ((EntityItem) entity);
@@ -74,7 +74,7 @@ public class ClientPhysic {
         GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
         GL11.glRotatef(item.rotationYaw, 0.0F, 0.0F, 1.0F);
 
-        GlStateManager.translate(0, 0, is3D ? -0.08 : -0.04);
+        GlStateManager.translate(0, 0, snow ? -0.13 : is3D ? -0.08 : -0.04);
 
         //Handle Rotations
         if (is3D || mc.getRenderManager().options != null) {
