@@ -225,7 +225,6 @@ public class PatchManager {
                 new AbstractClientPlayerTransformer(),
                 new GuiMainMenuTransformer(),
                 new CrashReportTransformer(),
-                new NoopTransformer("bma"),
                 new ThreadDownloadImageDataTransformer(),
                 new EntityRendererTransformer(), // TODO: Complete this transformer
                 new RenderManagerTransformer(),
@@ -246,6 +245,7 @@ public class PatchManager {
                 new RenderChunkTransformer(),
                 new TileEntityEndPortalRendererTransformer(),
                 // TODO: Write actual transformers for these classes
+                new NoopTransformer("bma"),
                 new NoopTransformer("biv"),
                 new NoopTransformer("bjl"),
                 new NoopTransformer("bjl$1"),

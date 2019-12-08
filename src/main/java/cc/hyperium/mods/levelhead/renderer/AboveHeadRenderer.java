@@ -114,10 +114,17 @@ public class AboveHeadRenderer {
         float f = (float) (1.6F * Levelhead.getInstance().getDisplayManager().getMasterConfig().getFontSize());
         float f1 = 0.016666668F * f;
         GlStateManager.pushMatrix();
+
+        int xMultiplier = 1;
+        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().gameSettings != null && Minecraft.getMinecraft().gameSettings.thirdPersonView == 2) {
+            xMultiplier = -1;
+        }
+
         GlStateManager.translate((float) x + 0.0F, (float) y + player.height + 0.5F, (float) z);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(-event.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(event.getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
+        GlStateManager.rotate(event.getRenderManager().playerViewX * xMultiplier, 1.0F, 0.0F, 0.0F);
+
         GlStateManager.scale(-f1, -f1, f1);
         GlStateManager.disableLighting();
         GlStateManager.depthMask(false);
