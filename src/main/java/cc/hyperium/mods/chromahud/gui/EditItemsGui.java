@@ -56,7 +56,7 @@ public class EditItemsGui extends GuiScreen {
     @Override
     public void initGui() {
         reg(new GuiButton(nextId(), 2, 2, 100, 20, "Add Items"), button ->
-            mc.displayGuiScreen(new AddItemsGui(mod, element)));
+                mc.displayGuiScreen(new AddItemsGui(mod, element)));
 
         reg(new GuiButton(nextId(), 2, 23, 100, 20, "Remove Item"), button -> {
             if (modifying != null) {
@@ -87,7 +87,7 @@ public class EditItemsGui extends GuiScreen {
         });
 
         reg(new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), button ->
-            mc.displayGuiScreen(new DisplayElementConfig(element, mod)));
+                mc.displayGuiScreen(new DisplayElementConfig(element, mod)));
 
     }
 
@@ -107,10 +107,10 @@ public class EditItemsGui extends GuiScreen {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        buttonList.forEach(guiButton -> {
+        for (GuiButton guiButton : buttonList) {
             Consumer<GuiButton> guiButtonConsumer = updates.get(guiButton);
             if (guiButtonConsumer != null) guiButtonConsumer.accept(guiButton);
-        });
+        }
     }
 
     @Override
@@ -124,7 +124,10 @@ public class EditItemsGui extends GuiScreen {
         if (modifying == null) return;
         List<TextConfig> textConfigs = ChromaHUDApi.getInstance().getTextConfigs(modifying.getType());
         if (textConfigs != null && !textConfigs.isEmpty()) {
-            textConfigs.stream().map(TextConfig::getTextField).forEach(textField -> textField.textboxKeyTyped(typedChar, keyCode));
+            for (TextConfig textConfig : textConfigs) {
+                GuiTextField textField = textConfig.getTextField();
+                textField.textboxKeyTyped(typedChar, keyCode);
+            }
         }
     }
 
@@ -137,6 +140,7 @@ public class EditItemsGui extends GuiScreen {
                     GuiButton button = config.getButton();
                     if (button.mousePressed(mc, mouseX, mouseY)) {
                         config.getAction().accept(button, modifying);
+                        button.playPressSound(Minecraft.getMinecraft().getSoundHandler());
                         return;
                     }
                 }
@@ -194,7 +198,10 @@ public class EditItemsGui extends GuiScreen {
         if (modifying != null) {
             List<ButtonConfig> configs = ChromaHUDApi.getInstance().getButtonConfigs(modifying.getType());
             if (configs != null && !configs.isEmpty()) {
-                configs.stream().map(ButtonConfig::getButton).forEach(button -> button.mouseReleased(mouseX, mouseY));
+                for (ButtonConfig config : configs) {
+                    GuiButton button = config.getButton();
+                    button.mouseReleased(mouseX, mouseY);
+                }
             }
         }
     }
@@ -220,11 +227,11 @@ public class EditItemsGui extends GuiScreen {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             boolean hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
             drawRect(xPosition, yPosition, xPosition + width, yPosition + height, modifying != null && modifying.getOrdinal() == displayItem.getOrdinal() ||
-                hovered ? otherColor.getRGB() : defaultColor.getRGB());
+                    hovered ? otherColor.getRGB() : defaultColor.getRGB());
             int j = Color.RED.getRGB();
             String displayString = ChromaHUDApi.getInstance().getName(displayItem.getType());
             fontrenderer.drawString(displayString, (xPosition + (width >> 1) - (fontrenderer.getStringWidth(displayString) >> 1)), yPosition + ((height - 8) >> 1), j,
-                false);
+                    false);
             yPosition += 23;
         }
 
@@ -268,7 +275,7 @@ public class EditItemsGui extends GuiScreen {
                     for (String s : split) {
                         if (!s.contains("\n")) {
                             if (fontRendererObj.getStringWidth(" " + currentLine.toString()) +
-                                fontRendererObj.getStringWidth(s) + xPosition < rightBound - 10)
+                                    fontRendererObj.getStringWidth(s) + xPosition < rightBound - 10)
                                 currentLine.append(" ").append(s);
                             else {
                                 lines.add(currentLine.toString());
