@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.itemphysic.physics;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.mods.itemphysic.ItemPhysicMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -44,7 +45,7 @@ public class ClientPhysic {
     }
 
     public static void doRender(Entity entity, double x, double y, double z, boolean snow) {
-        rotation = (double) (System.nanoTime() - tick) / 2500000 * ItemPhysicMod.rotateSpeed;
+        rotation = (double) (System.nanoTime() - tick) / 2500000 * Settings.ITEM_PHYSIC_SPEED;
         if (!mc.inGameHasFocus) rotation = 0;
         EntityItem item = ((EntityItem) entity);
 

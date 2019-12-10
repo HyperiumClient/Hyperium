@@ -355,6 +355,10 @@ public class Settings {
     public static boolean ITEM_PHYSIC_ENABLED;
 
     @ConfigOpt
+    @SliderSetting(name = "gui.settings.itemphysicsspeed", min = 0, max = 5, category = ITEM_PHYSIC, mods = true)
+    public static double ITEM_PHYSIC_SPEED = 1;
+
+    @ConfigOpt
     public static String GUI_FONT = "Roboto Condensed";
 
     @ConfigOpt

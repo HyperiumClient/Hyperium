@@ -27,14 +27,9 @@ import cc.hyperium.mods.AbstractMod;
  */
 public class ItemPhysicMod extends AbstractMod {
 
-
-    @ConfigOpt
-    public static float rotateSpeed = 1.0F;
-
     @Override
     public AbstractMod init() {
         EventBus.INSTANCE.register(new EventHandlerLite());
-        Hyperium.CONFIG.register(this);
         return this;
     }
 
