@@ -119,7 +119,7 @@ public class SliderComponent extends AbstractTabComponent {
         }
 
         int left = x + width / 2;
-        String s = isInteger ? Integer.toString((int) currentValue) : Double.toString(round ? Math.round(currentValue) : currentValue);
+        String s = isInteger ? Integer.toString((int) currentValue) : String.format("%.2f", currentValue);
 
         int rightSide = x + width - 5;
 
