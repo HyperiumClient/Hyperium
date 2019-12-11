@@ -388,13 +388,13 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         } else if (!config.isHeaderChroma()) {
             reg(new GuiButton(++currentID, width - editWidth * 2 - 2, colorConfigStart + 22, editWidth, 20, config.getHeaderColor() +
                     "Rotate Header Color"), button -> {
-                int primaryId = colors.indexOf(removeColorChar(config.getHeaderColor()));
+                int primaryId = colors.indexOf(config.getHeaderColor());
 
                 if (++primaryId == colors.length()) {
                     primaryId = 0;
                 }
 
-                config.setHeaderColor(COLOR_CHAR + colors.charAt(primaryId));
+                config.setHeaderColor(String.valueOf(colors.charAt(primaryId)));
                 updatePeopleToValues();
             });
         }
@@ -503,13 +503,13 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
     }
 
     private void incrementColor(DisplayConfig config, boolean header) {
-        int primaryId = colors.indexOf(removeColorChar(header ? config.getHeaderColor() : config.getFooterColor()));
+        int primaryId = colors.indexOf(header ? config.getHeaderColor() : config.getFooterColor());
 
         if (++primaryId == colors.length()) {
             primaryId = 0;
         }
 
-        String val = COLOR_CHAR + colors.charAt(primaryId);
+        String val = String.valueOf(colors.charAt(primaryId));
         if (header) config.setHeaderColor(val);
         else config.setFooterColor(val);
         updatePeopleToValues();
@@ -690,10 +690,6 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         }
 
         return 0;
-    }
-
-    private String removeColorChar(String message) {
-        return message.replace(COLOR_CHAR, "");
     }
 
     private String getMode(boolean header) {
