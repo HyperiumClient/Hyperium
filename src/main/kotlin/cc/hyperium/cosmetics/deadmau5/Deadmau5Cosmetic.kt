@@ -14,26 +14,9 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.cosmetics.deadmau5
 
-package cc.hyperium.cosmetics;
+import cc.hyperium.cosmetics.AbstractCosmetic
+import cc.hyperium.purchases.EnumPurchaseType
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.config.Settings;
-import cc.hyperium.purchases.EnumPurchaseType;
-
-public class CosmeticsUtil {
-
-    public static boolean shouldHide(EnumPurchaseType type) {
-        if (Settings.SHOW_COSMETICS_EVERYWHERE) {
-            return false;
-        }
-
-        return !Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing();
-    }
-
-    public static float interpolate(float yaw1, float yaw2, float percent) {
-        float rotation = (yaw1 + (yaw2 - yaw1) * percent) % 360.0f;
-        if (rotation < 0.0f) rotation += 360.0f;
-        return rotation;
-    }
-}
+class Deadmau5Cosmetic : AbstractCosmetic(true, EnumPurchaseType.DEADMAU5_COSMETIC) 

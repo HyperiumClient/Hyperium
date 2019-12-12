@@ -14,18 +14,12 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.event
 
-package cc.hyperium.cosmetics.dragon;
-
-import cc.hyperium.cosmetics.AbstractCosmetic;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.purchases.EnumPurchaseType;
-
-public class DragonCosmetic extends AbstractCosmetic {
-
-    public DragonCosmetic() {
-        super(false, EnumPurchaseType.DRAGON_HEAD);
-        DragonHeadRenderer renderer = new DragonHeadRenderer(this);
-        EventBus.INSTANCE.register(renderer);
-    }
+enum class Priority(
+    val value: Int
+) {
+    HIGH(-1),  // Called first
+    NORMAL(0),
+    LOW(1); // Called last
 }

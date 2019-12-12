@@ -14,14 +14,9 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.cosmetics.flip
 
-package cc.hyperium.cosmetics.flip;
+import cc.hyperium.cosmetics.AbstractCosmetic
+import cc.hyperium.purchases.EnumPurchaseType
 
-import cc.hyperium.cosmetics.AbstractCosmetic;
-import cc.hyperium.purchases.EnumPurchaseType;
-
-public class FlipCosmetic extends AbstractCosmetic {
-    public FlipCosmetic() {
-        super(true, EnumPurchaseType.FLIP_COSMETIC);
-    }
-}
+class FlipCosmetic : AbstractCosmetic(true, EnumPurchaseType.FLIP_COSMETIC) 

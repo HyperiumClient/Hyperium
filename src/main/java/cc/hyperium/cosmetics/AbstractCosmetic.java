@@ -95,15 +95,4 @@ public abstract class AbstractCosmetic {
     public boolean isSelfUnlocked() {
         return selfUnlocked;
     }
-
-    public float interpolate(final float yaw1, final float yaw2, final float percent) {
-        float rotation = (yaw1 + (yaw2 - yaw1) * percent) % 360.0f;
-
-        if (rotation < 0.0f) {
-            rotation += 360.0f;
-        }
-
-        return rotation;
-    }
-
 }

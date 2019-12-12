@@ -14,14 +14,15 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.cosmetics.dragon
 
-package cc.hyperium.event;
+import cc.hyperium.cosmetics.AbstractCosmetic
+import cc.hyperium.event.EventBus
+import cc.hyperium.purchases.EnumPurchaseType
 
-/**
- * Core event class
- */
-public class Event {
-    public void post() {
-        EventBus.INSTANCE.post(this);
+class DragonCosmetic : AbstractCosmetic(false, EnumPurchaseType.DRAGON_HEAD) {
+    init {
+        val renderer = DragonHeadRenderer(this)
+        EventBus.INSTANCE.register(renderer)
     }
 }

@@ -75,14 +75,14 @@ public class CosmeticHat extends AbstractCosmetic {
             GlStateManager.pushMatrix();
             GlStateManager.translate(e.getX(), e.getY(), e.getZ());
 
-            double scale = 1.0F;
-            double rotate = interpolate(player.prevRotationYawHead, player.rotationYawHead, e.getPartialTicks());
-            double rotate1 = interpolate(player.prevRotationPitch, player.rotationPitch, e.getPartialTicks());
+            float scale = 1.0F;
+            float rotate = CosmeticsUtil.interpolate(player.prevRotationYawHead, player.rotationYawHead, e.getPartialTicks());
+            float rotate1 = CosmeticsUtil.interpolate(player.prevRotationPitch, player.rotationPitch, e.getPartialTicks());
 
-            GL11.glScaled(-scale, -scale, scale);
-            GL11.glTranslated(0.0, -((player.height - (player.isSneaking() ? .25 : 0)) - .38) / scale, 0.0);
-            GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0);
-            GL11.glRotated(rotate1, 1.0D, 0.0D, 0.0D);
+            GlStateManager.scale(-scale, -scale, scale);
+            GlStateManager.translate(0.0, -((player.height - (player.isSneaking() ? .25 : 0)) - .38) / scale, 0.0);
+            GlStateManager.rotate(180.0f + rotate, 0.0f, 1.0f, 0.0f);
+            GlStateManager.rotate(rotate1, 1.0f, 0.0f, 0.0f);
             GlStateManager.translate(0, -.45, 0);
 
             /* Bind the hat texture and render the model */

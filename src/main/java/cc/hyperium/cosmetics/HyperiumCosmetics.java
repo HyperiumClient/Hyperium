@@ -101,10 +101,8 @@ public class HyperiumCosmetics {
      * and their types
      */
     public enum EnumCosmeticType {
-        DAB,
         BUTT,
         FLIP,
-        DEALWITHIT,
         DEADMAU5,
         WINGS,
         DRAGON,

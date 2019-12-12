@@ -14,22 +14,8 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.event
 
-package cc.hyperium.utils;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.play.client.C01PacketChatMessage;
-
-public class ChatUtil {
-
-    /**
-     * Send a message using the C01PacketChatMessage
-     *
-     * @param msg a string that the user inputs
-     */
-    public static void sendMessage(String msg) {
-        final C01PacketChatMessage packet = new C01PacketChatMessage(msg);
-        packet.setMessage(msg);
-        Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet);
-    }
+open class CancellableEvent : Event() {
+    var isCancelled = false
 }

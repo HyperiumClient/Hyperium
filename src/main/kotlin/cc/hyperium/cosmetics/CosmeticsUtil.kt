@@ -14,22 +14,24 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.cosmetics
 
-package cc.hyperium.event;
+import cc.hyperium.Hyperium
+import cc.hyperium.config.Settings
+import cc.hyperium.purchases.EnumPurchaseType
 
-public enum Priority {
-
-    HIGH(-1), // Called first
-    NORMAL(0),
-    LOW(1); // Called last
-
-    public final int value;
-
-    Priority(int value) {
-        this.value = value;
+object CosmeticsUtil {
+    @JvmStatic
+    fun shouldHide(type: EnumPurchaseType): Boolean {
+        return if (Settings.SHOW_COSMETICS_EVERYWHERE) {
+            false
+        } else !Hyperium.INSTANCE.handlers.locationHandler.isLobbyOrHousing
     }
 
-    public int getValue() {
-        return value;
+    @JvmStatic
+    fun interpolate(yaw1: Float, yaw2: Float, percent: Float): Float {
+        var rotation = (yaw1 + (yaw2 - yaw1) * percent) % 360.0f
+        if (rotation < 0.0f) rotation += 360.0f
+        return rotation
     }
 }

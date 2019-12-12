@@ -71,13 +71,13 @@ public class EventBus {
                 if (subscriptions.containsKey(event)) {
                     // sorts array on insertion
                     subscriptions.get(event).add(new EventSubscriber(obj, method, priority));
-                    subscriptions.get(event).sort(Comparator.comparingInt(a -> a.getPriority().value));
+                    subscriptions.get(event).sort(Comparator.comparingInt(a -> a.getPriority().getValue()));
                 } else {
                     // event hasn't been added before so it creates a new instance
                     // sorting does not matter here since there is no other elements to compete against
                     subscriptions.put(event, new CopyOnWriteArrayList<>());
                     subscriptions.get(event).add(new EventSubscriber(obj, method, priority));
-                    subscriptions.get(event).sort(Comparator.comparingInt(a -> a.getPriority().value));
+                    subscriptions.get(event).sort(Comparator.comparingInt(a -> a.getPriority().getValue()));
                 }
             }
         }

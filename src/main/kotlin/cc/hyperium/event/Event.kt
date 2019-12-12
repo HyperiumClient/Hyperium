@@ -14,16 +14,13 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.event
 
-package cc.hyperium.cosmetics.deadmau5;
-
-import cc.hyperium.cosmetics.AbstractCosmetic;
-import cc.hyperium.purchases.EnumPurchaseType;
-
-public class Deadmau5Cosmetic extends AbstractCosmetic {
-    public Deadmau5Cosmetic() {
-        super(true, EnumPurchaseType.DEADMAU5_COSMETIC);
+/**
+ * Core event class
+ */
+open class Event {
+    fun post() {
+        EventBus.INSTANCE.post(this)
     }
-
-
 }

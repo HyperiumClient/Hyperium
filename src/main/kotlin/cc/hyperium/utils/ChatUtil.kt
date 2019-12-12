@@ -14,18 +14,21 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.utils
 
-package cc.hyperium.event;
+import net.minecraft.client.Minecraft
+import net.minecraft.network.play.client.C01PacketChatMessage
 
-public class CancellableEvent extends Event {
-
-    private boolean cancelled;
-
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
-    }
-
-    public boolean isCancelled() {
-        return cancelled;
+object ChatUtil {
+    /**
+     * Send a message using the C01PacketChatMessage
+     *
+     * @param msg a string that the user inputs
+     */
+    @JvmStatic
+    fun sendMessage(msg: String) {
+        val packet = C01PacketChatMessage(msg)
+        packet.message = msg
+        Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet)
     }
 }
