@@ -17,6 +17,7 @@
 
 package cc.hyperium.event.entity;
 
+import cc.hyperium.event.Event;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -24,7 +25,7 @@ import net.minecraft.util.DamageSource;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class LivingDeathEvent {
+public final class LivingDeathEvent extends Event {
 
     @NotNull
     private final EntityLivingBase entity;

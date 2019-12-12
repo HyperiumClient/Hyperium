@@ -17,9 +17,10 @@
 
 package cc.hyperium.event.gui;
 
+import cc.hyperium.event.Event;
 import net.minecraft.client.gui.GuiScreen;
 
-public class GuiDrawScreenEvent {
+public class GuiDrawScreenEvent extends Event {
     private GuiScreen screen;
     private int mouseX;
     private int mouseY;

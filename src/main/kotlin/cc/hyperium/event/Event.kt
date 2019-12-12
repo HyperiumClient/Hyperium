@@ -21,6 +21,6 @@ package cc.hyperium.event
  */
 open class Event {
     fun post() {
-        EventBus.INSTANCE.post(this)
+        EventBus.post(this)
     }
 }

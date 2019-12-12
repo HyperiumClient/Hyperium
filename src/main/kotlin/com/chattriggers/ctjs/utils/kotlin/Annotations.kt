@@ -42,7 +42,7 @@ object AnnotationHandler {
                 val objectInstance = kotlinClass.objectInstance ?: kotlinClass.companionObjectInstance ?: return@forEach
 
                 if (hasObjectEventHandlers(objectInstance) && objectInstance !in registered) {
-                    EventBus.INSTANCE.register(objectInstance)
+                    EventBus.register(objectInstance)
                     registered += objectInstance
                     LOGGER.debug("Registered @KotlinListener object instance {}", it.name)
                 }

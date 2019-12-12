@@ -17,10 +17,11 @@
 
 package cc.hyperium.event.render;
 
+import cc.hyperium.event.Event;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.RenderManager;
 
-public class RenderNameTagEvent {
+public class RenderNameTagEvent extends Event {
     public static boolean CANCEL;
     private AbstractClientPlayer entity;
     private RenderManager renderManager;

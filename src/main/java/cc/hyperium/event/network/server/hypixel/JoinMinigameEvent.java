@@ -17,12 +17,13 @@
 
 package cc.hyperium.event.network.server.hypixel;
 
+import cc.hyperium.event.Event;
 import cc.hyperium.event.network.server.hypixel.minigames.Minigame;
 
 /**
  * Invoked when player joins a minigame on Hypixel
  */
-public class JoinMinigameEvent {
+public class JoinMinigameEvent extends Event {
 
     private final Minigame minigame;
 

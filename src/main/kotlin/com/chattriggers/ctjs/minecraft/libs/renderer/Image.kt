@@ -16,7 +16,7 @@ class Image(var image: BufferedImage?) {
     private var textureHeight = image?.height ?: 0
 
     init {
-        EventBus.INSTANCE.register(this)
+        EventBus.register(this)
     }
 
     @JvmOverloads
@@ -32,7 +32,7 @@ class Image(var image: BufferedImage?) {
             texture = DynamicTexture(image)
             image = null
 
-            EventBus.INSTANCE.unregister(this)
+            EventBus.unregister(this)
         }
     }
 

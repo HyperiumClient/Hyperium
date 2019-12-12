@@ -32,7 +32,7 @@ object CTJS {
     val reflections: Reflections
 
     init {
-        EventBus.INSTANCE.register(this)
+        EventBus.register(this)
 
         reflections = Reflections("com.chattriggers.ctjs")
     }
