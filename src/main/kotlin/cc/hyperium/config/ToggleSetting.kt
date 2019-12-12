@@ -14,26 +14,16 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.config
 
-package cc.hyperium.config;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Retention(value = RetentionPolicy.RUNTIME)
-@Target(value = ElementType.FIELD)
-public @interface SelectorSetting {
-
-    String name();
-
-    Category category() default Category.GENERAL;
-
-    String[] items();
-
-    boolean enabled() default true;
-
-    boolean mods() default false;
-}
-
+/*
+ * Created by Cubxity on 03/06/2018
+ */
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FIELD)
+annotation class ToggleSetting(
+    val name: String,
+    val enabled: Boolean = true,
+    val category: Category = Category.GENERAL,
+    val mods: Boolean = false
+)

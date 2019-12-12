@@ -14,31 +14,15 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.config
 
-package cc.hyperium.config;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface SliderSetting {
-
-    float min();
-
-    float max();
-
-    String name();
-
-    boolean round() default true;
-
-    Category category() default Category.GENERAL;
-
-    boolean enabled() default true;
-
-    boolean mods() default false;
-
-    boolean isInt() default false;
-}
+/**
+ * @author Sk1er
+ */
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FIELD)
+annotation class ConfigOpt(
+    val comment: String = "",
+    val ignore: Boolean = false,
+    val alt: String = "" // alternate json key, used for migrating old config
+)

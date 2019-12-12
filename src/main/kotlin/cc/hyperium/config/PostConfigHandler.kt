@@ -14,28 +14,8 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.config
 
-package cc.hyperium.config;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-/**
- * @author Sk1er
- */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface ConfigOpt {
-
-    String comment() default "";
-
-    boolean ignore() default false;
-
-    /**
-     * alternate json key, used for migrating old config
-     */
-    String alt() default "";
-
+interface PostConfigHandler {
+    fun postUpdate()
 }

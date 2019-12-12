@@ -14,25 +14,17 @@
  *       You should have received a copy of the GNU Lesser General Public License
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package cc.hyperium.config
 
-package cc.hyperium.config;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-/*
- * Created by Cubxity on 03/06/2018
- */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface ToggleSetting {
-    String name();
-
-    boolean enabled() default true;
-
-    Category category() default Category.GENERAL;
-
-    boolean mods() default false;
-}
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FIELD)
+annotation class SliderSetting(
+    val min: Float,
+    val max: Float,
+    val name: String,
+    val round: Boolean = true,
+    val category: Category = Category.GENERAL,
+    val enabled: Boolean = true,
+    val mods: Boolean = false,
+    val isInt: Boolean = false
+)
