@@ -11,5 +11,7 @@
   "megawalls_kill": "(?<player>\\S{1,16}) (was|met|lost|drank|be) (?<msg>.*) (by|from|for|to) (?<killer>\\S{1,16})",
   "blitz_kill": "(?<player>\\S{1,16}) was killed by (?<killer>\\S{1,16})",
   "quest_complete": "(?<type>Daily|Weekly)? Quest: (?<name>.*) Completed!",
-  "win": "(^\\S+) - (?<winners>.*)"
+  "win": "(^\\S+) - (?<winners>.*)",
+  "player_join": "^(?<player>\\S{1,16}) joined\\.$",
+  "player_leave": "^(?<player>\\S{1,16}) left\\.$"
 }

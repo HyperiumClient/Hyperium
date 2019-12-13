@@ -42,7 +42,7 @@ public final class JoinHypixelEvent extends Event {
     }
 
     /**
-     * All the methods used by HypixelDetector to detect Hypixel or Badlion
+     * All the methods used by HypixelDetector to detect Hypixel
      * This is used by the above two events
      */
     public enum ServerVerificationMethod {

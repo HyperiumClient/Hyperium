@@ -92,7 +92,7 @@ object EventBus {
      * @param event Event that is being posted
      */
     fun post(event: Event) {
-        subscriptions.getOrDefault(event.javaClass, CopyOnWriteArrayList()).forEach { sub ->
+        for (sub in subscriptions.getOrDefault(event.javaClass, CopyOnWriteArrayList())) {
             try {
                 sub.invoke(event)
             } catch (e: Throwable) {

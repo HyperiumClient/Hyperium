@@ -32,15 +32,16 @@ import cc.hyperium.handlers.handlers.cloud.CloudHandler;
 import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.handlers.handlers.fov.FovModifier;
 import cc.hyperium.handlers.handlers.hud.VanillaEnhancementsHud;
+import cc.hyperium.handlers.handlers.hypixel.HypixelConnectionMessage;
 import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
+import cc.hyperium.integrations.perspective.PerspectiveModifierHandler;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.internal.MemoryHelper;
 import cc.hyperium.internal.UpdateChecker;
-import cc.hyperium.integrations.perspective.PerspectiveModifierHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.MouseListener;
 import net.minecraft.client.Minecraft;
@@ -92,6 +93,7 @@ public class HyperiumHandlers {
     private MouseListener mouseListener;
     private FovModifier fovModifier;
     private CloudHandler cloudHandler;
+    private HypixelConnectionMessage hypixelConnectionMessage;
 
     public HyperiumHandlers() {
         Hyperium.LOGGER.info("Loading handlers");
@@ -128,6 +130,7 @@ public class HyperiumHandlers {
         register(mouseListener = new MouseListener());
         register(fovModifier = new FovModifier());
         register(cloudHandler = new CloudHandler());
+        register(hypixelConnectionMessage = new HypixelConnectionMessage());
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
         // Chat Handlers
@@ -137,6 +140,8 @@ public class HyperiumHandlers {
         registerChatHandler(new WinTrackingChatHandler());
         registerChatHandler(new FriendRequestChatHandler());
         registerChatHandler(new PartyInviteChatHandler());
+        registerChatHandler(new HypixelJoinChatHandler());
+        registerChatHandler(new HypixelLeaveChatHandler());
         Hyperium.LOGGER.info("Registering Events");
         EventBus.INSTANCE.register(this);
         Hyperium.LOGGER.info("Finished Loading Handlers");
@@ -282,5 +287,8 @@ public class HyperiumHandlers {
     }
     public CloudHandler getCloudHandler() {
         return cloudHandler;
+    }
+    public HypixelConnectionMessage getHypixelConnectionMessage() {
+        return hypixelConnectionMessage;
     }
 }
