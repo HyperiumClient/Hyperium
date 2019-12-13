@@ -111,7 +111,7 @@ public class DisplayConfig {
     }
 
     public String getHeaderColor() {
-        return ChatColor.COLOR_CHAR + headerColor;
+        return headerColor;
     }
 
     public void setHeaderColor(String headerColor) {
@@ -171,7 +171,7 @@ public class DisplayConfig {
     }
 
     public String getFooterColor() {
-        return ChatColor.COLOR_CHAR +  footerColor;
+        return footerColor;
     }
 
     public void setFooterColor(String footerColor) {
