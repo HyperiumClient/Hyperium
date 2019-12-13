@@ -22,7 +22,7 @@ import cc.hyperium.purchases.EnumPurchaseType
 
 object CosmeticsUtil {
     @JvmStatic
-    fun shouldHide(type: EnumPurchaseType): Boolean {
+    fun shouldHide(type: EnumPurchaseType?): Boolean {
         return if (Settings.SHOW_COSMETICS_EVERYWHERE) {
             false
         } else !Hyperium.INSTANCE.handlers.locationHandler.isLobbyOrHousing
