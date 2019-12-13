@@ -16,7 +16,8 @@ public class HypixelConnectionMessage {
 
     @InvokeEvent
     public void playerJoin(PlayerJoinHypixelEvent event) {
-        if (event.getUsername() != null && Settings.CUSTOM_JOIN_LEAVE_MESSAGES) {
+        if (event.getUsername() != null && Settings.CUSTOM_JOIN_LEAVE_MESSAGES
+                && Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
             Hyperium.INSTANCE.getNotification().display(event.getUsername(),
                     "has joined the server.\nClick to say hello to them.",
                     5,
@@ -29,7 +30,8 @@ public class HypixelConnectionMessage {
 
     @InvokeEvent
     public void playerLeave(PlayerLeaveHypixelEvent event) {
-        if (event.getUsername() != null && Settings.CUSTOM_JOIN_LEAVE_MESSAGES) {
+        if (event.getUsername() != null && Settings.CUSTOM_JOIN_LEAVE_MESSAGES
+                && Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
             Hyperium.INSTANCE.getNotification().display(event.getUsername(),
                     "has left the server.",
                     5,
@@ -42,7 +44,7 @@ public class HypixelConnectionMessage {
 
     @InvokeEvent
     public void chat(ChatEvent event) {
-        if (Settings.CUSTOM_JOIN_LEAVE_MESSAGES) {
+        if (Settings.CUSTOM_JOIN_LEAVE_MESSAGES && Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
 
             Pattern hypixelLeaveMessage = Pattern.compile("^(?<player>\\S{1,16}) left\\.$");
             Matcher leaveMessageMatcher = hypixelLeaveMessage.matcher(event.getChat().getUnformattedText());
