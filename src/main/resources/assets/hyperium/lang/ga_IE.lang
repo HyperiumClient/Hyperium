@@ -4,6 +4,9 @@ menu.left=Cóipcheart 2019 Foireann Forbair Hyperium
 menu.right=Nach bhfuil cleamhnaithe le Mojang AB
 menu.credits=Cruthaithe ag an Foireann Hyperium
 
+#Options
+options.particles.disabled=Disabled
+
 # Hyperium Buttons
 button.menu.changebackground=Cúlra an Menu
 button.menu.cosmeticshop=Siopa Cosmaideacha

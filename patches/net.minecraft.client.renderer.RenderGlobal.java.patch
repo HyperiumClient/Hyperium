@@ -57,7 +57,31 @@
        if(execute == 0 && movingObjectPositionIn.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
           GlStateManager.enableBlend();
           GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-@@ -1797,6 +1810,16 @@
+@@ -1741,6 +1754,7 @@
+    }
+ 
+    public void spawnParticle(int particleID, boolean ignoreRange, final double xCoord, final double yCoord, final double zCoord, double xOffset, double yOffset, double zOffset, int... parameters) {
++      if(this.mc.gameSettings.particleSetting == 3) return;
+       try {
+          this.spawnEntityFX(particleID, ignoreRange, xCoord, yCoord, zCoord, xOffset, yOffset, zOffset, parameters);
+       } catch (Throwable throwable) {
+@@ -1761,12 +1775,15 @@
+    }
+ 
+    private void spawnParticle(EnumParticleTypes particleIn, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... parameters) {
++      if(Minecraft.getMinecraft().gameSettings.particleSetting == 3) return;
++
+       this.spawnParticle(particleIn.getParticleID(), particleIn.getShouldIgnoreRange(), xCoord, yCoord, zCoord, xOffset, yOffset, zOffset, parameters);
+    }
+ 
+    private EntityFX spawnEntityFX(int particleID, boolean ignoreRange, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... parameters) {
+       if(this.mc != null && this.mc.getRenderViewEntity() != null && this.mc.effectRenderer != null) {
+          int i = this.mc.gameSettings.particleSetting;
++         if(i == 3) return null;
+          if(i == 1 && this.theWorld.rand.nextInt(3) == 0) {
+             i = 2;
+          }
+@@ -1797,6 +1814,16 @@
      * textures. On server worlds, removes the entity from the entity tracker.
      */
     public void onEntityRemoved(Entity entityIn) {
@@ -74,3 +98,19 @@
     }
  
     /**
+@@ -1906,7 +1933,6 @@
+          double d15 = (double)blockPosIn.getX() + (double)l * 0.6D + 0.5D;
+          double d17 = (double)blockPosIn.getY() + 0.5D;
+          double d19 = (double)blockPosIn.getZ() + (double)i * 0.6D + 0.5D;
+-
+          for(int k1 = 0; k1 < 10; ++k1) {
+             double d20 = random.nextDouble() * 0.2D + 0.01D;
+             double d21 = d15 + (double)l * 0.01D + (random.nextDouble() - 0.5D) * (double)i * 0.5D;
+@@ -1928,6 +1954,7 @@
+          this.mc.effectRenderer.addBlockDestroyEffects(blockPosIn, block.getStateFromMeta(data >> 12 & 255));
+          break;
+       case 2002:
++
+          double d13 = (double)blockPosIn.getX();
+          double d14 = (double)blockPosIn.getY();
+          double d16 = (double)blockPosIn.getZ();
