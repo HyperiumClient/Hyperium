@@ -67,18 +67,16 @@
           }
        }
  
-@@ -335,7 +340,9 @@
+@@ -335,7 +340,7 @@
        }
  
        if(settingsOption == GameSettings.Options.PARTICLES) {
 -         this.particleSetting = (this.particleSetting + value) % 3;
-+         int i = (this.particleSetting + value) % 4;
-+         System.out.println(i);
 +         this.particleSetting = (this.particleSetting + value) % 4;
        }
  
        if(settingsOption == GameSettings.Options.VIEW_BOBBING) {
-@@ -1025,6 +1032,15 @@
+@@ -1025,6 +1030,15 @@
        return this.useNativeTransport;
     }
  
