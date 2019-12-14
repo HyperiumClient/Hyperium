@@ -177,6 +177,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                     ServerData data = new ServerData("customServer", Settings.SERVER_IP, false);
                     guiMultiplayer.setIp(data);
                     guiMultiplayer.confirmClicked(true, 0);
+                    Hyperium.INSTANCE.setFromMainMenu(true);
                 } else {
                     Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new CreateServerButton(this));
                 }
