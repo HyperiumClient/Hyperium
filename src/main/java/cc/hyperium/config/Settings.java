@@ -529,10 +529,6 @@ public class Settings {
     public static boolean OFFLINE_DOTS = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.replacedirtwithbg", category = MISC)
-    public static boolean REPLACE_DIRT_TEXTURE = true;
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.customhypixeljoinleave", category = HYPIXEL)
     public static boolean CUSTOM_JOIN_LEAVE_MESSAGES = true;
 
