@@ -4,6 +4,9 @@ menu.left=Copyright 2019 Hyperium Dev Tim
 menu.right=Nismo dio Mojang AB-a
 menu.credits=Created by the Hyperium Team
 
+#Options
+options.particles.disabled=Disabled
+
 # Hyperium Buttons
 button.menu.changebackground=Promjeni Pozadinu
 button.menu.cosmeticshop=Kozmetička prodavnica

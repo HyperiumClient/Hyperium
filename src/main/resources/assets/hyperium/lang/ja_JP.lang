@@ -4,6 +4,9 @@ menu.left=Copyright 2019 Hyperium 開発チーム
 menu.right=Mojang ABとは提携していません
 menu.credits=Created by the Hyperium Team
 
+#Options
+options.particles.disabled=Disabled
+
 # Hyperium Buttons
 button.menu.changebackground=背景変更
 button.menu.cosmeticshop=アクセサリーショップ

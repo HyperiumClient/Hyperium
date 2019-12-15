@@ -5,6 +5,9 @@ menu.left=Copyright 2019 Hyperium Dev Team
 menu.right=Not Affiliated with Mojang AB
 menu.credits=Created by the Hyperium Team
 
+#Options
+options.particles.disabled=Disabled
+
 #Hyperium Buttons
 button.menu.changebackground=Menu Background
 button.menu.cosmeticshop=Cosmetic Shop

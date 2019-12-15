@@ -141,6 +141,9 @@ public class Hyperium {
 
     private ClassLoaderResourcePack resourcePack = new ClassLoaderResourcePack("hyperium");
 
+    // Did the player join from the main menu?
+    private boolean joinedfromMainMenu;
+
     /**
      * Register things such as Languages to be used throughout the game.
      *
@@ -513,6 +516,14 @@ public class Hyperium {
 
     public boolean isDevEnv() {
         return this.isDevEnv;
+    }
+
+    public boolean isFromMainMenu() {
+        return this.joinedfromMainMenu;
+    }
+
+    public void setFromMainMenu(boolean value) {
+        this.joinedfromMainMenu = value;
     }
 
     public long getLaunchTime() {

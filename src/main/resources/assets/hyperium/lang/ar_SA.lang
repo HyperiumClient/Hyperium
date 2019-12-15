@@ -4,6 +4,9 @@ menu.left=حقوق الطبع والنشر 2019 Hyperium Dev Team
 menu.right=لا ينتمي إلى آب Mojang
 menu.credits=Created by the Hyperium Team
 
+#Options
+options.particles.disabled=Disabled
+
 # Hyperium Buttons
 button.menu.changebackground=تغيير خلفية القائمة
 button.menu.cosmeticshop=متجر الجماليات

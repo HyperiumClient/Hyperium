@@ -2,7 +2,7 @@
 +++ changed/net/minecraft/client/renderer/RenderGlobal.java
 @@ -1,5 +1,9 @@
  package net.minecraft.client.renderer;
- 
+
 +import cc.hyperium.Hyperium;
 +import cc.hyperium.event.EventBus;
 +import cc.hyperium.event.render.RenderEntitiesEvent;
@@ -27,10 +27,10 @@
 +            EventBus.INSTANCE.post(new RenderEntitiesEvent(partialTicks));
              RenderHelper.disableStandardItemLighting();
              this.renderManager.setRenderOutlines(true);
- 
+
 @@ -1206,6 +1213,7 @@
     }
- 
+
     public void renderClouds(float partialTicks, int pass) {
 +      if (Hyperium.INSTANCE.getHandlers().getCloudHandler().renderClouds(cloudTickCounter, partialTicks)) return;
        if(this.mc.theWorld.provider.isSurfaceWorld()) {
@@ -57,7 +57,31 @@
        if(execute == 0 && movingObjectPositionIn.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
           GlStateManager.enableBlend();
           GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-@@ -1797,6 +1810,16 @@
+@@ -1741,6 +1754,7 @@
+    }
+
+    public void spawnParticle(int particleID, boolean ignoreRange, final double xCoord, final double yCoord, final double zCoord, double xOffset, double yOffset, double zOffset, int... parameters) {
++      if(this.mc.gameSettings.particleSetting == 3) return;
+       try {
+          this.spawnEntityFX(particleID, ignoreRange, xCoord, yCoord, zCoord, xOffset, yOffset, zOffset, parameters);
+       } catch (Throwable throwable) {
+@@ -1761,12 +1775,15 @@
+    }
+
+    private void spawnParticle(EnumParticleTypes particleIn, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... parameters) {
++      if(Minecraft.getMinecraft().gameSettings.particleSetting == 3) return;
++
+       this.spawnParticle(particleIn.getParticleID(), particleIn.getShouldIgnoreRange(), xCoord, yCoord, zCoord, xOffset, yOffset, zOffset, parameters);
+    }
+
+    private EntityFX spawnEntityFX(int particleID, boolean ignoreRange, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... parameters) {
+       if(this.mc != null && this.mc.getRenderViewEntity() != null && this.mc.effectRenderer != null) {
+          int i = this.mc.gameSettings.particleSetting;
++         if(i == 3) return null;
+          if(i == 1 && this.theWorld.rand.nextInt(3) == 0) {
+             i = 2;
+          }
+@@ -1797,6 +1814,16 @@
      * textures. On server worlds, removes the entity from the entity tracker.
      */
     public void onEntityRemoved(Entity entityIn) {
@@ -72,5 +96,5 @@
 +         info.locationSkin = null;
 +      }
     }
- 
+
     /**

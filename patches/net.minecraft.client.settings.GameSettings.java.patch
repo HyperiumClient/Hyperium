@@ -1,6 +1,58 @@
 --- original/net/minecraft/client/settings/GameSettings.java
 +++ changed/net/minecraft/client/settings/GameSettings.java
-@@ -281,7 +281,7 @@
+@@ -5,13 +5,12 @@
+ import com.google.common.collect.Maps;
+ import com.google.common.collect.Sets;
+ import com.google.gson.Gson;
+-import java.io.BufferedReader;
+-import java.io.File;
+-import java.io.FileReader;
+-import java.io.FileWriter;
+-import java.io.PrintWriter;
++
++import java.io.*;
+ import java.lang.reflect.ParameterizedType;
+ import java.lang.reflect.Type;
++import java.nio.file.Files;
++import java.nio.file.StandardCopyOption;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.Set;
+@@ -32,6 +31,7 @@
+ import org.apache.commons.lang3.ArrayUtils;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
++import org.lwjgl.Sys;
+ import org.lwjgl.input.Keyboard;
+ import org.lwjgl.input.Mouse;
+ import org.lwjgl.opengl.Display;
+@@ -55,7 +55,7 @@
+    };
+    /** GUI scale values */
+    private static final String[] GUISCALES = new String[]{"options.guiScale.auto", "options.guiScale.small", "options.guiScale.normal", "options.guiScale.large"};
+-   private static final String[] PARTICLES = new String[]{"options.particles.all", "options.particles.decreased", "options.particles.minimal"};
++   private static final String[] PARTICLES = new String[]{"options.particles.all", "options.particles.decreased", "options.particles.minimal", "options.particles.disabled"};
+    private static final String[] AMBIENT_OCCLUSIONS = new String[]{"options.ao.off", "options.ao.min", "options.ao.max"};
+    private static final String[] STREAM_COMPRESSIONS = new String[]{"options.stream.compression.low", "options.stream.compression.medium", "options.stream.compression.high"};
+    private static final String[] STREAM_CHAT_MODES = new String[]{"options.stream.chat.enabled.streaming", "options.stream.chat.enabled.always", "options.stream.chat.enabled.never"};
+@@ -177,7 +177,15 @@
+       this.language = "en_US";
+       this.forceUnicodeFont = false;
+       this.mc = mcIn;
+-      this.optionsFile = new File(optionsFileIn, "options.txt");
++      File def = new File(optionsFileIn, "options.txt");
++      this.optionsFile = new File(optionsFileIn, "options-hyperium.txt");
++      if(!optionsFile.exists()) {
++         try {
++            Files.copy(def.toPath(), optionsFile.toPath());
++         } catch (IOException e) {
++         }
++      }
++
+       if(mcIn.isJava64bit() && Runtime.getRuntime().maxMemory() >= 1000000000L) {
+          GameSettings.Options.RENDER_DISTANCE.setValueMax(32.0F);
+       } else {
+@@ -281,7 +289,7 @@
              this.mc.getTextureMapBlocks().setMipmapLevels(this.mipmapLevels);
              this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
              this.mc.getTextureMapBlocks().setBlurMipmapDirect(false, this.mipmapLevels > 0);
@@ -9,7 +61,16 @@
           }
        }
  
-@@ -1025,6 +1025,15 @@
+@@ -335,7 +343,7 @@
+       }
+ 
+       if(settingsOption == GameSettings.Options.PARTICLES) {
+-         this.particleSetting = (this.particleSetting + value) % 3;
++         this.particleSetting = (this.particleSetting + value) % 4;
+       }
+ 
+       if(settingsOption == GameSettings.Options.VIEW_BOBBING) {
+@@ -1025,6 +1033,15 @@
        return this.useNativeTransport;
     }
  

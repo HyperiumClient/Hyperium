@@ -4,6 +4,9 @@ menu.left=Kopiereg 2019 Hyperium Dev Team
 menu.right=Nie geaffilieer met Mojang AB nie
 menu.credits=Created by the Hyperium Team
 
+#Options
+options.particles.disabled=Disabled
+
 # Hyperium Buttons
 button.menu.changebackground=Verander Menu Agtergrond
 button.menu.cosmeticshop=Kosmetiese Winkel

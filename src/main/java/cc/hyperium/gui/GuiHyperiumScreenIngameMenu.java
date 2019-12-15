@@ -101,7 +101,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
                     button.enabled = false;
                     mc.theWorld.sendQuittingDisconnectingPacket();
                     mc.loadWorld(null);
-                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(integratedServerRunning ? new GuiMainMenu() : new GuiMultiplayer(new GuiMainMenu()));
+                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(integratedServerRunning || Hyperium.INSTANCE.isFromMainMenu() ? new GuiMainMenu() : new GuiMultiplayer(new GuiMainMenu()));
                 }
 
                 break;
