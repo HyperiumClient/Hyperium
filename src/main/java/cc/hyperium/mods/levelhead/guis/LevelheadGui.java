@@ -18,6 +18,7 @@
 package cc.hyperium.mods.levelhead.guis;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.display.*;
 import cc.hyperium.mods.levelhead.purchases.LevelheadPurchaseStates;
@@ -34,6 +35,7 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
@@ -48,6 +50,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.*;
@@ -214,20 +217,31 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                     if (isCustom) {
                         Minecraft.getMinecraft().displayGuiScreen(new CustomLevelheadConfigurer());
                     } else {
-                        Desktop.getDesktop().browse(new URI("http://sk1er.club/customlevelhead"));
+                        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+                        if (desktop != null) {
+                            URI uri = new URL("https://sk1er.club/customlevelhead").toURI();
+                            if (desktop.isSupported(Desktop.Action.BROWSE))
+                                desktop.browse(uri);
+                            else
+                                GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
+                        }
                     }
                 } catch (IOException | URISyntaxException e) {
-                    e.printStackTrace();
+                    Hyperium.LOGGER.error("Could not open link", e);
                 }
             });
 
             reg(new GuiButton(++currentID, 1, 23, 150, 20, YELLOW + "Purchase Levelhead Credits"), button -> {
-                Desktop desktop = Desktop.getDesktop();
+                Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
                 if (desktop != null) {
                     try {
-                        desktop.browse(new URI("https://purchase.sk1er.club/category/1050972"));
-                    } catch (IOException | URISyntaxException e) {
-                        e.printStackTrace();
+                        URI uri = new URL("https://purchase.sk1er.club/category/1050972").toURI();
+                        if (desktop.isSupported(Desktop.Action.BROWSE))
+                            desktop.browse(uri);
+                        else
+                            GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
+                    } catch (Exception e) {
+                        Hyperium.LOGGER.error("Could not open link", e);
                     }
                 }
             });

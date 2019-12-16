@@ -266,6 +266,7 @@ message.alreadypurchased=Already purchased %s
 message.invalidparticle=Invalid current particle type
 message.invalidanimation=Invalid animation type
 message.purchase=Purchase %s
+message.browseerror=Could not open website %s
 
 #Server Fast Join Customization
 gui.serverjoin.enterservername=Enter server name...
