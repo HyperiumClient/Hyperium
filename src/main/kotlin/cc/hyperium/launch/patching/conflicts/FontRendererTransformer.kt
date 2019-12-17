@@ -7,12 +7,12 @@ import codes.som.anthony.koffee.insns.jvm.*
 import org.objectweb.asm.tree.ClassNode
 
 class FontRendererTransformer : ConflictTransformer {
-    override fun getClassName() = "net.minecraft.client.gui.FontRenderer"
+    override fun getClassName() = "avn"
 
     override fun transform(original: ClassNode): ClassNode {
         for (method in original.methods) {
-            if (method.name == "renderString" && method.desc == "(Ljava/lang/String;FFIZ)I") {
-                val list = assembleBlock {
+            if (method.name == "renderString") {
+                val setTextAndShadow = assembleBlock {
                     getstatic(NickHider::class, "instance", NickHider::class)
                     ifnonnull(L["1"])
                     aload_1
@@ -23,7 +23,6 @@ class FontRendererTransformer : ConflictTransformer {
                     invokevirtual(NickHider::class, "apply", String::class, String::class)
                     +L["2"]
                     astore_1
-
                     iload(5)
                     ifeq(L["4"])
                     getstatic(Settings::class, "DISABLE_SHADOW_TEXT", boolean)
@@ -32,10 +31,12 @@ class FontRendererTransformer : ConflictTransformer {
                     ireturn
                     +L["4"]
                 }.first
-                list.add(method.instructions)
-                method.instructions = list
-            } else if (method.name == "getStringWidth" && method.desc == "(Ljava/lang/String;)I") {
-                val list = assembleBlock {
+
+                method.instructions.insertBefore(method.instructions.first, setTextAndShadow)
+            }
+
+            if (method.name == "getStringWidth") {
+                val setTextWidth = assembleBlock {
                     getstatic(NickHider::class, "instance", NickHider::class)
                     ifnonnull(L["1"])
                     aload_1
@@ -45,13 +46,12 @@ class FontRendererTransformer : ConflictTransformer {
                     aload_1
                     invokevirtual(NickHider::class, "apply", String::class, String::class)
                     +L["2"]
-                    astore_1
                 }.first
 
-                list.add(method.instructions)
-                method.instructions = list
+                method.instructions.insertBefore(method.instructions.first, setTextWidth)
             }
         }
+
         return original
     }
 }

@@ -9,19 +9,20 @@ import net.minecraft.client.model.ModelRenderer
 import org.objectweb.asm.tree.ClassNode
 
 class ModelRendererTransformer : ConflictTransformer {
+    override fun getClassName() = "bct"
+
     override fun transform(original: ClassNode): ClassNode {
         original.koffee {
+            node.interfaces.add("cc/hyperium/utils/model/IModelRenderer")
+
             method5(public, "reset", void) {
                 aload_0
                 iconst_0
                 putfield(ModelRenderer::class, "compiled", boolean)
                 _return
-                maxStack = 2
-                maxLocals = 1
             }
         }
+
         return original
     }
-
-    override fun getClassName() = "net.minecraft.client.model.ModelRenderer"
 }

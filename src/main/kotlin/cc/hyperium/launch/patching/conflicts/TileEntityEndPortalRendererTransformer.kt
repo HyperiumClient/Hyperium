@@ -11,16 +11,16 @@ class TileEntityEndPortalRendererTransformer : ConflictTransformer {
     override fun getClassName() = "bhl"
 
     override fun transform(original: ClassNode): ClassNode {
-        val preRender = assembleBlock {
-            getstatic(Settings::class, "DISABLE_END_PORTALS", boolean)
-            ifeq(L["1"])
-            _return
-            +L["1"]
-        }.first
-
         for (method in original.methods) {
             if (method.name == "renderTileEntityAt") {
-                method.instructions.insertBefore(method.instructions.first, preRender)
+                val dontRender = assembleBlock {
+                    getstatic(Settings::class, "DISABLE_END_PORTALS", boolean)
+                    ifeq(L["1"])
+                    _return
+                    +L["1"]
+                }.first
+
+                method.instructions.insertBefore(method.instructions.first, dontRender)
             }
         }
 

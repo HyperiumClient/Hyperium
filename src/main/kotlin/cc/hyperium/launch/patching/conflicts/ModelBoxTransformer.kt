@@ -30,7 +30,7 @@ private fun MethodAssembly.addQuadListStuff(vertexPositionOpcode: Int, offset: I
 }
 
 class ModelBoxTransformer : ConflictTransformer {
-    override fun getClassName() = "net.minecraft.client.model.ModelBox"
+    override fun getClassName() = "bcr"
 
     override fun transform(original: ClassNode): ClassNode {
         original.koffee {

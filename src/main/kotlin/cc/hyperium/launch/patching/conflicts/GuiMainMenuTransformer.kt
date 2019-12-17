@@ -16,7 +16,7 @@ import org.objectweb.asm.tree.ClassNode
 import java.util.concurrent.ConcurrentHashMap
 
 class GuiMainMenuTransformer : ConflictTransformer {
-    override fun getClassName() = "net.minecraft.client.gui.GuiMainMenu"
+    override fun getClassName() = "aya"
 
     override fun transform(original: ClassNode): ClassNode {
         for (method in original.methods) {

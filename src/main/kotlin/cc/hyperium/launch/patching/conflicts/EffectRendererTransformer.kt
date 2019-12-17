@@ -8,7 +8,7 @@ import net.minecraft.client.particle.EffectRenderer
 import org.objectweb.asm.tree.ClassNode
 
 class EffectRendererTransformer : ConflictTransformer {
-    override fun getClassName() = "net.minecraft.client.particle.EffectRenderer"
+    override fun getClassName() = "bec"
 
     override fun transform(original: ClassNode): ClassNode {
         original.koffee {
@@ -16,10 +16,11 @@ class EffectRendererTransformer : ConflictTransformer {
                 aload_0
                 getfield(EffectRenderer::class, "particleTypes", Map::class)
                 areturn
-                maxLocals = 1
                 maxStack = 1
+                maxLocals = 1
             }
         }
+
         return original
     }
 }

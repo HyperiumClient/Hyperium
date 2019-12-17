@@ -1,46 +1,6 @@
 --- original/net/minecraft/client/particle/EffectRenderer.java
 +++ changed/net/minecraft/client/particle/EffectRenderer.java
-@@ -9,39 +9,6 @@
- import net.minecraft.block.Block;
- import net.minecraft.block.material.Material;
- import net.minecraft.block.state.IBlockState;
--import net.minecraft.client.particle.Barrier;
--import net.minecraft.client.particle.EntityAuraFX;
--import net.minecraft.client.particle.EntityBlockDustFX;
--import net.minecraft.client.particle.EntityBreakingFX;
--import net.minecraft.client.particle.EntityBubbleFX;
--import net.minecraft.client.particle.EntityCloudFX;
--import net.minecraft.client.particle.EntityCrit2FX;
--import net.minecraft.client.particle.EntityCritFX;
--import net.minecraft.client.particle.EntityDiggingFX;
--import net.minecraft.client.particle.EntityDropParticleFX;
--import net.minecraft.client.particle.EntityEnchantmentTableParticleFX;
--import net.minecraft.client.particle.EntityExplodeFX;
--import net.minecraft.client.particle.EntityFX;
--import net.minecraft.client.particle.EntityFirework;
--import net.minecraft.client.particle.EntityFishWakeFX;
--import net.minecraft.client.particle.EntityFlameFX;
--import net.minecraft.client.particle.EntityFootStepFX;
--import net.minecraft.client.particle.EntityHeartFX;
--import net.minecraft.client.particle.EntityHugeExplodeFX;
--import net.minecraft.client.particle.EntityLargeExplodeFX;
--import net.minecraft.client.particle.EntityLavaFX;
--import net.minecraft.client.particle.EntityNoteFX;
--import net.minecraft.client.particle.EntityParticleEmitter;
--import net.minecraft.client.particle.EntityPortalFX;
--import net.minecraft.client.particle.EntityRainFX;
--import net.minecraft.client.particle.EntityReddustFX;
--import net.minecraft.client.particle.EntitySmokeFX;
--import net.minecraft.client.particle.EntitySnowShovelFX;
--import net.minecraft.client.particle.EntitySpellParticleFX;
--import net.minecraft.client.particle.EntitySplashFX;
--import net.minecraft.client.particle.EntitySuspendFX;
--import net.minecraft.client.particle.IParticleFactory;
--import net.minecraft.client.particle.MobAppearance;
- import net.minecraft.client.renderer.ActiveRenderInfo;
- import net.minecraft.client.renderer.GlStateManager;
- import net.minecraft.client.renderer.Tessellator;
-@@ -433,4 +400,8 @@
+@@ -433,4 +433,8 @@
  
        return "" + i;
     }

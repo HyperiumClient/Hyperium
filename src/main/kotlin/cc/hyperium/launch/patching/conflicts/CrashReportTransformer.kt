@@ -14,6 +14,8 @@ import org.objectweb.asm.tree.ClassNode
 import java.util.concurrent.Callable
 
 class CrashReportTransformer : ConflictTransformer {
+    override fun getClassName() = "b"
+
     override fun transform(original: ClassNode): ClassNode {
         original.version = 52
         original.koffee {
@@ -31,6 +33,7 @@ class CrashReportTransformer : ConflictTransformer {
                 maxLocals = 0
             }
         }
+
         for (method in original.methods) {
             if (method.name == "populateEnvironment") {
                 val list = assembleBlock {
@@ -40,8 +43,7 @@ class CrashReportTransformer : ConflictTransformer {
                     invokedynamic(
                         "call",
                         Callable::class,
-                        handle = Handle( // we have to use this because
-                            // Koffee uses an ASM 6/ASM 7 constructor
+                        handle = Handle(
                             Opcodes.H_INVOKESTATIC,
                             "java/lang/invoke/LambdaMetafactory",
                             "metafactory",
@@ -102,6 +104,4 @@ class CrashReportTransformer : ConflictTransformer {
         }
         return original
     }
-
-    override fun getClassName() = "net.minecraft.crash.CrashReport"
 }
