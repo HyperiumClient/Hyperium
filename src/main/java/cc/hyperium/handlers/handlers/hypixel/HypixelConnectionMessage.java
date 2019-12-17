@@ -6,6 +6,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.event.network.server.hypixel.PlayerJoinHypixelEvent;
 import cc.hyperium.event.network.server.hypixel.PlayerLeaveHypixelEvent;
+import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;
@@ -18,12 +19,17 @@ public class HypixelConnectionMessage {
     public void playerJoin(PlayerJoinHypixelEvent event) {
         if (event.getUsername() != null && Settings.CUSTOM_JOIN_LEAVE_MESSAGES
                 && Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+            boolean isInGuild = false;
+            try {
+                isInGuild  = HypixelAPI.INSTANCE.getGuildFromPlayer(event.getUsername()).get().getName().equals(HypixelAPI.INSTANCE.getGuildFromPlayer(Minecraft.getMinecraft().thePlayer.getName()).get().getName());
+            } catch (Exception e) {
+            }
             Hyperium.INSTANCE.getNotification().display(event.getUsername(),
                     "has joined the server.\nClick to say hello to them.",
                     5,
                     null,
                     () -> Minecraft.getMinecraft().thePlayer.sendChatMessage("/msg " + event.getUsername() + " Hey!"),
-                    new Color(255, 255, 85)
+                    isInGuild ? new Color(34, 189, 23) : new Color(255, 255, 85)
             );
         }
     }
@@ -32,12 +38,17 @@ public class HypixelConnectionMessage {
     public void playerLeave(PlayerLeaveHypixelEvent event) {
         if (event.getUsername() != null && Settings.CUSTOM_JOIN_LEAVE_MESSAGES
                 && Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+            boolean isInGuild = false;
+            try {
+                isInGuild  = HypixelAPI.INSTANCE.getGuildFromPlayer(event.getUsername()).get().getName().equals(HypixelAPI.INSTANCE.getGuildFromPlayer(Minecraft.getMinecraft().thePlayer.getName()).get().getName());
+            } catch (Exception e) {
+            }
             Hyperium.INSTANCE.getNotification().display(event.getUsername(),
                     "has left the server.",
                     5,
                     null,
                     null,
-                    new Color(255, 255, 85)
+                    isInGuild ? new Color(34, 189, 23) : new Color(255, 255, 85)
             );
         }
     }
