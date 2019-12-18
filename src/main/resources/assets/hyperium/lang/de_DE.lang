@@ -4,7 +4,7 @@ menu.left=Copyright 2019 Hyperium Entwicklungsteam
 menu.right=Not affiliated with Mojang AB
 menu.credits=Created by the Hyperium Team
 
-#Options
+# Options
 options.particles.disabled=Disabled
 
 # Hyperium Buttons
@@ -98,9 +98,9 @@ gui.shop.loading.person=Persönliche Daten werden geladen...
 
 # Hyperium Settings Text
 gui.settings.discordrp=Discord RP
+gui.settings.rpshowserver=RP Server anzeigen
 gui.settings.fullbright=Alles Hell
 gui.settings.romannumerals=Römische Zahlen
-gui.settings.rpshowserver=RP Server anzeigen
 gui.settings.compactchat=Kompakter Chat
 gui.settings.voidflickerfix=Flackerndes Void Fix
 gui.settings.fpslimiter=FPS Limitierung (in Limbo)
@@ -215,11 +215,12 @@ gui.settings.gpucloudrenderer=Optimized Cloud Renderer
 gui.settings.showofflinedots=Show Offline Indicators
 gui.settings.replacedirtwithbg=Replace Dirt Background
 gui.settings.customhypixeljoinleave=Custom Hypixel Join/Leave Messages
+gui.settings.cleanermenus=Cleaner Menus
 
 # Settings Categories
 gui.category.general=Allgemeines
-gui.category.improvements=Verbesserungen
-gui.category.integrations=Integrationen
+gui.category.performance=Performance
+gui.category.qol=Quality Of Life
 gui.category.cosmetics=Kosmetika
 gui.category.misc=Sonstiges
 gui.category.mods=Modifikationen
@@ -241,6 +242,7 @@ gui.subcategory.popupevents=Popup Events
 gui.subcategory.bossbarmod=Bossbar
 gui.subcategory.entityradius=Entity Radius
 gui.subcategory.fovmodifier=Fov Modifier
+gui.subcategory.discord=Discord
 gui.subcategory.other=Andere
 
 # Hyperium Splash Progress

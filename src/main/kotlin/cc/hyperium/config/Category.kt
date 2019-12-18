@@ -21,8 +21,8 @@ import net.minecraft.client.resources.I18n
 enum class Category(display: String) {
     // Settings Tab
     GENERAL("gui.category.general"),
-    IMPROVEMENTS("gui.category.improvements"),
-    INTEGRATIONS("gui.category.integrations"),
+    PERFORMANCE("gui.category.performance"),
+    QOL("gui.category.qol"),
     COSMETICS("gui.category.cosmetics"),
     MISC("gui.category.misc"),
     MODS("gui.category.mods"),
@@ -41,6 +41,7 @@ enum class Category(display: String) {
     BOSSBARMOD("gui.subcategory.bossbarmod"),
     ENTITYRADIUS("gui.subcategory.entityradius"),
     FOV_MODIFIER("gui.subcategory.fovmodifier"),
+    DISCORD("gui.subcategory.discord"),
     OTHER("gui.subcategory.other");
 
     private val display = I18n.format(display)

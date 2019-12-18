@@ -4,7 +4,7 @@ menu.left=Cóipcheart 2019 Foireann Forbair Hyperium
 menu.right=Nach bhfuil cleamhnaithe le Mojang AB
 menu.credits=Cruthaithe ag an Foireann Hyperium
 
-#Options
+# Options
 options.particles.disabled=Disabled
 
 # Hyperium Buttons
@@ -98,9 +98,9 @@ gui.shop.loading.person=Ag luchtú sonraí duine...
 
 # Hyperium Settings Text
 gui.settings.discordrp=Discord RP
+gui.settings.rpshowserver=RP Show Freastalaí
 gui.settings.fullbright=Iomlán geal
 gui.settings.romannumerals=Uimhreacha Rómhánacha
-gui.settings.rpshowserver=RP Show Freastalaí
 gui.settings.compactchat=Comhrá Dlúth
 gui.settings.voidflickerfix=Seachain Deisigh ag Lasadh
 gui.settings.fpslimiter=FPS Limiter (i Limbo)
@@ -215,11 +215,12 @@ gui.settings.gpucloudrenderer=Optimized Cloud Renderer
 gui.settings.showofflinedots=Show Offline Indicators
 gui.settings.replacedirtwithbg=Replace Dirt Background
 gui.settings.customhypixeljoinleave=Custom Hypixel Join/Leave Messages
+gui.settings.cleanermenus=Cleaner Menus
 
 # Settings Categories
 gui.category.general=Ginearálta
-gui.category.improvements=Feabhsuithe
-gui.category.integrations=Comhtháthú
+gui.category.performance=Performance
+gui.category.qol=Quality Of Life
 gui.category.cosmetics=Cosmaidí
 gui.category.misc=Ilghnéitheach
 gui.category.mods=Modhnuithe
@@ -241,6 +242,7 @@ gui.subcategory.popupevents=Fógra Aníos
 gui.subcategory.bossbarmod=Barra Boss
 gui.subcategory.entityradius=Raon an Aonáin
 gui.subcategory.fovmodifier=Athraitheoir Fov
+gui.subcategory.discord=Discord
 gui.subcategory.other=Eile
 
 # Hyperium Splash Progress

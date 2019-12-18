@@ -21,8 +21,4 @@ package cc.hyperium.config
  */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD)
-annotation class ConfigOpt(
-    val comment: String = "",
-    val ignore: Boolean = false,
-    val alt: String = "" // alternate json key, used for migrating old config
-)
+annotation class ConfigOpt

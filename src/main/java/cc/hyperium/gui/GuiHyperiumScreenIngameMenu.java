@@ -29,10 +29,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.server.MinecraftServer;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -45,42 +43,45 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
     private int cooldown;
     private int baseAngle;
 
+    private GuiButton achievements, stats;
+
     @Override
     public void initGui() {
         super.initGui();
 
         buttonList.clear();
-        int i = -16;
 
-        buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 120 + i, I18n.format("menu.returnToMenu")));
+        buttonList.add(new GuiButton(1, width / 2 - 100,
+                Settings.CLEANER_MENUS ? height / 4 + 111 : height / 4 + 124,
+                I18n.format("menu.returnToMenu")));
 
         /* If Client is on server, add disconnect button */
         if (!mc.isIntegratedServerRunning()) (buttonList.get(0)).displayString = I18n.format("menu.disconnect");
 
         /* Add initial buttons */
-        buttonList.add(new GuiButton(4, width / 2 - 100, height / 4 + 24 + i, I18n.format("menu.returnToGame")));
-        buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + i, 98, 20, I18n.format("menu.options")));
+        buttonList.add(new GuiButton(4, width / 2 - 100,
+                Settings.CLEANER_MENUS ? height / 4 + 39 : height / 4 + 28,
+                I18n.format("menu.returnToGame")));
+
+        buttonList.add(new GuiButton(0, width / 2 - 100,
+                Settings.CLEANER_MENUS ? height / 4 + 87 : height / 4 + 100, 98,
+                20, I18n.format("menu.options")));
 
         GuiButton guibutton;
-        buttonList.add(guibutton = new GuiButton(7, width / 2 + 2, height / 4 + 96 + i, 98, 20, I18n.format("menu.shareToLan")));
-        buttonList.add(new GuiButton(5, width / 2 - 100, height / 4 + 48 + i, 98, 20, I18n.format("gui.achievements")));
-        buttonList.add(new GuiButton(6, width / 2 + 2, height / 4 + 48 + i, 98, 20, I18n.format("gui.stats")));
-
+        buttonList.add(guibutton = new GuiButton(7, width / 2 + 2,
+                Settings.CLEANER_MENUS ? height / 4 + 87 : height / 4 + 100,
+                98, 20, I18n.format("menu.shareToLan")));
         guibutton.enabled = mc.isSingleplayer() && !mc.getIntegratedServer().getPublic();
 
-        buttonList.add(new GuiButton(9, width / 2 - 100, height / 4 + 56, 98, 20, I18n.format("button.ingame.hyperiumsettings")));
-        buttonList.add(new GuiButton(8, width / 2 + 2, height / 4 + 56, 98, 20, I18n.format("button.ingame.hyperiumcredits")));
+        buttonList.add(achievements = new GuiButton(5, width / 2 - 100, height / 4 + 52, 98, 20, I18n.format("gui.achievements")));
+        buttonList.add(stats = new GuiButton(6, width / 2 + 2, height / 4 + 52, 98, 20, I18n.format("gui.stats")));
 
-        WorldClient theWorld = Minecraft.getMinecraft().theWorld;
-
-        // Used to detect if the player is on a singleplayer world or a multiplayer world.
-        MinecraftServer integratedServer = Minecraft.getMinecraft().getIntegratedServer();
-        if (theWorld != null && (integratedServer == null)) {
-            GuiButton oldButton = buttonList.remove(3);
-            GuiButton newButton = new GuiButton(10, oldButton.xPosition, oldButton.yPosition, oldButton.getButtonWidth(), 20,
-                I18n.format("button.ingame.serverlist"));
-            buttonList.add(newButton);
-        }
+        buttonList.add(new GuiButton(9, width / 2 - 100,
+                Settings.CLEANER_MENUS ? height / 4 + 63 : height / 4 + 76,
+                98, 20, I18n.format("button.ingame.hyperiumsettings")));
+        buttonList.add(new GuiButton(8, width / 2 + 2,
+                Settings.CLEANER_MENUS ? height / 4 + 63 : height / 4 + 76,
+                98, 20, I18n.format("button.ingame.hyperiumcredits")));
 
     }
 
@@ -131,10 +132,6 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
                 HyperiumMainGui.INSTANCE.show();
                 break;
 
-            case 10:
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiIngameMultiplayer(Minecraft.getMinecraft().currentScreen));
-                break;
-
             default:
                 break;
         }
@@ -143,6 +140,11 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
+
+        if (Settings.CLEANER_MENUS) {
+            achievements.visible = false;
+            stats.visible = false;
+        }
 
         if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf() != null) {
             JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
@@ -179,7 +181,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
 
         if (i > 0) {
             drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.now",
-                ChatColor.GREEN + formatter.format(data.optInt("online")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
+                    ChatColor.GREEN + formatter.format(data.optInt("online")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
         }
 
         GlStateManager.translate(0.0F, 0.0F, -z);
@@ -189,7 +191,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
 
         if (i > 0) {
             drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.lastday",
-                ChatColor.GREEN + formatter.format(data.optInt("day")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
+                    ChatColor.GREEN + formatter.format(data.optInt("day")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
         }
 
         GlStateManager.translate(0.0F, 0.0F, -z);
@@ -199,7 +201,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
 
         if (i > 0) {
             drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.lastweek",
-                ChatColor.GREEN + formatter.format(data.optInt("week")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
+                    ChatColor.GREEN + formatter.format(data.optInt("week")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
         }
 
         GlStateManager.translate(0.0F, 0.0F, -z);
@@ -209,7 +211,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
 
         if (i > 0) {
             drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount.alltime",
-                ChatColor.GREEN + formatter.format(data.optInt("all")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
+                    ChatColor.GREEN + formatter.format(data.optInt("all")) + ChatColor.RESET), 0, 0, 0xFFFFFF);
         }
     }
 

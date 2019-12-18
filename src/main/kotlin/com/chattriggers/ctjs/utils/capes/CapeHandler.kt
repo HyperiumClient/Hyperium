@@ -15,12 +15,12 @@ object CapeHandler {
     init {
         try {
             special = Gson().fromJson(
-                FileLib.getUrlContent("http://167.99.3.229/tracker/special.json"),
+                FileLib.getUrlContent("http://chattriggers.com/tracker/special.json"),
                 Special::class.java
             )
 
-            bindTexture("http://167.99.3.229/assets/images/supporter_cape.png", "capes/ct/supporter")
-            bindTexture("http://167.99.3.229/assets/images/developer_cape.png", "capes/ct/developer")
+            bindTexture("http://chattriggers.com/assets/images/supporter_cape.png", "capes/ct/supporter")
+            bindTexture("http://chattriggers.com/assets/images/developer_cape.png", "capes/ct/developer")
         } catch (e: Exception) {
             special = Special(arrayOf(), arrayOf())
         }

@@ -99,9 +99,9 @@ gui.shop.loading.person=Loading person data...
 
 #Hyperium Settings Text
 gui.settings.discordrp=Discord RP
+gui.settings.rpshowserver=Show Server On Discord RP
 gui.settings.fullbright=Fullbright
 gui.settings.romannumerals=Roman Numerals
-gui.settings.rpshowserver=RP Show Server
 gui.settings.compactchat=Compact Chat
 gui.settings.voidflickerfix=Void Flicker Fix
 gui.settings.fpslimiter=FPS Limiter (in Limbo)
@@ -216,11 +216,12 @@ gui.settings.gpucloudrenderer=Optimized Cloud Renderer
 gui.settings.showofflinedots=Show Offline Indicators
 gui.settings.replacedirtwithbg=Replace Dirt Background
 gui.settings.customhypixeljoinleave=Custom Hypixel Join/Leave Messages
+gui.settings.cleanermenus=Cleaner Menus
 
 #Settings Categories
 gui.category.general=General
-gui.category.improvements=Improvements
-gui.category.integrations=Integrations
+gui.category.performance=Performance
+gui.category.qol=Quality Of Life
 gui.category.cosmetics=Cosmetics
 gui.category.misc=Misc
 gui.category.mods=Mods
@@ -242,6 +243,7 @@ gui.subcategory.popupevents=Popup Events
 gui.subcategory.bossbarmod=Bossbar
 gui.subcategory.entityradius=Entity Radius
 gui.subcategory.fovmodifier=Fov Modifier
+gui.subcategory.discord=Discord
 gui.subcategory.other=Other
 
 #Hyperium Splash Progress

@@ -28,47 +28,48 @@ public class Settings {
 
     public static final Settings INSTANCE = new Settings();
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;discordRPEnabled")
-    @ToggleSetting(name = "gui.settings.discordrp", category = INTEGRATIONS)
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.discordrp", category = DISCORD, mods = true)
     public static boolean DISCORD_RP = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;fullbrightEnabled")
-    @ToggleSetting(name = "gui.settings.fullbright", category = INTEGRATIONS)
-    public static boolean FULLBRIGHT = true;
-
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;romanNumeralsEnabled")
-    @ToggleSetting(name = "gui.settings.romannumerals")
-    public static boolean ROMAN_NUMERALS = true;
-
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;discordServerDisplayEnabled")
-    @ToggleSetting(name = "gui.settings.rpshowserver", category = INTEGRATIONS)
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.rpshowserver", category = DISCORD, mods = true)
     public static boolean DISCORD_RP_SERVER = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;compactChatEnabled")
-    @ToggleSetting(name = "gui.settings.compactchat", category = INTEGRATIONS)
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.fullbright", category = QOL)
+    public static boolean FULLBRIGHT = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.romannumerals", category = QOL)
+    public static boolean ROMAN_NUMERALS = true;
+
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.compactchat", category = QOL)
     public static boolean COMPACT_CHAT;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;voidflickerfixEnabled")
-    @ToggleSetting(name = "gui.settings.voidflickerfix", category = IMPROVEMENTS)
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.voidflickerfix", category = QOL)
     public static boolean VOID_FLICKER_FIX = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;framerateLimiterEnabled")
-    @ToggleSetting(name = "gui.settings.fpslimiter", category = IMPROVEMENTS)
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.fpslimiter", category = HYPIXEL)
     public static boolean FPS_LIMITER = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;fastchatEnabled")
-    @ToggleSetting(name = "gui.settings.fastchat", category = INTEGRATIONS)
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.fastchat", category = PERFORMANCE)
     public static boolean FASTCHAT;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;shinyPotsEnabled")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.shinypotions", category = ANIMATIONS, mods = true)
     public static boolean SHINY_POTS;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;smartSoundsEnabled")
-    @ToggleSetting(name = "gui.settings.smartsounds", category = IMPROVEMENTS)
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.smartsounds", category = QOL)
     public static boolean SMART_SOUNDS;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;numberPingEnabled")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.numericping", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean NUMBER_PING = true;
 
@@ -96,23 +97,23 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.hotbarkeys", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean HOTBAR_KEYS;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;perspectiveHoldDownEnabled")
-    @ToggleSetting(name = "gui.settings.holdperspectivekey")
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.holdperspectivekey", category = QOL)
     public static boolean PERSPECTIVE_HOLD;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
-    @ToggleSetting(name = "gui.settings.windowedfullscreen", category = IMPROVEMENTS)
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.windowedfullscreen", category = QOL)
     public static boolean WINDOWED_FULLSCREEN;
 
     @ConfigOpt
     @SliderSetting(name = "gui.settings.guialpha", min = 0, max = 255, category = GENERAL)
     public static double SETTINGS_ALPHA = 100;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;uploadScreenshotsByDefault")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.uploadscreenshots")
     public static boolean DEFAULT_UPLOAD_SS;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;blurGuiBackgroundsEnabled")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.blurredguibackground")
     public static boolean BLUR_GUI;
 
@@ -124,7 +125,7 @@ public class Settings {
     @SelectorSetting(name = "Companion Type", category = COSMETICS, items = "NONE")
     public static String COMPANION_TYPE = "NONE";
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.welcometothehypixelzoo", category = HYPIXEL)
     public static boolean HYPIXEL_ZOO = true;
 
@@ -136,36 +137,36 @@ public class Settings {
     @ToggleSetting(category = GENERAL, name = "Show own name tag")
     public static boolean SHOW_OWN_NAME;
 
-    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;showCosmeticsEveryWhere")
+    @ConfigOpt
     @ToggleSetting(category = COSMETICS, name = "gui.settings.showcosmeticseverywhere")
     public static boolean SHOW_COSMETICS_EVERYWHERE = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabToggle")
+    @ConfigOpt
     public static boolean DAB_TOGGLE;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;tPoseToggle")
+    @ConfigOpt
     public static boolean TPOSE_TOGGLE;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flossDanceToggle")
+    @ConfigOpt
     public static boolean FLOSS_TOGGLE;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBlockhit")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.17blockhitting", category = ANIMATIONS, mods = true)
     public static boolean OLD_BLOCKHIT = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBow")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.17bowposition", category = ANIMATIONS, mods = true)
     public static boolean OLD_BOW = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldRod")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.17rodposition", category = ANIMATIONS, mods = true)
     public static boolean OLD_ROD = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;redArmour")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.17redarmour", category = ANIMATIONS, mods = true)
     public static boolean OLD_ARMOUR = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldEat")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.17eating", category = ANIMATIONS, mods = true)
     public static boolean OLD_EATING = true;
 
@@ -193,53 +194,53 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.customswordanimation", category = ANIMATIONS, mods = true)
     public static boolean CUSTOM_SWORD_ANIMATION;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.fliptogglemode", category = COSMETICS)
     public static boolean isFlipToggle = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptype")
+    @ConfigOpt
     public static int flipType = 1;
 
     @ConfigOpt
-    @SelectorSetting(name = "gui.settings.fliptype", category = COSMETICS, items = {})//OVERRIDEN
+    @SelectorSetting(name = "gui.settings.fliptype", category = COSMETICS, items = {})
     public static String FLIP_TYPE_STRING = "FLIP";
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;tposetoggle")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.tposetogglemode", category = COSMETICS)
     public static boolean TPOSE_TOGGLE_MODE = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;backgroundSelect")
+    @ConfigOpt
     @SelectorSetting(name = "gui.settings.background", category = MISC, items =
-        {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "CUSTOM"
-        }
+            {
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "CUSTOM"
+            }
     )
     public static String BACKGROUND = "1";
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;fastWorldGuiEnabled")
-    @ToggleSetting(name = "gui.settings.transparentcontainerbackgrounds")
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.transparentcontainerbackgrounds", category = PERFORMANCE)
     public static boolean FAST_CONTAINER;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;particlesModeString")
+    @ConfigOpt
     @SelectorSetting(name = "gui.settings.particlesmode", items =
-        {
-            "OFF",
-            "PLAIN 1",
-            "PLAIN 2",
-            "CHROMA 1",
-            "CHROMA 2"
-        }, category = COSMETICS
+            {
+                    "OFF",
+                    "PLAIN 1",
+                    "PLAIN 2",
+                    "CHROMA 1",
+                    "CHROMA 2"
+            }, category = COSMETICS
     )
     public static String PARTICLE_MODE = "OFF";
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;maxParticles")
+    @ConfigOpt
     public static int MAX_PARTICLES = 200;
 
     @ConfigOpt
@@ -251,7 +252,7 @@ public class Settings {
     @SliderSetting(name = "gui.settings.headitemscale", category = ANIMATIONS, min = 1, max = 3, mods = true)
     public static double HEAD_SCALE_FACTOR = 1.0;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;renderOverInventory")
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.particlesininventory", category = COSMETICS)
     public static boolean PARTICLES_INV = true;
 
@@ -259,27 +260,27 @@ public class Settings {
     @SelectorSetting(name = "gui.settings.deadmau5ears", category = COSMETICS, items = {})
     public static String EARS_STATE = "ON";
 
-    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;SHOW_INGAME_NOTIFICATION_CENTER")
+    @ConfigOpt
     @ToggleSetting(category = MISC, name = "gui.settings.shownotificationcenter")
     public static boolean SHOW_INGAME_NOTIFICATION_CENTER = true;
 
-    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;SHOW_INGAME_CONFIRMATION_POPUP")
+    @ConfigOpt
     @ToggleSetting(category = POPUP_EVENTS, mods = true, name = "gui.settings.showconfirmationpopup")
     public static boolean SHOW_INGAME_CONFIRMATION_POPUP = true;
 
-    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;savePreviusChatMessages")
+    @ConfigOpt
     @ToggleSetting(category = GENERAL, name = "gui.settings.persistentchatmessages")
     public static boolean PERSISTENT_CHAT;
 
-    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;friendsFirstIntag")
+    @ConfigOpt
     @ToggleSetting(category = HYPIXEL, name = "gui.settings.friendsfirstintab")
     public static boolean FRIENDS_FIRST_IN_TAB = true;
 
-    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;showOnlinePlayers")
+    @ConfigOpt
     @ToggleSetting(category = GENERAL, name = "gui.settings.onlineindicator")
     public static boolean SHOW_ONLINE_PLAYERS = true;
 
-    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;pingOnDm")
+    @ConfigOpt
     @ToggleSetting(category = HYPIXEL, name = "gui.settings.pingondm")
     public static boolean PING_ON_DM = true;
 
@@ -308,7 +309,7 @@ public class Settings {
     public static boolean DISABLE_DANCES;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.fastworldswitching", category = IMPROVEMENTS)
+    @ToggleSetting(name = "gui.settings.fastworldswitching", category = PERFORMANCE)
     public static boolean FAST_WORLD_LOADING = true;
 
     @ConfigOpt
@@ -327,7 +328,7 @@ public class Settings {
     @SliderSetting(name = "gui.settings.motionblurintensity", min = 0F, max = 7F, category = Category.MOTION_BLUR, mods = true)
     public static double MOTION_BLUR_AMOUNT = 4.0F;
 
-    @ToggleSetting(name = "gui.settings.showuserdotsonnametags", category = INTEGRATIONS)
+    @ToggleSetting(name = "gui.settings.showuserdotsonnametags", category = GENERAL)
     public static boolean SHOW_DOTS_ON_NAME_TAGS;
 
     @ConfigOpt
@@ -366,7 +367,7 @@ public class Settings {
     public static boolean BETTERF1;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
+    @ToggleSetting(name = "gui.settings.disableenchantglint", category = PERFORMANCE)
     public static boolean DISABLE_ENCHANT_GLINT;
 
     @ConfigOpt
@@ -374,19 +375,19 @@ public class Settings {
     public static boolean HIDE_TITLES;
 
     @ConfigOpt
-    @SliderSetting(name = "gui.settings.fpslimiteramount", isInt = true, min = 5, max = 60, category = IMPROVEMENTS)
+    @SliderSetting(name = "gui.settings.fpslimiteramount", isInt = true, min = 5, max = 60, category = HYPIXEL)
     public static int FPS_LIMITER_AMOUNT = 30;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.disablelightning", category = IMPROVEMENTS)
+    @ToggleSetting(name = "gui.settings.disablelightning", category = PERFORMANCE)
     public static boolean DISABLE_LIGHTNING;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.disablearmorstands", category = IMPROVEMENTS)
+    @ToggleSetting(name = "gui.settings.disablearmorstands", category = PERFORMANCE)
     public static boolean DISABLE_ARMORSTANDS;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.disableitemframes", category = IMPROVEMENTS)
+    @ToggleSetting(name = "gui.settings.disableitemframes", category = PERFORMANCE)
     public static boolean DISABLE_ITEMFRAMES;
 
     @ConfigOpt
@@ -398,7 +399,7 @@ public class Settings {
     public static boolean CONFIRM_QUIT;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.clearglass", category = GENERAL)
+    @ToggleSetting(name = "gui.settings.clearglass", category = QOL)
     public static boolean CLEAR_GLASS;
 
     @ConfigOpt
@@ -410,7 +411,7 @@ public class Settings {
     public static boolean DISABLE_ACHIEVEMENTS;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.disableshadowtext", category = IMPROVEMENTS)
+    @ToggleSetting(name = "gui.settings.disableshadowtext", category = PERFORMANCE)
     public static boolean DISABLE_SHADOW_TEXT;
 
     @ConfigOpt
@@ -468,7 +469,7 @@ public class Settings {
     public static boolean HYPERIUM_TIPS = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.disableendportals", category = IMPROVEMENTS)
+    @ToggleSetting(name = "gui.settings.disableendportals", category = PERFORMANCE)
     public static boolean DISABLE_END_PORTALS;
 
     @ConfigOpt
@@ -517,11 +518,11 @@ public class Settings {
     public static boolean ARM_WAVE_TOGGLE_MODE;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.tabheads", category = IMPROVEMENTS)
+    @ToggleSetting(name = "gui.settings.tabheads", category = PERFORMANCE)
     public static boolean TAB_HEADS = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.gpucloudrenderer", category = IMPROVEMENTS)
+    @ToggleSetting(name = "gui.settings.gpucloudrenderer", category = PERFORMANCE)
     public static boolean GPU_CLOUD_RENDERER;
 
     @ConfigOpt
@@ -531,6 +532,10 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.customhypixeljoinleave", category = HYPIXEL)
     public static boolean CUSTOM_JOIN_LEAVE_MESSAGES = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.cleanermenus", category = QOL)
+    public static boolean CLEANER_MENUS;
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);

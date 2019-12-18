@@ -23,8 +23,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,15 +69,25 @@ public class DefaultConfig {
     }
 
     public void save() {
-        configObjects.forEach(this::saveToJsonFromRamObject);
+        for (Object configObject : configObjects) {
+            saveToJsonFromRamObject(configObject);
+        }
+
         saveFile();
     }
 
     public Object register(Object object) {
         //Don't register stuff to config if they don't have any config opt fields
-        if (Arrays.stream(object.getClass().getDeclaredFields()).noneMatch(f -> f.isAnnotationPresent(ConfigOpt.class))) {
-            return object;
+        boolean b = true;
+        for (Field f : object.getClass().getDeclaredFields()) {
+            if (f.isAnnotationPresent(ConfigOpt.class)) {
+                b = false;
+                break;
+            }
         }
+
+        if (b) return object;
+
         if (object instanceof PreConfigHandler) ((PreConfigHandler) object).preUpdate();
         loadToClass(object);
         configObjects.add(object);
@@ -93,25 +103,20 @@ public class DefaultConfig {
         Class<?> c = object.getClass();
         if (!config.has(c.getName())) config.add(c.getName(), new JsonObject());
 
-        Arrays.stream(c.getDeclaredFields()).filter(f -> f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())).forEach(f -> {
-            f.setAccessible(true);
-            ConfigOpt co = f.getAnnotation(ConfigOpt.class);
-            JsonObject tmp = config.get(c.getName()).getAsJsonObject();
+        for (Field f : c.getDeclaredFields()) {
+            if (f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())) {
+                f.setAccessible(true);
+                JsonObject tmp = config.get(c.getName()).getAsJsonObject();
 
-            if (!co.alt().isEmpty() && config.has(co.alt().split(";")[0]) && !tmp.has(f.getName())) {
-                JsonObject ot = config.get(co.alt().split(";")[0]).getAsJsonObject();
-                if (ot.has(co.alt().split(";")[1]))
-                    tmp.add(f.getName(), ot.get(co.alt().split(";")[1]));
-            }
-
-            if (tmp.has(f.getName())) {
-                try {
-                    f.set(object, gson.fromJson(tmp.get(f.getName()), f.getType()));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                if (tmp.has(f.getName())) {
+                    try {
+                        f.set(object, gson.fromJson(tmp.get(f.getName()), f.getType()));
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        });
+        }
     }
 
     private void saveToJsonFromRamObject(Object o) {
@@ -121,16 +126,18 @@ public class DefaultConfig {
     private void loadToJson(Object object) {
         if (object instanceof PreSaveHandler) ((PreSaveHandler) object).preSave();
         Class<?> c = object.getClass();
-        Arrays.stream(c.getDeclaredFields()).filter(f -> f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())).forEach(f -> {
-            f.setAccessible(true);
-            JsonObject classObject = config.get(c.getName()).getAsJsonObject();
+        for (Field f : c.getDeclaredFields()) {
+            if (f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())) {
+                f.setAccessible(true);
+                JsonObject classObject = config.get(c.getName()).getAsJsonObject();
 
-            try {
-                classObject.add(f.getName(), gson.toJsonTree(f.get(object), f.getType()));
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                try {
+                    classObject.add(f.getName(), gson.toJsonTree(f.get(object), f.getType()));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
-        });
+        }
     }
 
     public JsonObject getConfig() {

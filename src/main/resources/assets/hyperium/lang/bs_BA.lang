@@ -4,7 +4,7 @@ menu.left=Copyright 2019 Hyperium Dev Tim
 menu.right=Nismo dio Mojang AB-a
 menu.credits=Created by the Hyperium Team
 
-#Options
+# Options
 options.particles.disabled=Disabled
 
 # Hyperium Buttons
@@ -98,9 +98,9 @@ gui.shop.loading.person=Učitavanje podataka osoba...
 
 # Hyperium Settings Text
 gui.settings.discordrp=Discord RP
+gui.settings.rpshowserver=RP pokaži poslužitelj
 gui.settings.fullbright=Fullbright
 gui.settings.romannumerals=Rimske brojevi
-gui.settings.rpshowserver=RP pokaži poslužitelj
 gui.settings.compactchat=Kompaktni Chat
 gui.settings.voidflickerfix=Prestaje titranje škripac
 gui.settings.fpslimiter=Ograničivač FPS-a (u Limbo)
@@ -215,11 +215,12 @@ gui.settings.gpucloudrenderer=Optimized Cloud Renderer
 gui.settings.showofflinedots=Show Offline Indicators
 gui.settings.replacedirtwithbg=Replace Dirt Background
 gui.settings.customhypixeljoinleave=Custom Hypixel Join/Leave Messages
+gui.settings.cleanermenus=Cleaner Menus
 
 # Settings Categories
 gui.category.general=General
-gui.category.improvements=Improvements
-gui.category.integrations=Integrations
+gui.category.performance=Performance
+gui.category.qol=Quality Of Life
 gui.category.cosmetics=Cosmetics
 gui.category.misc=Misc
 gui.category.mods=Mods
@@ -241,6 +242,7 @@ gui.subcategory.popupevents=Popup Events
 gui.subcategory.bossbarmod=Bossbar
 gui.subcategory.entityradius=Entity Radius
 gui.subcategory.fovmodifier=Fov Modifier
+gui.subcategory.discord=Discord
 gui.subcategory.other=Other
 
 # Hyperium Splash Progress

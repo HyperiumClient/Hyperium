@@ -120,14 +120,21 @@ public class SettingsHandler {
 
             customStates.put(companion_type, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
-                List<EnumPurchaseType> types = new ArrayList<>();
-                types.add(EnumPurchaseType.DRAGON_COMPANION);
-                types.add(EnumPurchaseType.HAMSTER_COMPANION);
-                types.removeIf(enumPurchaseType -> !self.hasPurchased(enumPurchaseType));
-                List<String> vals = new ArrayList<>();
-                vals.add("NONE");
-                types.stream().map(EnumPurchaseType::getDisplayName).forEach(vals::add);
-                return vals.toArray(new String[0]);
+
+                if (self != null && (self.hasPurchased(EnumPurchaseType.DRAGON_COMPANION) || self.hasPurchased(EnumPurchaseType.HAMSTER_COMPANION))) {
+                    List<EnumPurchaseType> types = new ArrayList<>();
+                    types.add(EnumPurchaseType.DRAGON_COMPANION);
+                    types.add(EnumPurchaseType.HAMSTER_COMPANION);
+                    List<String> vals = new ArrayList<>();
+                    vals.add("NONE");
+                    for (EnumPurchaseType type : types) {
+                        String displayName = type.getDisplayName();
+                        vals.add(displayName);
+                    }
+                    return vals.toArray(new String[0]);
+                }
+
+                return new String[]{"NOT PURCHASED"};
             });
 
             registerCallback(companion_type, o -> {
@@ -262,7 +269,7 @@ public class SettingsHandler {
                             .put("wings_color", true)
                             .put("color_red", wingsRed)
                             .put("color_green", Settings.WINGS_GREEN)
-                            .put("color_blue",  Settings.WINGS_BLUE)));
+                            .put("color_blue", Settings.WINGS_BLUE)));
                 }
             });
 
@@ -296,7 +303,7 @@ public class SettingsHandler {
                             .put("wings_color", true)
                             .put("color_red", Settings.WINGS_GREEN)
                             .put("color_green", wingsGreen)
-                            .put("color_blue",  Settings.WINGS_BLUE)));
+                            .put("color_blue", Settings.WINGS_BLUE)));
                 }
             });
 
@@ -330,7 +337,7 @@ public class SettingsHandler {
                             .put("wings_color", true)
                             .put("color_red", Settings.WINGS_GREEN)
                             .put("color_green", Settings.WINGS_GREEN)
-                            .put("color_blue",  wingsBlue)));
+                            .put("color_blue", wingsBlue)));
                 }
             });
 

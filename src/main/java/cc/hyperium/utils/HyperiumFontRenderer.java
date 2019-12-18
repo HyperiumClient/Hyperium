@@ -122,8 +122,6 @@ public class HyperiumFontRenderer {
 
     public int drawString(String text, float x, float y, int color) {
         if (text == null) return 0;
-        boolean textureEnabled = GlStateManager.isTexture2DEnabled();
-        int texture = GL11.glGetInteger(GL13.GL_ACTIVE_TEXTURE);
 
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
 
@@ -201,10 +199,7 @@ public class HyperiumFontRenderer {
         }
 
         GlStateManager.color(1F, 1F, 1F, 1F);
-        if (textureEnabled) {
-            GlStateManager.bindTexture(texture);
-            GlStateManager.enableTexture2D();
-        }
+        GlStateManager.bindTexture(0);
         GlStateManager.popMatrix();
         return (int) x;
     }
