@@ -1,6 +1,6 @@
 --- original/net/minecraft/entity/player/EntityPlayer.java
 +++ changed/net/minecraft/entity/player/EntityPlayer.java
-@@ -1,26 +1,23 @@
+@@ -1,5 +1,12 @@
  package net.minecraft.entity.player;
  
 +import cc.hyperium.config.Settings;
@@ -9,97 +9,11 @@
 +import cc.hyperium.event.entity.PlayerAttackEntityEvent;
 +import cc.hyperium.event.entity.PlayerSwingEvent;
 +import cc.hyperium.event.world.item.ItemTossEvent;
++import net.minecraft.client.Minecraft;
  import com.google.common.base.Charsets;
  import com.google.common.collect.Lists;
  import com.mojang.authlib.GameProfile;
--import java.util.Collection;
--import java.util.List;
--import java.util.UUID;
- import net.minecraft.block.Block;
- import net.minecraft.block.BlockBed;
- import net.minecraft.block.BlockDirectional;
- import net.minecraft.block.material.Material;
- import net.minecraft.block.state.IBlockState;
-+import net.minecraft.client.Minecraft;
- import net.minecraft.command.server.CommandBlockLogic;
- import net.minecraft.enchantment.EnchantmentHelper;
--import net.minecraft.entity.Entity;
--import net.minecraft.entity.EntityList;
--import net.minecraft.entity.EntityLiving;
--import net.minecraft.entity.EntityLivingBase;
--import net.minecraft.entity.EnumCreatureAttribute;
--import net.minecraft.entity.IEntityMultiPart;
--import net.minecraft.entity.IMerchant;
--import net.minecraft.entity.SharedMonsterAttributes;
-+import net.minecraft.entity.*;
- import net.minecraft.entity.ai.attributes.IAttributeInstance;
- import net.minecraft.entity.boss.EntityDragonPart;
- import net.minecraft.entity.item.EntityBoat;
-@@ -30,10 +27,6 @@
- import net.minecraft.entity.monster.IMob;
- import net.minecraft.entity.passive.EntityHorse;
- import net.minecraft.entity.passive.EntityPig;
--import net.minecraft.entity.player.EntityPlayerMP;
--import net.minecraft.entity.player.EnumPlayerModelParts;
--import net.minecraft.entity.player.InventoryPlayer;
--import net.minecraft.entity.player.PlayerCapabilities;
- import net.minecraft.entity.projectile.EntityArrow;
- import net.minecraft.entity.projectile.EntityFishHook;
- import net.minecraft.event.ClickEvent;
-@@ -43,44 +36,26 @@
- import net.minecraft.inventory.ContainerPlayer;
- import net.minecraft.inventory.IInventory;
- import net.minecraft.inventory.InventoryEnderChest;
--import net.minecraft.item.EnumAction;
--import net.minecraft.item.Item;
--import net.minecraft.item.ItemArmor;
--import net.minecraft.item.ItemBlock;
--import net.minecraft.item.ItemStack;
-+import net.minecraft.item.*;
- import net.minecraft.nbt.NBTTagCompound;
- import net.minecraft.nbt.NBTTagList;
- import net.minecraft.network.play.server.S12PacketEntityVelocity;
- import net.minecraft.potion.Potion;
--import net.minecraft.scoreboard.IScoreObjectiveCriteria;
--import net.minecraft.scoreboard.Score;
--import net.minecraft.scoreboard.ScoreObjective;
--import net.minecraft.scoreboard.ScorePlayerTeam;
--import net.minecraft.scoreboard.Scoreboard;
--import net.minecraft.scoreboard.Team;
-+import net.minecraft.scoreboard.*;
- import net.minecraft.server.MinecraftServer;
- import net.minecraft.stats.AchievementList;
- import net.minecraft.stats.StatBase;
- import net.minecraft.stats.StatList;
- import net.minecraft.tileentity.TileEntitySign;
--import net.minecraft.util.AxisAlignedBB;
--import net.minecraft.util.BlockPos;
--import net.minecraft.util.ChatComponentText;
--import net.minecraft.util.DamageSource;
--import net.minecraft.util.EnumFacing;
--import net.minecraft.util.EnumParticleTypes;
--import net.minecraft.util.FoodStats;
--import net.minecraft.util.IChatComponent;
--import net.minecraft.util.MathHelper;
--import net.minecraft.util.Vec3;
--import net.minecraft.world.EnumDifficulty;
--import net.minecraft.world.IInteractionObject;
--import net.minecraft.world.LockCode;
--import net.minecraft.world.World;
--import net.minecraft.world.WorldSettings;
-+import net.minecraft.util.*;
-+import net.minecraft.world.*;
- import net.minecraftforge.fml.relauncher.Side;
- import net.minecraftforge.fml.relauncher.SideOnly;
- 
-+import java.util.Collection;
-+import java.util.List;
-+import java.util.UUID;
-+
- @SuppressWarnings("incomplete-switch")
- public abstract class EntityPlayer extends EntityLivingBase {
-    /** Inventory of the player */
-@@ -157,6 +132,8 @@
+@@ -157,6 +164,8 @@
        this.setLocationAndAngles((double)blockpos.getX() + 0.5D, (double)(blockpos.getY() + 1), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
        this.unused180 = 180.0F;
        this.fireResistance = 20;
@@ -108,7 +22,7 @@
     }
  
     protected void applyEntityAttributes() {
-@@ -484,6 +461,13 @@
+@@ -484,6 +493,13 @@
        super.updateEntityActionState();
        this.updateArmSwingProgress();
        this.rotationYawHead = this.rotationYaw;
@@ -122,7 +36,7 @@
     }
  
     /**
-@@ -582,6 +566,8 @@
+@@ -582,6 +598,8 @@
      * Called when the mob's health reaches 0.
      */
     public void onDeath(DamageSource cause) {
@@ -131,7 +45,7 @@
        super.onDeath(cause);
        this.setSize(0.2F, 0.2F);
        this.setPosition(this.posX, this.posY, this.posZ);
-@@ -714,6 +700,7 @@
+@@ -714,6 +732,7 @@
              this.triggerAchievement(StatList.dropStat);
           }
  
@@ -139,7 +53,7 @@
           return entityitem;
        }
     }
-@@ -1049,6 +1036,8 @@
+@@ -1049,6 +1068,8 @@
      * called on it. Args: targetEntity
      */
     public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
@@ -148,7 +62,7 @@
        if(targetEntity.canAttackWithItem()) {
           if(!targetEntity.hitByEntity(this)) {
              float f = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
-@@ -1848,28 +1837,67 @@
+@@ -1848,28 +1869,67 @@
        return this.getWorldScoreboard().getPlayersTeam(this.getName());
     }
  
@@ -229,7 +143,7 @@
     }
  
     public void setAbsorptionAmount(float amount) {
-@@ -2012,4 +2040,8 @@
+@@ -2012,4 +2072,8 @@
        OTHER_PROBLEM,
        NOT_SAFE;
     }

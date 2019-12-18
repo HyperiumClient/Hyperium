@@ -279,7 +279,7 @@
     }
  
     /**
-@@ -508,11 +617,13 @@
+@@ -508,8 +617,10 @@
      * Handles keyboard input.
      */
     public void handleKeyboardInput() throws IOException {
@@ -291,11 +291,7 @@
 +         keyTyped(character, Keyboard.getEventKey());
        }
  
--      this.mc.dispatchKeypresses();
-+      mc.dispatchKeypresses();
-    }
- 
-    /**
+       this.mc.dispatchKeypresses();
 @@ -531,6 +642,8 @@
      * Draws either a gradient over the background screen (when it exists) or a flat gradient over background.png
      */

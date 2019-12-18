@@ -18,17 +18,7 @@
  import net.minecraft.crash.CrashReport;
  import net.minecraft.crash.CrashReportCategory;
  import net.minecraft.entity.Entity;
-@@ -30,9 +35,6 @@
- import net.minecraft.world.WorldType;
- import net.minecraft.world.biome.BiomeGenBase;
- import net.minecraft.world.biome.WorldChunkManager;
--import net.minecraft.world.chunk.ChunkPrimer;
--import net.minecraft.world.chunk.IChunkProvider;
--import net.minecraft.world.chunk.NibbleArray;
- import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
- import net.minecraft.world.gen.ChunkProviderDebug;
- import net.minecraftforge.fml.relauncher.Side;
-@@ -595,6 +597,8 @@
+@@ -595,6 +600,8 @@
     }
  
     public int getLightFor(EnumSkyBlock p_177413_1_, BlockPos pos) {
@@ -37,7 +27,7 @@
        int i = pos.getX() & 15;
        int j = pos.getY();
        int k = pos.getZ() & 15;
-@@ -624,6 +628,8 @@
+@@ -624,6 +631,8 @@
     }
  
     public int getLightSubtracted(BlockPos pos, int amount) {
@@ -46,7 +36,7 @@
        int i = pos.getX() & 15;
        int j = pos.getY();
        int k = pos.getZ() & 15;
-@@ -663,6 +669,8 @@
+@@ -663,6 +672,8 @@
           k = this.entityLists.length - 1;
        }
  
@@ -55,7 +45,7 @@
        entityIn.addedToChunk = true;
        entityIn.chunkCoordX = this.xPosition;
        entityIn.chunkCoordY = k;
-@@ -767,6 +775,9 @@
+@@ -767,6 +778,9 @@
           this.worldObj.loadEntities(this.entityLists[i]);
        }
  

@@ -16,18 +16,10 @@
  import net.minecraft.entity.Entity;
  import net.minecraft.entity.player.EntityPlayerMP;
  import net.minecraft.util.BlockPos;
-@@ -42,16 +45,24 @@
-    }
- 
+@@ -44,6 +47,15 @@
     public void renderDebugInfo(ScaledResolution scaledResolutionIn) {
--      this.mc.mcProfiler.startSection("debug");
-+      mc.mcProfiler.startSection("debug");
+       this.mc.mcProfiler.startSection("debug");
        GlStateManager.pushMatrix();
--      this.renderDebugInfoLeft();
--      this.renderDebugInfoRight(scaledResolutionIn);
--      GlStateManager.popMatrix();
--      if(this.mc.gameSettings.showLagometer) {
--         this.renderLagometer();
 +
 +      if (Settings.OLD_DEBUG) {
 +         renderOldDebugInfoLeft();
@@ -35,20 +27,12 @@
 +         GlStateManager.popMatrix();
 +         mc.mcProfiler.endSection();
 +         return;
-       }
- 
--      this.mc.mcProfiler.endSection();
-+      renderDebugInfoLeft();
-+      renderDebugInfoRight(scaledResolutionIn);
-+      GlStateManager.popMatrix();
++      }
 +
-+      if (mc.gameSettings.showLagometer) renderLagometer();
-+
-+      mc.mcProfiler.endSection();
-    }
- 
-    private boolean isReducedDebug() {
-@@ -237,4 +248,57 @@
+       this.renderDebugInfoLeft();
+       this.renderDebugInfoRight(scaledResolutionIn);
+       GlStateManager.popMatrix();
+@@ -237,4 +249,57 @@
     private static long bytesToMb(long bytes) {
        return bytes / 1024L / 1024L;
     }

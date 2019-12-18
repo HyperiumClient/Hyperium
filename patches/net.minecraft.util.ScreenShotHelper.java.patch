@@ -1,49 +1,22 @@
 --- original/net/minecraft/util/ScreenShotHelper.java
 +++ changed/net/minecraft/util/ScreenShotHelper.java
-@@ -1,27 +1,30 @@
- package net.minecraft.util;
- 
--import java.awt.image.BufferedImage;
--import java.io.File;
--import java.nio.IntBuffer;
--import java.text.DateFormat;
--import java.text.SimpleDateFormat;
--import java.util.Date;
--import javax.imageio.ImageIO;
+@@ -7,6 +7,15 @@
+ import java.text.SimpleDateFormat;
+ import java.util.Date;
+ import javax.imageio.ImageIO;
 +import cc.hyperium.Hyperium;
 +import cc.hyperium.config.Settings;
 +import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 +import cc.hyperium.utils.ChatColor;
 +import cc.hyperium.utils.mods.AsyncScreenshotSaver;
 +import net.minecraft.client.Minecraft;
++import org.lwjgl.input.Mouse;
++import org.lwjgl.input.Keyboard;
++import org.lwjgl.opengl.GL12;
  import net.minecraft.client.renderer.GlStateManager;
  import net.minecraft.client.renderer.OpenGlHelper;
--import net.minecraft.client.renderer.texture.TextureUtil;
- import net.minecraft.client.shader.Framebuffer;
--import net.minecraft.event.ClickEvent;
--import net.minecraft.util.ChatComponentText;
--import net.minecraft.util.ChatComponentTranslation;
--import net.minecraft.util.IChatComponent;
- import net.minecraftforge.fml.relauncher.Side;
- import net.minecraftforge.fml.relauncher.SideOnly;
- import org.apache.logging.log4j.LogManager;
- import org.apache.logging.log4j.Logger;
- import org.lwjgl.BufferUtils;
-+import org.lwjgl.input.Keyboard;
-+import org.lwjgl.input.Mouse;
- import org.lwjgl.opengl.GL11;
-+import org.lwjgl.opengl.GL12;
- 
-+import java.io.File;
-+import java.nio.IntBuffer;
-+import java.text.DateFormat;
-+import java.text.SimpleDateFormat;
-+import java.util.Date;
-+
- @SideOnly(Side.CLIENT)
- public class ScreenShotHelper {
-    private static final Logger logger = LogManager.getLogger();
-@@ -36,10 +39,6 @@
+ import net.minecraft.client.renderer.texture.TextureUtil;
+@@ -36,10 +45,6 @@
      * requestedWidthInPixels, requestedHeightInPixels, frameBuffer
      */
     public static IChatComponent saveScreenshot(File gameDirectory, int width, int height, Framebuffer buffer) {
@@ -54,7 +27,7 @@
        return saveScreenshot(gameDirectory, (String)null, width, height, buffer);
     }
  
-@@ -48,63 +47,50 @@
+@@ -48,63 +53,50 @@
      * Args: gameDirectory, fileName, requestedWidthInPixels, requestedHeightInPixels, frameBuffer
      */
     public static IChatComponent saveScreenshot(File gameDirectory, String screenshotName, int width, int height, Framebuffer buffer) {

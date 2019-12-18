@@ -1,16 +1,14 @@
 --- original/net/minecraft/client/gui/GuiControls.java
 +++ changed/net/minecraft/client/gui/GuiControls.java
-@@ -1,6 +1,9 @@
+@@ -1,6 +1,7 @@
  package net.minecraft.client.gui;
  
  import java.io.IOException;
-+import java.util.Arrays;
-+
 +import cc.hyperium.gui.keybinds.GuiKeybinds;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.GuiButton;
  import net.minecraft.client.gui.GuiKeyBindingList;
-@@ -53,6 +56,8 @@
+@@ -53,6 +54,8 @@
           ++i;
        }
  
@@ -19,7 +17,7 @@
     }
  
     /**
-@@ -80,6 +85,8 @@
+@@ -80,6 +83,8 @@
           button.displayString = this.options.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
        }
  

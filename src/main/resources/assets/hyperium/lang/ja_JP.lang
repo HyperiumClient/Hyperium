@@ -215,7 +215,6 @@ gui.settings.gpucloudrenderer=Optimized Cloud Renderer
 gui.settings.showofflinedots=Show Offline Indicators
 gui.settings.replacedirtwithbg=Replace Dirt Background
 gui.settings.customhypixeljoinleave=Custom Hypixel Join/Leave Messages
-gui.settings.cleanermenus=Cleaner Menus
 
 # Settings Categories
 gui.category.general=General
@@ -290,3 +289,5 @@ menu.hyperiumtip.10=You can purchase cosmetics at purchase.sk1er.club!
 menu.hyperiumtip.11=Performance issues? Check out the Improvements category of the Gui!
 menu.hyperiumtip.12=You can change what server appears on the main menu by holding shift and clicking the button!
 menu.hyperiumtip.13=Think you have an idea to improve Hyperium? Let us know in the suggestions channel at discord.gg/Sk1er!
+
+gui.settings.cleanermenus=Cleaner Menus

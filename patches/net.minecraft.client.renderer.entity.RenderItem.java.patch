@@ -1,73 +1,19 @@
 --- original/net/minecraft/client/renderer/entity/RenderItem.java
 +++ changed/net/minecraft/client/renderer/entity/RenderItem.java
-@@ -1,33 +1,14 @@
+@@ -1,5 +1,12 @@
  package net.minecraft.client.renderer.entity;
  
--import java.util.List;
--import java.util.concurrent.Callable;
--import net.minecraft.block.Block;
--import net.minecraft.block.BlockDirt;
--import net.minecraft.block.BlockDoublePlant;
--import net.minecraft.block.BlockFlower;
--import net.minecraft.block.BlockHugeMushroom;
--import net.minecraft.block.BlockPlanks;
--import net.minecraft.block.BlockPrismarine;
--import net.minecraft.block.BlockQuartz;
--import net.minecraft.block.BlockRedSandstone;
--import net.minecraft.block.BlockSand;
--import net.minecraft.block.BlockSandStone;
--import net.minecraft.block.BlockSilverfish;
--import net.minecraft.block.BlockStone;
--import net.minecraft.block.BlockStoneBrick;
--import net.minecraft.block.BlockStoneSlab;
--import net.minecraft.block.BlockStoneSlabNew;
--import net.minecraft.block.BlockTallGrass;
--import net.minecraft.block.BlockWall;
 +import cc.hyperium.config.Settings;
 +import cc.hyperium.mods.glintcolorizer.Colors;
 +import cc.hyperium.mods.sk1ercommon.Multithreading;
 +import com.github.benmanes.caffeine.cache.Cache;
 +import com.github.benmanes.caffeine.cache.Caffeine;
-+import net.minecraft.block.*;
- import net.minecraft.client.Minecraft;
- import net.minecraft.client.gui.FontRenderer;
--import net.minecraft.client.renderer.EntityRenderer;
--import net.minecraft.client.renderer.GlStateManager;
--import net.minecraft.client.renderer.ItemMeshDefinition;
--import net.minecraft.client.renderer.ItemModelMesher;
--import net.minecraft.client.renderer.Tessellator;
--import net.minecraft.client.renderer.WorldRenderer;
-+import net.minecraft.client.renderer.*;
- import net.minecraft.client.renderer.block.model.BakedQuad;
- import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
- import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
-@@ -47,19 +28,15 @@
- import net.minecraft.entity.player.EntityPlayer;
- import net.minecraft.init.Blocks;
- import net.minecraft.init.Items;
--import net.minecraft.item.EnumDyeColor;
--import net.minecraft.item.Item;
--import net.minecraft.item.ItemFishFood;
--import net.minecraft.item.ItemPotion;
--import net.minecraft.item.ItemStack;
--import net.minecraft.util.EnumChatFormatting;
--import net.minecraft.util.EnumFacing;
--import net.minecraft.util.ReportedException;
--import net.minecraft.util.ResourceLocation;
--import net.minecraft.util.Vec3i;
-+import net.minecraft.item.*;
-+import net.minecraft.util.*;
- import net.minecraftforge.fml.relauncher.Side;
- import net.minecraftforge.fml.relauncher.SideOnly;
++import net.minecraft.item.ItemSkull;
 +import org.lwjgl.opengl.GL11;
- 
-+import java.util.List;
-+import java.util.concurrent.Callable;
-+
- @SideOnly(Side.CLIENT)
- public class RenderItem implements IResourceManagerReloadListener {
-    private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-@@ -76,6 +53,14 @@
+ import java.util.List;
+ import java.util.concurrent.Callable;
+ import net.minecraft.block.Block;
+@@ -76,6 +83,14 @@
        this.registerItems();
     }
  
@@ -82,7 +28,7 @@
     /**
      * False when the renderer is rendering the item's effects into a GUI
      *  
-@@ -135,20 +120,41 @@
+@@ -135,20 +150,41 @@
              GlStateManager.translate(-0.5F, -0.5F, -0.5F);
              GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
              GlStateManager.enableRescaleNormal();
@@ -124,7 +70,7 @@
        GlStateManager.depthMask(false);
        GlStateManager.depthFunc(514);
        GlStateManager.disableLighting();
-@@ -309,7 +315,9 @@
+@@ -309,7 +345,9 @@
        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
        this.setupGuiTransform(x, y, ibakedmodel.isGui3d());
        ibakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GUI);
@@ -134,7 +80,7 @@
        GlStateManager.disableAlpha();
        GlStateManager.disableRescaleNormal();
        GlStateManager.disableLighting();
-@@ -395,9 +403,10 @@
+@@ -395,9 +433,10 @@
              GlStateManager.enableDepth();
           }
  
@@ -148,7 +94,7 @@
              GlStateManager.disableLighting();
              GlStateManager.disableDepth();
              GlStateManager.disableTexture2D();
-@@ -980,4 +989,62 @@
+@@ -980,4 +1019,62 @@
     public void onResourceManagerReload(IResourceManager resourceManager) {
        this.itemModelMesher.rebuildCache();
     }

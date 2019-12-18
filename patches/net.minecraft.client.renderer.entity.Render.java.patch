@@ -1,6 +1,6 @@
 --- original/net/minecraft/client/renderer/entity/Render.java
 +++ changed/net/minecraft/client/renderer/entity/Render.java
-@@ -1,13 +1,20 @@
+@@ -1,7 +1,15 @@
  package net.minecraft.client.renderer.entity;
  
 +import cc.hyperium.Hyperium;
@@ -16,13 +16,7 @@
  import net.minecraft.client.gui.FontRenderer;
  import net.minecraft.client.renderer.GlStateManager;
  import net.minecraft.client.renderer.Tessellator;
- import net.minecraft.client.renderer.WorldRenderer;
- import net.minecraft.client.renderer.culling.ICamera;
--import net.minecraft.client.renderer.entity.RenderManager;
- import net.minecraft.client.renderer.texture.TextureAtlasSprite;
- import net.minecraft.client.renderer.texture.TextureMap;
- import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-@@ -23,6 +30,9 @@
+@@ -23,6 +31,9 @@
  import net.minecraftforge.fml.relauncher.SideOnly;
  import org.lwjgl.opengl.GL11;
  
@@ -32,7 +26,7 @@
  @SideOnly(Side.CLIENT)
  public abstract class Render<T extends Entity> {
     private static final ResourceLocation shadowTextures = new ResourceLocation("textures/misc/shadow.png");
-@@ -53,7 +63,7 @@
+@@ -53,7 +64,7 @@
  
     protected void renderName(T entity, double x, double y, double z) {
        if(this.canRenderName(entity)) {
@@ -41,7 +35,7 @@
        }
     }
  
-@@ -62,7 +72,7 @@
+@@ -62,7 +73,7 @@
     }
  
     protected void renderOffsetLivingLabel(T entityIn, double x, double y, double z, String str, float p_177069_9_, double p_177069_10_) {
@@ -50,19 +44,12 @@
     }
  
     /**
-@@ -290,45 +300,76 @@
-     * Renders an entity's name above its head
-     */
-    protected void renderLivingLabel(T entityIn, String str, double x, double y, double z, int maxDistance) {
--      double d0 = entityIn.getDistanceSqToEntity(this.renderManager.livingPlayer);
--      if(d0 <= (double)(maxDistance * maxDistance)) {
--         FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
-+      double d0 = entityIn.getDistanceSqToEntity(renderManager.livingPlayer);
-+
-+      if (d0 <= (double) (maxDistance * maxDistance)) {
+@@ -293,13 +304,20 @@
+       double d0 = entityIn.getDistanceSqToEntity(this.renderManager.livingPlayer);
+       if(d0 <= (double)(maxDistance * maxDistance)) {
+          FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
 +         boolean self = entityIn.equals(Minecraft.getMinecraft().thePlayer);
 +         boolean show = !self || Settings.SHOW_OWN_NAME || RenderNameTagEvent.CANCEL;
-+         FontRenderer fontrenderer = renderManager.getFontRenderer();
           float f = 1.6F;
           float f1 = 0.016666668F * f;
           GlStateManager.pushMatrix();
@@ -81,10 +68,8 @@
           GlStateManager.scale(-f1, -f1, f1);
           GlStateManager.disableLighting();
           GlStateManager.depthMask(false);
-          GlStateManager.disableDepth();
-          GlStateManager.enableBlend();
--         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-+         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+@@ -308,24 +326,56 @@
+          GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
           Tessellator tessellator = Tessellator.getInstance();
           WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 -         int i = 0;
@@ -113,19 +98,27 @@
 +         }
           GlStateManager.enableTexture2D();
 -         fontrenderer.drawString(str, -fontrenderer.getStringWidth(str) / 2, i, 553648127);
-+         if (show)
++
++         if (show) {
 +            fontrenderer.drawString(str, -fontrenderer.getStringWidth(str) / 2, 0, 553648127);
++         }
++
           GlStateManager.enableDepth();
           GlStateManager.depthMask(true);
 -         fontrenderer.drawString(str, -fontrenderer.getStringWidth(str) / 2, i, -1);
-+         if (show)
++
++         if (show) {
 +            fontrenderer.drawString(str, -fontrenderer.getStringWidth(str) / 2, 0, -1);
++         }
++
 +         if (show && Settings.SHOW_ONLINE_PLAYERS && Settings.SHOW_DOTS_ON_NAME_TAGS && entityIn instanceof EntityPlayer) {
 +            String s = "⚫";
 +            UUID gameProfileId = ((EntityPlayer) entityIn).getGameProfile().getId();
 +            boolean online = Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameProfileId);
++
 +            if (StaffUtils.isStaff(gameProfileId) || StaffUtils.isBooster(gameProfileId)) {
 +               StaffUtils.DotColour colour = StaffUtils.getColor(gameProfileId);
++
 +               if (colour.isChroma) {
 +                  drawChromaWaveString(s, (fontrenderer.getStringWidth(str) + fontrenderer.getStringWidth(s)) / 2, -2);
 +               } else {
@@ -137,18 +130,16 @@
 +               fontrenderer.drawString(format, (fontrenderer.getStringWidth(str) + fontrenderer.getStringWidth(s)) / 2, -2, Color.WHITE.getRGB());
 +            }
 +         }
++
 +         if (entityIn instanceof EntityPlayer && !RenderNameTagEvent.CANCEL) {
 +            EventBus.INSTANCE.post(new RenderNameTagEvent(((AbstractClientPlayer) entityIn), renderManager));
 +            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 +         }
++
           GlStateManager.enableLighting();
           GlStateManager.disableBlend();
           GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-+
-          GlStateManager.popMatrix();
-       }
-    }
-@@ -336,4 +377,18 @@
+@@ -336,4 +386,18 @@
     public RenderManager getRenderManager() {
        return this.renderManager;
     }

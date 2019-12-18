@@ -22,7 +22,7 @@
           int i = this.getScrollBarX();
           int j = i + 6;
           this.bindAmountScrolled();
-@@ -201,24 +203,30 @@
+@@ -201,15 +203,22 @@
           GlStateManager.disableFog();
           Tessellator tessellator = Tessellator.getInstance();
           WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -53,10 +53,8 @@
 +
           int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
           int l = this.top + 4 - (int)this.amountScrolled;
--         if(this.hasListHeader) {
-+         if (this.hasListHeader) {
-             this.drawListHeader(k, l, tessellator);
-          }
+          if(this.hasListHeader) {
+@@ -218,7 +227,6 @@
  
           this.drawSelectionBox(k, l, mouseXIn, mouseYIn);
           GlStateManager.disableDepth();
