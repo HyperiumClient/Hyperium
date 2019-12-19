@@ -1,0 +1,287 @@
+
+# Hyperium Disclaimers
+menu.left=Copyright 2019 Team sviluppatori Hyperium
+menu.right=Non affiliato con Mojang AB
+menu.credits=Creato dal Team Hyperium
+
+# Options
+options.particles.disabled=Disabilitato
+
+# Hyperium Buttons
+button.menu.changebackground=Sfondo Menu
+button.menu.cosmeticshop=Negozio Cosmetici
+button.ingame.hyperiumsettings=Impostazioni Hyperium
+button.ingame.hyperiumcredits=Collaboratori
+button.ingame.serverlist=Lista dei server
+button.changebackground.seturl=Imposta URL
+button.changebackground.choosefile=Scegli File
+button.changebackground.resetbackground=Reimposta Sfondo
+
+# Hyperium Disclaimer
+disclaimer.line1=Continuando, comprendi che questo client è %s
+disclaimer.line1.bold=USARE A PROPRIO RISCHIO E PERICOLO
+disclaimer.line2=Gli sviluppatori di Hyperium non sono responsabili per alcun danno o ban
+disclaimer.line3=al tuo account mentre usi questo client
+disclaimer.line4=Countinuando accetti l'informativa sulla privacy %s
+disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
+disclaimer.line5=Per favore clicca il bottone per confermare che acconsenti
+button.disclaimer.accept=Accetta
+button.disclaimer.confirm=Conferma Accettazione
+
+# Hyperium Menu Strings
+menu.profile.credits=%s Crediti
+
+# Hyperium Tabs
+tabs.searchbar=Cerca...
+tab.settings.name=IMPOSTAZIONI
+tab.shop.name=NEGOZIO
+
+# Hyperium Ingame Menu
+gui.ingamemenu.playercount=Conteggio Giocatori Hyperium:
+gui.ingamemenu.playercount.now=Online Adesso: %s
+gui.ingamemenu.playercount.lastday=Giorno Scorso: %s
+gui.ingamemenu.playercount.lastweek=Settimana Scorsa: %s
+gui.ingamemenu.playercount.alltime=Complessivamente: %s
+
+# Hyperium Change Background Text
+gui.changebackground.line1=Inserisci un indirizzo URL o seleziona un file per cambiare lo sfondo.
+gui.changebackground.line2=Per farlo apparire, seleziona "Custom" nelle opzioni dello sfondo.
+gui.changebackground.urlempty=L'URL non può essere vuoto.
+gui.changebackground.invalidurl=Url di immagine PNG non valido
+gui.changebackground.working=Processando...
+gui.changebackground.done=Finito!
+gui.changebackground.invalidpath=Percorso non valido
+gui.changebackground.unknownerror=Errore sconosciuto
+gui.changebackground.downloaderror=Errore durante il download.
+gui.changebackground.selectimage=Imposta l'immagine di sfondo
+
+# Hyperium PurchaseCarousel Text
+gui.purchase.purchased=Comprato
+gui.purchase.purchase=Compra
+gui.purchase.active=Attivo
+gui.purchase.inactive=Non attivato
+gui.purchase.notpurchased=Non Comprato
+gui.purchase.clicktouse=Clicca per usare
+gui.purchase.state=Stato
+
+# Hyperium Cosmetics Gui
+gui.cosmetics.purchase=Compra cosmetici
+gui.cosmetics.refresh=Aggiorna gli acquisti
+gui.cosmetics.credits=Crediti
+gui.cosmetics.totalcredits=Crediti Totali: %s
+gui.cosmetics.remainingcredits=Crediti Rimanenti: %s
+gui.cosmetics.purchased=Pacchetti Comprati
+gui.cosmetics.disableparticles=Disabilita Particelle
+gui.cosmetics.line1=Devi comprare almeno una particella e un' animazione per venire mostrata
+gui.cosmetics.line2=L'animazione Double Twirl è gratis.
+gui.cosmetics.preview=Anteprima
+gui.cosmetics.red=Rosso
+gui.cosmetics.green=Verde
+gui.cosmetics.blue=Blu
+gui.cosmetics.maxage=Vita Particella
+
+# Hyperium Shop Gui
+gui.shop.capes=Mostra Mantelli
+gui.shop.browser=Apri nel browser
+gui.shop.purchasecredits=Compra Crediti
+gui.shop.refresh=Aggiorna
+gui.shop.credits=Crediti
+gui.shop.cosmetics=Cosmetici
+gui.shop.description=Descrizione: %s
+gui.shop.cost=Costo: %s
+gui.shop.status=Stato:
+gui.shop.purchased=Comprato
+gui.shop.purchase=Compra
+gui.shop.insufficientcredits=Crediti Insufficenti!
+gui.shop.loading.cosmetics=Caricamento i cosmetici...
+gui.shop.loading.person=Caricamento dati persona...
+
+# Hyperium Settings Text
+gui.settings.discordrp=Discord RP
+gui.settings.rpshowserver=Mostra il Server Nella Discord RP
+gui.settings.fullbright=Visione Notturna
+gui.settings.romannumerals=Numeri Romani
+gui.settings.compactchat=Chat Compatta
+gui.settings.voidflickerfix=Risoluzione Void Flicker
+gui.settings.fpslimiter=Limitatore FPS (nel Limbo)
+gui.settings.fastchat=Chat Veloce
+gui.settings.shinypotions=Pozioni Luccicanti
+gui.settings.smartsounds=Suoni Intelligenti
+gui.settings.numericping=Ping Numerico
+gui.settings.itemcounter=Mostra Quantità dell'Item Attualmente Tenuto in mano
+gui.settings.showenchantmentsabovehotbar=Mostra Incantamenti sopra la barra dell'inventario
+gui.settings.showattackdamageabovehotbar=Mostra Danno Attacco sopra la barra dell'inventario
+gui.settings.armorprotectionpotentional=Mostra Protezione Armatura nell'Inventario
+gui.settings.armorprojectileprotpotentional=Mostra Protezione dai Proiettili dell'Armatura nell'Inventario
+gui.settings.holdperspectivekey=Tieni premuto il tasto della Prospettiva
+gui.settings.windowedfullscreen=Finestra a schermo intero
+gui.settings.uploadscreenshots=Carica gli Screenshot (di default)
+gui.settings.blurredguibackground=Sfondo GUI sfuocato
+gui.settings.welcometothehypixelzoo=Benvenuto nello Zoo di Hypixel!
+gui.settings.showparticleauras=Mostra Aura Particelle
+gui.settings.showcosmeticseverywhere=Mostra Cosmetici Ovunque
+gui.settings.17blockhitting=Blockhitting 1.7
+gui.settings.17bowposition=Posizione Arco 1.7
+gui.settings.17rodposition=Posizione canna da pesca 1.7
+gui.settings.17redarmour=Armatura rossa 1.7 (quando colpito)
+gui.settings.17eating=Animazione del mangiare 1.7
+gui.settings.17sneakinganimation=Animazione Sneaking 1.7
+gui.settings.17blocking=Animazione blocco della spada 1.7
+gui.settings.17itemheld=Posizione dell'oggetto in mano 1.7
+gui.settings.17debug=Debug 1.7
+gui.settings.17health=Salute 1.7
+gui.settings.customswordanimation=Animazione Pesonalizzata della Spada
+gui.settings.fliptogglemode=Flip - Cambia la Modalità
+gui.settings.fliptype=Tipo di Flip
+gui.settings.tposetogglemode=TPose - Cambia Modalità
+gui.settings.background=Sfondo
+gui.settings.transparentcontainerbackgrounds=Sfondi Trasparenti dei Contenitori
+gui.settings.particlesmode=Modalità Particelle
+gui.settings.maxparticles=Particelle Massime
+gui.settings.headitemscale=Grandezza Item in Testa
+gui.settings.particlesininventory=Particelle Nell'Inventario
+gui.settings.deadmau5ears=Orecchie alla Deadmau5
+gui.settings.shownotificationcenter=Mostra Centro Notifiche
+gui.settings.showconfirmationpopup=Mostra Popup di Conferma
+gui.settings.persistentchatmessages=Messaggi in Chat Persistenti
+gui.settings.friendsfirstintab=Amici Prima Nel menù Tab
+gui.settings.onlineindicator=Indicatore di presenza Online
+gui.settings.pingondm=Produci un suono All'arrivo di un Messaggio Privato
+gui.settings.sprintandperspectivemessages=Sprint e Messaggi di Prospettiva
+gui.settings.showdragonhead=Mostra Testa di Drago
+gui.settings.wingsheight=Altezza Ali
+gui.settings.showwings=Mostra Ali
+gui.settings.wingsscale=Grandezza Ali
+gui.settings.fastworldswitching=Cambio del Mondo Rapido
+gui.settings.maxworldparticles=Massime Particelle nel Mondo
+gui.settings.showparticlein1stperson=Mostra particella in prima persona
+gui.settings.motionblurenabled=Abilitato
+gui.settings.motionblurintensity=Intensità Motion Blur
+gui.settings.showbackground=Mostra Sfondo
+gui.settings.chroma=Chroma
+gui.settings.shadow=Ombra
+gui.settings.details=Dettagli
+gui.settings.showuserdotsonnametags=Mostra puntini utenti sopra la testa
+gui.settings.broadcastachievements=Annuncia Achivement
+gui.settings.showbutt=Mostra Culo
+gui.settings.sendguildwelcomemessage=Invia messaggio di benvenuto della guild
+gui.settings.itemphysics=Fisiche degli Item
+gui.settings.itemphysicsspeed=Velocità di Rotazione
+gui.settings.disable_dances=Disabilità Balletti
+gui.settings.hyperiumprefix=Mostra il Prefisso Chat di Hyperium
+gui.settings.betterf1=Nascondi nomi in F1
+gui.settings.disableenchantglint=Disabilita il luccichio degli Incantamenti
+gui.settings.disabletitles=Disabilita Titoli
+gui.settings.thankwatchdog=Ringrazia Watchdog
+gui.settings.fpslimiteramount=Limite FPS
+gui.settings.disablelightning=Disabilita Lampi
+gui.settings.disablearmorstands=Disabilita gli Armorstand
+gui.settings.disableitemframes=Disabilita le Cornici per Item
+gui.settings.confirmdisconnect=Conferma la Disconnessione
+gui.settings.confirmquit=Conferma Uscita
+gui.settings.hotbarkeys=Tasti Barra inventario
+gui.settings.clearglass=Vetro completamente trasparente
+gui.settings.portalsounds=Disabilita Suoni Portale
+gui.settings.disableachievements=Disabilita gli Achivement
+gui.settings.disableshadowtext=Disabilita il Testo Ombreggiato
+gui.settings.shinypotions.matchcolor=Pozioni Luccicanti - Abbina il Colore della Pozione
+gui.settings.automyposition.enabled=MyPosition Automatica
+gui.settings.automyposition.delay=Ritardo
+gui.settings.bossbarmod.bossbarall=Barra boss
+gui.settings.bossbarmod.bossbartext=Testo Barra boss
+gui.settings.bossbarmod.bossbarhealthbar=Barra della Vita della Barra boss
+gui.settings.bossbarmod.bossbarscale=Grandezza Barra del boss
+gui.settings.bossbarmod.resetbossbar=Reimposta Barra boss
+gui.settings.hyperiumloadingscreen=Schermo di Caricamento Hyperium
+gui.settings.guialpha=Trasparenza Gui
+gui.settings.fireheight=Altezza Fuoco
+gui.settings.entityradiustoggle=Nascondi le Entità entro un certo raggio
+gui.settings.entityradius=Raggio Entità Nascoste
+gui.settings.hyperiumtips=Consigli Hyperium
+gui.settings.disableendportals=Disabilita Portali dell'End
+gui.settings.hideleatherarmor=Disabilita Armatura di Cuoio
+gui.settings.sprintfovmodifier=Modificatore Sprint
+gui.settings.bowfovmodifier=Modificatore Arco
+gui.settings.speedfovmodifier=Modificatore Velocità
+gui.settings.slownessfovmodifier=Modificatore Lentezza
+gui.settings.armwavetogglemode=Saluto col Braccio - Cambia Modalità
+gui.settings.wingsred=Ali Rosse
+gui.settings.wingsgreen=Ali Verdi
+gui.settings.wingsblue=Ali Blu
+gui.settings.tabheads=Teste nel menù Tab
+gui.settings.gpucloudrenderer=Renderizzatore Nuvole Ottimizzato
+gui.settings.showofflinedots=Mostra Indicatori Offline
+gui.settings.customhypixeljoinleave=Messaggi di entrata/uscita Personalizzati su Hypixel
+gui.settings.cleanermenus=Menù più Puliti
+
+# Settings Categories
+gui.category.general=Generale
+gui.category.performance=Performance
+gui.category.qol=Qualità Della Vita
+gui.category.cosmetics=Cosmetici
+gui.category.misc=Varie
+gui.category.mods=Mods
+gui.category.hypixel=Hypixel
+
+# Settings Subcategories
+gui.subcategory.animations=Animazioni
+gui.subcategory.autotip=Autotip
+gui.subcategory.autogg=AutoGG
+gui.subcategory.vanillaenhancements=Vanilla Enhancements
+gui.subcategory.motionblur=Motion Blur
+gui.subcategory.glintcolorizer=Glint Colorizer
+gui.subcategory.itemphysics=Item Physics
+gui.subcategory.chunkanimator=Animatore Chunk
+gui.subcategory.automypos=MyPosition Automatica
+gui.subcategory.popupevents=Eventi Popup
+gui.subcategory.bossbarmod=Bossbar
+gui.subcategory.entityradius=Raggio Entità
+gui.subcategory.fovmodifier=Modificatore Fov
+gui.subcategory.discord=Discord
+gui.subcategory.other=Altro
+
+# Hyperium Splash Progress
+splashprogress.startinggame=Avvio del Gioco...
+splashprogress.loadingresources=Caricamento Risorse...
+splashprogress.creatingdisplay=Creazione Display...
+splashprogress.initializingtextures=Inizializzazione Texture...
+splashprogress.loadinghandlers=Caricamento Gestori di eventi interni...
+splashprogress.registeringlisteners=Registrazione delle classi...
+splashprogress.startinghyperium=Avviando Hyperium...
+splashprogress.registeringconfiguration=Registrazione della Configurazione...
+splashprogress.registeringcommands=Registrazione Comandi...
+splashprogress.loadingintegrations=Caricamento Integrazioni...
+splashprogress.finishing=Ultimando...
+
+# Hyperium Misc Gui Text
+gui.namehistory.text=STORIA NOMI
+gui.confirmdisconnect.text=Sei sicuro di volerti disconnettere?
+gui.confirmquit.text=Sei sicuro di voler uscire?
+
+# Hyperium Chat Message
+message.insufficientcredits=Crediti Insufficenti
+message.attemptingpurchase=Provando a compiere l'acquisto %s
+message.alreadypurchased=Già acquistato %s
+message.invalidparticle=L'attuale tipo di particella è invalido
+message.invalidanimation=Tipo di animazione non valido
+message.purchase=Acquista %s
+
+# Server Fast Join Customization
+gui.serverjoin.enterservername=Inserisci il nome di un server...
+gui.serverjoin.enterserverip=Inserisci l'ip di un server...
+gui.serverjoin.customizeserver=Personalizza Server
+
+# Main Menu Tips
+menu.hyperiumtip.1=La maggior parte dei nostri item HUD possono essere trovati in ChromaHUD!
+menu.hyperiumtip.2=Cambia i tuoi keybind andando nel menù Controlli e cliccando il bottone Hyperium Keybinds!
+menu.hyperiumtip.3=Assicurati di entrare nel nostro server Discord per ricevere supporto, novità e altro! discord.gg/Sk1er
+menu.hyperiumtip.4=Hyperium è Open Source! Dai un'occhiata al codice sorgente su github.com/hyperiumclient!
+menu.hyperiumtip.5=Desideri creare un addon? Dai un'occhiata all'esempio su github.com/hyperiumclient/addon-workspace!
+menu.hyperiumtip.6=Gli Addon sono aggiunte al client create dalla community!
+menu.hyperiumtip.7=Non puoi usare mod Forge con Hyperium!
+menu.hyperiumtip.8=Se riscontri alcun problema, per favore faccelo sapere su discord.gg/Sk1er!
+menu.hyperiumtip.9=Per una lista di comandi, scrivi / e poi premi tab!
+menu.hyperiumtip.10=Puoi comprare cosmetici su purchase.sk1er.club!
+menu.hyperiumtip.11=Problemi di performance? Dai un'occhiata alla categoria Miglioramenti della Gui!
+menu.hyperiumtip.12=Puoi cambiare il server che appare nel menù principale tenendo premuto shift e cliccando il bottone!
+menu.hyperiumtip.13=Pensi di avere un'idea per migliorare Hyperium? Faccelo sapere nel canale suggestions su discord.gg/Sk1er!

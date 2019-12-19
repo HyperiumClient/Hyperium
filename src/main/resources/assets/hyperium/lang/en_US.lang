@@ -118,7 +118,6 @@ gui.settings.holdperspectivekey=Hold Perspective Key
 gui.settings.windowedfullscreen=Windowed Fullscreen
 gui.settings.uploadscreenshots=Upload Screenshots (by default)
 gui.settings.blurredguibackground=Blurred GUI Background
-gui.settings.screenshotonkill=Screenshot On Kill
 gui.settings.welcometothehypixelzoo="Welcome to the Hypixel Zoo!"
 gui.settings.showparticleauras=Show Particle Auras
 gui.settings.showcosmeticseverywhere=Show Cosmetics Everywhere
@@ -170,7 +169,6 @@ gui.settings.sendguildwelcomemessage=Send guild welcome message
 gui.settings.itemphysics=Item Physics
 gui.settings.itemphysicsspeed=Rotation Speed
 gui.settings.disable_dances=Disable Dances
-gui.settings.victoryroyale=Victory Royale
 gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
 gui.settings.betterf1=Hide names in F1
 gui.settings.disableenchantglint=Disable Enchantment Glint
@@ -214,7 +212,6 @@ gui.settings.wingsblue=Wings Blue
 gui.settings.tabheads=Tab Heads
 gui.settings.gpucloudrenderer=Optimized Cloud Renderer
 gui.settings.showofflinedots=Show Offline Indicators
-gui.settings.replacedirtwithbg=Replace Dirt Background
 gui.settings.customhypixeljoinleave=Custom Hypixel Join/Leave Messages
 gui.settings.cleanermenus=Cleaner Menus
 
@@ -226,14 +223,12 @@ gui.category.cosmetics=Cosmetics
 gui.category.misc=Misc
 gui.category.mods=Mods
 gui.category.hypixel=Hypixel
-gui.category.addons=Addons
 
 #Settings Subcategories
 gui.subcategory.animations=Animations
 gui.subcategory.autotip=Autotip
 gui.subcategory.autogg=AutoGG
 gui.subcategory.vanillaenhancements=Vanilla Enhancements
-gui.subcategory.keystrokes=Keystrokes
 gui.subcategory.motionblur=Motion Blur
 gui.subcategory.glintcolorizer=Glint Colorizer
 gui.subcategory.itemphysics=Item Physics
@@ -279,7 +274,7 @@ gui.serverjoin.customizeserver=Customize Server
 
 #Main Menu Tips
 menu.hyperiumtip.1=Most of our HUD items can be found in ChromaHUD!
-menu.hyperiumtip.2=Change your keybinds by going to the Controls menu and clicking the Hyperium Binds button!
+menu.hyperiumtip.2=Change your keybinds by going to the Controls menu and clicking the Hyperium Keybinds button!
 menu.hyperiumtip.3=Make sure to join our Discord for support, news, and more! discord.gg/Sk1er
 menu.hyperiumtip.4=Hyperium is Open Source! Check out the source code at github.com/hyperiumclient!
 menu.hyperiumtip.5=Wish to make an addon? Check out an example at github.com/hyperiumclient/addon-workspace!

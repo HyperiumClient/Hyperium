@@ -163,7 +163,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
         baseAngle %= 360;
 
         ScaledResolution current = ResolutionUtil.current();
-        GlStateManager.translate(current.getScaledWidth() >> 1, 5, 0);
+        GlStateManager.translate(current.getScaledWidth() >> 1, 25, 0);
 
         drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount"), 0, -5, 0xFFFFFF);
         GlStateManager.translate(0F, 10F, 0F);
