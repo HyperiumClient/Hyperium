@@ -17,6 +17,7 @@
 
 package cc.hyperium.utils.statistics;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.event.EventBus;
@@ -43,15 +44,16 @@ public class GeneralStatisticsTracking {
         // Check how much the time has changed since the last use.
         checkTimes();
 
-        String line = event.getChat().getUnformattedText();
-        if (line.startsWith("+") && line.contains("coins")) {
-            int coins = Integer.parseInt(line.split("\\+")[1].split(" coins")[0]);
-
-            // Increment coin counters.
-            EventBus.INSTANCE.post(new HypixelGetCoinsEvent(coins));
-            lifetimeCoins += coins;
-            monthlyCoins += coins;
-            dailyCoins += coins;
+        String message = event.getChat().getUnformattedText();
+        for (String line : message.split("\n")) {
+            if (line.startsWith("§r     •") && line.contains("Coins")) {
+                int coins = Integer.parseInt(line.split("• §6")[1].split(" Coins")[0].replaceAll("[\\D]", ""));
+                // Increment coin counters.
+                EventBus.INSTANCE.post(new HypixelGetCoinsEvent(coins));
+                lifetimeCoins += coins;
+                monthlyCoins += coins;
+                dailyCoins += coins;
+            }
         }
     }
 
