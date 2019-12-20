@@ -9,10 +9,8 @@ import cc.hyperium.event.network.server.hypixel.PlayerLeaveHypixelEvent;
 import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.Sys;
 
 import java.awt.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,19 +22,16 @@ public class HypixelConnectionMessage {
                 && Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
             Multithreading.runAsync(() -> {
                 try {
-                    boolean isInGuild = false;
                     String myGuild = HypixelAPI.INSTANCE.getGuildFromPlayer(Minecraft.getMinecraft().thePlayer.getName()).get().getName();
                     String theirGuild = HypixelAPI.INSTANCE.getGuildFromPlayer(event.getUsername()).get().getName();
-                    System.out.println(myGuild + " " + theirGuild+" "+ myGuild.equalsIgnoreCase(theirGuild));
-                    isInGuild = myGuild.equals(theirGuild);
-                    Color colour = isInGuild ? new Color(34, 189, 23) : new Color(255, 255, 85);
-                    System.out.println(colour.getRGB());
+                    boolean isInGuild = myGuild.equals(theirGuild);
+                    
                     Hyperium.INSTANCE.getNotification().display(event.getUsername(),
                             "has joined the server.\nClick to say hello to them.",
                             5,
                             null,
                             () -> Minecraft.getMinecraft().thePlayer.sendChatMessage("/msg " + event.getUsername() + " Hey!"),
-                            colour
+                            isInGuild ? new Color(34, 189, 23) : new Color(255, 255, 85)
                     );
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -52,19 +47,15 @@ public class HypixelConnectionMessage {
                 && Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
             Multithreading.runAsync(() -> {
                 try {
-                    boolean isInGuild = false;
                     String myGuild = HypixelAPI.INSTANCE.getGuildFromPlayer(Minecraft.getMinecraft().thePlayer.getName()).get().getName();
                     String theirGuild = HypixelAPI.INSTANCE.getGuildFromPlayer(event.getUsername()).get().getName();
-                    System.out.println(myGuild + " " + theirGuild+" "+ myGuild.equalsIgnoreCase(theirGuild));
-                    isInGuild = myGuild.equals(theirGuild);
-                    Color colour = isInGuild ? new Color(34, 189, 23) : new Color(255, 255, 85);
-                    System.out.println(colour.getRGB());
+                    boolean isInGuild = myGuild.equals(theirGuild);
                     Hyperium.INSTANCE.getNotification().display(event.getUsername(),
                             "has left the server.",
                             5,
                             null,
                             null,
-                            colour
+                            isInGuild ? new Color(34, 189, 23) : new Color(255, 255, 85)
                     );
                 } catch (Exception e) {
                     e.printStackTrace();
