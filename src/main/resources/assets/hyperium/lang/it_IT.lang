@@ -265,6 +265,7 @@ message.alreadypurchased=Già acquistato %s
 message.invalidparticle=L'attuale tipo di particella è invalido
 message.invalidanimation=Tipo di animazione non valido
 message.purchase=Acquista %s
+message.browseerror=Impossibile aprire il sito web %s
 
 # Server Fast Join Customization
 gui.serverjoin.enterservername=Inserisci il nome di un server...
