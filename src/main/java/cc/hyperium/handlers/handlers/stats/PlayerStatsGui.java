@@ -34,6 +34,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.client.resources.I18n;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -41,7 +42,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -148,12 +149,16 @@ public class PlayerStatsGui extends HyperiumGui {
     @Override
     protected void pack() {
         reg("VIEW_ON_BEST_WEBSITE", new GuiButton(nextId(), 1, 1, "View on Sk1er.club"), button -> {
-            Desktop desktop = Desktop.getDesktop();
+            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
             if (desktop != null) {
                 try {
-                    desktop.browse(new URL("https://sk1er.club/stats/" + player.getName()).toURI());
-                } catch (IOException | URISyntaxException e) {
-                    e.printStackTrace();
+                    URI uri = new URL("https://sk1er.club/stats/" + player.getName()).toURI();
+                    if(desktop.isSupported(Desktop.Action.BROWSE))
+                        desktop.browse(uri);
+                    else
+                        GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
+                } catch (Exception e) {
+                    Hyperium.LOGGER.error("Could not open link", e);
                 }
             }
         }, button -> {

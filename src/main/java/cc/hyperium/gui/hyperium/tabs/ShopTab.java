@@ -25,17 +25,20 @@ import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.components.ButtonComponent;
 import cc.hyperium.gui.hyperium.components.CollapsibleTabComponent;
 import cc.hyperium.gui.hyperium.components.LabelComponent;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
+import net.minecraft.client.resources.I18n;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -77,23 +80,31 @@ public class ShopTab extends AbstractTab {
             () -> new ParticleGui().show()));
         infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Open in browser",
             () -> {
-                Desktop desktop = Desktop.getDesktop();
+                Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
                 if (desktop != null) {
                     try {
-                        desktop.browse(new URI("https://hyperium.sk1er.club"));
-                    } catch (IOException | URISyntaxException e) {
-                        e.printStackTrace();
+                        URI uri = new URL("https://hyperium.sk1er.club").toURI();
+                        if(desktop.isSupported(Desktop.Action.BROWSE))
+                            desktop.browse(uri);
+                        else
+                            GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
+                    } catch (Exception e) {
+                        Hyperium.LOGGER.error("Could not open link", e);
                     }
                 }
             }));
         infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Purchase credits",
             () -> {
-                Desktop desktop = Desktop.getDesktop();
+                Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
                 if (desktop != null) {
                     try {
-                        desktop.browse(new URI("https://purchase.sk1er.club/category/1125808"));
-                    } catch (IOException | URISyntaxException e) {
-                        e.printStackTrace();
+                        URI uri = new URL("https://purchase.sk1er.club/category/1125808").toURI();
+                        if(desktop.isSupported(Desktop.Action.BROWSE))
+                            desktop.browse(uri);
+                        else
+                            GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
+                    } catch (Exception e) {
+                        Hyperium.LOGGER.error("Could not open link", e);
                     }
                 }
             }));

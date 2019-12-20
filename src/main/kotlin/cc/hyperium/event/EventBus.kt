@@ -2,6 +2,7 @@ package cc.hyperium.event
 
 import cc.hyperium.Hyperium
 import com.google.common.reflect.TypeToken
+import org.apache.logging.log4j.Level
 import java.util.concurrent.CopyOnWriteArrayList
 
 object EventBus {
