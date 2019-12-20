@@ -23,6 +23,7 @@ import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.network.server.hypixel.HypixelGetCoinsEvent;
 import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.network.server.hypixel.HypixelGetXPEvent;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,13 +47,18 @@ public class GeneralStatisticsTracking {
 
         String message = event.getChat().getUnformattedText();
         for (String line : message.split("\n")) {
-            if (line.startsWith("§r     •") && line.contains("Coins")) {
-                int coins = Integer.parseInt(line.split("• §6")[1].split(" Coins")[0].replaceAll("[\\D]", ""));
-                // Increment coin counters.
-                EventBus.INSTANCE.post(new HypixelGetCoinsEvent(coins));
-                lifetimeCoins += coins;
-                monthlyCoins += coins;
-                dailyCoins += coins;
+            if(line.startsWith("§r     •")) {
+                if (line.contains("Coins")) {
+                    int coins = Integer.parseInt(line.split("• §6")[1].split(" Coins")[0].replaceAll("[\\D]", ""));
+                    EventBus.INSTANCE.post(new HypixelGetCoinsEvent(coins));
+                    // Increment coin counters.
+                    lifetimeCoins += coins;
+                    monthlyCoins += coins;
+                    dailyCoins += coins;
+                } else if (line.contains("Hypixel Experience")){
+                    int coins = Integer.parseInt(line.split("• §3")[1].split(" Hypixel Experience")[0].replaceAll("[\\D]", ""));
+                    EventBus.INSTANCE.post(new HypixelGetXPEvent(coins));
+                }
             }
         }
     }
