@@ -307,6 +307,7 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandPing());
         hyperiumCommandHandler.registerCommand(new CommandStats());
         hyperiumCommandHandler.registerCommand(new CustomLevelheadCommand());
+        hyperiumCommandHandler.registerCommand(new CommandChangeFov());
         if (isDevEnv) {
             hyperiumCommandHandler.registerCommand(new CloudWireframeCommand());
         }

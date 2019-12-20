@@ -17,6 +17,10 @@
 
 package cc.hyperium.commands;
 
+import cc.hyperium.Hyperium;
+import cc.hyperium.utils.ChatColor;
+import net.minecraft.client.Minecraft;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,5 +72,18 @@ public interface BaseCommand {
      */
     default boolean tabOnly() {
         return false;
+    }
+
+    /**
+     * Send the player a message
+     *
+     * @param message the message being sent to a player
+     */
+    default void sendPlayerMessage(String message) {
+        if (Minecraft.getMinecraft().thePlayer != null) {
+            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(
+                    ChatColor.translateAlternateColorCodes('&', message)
+            );
+        }
     }
 }
