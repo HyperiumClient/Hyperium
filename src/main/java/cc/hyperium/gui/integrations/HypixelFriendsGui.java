@@ -212,7 +212,7 @@ public class HypixelFriendsGui extends HyperiumGui {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         selectedBoxes.clear();
         friendListBoxes.clear();
-        friends.removeIf(hypixelApiFriendObject -> !hypixelApiFriendObject.getDisplay().toLowerCase().contains(textField.getText().toLowerCase()));
+        friends.removeIf(hypixelApiFriendObject -> !hypixelApiFriendObject.getDisplay().toLowerCase(Locale.ENGLISH).contains(textField.getText().toLowerCase(Locale.ENGLISH)));
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         textField.drawTextBox();

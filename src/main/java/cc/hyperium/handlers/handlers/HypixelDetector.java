@@ -38,6 +38,7 @@ import net.minecraft.util.ResourceLocation;
 import java.awt.*;
 import java.net.URI;
 import java.net.URL;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class HypixelDetector {
@@ -81,7 +82,7 @@ public class HypixelDetector {
                 if (Minecraft.getMinecraft().getCurrentServerData() != null) {
                     ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
 
-                    if (serverData != null && serverData.serverMOTD != null && serverData.serverMOTD.toLowerCase().contains("hypixel network")) { // Check MOTD for Hypixel
+                    if (serverData != null && serverData.serverMOTD != null && serverData.serverMOTD.toLowerCase(Locale.ENGLISH).contains("hypixel network")) { // Check MOTD for Hypixel
                         hypixel = true;
                         EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.MOTD));
                     }

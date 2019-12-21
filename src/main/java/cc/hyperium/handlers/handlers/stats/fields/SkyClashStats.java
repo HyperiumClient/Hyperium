@@ -27,6 +27,7 @@ import club.sk1er.website.utils.WebsiteUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import net.hypixel.api.GameType;
 
@@ -90,7 +91,7 @@ public class SkyClashStats extends AbstractHypixelStats {
 
         String[] SKYCLASH_MODES = {"Solo", "Doubles", "Team War"};
         for (String front : SKYCLASH_MODES) {
-            String b = front.toLowerCase().replace(" ", "_");
+            String b = front.toLowerCase(Locale.ENGLISH).replace(" ", "_");
             lines.add(new String[]{front,
                 String.valueOf(skyClash.optInt("fastest_win_" + b)),
                 String.valueOf(skyClash.optInt("kills_" + b)),

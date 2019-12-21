@@ -26,6 +26,7 @@ import net.minecraft.client.renderer.GlStateManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class LinkComponent extends AbstractTabComponent {
     private final String label;
@@ -55,7 +56,7 @@ public class LinkComponent extends AbstractTabComponent {
         int line1 = 0;
 
         for (String line : lines) {
-            font.drawString(line.replaceAll("_", " ").toUpperCase(), x + 3, y + 5 + 17 * line1,
+            font.drawString(line.replaceAll("_", " ").toUpperCase(Locale.ENGLISH), x + 3, y + 5 + 17 * line1,
                 0xffffff);
             line1++;
         }

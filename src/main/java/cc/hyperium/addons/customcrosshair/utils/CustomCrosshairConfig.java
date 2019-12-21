@@ -29,6 +29,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CustomCrosshairConfig {
 
@@ -78,8 +79,8 @@ public class CustomCrosshairConfig {
                     int dotBlue = crosshairMod.getCrosshair().getDotColour().getBlue();
                     int dotAlpha = crosshairMod.getCrosshair().getDotColour().getAlpha();
 
-                    final String attribute = splitted[0].toLowerCase().trim();
-                    final String value = splitted[1].toLowerCase().trim();
+                    final String attribute = splitted[0].toLowerCase(Locale.ENGLISH).trim();
+                    final String value = splitted[1].toLowerCase(Locale.ENGLISH).trim();
 
                     switch (attribute) {
                         case "crosshairtype":

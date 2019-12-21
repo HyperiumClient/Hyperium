@@ -87,10 +87,10 @@ public class HyperiumCommandHandler {
         // Check if arguments are provided.
         if (commandLine.contains(" ")) {
             String[] syntax = commandLine.split(" ");
-            commandName = syntax[0].toLowerCase();
+            commandName = syntax[0].toLowerCase(Locale.ENGLISH);
             args = Arrays.copyOfRange(syntax, 1, syntax.length);
         } else {
-            commandName = commandLine.toLowerCase();
+            commandName = commandLine.toLowerCase(Locale.ENGLISH);
         }
 
         // Disabled commands will be ignored

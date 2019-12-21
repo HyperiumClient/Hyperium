@@ -27,6 +27,7 @@ import club.sk1er.website.utils.WebsiteUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import net.hypixel.api.GameType;
 
@@ -82,7 +83,7 @@ public class SpeedUHCStats extends AbstractHypixelStats {
         List<String[]> lines = new ArrayList<>();
         lines.add(new String[]{"Mode", "Kills", "Deaths", "Wins", "Losses", "K/D", "W/L"});
         for (String name : SpeedUHC_modes) {
-            String api = name.toLowerCase().replace(" ", "_");
+            String api = name.toLowerCase(Locale.ENGLISH).replace(" ", "_");
             lines.add(new String[]{name, String.valueOf(speedUhc.optInt("kills_" + api)),
                 String.valueOf(speedUhc.optInt("deaths_" + api)),
                 String.valueOf(speedUhc.optInt("wins_" + api)),

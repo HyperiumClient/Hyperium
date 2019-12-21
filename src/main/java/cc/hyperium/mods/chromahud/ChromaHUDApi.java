@@ -53,21 +53,21 @@ public class ChromaHUDApi {
     }
 
     public List<ButtonConfig> getButtonConfigs(String type) {
-        type = type.toLowerCase();
+        type = type.toLowerCase(Locale.ENGLISH);
         List<ButtonConfig> configs = buttonConfigs.get(type);
         if (configs != null) return new ArrayList<>(configs);
         return new ArrayList<>();
     }
 
     public List<TextConfig> getTextConfigs(String type) {
-        type = type.toLowerCase();
+        type = type.toLowerCase(Locale.ENGLISH);
         List<TextConfig> configs = textConfigs.get(type);
         if (configs != null) return new ArrayList<>(configs);
         return new ArrayList<>();
     }
 
     public List<StringConfig> getStringConfigs(String type) {
-        type = type.toLowerCase();
+        type = type.toLowerCase(Locale.ENGLISH);
         List<StringConfig> configs = stringConfigs.get(type);
         if (configs != null) return new ArrayList<>(configs);
         return new ArrayList<>();
@@ -87,7 +87,7 @@ public class ChromaHUDApi {
      * @param config Config object
      */
     void registerTextConfig(String type, TextConfig config) {
-        type = type.toLowerCase();
+        type = type.toLowerCase(Locale.ENGLISH);
         if (!textConfigs.containsKey(type)) textConfigs.put(type, new ArrayList<>());
         textConfigs.get(type).add(config);
     }
@@ -99,7 +99,7 @@ public class ChromaHUDApi {
      * @param config Config object
      */
     void registerStringConfig(String type, StringConfig config) {
-        type = type.toLowerCase();
+        type = type.toLowerCase(Locale.ENGLISH);
         if (!stringConfigs.containsKey(type)) stringConfigs.put(type, new ArrayList<>());
         stringConfigs.get(type).add(config);
     }
@@ -111,7 +111,7 @@ public class ChromaHUDApi {
      * @param config Config object
      */
     void registerButtonConfig(String type, ButtonConfig config) {
-        type = type.toLowerCase();
+        type = type.toLowerCase(Locale.ENGLISH);
         if (!buttonConfigs.containsKey(type)) buttonConfigs.put(type, new ArrayList<>());
         buttonConfigs.get(type).add(config);
     }

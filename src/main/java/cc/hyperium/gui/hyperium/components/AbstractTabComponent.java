@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -59,7 +60,7 @@ public abstract class AbstractTabComponent {
     }
 
     public boolean filter(String s) {
-        String fs = s.toLowerCase();
+        String fs = s.toLowerCase(Locale.ENGLISH);
         boolean a = (s.equals(sc) ? fc : (fc = tags.stream().anyMatch(t -> t.contains(fs))));
         sc = s;
         return a;
@@ -90,12 +91,26 @@ public abstract class AbstractTabComponent {
     }
 
     public AbstractTabComponent tag(String... ts) {
-        tags.addAll(Arrays.stream(ts).map(String::toLowerCase).collect(Collectors.toList()));
+        List<String> list = new ArrayList<>();
+
+        for (String s : ts) {
+            String toLowerCase = s.toLowerCase(Locale.ENGLISH);
+            list.add(toLowerCase);
+        }
+
+        tags.addAll(list);
         return this;
     }
 
     public AbstractTabComponent tag(List<String> ts) {
-        tags.addAll(ts.stream().map(String::toLowerCase).collect(Collectors.toList()));
+        List<String> list = new ArrayList<>();
+
+        for (String s : ts) {
+            String toLowerCase = s.toLowerCase(Locale.ENGLISH);
+            list.add(toLowerCase);
+        }
+
+        tags.addAll(list);
         return this;
     }
 }

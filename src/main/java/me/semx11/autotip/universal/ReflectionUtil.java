@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -117,7 +118,7 @@ public class ReflectionUtil {
     public static Enum<?> getEnum(Class<?> clazz, String enumName) {
         if (!loadedEnums.containsKey(clazz)) loadedEnums.put(clazz, new HashMap<>());
         Map<String, Enum<?>> clazzEnums = loadedEnums.get(clazz);
-        if (clazzEnums.containsKey(enumName.toUpperCase())) return clazzEnums.get(enumName.toUpperCase());
+        if (clazzEnums.containsKey(enumName.toUpperCase(Locale.ENGLISH))) return clazzEnums.get(enumName.toUpperCase(Locale.ENGLISH));
         assert clazz.getEnumConstants().length != 0 : enumName;
 
         Enum<?> theEnum = null;

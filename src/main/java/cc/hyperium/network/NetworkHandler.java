@@ -35,10 +35,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.IChatComponent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler {
 
@@ -72,7 +69,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
 
     @Override
     public void handleChat(String s) {
-        if (s.toLowerCase().contains("reconnecting hyperium connection")) return;
+        if (s.toLowerCase(Locale.ENGLISH).contains("reconnecting hyperium connection")) return;
         Hyperium.LOGGER.debug("Chat: {}", s);
         s = s.replace("&", C.COLOR_CODE_SYMBOL);
         IChatComponent chatComponent = new ChatComponentText("");

@@ -4,10 +4,7 @@ import cc.hyperium.Hyperium;
 import com.google.gson.JsonObject;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class WebsiteUtils {
 
@@ -85,7 +82,7 @@ public class WebsiteUtils {
 
     public static String getColor(String in) {
         String color = "";
-        switch (in.toLowerCase()) {
+        switch (in.toLowerCase(Locale.ENGLISH)) {
             case "green":
                 color = "§a";
                 break;

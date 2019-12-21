@@ -29,6 +29,7 @@ import net.hypixel.api.GameType;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class BlitzStats extends AbstractHypixelStats {
     @Override
@@ -66,12 +67,9 @@ public class BlitzStats extends AbstractHypixelStats {
         lines.add(new String[]{"Kit", "Level"});
         JsonHolder blitz = player.getStats(GameType.SURVIVAL_GAMES);
         for (String st : WebsiteUtils.blitz_kits) {
-            String tmp1 = null;
-            if (!st.contains("Hype")) {
-                tmp1 = st.replace(" ", "").toLowerCase();
-            } else {
-                tmp1 = st.toLowerCase();
-            }
+            String tmp1 = !st.contains("Hype") ?
+                    st.replace(" ", "").toLowerCase(Locale.ENGLISH) :
+                    st.toLowerCase(Locale.ENGLISH);
             if (blitz.has(tmp1))
                 lines.add(new String[]{st, WebsiteUtils.numeral(blitz.optInt(tmp1) + 1)});
         }

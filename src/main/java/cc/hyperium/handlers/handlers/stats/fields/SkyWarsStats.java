@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import net.hypixel.api.GameType;
 
@@ -111,7 +112,7 @@ public class SkyWarsStats extends AbstractHypixelStats {
         });
 
         for (String front : skywars_modes) {
-            String api = front.toLowerCase().replace(" ", "_");
+            String api = front.toLowerCase(Locale.ENGLISH).replace(" ", "_");
             lines.add(new String[]{front,
                 String.valueOf(skyWars.optInt("kills_" + api)),
                 String.valueOf(skyWars.optInt("wins_" + api)),

@@ -41,6 +41,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ShopTab extends AbstractTab {
@@ -115,8 +116,8 @@ public class ShopTab extends AbstractTab {
 
         cosmeticCallback.getKeys().forEach(key -> {
             JsonHolder cosmetic = cosmeticCallback.optJSONObject(key);
-            if (cosmetic.optBoolean("cape") || key.toLowerCase().startsWith("particle") || cosmetic
-                .optString("name").toLowerCase().endsWith("animation")) {
+            if (cosmetic.optBoolean("cape") || key.toLowerCase(Locale.ENGLISH).startsWith("particle") || cosmetic
+                .optString("name").toLowerCase(Locale.ENGLISH).endsWith("animation")) {
                 return;
             }
 

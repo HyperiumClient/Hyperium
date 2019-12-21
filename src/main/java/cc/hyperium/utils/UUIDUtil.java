@@ -21,6 +21,7 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -29,7 +30,7 @@ import java.util.UUID;
 public class UUIDUtil {
 
     public static String getUUIDWithoutDashes() {
-        return getClientUUID().toString().toLowerCase().replace("-", "");
+        return getClientUUID().toString().toLowerCase(Locale.ENGLISH).replace("-", "");
     }
 
     public static UUID getClientUUID() {

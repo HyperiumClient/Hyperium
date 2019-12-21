@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.GlStateManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /*
  * Created by Sk1er on today (It will be right for a little bit)
@@ -50,7 +51,7 @@ public class LabelComponent extends AbstractTabComponent {
 
         int line1 = 0;
         for (String line : lines) {
-            font.drawString(line.toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
+            font.drawString(line.toUpperCase(Locale.ENGLISH), x + 3, y + 5 + 17 * line1, 0xffffff);
             line1++;
         }
     }

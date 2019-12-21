@@ -50,6 +50,7 @@ import org.lwjgl.input.Keyboard;
 import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -227,7 +228,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
         int c = 0;
         int g = 0;
         for (String s : keys) {
-            boolean flag = self.hasPurchased("ANIMATION_" + s.replace(" ", "_".toUpperCase()));
+            boolean flag = self.hasPurchased("ANIMATION_" + s.replace(" ", "_".toUpperCase(Locale.ENGLISH)));
             boolean flag1 = particle.optString("particle_animation").equalsIgnoreCase(s);
             if (flag1) g = c;
 
@@ -242,7 +243,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                         NettyClient client = NettyClient.getClient();
                         if (client != null) {
                             client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase",
-                                    true).put("value", "ANIMATION_" + s.replace(" ", "_").toUpperCase())));
+                                    true).put("value", "ANIMATION_" + s.replace(" ", "_").toUpperCase(Locale.ENGLISH))));
                         }
                     });
                 } else {

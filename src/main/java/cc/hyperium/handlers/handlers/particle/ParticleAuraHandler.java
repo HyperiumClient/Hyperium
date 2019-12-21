@@ -76,7 +76,7 @@ public class ParticleAuraHandler {
         if (particle_animation == null || type == null) return;
 
         if (!purchase.hasPurchased("PARTICLE_" + type.name()) || !purchase.hasPurchased(
-            "ANIMATION_" + (particle_animation1.toUpperCase().replace(" ", "_")))) {
+            "ANIMATION_" + (particle_animation1.toUpperCase(Locale.ENGLISH).replace(" ", "_")))) {
             return;
         }
 

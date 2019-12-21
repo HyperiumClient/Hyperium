@@ -25,6 +25,7 @@ import net.minecraft.util.IChatComponent;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 /*
@@ -54,7 +55,7 @@ public class WinTrackingChatHandler extends HyperiumChatHandler {
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
         if (thePlayer == null) return false;
 
-        if (text.toLowerCase().contains(thePlayer.getName().toLowerCase() + " winner!")) {
+        if (text.toLowerCase(Locale.ENGLISH).contains(thePlayer.getName().toLowerCase(Locale.ENGLISH) + " winner!")) {
             EventBus.INSTANCE.post(new HypixelWinEvent(Collections.singletonList(thePlayer.getName())));
         }
 

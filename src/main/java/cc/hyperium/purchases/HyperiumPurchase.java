@@ -45,8 +45,8 @@ public class HyperiumPurchase {
             EnumPurchaseType parse = EnumPurchaseType.parse(asString);
             if (parse != EnumPurchaseType.UNKNOWN)
                 try {
-                    AbstractHyperiumPurchase parse1 = PurchaseApi.getInstance().parse(parse, purchaseSettings
-                        .optJSONObject(parse.name().toLowerCase()));
+                    AbstractHyperiumPurchase parse1 = PurchaseApi.getInstance().parse(parse,
+                            purchaseSettings.optJSONObject(parse.name().toLowerCase(Locale.ENGLISH)));
                     if (parse1 != null)
                         purchases.add(parse1);
                 } catch (Exception wtf) {
@@ -54,9 +54,15 @@ public class HyperiumPurchase {
                 }
         }
         if (everything) {
-            Arrays.stream(EnumPurchaseType.values()).filter(enumPurchaseType -> getPurchase(enumPurchaseType) == null &&
-                enumPurchaseType != EnumPurchaseType.UNKNOWN).map(enumPurchaseType -> PurchaseApi.getInstance().parse(enumPurchaseType,
-                purchaseSettings.optJSONObject(enumPurchaseType.name().toLowerCase()))).filter(Objects::nonNull).forEach(purchases::add);
+            for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
+                if (getPurchase(enumPurchaseType) == null && enumPurchaseType != EnumPurchaseType.UNKNOWN) {
+                    AbstractHyperiumPurchase parse = PurchaseApi.getInstance().parse(enumPurchaseType,
+                            purchaseSettings.optJSONObject(enumPurchaseType.name().toLowerCase(Locale.ENGLISH)));
+                    if (parse != null) {
+                        purchases.add(parse);
+                    }
+                }
+            }
         }
     }
 

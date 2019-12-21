@@ -25,6 +25,8 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 
+import java.util.Locale;
+
 /**
  * Main listener for AutoGG
  */
@@ -45,7 +47,7 @@ public class AutoGGListener {
 
     @InvokeEvent
     public void onChat(final ChatEvent event) {
-        if (mod.getConfig().ANTI_GG && invoked && (event.getChat().getUnformattedText().toLowerCase().endsWith("gg") ||
+        if (mod.getConfig().ANTI_GG && invoked && (event.getChat().getUnformattedText().toLowerCase(Locale.ENGLISH).endsWith("gg") ||
             event.getChat().getUnformattedText().endsWith("Good Game")))
             event.setCancelled(true);
 

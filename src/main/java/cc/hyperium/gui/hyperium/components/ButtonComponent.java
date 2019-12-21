@@ -21,6 +21,7 @@ import cc.hyperium.utils.HyperiumFontRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -52,7 +53,7 @@ public class ButtonComponent extends AbstractTabComponent {
 
         int line1 = 0;
         for (String line : lines) {
-            font.drawString(line.toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
+            font.drawString(line.toUpperCase(Locale.ENGLISH), x + 3, y + 5 + 17 * line1, 0xffffff);
             line1++;
         }
     }

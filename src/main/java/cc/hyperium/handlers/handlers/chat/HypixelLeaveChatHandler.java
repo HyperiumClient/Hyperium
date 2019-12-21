@@ -4,6 +4,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.network.server.hypixel.PlayerLeaveHypixelEvent;
 import net.minecraft.util.IChatComponent;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 public class HypixelLeaveChatHandler extends HyperiumChatHandler {
@@ -15,7 +16,7 @@ public class HypixelLeaveChatHandler extends HyperiumChatHandler {
      */
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
-        if (!text.toLowerCase().contains("left.")) return false;
+        if (!text.toLowerCase(Locale.ENGLISH).contains("left.")) return false;
         Matcher matcher = regexPatterns.get(ChatRegexType.PLAYER_LEAVE).matcher(text);
 
         if (matcher.find()) {

@@ -18,6 +18,7 @@
 package cc.hyperium.purchases;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 public enum EnumPurchaseType {
     PARTICLE_BACKGROUND("Particle Background"),
@@ -43,9 +44,15 @@ public enum EnumPurchaseType {
 
     public static EnumPurchaseType parse(String asString) {
         try {
-            return valueOf(asString.toUpperCase());
+            return valueOf(asString.toUpperCase(Locale.ENGLISH));
         } catch (Exception e) {
-            return Arrays.stream(values()).filter(enumPurchaseType -> enumPurchaseType.displayName.equalsIgnoreCase(asString)).findFirst().orElse(UNKNOWN);
+            for (EnumPurchaseType enumPurchaseType : values()) {
+                if (enumPurchaseType.displayName.equalsIgnoreCase(asString)) {
+                    return enumPurchaseType;
+                }
+            }
+
+            return UNKNOWN;
         }
     }
 

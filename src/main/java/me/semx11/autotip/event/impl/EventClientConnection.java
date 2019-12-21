@@ -12,6 +12,8 @@ import me.semx11.autotip.universal.UniversalUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.IChatComponent;
 
+import java.util.Locale;
+
 public class EventClientConnection implements Event {
     private final Autotip autotip;
     private final String hypixelHeader;
@@ -51,7 +53,7 @@ public class EventClientConnection implements Event {
 
         autotip.getMessageUtil().clearQueues();
 
-        serverIp = UniversalUtil.getRemoteAddress(event).toLowerCase();
+        serverIp = UniversalUtil.getRemoteAddress(event).toLowerCase(Locale.ENGLISH);
         lastLogin = System.currentTimeMillis();
 
         taskManager.getExecutor().execute(() -> {

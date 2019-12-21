@@ -22,6 +22,7 @@ import cc.hyperium.event.network.server.hypixel.FriendRemoveEvent;
 import cc.hyperium.event.network.server.hypixel.HypixelFriendRequestEvent;
 import net.minecraft.util.IChatComponent;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,7 +43,7 @@ public class FriendRequestChatHandler extends HyperiumChatHandler {
             EventBus.INSTANCE.post(new FriendRemoveEvent(rank + player, player));
         }
 
-        if (!text.toLowerCase().contains("friend request")) {
+        if (!text.toLowerCase(Locale.ENGLISH).contains("friend request")) {
             return false;
         }
 

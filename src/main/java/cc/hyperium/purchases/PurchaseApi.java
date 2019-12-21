@@ -40,10 +40,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
@@ -91,14 +88,14 @@ public class PurchaseApi {
     }
 
     public UUID nameToUUID(String name) {
-        UUID uuid = nameToUuid.get(name.toLowerCase());
+        UUID uuid = nameToUuid.get(name.toLowerCase(Locale.ENGLISH));
         if (uuid != null) return uuid;
         WorldClient theWorld = Minecraft.getMinecraft().theWorld;
         if (theWorld == null) return null;
 
         for (EntityPlayer playerEntity : theWorld.playerEntities) {
             if (playerEntity.getName().equalsIgnoreCase(name) || EnumChatFormatting.getTextWithoutFormattingCodes(playerEntity.getName()).equalsIgnoreCase(name)) {
-                nameToUuid.put(name.toLowerCase(), playerEntity.getUniqueID());
+                nameToUuid.put(name.toLowerCase(Locale.ENGLISH), playerEntity.getUniqueID());
                 return playerEntity.getUniqueID();
             }
         }

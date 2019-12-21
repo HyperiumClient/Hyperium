@@ -26,6 +26,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Set;
 
 public class AddonWorkspaceResourcePack extends AbstractResourcePack {
@@ -70,10 +71,11 @@ public class AddonWorkspaceResourcePack extends AbstractResourcePack {
         File file1 = new File(resourcePackFile, "assets/");
 
         if (file1.isDirectory()) {
-            Arrays.stream(file1.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY)).map(file2 -> getRelativeName(file1, file2)).forEach(s -> {
-                if (!s.equals(s.toLowerCase())) logNameNotLowercase(s);
+            for (File file2 : file1.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY)) {
+                String s = getRelativeName(file1, file2);
+                if (!s.equals(s.toLowerCase(Locale.ENGLISH))) logNameNotLowercase(s);
                 else set.add(s.substring(0, s.length() - 1));
-            });
+            }
         }
 
         return set;

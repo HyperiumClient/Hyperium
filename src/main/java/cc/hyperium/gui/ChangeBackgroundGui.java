@@ -14,6 +14,7 @@ import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Locale;
 
 public class ChangeBackgroundGui extends GuiScreen {
 
@@ -126,7 +127,7 @@ public class ChangeBackgroundGui extends GuiScreen {
     }
 
     private void handleDownload() {
-        String text = downloadUrlField.getText().toLowerCase().trim();
+        String text = downloadUrlField.getText().toLowerCase(Locale.ENGLISH).trim();
 
         if (text.isEmpty()) {
             statusText = I18n.format("gui.changebackground.urlempty");

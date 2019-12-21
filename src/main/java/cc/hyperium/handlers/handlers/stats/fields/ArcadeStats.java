@@ -27,6 +27,7 @@ import net.hypixel.api.GameType;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ArcadeStats extends AbstractHypixelStats {
     @Override
@@ -80,7 +81,7 @@ public class ArcadeStats extends AbstractHypixelStats {
         items.add(new DisplayLine(bold("Kills: ", arcade.optInt("kills_dayone"))));
         items.add(new DisplayLine(bold("Headshots: ", arcade.optInt("headshots_dayone"))));
         items.add(new DisplayLine(bold("Wins: ", arcade.optInt("wins_dayone"))));
-        items.add(new DisplayLine(bold("Melee Weapon: ", arcade.optString("melee_weapon").toLowerCase().replace("_", " "))));
+        items.add(new DisplayLine(bold("Melee Weapon: ", arcade.optString("melee_weapon").toLowerCase(Locale.ENGLISH).replace("_", " "))));
 
         items.add(new DisplayLine(""));
         items.add(new DisplayLine("Football", Color.WHITE.getRGB(), 2));

@@ -4,6 +4,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.network.server.hypixel.PlayerJoinHypixelEvent;
 import net.minecraft.util.IChatComponent;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 public class HypixelJoinChatHandler extends HyperiumChatHandler {
@@ -15,7 +16,7 @@ public class HypixelJoinChatHandler extends HyperiumChatHandler {
      */
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
-        if (!text.toLowerCase().contains("joined")) return false;
+        if (!text.toLowerCase(Locale.ENGLISH).contains("joined")) return false;
         Matcher matcher = regexPatterns.get(ChatRegexType.PLAYER_JOIN).matcher(text);
 
         if (matcher.find()) {

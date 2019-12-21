@@ -26,6 +26,8 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 
+import java.util.Locale;
+
 public class CommandNickHider implements BaseCommand {
 
     private final String syntax = "/nickhider <toggle, names, othernames, skins, otherskin, myskin, myskinonothers, prefix, suffix>";
@@ -135,7 +137,7 @@ public class CommandNickHider implements BaseCommand {
 
             if (arg.equalsIgnoreCase("set")) {
                 instance.getNicks().removeIf(nick -> nick.oldName.equalsIgnoreCase(arg1));
-                instance.getUsedNicks().remove(arg.toLowerCase());
+                instance.getUsedNicks().remove(arg.toLowerCase(Locale.ENGLISH));
                 instance.remap(arg1, arg2);
                 sendMessage("Remapped!");
                 instance.reset();

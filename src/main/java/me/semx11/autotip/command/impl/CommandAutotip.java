@@ -19,10 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.minecraft.command.CommandBase.getListOfStringsMatchingLastWord;
@@ -67,7 +64,7 @@ public class CommandAutotip extends CommandAbstract {
             return;
         }
 
-        switch (args[0].toLowerCase()) {
+        switch (args[0].toLowerCase(Locale.ENGLISH)) {
             case "s":
             case "stats":
                 LocalDate now = LocalDate.now();
@@ -77,7 +74,7 @@ public class CommandAutotip extends CommandAbstract {
                     return;
                 }
 
-                String param = args[1].toLowerCase();
+                String param = args[1].toLowerCase(Locale.ENGLISH);
                 switch (param) {
                     case "d":
                     case "day":
@@ -272,7 +269,7 @@ public class CommandAutotip extends CommandAbstract {
                 return getListOfStringsMatchingLastWord(args, "stats", "info", "messages", "toggle",
                     "wave", "changelog");
             case 2:
-                switch (args[0].toLowerCase()) {
+                switch (args[0].toLowerCase(Locale.ENGLISH)) {
                     case "s":
                     case "stats":
                         return getListOfStringsMatchingLastWord(args, "day", "yesterday", "week",

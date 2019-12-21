@@ -20,6 +20,7 @@ package cc.hyperium.mods.togglechat.toggles;
 import cc.hyperium.mods.togglechat.toggles.defaults.*;
 
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ToggleBaseHandler {
@@ -37,7 +38,7 @@ public class ToggleBaseHandler {
      */
     public void addToggle(ToggleBase toggleBase) {
         if (toggleBase != null && toggleBase.getName() != null) {
-            toggles.put(toggleBase.getName().toLowerCase().replace(" ", "_"), toggleBase);
+            toggles.put(toggleBase.getName().toLowerCase(Locale.ENGLISH).replace(" ", "_"), toggleBase);
         }
     }
 
@@ -49,7 +50,13 @@ public class ToggleBaseHandler {
      * @return the formatted text
      */
     public boolean shouldToggle(String input) {
-        return toggles.values().stream().anyMatch(parser -> !parser.isEnabled() && parser.shouldToggle(input));
+        for (ToggleBase parser : toggles.values()) {
+            if (!parser.isEnabled() && parser.shouldToggle(input)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

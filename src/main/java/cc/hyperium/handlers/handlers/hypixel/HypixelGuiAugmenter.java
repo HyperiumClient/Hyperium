@@ -27,6 +27,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 public class HypixelGuiAugmenter {
@@ -44,7 +45,7 @@ public class HypixelGuiAugmenter {
             String location = Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation();
 
             //in a lobby
-            if (location.toLowerCase().contains("lobby") && gui instanceof GuiContainer) {
+            if (location.toLowerCase(Locale.ENGLISH).contains("lobby") && gui instanceof GuiContainer) {
                 modifyLobbyGui(gui);
             }
         }

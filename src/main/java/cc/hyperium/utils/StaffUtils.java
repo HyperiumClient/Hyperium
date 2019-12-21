@@ -26,6 +26,7 @@ import net.minecraft.util.HttpUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.UUID;
 
 public class StaffUtils {
@@ -60,7 +61,7 @@ public class StaffUtils {
         for (int i = 0; i < bound; i++) {
             JsonObject item = array.get(i).getAsJsonObject();
             UUID uuid = UUID.fromString(item.get("uuid").getAsString());
-            String colourStr = item.get("color").getAsString().toUpperCase();
+            String colourStr = item.get("color").getAsString().toUpperCase(Locale.ENGLISH);
             DotColour colour = colourStr.equals("CHROMA") ? new DotColour(true, ChatColor.WHITE) : new DotColour(false, ChatColor.valueOf(colourStr));
             staff.put(uuid, new StaffSettings(colour));
         }
@@ -79,7 +80,7 @@ public class StaffUtils {
         for (int i = 0; i < bound; i++) {
             JsonObject item = array.get(i).getAsJsonObject();
             UUID uuid = UUID.fromString(item.get("uuid").getAsString());
-            String colourStr = item.get("color").getAsString().toUpperCase();
+            String colourStr = item.get("color").getAsString().toUpperCase(Locale.ENGLISH);
             DotColour colour = colourStr.equals("CHROMA") ? new DotColour(true, ChatColor.WHITE) : new DotColour(false, ChatColor.valueOf(colourStr));
             boosters.put(uuid, new StaffSettings(colour));
         }
