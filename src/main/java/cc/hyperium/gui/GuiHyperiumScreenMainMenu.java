@@ -53,11 +53,9 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     private Random random = new Random();
     private int ticksUntilNewTip;
 
-    private HyperiumFontRenderer fontRenderer;
+    private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Raleway", 64.0F);
 
     public GuiHyperiumScreenMainMenu() {
-        fontRenderer = new HyperiumFontRenderer("Raleway", 64.0F);
-
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
             GuiHyperiumScreenMainMenu.FIRST_START = false;
             Minecraft.getMinecraft().toggleFullscreen();

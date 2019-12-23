@@ -113,11 +113,11 @@ public class HyperiumFontRenderer {
     }
 
     public void drawStringScaled(String text, int givenX, int givenY, int color, double givenScale) {
-        GL11.glPushMatrix();
-        GL11.glTranslated(givenX, givenY, 0);
-        GL11.glScaled(givenScale, givenScale, givenScale);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(givenX, givenY, 0);
+        GlStateManager.scale(givenScale, givenScale, givenScale);
         drawString(text, 0, 0, color);
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 
     public int drawString(String text, float x, float y, int color) {
@@ -154,6 +154,7 @@ public class HyperiumFontRenderer {
 
         char[] characters = text.toCharArray();
 
+        GlStateManager.disableTexture2D();
         GlStateManager.disableLighting();
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
@@ -200,6 +201,7 @@ public class HyperiumFontRenderer {
 
         GlStateManager.color(1F, 1F, 1F, 1F);
         GlStateManager.bindTexture(0);
+        GlStateManager.enableTexture2D();
         GlStateManager.popMatrix();
         return (int) x;
     }
@@ -223,11 +225,11 @@ public class HyperiumFontRenderer {
      * @param givenScale - Given Scale
      */
     public void drawCenteredTextScaled(String text, int givenX, int givenY, int color, double givenScale) {
-        GL11.glPushMatrix();
-        GL11.glTranslated(givenX, givenY, 0);
-        GL11.glScaled(givenScale, givenScale, givenScale);
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(givenX, givenY, 0);
+        GlStateManager.scale(givenScale, givenScale, givenScale);
         drawCenteredString(text, 0, 0, color);
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 
     public void drawCenteredStringWithShadow(String text, float x, float y, int color) {
