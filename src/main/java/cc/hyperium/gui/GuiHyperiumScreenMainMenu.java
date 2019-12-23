@@ -20,6 +20,7 @@ package cc.hyperium.gui;
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
+import cc.hyperium.gui.buttons.IconButton;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.tips.TipRegistry;
 import cc.hyperium.gui.util.CreateServerButton;
@@ -34,6 +35,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -94,14 +96,16 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         widthCredits = fontRendererObj.getStringWidth(createdByTeam);
         widthCreditsRest = width - widthCredits - 2;
 
-        buttonList.add(new GuiButton(0, centerX - 100, centerY - 60, I18n.format("menu.singleplayer")));
-        buttonList.add(new GuiButton(1, centerX - 100, centerY - 38, I18n.format("menu.multiplayer")));
-        buttonList.add(serverButton = new GuiButton(2, centerX - 100, centerY - 16, I18n.format("button.ingame.joinhypixel")));
-        buttonList.add(new GuiButton(3, centerX - 100, centerY + 6, I18n.format("button.ingame.hyperiumsettings")));
-        buttonList.add(new GuiButton(4, centerX - 100, centerY + 28, 98, 20, I18n.format("menu.options")));
-        buttonList.add(new GuiButton(5, centerX + 2, centerY + 28, 98, 20, I18n.format("menu.quit")));
-        buttonList.add(new GuiButton(6, centerX - 100, centerY + 50, 98, 20, I18n.format("button.menu.cosmeticshop")));
-        buttonList.add(new GuiButton(7, centerX + 2, centerY + 50, 98, 20, I18n.format("button.menu.changebackground")));
+        buttonList.add(new GuiButton(0, centerX - 100, centerY - 50, I18n.format("menu.singleplayer")));
+        buttonList.add(new GuiButton(1, centerX - 100, centerY - 28, I18n.format("menu.multiplayer")));
+        buttonList.add(serverButton = new GuiButton(2, centerX - 100, centerY - 6, I18n.format("button.ingame.joinhypixel")));
+        buttonList.add(new GuiButton(3, centerX - 100, centerY + 16, I18n.format("button.ingame.hyperiumsettings")));
+        buttonList.add(new GuiButton(4, centerX - 100, centerY + 38, 98, 20, I18n.format("menu.options")));
+        buttonList.add(new GuiButton(5, centerX + 2, centerY + 38, 98, 20, I18n.format("menu.quit")));
+        buttonList.add(new IconButton(6, 3, 3, 16, 16, I18n.format("button.menu.cosmeticshop"),
+                new ResourceLocation("hyperium", "textures/material/shopping_bag.png")));
+        buttonList.add(new IconButton(7, 23, 3, 16, 16, I18n.format("button.menu.changebackground"),
+                new ResourceLocation("hyperium", "textures/material/gallery.png")));
     }
 
     /**
@@ -126,7 +130,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         if (Settings.HYPERIUM_TIPS && !tipRegistry.getTips().isEmpty()) {
             fontRendererObj.drawSplitString(ChatColor.YELLOW + I18n.format(selectedTip), width / 2 - 200 / 2,
-                    height / 2 + 72, 200, -1);
+                    height / 2 + 62, 200, -1);
         }
 
         // yoinked from 1.12
@@ -142,8 +146,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                     I18n.format("menu.profile.credits", credits), 3, height - (versionOffset + 10), 0xFFFF00);
         }
 
-        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 107, new Color(0, 0, 0, 150).getRGB());
-        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 108, -1);
+        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 95, new Color(0, 0, 0, 150).getRGB());
+        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 96, -1);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
 

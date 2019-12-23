@@ -33,7 +33,9 @@ public enum Icons {
     ARROW_DOWN_ALT(new ResourceLocation("hyperium","textures/material/arrow_down_alt.png")),
     ARROW_UP_ALT(new ResourceLocation("hyperium","textures/material/arrow_up_alt.png")),
     ARROW_LEFT(new ResourceLocation("hyperium","textures/material/arrow_left.png")),
-    ARROW_RIGHT(new ResourceLocation("hyperium","textures/material/arrow_right.png"));
+    ARROW_RIGHT(new ResourceLocation("hyperium","textures/material/arrow_right.png")),
+    COSMETICS(new ResourceLocation("hyperium", "textures/material/shopping_bag.png")),
+    MENU_BACKGROUND(new ResourceLocation("hyperium", "textures/material/gallery.png"));
 
     private ResourceLocation res;
 
