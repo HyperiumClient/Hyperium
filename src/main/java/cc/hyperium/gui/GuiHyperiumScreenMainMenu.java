@@ -187,7 +187,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
 
             case 3:
-                HyperiumMainGui.INSTANCE.show();
+                HyperiumMainGui.INSTANCE.setTab(0);
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(HyperiumMainGui.INSTANCE);
                 break;
 
             case 4:
