@@ -13,5 +13,6 @@
   "quest_complete": "(?<type>Daily|Weekly)? Quest: (?<name>.*) Completed!",
   "win": "(^\\S+) - (?<winners>.*)",
   "player_join": "^(?<player>\\S{1,16}) joined\\.$",
-  "player_leave": "^(?<player>\\S{1,16}) left\\.$"
+  "player_leave": "^(?<player>\\S{1,16}) left\\.$",
+  "skyblock_trade_request": "(?<player>\\S{1,16}) has sent you a trade request\\. Click here to accept!$"
 }

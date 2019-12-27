@@ -142,6 +142,7 @@ public class HyperiumHandlers {
         registerChatHandler(new PartyInviteChatHandler());
         registerChatHandler(new HypixelJoinChatHandler());
         registerChatHandler(new HypixelLeaveChatHandler());
+        registerChatHandler(new SkyblockTradeRequestHandler());
         Hyperium.LOGGER.info("Registering Events");
         EventBus.INSTANCE.register(this);
         Hyperium.LOGGER.info("Finished Loading Handlers");

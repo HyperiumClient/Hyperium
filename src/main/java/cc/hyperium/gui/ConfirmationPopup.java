@@ -22,6 +22,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.interact.KeyPressEvent;
 import cc.hyperium.event.network.server.hypixel.HypixelFriendRequestEvent;
 import cc.hyperium.event.network.server.hypixel.HypixelPartyInviteEvent;
+import cc.hyperium.event.network.server.hypixel.SkyblockTradeRequestEvent;
 import cc.hyperium.event.render.RenderHUDEvent;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
@@ -57,6 +58,15 @@ public class ConfirmationPopup {
             displayConfirmation("Party request from " + e.getFrom(), accept -> {
                 if (accept) Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
                 currentConfirmation.framesLeft = 0;
+            });
+        }
+    }
+
+    @InvokeEvent
+    public void onTradeRequest(SkyblockTradeRequestEvent event) {
+        if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
+            displayConfirmation("Trade request from " + event.getUsername(), accept -> {
+                if (accept) Minecraft.getMinecraft().thePlayer.sendChatMessage("/trade " + event.getUsername());
             });
         }
     }

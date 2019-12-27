@@ -95,7 +95,7 @@
  
        this.renderGlobal.makeEntityOutlineShader();
 +
-+      enableGLErrorChecking = Metadata.isDevelopment();
++      enableGLErrorChecking = Hyperium.INSTANCE.isDevEnv();
 +      EventBus.INSTANCE.post(new InitializationEvent());
     }
  

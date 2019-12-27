@@ -39,10 +39,3 @@ val VERSION
 val VERSION_ID
     @JvmName("getVersionID")
     get() = Hyperium.BUILD_ID
-
-/**
- * @since 15 (Hyperium Build 15)
- */
-val DEVELOPMENT
-    @JvmName("isDevelopment")
-    get() = false
