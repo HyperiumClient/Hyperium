@@ -1,0 +1,288 @@
+
+# Hyperium Disclaimers
+menu.left=Copyright 2019 Hyperium Dev Team
+menu.right=Nesouvisí s Mojang AB
+menu.credits=Vytvořil Hyperium Team
+
+# Options
+options.particles.disabled=Zakázáno
+
+# Hyperium Buttons
+button.menu.changebackground=Pozadí menu
+button.menu.cosmeticshop=Obchod s kosmetickými předměty
+button.ingame.hyperiumsettings=Nastavení Hyperium
+button.ingame.hyperiumcredits=Přispěvatelé
+button.ingame.serverlist=Seznam serverů
+button.changebackground.seturl=Nastavit URL
+button.changebackground.choosefile=Vybrat soubor
+button.changebackground.resetbackground=Přenastavit pozadí
+
+# Hyperium Disclaimer
+disclaimer.line1=Pokračováním jsi si vědom, že tento klient je %s
+disclaimer.line1.bold=POUŽÍVEJ NA VLASTNÍ NEBEZPEČÍ
+disclaimer.line2=Vývojáři Hyperium nejsou zodpovědni za žádné škody nebo bany
+disclaimer.line3=ke tvému účtu při používání tohoto klienta
+disclaimer.line4=Pokračováním souhlasíš se zásadami ochrany soukromí %s
+disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
+disclaimer.line5=Klikni prosím na tlačítko, abys potvrdil, že souhlasíš
+button.disclaimer.accept=Přijmout
+button.disclaimer.confirm=Potvrdit a přijmout
+
+# Hyperium Menu Strings
+menu.profile.credits=%s kreditů
+
+# Hyperium Tabs
+tabs.searchbar=Hledat...
+tab.settings.name=NASTAVENÍ
+tab.shop.name=OBCHOD
+
+# Hyperium Ingame Menu
+gui.ingamemenu.playercount=Počet hráčů používajících Hyperium:
+gui.ingamemenu.playercount.now=Nyní online: %s
+gui.ingamemenu.playercount.lastday=Poslední den: %s
+gui.ingamemenu.playercount.lastweek=Minulý týden: %s
+gui.ingamemenu.playercount.alltime=Za celou dobu: %s
+
+# Hyperium Change Background Text
+gui.changebackground.line1=Pro změnu pozadí zadej URL nebo vyber soubor.
+gui.changebackground.line2=Chceš-li jej zobrazit, zvol “vlastní” v nastavení pozadí.
+gui.changebackground.urlempty=Adresa URL nemůže být prázdná.
+gui.changebackground.invalidurl=Neplatná URL adresa obrázku PNG
+gui.changebackground.working=Zpracovávání...
+gui.changebackground.done=Hotovo!
+gui.changebackground.invalidpath=Neplatná cesta
+gui.changebackground.unknownerror=Neznámá chyba
+gui.changebackground.downloaderror=Chyba při stahování.
+gui.changebackground.selectimage=Vyber obrázek na pozadí
+
+# Hyperium PurchaseCarousel Text
+gui.purchase.purchased=Zakoupeno
+gui.purchase.purchase=Zakoupit
+gui.purchase.active=Aktivní
+gui.purchase.inactive=Neaktivní
+gui.purchase.notpurchased=Nezakoupeno
+gui.purchase.clicktouse=Klikni pro použití
+gui.purchase.state=Stav
+
+# Hyperium Cosmetics Gui
+gui.cosmetics.purchase=Zakoupit kosmetiku
+gui.cosmetics.refresh=Obnovit nákupy
+gui.cosmetics.credits=Kredity
+gui.cosmetics.totalcredits=Celkový počet kreditů: %s
+gui.cosmetics.remainingcredits=Zbývající kredity: %s
+gui.cosmetics.purchased=Zakoupené balíčky
+gui.cosmetics.disableparticles=Zakázat částice
+gui.cosmetics.line1=Musíš si zakoupit alespoň 1 částici a 1 animaci, aby se ti zobrazily
+gui.cosmetics.line2=Animace Double Twirl je zdarma.
+gui.cosmetics.preview=Náhled
+gui.cosmetics.red=Červená
+gui.cosmetics.green=Zelená
+gui.cosmetics.blue=Modrá
+gui.cosmetics.maxage=Životnost částic
+
+# Hyperium Shop Gui
+gui.shop.capes=Zobrazit kápě
+gui.shop.browser=Otevřít v prohlížeči
+gui.shop.purchasecredits=Zakoupit kredity
+gui.shop.refresh=Obnovit
+gui.shop.credits=Kredity
+gui.shop.cosmetics=Kosmetika
+gui.shop.description=Popis: %s
+gui.shop.cost=Cena: %s
+gui.shop.status=Stav:
+gui.shop.purchased=Zakoupeno
+gui.shop.purchase=Zakoupit
+gui.shop.insufficientcredits=Nedostatek kreditů!
+gui.shop.loading.cosmetics=Načítání kosmetiky...
+gui.shop.loading.person=Načítání osobních dat...
+
+# Hyperium Settings Text
+gui.settings.discordrp=Discord RP
+gui.settings.rpshowserver=Zobrazit server na Discord RP
+gui.settings.fullbright=Plný jas
+gui.settings.romannumerals=Římské číslice
+gui.settings.compactchat=Kompaktní chat
+gui.settings.voidflickerfix=Oprava blikání nicoty
+gui.settings.fpslimiter=Limit FPS (v Limbo)
+gui.settings.fastchat=Rychlý chat
+gui.settings.shinypotions=Lesklé lektvary
+gui.settings.smartsounds=Chytré zvuky
+gui.settings.numericping=Číselný ping
+gui.settings.itemcounter=Zobrazit množství aktuálně drženého předmětu
+gui.settings.showenchantmentsabovehotbar=Zobrazit očarování nad lištou
+gui.settings.showattackdamageabovehotbar=Zobrazit poškození útokem nad lištou
+gui.settings.armorprotectionpotentional=Zobrazit ochranu brnění v inventáři
+gui.settings.armorprojectileprotpotentional=Zobrazit ochranu proti střelám v inventáři
+gui.settings.holdperspectivekey=Držet klávesu perspektivy
+gui.settings.windowedfullscreen=Zobrazení přes celou obrazovku v okně
+gui.settings.uploadscreenshots=Nahrávání snímků obrazovky (ve výchozím nastavení)
+gui.settings.blurredguibackground=Rozmazané pozadí GUI
+gui.settings.welcometothehypixelzoo="Vítejte ve Hypixel ZOO!"
+gui.settings.showparticleauras=Zobrazit aury částic
+gui.settings.showcosmeticseverywhere=Zobrazit kosmetiku všude
+gui.settings.17blockhitting=1.7 blockhitting
+gui.settings.17bowposition=1.7 pozice luku
+gui.settings.17rodposition=1.7 pozice prutu
+gui.settings.17redarmour=Červená zbroj jako v 1.7 (při udeření)
+gui.settings.17eating=1.7 jezení
+gui.settings.17sneakinganimation=1.7 animace krčení
+gui.settings.17blocking=1.7 blokování
+gui.settings.17itemheld=1.7 držení předmětu
+gui.settings.17debug=1.7 ladění
+gui.settings.17health=1.7 zdraví
+gui.settings.customswordanimation=Vlastní animace meče
+gui.settings.fliptogglemode=Flip -přepnout režim
+gui.settings.fliptype=Typ převrácení
+gui.settings.tposetogglemode=TPose - přepnout režim
+gui.settings.background=Pozadí
+gui.settings.transparentcontainerbackgrounds=Pozadí v průhledném kontejneru
+gui.settings.particlesmode=Režim částic
+gui.settings.maxparticles=Maximální počet částic
+gui.settings.headitemscale=Měřítko předmětu hlavy
+gui.settings.particlesininventory=Částice v inventáři
+gui.settings.deadmau5ears=Uši Deadmau5
+gui.settings.shownotificationcenter=Zobrazit oznamovací centrum
+gui.settings.showconfirmationpopup=Zobrazit vyskakovací okno s potvrzením
+gui.settings.persistentchatmessages=Trvalé chatové zprávy
+gui.settings.friendsfirstintab=V tabu nejprve přátelé
+gui.settings.onlineindicator=Online indikátor
+gui.settings.pingondm=Ping na PZ
+gui.settings.sprintandperspectivemessages=Zprávy o sprintu a perspektivě
+gui.settings.showdragonhead=Zobrazit dračí hlavu
+gui.settings.wingsheight=Výška křídel
+gui.settings.showwings=Zobrazit křídla
+gui.settings.wingsscale=Měřítko křídel
+gui.settings.fastworldswitching=Rychlé přepnutí světa
+gui.settings.maxworldparticles=Maximální částice ve světě
+gui.settings.showparticlein1stperson=Zobrazit částice v 1. osobě
+gui.settings.motionblurenabled=Povoleno
+gui.settings.motionblurintensity=Intenzita rozmazání pohybu
+gui.settings.showbackground=Zobrazit pozadí
+gui.settings.chroma=Chroma
+gui.settings.shadow=Stín
+gui.settings.details=Podrobnosti
+gui.settings.showuserdotsonnametags=Zobrazit uživatelské tečky na jmenovkách
+gui.settings.broadcastachievements=Vysílat úspěchy
+gui.settings.showbutt=Ukázat zadek
+gui.settings.sendguildwelcomemessage=Poslat uvítací zprávu do skupiny
+gui.settings.itemphysics=Fyzika předmětů
+gui.settings.itemphysicsspeed=Rychlost otáčení
+gui.settings.disable_dances=Zakázat tance
+gui.settings.hyperiumprefix=Zobrazit prefix chatu Hyperium
+gui.settings.betterf1=Skrýt jména v F1
+gui.settings.disableenchantglint=Zakázat záblesk očarování
+gui.settings.disabletitles=Zakázat názvy
+gui.settings.thankwatchdog=Poděkovat Watchdogovi
+gui.settings.fpslimiteramount=Limit FPS
+gui.settings.disablelightning=Zakázat blesky
+gui.settings.disablearmorstands=Zakázat stojany na brnění
+gui.settings.disableitemframes=Zakázat rámečky
+gui.settings.confirmdisconnect=Potvrdit odpojení
+gui.settings.confirmquit=Potvrdit ukončení
+gui.settings.hotbarkeys=Klávesové zkratky
+gui.settings.clearglass=Čisté sklo
+gui.settings.portalsounds=Zakázat zvuky portálu
+gui.settings.disableachievements=Zakázat ocenění
+gui.settings.disableshadowtext=Zakázat text se stínem
+gui.settings.shinypotions.matchcolor=Lesklé lektvary - sjednotit barvu lektvarů
+gui.settings.automyposition.enabled=Automatická MyPosition
+gui.settings.automyposition.delay=Zpoždění
+gui.settings.bossbarmod.bossbarall=Bossbar
+gui.settings.bossbarmod.bossbartext=Text bossbaru
+gui.settings.bossbarmod.bossbarhealthbar=Panel zdraví Bossbar
+gui.settings.bossbarmod.bossbarscale=Měřtko bossbaru
+gui.settings.bossbarmod.resetbossbar=Obnovit bossbar
+gui.settings.hyperiumloadingscreen=Načítací obrazovka Hyperium
+gui.settings.guialpha=Průhlednost GUI
+gui.settings.fireheight=Výška ohně
+gui.settings.entityradiustoggle=Skrýt entity v okruhu
+gui.settings.entityradius=Skrytý dosah entity
+gui.settings.hyperiumtips=Tipy Hyperium
+gui.settings.disableendportals=Zakázat endové portály
+gui.settings.hideleatherarmor=Zakázat kožené brnění
+gui.settings.sprintfovmodifier=Modifikátor sprintu
+gui.settings.bowfovmodifier=Modifikátor luku
+gui.settings.speedfovmodifier=Modifikátor rychlosti
+gui.settings.slownessfovmodifier=Modifikátor pomalosti
+gui.settings.armwavetogglemode=Vlnové paže - přepnout režim
+gui.settings.wingsred=Červená křídla
+gui.settings.wingsgreen=Zelená křídla
+gui.settings.wingsblue=Modrá křídla
+gui.settings.tabheads=Hlavy v tabu
+gui.settings.gpucloudrenderer=Optimalizované vykreslování mraků
+gui.settings.showofflinedots=Skrýt offline indikátory
+gui.settings.customhypixeljoinleave=Vlastní Hypixel zprávy pro odpojení / připojení se
+gui.settings.cleanermenus=Čistší menu
+
+# Settings Categories
+gui.category.general=Obecné
+gui.category.performance=Výkon
+gui.category.qol=Kvalita života
+gui.category.cosmetics=Kosmetika
+gui.category.misc=Různé
+gui.category.mods=Módy
+gui.category.hypixel=Hypixel
+
+# Settings Subcategories
+gui.subcategory.animations=Animace
+gui.subcategory.autotip=Autotip
+gui.subcategory.autogg=AutoGG
+gui.subcategory.vanillaenhancements=Vylepšení Vanilly
+gui.subcategory.motionblur=Rozmazání pohybu
+gui.subcategory.glintcolorizer=Lesklé barvivo
+gui.subcategory.itemphysics=Fyzika předmětů
+gui.subcategory.chunkanimator=Animace chunků
+gui.subcategory.automypos=Automatická MyPosition
+gui.subcategory.popupevents=Vyskakovací události
+gui.subcategory.bossbarmod=Bossbar
+gui.subcategory.entityradius=Dosah entit
+gui.subcategory.fovmodifier=Modifikátor FOV
+gui.subcategory.discord=Discord
+gui.subcategory.other=Ostatní
+
+# Hyperium Splash Progress
+splashprogress.startinggame=Spouštení hry...
+splashprogress.loadingresources=Načítání prostředků...
+splashprogress.creatingdisplay=Vytváření zobrazení...
+splashprogress.initializingtextures=Inicializace textur...
+splashprogress.loadinghandlers=Načítání obslužné rutiny...
+splashprogress.registeringlisteners=Registrování posluchačů...
+splashprogress.startinghyperium=Spouštění Hyperium...
+splashprogress.registeringconfiguration=Registrování konfigurace...
+splashprogress.registeringcommands=Registrování příkazů...
+splashprogress.loadingintegrations=Načítání integrací...
+splashprogress.finishing=Dokončování...
+
+# Hyperium Misc Gui Text
+gui.namehistory.text=HISTORIE JMÉNA
+gui.confirmdisconnect.text=Opravdu se chceš odpojit?
+gui.confirmquit.text=Opravdu chceš ukončit hru?
+
+# Hyperium Chat Message
+message.insufficientcredits=Nedostatek kreditů
+message.attemptingpurchase=Pokouším se koupit %s
+message.alreadypurchased=Předmět %s je již zakoupen
+message.invalidparticle=Neplatný typ aktuálních částic
+message.invalidanimation=Neplatný typ animace
+message.purchase=Zakoupit %s
+message.browseerror=Could not open website %s
+
+# Server Fast Join Customization
+gui.serverjoin.enterservername=Zadej název serveru...
+gui.serverjoin.enterserverip=Zadej IP adresu serveru...
+gui.serverjoin.customizeserver=Přizpůsobit server
+
+# Main Menu Tips
+menu.hyperiumtip.1=Většinu našich HUD položek můžeš nalézt v ChromaHUD!
+menu.hyperiumtip.2=Změň si klávesové zkratky přechodem do menu Ovládání a kliknutím na tlačítko Přiřazení Hyperium!
+menu.hyperiumtip.3=Připoj se na náš Discord server pro podporu, novinky a další! discord.gg/Sk1er
+menu.hyperiumtip.4=Hyperium je open source! Podívej se na zdrojový kód na github.com/hyperiumclient!
+menu.hyperiumtip.5=Chceš udělat doplněk? Podívej se na příklad na github.com/hyperiumclient/addon-workspace!
+menu.hyperiumtip.6=Doplňky jsou přídavky klienta vytvořené komunitou!
+menu.hyperiumtip.7=Nemůžeš použít Forge módy s Hyperium!
+menu.hyperiumtip.8=Pokud narazíš na jakýkoli problém, dej nám vědět na discord.gg/Sk1er!
+menu.hyperiumtip.9=Pro seznam příkazů napiš / a pak stiskni TAB!
+menu.hyperiumtip.10=Kosmetiku si můžeš zakoupit na purchase.sk1er.club!
+menu.hyperiumtip.11=Problémy s výkonem? Podívej se na kategorii Vylepšení v GUI!
+menu.hyperiumtip.12=Můžeš změnit, jaký server se objeví v hlavním menu držením shiftu a kliknutím na tlačítko!
+menu.hyperiumtip.13=Máš nápad na zlepšení Hyperium? Dej nám vědět v kanálu návrhů na discord.gg/Sk1er!

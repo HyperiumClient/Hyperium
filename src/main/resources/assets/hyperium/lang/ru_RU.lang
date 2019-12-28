@@ -1,0 +1,288 @@
+
+# Hyperium Disclaimers
+menu.left=Авторское право 2019 Hyperium Dev Team
+menu.right=Не связано с Mojang AB
+menu.credits=Разработано Hyperium Team
+
+# Options
+options.particles.disabled=Отключено
+
+# Hyperium Buttons
+button.menu.changebackground=Фон Меню
+button.menu.cosmeticshop=Магазин Косметики
+button.ingame.hyperiumsettings=Настройки Hyperium
+button.ingame.hyperiumcredits=Участники
+button.ingame.serverlist=Список Серверов
+button.changebackground.seturl=Задать URL
+button.changebackground.choosefile=Выбрать Файл
+button.changebackground.resetbackground=Сбросить Фон
+
+# Hyperium Disclaimer
+disclaimer.line1=Продолжая, вы подтверждаете, что этот клиент %s
+disclaimer.line1.bold=ВЫ ИСПОЛЬЗУЕТЕ НА СВОЙ СТРАХ И РИСК
+disclaimer.line2=Разработчики Hyperium не несут ответственности за какие-либо проблемы или блокировки
+disclaimer.line3=вашего аккаунта при использовании этого клиента
+disclaimer.line4=Продолжая, вы соглашаетесь с политикой конфиденциальности %s
+disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
+disclaimer.line5=Пожалуйста, нажмите кнопку, чтобы подтвердить свое согласие
+button.disclaimer.accept=Согласен
+button.disclaimer.confirm=Подтвердить Согласие
+
+# Hyperium Menu Strings
+menu.profile.credits=%s Кредиты
+
+# Hyperium Tabs
+tabs.searchbar=Поиск...
+tab.settings.name=НАСТРОЙКИ
+tab.shop.name=МАГАЗИН
+
+# Hyperium Ingame Menu
+gui.ingamemenu.playercount=Количество Игроков Hyperium:
+gui.ingamemenu.playercount.now=Сейчас Онлайн: %s
+gui.ingamemenu.playercount.lastday=Предыдущий День: %s
+gui.ingamemenu.playercount.lastweek=На Прошлой Неделе: %s
+gui.ingamemenu.playercount.alltime=За Все Время: %s
+
+# Hyperium Change Background Text
+gui.changebackground.line1=Чтобы изменить фон, введите URL-адрес ниже или выберите файл.
+gui.changebackground.line2=Для отображения выберите "custom" в настройках фона.
+gui.changebackground.urlempty=URL-адрес не может быть пустым.
+gui.changebackground.invalidurl=Неверный URL-адрес изображения PNG
+gui.changebackground.working=Загрузка...
+gui.changebackground.done=Готово!
+gui.changebackground.invalidpath=Неверный путь
+gui.changebackground.unknownerror=Неизвестная ошибка
+gui.changebackground.downloaderror=Ошибка при загрузке.
+gui.changebackground.selectimage=Выбрать фоновое изображение
+
+# Hyperium PurchaseCarousel Text
+gui.purchase.purchased=Приобретено
+gui.purchase.purchase=Приобрести
+gui.purchase.active=Активно
+gui.purchase.inactive=Неактивно
+gui.purchase.notpurchased=Не Приобретено
+gui.purchase.clicktouse=Нажмите, чтобы использовать
+gui.purchase.state=Состояние
+
+# Hyperium Cosmetics Gui
+gui.cosmetics.purchase=Приобрести косметику
+gui.cosmetics.refresh=Обновить покупки
+gui.cosmetics.credits=Кредиты
+gui.cosmetics.totalcredits=Всего Кредитов: %s
+gui.cosmetics.remainingcredits=Осталось Кредитов: %s
+gui.cosmetics.purchased=Приобретенные Комплекты
+gui.cosmetics.disableparticles=Отключить Частицы
+gui.cosmetics.line1=Вы должны приобрести хотя бы одни частицы и одну анимацию, чтобы отображать это
+gui.cosmetics.line2=Анимация Double Twirl бесплатная.
+gui.cosmetics.preview=Предпросмотр
+gui.cosmetics.red=Красный
+gui.cosmetics.green=Зеленый
+gui.cosmetics.blue=Синий
+gui.cosmetics.maxage=Жизнь частиц
+
+# Hyperium Shop Gui
+gui.shop.capes=Просмотреть Плащи
+gui.shop.browser=Открыть в браузере
+gui.shop.purchasecredits=Приобрести Кредиты
+gui.shop.refresh=Обновить
+gui.shop.credits=Кредиты
+gui.shop.cosmetics=Косметика
+gui.shop.description=Описание: %s
+gui.shop.cost=Цена: %s
+gui.shop.status=Статус:
+gui.shop.purchased=Приобретено
+gui.shop.purchase=Приобрести
+gui.shop.insufficientcredits=Недостаточно Кредитов!
+gui.shop.loading.cosmetics=Загрузка косметики...
+gui.shop.loading.person=Загрузка данных...
+
+# Hyperium Settings Text
+gui.settings.discordrp=Discord RP
+gui.settings.rpshowserver=Отображать Сервер в Discord RP
+gui.settings.fullbright=Максимальная Яркость
+gui.settings.romannumerals=Римские Числа
+gui.settings.compactchat=Компактный Чат
+gui.settings.voidflickerfix=Исправление Мерцания Пустоты
+gui.settings.fpslimiter=Ограничитель FPS (в Лимбо)
+gui.settings.fastchat=Быстрый Чат
+gui.settings.shinypotions=Блестящие Зелья
+gui.settings.smartsounds=Умные Звуки
+gui.settings.numericping=Числовой Пинг
+gui.settings.itemcounter=Отображать Количество Предметов в Руке
+gui.settings.showenchantmentsabovehotbar=Отображать Чары над хотбаром
+gui.settings.showattackdamageabovehotbar=Отображать Наносимый Урон под хотбаром
+gui.settings.armorprotectionpotentional=Отображать Защиту Брони в Инвентаре
+gui.settings.armorprojectileprotpotentional=Отображать Защиту Брони от Снарядов в Инвентаре
+gui.settings.holdperspectivekey=Удерживание Клавиши Перспективы
+gui.settings.windowedfullscreen=Полноэкранный Оконный Режим
+gui.settings.uploadscreenshots=Загружать Скриншоты (по умолчанию)
+gui.settings.blurredguibackground=Размытие Фона Интерфейса
+gui.settings.welcometothehypixelzoo="Добро пожаловать в Зоопарк Hypixel!"
+gui.settings.showparticleauras=Отображать Ауры Частиц
+gui.settings.showcosmeticseverywhere=Отображать Косметику Везде
+gui.settings.17blockhitting=Блокхит 1.7
+gui.settings.17bowposition=Положение Лука 1.7
+gui.settings.17rodposition=Положение Удочки 1.7
+gui.settings.17redarmour=Красная Броня 1.7 (при ударе)
+gui.settings.17eating=Употребление Пищи 1.7
+gui.settings.17sneakinganimation=Анимация Ползания 1.7
+gui.settings.17blocking=Блокирование 1.7
+gui.settings.17itemheld=Удержание Предмета 1.7
+gui.settings.17debug=Отладка 1.7
+gui.settings.17health=Здоровье 1.7
+gui.settings.customswordanimation=Пользовательская Анимация Меча
+gui.settings.fliptogglemode=Флип - Переключить Режим
+gui.settings.fliptype=Тип Флипа
+gui.settings.tposetogglemode=Т-Поза - Переключить Режим
+gui.settings.background=Фон
+gui.settings.transparentcontainerbackgrounds=Прозрачный Фон Контейнеров
+gui.settings.particlesmode=Режим Частиц
+gui.settings.maxparticles=Максимум Частиц
+gui.settings.headitemscale=Масштаб Предмета Головы
+gui.settings.particlesininventory=Частицы в Инвентаре
+gui.settings.deadmau5ears=Уши Deadmau5
+gui.settings.shownotificationcenter=Отображать Центр Уведомлений
+gui.settings.showconfirmationpopup=Показывать Окно Подтверждения
+gui.settings.persistentchatmessages=Постоянные Сообщения Чата
+gui.settings.friendsfirstintab=Сначала Друзья в Списке Игроков
+gui.settings.onlineindicator=Онлайн-Индикатор
+gui.settings.pingondm=Уведомлять о Личных Сообщениях
+gui.settings.sprintandperspectivemessages=Сообщения Бега и Перспективы
+gui.settings.showdragonhead=Отображать Голову Дракона
+gui.settings.wingsheight=Высота Крыльев
+gui.settings.showwings=Отображать Крылья
+gui.settings.wingsscale=Размер Крыльев
+gui.settings.fastworldswitching=Быстрое Переключение Миров
+gui.settings.maxworldparticles=Максимум Частиц в Мире
+gui.settings.showparticlein1stperson=Отображать частицы в режиме от 1-го лица
+gui.settings.motionblurenabled=Включено
+gui.settings.motionblurintensity=Интенсивность Motion Blur
+gui.settings.showbackground=Отображать Фон
+gui.settings.chroma=Chroma
+gui.settings.shadow=Тень
+gui.settings.details=Детали
+gui.settings.showuserdotsonnametags=Показывать индикаторы пользователей рядом с именами
+gui.settings.broadcastachievements=Транслировать Достижения
+gui.settings.showbutt=Отображать Зад
+gui.settings.sendguildwelcomemessage=Отправлять сообщение приветствия гильдии
+gui.settings.itemphysics=Физика Предметов
+gui.settings.itemphysicsspeed=Скорость Вращения
+gui.settings.disable_dances=Отключить Танцы
+gui.settings.hyperiumprefix=Отображать Префикс Hyperium в Чате
+gui.settings.betterf1=Прятать имена на F1
+gui.settings.disableenchantglint=Отключить Блеск Чаров
+gui.settings.disabletitles=Отключить Заголовки
+gui.settings.thankwatchdog=Благодарить Watchdog
+gui.settings.fpslimiteramount=Ограничитель FPS
+gui.settings.disablelightning=Отключить Молнии
+gui.settings.disablearmorstands=Отключить Стойки для Брони
+gui.settings.disableitemframes=Отключить Рамки
+gui.settings.confirmdisconnect=Подтверждать Отключение
+gui.settings.confirmquit=Подтверждать Выход
+gui.settings.hotbarkeys=Горячие Клавиши
+gui.settings.clearglass=Чистое Стекло
+gui.settings.portalsounds=Отключить Звуки Порталов
+gui.settings.disableachievements=Отключить Достижения
+gui.settings.disableshadowtext=Отключить Затененный Текст
+gui.settings.shinypotions.matchcolor=Блестящие Зелья - Соответствовать Цвету Зелья
+gui.settings.automyposition.enabled=Авто-MyPosition
+gui.settings.automyposition.delay=Задержка
+gui.settings.bossbarmod.bossbarall=Боссбар
+gui.settings.bossbarmod.bossbartext=Текст Боссбара
+gui.settings.bossbarmod.bossbarhealthbar=Здоровье Боссбара
+gui.settings.bossbarmod.bossbarscale=Размер Боссбара
+gui.settings.bossbarmod.resetbossbar=Сбросить Боссбар
+gui.settings.hyperiumloadingscreen=Загрузочный Экран Hyperium
+gui.settings.guialpha=Прозрачность Интерфейса
+gui.settings.fireheight=Высота Огня
+gui.settings.entityradiustoggle=Скрывать Сущности в радиусе
+gui.settings.entityradius=Радиус Скрытых Сущностей
+gui.settings.hyperiumtips=Подсказки Hyperium
+gui.settings.disableendportals=Отключить Порталы В Энд
+gui.settings.hideleatherarmor=Отключить Кожаную Броню
+gui.settings.sprintfovmodifier=Модификатор Бега
+gui.settings.bowfovmodifier=Модификатор Лука
+gui.settings.speedfovmodifier=Модификатор Скорости
+gui.settings.slownessfovmodifier=Модификатор Замедления
+gui.settings.armwavetogglemode=Arm Wave - Переключить Режим
+gui.settings.wingsred=Крылья - Красный
+gui.settings.wingsgreen=Крылья - Зеленый
+gui.settings.wingsblue=Крылья - Синий
+gui.settings.tabheads=Головы в Списке Игроков
+gui.settings.gpucloudrenderer=Оптимизация Рендера Облаков
+gui.settings.showofflinedots=Отображать Офлайн-Индикаторы
+gui.settings.customhypixeljoinleave=Пользовательские Сообщения Входа/Выхода Hypixel
+gui.settings.cleanermenus=Простые Меню
+
+# Settings Categories
+gui.category.general=Общее
+gui.category.performance=Производительность
+gui.category.qol=Качество Жизни
+gui.category.cosmetics=Косметика
+gui.category.misc=Прочее
+gui.category.mods=Модификации
+gui.category.hypixel=Hypixel
+
+# Settings Subcategories
+gui.subcategory.animations=Анимации
+gui.subcategory.autotip=Авто-tip
+gui.subcategory.autogg=Авто-GG
+gui.subcategory.vanillaenhancements=Улучшения
+gui.subcategory.motionblur=Motion Blur
+gui.subcategory.glintcolorizer=Цвет Блеска Чар
+gui.subcategory.itemphysics=Физика Предметов
+gui.subcategory.chunkanimator=Чанк-Аниматор
+gui.subcategory.automypos=Авто-MyPosition
+gui.subcategory.popupevents=Всплывающие Уведомления
+gui.subcategory.bossbarmod=Боссбар
+gui.subcategory.entityradius=Радиус Сущностей
+gui.subcategory.fovmodifier=Модификатор Поля Зрения
+gui.subcategory.discord=Discord
+gui.subcategory.other=Прочее
+
+# Hyperium Splash Progress
+splashprogress.startinggame=Запуск Игры...
+splashprogress.loadingresources=Загрузка Ресурсов...
+splashprogress.creatingdisplay=Загрузка Интерфейса...
+splashprogress.initializingtextures=Инициализация Текстур...
+splashprogress.loadinghandlers=Загрузка Обработчиков...
+splashprogress.registeringlisteners=Регистрация Списков...
+splashprogress.startinghyperium=Запуск Hyperium...
+splashprogress.registeringconfiguration=Регистрация Конфигурации...
+splashprogress.registeringcommands=Регистрация Команд...
+splashprogress.loadingintegrations=Загрузка Интеграций...
+splashprogress.finishing=Завершение...
+
+# Hyperium Misc Gui Text
+gui.namehistory.text=ИСТОРИЯ ИМЕН
+gui.confirmdisconnect.text=Вы действительно хотите отключиться?
+gui.confirmquit.text=Вы действительно хотите выйти из игры?
+
+# Hyperium Chat Message
+message.insufficientcredits=Недостаточно кредитов
+message.attemptingpurchase=Попытка приобретения %s
+message.alreadypurchased=%s уже приобретено
+message.invalidparticle=Неверный тип текущих частиц
+message.invalidanimation=Неверный тип текущей анимации
+message.purchase=Приобрести %s
+message.browseerror=Could not open website %s
+
+# Server Fast Join Customization
+gui.serverjoin.enterservername=Введите имя сервера...
+gui.serverjoin.enterserverip=Введите IP сервера...
+gui.serverjoin.customizeserver=Настроить Сервер
+
+# Main Menu Tips
+menu.hyperiumtip.1=Большинство наших элементов HUD можно найти в ChromaHUD!
+menu.hyperiumtip.2=Измените комбинации клавиш, перейдя в настройки управления и нажав кнопку Hyperium Keybinds!
+menu.hyperiumtip.3=Присоединяйтесь к нашему Discord для получения поддержки, новостей и многого другого! discord.gg/Sk1er
+menu.hyperiumtip.4=Hyperium является модификацией с открытым исходным кодом! Посмотрите на github.com/hyperiumclient!
+menu.hyperiumtip.5=Хотите создать аддон? Просмотрите пример на github.com/hyperiumclient/addon-workspace!
+menu.hyperiumtip.6=Аддоны - это дополнения к клиенту, созданные сообществом!
+menu.hyperiumtip.7=Вы не можете использовать Forge-моды с Hyperium!
+menu.hyperiumtip.8=Если вы столкнулись с проблемами, пожалуйста, сообщите нам на discord.gg/Sk1er!
+menu.hyperiumtip.9=Для получения списка команд наберите / и нажмите Tab!
+menu.hyperiumtip.10=Вы можете приобрести косметику на purchase.sk1er.club!
+menu.hyperiumtip.11=Проблемы с производительностью? Проверьте настройки улучшения интерфейса!
+menu.hyperiumtip.12=Вы можете изменить сервер, отображаемый в главном меню, удерживая Shift и нажав на кнопку!
+menu.hyperiumtip.13=У вас есть идеи, как можно улучшить Hyperium? Дайте нам знать в канале предложений на discord.gg/Sk1er!
