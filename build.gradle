@@ -2,7 +2,7 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
-            url 'https://maven.amplifiable.tk' // MCGradle
+            url 'https://maven.ampthedev.club' // MCGradle
         }
         maven {
             url 'https://files.minecraftforge.net/maven' // MCGradle uses some Forge libraries
@@ -42,7 +42,7 @@ subprojects {
     repositories {
         mavenCentral()
         maven {
-            url 'https://maven.amplifiable.tk'
+            url 'https://maven.ampthedev.club'
         }
         maven {
             url 'https://jitpack.io'
