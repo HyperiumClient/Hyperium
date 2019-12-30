@@ -63,7 +63,8 @@ public abstract class HyperiumChatHandler {
         WIN,
         PLAYER_JOIN,
         PLAYER_LEAVE,
-        SKYBLOCK_TRADE_REQUEST
+        SKYBLOCK_TRADE_REQUEST,
+        DUEL_REQUEST
     }
 
 }
