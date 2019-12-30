@@ -71,12 +71,11 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 ### Building the Project with IntelliJ ###
 
 #### Step 1 - Cloning
-- Click 'Clone or Download' and download as ZIP.
-- Extract the file inside called 'Hyperium-master' to wherever you want your workspace to be.
+- Click 'Clone or Download' and click the noteboard icon to copy to clipboard.
 
 #### Step 2 - Importing
 - Launch IntelliJ.
-- Click New -> Project from existing sources, and select the build.gradle in the Hyperium-master folder.
+- Click Get from Version Control, paste the URL into the URL textfield, then hit Clone.
 - Select 'Use Gradle wrapper configuration' when it asks for it.
 - Open the new project and wait for all the processes to finish.
 
