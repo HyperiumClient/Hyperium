@@ -54,7 +54,7 @@ public class ConfirmationPopup {
     public void onParty(HypixelPartyInviteEvent e) {
         if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
             displayConfirmation("Party request from " + e.getFrom(), accept -> {
-                if (accept) Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
+                Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
                 currentConfirmation.framesLeft = 0;
             });
         }
