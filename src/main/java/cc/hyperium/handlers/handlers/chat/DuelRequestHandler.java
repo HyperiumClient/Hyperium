@@ -17,7 +17,7 @@ public class DuelRequestHandler extends HyperiumChatHandler {
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
         if (!text.toLowerCase(Locale.ENGLISH).contains("has invited you to")) return false;
-        Matcher matcher = regexTypePatternMap.get(ChatRegexType.DUEL_REQUEST).matcher(text);
+        Matcher matcher = regexPatterns.get(ChatRegexType.DUEL_REQUEST).matcher(text);
 
         if (matcher.find()) {
             EventBus.INSTANCE.post(new HypixelDuelRequestEvent(matcher.group("player"), matcher.group("gametype")));
