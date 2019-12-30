@@ -23,6 +23,7 @@ import cc.hyperium.event.interact.KeyPressEvent;
 import cc.hyperium.event.network.server.hypixel.HypixelFriendRequestEvent;
 import cc.hyperium.event.network.server.hypixel.HypixelPartyInviteEvent;
 import cc.hyperium.event.network.server.hypixel.SkyblockTradeRequestEvent;
+import cc.hyperium.event.network.server.hypixel.HypixelDuelRequestEvent;
 import cc.hyperium.event.render.RenderHUDEvent;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
@@ -67,6 +68,15 @@ public class ConfirmationPopup {
         if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
             displayConfirmation("Trade request from " + event.getUsername(), accept -> {
                 if (accept) Minecraft.getMinecraft().thePlayer.sendChatMessage("/trade " + event.getUsername());
+            });
+        }
+    }
+
+    @InvokeEvent
+    public void onDuelRequest(HypixelDuelRequestEvent event) {
+        if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
+            displayConfirmation(event.getGame() + " Duel request from " + event.getUsername(), accept -> {
+                if (accept) Minecraft.getMinecraft().thePlayer.sendChatMessage("/duel accept " + event.getUsername());
             });
         }
     }
