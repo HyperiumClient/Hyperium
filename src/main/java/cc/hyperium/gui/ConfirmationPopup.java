@@ -82,7 +82,8 @@ public class ConfirmationPopup {
     public void onGuildInvite(HypixelGuildInviteEvent event) {
         if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
             displayConfirmation("Guild invite for " + event.getGuild(), accept -> {
-                if (accept) Minecraft.getMinecraft().thePlayer.sendChatMessage("/guild accept " + event.getFrom());
+                Minecraft.getMinecraft().thePlayer.sendChatMessage("/guild accept " + event.getFrom());
+                currentConfirmation.framesLeft = 0;
             });
         }
     }
