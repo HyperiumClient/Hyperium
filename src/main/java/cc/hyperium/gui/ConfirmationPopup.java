@@ -20,10 +20,7 @@ package cc.hyperium.gui;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.interact.KeyPressEvent;
-import cc.hyperium.event.network.server.hypixel.HypixelFriendRequestEvent;
-import cc.hyperium.event.network.server.hypixel.HypixelPartyInviteEvent;
-import cc.hyperium.event.network.server.hypixel.SkyblockTradeRequestEvent;
-import cc.hyperium.event.network.server.hypixel.HypixelDuelRequestEvent;
+import cc.hyperium.event.network.server.hypixel.*;
 import cc.hyperium.event.render.RenderHUDEvent;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
@@ -77,6 +74,15 @@ public class ConfirmationPopup {
         if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
             displayConfirmation(event.getGame() + " Duel request from " + event.getUsername(), accept -> {
                 if (accept) Minecraft.getMinecraft().thePlayer.sendChatMessage("/duel accept " + event.getUsername());
+            });
+        }
+    }
+
+    @InvokeEvent
+    public void onGuildInvite(HypixelGuildInviteEvent event) {
+        if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
+            displayConfirmation("Guild invite for " + event.getGuild(), accept -> {
+                if (accept) Minecraft.getMinecraft().thePlayer.sendChatMessage("/guild accept " + event.getFrom());
             });
         }
     }

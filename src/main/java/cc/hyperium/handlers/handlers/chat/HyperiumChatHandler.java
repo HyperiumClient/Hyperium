@@ -64,7 +64,8 @@ public abstract class HyperiumChatHandler {
         PLAYER_JOIN,
         PLAYER_LEAVE,
         SKYBLOCK_TRADE_REQUEST,
-        DUEL_REQUEST
+        DUEL_REQUEST,
+        GUILD_INVITE
     }
 
 }
