@@ -33,7 +33,15 @@
        if(!entity.isUser() || this.renderManager.livingPlayer == entity) {
           double d0 = y;
           if(entity.isSneaking() && !(entity instanceof EntityPlayerSP)) {
-@@ -122,8 +133,13 @@
+             d0 = y - 0.125D;
+          }
+-
++         if(entity.isUser())
++            super.renderName(entity, x, y, z);
+          this.setModelVisibilities(entity);
+          super.doRender(entity, x, d0, z, entityYaw, partialTicks);
+       }
+@@ -122,8 +135,13 @@
           ScoreObjective scoreobjective = scoreboard.getObjectiveInDisplaySlot(2);
           if(scoreobjective != null) {
              Score score = scoreboard.getValueFromObjective(entityIn.getName(), scoreobjective);

@@ -129,6 +129,7 @@
     protected boolean canRenderName(T entity) {
 +      if (Settings.BETTERF1 && Minecraft.getMinecraft().gameSettings.hideGUI) return false;
        EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
++      if(entity == entityplayersp && Settings.SHOW_OWN_NAME) return true;
        if(entity instanceof EntityPlayer && entity != entityplayersp) {
           Team team = entity.getTeam();
 @@ -501,4 +515,9 @@
