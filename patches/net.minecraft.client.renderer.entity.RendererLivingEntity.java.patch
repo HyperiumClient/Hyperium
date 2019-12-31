@@ -130,7 +130,7 @@
 +      if (Settings.BETTERF1 && Minecraft.getMinecraft().gameSettings.hideGUI) return false;
        EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
 -      if(entity instanceof EntityPlayer && entity != entityplayersp) {
-+      if(entity instanceof EntityPlayer || Settings.SHOW_OWN_NAME) {
++      if(entity instanceof EntityPlayer || (entity == entityplayersp && Settings.SHOW_OWN_NAME)) {
           Team team = entity.getTeam();
 @@ -501,4 +515,9 @@
  
