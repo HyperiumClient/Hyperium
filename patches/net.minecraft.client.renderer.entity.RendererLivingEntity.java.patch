@@ -117,7 +117,7 @@
                 GL11.glNormal3f(0.0F, 1.0F, 0.0F);
                 GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                 GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-@@ -458,12 +472,12 @@
+@@ -458,14 +472,14 @@
              } else {
                 this.renderOffsetLivingLabel(entity, x, y - (entity.isChild()?(double)(entity.height / 2.0F):0.0D), z, s, 0.02666667F, d0);
              }
@@ -129,8 +129,8 @@
     protected boolean canRenderName(T entity) {
 +      if (Settings.BETTERF1 && Minecraft.getMinecraft().gameSettings.hideGUI) return false;
        EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
-+      if(entity == entityplayersp && Settings.SHOW_OWN_NAME) return true;
-       if(entity instanceof EntityPlayer && entity != entityplayersp) {
+-      if(entity instanceof EntityPlayer && entity != entityplayersp) {
++      if(entity instanceof EntityPlayer || (entity == entityplayersp && Settings.SHOW_OWN_NAME)) {
           Team team = entity.getTeam();
 @@ -501,4 +515,9 @@
  
