@@ -25,7 +25,6 @@ import net.minecraft.client.Minecraft;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CommandParty implements BaseCommand {
 
@@ -37,6 +36,11 @@ public class CommandParty implements BaseCommand {
     @Override
     public String getUsage() {
         return "/party <command>";
+    }
+
+    @Override
+    public List<String> getCommandAliases(){
+        return Arrays.asList("p");
     }
 
     @Override
