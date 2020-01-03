@@ -79,7 +79,7 @@ public class AboveHeadRenderer {
                     Scoreboard scoreboard = player.getWorldScoreboard();
                     ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(2);
 
-                    if (objective != null && event.getEntity().getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) < 10 * 10) {
+                    if (objective != null && event.getEntity().getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) < 10 * 10 && (event.getEntity() != Minecraft.getMinecraft().thePlayer || Settings.SHOW_OWN_NAME)) {
                         offset *= 2;
                     }
 
