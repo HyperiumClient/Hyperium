@@ -38,12 +38,14 @@ public class ArmourHud extends DisplayItem {
     private boolean dur;
     private boolean hand;
     private boolean armourOnTop;
+    private boolean horizontal;
 
     public ArmourHud(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
         dur = raw.optBoolean("dur");
         armourOnTop = raw.optBoolean("armourOnTop");
         hand = raw.optBoolean("hand");
+        horizontal = raw.optBoolean("horizontal");
         width = 16;
     }
 
@@ -52,6 +54,7 @@ public class ArmourHud extends DisplayItem {
         data.put("dur", dur);
         data.put("hand", hand);
         data.put("armourOnTop", armourOnTop);
+        data.put("horizontal", horizontal);
     }
 
     @Override
@@ -81,14 +84,16 @@ public class ArmourHud extends DisplayItem {
         }
 
         drawArmour(starX, startY);
-        height = getArmourHeight();
+
+        height = horizontal ? dur ? 32 : 18 : getArmourHeight();
+        width = horizontal ? dur ? list.size() * 18.8 : list.size() * 13.5 : 16;
     }
 
     private void drawArmour(int x, double y) {
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
         if (thePlayer == null || renderItem == null) return;
-        ElementRenderer.render(list, x, y, dur);
+        ElementRenderer.render(list, x, y, dur, horizontal);
     }
 
     private int getArmourHeight() {
@@ -122,6 +127,14 @@ public class ArmourHud extends DisplayItem {
 
     public boolean isArmourOnTop() {
         return armourOnTop;
+    }
+
+    public boolean isHorizontal() {
+        return horizontal;
+    }
+
+    public void setHorizontal(boolean horizontal) {
+        this.horizontal = horizontal;
     }
 
     public void setArmourOnTop(boolean armourOnTop) {
