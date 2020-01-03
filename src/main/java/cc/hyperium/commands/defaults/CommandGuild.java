@@ -46,8 +46,14 @@ public class CommandGuild implements BaseCommand {
                 Hyperium.INSTANCE.getHandlers().getStatsHandler().loadGuildByPlayer(args[1]);
             } else {
                 if (args[0].equalsIgnoreCase("name")) {
-                    String builder = Arrays.stream(args, 1, args.length).collect(Collectors.joining());
-                    Hyperium.INSTANCE.getHandlers().getStatsHandler().loadGuildByName(builder);
+                    StringBuilder builder = new StringBuilder();
+                    int bound = args.length;
+                    for (int i = 1; i < bound; i++) {
+                        String s = args[i];
+                        builder.append(s);
+                    }
+
+                    Hyperium.INSTANCE.getHandlers().getStatsHandler().loadGuildByName(builder.toString());
                 } else {
                     GeneralChatHandler.instance().sendMessage(getUsage());
                 }

@@ -537,6 +537,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.cleanermenus", category = QOL)
     public static boolean CLEANER_MENUS;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.fasttab", category = PERFORMANCE)
+    public static boolean FAST_TAB;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

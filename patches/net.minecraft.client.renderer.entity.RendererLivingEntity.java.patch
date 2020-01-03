@@ -132,6 +132,8 @@
 -      if(entity instanceof EntityPlayer && entity != entityplayersp) {
 +      if(entity instanceof EntityPlayer || (entity == entityplayersp && Settings.SHOW_OWN_NAME)) {
           Team team = entity.getTeam();
+          Team team1 = entityplayersp.getTeam();
+          if(team != null) {
 @@ -501,4 +515,9 @@
  
        textureBrightness.updateDynamicTexture();

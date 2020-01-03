@@ -54,7 +54,13 @@ public class DuelsStats extends AbstractHypixelStats {
         List<StatsDisplayItem> preview = super.getPreview(player);
         preview.add(new DisplayLine(""));
         JsonHolder stats = player.getStats(GameType.DUELS);
-        preview.add(new DisplayLine(bold("Tournament Wins: ", Arrays.stream(tournaments).mapToInt(tournament -> stats.optInt(tournament + "_wins")).sum())));
+        int sum = 0;
+        for (String tournament : tournaments) {
+            int i = stats.optInt(tournament + "_wins");
+            sum += i;
+        }
+
+        preview.add(new DisplayLine(bold("Tournament Wins: ", sum)));
         return preview;
     }
 

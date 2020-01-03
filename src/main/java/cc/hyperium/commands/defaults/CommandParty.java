@@ -41,7 +41,12 @@ public class CommandParty implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party" + Arrays.stream(args).map(arg -> " " + arg).collect(Collectors.joining()));
+        StringBuilder sb = new StringBuilder();
+        for (String arg : args) {
+            String s = " " + arg;
+            sb.append(s);
+        }
+        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party" + sb.toString());
     }
 
     @Override

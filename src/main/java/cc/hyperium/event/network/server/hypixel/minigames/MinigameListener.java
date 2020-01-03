@@ -39,11 +39,13 @@ public class MinigameListener {
             if (cooldown <= 0) {
                 cooldown = 3 * 20;
                 String minigameName = getScoreboardTitle();
-                Arrays.stream(Minigame.values()).filter(m -> minigameName.equalsIgnoreCase(m.scoreName) &&
-                    !minigameName.equalsIgnoreCase(currentMinigameName)).forEach(m -> {
-                    currentMinigameName = minigameName;
-                    EventBus.INSTANCE.post(new JoinMinigameEvent(m));
-                });
+                for (Minigame m : Minigame.values()) {
+                    if (minigameName.equalsIgnoreCase(m.scoreName) &&
+                            !minigameName.equalsIgnoreCase(currentMinigameName)) {
+                        currentMinigameName = minigameName;
+                        EventBus.INSTANCE.post(new JoinMinigameEvent(m));
+                    }
+                }
             } else {
                 cooldown--;
             }

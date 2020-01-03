@@ -48,13 +48,15 @@ public class DisplayTable extends StatsDisplayItem {
        4 3 2
        3 2 1
          */
-        Arrays.stream(rows).forEach(row -> {
+        for (String[] row : rows) {
             for (int i = 0; i < columns; i++) {
                 rowSpacing[i] =
-                    Math.max(rowSpacing[i], Minecraft.getMinecraft().fontRendererObj.getStringWidth(row[i]) + 15);
+                        Math.max(rowSpacing[i], Minecraft.getMinecraft().fontRendererObj.getStringWidth(row[i]) + 15);
             }
-        });
-        Arrays.stream(rowSpacing).forEach(i -> width += i);
+        }
+        for (int i : rowSpacing) {
+            width += i;
+        }
         height = 11 * rows.length;
     }
 

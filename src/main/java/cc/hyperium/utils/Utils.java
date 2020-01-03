@@ -43,7 +43,11 @@ public class Utils {
         BufferedImage bufferedimage = ImageIO.read(inputStream);
         int[] aint = bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), null, 0, bufferedimage.getWidth());
         ByteBuffer bytebuffer = ByteBuffer.allocate(4 * aint.length);
-        Arrays.stream(aint).map(i -> i << 8 | (i >> 24 & 255)).forEach(bytebuffer::putInt);
+        for (int i : aint) {
+            int i1 = i << 8 | (i >> 24 & 255);
+            bytebuffer.putInt(i1);
+        }
+
         bytebuffer.flip();
         return bytebuffer;
     }

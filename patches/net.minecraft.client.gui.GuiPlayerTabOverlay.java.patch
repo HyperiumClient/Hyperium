@@ -18,20 +18,21 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.Gui;
  import net.minecraft.client.gui.GuiIngame;
-@@ -23,7 +30,12 @@
+@@ -23,7 +30,13 @@
  import net.minecraft.world.WorldSettings;
  import net.minecraftforge.fml.relauncher.Side;
  import net.minecraftforge.fml.relauncher.SideOnly;
 +import org.lwjgl.opengl.GL11;
  
 +import java.awt.*;
++import java.util.Set;
 +import java.util.UUID;
 +import java.util.concurrent.ConcurrentLinkedDeque;
 +
  @SideOnly(Side.CLIENT)
  public class GuiPlayerTabOverlay extends Gui {
     private static final Ordering<NetworkPlayerInfo> field_175252_a = Ordering.from(new GuiPlayerTabOverlay.PlayerComparator());
-@@ -71,6 +83,13 @@
+@@ -71,6 +84,13 @@
  
        for(NetworkPlayerInfo networkplayerinfo : list) {
           int k = this.mc.fontRendererObj.getStringWidth(this.getPlayerName(networkplayerinfo));
@@ -45,7 +46,7 @@
           i = Math.max(i, k);
           if(scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
              k = this.mc.fontRendererObj.getStringWidth(" " + scoreboardIn.getValueFromObjective(networkplayerinfo.getGameProfile().getName(), scoreObjectiveIn).getScorePoints());
-@@ -79,9 +98,26 @@
+@@ -79,9 +99,26 @@
        }
  
        list = list.subList(0, Math.min(list.size(), 80));
@@ -73,7 +74,14 @@
        int j4;
        for(j4 = 1; i4 > 20; i4 = (l3 + j4 - 1) / j4) {
           ++j4;
-@@ -126,7 +162,7 @@
+@@ -122,25 +159,33 @@
+       }
+ 
+       if(list1 != null) {
+-         drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
++         if (!Settings.FAST_TAB) {
++            drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
++         }
  
           for(String s3 : list1) {
              int i2 = this.mc.fontRendererObj.getStringWidth(s3);
@@ -82,7 +90,29 @@
              k1 += this.mc.fontRendererObj.FONT_HEIGHT;
           }
  
-@@ -149,20 +185,46 @@
+          ++k1;
+       }
+ 
+-      drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
++      if (!Settings.FAST_TAB) {
++         drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
++      }
+ 
+       for(int k4 = 0; k4 < l3; ++k4) {
+          int l4 = k4 / i4;
+          int i5 = k4 % i4;
+          int j2 = j1 + l4 * i1 + l4 * 5;
+          int k2 = k1 + i5 * 9;
+-         drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
++
++         if (!Settings.FAST_TAB) {
++            drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
++         }
++
+          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+          GlStateManager.enableAlpha();
+          GlStateManager.enableBlend();
+@@ -149,20 +194,46 @@
              NetworkPlayerInfo networkplayerinfo1 = (NetworkPlayerInfo)list.get(k4);
              String s1 = this.getPlayerName(networkplayerinfo1);
              GameProfile gameprofile = networkplayerinfo1.getGameProfile();
@@ -141,7 +171,19 @@
              }
  
              if(networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
-@@ -194,30 +256,79 @@
+@@ -186,38 +257,90 @@
+ 
+       if(list2 != null) {
+          k1 = k1 + i4 * 9 + 1;
+-         drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list2.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
+ 
++         if (!Settings.FAST_TAB) {
++            drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list2.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
++         }
++
+          for(String s4 : list2) {
+             int j5 = this.mc.fontRendererObj.getStringWidth(s4);
+             this.mc.fontRendererObj.drawStringWithShadow(s4, (float)(width / 2 - j5 / 2), (float)k1, -1);
              k1 += this.mc.fontRendererObj.FONT_HEIGHT;
           }
        }
@@ -227,7 +269,7 @@
        this.zLevel -= 100.0F;
     }
  
-@@ -296,6 +407,7 @@
+@@ -296,6 +419,7 @@
     }
  
     public void setHeader(IChatComponent headerIn) {

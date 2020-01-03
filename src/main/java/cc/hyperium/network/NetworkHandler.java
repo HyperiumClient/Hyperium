@@ -74,7 +74,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
         s = s.replace("&", C.COLOR_CODE_SYMBOL);
         IChatComponent chatComponent = new ChatComponentText("");
 
-        Arrays.stream(s.split(" ")).forEach(s1 -> {
+        for (String s1 : s.split(" ")) {
             ChatComponentText iChatComponents = new ChatComponentText(s1 + " ");
             if (s1.contains(".") && !s1.startsWith(".") && !s1.endsWith(".")) {
                 ChatStyle chatStyle = new ChatStyle();
@@ -82,7 +82,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
                 iChatComponents.setChatStyle(chatStyle);
             }
             chatComponent.appendSibling(iChatComponents);
-        });
+        }
 
         GeneralChatHandler.instance().sendMessage(chatComponent);
     }

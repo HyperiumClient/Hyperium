@@ -65,11 +65,21 @@ public enum GameType {
      * @return The GameType associated with that id, or null if there isn't one.
      */
     public static GameType fromId(int id) {
-        return Arrays.stream(v).filter(gameType -> gameType.id == id).findFirst().orElse(null);
+        for (GameType gameType : v) {
+            if (gameType.id == id) {
+                return gameType;
+            }
+        }
+        return null;
     }
 
     public static GameType fromRealName(String id) {
-        return Arrays.stream(v).filter(gameType -> gameType.name.equalsIgnoreCase(id)).findFirst().orElse(null);
+        for (GameType gameType : v) {
+            if (gameType.name.equalsIgnoreCase(id)) {
+                return gameType;
+            }
+        }
+        return null;
     }
 
     /**
@@ -77,7 +87,12 @@ public enum GameType {
      * @return The GameType associated with that key, or null if there isn't one.
      */
     public static GameType fromDatabase(String dbName) {
-        return Arrays.stream(v).filter(gameType -> gameType.dbName.equals(dbName)).findFirst().orElse(GameType.UNKNOWN);
+        for (GameType gameType : v) {
+            if (gameType.dbName.equals(dbName)) {
+                return gameType;
+            }
+        }
+        return GameType.UNKNOWN;
     }
 
     public static GameType parse(String mostRecentGameType) {

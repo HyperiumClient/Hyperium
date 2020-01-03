@@ -140,26 +140,38 @@ public class KeystrokesRenderer {
     }
 
     private void drawMovementKeys(int x, int y) {
-        Arrays.stream(movementKeys).forEach(key -> key.renderKey(x, y));
+        for (Key key : movementKeys) {
+            key.renderKey(x, y);
+        }
     }
 
     private void drawCPSKeys(int x, int y) {
-        Arrays.stream(cpsKeys).forEach(key -> key.renderKey(x, y));
+        for (CPSKey key : cpsKeys) {
+            key.renderKey(x, y);
+        }
     }
 
     private void drawSneak(int x, int y) {
-        Arrays.stream(sneakKeys).forEach(key -> key.renderKey(x, y));
+        for (SpaceKey key : sneakKeys) {
+            key.renderKey(x, y);
+        }
     }
 
     private void drawSpacebar(int x, int y) {
-        Arrays.stream(spaceKey).forEach(key -> key.renderKey(x, y));
+        for (SpaceKey key : spaceKey) {
+            key.renderKey(x, y);
+        }
     }
 
     private void drawMouseButtons(int x, int y) {
-        Arrays.stream(mouseButtons).forEach(button -> button.renderKey(x, y));
+        for (MouseButton button : mouseButtons) {
+            button.renderKey(x, y);
+        }
     }
 
     private void drawFPS(int x, int y) {
-        Arrays.stream(fpsKeys).forEach(key -> key.renderKey(x, y));
+        for (FPSKey key : fpsKeys) {
+            key.renderKey(x, y);
+        }
     }
 }

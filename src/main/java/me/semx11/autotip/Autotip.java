@@ -221,16 +221,16 @@ public class Autotip {
     }
 
     private void registerEvents(Event... events) {
-        Arrays.stream(events).forEach(event -> {
+        for (Event event : events) {
             EventBus.INSTANCE.register(event);
             this.events.add(event);
-        });
+        }
     }
 
     private void registerCommands(CommandAbstract... commands) {
-        Arrays.stream(commands).forEach(command -> {
+        for (CommandAbstract command : commands) {
             Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(command);
             this.commands.add(command);
-        });
+        }
     }
 }

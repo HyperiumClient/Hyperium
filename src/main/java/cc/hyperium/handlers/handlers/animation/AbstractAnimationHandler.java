@@ -208,14 +208,14 @@ public abstract class AbstractAnimationHandler {
     }
 
     private void resetModelRenderers(ModelRenderer... renderers) {
-        Arrays.stream(renderers).forEach(renderer -> {
+        for (ModelRenderer renderer : renderers) {
             renderer.rotateAngleX = 0;
             renderer.rotateAngleY = 0;
             renderer.rotateAngleZ = 0;
             renderer.offsetX = 0;
             renderer.offsetY = 0;
             renderer.offsetZ = 0;
-        });
+        }
     }
 
     public static class AnimationState {

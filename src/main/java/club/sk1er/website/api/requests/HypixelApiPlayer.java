@@ -235,7 +235,12 @@ public class HypixelApiPlayer implements HypixelApiObject {
         NONE;
 
         static Rank get(String in) {
-            return Arrays.stream(values()).filter(rank -> rank.name().equalsIgnoreCase(in)).findFirst().orElse(NONE);
+            for (Rank rank : values()) {
+                if (rank.name().equalsIgnoreCase(in)) {
+                    return rank;
+                }
+            }
+            return NONE;
         }
 
         boolean has(Rank other) {
