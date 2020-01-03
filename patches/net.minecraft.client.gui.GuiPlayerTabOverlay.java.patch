@@ -18,21 +18,18 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.Gui;
  import net.minecraft.client.gui.GuiIngame;
-@@ -23,7 +30,13 @@
- import net.minecraft.world.WorldSettings;
+@@ -24,6 +31,10 @@
  import net.minecraftforge.fml.relauncher.Side;
  import net.minecraftforge.fml.relauncher.SideOnly;
-+import org.lwjgl.opengl.GL11;
  
 +import java.awt.*;
-+import java.util.Set;
 +import java.util.UUID;
 +import java.util.concurrent.ConcurrentLinkedDeque;
 +
  @SideOnly(Side.CLIENT)
  public class GuiPlayerTabOverlay extends Gui {
     private static final Ordering<NetworkPlayerInfo> field_175252_a = Ordering.from(new GuiPlayerTabOverlay.PlayerComparator());
-@@ -71,6 +84,13 @@
+@@ -71,6 +82,13 @@
  
        for(NetworkPlayerInfo networkplayerinfo : list) {
           int k = this.mc.fontRendererObj.getStringWidth(this.getPlayerName(networkplayerinfo));
@@ -46,7 +43,7 @@
           i = Math.max(i, k);
           if(scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
              k = this.mc.fontRendererObj.getStringWidth(" " + scoreboardIn.getValueFromObjective(networkplayerinfo.getGameProfile().getName(), scoreObjectiveIn).getScorePoints());
-@@ -79,9 +99,26 @@
+@@ -79,9 +97,26 @@
        }
  
        list = list.subList(0, Math.min(list.size(), 80));
@@ -74,7 +71,7 @@
        int j4;
        for(j4 = 1; i4 > 20; i4 = (l3 + j4 - 1) / j4) {
           ++j4;
-@@ -122,25 +159,33 @@
+@@ -122,25 +157,33 @@
        }
  
        if(list1 != null) {
@@ -112,7 +109,7 @@
           GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
           GlStateManager.enableAlpha();
           GlStateManager.enableBlend();
-@@ -149,20 +194,46 @@
+@@ -149,20 +192,46 @@
              NetworkPlayerInfo networkplayerinfo1 = (NetworkPlayerInfo)list.get(k4);
              String s1 = this.getPlayerName(networkplayerinfo1);
              GameProfile gameprofile = networkplayerinfo1.getGameProfile();
@@ -171,7 +168,7 @@
              }
  
              if(networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
-@@ -186,38 +257,90 @@
+@@ -186,38 +255,90 @@
  
        if(list2 != null) {
           k1 = k1 + i4 * 9 + 1;
@@ -269,7 +266,7 @@
        this.zLevel -= 100.0F;
     }
  
-@@ -296,6 +419,7 @@
+@@ -296,6 +417,7 @@
     }
  
     public void setHeader(IChatComponent headerIn) {
