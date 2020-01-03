@@ -59,7 +59,7 @@ public class ArrowCount extends DisplayItem {
                 }
             }
 
-            ElementRenderer.render(list, starX, startY, false);
+            ElementRenderer.render(list, starX, startY, false, false);
             ElementRenderer.draw(starX + 16, startY + 8, "x" + (isConfig ? 64 : c));
         }
     }

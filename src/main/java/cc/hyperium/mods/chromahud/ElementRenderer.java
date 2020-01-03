@@ -136,7 +136,7 @@ public class ElementRenderer {
         return current;
     }
 
-    public static void render(List<ItemStack> itemStacks, int x, double y, boolean showDurability) {
+    public static void render(List<ItemStack> itemStacks, int x, double y, boolean showDurability, boolean horizontal) {
         GlStateManager.pushMatrix();
         int line = 0;
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
@@ -144,8 +144,13 @@ public class ElementRenderer {
         for (ItemStack stack : itemStacks) {
             if (stack.getMaxDamage() == 0) continue;
             String dur = stack.getMaxDamage() - stack.getItemDamage() + "";
-            renderItem.renderItemAndEffectIntoGUI(stack, (int) (x / ElementRenderer.getCurrentScale() - (current.isRightSided() ? (showDurability ? currentScale + fontRendererObj.getStringWidth(dur) : -8) : 0)), (int) ((y + (16 * line * ElementRenderer.getCurrentScale())) / ElementRenderer.getCurrentScale()));
-            if (showDurability) ElementRenderer.draw((int) (x + (double) 20 * currentScale), y + (16 * line) + 4, dur);
+            double offset = horizontal && showDurability ? -dur.length() * 2.3 : 0;
+            renderItem.renderItemAndEffectIntoGUI(stack, (int) ((x + offset * -line + (horizontal ? (16 * line) : 0))/ ElementRenderer.getCurrentScale() - (current.isRightSided() ? (showDurability ? currentScale + fontRendererObj.getStringWidth(dur) : -8) : 0)), (int) ((y + ((horizontal ? 0 : (16 * line)) * ElementRenderer.getCurrentScale())) / ElementRenderer.getCurrentScale()));
+            if (showDurability) {
+                dur = dur.length() > 3 ? String.format("%.1fK", (float) Integer.valueOf(dur)/1000) : dur;
+                offset = dur.length() > 3 ? offset * 0.2 : offset;
+                ElementRenderer.draw((int) (x + offset * (line == 0 && dur.length() > 3 ? 1 : -line) + (horizontal ? (16 * line - 20) : 0) + (double) 20 * currentScale), y + (horizontal ? 16 : (16 * line)) + 4, dur);
+            }
             line++;
         }
 

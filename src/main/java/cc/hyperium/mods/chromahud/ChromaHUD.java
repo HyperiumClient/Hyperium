@@ -184,6 +184,12 @@ public class ChromaHUD extends AbstractMod {
             guiButton.displayString = ChatColor.RED.toString() + "Toggle Armour On Top";
         }, new GuiButton(0, 0, 0, "Armour Hud Hand"), (guiButton, displayItem) -> guiButton.displayString = ChatColor.RED.toString() + "Toggle Armour On Top"));
 
+        ChromaHUDApi.getInstance().registerButtonConfig("ARMOUR_HUD", new ButtonConfig((guiButton, displayItem) -> {
+            ArmourHud item = (ArmourHud) displayItem;
+            item.setHorizontal(!item.isHorizontal());
+            guiButton.displayString = ChatColor.RED.toString() + "Make " + (((ArmourHud) displayItem).isHorizontal() ? "Vertical" : "Horizontal");
+        }, new GuiButton(0, 0, 0, "Armour Hud Direction"), (guiButton, displayItem) -> guiButton.displayString = ChatColor.RED.toString() + "Make " + (((ArmourHud) displayItem).isHorizontal() ? "Vertical" : "Horizontal")));
+
         GuiTextField textTextField = new GuiTextField(1, Minecraft.getMinecraft().fontRendererObj, 0, 0, 200, 20);
         ChromaHUDApi.getInstance().registerTextConfig("TEXT", new TextConfig((guiTextField, displayItem) -> ((TextItem) displayItem).setText(guiTextField.getText()),
             textTextField, (guiTextField, displayItem) -> guiTextField.setText(((TextItem) displayItem).getText())));
