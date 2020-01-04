@@ -18,6 +18,8 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.network.server.ServerLeaveEvent;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
@@ -46,11 +48,12 @@ public class GuiConfirmDisconnect extends GuiScreen {
     protected void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 0:
+                EventBus.INSTANCE.post(new ServerLeaveEvent());
                 boolean integratedServerRunning = mc.isIntegratedServerRunning();
                 button.enabled = false;
                 mc.theWorld.sendQuittingDisconnectingPacket();
                 mc.loadWorld(null);
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(integratedServerRunning ? new GuiMainMenu() : new GuiMultiplayer(new GuiMainMenu()));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(integratedServerRunning || Hyperium.INSTANCE.isFromMainMenu() ? new GuiMainMenu() : new GuiMultiplayer(new GuiMainMenu()));
                 break;
             case 1:
                 mc.displayGuiScreen(null);
