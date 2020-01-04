@@ -34,15 +34,15 @@ public class UpdateChecker {
     public void serverJoinEvent(ServerJoinEvent event) {
         if (asked) return; //If they were already asked, don't even make the new thread.
         UpdateUtils updateUtils = new UpdateUtils();
-        Multithreading.runAsync(() -> {
-            boolean latest = updateUtils.isAbsoluteLatest();
-            boolean beta = updateUtils.isBeta();
-            int version = Metadata.getVersionID();
-            Hyperium.LOGGER.info("version is: " + version);
-            if (version == -1) return; // dev
-            if (beta) return; // dont alert beta users
-            if (latest) return; //If they're on the latest version, I don't want to mess with them.
+        boolean latest = updateUtils.isAbsoluteLatest();
+        boolean beta = updateUtils.isBeta();
+        int version = Metadata.getVersionID();
+        Hyperium.LOGGER.info("version is: " + version);
+        if (version == -1) return; // dev
+        if (beta) return; // dont alert beta users
+        if (latest) return; //If they're on the latest version, I don't want to mess with them.
 
+        Multithreading.runAsync(() -> {
             if (Minecraft.getMinecraft().theWorld != null) {
                 Hyperium.INSTANCE.getNotification().display("You have an update pending.",
                         "Click here to be sent to the installer.",

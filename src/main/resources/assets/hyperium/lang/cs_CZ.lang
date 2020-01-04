@@ -213,6 +213,7 @@ gui.settings.gpucloudrenderer=Optimalizované vykreslování mraků
 gui.settings.showofflinedots=Skrýt offline indikátory
 gui.settings.customhypixeljoinleave=Vlastní Hypixel zprávy pro odpojení / připojení se
 gui.settings.cleanermenus=Čistší menu
+gui.settings.fasttab=Fast Tab
 
 # Settings Categories
 gui.category.general=Obecné

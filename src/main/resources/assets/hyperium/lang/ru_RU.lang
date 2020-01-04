@@ -213,6 +213,7 @@ gui.settings.gpucloudrenderer=Оптимизация Рендера Облако
 gui.settings.showofflinedots=Отображать Офлайн-Индикаторы
 gui.settings.customhypixeljoinleave=Пользовательские Сообщения Входа/Выхода Hypixel
 gui.settings.cleanermenus=Простые Меню
+gui.settings.fasttab=Fast Tab
 
 # Settings Categories
 gui.category.general=Общее
