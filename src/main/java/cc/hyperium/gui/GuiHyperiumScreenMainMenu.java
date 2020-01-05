@@ -160,6 +160,9 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         }
     }
 
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    }
+
     @Override
     public void actionPerformed(GuiButton button) {
         switch (button.id) {
