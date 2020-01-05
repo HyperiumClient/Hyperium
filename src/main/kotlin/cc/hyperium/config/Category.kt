@@ -36,7 +36,6 @@ enum class Category(display: String) {
     GLINTCOLORIZER("gui.subcategory.glintcolorizer"),
     ITEM_PHYSIC("gui.subcategory.itemphysics"),
     CHUNK_ANIMATOR("gui.subcategory.chunkanimator"),
-    AUTOMYPOSITION("gui.subcategory.automypos"),
     POPUP_EVENTS("gui.subcategory.popupevents"),
     BOSSBARMOD("gui.subcategory.bossbarmod"),
     ENTITYRADIUS("gui.subcategory.entityradius"),

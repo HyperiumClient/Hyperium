@@ -1,4 +1,4 @@
-package cc.hyperium.addons.sidebar.gui.screen;
+package cc.hyperium.mods.sidebar.gui.screen;
 
 import cc.hyperium.utils.ChatColor;
 

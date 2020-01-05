@@ -419,14 +419,6 @@ public class Settings {
     public static boolean SHINY_POTS_MATCH_COLOR;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.automyposition.enabled", category = AUTOMYPOSITION, mods = true)
-    public static boolean AUTO_MY_POSITION;
-
-    @ConfigOpt
-    @SliderSetting(name = "gui.settings.automyposition.delay", min = 0, max = 5, category = AUTOMYPOSITION, mods = true)
-    public static double AUTO_MY_POSITION_DELAY = 2;
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.bossbarmod.bossbarall", category = BOSSBARMOD, mods = true)
     public static boolean BOSSBAR_ALL = true;
 

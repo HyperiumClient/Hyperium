@@ -15,9 +15,9 @@
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.addons.sidebar.gui;
+package cc.hyperium.mods.sidebar.gui;
 
-import cc.hyperium.addons.sidebar.config.Configuration;
+import cc.hyperium.mods.sidebar.config.Configuration;
 import cc.hyperium.config.ConfigOpt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

@@ -15,10 +15,10 @@
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.addons.sidebar.gui.screen;
+package cc.hyperium.mods.sidebar.gui.screen;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.addons.sidebar.SidebarAddon;
+import cc.hyperium.mods.sidebar.SidebarAddon;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraftforge.fml.client.config.GuiSlider;
 

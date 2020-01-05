@@ -28,9 +28,9 @@ import cc.hyperium.mods.itemphysic.ItemPhysicMod;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
-import cc.hyperium.mods.myposition.MyPosition;
 import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.oldanimations.OldAnimations;
+import cc.hyperium.mods.sidebar.SidebarAddon;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import me.semx11.autotip.Autotip;
@@ -55,8 +55,8 @@ public class HyperiumModIntegration {
     private final ItemPhysicMod itemPhysicMod;
     private final ChunkAnimator chunkAnimator;
     private final SoundHandler soundHandler;
-    private final MyPosition myPosition;
     private final EntityRadius entityRadius;
+    private final SidebarAddon sidebarAddon;
 
     public HyperiumModIntegration() {
         // ChromaHUD implementation
@@ -99,8 +99,8 @@ public class HyperiumModIntegration {
         itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
         chunkAnimator = (ChunkAnimator) new ChunkAnimator().init();
         soundHandler = (SoundHandler) new SoundHandler().init();
-        myPosition = (MyPosition) new MyPosition().init();
         entityRadius = (EntityRadius) new EntityRadius().init();
+        sidebarAddon = (SidebarAddon) new SidebarAddon().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -159,11 +159,11 @@ public class HyperiumModIntegration {
         return soundHandler;
     }
 
-    public MyPosition getMyPosition() {
-        return myPosition;
-    }
-
     public EntityRadius getEntityRadius() {
         return entityRadius;
+    }
+
+    public SidebarAddon getSidebarAddon() {
+        return sidebarAddon;
     }
 }

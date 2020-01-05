@@ -15,11 +15,11 @@
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.addons.sidebar.commands;
+package cc.hyperium.mods.sidebar.commands;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.addons.sidebar.SidebarAddon;
-import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSettings;
+import cc.hyperium.mods.sidebar.SidebarAddon;
+import cc.hyperium.mods.sidebar.gui.screen.GuiScreenSettings;
 import cc.hyperium.commands.BaseCommand;
 
 import java.util.Arrays;

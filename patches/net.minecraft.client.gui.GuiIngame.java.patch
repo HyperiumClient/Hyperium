@@ -1,11 +1,10 @@
 --- original/net/minecraft/client/gui/GuiIngame.java
 +++ changed/net/minecraft/client/gui/GuiIngame.java
-@@ -6,6 +6,13 @@
+@@ -6,6 +6,12 @@
  import java.util.Collection;
  import java.util.List;
  import java.util.Random;
 +import cc.hyperium.Hyperium;
-+import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 +import cc.hyperium.config.Settings;
 +import cc.hyperium.event.EventBus;
 +import cc.hyperium.event.render.RenderHUDEvent;
@@ -14,7 +13,7 @@
  import net.minecraft.block.material.Material;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.FontRenderer;
-@@ -98,6 +105,11 @@
+@@ -98,6 +104,11 @@
     /** Used with updateCounter to make the heart bar flash */
     private long healthUpdateCounter = 0L;
  
@@ -26,7 +25,7 @@
     public GuiIngame(Minecraft mcIn) {
        this.mc = mcIn;
        this.itemRenderer = mcIn.getRenderItem();
-@@ -291,6 +303,12 @@
+@@ -291,6 +302,12 @@
        this.mc.mcProfiler.endSection();
        GlStateManager.popMatrix();
        scoreobjective1 = scoreboard.getObjectiveInDisplaySlot(0);
@@ -39,7 +38,7 @@
        if(!this.mc.gameSettings.keyBindPlayerList.isKeyDown() || this.mc.isIntegratedServerRunning() && this.mc.thePlayer.sendQueue.getPlayerInfoMap().size() <= 1 && scoreobjective1 == null) {
           this.overlayPlayerList.updatePlayerList(false);
        } else {
-@@ -403,6 +421,10 @@
+@@ -403,6 +420,10 @@
              GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
              this.getFontRenderer().drawStringWithShadow(s, (float)i, (float)j, 16777215 + (k << 24));
              GlStateManager.disableBlend();
@@ -50,22 +49,7 @@
              GlStateManager.popMatrix();
           }
        }
-@@ -425,6 +447,14 @@
-    }
- 
-    protected boolean showCrosshair() {
-+      if (CustomCrosshairAddon.getCrosshairMod() == null || CustomCrosshairAddon.getCrosshairMod().getCrosshair() == null) {
-+         return false;
-+      }
-+
-+      if (CustomCrosshairAddon.getCrosshairMod().getCrosshair().getEnabled()) {
-+         return false;
-+      }
-+
-       if(this.mc.gameSettings.showDebugInfo && !this.mc.thePlayer.hasReducedDebug() && !this.mc.gameSettings.reducedDebugInfo) {
-          return false;
-       } else if(this.mc.playerController.isSpectator()) {
-@@ -450,270 +480,221 @@
+@@ -450,270 +471,221 @@
     }
  
     private void renderScoreboard(ScoreObjective objective, ScaledResolution scaledRes) {
@@ -493,7 +477,7 @@
        }
     }
  
-@@ -721,25 +702,41 @@
+@@ -721,25 +693,41 @@
      * Renders dragon's (boss) health on the HUD
      */
     private void renderBossHealth() {
@@ -551,7 +535,7 @@
        }
     }
  
-@@ -907,6 +904,8 @@
+@@ -907,6 +895,8 @@
     }
  
     public void displayTitle(String title, String subTitle, int timeFadeIn, int displayTime, int timeFadeOut) {

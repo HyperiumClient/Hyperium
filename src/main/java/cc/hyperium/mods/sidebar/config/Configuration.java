@@ -15,26 +15,21 @@
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.addons;
+package cc.hyperium.mods.sidebar.config;
 
-import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
-import cc.hyperium.addons.sidebar.SidebarAddon;
+import cc.hyperium.mods.sidebar.gui.GuiSidebar;
 
-public class InternalAddons {
+public class Configuration {
 
-    private final CustomCrosshairAddon customCrosshairAddon;
-    private final SidebarAddon sidebarAddon;
-
-    public InternalAddons() {
-        customCrosshairAddon = ((CustomCrosshairAddon) new CustomCrosshairAddon().init());
-        sidebarAddon = ((SidebarAddon) new SidebarAddon().init());
-    }
-
-    public CustomCrosshairAddon getCustomCrosshairAddon() {
-        return customCrosshairAddon;
-    }
-
-    public SidebarAddon getSidebarAddon() {
-        return sidebarAddon;
-    }
+    public static boolean enabled = true;
+    public static int offsetX;
+    public static int offsetY;
+    public static float scale = 1.0f;
+    public static boolean redNumbers = true;
+    public static boolean shadow;
+    public static int rgb;
+    public static int alpha = 50;
+    public static boolean chromaEnabled;
+    public static int chromaSpeed = 2;
+    public static GuiSidebar.ChromaType chromaType = GuiSidebar.ChromaType.ONE;
 }

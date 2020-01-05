@@ -18,8 +18,6 @@
 package cc.hyperium.gui.hyperium.tabs;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditCrosshair;
-import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSettings;
 import cc.hyperium.config.*;
 import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
@@ -27,6 +25,7 @@ import cc.hyperium.gui.hyperium.RGBFieldSet;
 import cc.hyperium.gui.hyperium.components.*;
 import cc.hyperium.gui.keybinds.GuiKeybinds;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
+import cc.hyperium.mods.sidebar.gui.screen.GuiScreenSettings;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
 import net.minecraft.client.resources.I18n;
 
@@ -66,7 +65,7 @@ public class SettingsTab extends AbstractTab {
                     mods = ss.mods();
                 } else if (sliderSetting != null) {
                     tabComponent = new SliderComponent(this, Collections.emptyList(), I18n.format(sliderSetting.name()), f, o, sliderSetting.min(),
-                        sliderSetting.max(), sliderSetting.isInt(), sliderSetting.round());
+                            sliderSetting.max(), sliderSetting.isInt(), sliderSetting.round());
                     category = sliderSetting.category();
                     mods = sliderSetting.mods();
                 }
@@ -85,23 +84,19 @@ public class SettingsTab extends AbstractTab {
 
         // Link to sidebar mod's gui
         apply(new LinkComponent(this, Collections.emptyList(), "Sidebar Mod",
-            new GuiScreenSettings(Hyperium.INSTANCE.getInternalAddons().getSidebarAddon())), true, Category.OTHER, items);
+                new GuiScreenSettings(Hyperium.INSTANCE.getModIntegration().getSidebarAddon())), true, Category.OTHER, items);
 
         // Link to keystrokes gui
         apply(new LinkComponent(this, Collections.emptyList(), "Keystrokes",
-            new GuiScreenKeystrokes(Hyperium.INSTANCE.getModIntegration().getKeystrokesMod())), true, Category.OTHER, items);
+                new GuiScreenKeystrokes(Hyperium.INSTANCE.getModIntegration().getKeystrokesMod())), true, Category.OTHER, items);
 
         // Link to togglechat gui
         apply(new LinkComponent(this, Collections.emptyList(), "Togglechat",
-            new ToggleChatMainGui(Hyperium.INSTANCE.getModIntegration().getToggleChat(), 0)), true, Category.OTHER, items);
+                new ToggleChatMainGui(Hyperium.INSTANCE.getModIntegration().getToggleChat(), 0)), true, Category.OTHER, items);
 
         // Link to keybinds gui
         apply(new LinkComponent(this, Collections.emptyList(), "Keybinds",
-            new GuiKeybinds()), false, Category.GENERAL, items);
-
-        // Link to custom crosshair gui
-        apply(new LinkComponent(this, Collections.emptyList(), "Custom Crosshair",
-            new GuiCustomCrosshairEditCrosshair(Hyperium.INSTANCE.getInternalAddons().getCustomCrosshairAddon())), true, Category.OTHER, items);
+                new GuiKeybinds()), false, Category.GENERAL, items);
 
         apply(new ButtonComponent(this, new ArrayList<>(), "Reset Modifiers", () -> {
             Settings.BOW_FOV_MODIFIER = 1;
@@ -128,11 +123,11 @@ public class SettingsTab extends AbstractTab {
     private void apply(AbstractTabComponent component, boolean mods, Category category, HashMap<Category, CollapsibleTabComponent> items) {
 
         CollapsibleTabComponent collapsibleTabComponent = items.computeIfAbsent(
-            (mods ? Category.MODS : category),
-            category1 ->
-                new CollapsibleTabComponent(SettingsTab.this,
-                    Collections.singletonList(category1.name()),
-                    category1.getDisplay()));
+                (mods ? Category.MODS : category),
+                category1 ->
+                        new CollapsibleTabComponent(SettingsTab.this,
+                                Collections.singletonList(category1.name()),
+                                category1.getDisplay()));
         if (mods) {
             boolean b = false;
             for (AbstractTabComponent abs : collapsibleTabComponent.getChildren()) {

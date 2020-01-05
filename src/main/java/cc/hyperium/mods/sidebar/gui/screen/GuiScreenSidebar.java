@@ -15,11 +15,11 @@
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.addons.sidebar.gui.screen;
+package cc.hyperium.mods.sidebar.gui.screen;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.addons.sidebar.SidebarAddon;
-import cc.hyperium.addons.sidebar.gui.GuiSidebar;
+import cc.hyperium.mods.sidebar.SidebarAddon;
+import cc.hyperium.mods.sidebar.gui.GuiSidebar;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.scoreboard.ScoreObjective;

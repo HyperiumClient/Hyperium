@@ -17,7 +17,6 @@
 
 package cc.hyperium;
 
-import cc.hyperium.addons.InternalAddons;
 import cc.hyperium.commands.HyperiumCommandHandler;
 import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
@@ -121,9 +120,6 @@ public class Hyperium {
 
     // Hyperium's Mod Integration system
     private HyperiumModIntegration modIntegration;
-
-    // Hyperium's Addon Integration system
-    private InternalAddons internalAddons;
 
     // Hyperium's network system, used to send things such as emotes across servers to be displayed on other users screens
     private NetworkHandler networkHandler;
@@ -239,7 +235,6 @@ public class Hyperium {
 
             // Register mods & addons
             modIntegration = new HyperiumModIntegration();
-            internalAddons = new InternalAddons();
 
             // Fetch Hyperium staff members
             fetchStaffMembers();
@@ -493,10 +488,6 @@ public class Hyperium {
 
     public HyperiumCosmetics getCosmetics() {
         return cosmetics;
-    }
-
-    public InternalAddons getInternalAddons() {
-        return internalAddons;
     }
 
     public NetworkHandler getNetworkHandler() {

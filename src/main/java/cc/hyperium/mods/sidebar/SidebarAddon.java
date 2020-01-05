@@ -15,22 +15,28 @@
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.addons.sidebar;
+package cc.hyperium.mods.sidebar;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.addons.AbstractAddon;
-import cc.hyperium.addons.sidebar.commands.CommandSidebar;
-import cc.hyperium.addons.sidebar.gui.GuiSidebar;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.render.RenderScoreboardEvent;
+import cc.hyperium.mods.AbstractMod;
+import cc.hyperium.mods.sidebar.commands.CommandSidebar;
+import cc.hyperium.mods.sidebar.gui.GuiSidebar;
 
-public class SidebarAddon extends AbstractAddon {
+public class SidebarAddon extends AbstractMod {
 
     private GuiSidebar guiSidebar;
 
+    /**
+     * The init method where all events and commands should
+     * be registered. Use this to load configs as well
+     *
+     * @return the {@link AbstractMod} instance of the mod
+     */
     @Override
-    public AbstractAddon init() {
+    public AbstractMod init() {
         EventBus.INSTANCE.register(this);
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandSidebar(this));
         guiSidebar = new GuiSidebar();
@@ -38,11 +44,15 @@ public class SidebarAddon extends AbstractAddon {
         return this;
     }
 
+    /**
+     * This mods metadata, which will be displayed in the
+     * configuration gui and other places
+     *
+     * @return the mods metadata
+     */
     @Override
-    public Metadata getAddonMetadata() {
-        Metadata metadata = new Metadata(this, "SidebarAddon", "1.0.1", "Amplifiable");
-        metadata.setDescription("Allows for full scoreboard customization");
-        return metadata;
+    public Metadata getModMetadata() {
+        return new Metadata(this, "SidebarAddon", "1.0.1", "Amplifiable");
     }
 
     public GuiSidebar getSidebarGui() {
