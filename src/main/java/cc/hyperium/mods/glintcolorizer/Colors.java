@@ -33,13 +33,13 @@ public class Colors {
     public static int chromaSpeed = 1;
     @ConfigOpt
     @SliderSetting(name = "Red", mods = true, category = Category.GLINTCOLORIZER, min = 0, max = 255, isInt = true)
-    public static int glintR = 255;
+    public static int glintR = 128;
     @ConfigOpt
     @SliderSetting(name = "Green", mods = true, category = Category.GLINTCOLORIZER, min = 0, max = 255, isInt = true)
-    public static int glintG = 255;
+    public static int glintG = 64;
     @ConfigOpt
     @SliderSetting(name = "Blue", mods = true, category = Category.GLINTCOLORIZER, min = 0, max = 255, isInt = true)
-    public static int glintB = 255;
+    public static int glintB = 204;
     @ConfigOpt
     @ToggleSetting(category = Category.GLINTCOLORIZER, mods = true, name = "Enabled")
     public static boolean enabled;
