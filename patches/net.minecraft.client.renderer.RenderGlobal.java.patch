@@ -69,7 +69,7 @@
     }
  
     private void spawnParticle(EnumParticleTypes particleIn, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... parameters) {
-+      if(Minecraft.getMinecraft().gameSettings.particleSetting == 3) return;
++      if(mc.gameSettings.particleSetting == 3) return;
 +
        this.spawnParticle(particleIn.getParticleID(), particleIn.getShouldIgnoreRange(), xCoord, yCoord, zCoord, xOffset, yOffset, zOffset, parameters);
     }

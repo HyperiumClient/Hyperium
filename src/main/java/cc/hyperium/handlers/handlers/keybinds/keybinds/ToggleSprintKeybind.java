@@ -38,6 +38,9 @@ public class ToggleSprintKeybind extends HyperiumBind {
             }
 
             Minecraft.getMinecraft().gameSettings.keyBindSprint.setPressed(false);
+            if (Minecraft.getMinecraft().thePlayer.isSprinting()) {
+                Minecraft.getMinecraft().thePlayer.setSprinting(false);
+            }
         } else {
             if (Settings.SPRINT_PERSPECTIVE_MESSAGES) {
                 GeneralChatHandler.instance().sendMessage("ToggleSprint Enabled!");

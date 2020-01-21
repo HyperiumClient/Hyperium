@@ -96,14 +96,7 @@
     }
  
     protected float getDeathMaxRotation(T entityLivingBaseIn) {
-@@ -419,16 +432,17 @@
- 
-    public void renderName(T entity, double x, double y, double z) {
-       if(this.canRenderName(entity)) {
--         double d0 = entity.getDistanceSqToEntity(this.renderManager.livingPlayer);
-+         double d0 = entity.getDistanceSqToEntity(renderManager.livingPlayer);
-          float f = entity.isSneaking()?32.0F:64.0F;
-          if(d0 < (double)(f * f)) {
+@@ -425,10 +438,11 @@
              String s = entity.getDisplayName().getFormattedText();
              float f1 = 0.02666667F;
              GlStateManager.alphaFunc(516, 0.1F);
