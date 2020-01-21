@@ -37,6 +37,7 @@ public class GeneralStatisticsTracking {
     @ConfigOpt public static int lifetimeCoins;
     @ConfigOpt public static int monthlyCoins;
     @ConfigOpt public static int dailyCoins;
+    @ConfigOpt public static int dailyXP;
     @ConfigOpt public String currentDateString = format.format(new Date());
 
 
@@ -56,8 +57,9 @@ public class GeneralStatisticsTracking {
                     monthlyCoins += coins;
                     dailyCoins += coins;
                 } else if (line.contains("Hypixel Experience")){
-                    int coins = Integer.parseInt(line.split("• §3")[1].split(" Hypixel Experience")[0].replaceAll("[\\D]", ""));
-                    EventBus.INSTANCE.post(new HypixelGetXPEvent(coins));
+                    int Exp = Integer.parseInt(line.split("• §3")[1].split(" Hypixel Experience")[0].replaceAll("[\\D]", ""));
+                    EventBus.INSTANCE.post(new HypixelGetXPEvent(Exp));
+                    dailyXP += Exp;
                 }
             }
         }
@@ -75,12 +77,14 @@ public class GeneralStatisticsTracking {
         // If the day has changed, reset daily coins.
         if (!currentDays.equals(days)) {
             dailyCoins = 0;
+            dailyXP = 0;
             currentDateString = format.format(currentDate);
         }
 
         // If the month has changed, reset monthly coins and daily coins.
         if (!currentMonths.equals(months)) {
             dailyCoins = 0;
+            dailyXP = 0;
             monthlyCoins = 0;
             currentDateString = format.format(currentDate);
         }
