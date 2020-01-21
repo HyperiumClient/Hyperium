@@ -533,6 +533,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.fasttab", category = PERFORMANCE)
     public static boolean FAST_TAB;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.smoothchat", category = QOL)
+    public static boolean SMOOTH_CHAT;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

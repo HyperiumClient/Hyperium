@@ -213,6 +213,7 @@ gui.settings.showofflinedots=Show Offline Indicators
 gui.settings.customhypixeljoinleave=Custom Hypixel Join/Leave Messages
 gui.settings.cleanermenus=Cleaner Menus
 gui.settings.fasttab=Fast Tab
+gui.settings.smoothchat=Smooth Chat
 
 #Settings Categories
 gui.category.general=General
