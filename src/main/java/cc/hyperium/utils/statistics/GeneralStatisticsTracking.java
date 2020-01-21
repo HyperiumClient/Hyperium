@@ -57,9 +57,9 @@ public class GeneralStatisticsTracking {
                     monthlyCoins += coins;
                     dailyCoins += coins;
                 } else if (line.contains("Hypixel Experience")){
-                    int Exp = Integer.parseInt(line.split("• §3")[1].split(" Hypixel Experience")[0].replaceAll("[\\D]", ""));
-                    EventBus.INSTANCE.post(new HypixelGetXPEvent(Exp));
-                    dailyXP += Exp;
+                    int exp = Integer.parseInt(line.split("• §3")[1].split(" Hypixel Experience")[0].replaceAll("[\\D]", ""));
+                    EventBus.INSTANCE.post(new HypixelGetXPEvent(exp));
+                    dailyXP += exp;
                 }
             }
         }
