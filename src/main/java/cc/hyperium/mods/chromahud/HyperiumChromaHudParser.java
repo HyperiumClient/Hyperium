@@ -44,6 +44,7 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
         names.put("SPRINT_STATUS", "ToggleSprint Status");
         names.put("MEMORY", "Memory Display");
         names.put("REACH_DISPLAY", "Reach Display");
+        names.put("XP", "Daily XP");
     }
 
     @Override
@@ -69,6 +70,8 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
                 return new MemoryDisplay(item, ord);
             case "REACH_DISPLAY":
                 return new ReachDisplay(item, ord);
+            case "XP":
+                return new XPDisplay(item, ord);
         }
 
         return null;
