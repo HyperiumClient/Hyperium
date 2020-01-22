@@ -1,6 +1,6 @@
 --- original/net/minecraft/client/renderer/chunk/RenderChunk.java
 +++ changed/net/minecraft/client/renderer/chunk/RenderChunk.java
-@@ -1,11 +1,17 @@
+@@ -1,5 +1,8 @@
  package net.minecraft.client.renderer.chunk;
  
 +import cc.hyperium.Hyperium;
@@ -9,24 +9,7 @@
  import com.google.common.collect.Maps;
  import com.google.common.collect.Sets;
  import java.nio.FloatBuffer;
- import java.util.EnumMap;
- import java.util.HashSet;
-+import java.util.Queue;
- import java.util.Set;
-+import java.util.concurrent.BlockingQueue;
-+import java.util.concurrent.ConcurrentLinkedQueue;
- import java.util.concurrent.locks.ReentrantLock;
- import net.minecraft.block.Block;
- import net.minecraft.block.state.IBlockState;
-@@ -31,6 +37,7 @@
- import net.minecraft.util.EnumWorldBlockLayer;
- import net.minecraft.world.IBlockAccess;
- import net.minecraft.world.World;
-+import net.minecraft.world.chunk.Chunk;
- import net.minecraftforge.fml.relauncher.Side;
- import net.minecraftforge.fml.relauncher.SideOnly;
- 
-@@ -53,6 +60,8 @@
+@@ -53,6 +56,8 @@
     private boolean needsUpdate = true;
     private EnumMap<EnumFacing, BlockPos> mapEnumFacing = Maps.newEnumMap(EnumFacing.class);
  
@@ -35,7 +18,7 @@
     public RenderChunk(World worldIn, RenderGlobal renderGlobalIn, BlockPos blockPosIn, int indexIn) {
        this.world = worldIn;
        this.renderGlobal = renderGlobalIn;
-@@ -83,6 +92,9 @@
+@@ -83,6 +88,9 @@
     }
  
     public void setPosition(BlockPos pos) {
@@ -45,7 +28,7 @@
        this.stopCompileTask();
        this.position = pos;
        this.boundingBox = new AxisAlignedBB(pos, pos.add(16, 16, 16));
-@@ -126,6 +138,15 @@
+@@ -126,6 +134,15 @@
        HashSet lvt_11_1_ = Sets.newHashSet();
        if(!iblockaccess.extendedLevelsInChunkCache()) {
           ++renderChunksUpdated;
