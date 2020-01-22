@@ -19,6 +19,8 @@ package cc.hyperium.config;
 
 import cc.hyperium.Hyperium;
 
+import java.awt.*;
+
 import static cc.hyperium.config.Category.*;
 
 /*
@@ -536,6 +538,14 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.smoothchat", category = QOL)
     public static boolean SMOOTH_CHAT;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.chunkupdatelimit", category = PERFORMANCE, min = 5, max = 1000)
+    public static double CHUNK_UPDATE_LIMIT = 1000;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.chunkupdatelimiting", category = PERFORMANCE)
+    public static boolean CHUNK_UPDATE_LIMITING;
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);

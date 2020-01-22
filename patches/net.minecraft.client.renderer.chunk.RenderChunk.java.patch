@@ -1,14 +1,32 @@
 --- original/net/minecraft/client/renderer/chunk/RenderChunk.java
 +++ changed/net/minecraft/client/renderer/chunk/RenderChunk.java
-@@ -1,5 +1,7 @@
+@@ -1,11 +1,17 @@
  package net.minecraft.client.renderer.chunk;
  
 +import cc.hyperium.Hyperium;
++import cc.hyperium.config.Settings;
 +import cc.hyperium.mods.chunkanimator.AnimationHandler;
  import com.google.common.collect.Maps;
  import com.google.common.collect.Sets;
  import java.nio.FloatBuffer;
-@@ -53,6 +55,8 @@
+ import java.util.EnumMap;
+ import java.util.HashSet;
++import java.util.Queue;
+ import java.util.Set;
++import java.util.concurrent.BlockingQueue;
++import java.util.concurrent.ConcurrentLinkedQueue;
+ import java.util.concurrent.locks.ReentrantLock;
+ import net.minecraft.block.Block;
+ import net.minecraft.block.state.IBlockState;
+@@ -31,6 +37,7 @@
+ import net.minecraft.util.EnumWorldBlockLayer;
+ import net.minecraft.world.IBlockAccess;
+ import net.minecraft.world.World;
++import net.minecraft.world.chunk.Chunk;
+ import net.minecraftforge.fml.relauncher.Side;
+ import net.minecraftforge.fml.relauncher.SideOnly;
+ 
+@@ -53,6 +60,8 @@
     private boolean needsUpdate = true;
     private EnumMap<EnumFacing, BlockPos> mapEnumFacing = Maps.newEnumMap(EnumFacing.class);
  
@@ -17,7 +35,7 @@
     public RenderChunk(World worldIn, RenderGlobal renderGlobalIn, BlockPos blockPosIn, int indexIn) {
        this.world = worldIn;
        this.renderGlobal = renderGlobalIn;
-@@ -83,6 +87,9 @@
+@@ -83,6 +92,9 @@
     }
  
     public void setPosition(BlockPos pos) {
@@ -27,3 +45,19 @@
        this.stopCompileTask();
        this.position = pos;
        this.boundingBox = new AxisAlignedBB(pos, pos.add(16, 16, 16));
+@@ -126,6 +138,15 @@
+       HashSet lvt_11_1_ = Sets.newHashSet();
+       if(!iblockaccess.extendedLevelsInChunkCache()) {
+          ++renderChunksUpdated;
++
++         if (Settings.CHUNK_UPDATE_LIMITING && renderChunksUpdated > Settings.CHUNK_UPDATE_LIMIT) {
++            try {
++               Thread.sleep((long) (Settings.CHUNK_UPDATE_LIMIT * 10));
++            } catch (Exception e) {
++               Hyperium.LOGGER.error("Caught en error while batching chunk updates.", e);
++            }
++         }
++
+          boolean[] aboolean = new boolean[EnumWorldBlockLayer.values().length];
+          BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+ 

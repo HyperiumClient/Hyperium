@@ -214,6 +214,8 @@ gui.settings.customhypixeljoinleave=Custom Hypixel Join/Leave Messages
 gui.settings.cleanermenus=Cleaner Menus
 gui.settings.fasttab=Fast Tab
 gui.settings.smoothchat=Smooth Chat
+gui.settings.chunkupdatelimit=Chunk Update Limit (EXPERIMENTAL)
+gui.settings.chunkupdatelimiting=Chunk Update Limiting (EXPERIMENTAL)
 
 #Settings Categories
 gui.category.general=General

@@ -299,14 +299,16 @@
        if(!this.skipRenderWorld) {
           this.mcProfiler.endStartSection("gameRenderer");
           this.entityRenderer.updateCameraAndRender(this.timer.renderPartialTicks, i);
-@@ -1055,6 +1103,7 @@
+@@ -1055,7 +1103,8 @@
     }
  
     public int getLimitFramerate() {
+-      return this.theWorld == null && this.currentScreen != null?30:this.gameSettings.limitFramerate;
 +      if (FPSLimiter.shouldLimitFramerate()) return FPSLimiter.getInstance().getFpsLimit();
-       return this.theWorld == null && this.currentScreen != null?30:this.gameSettings.limitFramerate;
++      return this.gameSettings.limitFramerate;
     }
  
+    public boolean isFramerateLimitBelowMax() {
 @@ -1084,6 +1133,7 @@
      * Update debugProfilerName in response to number keys in debug screen
      */
