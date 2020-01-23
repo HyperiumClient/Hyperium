@@ -35,7 +35,7 @@ Hyperium is an open-source and community-driven Minecraft 1.8.9 client that aims
 - [ToggleChat](https://2pi.pw/mods/togglechat) by 2pi
 
 ### Beta Test the Client ###  
-You can easily beta test the client for free, all you have to do is join [the Discord](https://discord.gg/sk1er) and do `$rank beta testing` in the [`#commands`](https://discordapp.com/channels/411619823445999637/411620555960352787) channel. You can then access betas in [`#beta-announcements`](https://discordapp.com/channels/411619823445999637/595634170336641045)
+You can easily beta test the client for free, all you have to do is join [the Discord](https://discord.gg/sk1er) and do `$rank beta testing` in the [`#commands`](https://discordapp.com/channels/411619823445999637/411620555960352787) channel. You can then access betas in [`#beta-releases`](https://discordapp.com/channels/411619823445999637/595634170336641045)
 
 ### FAQ ###  
 Q: Please help, I can't build Hyperium!
