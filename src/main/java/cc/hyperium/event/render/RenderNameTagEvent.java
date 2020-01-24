@@ -23,8 +23,8 @@ import net.minecraft.client.renderer.entity.RenderManager;
 
 public class RenderNameTagEvent extends Event {
     public static boolean CANCEL;
-    private AbstractClientPlayer entity;
-    private RenderManager renderManager;
+    private final AbstractClientPlayer entity;
+    private final RenderManager renderManager;
 
     public RenderNameTagEvent(AbstractClientPlayer player, RenderManager renderManager) {
         entity = player;

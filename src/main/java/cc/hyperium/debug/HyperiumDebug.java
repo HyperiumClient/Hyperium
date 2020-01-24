@@ -1,0 +1,32 @@
+package cc.hyperium.debug;
+
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.render.RenderHUDEvent;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiOverlayDebug;
+
+public class HyperiumDebug {
+
+    /**
+     * Usable via adding -DhyperiumDebug=true to vm arguments.
+     */
+    private final boolean debugHyperiumArgument = Boolean.parseBoolean(System.getProperty("hyperiumDebug", "false"));
+    private final Minecraft mc = Minecraft.getMinecraft();
+
+    @InvokeEvent
+    public void renderDebugOverlay(RenderHUDEvent event) {
+        if (!debugHyperiumArgument) {
+            EventBus.INSTANCE.unregister(this);
+            return;
+        }
+
+        if (mc.gameSettings.showDebugInfo) return;
+
+        int mbDiv = 1048576;
+        long maxMemory = Runtime.getRuntime().maxMemory() / mbDiv;
+        long totalMemory = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / mbDiv;
+        mc.fontRendererObj.drawStringWithShadow("fps: " + Minecraft.getDebugFPS(), 3, 3, -1);
+        mc.fontRendererObj.drawStringWithShadow("memory usage: " + totalMemory + " / " + maxMemory + "MB", 3, 13, -1);
+    }
+}

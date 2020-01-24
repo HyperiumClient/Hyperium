@@ -35,7 +35,7 @@ public class MemoryDisplay extends DisplayItem {
         long maxMemory = Runtime.getRuntime().maxMemory() / mbDiv;
         long totalMemory = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / mbDiv;
 
-        String displayString = totalMemory + " / " + (maxMemory == Long.MAX_VALUE ? "No limit" : maxMemory) + "MB";
+        String displayString = totalMemory + " / " + maxMemory + "MB";
         ElementRenderer.draw(x, y, displayString);
         FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 

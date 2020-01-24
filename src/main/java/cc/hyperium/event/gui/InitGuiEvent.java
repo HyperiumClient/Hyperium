@@ -21,7 +21,7 @@ import cc.hyperium.event.Event;
 import net.minecraft.client.gui.GuiScreen;
 
 public class InitGuiEvent extends Event {
-    private GuiScreen screen;
+    private final GuiScreen screen;
 
     public InitGuiEvent(GuiScreen screen) {
         this.screen = screen;

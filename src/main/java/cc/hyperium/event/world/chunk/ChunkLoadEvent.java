@@ -5,7 +5,7 @@ import net.minecraft.world.chunk.Chunk;
 
 public class ChunkLoadEvent extends Event {
 
-    private Chunk chunk;
+    private final Chunk chunk;
 
     public ChunkLoadEvent(Chunk chunk) {
         this.chunk = chunk;
