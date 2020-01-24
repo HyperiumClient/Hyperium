@@ -114,18 +114,18 @@ public class ShopTab extends AbstractTab {
 
         CollapsibleTabComponent purchaseTab = new CollapsibleTabComponent(this, Arrays.asList("Purchase", "Shop"), "Purchase");
 
-        cosmeticCallback.getKeys().forEach(key -> {
+        for (String key : cosmeticCallback.getKeys()) {
             JsonHolder cosmetic = cosmeticCallback.optJSONObject(key);
             if (cosmetic.optBoolean("cape") || key.toLowerCase(Locale.ENGLISH).startsWith("particle") || cosmetic
-                .optString("name").toLowerCase(Locale.ENGLISH).endsWith("animation")) {
-                return;
+                    .optString("name").toLowerCase(Locale.ENGLISH).endsWith("animation")) {
+                continue;
             }
 
             CollapsibleTabComponent purchase = new CollapsibleTabComponent(this, new ArrayList<>(), cosmetic.optString("name"));
             purchase.addChild(new LabelComponent(this, new ArrayList<>(), cosmetic.optString("name") + " (" + cosmetic.optInt("cost") + " credits)"));
             purchase.addChild(new LabelComponent(this, new ArrayList<>(), cosmetic.optString("description")));
             purchase.addChild(new ButtonComponent(this, new ArrayList<>(),
-                cosmetic.optBoolean("purchased") ? "PURCHASED" : "PURCHASE", () -> {
+                    cosmetic.optBoolean("purchased") ? "PURCHASED" : "PURCHASE", () -> {
                 if (cosmetic.optBoolean("purchased")) {
                     Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("You have already purchased " + cosmetic.optString("name") + ".");
                     return;
@@ -139,7 +139,7 @@ public class ShopTab extends AbstractTab {
             }));
 
             purchaseTab.addChild(purchase);
-        });
+        }
 
         components.addAll(Arrays.asList(
             infoTab,

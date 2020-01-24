@@ -155,10 +155,12 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         try {
             if (!texturesImage.isEmpty()) {
-                texturesImage.forEach((s, value) -> {
+                for (Map.Entry<String, BufferedImage> entry : texturesImage.entrySet()) {
+                    String s = entry.getKey();
+                    BufferedImage value = entry.getValue();
                     if (!textures.containsKey(s))
                         textures.put(s, new DynamicTexture(value));
-                });
+                }
             }
 
             super.drawScreen(mouseX, mouseY, partialTicks);
@@ -205,7 +207,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
             int i3 = printY + 40;
 
             fontRendererObj.drawString(text, i2 / 2F, i3 / 2F, new Color(97, 132, 249).getRGB(), true);
-            GuiBlock block1 = new GuiBlock(i2, i2 + stringWidth1 * 2, i3, i3 + 15);
+            GuiBlock block1 = new GuiBlock(i2, i2 + (stringWidth1 << 1), i3, i3 + 15);
             GlStateManager.scale(.5F, .5F, .5F);
 
             actions.put(block1, () -> {
@@ -250,7 +252,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
                     GlStateManager.translate(topLeftX, topLeftY, 0);
                     GlStateManager.scale(capeScale, capeScale, capeScale);
-                    drawTexturedModalRect(0, 0, imgW / 12, 0, imgW, imgH * 2);
+                    drawTexturedModalRect(0, 0, imgW / 12, 0, imgW, imgH << 1);
                     GlStateManager.scale(1F / capeScale, 1F / capeScale, 1F / capeScale);
                     GlStateManager.translate(-topLeftX, -topLeftY, 0);
                 }
@@ -289,7 +291,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                         int i = thisBlocksCenter - stringWidth;
                         int i1 = thisTopY - 8 + blockHeight / 2 + 64 + 48;
                         string = "Make Active";
-                        GuiBlock block = new GuiBlock(i, i + stringWidth * 2, i1, i1 + 20);
+                        GuiBlock block = new GuiBlock(i, i + (stringWidth << 1), i1, i1 + 20);
 
                         actions.put(block, () -> {
                             JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();

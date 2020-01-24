@@ -189,12 +189,12 @@ public abstract class HyperiumGui extends GuiScreen {
         lastResolution = current;
         super.updateScreen();
 
-        buttonList.forEach(guiButton -> {
+        for (GuiButton guiButton : buttonList) {
             Consumer<GuiButton> guiButtonConsumer = updates.get(guiButton);
             if (guiButtonConsumer != null) {
                 guiButtonConsumer.accept(guiButton);
             }
-        });
+        }
     }
 
     @Override

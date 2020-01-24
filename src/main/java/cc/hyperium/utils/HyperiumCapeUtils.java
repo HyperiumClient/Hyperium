@@ -35,8 +35,8 @@ public class HyperiumCapeUtils {
         int srcWidth = img.getWidth(), srcHeight = img.getHeight();
 
         while (imageWidth < srcWidth || imageHeight < srcHeight) {
-            imageWidth *= 2;
-            imageHeight *= 2;
+            imageWidth <<= 1;
+            imageHeight <<= 1;
         }
 
         BufferedImage imgNew = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);

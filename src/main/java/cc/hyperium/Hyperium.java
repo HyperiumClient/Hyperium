@@ -131,11 +131,11 @@ public class Hyperium {
     private Sk1erMod sk1erMod;
 
     // Expose the updateUtils
-    private UpdateUtils updateUtils = UpdateUtils.INSTANCE;
+    private final UpdateUtils updateUtils = UpdateUtils.INSTANCE;
 
     private long launchTime;
 
-    private ClassLoaderResourcePack resourcePack = new ClassLoaderResourcePack("hyperium");
+    private final ClassLoaderResourcePack resourcePack = new ClassLoaderResourcePack("hyperium");
 
     // Did the player join from the main menu?
     private boolean joinedfromMainMenu;

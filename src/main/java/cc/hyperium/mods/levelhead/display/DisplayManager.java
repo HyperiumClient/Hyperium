@@ -24,6 +24,7 @@ import cc.hyperium.utils.ChatColor;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -109,14 +110,18 @@ public class DisplayManager {
     public void tick() {
         if (!config.isEnabled()) return;
 
-        aboveHead.forEach(LevelheadDisplay::tick);
+        for (AboveHeadDisplay aboveHeadDisplay : aboveHead) {
+            aboveHeadDisplay.tick();
+        }
 
         if (tab != null) tab.tick();
         if (chat != null) chat.tick();
     }
 
     public void checkCacheSizes() {
-        aboveHead.forEach(LevelheadDisplay::checkCacheSize);
+        for (AboveHeadDisplay aboveHeadDisplay : aboveHead) {
+            aboveHeadDisplay.checkCacheSize();
+        }
 
         if (tab != null) tab.checkCacheSize();
         if (chat != null) chat.checkCacheSize();
@@ -129,7 +134,12 @@ public class DisplayManager {
         if (tab != null) jsonHolder.put("tab", new LevelheadJsonHolder(GSON.toJson(tab.getConfig())));
         if (chat != null) jsonHolder.put("chat", new LevelheadJsonHolder(GSON.toJson(chat.getConfig())));
         JsonArray head = new JsonArray();
-        aboveHead.stream().map(aboveHeadDisplay -> new LevelheadJsonHolder(GSON.toJson(aboveHeadDisplay.getConfig())).getObject()).forEach(head::add);
+
+        for (AboveHeadDisplay aboveHeadDisplay : aboveHead) {
+            JsonObject object = new LevelheadJsonHolder(GSON.toJson(aboveHeadDisplay.getConfig())).getObject();
+            head.add(object);
+        }
+
         jsonHolder.put("head", head);
 
         try {

@@ -312,11 +312,11 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
         int y1 = (int) (ResolutionUtil.current().getScaledHeight() / 2.5F);
         fontRendererObj.drawString(s, x1, y1, Color.MAGENTA.getRGB(), true);
         GlStateManager.scale(.5, .5, .5);
-        previewBlock = new GuiBlock(x1 * 2, x1 * 2 + stringWidth * 2, y1 * 2, y1 * 2 + 20);
+        previewBlock = new GuiBlock(x1 << 1, (x1 << 1) + (stringWidth << 1), y1 << 1, (y1 << 1) + 20);
         super.drawScreen(mouseX, mouseY, partialTicks);
         ScaledResolution current = ResolutionUtil.current();
         particleType.render(current.getScaledWidth() / 5, current.getScaledHeight() / 2, mouseX, mouseY);
-        particleAnimation.render(current.getScaledWidth() * 4 / 5, current.getScaledHeight() / 2, mouseX, mouseY);
+        particleAnimation.render((current.getScaledWidth() << 2) / 5, current.getScaledHeight() / 2, mouseX, mouseY);
 
         if (overlay != null) overlay.render(mouseX, mouseY, width, height);
     }
@@ -372,9 +372,9 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
         }
         if (overlay == null) {
             particleType.mouseClicked(mouseX, mouseY, width / 5);
-            particleAnimation.mouseClicked(mouseX, mouseY, width * 4 / 5);
+            particleAnimation.mouseClicked(mouseX, mouseY, (width << 2) / 5);
         } else {
-            int x = width / 6 * 2;
+            int x = width / 6 << 1;
             int y = height / 4;
             if (mouseX >= x && mouseX <= x + 16 && mouseY >= y - 16 && mouseY <= y) {
                 overlay = null;

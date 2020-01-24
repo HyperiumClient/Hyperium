@@ -130,7 +130,9 @@ public class HyperiumCommandHandler {
         commands.put(command.getName(), command);
 
         if (command.getCommandAliases() != null && !command.getCommandAliases().isEmpty()) {
-            command.getCommandAliases().forEach(alias -> commands.put(alias, command));
+            for (String alias : command.getCommandAliases()) {
+                commands.put(alias, command);
+            }
         }
     }
 
@@ -140,11 +142,13 @@ public class HyperiumCommandHandler {
      * @param command the command to unregister
      */
     public void removeCommand(BaseCommand command) {
-        commands.forEach((key, value) -> {
+        for (Map.Entry<String, BaseCommand> entry : commands.entrySet()) {
+            String key = entry.getKey();
+            BaseCommand value = entry.getValue();
             if (value.equals(command)) {
                 commands.remove(key);
             }
-        });
+        }
     }
 
     /**

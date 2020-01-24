@@ -120,7 +120,9 @@ public class KeybindButton extends GuiButton {
     }
 
     void detectConflicts() {
-        Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values().forEach(HyperiumBind::detectConflicts);
+        for (HyperiumBind hyperiumBind : Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values()) {
+            hyperiumBind.detectConflicts();
+        }
     }
 
     void mouseButtonClicked(int mouseButton) {

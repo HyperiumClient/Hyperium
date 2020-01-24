@@ -51,7 +51,7 @@ public class NotificationCenter extends Gui {
     /**
      * Font renderer to use
      */
-    private FontRenderer fontRenderer;
+    FontRenderer fontRenderer;
 
     public NotificationCenter() {
 
@@ -122,7 +122,7 @@ public class NotificationCenter extends Gui {
     /**
      * Set the font renderer to be used to default font renderer
      */
-    private void setDefaultFontRenderer() {
+    void setDefaultFontRenderer() {
         if (fontRenderer == null) fontRenderer = Minecraft.getMinecraft().fontRendererObj;
     }
 
@@ -223,7 +223,7 @@ public class NotificationCenter extends Gui {
         /**
          * Ran when the user clicks on this notification, if applicable
          */
-        private Runnable clickedCallback;
+        Runnable clickedCallback;
 
         /**
          * Image rendered with this notification, if applicable
@@ -351,7 +351,7 @@ public class NotificationCenter extends Gui {
          * @return The width at which description text should wrap
          */
         private int getWrapWidth() {
-            int descRightMargins = (img == null ? rightMargins : rightMargins * 2); // Double right margins if image is there
+            int descRightMargins = (img == null ? rightMargins : rightMargins << 1); // Double right margins if image is there
             // Width that text is permitted to stretch across before wrapping/stopping
             return (int) (width - descRightMargins - imgSize * imgScale - highlightBarMargins - highlightBarWidth);
         }

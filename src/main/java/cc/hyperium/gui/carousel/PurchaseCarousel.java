@@ -121,7 +121,7 @@ public class PurchaseCarousel {
         int totalWidth = current.getScaledWidth() / 3;
         int panel = totalWidth / 5;
         int mainWidth = panel * 3;
-        int sideHeight = current.getScaledHeight() / 5 * 2;
+        int sideHeight = current.getScaledHeight() / 5 << 1;
         int mainHeight = current.getScaledHeight() / 5 * 3;
         int objLeft = centerX - mainWidth / 2;
         int objBottom = centerY + mainHeight / 2;
@@ -129,11 +129,11 @@ public class PurchaseCarousel {
 
         if (index > 0) {
             //Draw left side
-            RenderUtils.drawSmoothRect(centerX - panel * 2, centerY - sideHeight / 2, centerX,
+            RenderUtils.drawSmoothRect(centerX - (panel << 1), centerY - sideHeight / 2, centerX,
                 centerY + sideHeight / 2, 4, new Color(23, 23, 23).getRGB());
         }
         if (index < items.length - 1) {
-            RenderUtils.drawSmoothRect(centerX, centerY - sideHeight / 2, centerX + panel * 2,
+            RenderUtils.drawSmoothRect(centerX, centerY - sideHeight / 2, centerX + (panel << 1),
                 centerY + sideHeight / 2, 4, new Color(23, 23, 23).getRGB());
         }
 
@@ -142,11 +142,11 @@ public class PurchaseCarousel {
         GlStateManager.scale(.5, .5, .5);
 
         int barHeight = 16;
-        fr.drawString(item.getName(), (objLeft + 5) * 2, (objBottom - 50) * 2, Color.WHITE.getRGB());
-        int purchaseRight = (objLeft + 50) * 2;
+        fr.drawString(item.getName(), (objLeft + 5) << 1, (objBottom - 50) << 1, Color.WHITE.getRGB());
+        int purchaseRight = (objLeft + 50) << 1;
 
-        RenderUtils.drawSmoothRect((objLeft + 5) * 2, (objBottom - 20) * 2, purchaseRight,
-            (objBottom - 20 + barHeight) * 2, 10, Color.WHITE.getRGB());
+        RenderUtils.drawSmoothRect((objLeft + 5) << 1, (objBottom - 20) << 1, purchaseRight,
+                (objBottom - 20 + barHeight) << 1, 10, Color.WHITE.getRGB());
 
         GlStateManager.scale(2 / 3F, 2 / 3F, 2 / 3F);
 
@@ -155,12 +155,12 @@ public class PurchaseCarousel {
 
         GlStateManager.scale(3 / 2F, 3 / 2f, 3 / 2F);
 
-        RenderUtils.drawFilledCircle(purchaseRight + barHeight * 2, (objBottom - 12) * 2, barHeight, Color.WHITE.getRGB());
+        RenderUtils.drawFilledCircle(purchaseRight + (barHeight << 1), (objBottom - 12) << 1, barHeight, Color.WHITE.getRGB());
         GlStateManager.color(0, 0, 0);
 
         Icons.SETTINGS.bind();
-        Gui.drawScaledCustomSizeModalRect(purchaseRight + barHeight, (objBottom - 20) * 2, 0, 0,
-            144, 144, barHeight * 2, barHeight * 2, 144, 144);
+        Gui.drawScaledCustomSizeModalRect(purchaseRight + barHeight, (objBottom - 20) << 1, 0, 0,
+            144, 144, barHeight << 1, barHeight << 1, 144, 144);
 
         GlStateManager.scale(2.0, 2.0, 2.0);
 

@@ -58,11 +58,13 @@ public class HyperiumOverlay {
 
     public void render(int mouseX, int mouseY, int w, int h) {
         // HyperiumGui.drawChromaBox(0, 0, w, h, 0.2F); // bg
-        Gui.drawRect(w / 6 * 2, h / 4, w / 6 * 4, h / 4 * 3, new Color(30, 30, 30).getRGB());
+        Gui.drawRect(w / 6 << 1, h / 4, w / 6 << 2, h / 4 * 3, new Color(30, 30, 30).getRGB());
 
         Integer[] counter = new Integer[]{0};
 
-        components.forEach(c -> c.render(mouseX, mouseY, w / 6 * 2, h / 4 + 20 * counter[0]++ + offsetY, w / 6 * 2, 20, h));
+        for (OverlayComponent c : components) {
+            c.render(mouseX, mouseY, w / 6 << 1, h / 4 + 20 * counter[0]++ + offsetY, w / 6 << 1, 20, h);
+        }
     }
 
     public void handleMouseInput() {
@@ -74,8 +76,10 @@ public class HyperiumOverlay {
 
         Integer[] counter = new Integer[]{0};
 
-        components.forEach(c -> c.handleMouseInput(mx, my, sr.getScaledWidth() / 6 * 2,
-            sr.getScaledHeight() / 4 + 20 * counter[0]++ + offsetY, sr.getScaledWidth() / 6 * 2, 20));
+        for (OverlayComponent c : components) {
+            c.handleMouseInput(mx, my, sr.getScaledWidth() / 6 << 1,
+                    sr.getScaledHeight() / 4 + 20 * counter[0]++ + offsetY, sr.getScaledWidth() / 6 << 1, 20);
+        }
 
         int i = Mouse.getEventDWheel();
         if (i > 0 && offsetY != 0) offsetY += 5;
@@ -91,8 +95,10 @@ public class HyperiumOverlay {
 
         Integer[] counter = new Integer[]{0};
 
-        components.forEach(c -> c.mouseClicked(mx, my, sr.getScaledWidth() / 6 * 2,
-            sr.getScaledHeight() / 4 + 20 * counter[0]++ + offsetY, sr.getScaledWidth() / 6 * 2, 20));
+        for (OverlayComponent c : components) {
+            c.mouseClicked(mx, my, sr.getScaledWidth() / 6 << 1,
+                    sr.getScaledHeight() / 4 + 20 * counter[0]++ + offsetY, sr.getScaledWidth() / 6 << 1, 20);
+        }
     }
 
     public List<OverlayComponent> getComponents() {
@@ -129,8 +135,8 @@ public class HyperiumOverlay {
     }
 
     public void reset() {
-        components.forEach(c -> {
+        for (OverlayComponent c : components) {
             if (c instanceof OverlayToggle) ((OverlayToggle) c).resetStep();
-        });
+        }
     }
 }

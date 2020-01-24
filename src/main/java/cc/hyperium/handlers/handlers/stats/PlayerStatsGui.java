@@ -137,12 +137,13 @@ public class PlayerStatsGui extends HyperiumGui {
         }
 
         if (flag2 && mouseButton == 0) {
-            location.keySet().stream().filter(abstractHypixelStats -> location.get(abstractHypixelStats).isMouseOver(mouseX, mouseY))
-                .forEach(abstractHypixelStats -> {
+            for (AbstractHypixelStats abstractHypixelStats : location.keySet()) {
+                if (location.get(abstractHypixelStats).isMouseOver(mouseX, mouseY)) {
                     focused = abstractHypixelStats;
                     hovered = null;
                     offset = 0;
-                });
+                }
+            }
         }
     }
 
@@ -168,10 +169,12 @@ public class PlayerStatsGui extends HyperiumGui {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         if (!texturesImage.isEmpty()) {
-            texturesImage.forEach((s, value) -> {
+            for (Map.Entry<AbstractHypixelStats, BufferedImage> entry : texturesImage.entrySet()) {
+                AbstractHypixelStats s = entry.getKey();
+                BufferedImage value = entry.getValue();
                 if (!logos.containsKey(s))
                     logos.put(s, new DynamicTexture(value));
-            });
+            }
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -228,7 +231,7 @@ public class PlayerStatsGui extends HyperiumGui {
                     GlStateManager.translate(x1, y2, 0);
                     GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
                     GlStateManager.scale(.2, .2, .2);
-                    drawTexturedModalRect(0, 0, 0, 0, 128 * 2, 128 * 2);
+                    drawTexturedModalRect(0, 0, 0, 0, 128 << 1, 128 << 1);
                     GlStateManager.popMatrix();
 
                     GlStateManager.pushMatrix();
@@ -251,7 +254,7 @@ public class PlayerStatsGui extends HyperiumGui {
                 GuiBlock block = location.get(hovered);
                 int xOffset = 0;
                 int yRenderOffset = 16;
-                int rightSide = block.getRight() + (width + yRenderOffset) * 2;
+                int rightSide = block.getRight() + ((width + yRenderOffset) << 1);
 
                 if (rightSide > current.getScaledWidth()) {
                     xOffset = rightSide - current.getScaledWidth();
@@ -263,8 +266,8 @@ public class PlayerStatsGui extends HyperiumGui {
                 int top = block.getTop();
                 int printY = 0;
 
-                if (top + height * 2 > current.getScaledHeight()) {
-                    top = current.getScaledHeight() - height * 2 - 50;
+                if (top + (height << 1) > current.getScaledHeight()) {
+                    top = current.getScaledHeight() - (height << 1) - 50;
                 }
 
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
@@ -285,7 +288,7 @@ public class PlayerStatsGui extends HyperiumGui {
             GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
             GlStateManager.translate((current.getScaledWidth() >> 1) - 24, 80, 0);
             GlStateManager.scale(.2, .2, .2);
-            drawTexturedModalRect(0, 0, 0, 0, 128 * 2, 128 * 2);
+            drawTexturedModalRect(0, 0, 0, 0, 128 << 1, 128 << 1);
             GlStateManager.popMatrix();
 
             GlStateManager.pushMatrix();

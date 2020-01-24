@@ -40,7 +40,7 @@ public class AboveHeadDisplay extends LevelheadDisplay {
 
     @Override
     public void tick() {
-        Minecraft.getMinecraft().theWorld.playerEntities.forEach(player -> {
+        for (EntityPlayer player : Minecraft.getMinecraft().theWorld.playerEntities) {
             if (!existedMoreThan5Seconds.contains(player.getUniqueID())) {
                 if (!timeCheck.containsKey(player.getUniqueID())) timeCheck.put(player.getUniqueID(), 0);
 
@@ -58,24 +58,30 @@ public class AboveHeadDisplay extends LevelheadDisplay {
                 UUID uuid = player.getUniqueID();
                 if (!cache.containsKey(uuid)) Levelhead.getInstance().fetch(uuid, this, bottomValue);
             }
-        });
+        }
     }
 
     @Override
     public void checkCacheSize() {
         int max = Math.max(150, Levelhead.getInstance().getDisplayManager().getMasterConfig().getPurgeSize());
         if (cache.size() > max) {
-            ArrayList<UUID> safePlayers = Minecraft.getMinecraft().theWorld.playerEntities.stream().filter(player ->
-                    existedMoreThan5Seconds.contains(player.getUniqueID())).
-                    map(Entity::getUniqueID).collect(Collectors.toCollection(ArrayList::new));
+            ArrayList<UUID> safePlayers = new ArrayList<>();
+            for (EntityPlayer player : Minecraft.getMinecraft().theWorld.playerEntities) {
+                if (existedMoreThan5Seconds.contains(player.getUniqueID())) {
+                    UUID uniqueID = player.getUniqueID();
+                    safePlayers.add(uniqueID);
+                }
+            }
 
             existedMoreThan5Seconds.clear();
             existedMoreThan5Seconds.addAll(safePlayers);
 
-            cache.keySet().stream().filter(uuid -> !safePlayers.contains(uuid)).forEach(uuid -> {
-                cache.remove(uuid);
-                trueValueCache.remove(uuid);
-            });
+            for (UUID uuid : cache.keySet()) {
+                if (!safePlayers.contains(uuid)) {
+                    cache.remove(uuid);
+                    trueValueCache.remove(uuid);
+                }
+            }
         }
     }
 
@@ -97,7 +103,7 @@ public class AboveHeadDisplay extends LevelheadDisplay {
         }
 
         int renderDistance = Levelhead.getInstance().getDisplayManager().getMasterConfig().getRenderDistance();
-        int min = Math.min(64 * 64, renderDistance * renderDistance);
+        int min = Math.min(64 << 6, renderDistance * renderDistance);
         return !(player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min) &&
                 (!player.hasCustomName() || !player.getCustomNameTag().isEmpty()) &&
                 !player.getDisplayName().toString().isEmpty() &&

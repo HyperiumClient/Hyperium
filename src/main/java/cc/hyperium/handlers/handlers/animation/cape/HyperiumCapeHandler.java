@@ -38,8 +38,8 @@ public class HyperiumCapeHandler {
 
     public static final Queue<ResourceLocation> LOCATION_CACHE = new ConcurrentLinkedQueue<>();
 
-    private ResourceLocation location;
-    private boolean ready;
+    ResourceLocation location;
+    boolean ready;
 
     public HyperiumCapeHandler(GameProfile profile) {
         Multithreading.runAsync(() -> {

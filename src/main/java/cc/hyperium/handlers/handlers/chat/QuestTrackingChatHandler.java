@@ -19,10 +19,7 @@ package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.Hyperium;
 import com.google.common.io.Files;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.*;
 import net.minecraft.util.IChatComponent;
 
 import java.io.File;
@@ -89,10 +86,10 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler {
         List<QuestData> trackedQuests = new ArrayList<>();
         load();
 
-        json.forEach(e -> {
+        for (JsonElement e : json) {
             JsonObject o = e.getAsJsonObject();
             trackedQuests.add(new QuestData(o.get("name").getAsString(), o.get("type").getAsString(), o.get("timestamp").getAsLong()));
-        });
+        }
 
         return trackedQuests;
     }

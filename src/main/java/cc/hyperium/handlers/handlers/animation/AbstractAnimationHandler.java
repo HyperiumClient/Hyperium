@@ -46,7 +46,9 @@ public abstract class AbstractAnimationHandler {
     @InvokeEvent
     public void onRender(RenderEvent e) {
         long systemTime = Minecraft.getSystemTime();
-        animationStates.values().forEach(animationState -> animationState.update(systemTime));
+        for (AnimationState animationState : animationStates.values()) {
+            animationState.update(systemTime);
+        }
         onRender();
 
         long systemTime1 = System.currentTimeMillis();
@@ -236,7 +238,7 @@ public abstract class AbstractAnimationHandler {
             this.toggled = toggled;
         }
 
-        private void update(long systemTime) {
+        void update(long systemTime) {
             while (this.systemTime < systemTime + (1000 / 60)) {
                 frames--;
                 this.systemTime += (1000 / 60);

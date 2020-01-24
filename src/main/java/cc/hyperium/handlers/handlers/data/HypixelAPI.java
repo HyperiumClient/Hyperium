@@ -110,11 +110,11 @@ public class HypixelAPI {
 
             friendsForCurrentUser.clear();
 
-            data.getFriends().forEach(
-                friend -> friendsForCurrentUser.add(
-                    Utils.dashMeUp(new JsonHolder(friend.getAsJsonObject()).optString("uuid"))
-                )
-            );
+            for (JsonElement friend : data.getFriends()) {
+                friendsForCurrentUser.add(
+                        Utils.dashMeUp(new JsonHolder(friend.getAsJsonObject()).optString("uuid"))
+                );
+            }
         });
     }
 
@@ -267,8 +267,8 @@ public class HypixelAPI {
     }
 
     public static class GuildKey {
-        private GuildKeyType type;
-        private String[] formatStrings;
+        GuildKeyType type;
+        String[] formatStrings;
 
         public GuildKey(GuildKeyType type, String... formatStrings) {
             this.type = type;

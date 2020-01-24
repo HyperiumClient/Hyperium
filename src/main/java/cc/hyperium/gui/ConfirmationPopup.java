@@ -38,7 +38,7 @@ public class ConfirmationPopup {
 
     private final Queue<Confirmation> confirmations = new LinkedList<>();
     private Confirmation currentConfirmation;
-    private String acceptFrom = "";
+    String acceptFrom = "";
 
     @InvokeEvent
     public void onFriend(HypixelFriendRequestEvent e) {
@@ -119,10 +119,10 @@ public class ConfirmationPopup {
 
     public class Confirmation {
         private final String text;
-        private final Consumer<Boolean> callback;
+        final Consumer<Boolean> callback;
         private final long upperThreshold;
         private final long lowerThreshold;
-        private long framesLeft;
+        long framesLeft;
         private float percentComplete;
         private long systemTime;
 

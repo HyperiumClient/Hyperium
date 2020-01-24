@@ -130,7 +130,7 @@ public class DisplayElementConfig extends GuiScreen {
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new EditItemsGui(element, mod)));
 
         //Highlighted
-        reg("Highlight", new GuiButton(nextId(), posX, start_y + 22 * 2, "-"), button -> {
+        reg("Highlight", new GuiButton(nextId(), posX, start_y + (22 << 1), "-"), button -> {
             //On click
             element.setHighlighted(!element.isHighlighted());
         }, button -> {
@@ -147,7 +147,7 @@ public class DisplayElementConfig extends GuiScreen {
             //On Gui Update
             button.displayString = ChatColor.YELLOW.toString() + "Shadow: " + (element.isShadow() ? ChatColor.GREEN + "Yes" : ChatColor.RED.toString() + "No");
         });
-        reg("Toggle Right", new GuiButton(nextId(), posX, start_y + 22 * 4, "-"), button -> {
+        reg("Toggle Right", new GuiButton(nextId(), posX, start_y + (22 << 2), "-"), button -> {
             //On click
             element.setRightSided(!element.isRightSided());
         }, button -> {
@@ -224,7 +224,7 @@ public class DisplayElementConfig extends GuiScreen {
         });
 
 
-        reg("blueSlider", new GuiSlider(nextId(), posX, start_y + 22 * 8, 200, 20, "Blue: ", "", 0,
+        reg("blueSlider", new GuiSlider(nextId(), posX, start_y + (22 << 3), 200, 20, "Blue: ", "", 0,
             255, element.getData().optInt("blue"), false, true), button -> {
             //clicked
             //Toggle between chroma types.
@@ -260,7 +260,7 @@ public class DisplayElementConfig extends GuiScreen {
         reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"),
             (guiButton) -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GeneralConfigGui(mod)), (guiButton) -> {
             });
-        reg("Delete", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22 * 2, 100, 20, "Delete"), (guiButton) -> {
+        reg("Delete", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - (22 << 1), 100, 20, "Delete"), (guiButton) -> {
 
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GeneralConfigGui(mod));
             ChromaHUDApi.getInstance().getElements().remove(element);
@@ -287,10 +287,10 @@ public class DisplayElementConfig extends GuiScreen {
 
         if (element.isRGB()) element.recalculateColor();
 
-        buttonList.forEach(guiButton -> {
+        for (GuiButton guiButton : buttonList) {
             Consumer<GuiButton> guiButtonConsumer = updates.get(guiButton);
             if (guiButtonConsumer != null) guiButtonConsumer.accept(guiButton);
-        });
+        }
     }
 
     @Override
@@ -374,7 +374,7 @@ public class DisplayElementConfig extends GuiScreen {
         int size = right - left;
 
         if (element.isRGB()) {
-            int start_y = Math.max((int) (current.getScaledHeight_double() * .1) - 20, 5) + 22 * 8 + 25;
+            int start_y = Math.max((int) (current.getScaledHeight_double() * .1) - 20, 5) + (22 << 3) + 25;
             int left1 = current.getScaledWidth() / 2 - 100;
             int right1 = current.getScaledWidth() / 2 + 100;
             Gui.drawRect(left1, start_y, right1, right1 - left1 + 200, element.getColor());

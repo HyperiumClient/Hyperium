@@ -65,7 +65,11 @@ public class LevelheadJsonHolder {
 
     public void merge(LevelheadJsonHolder merge, boolean override) {
         JsonObject object = merge.object;
-        merge.getKeys().stream().filter(s -> override || !has(s)).forEach(s -> put(s, object.get(s)));
+        for (String s : merge.getKeys()) {
+            if (override || !has(s)) {
+                put(s, object.get(s));
+            }
+        }
     }
 
     public LevelheadJsonHolder put(String key, String value) {

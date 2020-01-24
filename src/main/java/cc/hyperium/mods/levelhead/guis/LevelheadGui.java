@@ -345,7 +345,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
 
         reg(new GuiButton(++currentID, width / 3 - 100, height - 137, 200, 20, YELLOW + "Purchase Additional Above Head Layer"), button ->
                 attemptPurchase("head"));
-        reg(new GuiButton(++currentID, width - editWidth * 2 - 3, 29, editWidth, 20, YELLOW + "Editing Layer: " +
+        reg(new GuiButton(++currentID, width - (editWidth << 1) - 3, 29, editWidth, 20, YELLOW + "Editing Layer: " +
                         AQUA + (aboveHead.indexOf(currentlyBeingEdited) + 1)),
                 button -> {
                     int i = aboveHead.indexOf(currentlyBeingEdited);
@@ -359,12 +359,12 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                     textField.setText(currentlyBeingEdited.getConfig().getCustomHeader());
                 });
 
-        reg(new GuiButton(++currentID, width - editWidth * 2 - 3, 50, editWidth, 20, YELLOW + "Show On Self: "
+        reg(new GuiButton(++currentID, width - (editWidth << 1) - 3, 50, editWidth, 20, YELLOW + "Show On Self: "
                 + AQUA + (currentlyBeingEdited.getConfig().isShowSelf() ? "YES" : "NO")), button ->
                 currentlyBeingEdited.getConfig().setShowSelf(!currentlyBeingEdited.getConfig().isShowSelf()));
 
         int colorConfigStart = 93 + 2;
-        reg(new GuiButton(++currentID, width - editWidth * 2 - 2, colorConfigStart, editWidth, 20, YELLOW + "Header Mode: " +
+        reg(new GuiButton(++currentID, width - (editWidth << 1) - 2, colorConfigStart, editWidth, 20, YELLOW + "Header Mode: " +
                 AQUA + getMode(true)), button -> {
             if (config.isHeaderRgb()) {
                 config.setHeaderRgb(false);
@@ -381,26 +381,26 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         });
 
         if (config.isHeaderRgb()) {
-            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 22, editWidth, 20, YELLOW + "Header Red: "
+            regSlider(new GuiSlider(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 22, editWidth, 20, YELLOW + "Header Red: "
                     + AQUA, "", 0,
                     255, config.getHeaderRed(), false, true, slider -> {
                 config.setHeaderRed(slider.getValueInt());
                 updatePeopleToValues();
             }));
-            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 44, editWidth, 20, YELLOW + "Header Green: "
+            regSlider(new GuiSlider(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 44, editWidth, 20, YELLOW + "Header Green: "
                     + AQUA, "", 0,
                     255, config.getHeaderGreen(), false, true, slider -> {
                 config.setHeaderGreen(slider.getValueInt());
                 updatePeopleToValues();
             }));
-            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 66, editWidth, 20, YELLOW + "Header Blue: "
+            regSlider(new GuiSlider(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 66, editWidth, 20, YELLOW + "Header Blue: "
                     + AQUA, "", 0,
                     255, config.getHeaderBlue(), false, true, slider -> {
                 config.setHeaderBlue(slider.getValueInt());
                 updatePeopleToValues();
             }));
         } else if (!config.isHeaderChroma()) {
-            reg(new GuiButton(++currentID, width - editWidth * 2 - 2, colorConfigStart + 22, editWidth, 20, config.getHeaderColor() +
+            reg(new GuiButton(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 22, editWidth, 20, config.getHeaderColor() +
                     "Rotate Header Color"), button -> {
                 int primaryId = colors.indexOf(removeColorChar(config.getHeaderColor()));
 
@@ -445,7 +445,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                     incrementColor(config, false));
         }
 
-        regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 88, editWidth, 20, YELLOW + "Vertical Offset: " +
+        regSlider(new GuiSlider(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 88, editWidth, 20, YELLOW + "Vertical Offset: " +
                 AQUA, "", -50,
                 100, instance.getDisplayManager().getMasterConfig().getOffset() * 100D, false, true, slider ->
                 instance.getDisplayManager().getMasterConfig().setOffset(slider.getValue() / 100D)));
@@ -458,7 +458,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         }));
 
         if (isCustom) {
-            reg(new GuiButton(++currentID, width - editWidth * 2 - 2, colorConfigStart + 88 + 22, editWidth * 2 + 1, 20,
+            reg(new GuiButton(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 88 + 22, (editWidth << 1) + 1, 20,
                             YELLOW + "Export Colors to Custom Levelhead"),
                     guiButton -> {
                         final LevelheadJsonHolder object;
@@ -644,7 +644,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         }
 
         zLevel += 100.0F;
-        drawTexturedModalRect(x - 11, y, i * 10, 176 + j * 8, 10, 8);
+        drawTexturedModalRect(x - 11, y, i * 10, 176 + (j << 3), 10, 8);
         zLevel -= 100.0F;
     }
 

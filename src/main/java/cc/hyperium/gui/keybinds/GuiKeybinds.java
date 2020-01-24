@@ -202,7 +202,10 @@ public class GuiKeybinds extends HyperiumGui {
                     keybindEntries.remove(entry);
 
                     // Checks every other entry.
-                    keybindEntries.stream().map(KeybindEntry::getKeybindButton).forEach(entryButton -> entryButton.setListening(false));
+                    for (KeybindEntry keybindEntry : keybindEntries) {
+                        KeybindButton entryButton = keybindEntry.getKeybindButton();
+                        entryButton.setListening(false);
+                    }
 
                     // Reinsert original entry back into list.
                     keybindEntries.add(bIndex, entry);
@@ -232,7 +235,10 @@ public class GuiKeybinds extends HyperiumGui {
 
 
     public void resetAll() {
-        keybindEntries.stream().map(KeybindEntry::getKeybindButton).forEach(KeybindButton::resetBind);
+        for (KeybindEntry keybindEntry : keybindEntries) {
+            KeybindButton keybindButton = keybindEntry.getKeybindButton();
+            keybindButton.resetBind();
+        }
     }
 
     @Override
@@ -242,11 +248,21 @@ public class GuiKeybinds extends HyperiumGui {
     }
 
     public void detectAllConflicts() {
-        keybindEntries.stream().map(KeybindEntry::getKeybindButton).forEach(KeybindButton::detectConflicts);
+        for (KeybindEntry keybindEntry : keybindEntries) {
+            KeybindButton keybindButton = keybindEntry.getKeybindButton();
+            keybindButton.detectConflicts();
+        }
     }
 
     private boolean areKeysListening() {
-        return keybindEntries.stream().map(KeybindEntry::getKeybindButton).anyMatch(KeybindButton::isListening);
+        for (KeybindEntry keybindEntry : keybindEntries) {
+            KeybindButton keybindButton = keybindEntry.getKeybindButton();
+            if (keybindButton.isListening()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

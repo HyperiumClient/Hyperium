@@ -42,7 +42,7 @@ public class AnimationHandler {
             BlockPos zeroedCenteredChunkPos = bp.add(8, -bp.getY(), 8);
 
             if (ChunkAnimatorConfig.disableAroundPlayer) {
-                flag = zeroedPlayerPosition.distanceSq(zeroedCenteredChunkPos) > (64 * 64);
+                flag = zeroedPlayerPosition.distanceSq(zeroedCenteredChunkPos) > (64 << 6);
             }
 
             if (flag) {

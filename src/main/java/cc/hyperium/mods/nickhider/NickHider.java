@@ -28,6 +28,7 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -143,7 +144,8 @@ public class NickHider extends AbstractMod {
             NetHandlerPlayClient sendQueue = player.sendQueue;
             if (sendQueue == null) return;
 
-            sendQueue.getPlayerInfoMap().stream().map(NetworkPlayerInfo::getGameProfile).forEach(gameProfile -> {
+            for (NetworkPlayerInfo networkPlayerInfo : sendQueue.getPlayerInfoMap()) {
+                GameProfile gameProfile = networkPlayerInfo.getGameProfile();
                 if (gameProfile.getId() != null && gameProfile.getId().equals(Minecraft.getMinecraft().getSession().getProfile().getId())) {
                     if (!gameProfile.getName().equalsIgnoreCase(Minecraft.getMinecraft().getSession().getProfile().getName())) {
                         remap(gameProfile.getName(), override == null ? Minecraft.getMinecraft().getSession().getProfile().getName() : override);
@@ -151,7 +153,7 @@ public class NickHider extends AbstractMod {
                 } else if (nickHiderConfig.isHideOtherNames()) {
                     remap(gameProfile.getName(), getPseudo(gameProfile.getName()));
                 }
-            });
+            }
         }
     }
 

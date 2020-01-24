@@ -97,15 +97,17 @@ public class GeneralConfigGui extends GuiScreen {
         drawRect(0, 0, current.getScaledWidth(), current.getScaledHeight(), new Color(0, 0, 0, 150).getRGB());
         super.drawScreen(mouseX, mouseY, partialTicks);
         List<DisplayElement> elementList = mod.getDisplayElements();
-        elementList.stream().filter(element -> currentElement == null || currentElement != element).forEach(element -> {
-            ElementRenderer.startDrawing(element);
-            try {
-                element.drawForConfig();
-            } catch (Exception e) {
-                e.printStackTrace();
+        for (DisplayElement element : elementList) {
+            if (currentElement == null || currentElement != element) {
+                ElementRenderer.startDrawing(element);
+                try {
+                    element.drawForConfig();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                ElementRenderer.endDrawing(element);
             }
-            ElementRenderer.endDrawing(element);
-        });
+        }
 
         if (currentElement != null) {
             ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());

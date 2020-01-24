@@ -175,8 +175,8 @@ public class HypixelApiGuild implements HypixelApiObject {
     }
 
     public static class GuildRank {
-        private String name;
-        private int priority;
+        String name;
+        int priority;
 
         public GuildRank(String name, int priority) {
 

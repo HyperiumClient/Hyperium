@@ -20,6 +20,7 @@ package cc.hyperium.gui;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import me.kbrewster.mojangapi.MojangAPI;
+import me.kbrewster.mojangapi.profile.Name;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
@@ -122,11 +123,13 @@ public class NameHistoryGui extends GuiScreen {
 
             UUID uuid = MojangAPI.getUUID(username);
 
-            Multithreading.runAsync(() -> MojangAPI.getNameHistory(uuid).forEach(history -> {
-                String name = history.getName();
-                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                names.add(history.getChangedToAt() == 0 ? name : String.format("%s > %s", name, format.format(history.getChangedToAt())));
-            }));
+            Multithreading.runAsync(() -> {
+                for (Name history : MojangAPI.getNameHistory(uuid)) {
+                    String name = history.getName();
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    names.add(history.getChangedToAt() == 0 ? name : String.format("%s > %s", name, format.format(history.getChangedToAt())));
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

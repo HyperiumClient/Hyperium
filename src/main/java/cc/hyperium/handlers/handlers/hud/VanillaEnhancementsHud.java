@@ -153,7 +153,7 @@ public class VanillaEnhancementsHud {
 
         StringBuilder potionBuilder = new StringBuilder();
 
-        effects.forEach(entry -> {
+        for (PotionEffect entry : effects) {
             int duration = entry.getDuration() / 20;
             potionBuilder.append(EnumChatFormatting.BOLD.toString());
             potionBuilder.append(StatCollector.translateToLocal(entry.getEffectName()));
@@ -163,7 +163,7 @@ public class VanillaEnhancementsHud {
             potionBuilder.append("(");
             potionBuilder.append(duration / 60).append(String.format(":%02d", duration % 60));
             potionBuilder.append(") ");
-        });
+        }
 
         return potionBuilder.toString().trim();
     }

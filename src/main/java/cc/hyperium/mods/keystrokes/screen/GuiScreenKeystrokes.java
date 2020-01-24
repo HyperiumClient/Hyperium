@@ -49,7 +49,7 @@ public class GuiScreenKeystrokes extends GuiScreen implements IScreen {
     private GuiButton buttonArrowKeys;
 
     private boolean dragging = false;
-    private boolean updated = false;
+    boolean updated = false;
     private int lastMouseX;
     private int lastMouseY;
 

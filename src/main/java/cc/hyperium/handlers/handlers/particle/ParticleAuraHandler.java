@@ -116,7 +116,7 @@ public class ParticleAuraHandler {
             double z = entity.posZ + (entity.posZ - entity.prevPosZ) * event.getPartialTicks();
             List<Vec3> render = particleAura.render(entity, x, y, z);
 
-            render.forEach(vec3 -> {
+            for (Vec3 vec3 : render) {
                 IParticle type = particleAura.getType();
 
                 if (type != null) {
@@ -135,7 +135,7 @@ public class ParticleAuraHandler {
                     entityFX.setParticleMaxAge(particleMaxAge);
                     Minecraft.getMinecraft().effectRenderer.addEffect(entityFX);
                 }
-            });
+            }
         }
     }
 
