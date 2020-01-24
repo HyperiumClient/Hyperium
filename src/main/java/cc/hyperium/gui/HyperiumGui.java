@@ -29,6 +29,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -169,6 +170,7 @@ public abstract class HyperiumGui extends GuiScreen {
     public void onGuiClosed() {
         super.onGuiClosed();
         EventBus.INSTANCE.unregister(this);
+        Keyboard.enableRepeatEvents(false);
     }
 
     @Override
@@ -201,6 +203,8 @@ public abstract class HyperiumGui extends GuiScreen {
     public void initGui() {
         super.initGui();
         rePack();
+
+        Keyboard.enableRepeatEvents(true);
     }
 
     @Override
