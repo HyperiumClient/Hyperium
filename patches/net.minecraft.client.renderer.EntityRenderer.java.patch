@@ -181,7 +181,21 @@
              this.mc.mcProfiler.endStartSection("outline");
              renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, partialTicks);
              GlStateManager.enableAlpha();
-@@ -1207,6 +1280,10 @@
+@@ -1157,6 +1230,13 @@
+       if(flag && this.mc.objectMouseOver != null && !entity.isInsideOfMaterial(Material.water)) {
+          EntityPlayer entityplayer1 = (EntityPlayer)entity;
+          GlStateManager.disableAlpha();
++
++         DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) mc.getRenderViewEntity()), mc.objectMouseOver, partialTicks);
++         EventBus.INSTANCE.post(drawBlockHighlightEvent);
++         if (drawBlockHighlightEvent.isCancelled()) {
++            Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = true;
++         }
++
+          this.mc.mcProfiler.endStartSection("outline");
+          renderglobal.drawSelectionBox(entityplayer1, this.mc.objectMouseOver, 0, partialTicks);
+          GlStateManager.enableAlpha();
+@@ -1207,6 +1287,10 @@
           this.renderCloudsCheck(renderglobal, partialTicks, pass);
        }
  

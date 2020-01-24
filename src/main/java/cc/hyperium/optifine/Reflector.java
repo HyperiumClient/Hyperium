@@ -24,6 +24,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+@SuppressWarnings("rawtypes")
 public class Reflector {
     static final Logger LOGGER = LogManager.getLogger();
 

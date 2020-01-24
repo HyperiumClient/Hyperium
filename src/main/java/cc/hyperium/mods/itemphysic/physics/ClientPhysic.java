@@ -38,7 +38,7 @@ public class ClientPhysic {
     public static Minecraft mc = Minecraft.getMinecraft();
     public static long tick;
     private static double rotation;
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     private static ResourceLocation getEntityTexture() {
         return TextureMap.locationBlocksTexture;

@@ -2,11 +2,12 @@ package cc.hyperium.utils;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.gui.GuiOpenEvent;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
 
 public class MouseListener {
 
-    private Class lastOpenedInventory = null;
+    private Class<? extends GuiScreen> lastOpenedInventory = null;
     private long lastClosedInv = -1;
 
     @InvokeEvent

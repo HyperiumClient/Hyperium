@@ -29,8 +29,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 public class VersionAPIUtils {
-    private HttpClient httpClient;
-    private String versionsUrl = "https://api.hyperium.cc/versions";
+    private final HttpClient httpClient;
+    private final String versionsUrl = "https://api.hyperium.cc/versions";
 
     public VersionAPIUtils() {
         httpClient = HttpClients.createDefault();

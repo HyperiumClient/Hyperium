@@ -43,7 +43,7 @@ import java.awt.*;
 
 public class AboveHeadRenderer {
 
-    private Levelhead levelhead;
+    private final Levelhead levelhead;
 
     public AboveHeadRenderer(Levelhead levelhead) {
         this.levelhead = levelhead;

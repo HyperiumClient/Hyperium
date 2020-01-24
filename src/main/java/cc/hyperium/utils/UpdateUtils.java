@@ -36,7 +36,7 @@ public class UpdateUtils {
     public static UpdateUtils INSTANCE = new UpdateUtils();
 
     private static final HttpClient client = HttpClients.createDefault();
-    private VersionAPIUtils apiUtils = new VersionAPIUtils();
+    private final VersionAPIUtils apiUtils = new VersionAPIUtils();
 
     public static JsonHolder get(String url) {
         try {

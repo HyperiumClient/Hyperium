@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 public class LevelheadJsonHolder {
 
-    private JsonObject object;
+    private final JsonObject object;
 
     public LevelheadJsonHolder(JsonObject object) {
         this.object = object;

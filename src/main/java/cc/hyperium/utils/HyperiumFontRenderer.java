@@ -60,8 +60,8 @@ public class HyperiumFontRenderer {
     private float antiAliasingFactor;
     private UnicodeFont unicodeFont;
     private int prevScaleFactor = new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor();
-    private String name;
-    private float size;
+    private final String name;
+    private final float size;
 
     public HyperiumFontRenderer(String fontName, float fontSize) {
         name = fontName;

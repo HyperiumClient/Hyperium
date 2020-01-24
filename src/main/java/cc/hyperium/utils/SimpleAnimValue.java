@@ -20,11 +20,11 @@ package cc.hyperium.utils;
 
 //Skidded from Cubxity with permission
 public class SimpleAnimValue {
-    private Long startMs;
-    private Long duration;
+    private final Long startMs;
+    private final Long duration;
 
-    private float start;
-    private float end;
+    private final float start;
+    private final float end;
 
     /**
      * @param duration duration animation would last for (in millis)

@@ -14,7 +14,7 @@ import java.util.List;
  * Created by mitchellkatz on 6/4/17.
  */
 public class HypixelApiGuild implements HypixelApiObject {
-    private JsonHolder guild;
+    private final JsonHolder guild;
     private List<GuildRank> ranks;
 
     public HypixelApiGuild(JsonHolder master) {
@@ -151,7 +151,7 @@ public class HypixelApiGuild implements HypixelApiObject {
     }
 
     public static class GuildPlayer {
-        private JsonHolder object;
+        private final JsonHolder object;
 
         public GuildPlayer(JsonHolder object) {
             this.object = object;

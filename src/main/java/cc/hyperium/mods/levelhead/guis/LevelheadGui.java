@@ -63,15 +63,15 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
     private static final String COLOR_CHAR = "\u00a7";
     private final String colors = "0123456789abcdef";
     private int currentID = 2;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<Integer, Runnable> ids = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final HashMap<Integer, Runnable> ids = new HashMap<>();
     private LevelheadDisplay currentlyBeingEdited;
     private boolean bigChange = false;
     private boolean isCustom = false;
     private GuiTextField textField;
     private boolean purchasingStats = false;
     private int offset = 0;
-    private UUID uuid = Minecraft.getMinecraft().getSession().getProfile().getId();
+    private final UUID uuid = Minecraft.getMinecraft().getSession().getProfile().getId();
 
     @Override
     public void initGui() {

@@ -31,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.WeakHashMap;
 
 public class AnimationHandler {
-    private WeakHashMap<RenderChunk, AnimationData> timeStamps = new WeakHashMap<>();
+    private final WeakHashMap<RenderChunk, AnimationData> timeStamps = new WeakHashMap<>();
 
     public void setPosition(RenderChunk rc, BlockPos bp) {
         if (!ChunkAnimatorConfig.enabled) return;

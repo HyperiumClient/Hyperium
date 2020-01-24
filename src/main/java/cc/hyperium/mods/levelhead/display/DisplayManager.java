@@ -34,12 +34,12 @@ import java.util.List;
 
 public class DisplayManager {
 
-    private Gson GSON = new Gson();
-    private List<AboveHeadDisplay> aboveHead = new ArrayList<>();
+    private final Gson GSON = new Gson();
+    private final List<AboveHeadDisplay> aboveHead = new ArrayList<>();
     private LevelheadDisplay chat;
     private TabDisplay tab;
     private MasterConfig config = new MasterConfig();
-    private File file;
+    private final File file;
 
     public DisplayManager(LevelheadJsonHolder source, File file) {
         if (source == null) source = new LevelheadJsonHolder();

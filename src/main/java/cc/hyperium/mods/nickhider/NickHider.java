@@ -53,9 +53,9 @@ public class NickHider extends AbstractMod {
     public static NickHider instance;
     private final Pattern newNick = Pattern.compile("We've generated a random username for you: \\s*(?<nick>\\S+)");
     private final List<Nick> nicks = new ArrayList<>();
-    private HashMap<String, String> cache = new HashMap<>();
-    private Set<String> usedNicks = new HashSet<>();
-    private List<String> namesDatabase = new ArrayList<>();
+    private final HashMap<String, String> cache = new HashMap<>();
+    private final Set<String> usedNicks = new HashSet<>();
+    private final List<String> namesDatabase = new ArrayList<>();
     private File configFile;
     private NickHiderConfig nickHiderConfig;
     private boolean forceDown;

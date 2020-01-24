@@ -25,11 +25,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.MovingObjectPosition;
 
 public class AnimationEventHandler {
-    private final Minecraft mc;
-
-    AnimationEventHandler() {
-        mc = Minecraft.getMinecraft();
-    }
+    private final Minecraft mc = Minecraft.getMinecraft();
 
     @InvokeEvent
     public void onRenderFirstHand(RenderEvent e) {

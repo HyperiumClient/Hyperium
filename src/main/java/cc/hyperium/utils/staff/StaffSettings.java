@@ -23,7 +23,7 @@ import cc.hyperium.utils.StaffUtils;
 public class StaffSettings {
 
     // Get the staff members color
-    private StaffUtils.DotColour dotColour;
+    private final StaffUtils.DotColour dotColour;
 
     /**
      * Initialize the dot color

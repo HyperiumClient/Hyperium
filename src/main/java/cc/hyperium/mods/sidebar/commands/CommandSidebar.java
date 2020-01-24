@@ -27,7 +27,7 @@ import java.util.List;
 
 public class CommandSidebar implements BaseCommand {
 
-    private SidebarAddon addon;
+    private final SidebarAddon addon;
 
     public CommandSidebar(SidebarAddon addon) {
         this.addon = addon;

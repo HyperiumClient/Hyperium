@@ -64,10 +64,10 @@ public class Levelhead extends AbstractMod {
     private int updates;
 
     private MojangAuth auth;
-    private DecimalFormat format = new DecimalFormat("#,###");
+    private final DecimalFormat format = new DecimalFormat("#,###");
 
     private DisplayManager displayManager;
-    private LevelheadPurchaseStates levelheadPurchaseStates = new LevelheadPurchaseStates();
+    private final LevelheadPurchaseStates levelheadPurchaseStates = new LevelheadPurchaseStates();
 
     private LevelheadJsonHolder types = new LevelheadJsonHolder();
     private LevelheadJsonHolder paidData = new LevelheadJsonHolder();

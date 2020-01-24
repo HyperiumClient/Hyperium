@@ -145,6 +145,7 @@ public class PurchaseApi {
         purchaseClasses.put(type, ex);
     }
 
+    @SuppressWarnings("rawtypes")
     public AbstractHyperiumPurchase parse(EnumPurchaseType type, JsonHolder data) {
         Class<? extends AbstractHyperiumPurchase> c = purchaseClasses.get(type);
         if (c == null) return null;

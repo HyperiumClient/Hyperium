@@ -50,7 +50,7 @@ public class DisplayElementConfig extends GuiScreen {
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
     private final Map<String, GuiButton> nameMap = new HashMap<>();
-    private DisplayElement element;
+    private final DisplayElement element;
     private int ids;
     private int lastX, lastY;
     private DynamicTexture texture;
@@ -58,7 +58,7 @@ public class DisplayElementConfig extends GuiScreen {
     private int hue = -1;
     private int saturation = -1;
     private int brightness = 5;
-    private ChromaHUD mod;
+    private final ChromaHUD mod;
     private int lastWidth;
     private int lastHeight;
     private boolean mouseLock;
