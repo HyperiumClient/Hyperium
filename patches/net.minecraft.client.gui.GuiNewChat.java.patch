@@ -42,8 +42,8 @@
 +                      percentComplete,
 +                      ticksLeft < lowerThreshold ? 0.0f :
 +                              ticksLeft > topThreshold ? 1.0f : ticksLeft,
-+                      (float) diff / 70,
-+                      6f
++                      0.01f,
++                      (float) 42 / diff
 +              ),
 +              0.0f,
 +              1.0f
