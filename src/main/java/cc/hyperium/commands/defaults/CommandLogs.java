@@ -20,8 +20,8 @@ package cc.hyperium.commands.defaults;
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.utils.HyperiumDesktop;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -30,7 +30,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 
 public class CommandLogs implements BaseCommand {
 
@@ -67,18 +66,14 @@ public class CommandLogs implements BaseCommand {
         message = new StringBuilder(message.toString().replaceAll(System.getProperty("user.name"), "{USERNAME}"));
 
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(message.toString()), null);
-        GeneralChatHandler.instance().sendMessage("Data copied to clipboard. Please paste in hastebin.com (This has been opened), save and send in Discord");
-        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-        if (desktop != null) {
-            try {
-                URI uri = new URL("https://hastebin.com").toURI();
-                if(desktop.isSupported(Desktop.Action.BROWSE))
-                    desktop.browse(uri);
-                else
-                    GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
-            } catch (Exception e) {
-                Hyperium.LOGGER.error("Could not open link", e);
-            }
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(
+                "Data copied to clipboard. Please paste in hasteb.in (This has been opened), save and send in Discord"
+        );
+
+        try {
+            HyperiumDesktop.INSTANCE.browse(new URI("https://hasteb.in"));
+        } catch (Exception e) {
+            Hyperium.LOGGER.error("Could not open link", e);
         }
     }
 }

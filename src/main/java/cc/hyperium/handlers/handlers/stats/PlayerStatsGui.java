@@ -23,10 +23,33 @@ import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
-import cc.hyperium.handlers.handlers.stats.fields.*;
+import cc.hyperium.handlers.handlers.stats.fields.ArcadeStats;
+import cc.hyperium.handlers.handlers.stats.fields.ArenaStats;
+import cc.hyperium.handlers.handlers.stats.fields.BedWarsStats;
+import cc.hyperium.handlers.handlers.stats.fields.BlitzStats;
+import cc.hyperium.handlers.handlers.stats.fields.BuildBattleStats;
+import cc.hyperium.handlers.handlers.stats.fields.CVCStats;
+import cc.hyperium.handlers.handlers.stats.fields.CrazyWallsStats;
+import cc.hyperium.handlers.handlers.stats.fields.DuelsStats;
+import cc.hyperium.handlers.handlers.stats.fields.GeneralStats;
+import cc.hyperium.handlers.handlers.stats.fields.MegaWallsStats;
+import cc.hyperium.handlers.handlers.stats.fields.MurderMysteryStats;
+import cc.hyperium.handlers.handlers.stats.fields.PaintballStats;
+import cc.hyperium.handlers.handlers.stats.fields.QuakecraftStats;
+import cc.hyperium.handlers.handlers.stats.fields.SkyClashStats;
+import cc.hyperium.handlers.handlers.stats.fields.SkyWarsStats;
+import cc.hyperium.handlers.handlers.stats.fields.SmashHeroesStats;
+import cc.hyperium.handlers.handlers.stats.fields.SpeedUHCStats;
+import cc.hyperium.handlers.handlers.stats.fields.TKRStats;
+import cc.hyperium.handlers.handlers.stats.fields.TNTGamesStats;
+import cc.hyperium.handlers.handlers.stats.fields.UHCStats;
+import cc.hyperium.handlers.handlers.stats.fields.VampireZStats;
+import cc.hyperium.handlers.handlers.stats.fields.WallsStats;
+import cc.hyperium.handlers.handlers.stats.fields.WarlordsStats;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.GlStateModifier;
+import cc.hyperium.utils.HyperiumDesktop;
 import cc.hyperium.utils.RenderUtils;
 import club.sk1er.website.api.requests.HypixelApiGuild;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
@@ -34,7 +57,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.resources.I18n;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -150,17 +172,10 @@ public class PlayerStatsGui extends HyperiumGui {
     @Override
     protected void pack() {
         reg("VIEW_ON_BEST_WEBSITE", new GuiButton(nextId(), 1, 1, "View on Sk1er.club"), button -> {
-            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-            if (desktop != null) {
-                try {
-                    URI uri = new URL("https://sk1er.club/stats/" + player.getName()).toURI();
-                    if(desktop.isSupported(Desktop.Action.BROWSE))
-                        desktop.browse(uri);
-                    else
-                        GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
-                } catch (Exception e) {
-                    Hyperium.LOGGER.error("Could not open link", e);
-                }
+            try {
+                HyperiumDesktop.INSTANCE.browse(new URI("https://sk1er.club/stats/" + player.getName()));
+            } catch (Exception e) {
+                Hyperium.LOGGER.error("Could not open link", e);
             }
         }, button -> {
         });
@@ -189,7 +204,7 @@ public class PlayerStatsGui extends HyperiumGui {
 
         boolean isInGuild = guild.isLoaded() && guild.isValid();
         drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 30, 2, -1,
-            true, true);
+                true, true);
         if (focused == null) {
             final int blockWidth = 64 + 32;
             int blocksPerLine = (int) (current.getScaledWidth() / (1.2D * blockWidth));
@@ -271,7 +286,7 @@ public class PlayerStatsGui extends HyperiumGui {
                 }
 
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
-                    new Color(0, 0, 0, 220).getRGB());
+                        new Color(0, 0, 0, 220).getRGB());
 
                 for (StatsDisplayItem statsDisplayItem : preview) {
                     statsDisplayItem.draw((int) (left / scale), (int) ((top) / scale) + printY);

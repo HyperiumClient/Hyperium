@@ -18,30 +18,44 @@
 package cc.hyperium.mods.levelhead.guis;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.levelhead.Levelhead;
-import cc.hyperium.mods.levelhead.display.*;
+import cc.hyperium.mods.levelhead.display.AboveHeadDisplay;
+import cc.hyperium.mods.levelhead.display.ChatDisplay;
+import cc.hyperium.mods.levelhead.display.DisplayConfig;
+import cc.hyperium.mods.levelhead.display.LevelheadDisplay;
+import cc.hyperium.mods.levelhead.display.TabDisplay;
 import cc.hyperium.mods.levelhead.purchases.LevelheadPurchaseStates;
 import cc.hyperium.mods.levelhead.renderer.LevelheadChatRenderer;
 import cc.hyperium.mods.levelhead.util.LevelheadJsonHolder;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.HyperiumDesktop;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.GuiYesNo;
+import net.minecraft.client.gui.GuiYesNoCallback;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.util.*;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fml.client.config.GuiSlider;
 import org.lwjgl.input.Mouse;
 
@@ -49,11 +63,12 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.*;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 import static cc.hyperium.utils.ChatColor.*;
@@ -217,32 +232,18 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                     if (isCustom) {
                         Minecraft.getMinecraft().displayGuiScreen(new CustomLevelheadConfigurer());
                     } else {
-                        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-                        if (desktop != null) {
-                            URI uri = new URL("https://sk1er.club/customlevelhead").toURI();
-                            if (desktop.isSupported(Desktop.Action.BROWSE))
-                                desktop.browse(uri);
-                            else
-                                GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
-                        }
+                        HyperiumDesktop.INSTANCE.browse(new URI("https://sk1er.club/customlevelhead"));
                     }
-                } catch (IOException | URISyntaxException e) {
+                } catch (Exception e) {
                     Hyperium.LOGGER.error("Could not open link", e);
                 }
             });
 
             reg(new GuiButton(++currentID, 1, 23, 150, 20, YELLOW + "Purchase Levelhead Credits"), button -> {
-                Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-                if (desktop != null) {
-                    try {
-                        URI uri = new URL("https://purchase.sk1er.club/category/1050972").toURI();
-                        if (desktop.isSupported(Desktop.Action.BROWSE))
-                            desktop.browse(uri);
-                        else
-                            GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
-                    } catch (Exception e) {
-                        Hyperium.LOGGER.error("Could not open link", e);
-                    }
+                try {
+                    HyperiumDesktop.INSTANCE.browse(new URI("https://purchase.sk1er.club/category/1050972"));
+                } catch (Exception e) {
+                    Hyperium.LOGGER.error("Could not open link", e);
                 }
             });
         }

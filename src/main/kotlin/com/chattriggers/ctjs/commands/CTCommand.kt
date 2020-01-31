@@ -52,7 +52,7 @@ object CTCommand : BaseCommand {
             "config", "settings", "setting" ->
                 GuiHandler.openGui(GuiConfig())
             "sim", "simulate" ->
-                ChatLib.simulateChat(Arrays.copyOfRange(args, 1, args.size).joinToString(" "))
+                ChatLib.simulateChat(args.copyOfRange(1, args.size).joinToString(" "))
             "dump" -> dumpChat(args)
             "copy" -> copyArgsToClipboard(args)
             else -> ChatLib.chat(usage)
