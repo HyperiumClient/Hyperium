@@ -63,7 +63,7 @@ Q: My game keeps crashing!
 A: Join the [Discord](https://discord.gg/sk1er) and ask a member of the staff team or a developer to review your issue in the [`#support`](https://discordapp.com/channels/411619823445999637/412310617442091008) channel. Please be patient if there are no developers online!
 
 ### Addons ###
-Addons are Hyperium's system of mods, like Forge, except they're done using the [Addon Workspace / Addon API](https://github.com/HyperiumClient/Addon-Workspace/). The selection to currently available addons is low, so if you wish to make some, feel free to share it with other Hyperium members.
+Addons are Hyperiums system of mods, like Forge, except they're done using the [Addon Workspace / Addon API](https://github.com/HyperiumClient/Addon-Workspace/). The selection to currently available addons is low, so if you wish to make some, feel free to share it with other Hyperium members.
 
 ### License ###  
 Hyperium is licensed under the GNU Lesser General Public License. You can view it [here](./LICENSE).
