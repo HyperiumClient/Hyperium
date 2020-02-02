@@ -240,12 +240,12 @@ public class PatchManager {
                 new ChunkRenderContainerTransformer(),
                 new RenderChunkTransformer(),
                 new LoadingScreenRendererTransformer(),
+                new RenderTransformer(),
 
                 // TODO: Write actual transformers for these classes
                 new NoopTransformer("bma"),
                 new NoopTransformer("bma$1"),
                 new NoopTransformer("ne"),
-                new NoopTransformer("biv"),
                 new NoopTransformer("bjl"),
                 new NoopTransformer("bjh"),
                 new NoopTransformer("bfn"),

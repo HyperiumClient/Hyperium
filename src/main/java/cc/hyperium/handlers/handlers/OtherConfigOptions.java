@@ -22,7 +22,6 @@ package cc.hyperium.handlers.handlers;
  */
 public class OtherConfigOptions {
 
-    public int renderNameDistance = 64;
     public boolean isCancelBox;
 
 }

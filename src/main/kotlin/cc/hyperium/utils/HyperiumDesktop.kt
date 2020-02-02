@@ -56,7 +56,7 @@ object HyperiumDesktop {
     private fun browseDesktop(uri: URI): Boolean {
         return try {
             if (!Desktop.isDesktopSupported()) {
-                Hyperium.LOGGER.debug("Desktop is not supported. OS: " + System.getProperty("os.name"))
+                Hyperium.LOGGER.debug("Desktop is not supported. OS: ${System.getProperty("os.name")}")
                 return false
             }
 
@@ -77,7 +77,7 @@ object HyperiumDesktop {
     private fun openDesktop(file: File): Boolean {
         return try {
             if (!Desktop.isDesktopSupported()) {
-                Hyperium.LOGGER.debug("Desktop is not supported. OS: " + System.getProperty("os.name"))
+                Hyperium.LOGGER.debug("Desktop is not supported. OS: ${System.getProperty("os.name")}")
                 return false
             }
 
@@ -98,7 +98,7 @@ object HyperiumDesktop {
     private fun editDesktop(file: File): Boolean {
         return try {
             if (!Desktop.isDesktopSupported()) {
-                Hyperium.LOGGER.debug("Desktop is not supported. OS: " + System.getProperty("os.name"))
+                Hyperium.LOGGER.debug("Desktop is not supported. OS: ${System.getProperty("os.name")}")
                 return false
             }
             if (!Desktop.getDesktop().isSupported(Desktop.Action.EDIT)) {

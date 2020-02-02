@@ -1,6 +1,6 @@
 --- original/net/minecraft/client/gui/GuiPlayerTabOverlay.java
 +++ changed/net/minecraft/client/gui/GuiPlayerTabOverlay.java
-@@ -1,10 +1,17 @@
+@@ -1,10 +1,18 @@
  package net.minecraft.client.gui;
  
 +import cc.hyperium.Hyperium;
@@ -9,6 +9,7 @@
 +import cc.hyperium.mods.levelhead.guis.LevelheadGui;
 +import cc.hyperium.utils.ChatColor;
 +import cc.hyperium.utils.StaffUtils;
++import cc.hyperium.utils.StringUtil;
  import com.google.common.collect.ComparisonChain;
  import com.google.common.collect.Ordering;
  import com.mojang.authlib.GameProfile;
@@ -18,11 +19,10 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.Gui;
  import net.minecraft.client.gui.GuiIngame;
-@@ -24,6 +31,10 @@
+@@ -24,6 +32,9 @@
  import net.minecraftforge.fml.relauncher.Side;
  import net.minecraftforge.fml.relauncher.SideOnly;
  
-+import java.awt.*;
 +import java.util.UUID;
 +import java.util.concurrent.ConcurrentLinkedDeque;
 +
@@ -156,19 +156,19 @@
 +               if (StaffUtils.isStaff(gameprofile.getId()) || StaffUtils.isBooster(gameprofile.getId())) {
 +                  StaffUtils.DotColour colour = StaffUtils.getColor(gameprofile.getId());
 +                  if (colour.isChroma) {
-+                     drawChromaWaveString(s, renderX, (k2 - 2));
++                     StringUtil.INSTANCE.drawChromaWaveString(s, renderX, (k2 - 2));
 +                  } else {
 +                     String format = StaffUtils.getColor(gameprofile.getId()).baseColour + s;
-+                     mc.fontRendererObj.drawString(format, renderX, (k2 - 2), Color.WHITE.getRGB());
++                     mc.fontRendererObj.drawString(format, renderX, (k2 - 2), -1);
 +                  }
 +               } else {
 +                  String format = online ? ChatColor.GREEN + s : (Settings.OFFLINE_DOTS ? ChatColor.RED + s : "");
-+                  mc.fontRendererObj.drawString(format, renderX, (k2 - 2), Color.WHITE.getRGB());
++                  mc.fontRendererObj.drawString(format, renderX, (k2 - 2), -1);
 +               }
              }
  
              if(networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
-@@ -186,38 +255,90 @@
+@@ -186,38 +255,76 @@
  
        if(list2 != null) {
           k1 = k1 + i4 * 9 + 1;
@@ -184,20 +184,7 @@
              k1 += this.mc.fontRendererObj.FONT_HEIGHT;
           }
        }
-+   }
- 
-+   private void drawChromaWaveString(String text, int xIn, int y) {
-+      FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
-+      int x = xIn;
-+      for (char c : text.toCharArray()) {
-+         long dif = (x * 10) - (y * 10);
-+         long l = System.currentTimeMillis() - dif;
-+         float ff = 2000.0F;
-+         int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
-+         String tmp = String.valueOf(c);
-+         renderer.drawString(tmp, (float) ((double) x), (float) ((double) y), i, false);
-+         x += (double) renderer.getCharWidth(c);
-+      }
+-
     }
  
     protected void drawPing(int p_175245_1_, int p_175245_2_, int p_175245_3_, NetworkPlayerInfo networkPlayerInfoIn) {
@@ -266,7 +253,7 @@
        this.zLevel -= 100.0F;
     }
  
-@@ -296,6 +417,7 @@
+@@ -296,6 +403,7 @@
     }
  
     public void setHeader(IChatComponent headerIn) {
