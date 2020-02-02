@@ -10,12 +10,12 @@ object StringUtil {
         var x = xIn
         for (chars in text.toCharArray()) {
             val dif = x * 10 - (y * 10)
-            val color = Color.HSBtoRGB((System.currentTimeMillis() - dif % 2000f / 2000f), 0.8f, 0.8f)
+            val i = Color.HSBtoRGB(((System.currentTimeMillis() - dif) % 2000) / 2000f, 0.8f, 0.8f)
             renderer.drawString(
                 chars.toString(),
                 x.toFloat(),
                 y.toFloat(),
-                color,
+                i,
                 false
             )
 
