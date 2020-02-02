@@ -73,30 +73,25 @@
        }
  
     }
-@@ -388,15 +402,14 @@
-       return (float)livingBase.ticksExisted + partialTicks;
-    }
+@@ -390,13 +404,14 @@
  
--   protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
--      for(LayerRenderer<T> layerrenderer : this.layerRenderers) {
+    protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
+       for(LayerRenderer<T> layerrenderer : this.layerRenderers) {
 -         boolean flag = this.setBrightness(entitylivingbaseIn, partialTicks, layerrenderer.shouldCombineTextures());
--         layerrenderer.doRenderLayer(entitylivingbaseIn, p_177093_2_, p_177093_3_, partialTicks, p_177093_5_, p_177093_6_, p_177093_7_, p_177093_8_);
--         if(flag) {
++         boolean combineTextures = layerrenderer.shouldCombineTextures();
++         if (Settings.OLD_ARMOUR) combineTextures = true;
++         boolean flag = setBrightness(entitylivingbaseIn, partialTicks, combineTextures);
+          layerrenderer.doRenderLayer(entitylivingbaseIn, p_177093_2_, p_177093_3_, partialTicks, p_177093_5_, p_177093_6_, p_177093_7_, p_177093_8_);
+          if(flag) {
 -            this.unsetBrightness();
--         }
-+   protected void renderLayers(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-+      for (LayerRenderer<T> layerrenderer : layerRenderers) {
-+         boolean f = layerrenderer.shouldCombineTextures();
-+         if (Settings.OLD_ARMOUR) f = true;
-+         boolean flag = setBrightness(entitylivingbaseIn, partialTicks, f);
-+         layerrenderer.doRenderLayer(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
-+         if (flag) unsetBrightness();
++            unsetBrightness();
+          }
        }
 -
     }
  
     protected float getDeathMaxRotation(T entityLivingBaseIn) {
-@@ -425,10 +438,11 @@
+@@ -425,10 +440,11 @@
              String s = entity.getDisplayName().getFormattedText();
              float f1 = 0.02666667F;
              GlStateManager.alphaFunc(516, 0.1F);
@@ -110,7 +105,7 @@
                 GL11.glNormal3f(0.0F, 1.0F, 0.0F);
                 GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                 GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-@@ -458,14 +472,14 @@
+@@ -458,14 +474,14 @@
              } else {
                 this.renderOffsetLivingLabel(entity, x, y - (entity.isChild()?(double)(entity.height / 2.0F):0.0D), z, s, 0.02666667F, d0);
              }
@@ -127,7 +122,7 @@
           Team team = entity.getTeam();
           Team team1 = entityplayersp.getTeam();
           if(team != null) {
-@@ -501,4 +515,9 @@
+@@ -501,4 +517,9 @@
  
        textureBrightness.updateDynamicTexture();
     }

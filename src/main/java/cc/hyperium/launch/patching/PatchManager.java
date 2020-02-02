@@ -241,17 +241,17 @@ public class PatchManager {
                 new RenderChunkTransformer(),
                 new LoadingScreenRendererTransformer(),
                 new RenderTransformer(),
+                new RendererLivingEntityTransformer(),
+                new LayerArmorBaseTransformer(),
+                new GuiOverlayDebugTransformer(),
 
                 // TODO: Write actual transformers for these classes
                 new NoopTransformer("bma"),
                 new NoopTransformer("bma$1"),
                 new NoopTransformer("ne"),
-                new NoopTransformer("bjl"),
                 new NoopTransformer("bjh"),
                 new NoopTransformer("bfn"),
                 new NoopTransformer("avo"),
-                new NoopTransformer("bkn"),
-                new NoopTransformer("avv"),
                 new NoopTransformer("awi"),
 
                 // dont need actual transformers

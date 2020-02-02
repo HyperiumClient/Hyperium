@@ -54,15 +54,7 @@
           int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
           int l = this.top + 4 - (int)this.amountScrolled;
           if(this.hasListHeader) {
-@@ -218,7 +227,6 @@
- 
-          this.drawSelectionBox(k, l, mouseXIn, mouseYIn);
-          GlStateManager.disableDepth();
--         int i1 = 4;
-          this.overlayBackground(0, this.top, 255, 255);
-          this.overlayBackground(this.bottom, this.height, 255, 255);
-          GlStateManager.enableBlend();
-@@ -226,18 +234,6 @@
+@@ -226,18 +235,6 @@
           GlStateManager.disableAlpha();
           GlStateManager.shadeModel(7425);
           GlStateManager.disableTexture2D();
@@ -81,7 +73,7 @@
           int j1 = this.func_148135_f();
           if(j1 > 0) {
              int k1 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
-@@ -247,24 +243,8 @@
+@@ -247,24 +244,8 @@
                 l1 = this.top;
              }
  
@@ -108,7 +100,7 @@
           }
  
           this.func_148142_b(mouseXIn, mouseYIn);
-@@ -415,17 +395,21 @@
+@@ -415,17 +396,21 @@
      * Overlays the background to hide scrolled items
      */
     protected void overlayBackground(int startY, int endY, int startAlpha, int endAlpha) {

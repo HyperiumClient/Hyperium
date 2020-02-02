@@ -3,27 +3,19 @@
 @@ -1,5 +1,7 @@
  package net.minecraft.client.gui;
  
-+import cc.hyperium.Metadata;
 +import cc.hyperium.config.Settings;
++import cc.hyperium.utils.DebugOverlayUtil;
  import com.google.common.base.Strings;
  import com.google.common.collect.Lists;
  import java.util.List;
-@@ -14,6 +16,7 @@
- import net.minecraft.client.gui.ScaledResolution;
- import net.minecraft.client.renderer.GlStateManager;
- import net.minecraft.client.renderer.OpenGlHelper;
-+import net.minecraft.client.renderer.chunk.RenderChunk;
- import net.minecraft.entity.Entity;
- import net.minecraft.entity.player.EntityPlayerMP;
- import net.minecraft.util.BlockPos;
-@@ -44,6 +47,15 @@
+@@ -44,6 +46,15 @@
     public void renderDebugInfo(ScaledResolution scaledResolutionIn) {
        this.mc.mcProfiler.startSection("debug");
        GlStateManager.pushMatrix();
 +
 +      if (Settings.OLD_DEBUG) {
-+         renderOldDebugInfoLeft();
-+         renderOldDebugInfoRight(scaledResolutionIn);
++         DebugOverlayUtil.INSTANCE.renderOldDebugInfoLeft();
++         DebugOverlayUtil.INSTANCE.renderOldDebugInfoRight(scaledResolutionIn);
 +         GlStateManager.popMatrix();
 +         mc.mcProfiler.endSection();
 +         return;
@@ -32,61 +24,3 @@
        this.renderDebugInfoLeft();
        this.renderDebugInfoRight(scaledResolutionIn);
        GlStateManager.popMatrix();
-@@ -237,4 +249,57 @@
-    private static long bytesToMb(long bytes) {
-       return bytes / 1024L / 1024L;
-    }
-+
-+   private void renderOldDebugInfoLeft() {
-+      FontRenderer fontRendererObj = mc.fontRendererObj;
-+
-+      fontRendererObj.drawStringWithShadow("Minecraft 1.8.9 (" + Minecraft.getDebugFPS() + " fps, " +
-+              RenderChunk.renderChunksUpdated + " chunk updates)", 2, 2, -1);
-+      fontRendererObj.drawStringWithShadow(mc.renderGlobal.getDebugInfoRenders(), 2, 12, -1);
-+      fontRendererObj.drawStringWithShadow(mc.renderGlobal.getDebugInfoEntities(), 2, 22, -1);
-+      fontRendererObj.drawStringWithShadow("P: " + mc.effectRenderer.getStatistics() + ". T: " + mc.theWorld.getDebugLoadedEntities(), 2, 32, -1);
-+      fontRendererObj.drawStringWithShadow(mc.theWorld.getProviderName(), 2, 42, -1);
-+
-+      int posX = MathHelper.floor_double(mc.thePlayer.posX);
-+      int posY = MathHelper.floor_double(mc.thePlayer.posY);
-+      int posZ = MathHelper.floor_double(mc.thePlayer.posZ);
-+      fontRendererObj.drawStringWithShadow(String.format("x: %.5f (%d) // c: %d (%d)", mc.thePlayer.posX, posX, posX >> 4, posX & 15), 2, 64, -1);
-+      fontRendererObj.drawStringWithShadow(String.format("y: %.3f (feet pos, %.3f eyes pos)",
-+              mc.thePlayer.getEntityBoundingBox().minY, mc.thePlayer.posY), 2, 72, -1);
-+      Entity entity = mc.getRenderViewEntity();
-+      EnumFacing enumfacing = entity.getHorizontalFacing();
-+      fontRendererObj.drawStringWithShadow(String.format("z: %.5f (%d) // c: %d (%d)", mc.thePlayer.posZ, posZ, posZ >> 4, posZ & 15), 2, 80, -1);
-+      int yaw = MathHelper.floor_double((double) (mc.thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-+      fontRendererObj.drawStringWithShadow("f: " + yaw + " (" + enumfacing + ") / " +
-+              MathHelper.wrapAngleTo180_float(mc.thePlayer.rotationYaw), 2, 88, -1);
-+      if (mc.theWorld != null && !mc.theWorld.isAirBlock(new BlockPos(posX, posY, posZ))) {
-+         Chunk chunk = mc.theWorld.getChunkFromBlockCoords(new BlockPos(posX, posY, posZ));
-+         fontRendererObj.drawStringWithShadow("lc: " + (chunk.getTopFilledSegment() + 15) + " b: " +
-+                         chunk.getBiome(new BlockPos(posX & 15, 64, posZ & 15), mc.theWorld.getWorldChunkManager()).biomeName + " bl: "
-+                         + chunk.getBlockLightOpacity(new BlockPos(posX & 15, posY, posZ & 15)) + " sl: " + chunk.getBlockLightOpacity(
-+                 new BlockPos(posX & 15, posY, posZ & 15)) + " rl: " + chunk.getBlockLightOpacity(new BlockPos(posX & 15, posY, posZ & 15)),
-+                 2, 96, -1);
-+      }
-+
-+      fontRendererObj.drawStringWithShadow(String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", mc.thePlayer.capabilities.getWalkSpeed(),
-+              mc.thePlayer.capabilities.getFlySpeed(), mc.thePlayer.onGround, mc.theWorld.getHeight()), 2, 104, -1);
-+      if (mc.entityRenderer != null && mc.entityRenderer.isShaderActive()) {
-+         fontRendererObj.drawStringWithShadow(String.format("shader: %s", mc.entityRenderer.getShaderGroup().getShaderGroupName()), 2, 112, -1);
-+      }
-+   }
-+
-+   private void renderOldDebugInfoRight(ScaledResolution scaledResolution) {
-+      int scaledWidth = scaledResolution.getScaledWidth();
-+      FontRenderer fontRendererObj = mc.fontRendererObj;
-+      long maxMemory = Runtime.getRuntime().maxMemory();
-+      long totalMemory = Runtime.getRuntime().totalMemory();
-+      long freeMemory = Runtime.getRuntime().freeMemory();
-+      long usedMemory = totalMemory - freeMemory;
-+      String memoryStr = "Used memory: " + usedMemory * 100L / maxMemory + "% (" + usedMemory / 1024L / 1024L + "MB) of " + maxMemory / 1024L / 1024L + "MB";
-+      fontRendererObj.drawStringWithShadow(memoryStr, scaledWidth - fontRendererObj.getStringWidth(memoryStr) - 2, 2, -1);
-+      memoryStr = "Allocated memory: " + totalMemory * 100L / maxMemory + "% (" + totalMemory / 1024L / 1024L + "MB)";
-+      fontRendererObj.drawStringWithShadow(memoryStr, scaledWidth - fontRendererObj.getStringWidth(memoryStr) - 2, 12, -1);
-+      String versionString = "Hyperium " + Metadata.getVersion();
-+      fontRendererObj.drawStringWithShadow(versionString, scaledWidth - fontRendererObj.getStringWidth(versionString) - 2, 22, -1);
-+   }
- }
