@@ -18,8 +18,7 @@
 package cc.hyperium.config;
 
 import cc.hyperium.Hyperium;
-
-import java.awt.*;
+import cc.hyperium.resources.CapePriority;
 
 import static cc.hyperium.config.Category.*;
 
@@ -546,6 +545,14 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.chunkupdatelimiting", category = PERFORMANCE)
     public static boolean CHUNK_UPDATE_LIMITING;
+
+    @ConfigOpt
+    @SelectorSetting(name = "Cape Priority", items = {
+            "Hyperium",
+            "Minecon",
+            "Optifine"
+    })
+    public static String CAPE_PRIORITY = "Hyperium";
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);

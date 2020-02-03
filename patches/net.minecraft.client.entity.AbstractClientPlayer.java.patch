@@ -1,22 +1,24 @@
 --- original/net/minecraft/client/entity/AbstractClientPlayer.java
 +++ changed/net/minecraft/client/entity/AbstractClientPlayer.java
-@@ -1,5 +1,10 @@
+@@ -1,5 +1,12 @@
  package net.minecraft.client.entity;
  
++import cc.hyperium.config.Settings;
 +import cc.hyperium.event.EventBus;
 +import cc.hyperium.event.entity.FovUpdateEvent;
 +import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
 +import cc.hyperium.mods.nickhider.NickHider;
 +import cc.hyperium.mods.nickhider.config.NickHiderConfig;
++import cc.hyperium.resources.CapePriority;
  import com.mojang.authlib.GameProfile;
  import java.io.File;
  import net.minecraft.client.Minecraft;
-@@ -24,8 +29,11 @@
+@@ -24,8 +31,11 @@
  public abstract class AbstractClientPlayer extends EntityPlayer {
     private NetworkPlayerInfo playerInfo;
  
 -   public AbstractClientPlayer(World worldIn, GameProfile playerProfile) {
-+    private HyperiumCapeHandler hook;
++    private final HyperiumCapeHandler hook;
 +
 +    public AbstractClientPlayer(World worldIn, GameProfile playerProfile) {
        super(worldIn, playerProfile);
@@ -24,7 +26,7 @@
     }
  
     /**
-@@ -43,7 +51,7 @@
+@@ -43,7 +53,7 @@
        return this.getPlayerInfo() != null;
     }
  
@@ -33,7 +35,7 @@
        if(this.playerInfo == null) {
           this.playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(this.getUniqueID());
        }
-@@ -63,11 +71,37 @@
+@@ -63,11 +73,44 @@
      * Returns true if the player instance has an associated skin.
      */
     public ResourceLocation getLocationSkin() {
@@ -55,8 +57,15 @@
     }
  
     public ResourceLocation getLocationCape() {
-+       if (hook.getLocationCape() != null) {
++       // todo: optifine cape downloading
++       String priority = Settings.CAPE_PRIORITY;
++
++       if (priority.equals(CapePriority.HYPERIUM.getPriority()) && hook.getLocationCape() != null) {
 +           return hook.getLocationCape();
++       }
++
++       if (priority.equals(CapePriority.MINECON.getPriority()) && getPlayerInfo() != null) {
++           return getPlayerInfo().getLocationCape();
 +       }
 +
 +       NickHider instance = NickHider.instance;
@@ -71,7 +80,7 @@
        NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
        return networkplayerinfo == null?null:networkplayerinfo.getLocationCape();
     }
-@@ -91,6 +125,18 @@
+@@ -91,6 +134,18 @@
     }
  
     public String getSkinType() {
@@ -90,7 +99,7 @@
        NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
        return networkplayerinfo == null?DefaultPlayerSkin.getSkinType(this.getUniqueID()):networkplayerinfo.getSkinType();
     }
-@@ -119,6 +165,8 @@
+@@ -119,6 +174,8 @@
           f *= 1.0F - f1 * 0.15F;
        }
  
