@@ -1,20 +1,17 @@
 package cc.hyperium.launch.patching.conflicts
 
-import cc.hyperium.config.Settings
 import cc.hyperium.event.Event
 import cc.hyperium.event.EventBus
 import cc.hyperium.event.entity.FovUpdateEvent
 import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler
 import cc.hyperium.mods.nickhider.NickHider
 import cc.hyperium.mods.nickhider.config.NickHiderConfig
-import cc.hyperium.resources.CapePriority
 import codes.som.anthony.koffee.assembleBlock
 import codes.som.anthony.koffee.insns.jvm.*
 import com.mojang.authlib.GameProfile
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.entity.EntityPlayerSP
-import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.client.resources.DefaultPlayerSkin
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ResourceLocation
@@ -27,7 +24,7 @@ class AbstractClientPlayerTransformer : ConflictTransformer {
 
     override fun transform(original: ClassNode): ClassNode {
         original.visitField(
-            Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL,
+            Opcodes.ACC_PRIVATE,
             "hook",
             "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;",
             null,
@@ -118,49 +115,27 @@ class AbstractClientPlayerTransformer : ConflictTransformer {
 
             if (method.name == "getLocationCape") {
                 val createCapeAndNickHider = assembleBlock {
-                    getstatic(Settings::class, "CAPE_PRIORITY", String::class)
-                    astore(1)
-                    aload_1
-                    getstatic(CapePriority::class, "HYPERIUM", CapePriority::class)
-                    invokevirtual(CapePriority::class, "getPriority", String::class)
-                    invokevirtual(String::class, "equals", boolean, Object::class)
-                    ifeq(L["2"])
                     aload_0
                     getfield(AbstractClientPlayer::class, "hook", HyperiumCapeHandler::class)
                     invokevirtual(HyperiumCapeHandler::class, "getLocationCape", ResourceLocation::class)
-                    ifnull(L["2"])
+                    ifnull(L["1"])
                     aload_0
                     getfield(AbstractClientPlayer::class, "hook", HyperiumCapeHandler::class)
                     invokevirtual(HyperiumCapeHandler::class, "getLocationCape", ResourceLocation::class)
                     areturn
-                    +L["2"]
-
-                    aload_1
-                    getstatic(CapePriority::class, "MINECON", CapePriority::class)
-                    invokevirtual(CapePriority::class, "getPriority", String::class)
-                    invokevirtual(String::class, "equals", boolean, Object::class)
-                    ifeq(L["4"])
-                    aload_0
-                    invokevirtual(AbstractClientPlayer::class, "getPlayerInfo", NetworkPlayerInfo::class)
-                    ifnull(L["4"])
-                    aload_0
-                    invokevirtual(AbstractClientPlayer::class, "getPlayerInfo", NetworkPlayerInfo::class)
-                    invokevirtual(NetworkPlayerInfo::class, "getLocationCape", ResourceLocation::class)
-                    areturn
-                    +L["4"]
-
+                    +L["1"]
                     getstatic(NickHider::class, "instance", NickHider::class)
                     astore_1
                     aload_1
-                    ifnull(L["7"])
+                    ifnull(L["4"])
                     aload_1
                     invokevirtual(NickHider::class, "getNickHiderConfig", NickHiderConfig::class)
                     invokevirtual(NickHiderConfig::class, "isHideSkins", boolean)
-                    ifeq(L["7"])
+                    ifeq(L["4"])
                     aload_1
                     invokevirtual(NickHider::class, "getNickHiderConfig", NickHiderConfig::class)
                     invokevirtual(NickHiderConfig::class, "isMasterEnabled", boolean)
-                    ifeq(L["7"])
+                    ifeq(L["4"])
                     aload_1
                     invokevirtual(NickHider::class, "gettNickHiderConfig", NickHiderConfig::class)
                     astore_2
@@ -170,14 +145,14 @@ class AbstractClientPlayerTransformer : ConflictTransformer {
                     getfield(Minecraft::class, "thePlayer", EntityPlayerSP::class)
                     invokevirtual(EntityPlayerSP::class, "getUniqueID", UUID::class)
                     invokevirtual(UUID::class, "equals", boolean, Object::class)
-                    ifeq(L["7"])
+                    ifeq(L["4"])
                     aload_2
                     invokevirtual(NickHiderConfig::class, "isUseRealSkinForSelf", boolean)
-                    ifeq(L["7"])
+                    ifeq(L["4"])
                     aload_1
                     invokevirtual(NickHider::class, "getPlayerCape", ResourceLocation::class)
                     areturn
-                    +L["7"]
+                    +L["4"]
                 }.first
 
                 method.instructions.insertBefore(method.instructions.first, createCapeAndNickHider)

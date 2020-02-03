@@ -22,6 +22,7 @@ import cc.hyperium.purchases.EnumPurchaseType
 
 class DragonCosmetic : AbstractCosmetic(false, EnumPurchaseType.DRAGON_HEAD) {
     init {
-        EventBus.register(DragonHeadRenderer(this))
+        val renderer = DragonHeadRenderer(this)
+        EventBus.register(renderer)
     }
 }

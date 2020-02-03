@@ -61,8 +61,8 @@ public class PatchManager {
     public static final PatchManager INSTANCE = new PatchManager();
     private boolean setupComplete = false;
     private boolean disableInputCheck = false;
-    private final Map<String, Patch> patches = Maps.newConcurrentMap();
-    private final Map<String, byte[]> processedClasses = Maps.newConcurrentMap();
+    private Map<String, Patch> patches = Maps.newConcurrentMap();
+    private Map<String, byte[]> processedClasses = Maps.newConcurrentMap();
     private final GDiffPatcher patcher = new GDiffPatcher();
 
     public byte[] patch(String className, byte[] classData, boolean cache) {

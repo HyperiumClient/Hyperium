@@ -24,7 +24,6 @@ import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.hyperium.RGBFieldSet;
 import cc.hyperium.gui.hyperium.components.*;
 import cc.hyperium.gui.keybinds.GuiKeybinds;
-import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
 import cc.hyperium.mods.sidebar.gui.screen.GuiScreenSettings;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
@@ -98,9 +97,6 @@ public class SettingsTab extends AbstractTab {
         // Link to keybinds gui
         apply(new LinkComponent(this, Collections.emptyList(), "Keybinds",
                 new GuiKeybinds()), false, Category.GENERAL, items);
-
-        apply(new LinkComponent(this, Collections.emptyList(), "ChromaHUD",
-                new GeneralConfigGui(Hyperium.INSTANCE.getModIntegration().getChromaHUD())), true, Category.OTHER, items);
 
         apply(new ButtonComponent(this, new ArrayList<>(), "Reset Modifiers", () -> {
             Settings.BOW_FOV_MODIFIER = 1;

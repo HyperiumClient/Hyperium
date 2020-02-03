@@ -5,8 +5,10 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.FontRenderer
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.chunk.RenderChunk
+import net.minecraft.entity.Entity
 import net.minecraft.util.BlockPos
 import net.minecraft.util.MathHelper
+import net.minecraft.world.chunk.Chunk
 
 // todo: change format strings to kotlin string interp
 object DebugOverlayUtil {
@@ -42,7 +44,7 @@ object DebugOverlayUtil {
                 mc.thePlayer.entityBoundingBox.minY, mc.thePlayer.posY
             ), 2f, 72f, -1
         )
-        val entity = mc.renderViewEntity
+        val entity: Entity = mc.renderViewEntity
         val enumfacing = entity.horizontalFacing
         fontRendererObj.drawStringWithShadow(
             String.format("z: %.5f (%d) // c: %d (%d)", mc.thePlayer.posZ, posZ, posZ shr 4, posZ and 15),
@@ -55,7 +57,7 @@ object DebugOverlayUtil {
             "f: $yaw ($enumfacing) / ${MathHelper.wrapAngleTo180_float(mc.thePlayer.rotationYaw)}", 2f, 88f, -1
         )
         if (mc.theWorld != null && !mc.theWorld.isAirBlock(BlockPos(posX, posY, posZ))) {
-            val chunk = mc.theWorld.getChunkFromBlockCoords(BlockPos(posX, posY, posZ))
+            val chunk: Chunk = mc.theWorld.getChunkFromBlockCoords(BlockPos(posX, posY, posZ))
 
             fontRendererObj.drawStringWithShadow(
                 "lc: " + (chunk.topFilledSegment + 15) + " b: " +
@@ -92,7 +94,7 @@ object DebugOverlayUtil {
 
     fun renderOldDebugInfoRight(scaledResolution: ScaledResolution) {
         val scaledWidth = scaledResolution.scaledWidth
-        val fontRendererObj = mc.fontRendererObj
+        val fontRendererObj: FontRenderer = mc.fontRendererObj
         val maxMemory = Runtime.getRuntime().maxMemory()
         val totalMemory = Runtime.getRuntime().totalMemory()
         val freeMemory = Runtime.getRuntime().freeMemory()
