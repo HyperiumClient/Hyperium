@@ -17,11 +17,9 @@
 
 package cc.hyperium.handlers.handlers.animation.cape;
 
-import cc.hyperium.config.Settings;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
-import cc.hyperium.resources.CapePriority;
 import cc.hyperium.utils.HyperiumCapeUtils;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.StaffUtils;
@@ -58,8 +56,6 @@ public class HyperiumCapeHandler {
                 JsonHolder atlasHolder = PurchaseApi.getInstance().getCapeAtlas().optJSONObject(type);
                 url = atlasHolder.optString("url");
                 if (url.isEmpty()) return;
-            } else if (Settings.CAPE_PRIORITY.equals(CapePriority.OPTIFINE.getPriority())) {
-                url = "https://s.optifine.net/capes/" + Minecraft.getMinecraft().theWorld.getPlayerEntityByUUID(profile.getId()).getName() + ".png";
             }
 
             ResourceLocation resourceLocation = new ResourceLocation(String.format("hyperium/capes/%s.png", profile.getId()));
