@@ -8,6 +8,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemArmor
 import net.minecraft.item.ItemStack
 import org.objectweb.asm.tree.ClassNode
+import org.objectweb.asm.tree.MethodInsnNode
 
 class LayerArmorBaseTransformer : ConflictTransformer {
     override fun getClassName() = "bkn"
@@ -34,7 +35,11 @@ class LayerArmorBaseTransformer : ConflictTransformer {
                     +L["2"]
                 }.first
 
-                method.instructions.insertBefore(method.instructions.first, disableArmor)
+                for (insn in method.instructions.iterator()) {
+                    if (insn is MethodInsnNode && insn.name == "getCurrentArmor") {
+                        method.instructions.insertBefore(insn.next?.next, disableArmor)
+                    }
+                }
             }
 
             if (method.name == "renderGlint") {

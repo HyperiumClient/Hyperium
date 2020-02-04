@@ -235,7 +235,7 @@ public class PatchManager {
                 new GuiVideoSettingsTransformer(),
                 new TileEntityEndPortalRendererTransformer(),
                 new EntityRendererTransformer(),
-                new ResourcePackRepositoryTransformer(),
+//                new ResourcePackRepositoryTransformer(),
                 new RenderGlobalTransformer(),
                 new ChunkRenderContainerTransformer(),
                 new RenderChunkTransformer(),
@@ -299,6 +299,7 @@ public class PatchManager {
 
                 new NoopTransformer("bkn$1"),
 
+                new NoopTransformer("bnm"),
                 new NoopTransformer("bnm$1"),
 
                 new NoopTransformer("ne$1")
