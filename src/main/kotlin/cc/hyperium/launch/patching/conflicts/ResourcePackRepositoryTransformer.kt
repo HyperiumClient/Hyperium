@@ -25,25 +25,25 @@ class ResourcePackRepositoryTransformer : ConflictTransformer {
         for (method in original.methods) {
             if (method.name == "deleteOldServerResourcesPacks") {
                 val listFiles = assembleBlock {
-                    tryCatchBlocks.add(TryCatchBlockNode(LabelNode(), LabelNode(), LabelNode(), "java/lang/Exception"))
-                    +L["0"]
-                    aload_0
-                    getfield(ResourcePackRepository::class, "dirServerResourcepacks", File::class)
-                    getstatic(TrueFileFilter::class, "TRUE", IOFileFilter::class)
-                    aconst_null
-                    invokestatic(
-                        FileUtils::class,
-                        "listFiles",
-                        Collection::class,
-                        IOFileFilter::class,
-                        IOFileFilter::class
-                    )
-                    pop
-                    +L["1"]
-                    goto(L["3"])
-                    +L["2"]
-                    astore_1
-                    _return
+                    guard {
+                        aload_0
+                        getfield(ResourcePackRepository::class, "dirServerResourcepacks", File::class)
+                        getstatic(TrueFileFilter::class, "TRUE", IOFileFilter::class)
+                        aconst_null
+                        invokestatic(
+                            FileUtils::class,
+                            "listFiles",
+                            Collection::class,
+                            IOFileFilter::class,
+                            IOFileFilter::class
+                        )
+                        pop
+                        goto(L["3"])
+                        astore_1
+                        _return
+                    }.handle(Exception::class) {
+
+                    }
                 }.first
 
                 method.instructions.insertBefore(method.instructions.first, listFiles)
