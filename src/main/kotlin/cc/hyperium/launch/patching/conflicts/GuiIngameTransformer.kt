@@ -116,6 +116,8 @@ class GuiIngameTransformer : ConflictTransformer {
             }
 
             if (method.name == "renderScoreboard") {
+                method.instructions.clear()
+                method.localVariables.clear()
                 method.instructions.koffee {
                     getstatic(GuiIngame::class, "renderScoreboard", boolean)
                     ifne(L["1"])
