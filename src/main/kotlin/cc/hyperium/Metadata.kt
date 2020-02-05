@@ -23,15 +23,14 @@
 
 package cc.hyperium
 
-import tk.amplifiable.mcgradle.Properties
-
 val MODID
     @JvmName("getModid")
     get() = "Hyperium"
 
 val VERSION
     @JvmName("getVersion")
-    get() = "1.3 (${Properties.HYPERIUM_VERSION})"
+    // todo: not hardcode this lol
+    get() = "1.3 (8001d11-ALPHA)"
 
 /**
  * @since 12 (Hyperium Build 12)

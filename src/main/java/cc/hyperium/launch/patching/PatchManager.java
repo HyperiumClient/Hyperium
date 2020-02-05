@@ -324,6 +324,7 @@ public class PatchManager {
 
                 new NoopTransformer("bkn$1"),
 
+                new NoopTransformer("bnm$a"),
                 new NoopTransformer("bnm$1")
         );
     }
