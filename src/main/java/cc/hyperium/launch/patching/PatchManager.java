@@ -20,6 +20,7 @@ package cc.hyperium.launch.patching;
 import cc.hyperium.launch.deobf.DeobfAdapter;
 import cc.hyperium.launch.deobf.DeobfRemapper;
 import cc.hyperium.launch.patching.conflicts.AbstractClientPlayerTransformer;
+import cc.hyperium.launch.patching.conflicts.AbstractResourcePackTransformer;
 import cc.hyperium.launch.patching.conflicts.ChunkRenderContainerTransformer;
 import cc.hyperium.launch.patching.conflicts.ConflictTransformer;
 import cc.hyperium.launch.patching.conflicts.CrashReportTransformer;
@@ -42,6 +43,7 @@ import cc.hyperium.launch.patching.conflicts.RenderItemFrameTransformer;
 import cc.hyperium.launch.patching.conflicts.RenderManagerTransformer;
 import cc.hyperium.launch.patching.conflicts.RenderTransformer;
 import cc.hyperium.launch.patching.conflicts.RendererLivingEntityTransformer;
+import cc.hyperium.launch.patching.conflicts.ResourcePackRepositoryTransformer;
 import cc.hyperium.launch.patching.conflicts.TextureManagerTransformer;
 import cc.hyperium.launch.patching.conflicts.TileEntityEndPortalRendererTransformer;
 import cc.hyperium.launch.patching.conflicts.WorldClientTransformer;
@@ -78,7 +80,6 @@ import java.util.zip.ZipEntry;
 public class PatchManager {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final List<String> IGNORED_OF_CHANGES = Arrays.asList(
-            "bmx",
             "bbr",
             "avj"
     );
@@ -260,7 +261,7 @@ public class PatchManager {
                 new GuiVideoSettingsTransformer(),
                 new TileEntityEndPortalRendererTransformer(),
                 new EntityRendererTransformer(),
-//                new ResourcePackRepositoryTransformer(),
+                new ResourcePackRepositoryTransformer(),
                 new RenderGlobalTransformer(),
                 new ChunkRenderContainerTransformer(),
                 new RenderChunkTransformer(),
@@ -270,12 +271,12 @@ public class PatchManager {
                 new LayerArmorBaseTransformer(),
                 new GuiOverlayDebugTransformer(),
                 new GuiIngameTransformer(),
+                new AbstractResourcePackTransformer(),
 
                 // TODO: Write actual transformers for these classes
                 new NoopTransformer("awi"),
                 new NoopTransformer("bma"),
                 new NoopTransformer("bma$1"),
-                new NoopTransformer("bnm"),
                 new NoopTransformer("bjh"),
                 new NoopTransformer("bfn"),
 
