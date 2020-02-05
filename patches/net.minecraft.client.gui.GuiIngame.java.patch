@@ -30,10 +30,10 @@
        GlStateManager.popMatrix();
        scoreobjective1 = scoreboard.getObjectiveInDisplaySlot(0);
 +
-+      Minecraft.getMinecraft().mcProfiler.startSection("hyperium_overlay");
-+      EventBus.INSTANCE.post(new RenderHUDEvent(new ScaledResolution(Minecraft.getMinecraft()), partialTicks));
++      mc.mcProfiler.startSection("hyperium_overlay");
++      EventBus.INSTANCE.post(new RenderHUDEvent(new ScaledResolution(mc), partialTicks));
 +      GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-+      Minecraft.getMinecraft().mcProfiler.endSection();
++      mc.mcProfiler.endSection();
 +
        if(!this.mc.gameSettings.keyBindPlayerList.isKeyDown() || this.mc.isIntegratedServerRunning() && this.mc.thePlayer.sendQueue.getPlayerInfoMap().size() <= 1 && scoreobjective1 == null) {
           this.overlayPlayerList.updatePlayerList(false);
@@ -49,7 +49,7 @@
              GlStateManager.popMatrix();
           }
        }
-@@ -450,270 +471,221 @@
+@@ -450,270 +471,225 @@
     }
  
     private void renderScoreboard(ScoreObjective objective, ScaledResolution scaledRes) {
@@ -64,25 +64,27 @@
 -         collection = Lists.newArrayList(Iterables.skip(list, collection.size() - 15));
 -      } else {
 -         collection = list;
--      }
-+      ScoreboardDisplay.objective = objective;
-+      ScoreboardDisplay.resolution = scaledRes;
-+      if (renderScoreboard) Hyperium.INSTANCE.getHandlers().getScoreboardRenderer().render(objective, scaledRes);
-+   }
++      if (!renderScoreboard) {
++         return;
+       }
  
 -      int i = this.getFontRenderer().getStringWidth(objective.getDisplayName());
-+   private void renderPlayerStats(ScaledResolution resolution) {
-+      if (mc.getRenderViewEntity() instanceof EntityPlayer) {
-+         EntityPlayer entityplayer = (EntityPlayer) mc.getRenderViewEntity();
-+         int currentHealth = MathHelper.ceiling_float_int(entityplayer.getHealth());
-+         boolean isGettingDamage = healthUpdateCounter > (long) updateCounter && (healthUpdateCounter - (long) updateCounter) / 3L % 2L == 1L;
++      ScoreboardDisplay.objective = objective;
++      ScoreboardDisplay.resolution = scaledRes;
++      Hyperium.INSTANCE.getHandlers().getScoreboardRenderer().render(objective, scaledRes);
++   }
  
 -      for(Score score : collection) {
 -         ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(score.getPlayerName());
 -         String s = ScorePlayerTeam.formatPlayerName(scoreplayerteam, score.getPlayerName()) + ": " + EnumChatFormatting.RED + score.getScorePoints();
 -         i = Math.max(i, this.getFontRenderer().getStringWidth(s));
 -      }
--
++   private void renderPlayerStats(ScaledResolution resolution) {
++      if (mc.getRenderViewEntity() instanceof EntityPlayer) {
++         EntityPlayer entityplayer = (EntityPlayer) mc.getRenderViewEntity();
++         int currentHealth = MathHelper.ceiling_float_int(entityplayer.getHealth());
++         boolean isGettingDamage = healthUpdateCounter > (long) updateCounter && (healthUpdateCounter - (long) updateCounter) / 3L % 2L == 1L;
+ 
 -      int i1 = collection.size() * this.getFontRenderer().FONT_HEIGHT;
 -      int j1 = scaledRes.getScaledHeight() / 2 + i1 / 3;
 -      int k1 = 3;
@@ -477,7 +479,7 @@
        }
     }
  
-@@ -721,25 +693,41 @@
+@@ -721,25 +697,41 @@
      * Renders dragon's (boss) health on the HUD
      */
     private void renderBossHealth() {
@@ -535,7 +537,7 @@
        }
     }
  
-@@ -907,6 +895,8 @@
+@@ -907,6 +899,8 @@
     }
  
     public void displayTitle(String title, String subTitle, int timeFadeIn, int displayTime, int timeFadeOut) {

@@ -244,6 +244,7 @@ public class PatchManager {
                 new RendererLivingEntityTransformer(),
                 new LayerArmorBaseTransformer(),
                 new GuiOverlayDebugTransformer(),
+                new GuiIngameTransformer(),
 
                 // TODO: Write actual transformers for these classes
                 new NoopTransformer("bma"),
@@ -251,7 +252,6 @@ public class PatchManager {
                 new NoopTransformer("ne"),
                 new NoopTransformer("bjh"),
                 new NoopTransformer("bfn"),
-                new NoopTransformer("avo"),
                 new NoopTransformer("awi"),
 
                 // dont need actual transformers
