@@ -33,6 +33,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'kotlin'
     apply plugin: 'tk.amplifiable.mcgradle'
+    apply plugin: 'club.ampthedev.versionjson'
 
     configurations {
         embed
@@ -61,30 +62,30 @@ subprojects {
     }
 
     dependencies {
-        embed "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61"
-        embed "org.jetbrains.kotlin:kotlin-reflect:1.3.61"
+        library "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61"
+        library "org.jetbrains.kotlin:kotlin-reflect:1.3.61"
 
-        embed 'com.github.jagrosh:DiscordIPC:e29d6d8'
+        library 'com.github.jagrosh:DiscordIPC:e29d6d8'
 
-        embed 'com.github.FalseHonesty:reflections:855f40b80b'
-        embed 'com.github.ben-manes.caffeine:caffeine:2.8.0'
+        library 'com.github.FalseHonesty:reflections:855f40b80b'
+        library 'com.github.ben-manes.caffeine:caffeine:2.8.0'
 
-        embed('org.slick2d:slick2d-core:1.0.2') {
+        library('org.slick2d:slick2d-core:1.0.2') {
             exclude module: 'lwjgl'
         }
 
-        embed("com.github.KevinPriv:MojangAPI:1.0") {
+        library("com.github.KevinPriv:MojangAPI:1.0") {
             exclude module: "gson"
         }
 
-        embed 'com.github.Cubxity:DeobfStack:1.2'
+        library 'com.github.Cubxity:DeobfStack:1.2'
 
-        embed 'org.ow2.asm:asm:5.0.3'
+        library 'org.ow2.asm:asm:5.0.3'
 
-        compile 'net.minecraft:launchwrapper:1.12' // still need this for addons
+        library 'net.minecraft:launchwrapper:1.12' // still need this for addons
 
         embed rootProject.fileTree(dir: 'libs', include: '*.jar')
-        embed('org.spongepowered:mixin:0.7.11-SNAPSHOT') { // we still need this for addons
+        library('org.spongepowered:mixin:0.7.11-SNAPSHOT') { // we still need this for addons
             exclude module: 'launchwrapper'
             exclude module: 'guava'
             exclude module: 'gson'
@@ -92,10 +93,10 @@ subprojects {
         }
 
         // patching
-        embed group: 'com.nothome', name: 'javaxdelta', version: '2.0.1'
-        embed 'com.github.jponge:lzma-java:1.3'
+        library group: 'com.nothome', name: 'javaxdelta', version: '2.0.1'
+        library 'com.github.jponge:lzma-java:1.3'
         // conflicts
-        embed('com.github.half-cambodian-hacker-man:Koffee:d8cee73') {
+        library('com.github.half-cambodian-hacker-man:Koffee:d8cee73') {
             exclude module: 'asm-commons'
             exclude module: 'asm-tree'
             exclude module: 'asm'
