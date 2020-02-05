@@ -82,7 +82,9 @@ subprojects {
 
         library 'org.ow2.asm:asm:5.0.3'
 
-        library 'net.minecraft:launchwrapper:1.12' // still need this for addons
+        library('net.minecraft:launchwrapper:1.12') { // still need this for addons
+            exclude module: 'lwjgl'
+        }
 
         embed rootProject.fileTree(dir: 'libs', include: '*.jar')
         library('org.spongepowered:mixin:0.7.11-SNAPSHOT') { // we still need this for addons

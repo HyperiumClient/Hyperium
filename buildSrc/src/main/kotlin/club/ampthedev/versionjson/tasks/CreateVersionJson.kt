@@ -67,12 +67,10 @@ open class CreateVersionJson : DefaultTask() {
                 var desc =
                     "${id.componentIdentifier.group}:${id.componentIdentifier.module}:${id.componentIdentifier.version}"
                 if (it.extension != "jar") {
-                    desc += ":${it.extension}"
-                } else if (it.classifier != null) {
-                    desc += ":"
+                    desc += "-${it.extension}"
                 }
                 if (it.classifier != null) {
-                    desc += ":${it.classifier}"
+                    desc += "-${it.classifier}"
                 }
                 val downloadsObject = JsonObject()
                 val artifactObject = JsonObject()
