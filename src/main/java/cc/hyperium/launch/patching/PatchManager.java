@@ -32,6 +32,7 @@ import cc.hyperium.launch.patching.conflicts.GuiIngameTransformer;
 import cc.hyperium.launch.patching.conflicts.GuiMainMenuTransformer;
 import cc.hyperium.launch.patching.conflicts.GuiOverlayDebugTransformer;
 import cc.hyperium.launch.patching.conflicts.GuiVideoSettingsTransformer;
+import cc.hyperium.launch.patching.conflicts.ItemRendererTransformer;
 import cc.hyperium.launch.patching.conflicts.LayerArmorBaseTransformer;
 import cc.hyperium.launch.patching.conflicts.LoadingScreenRendererTransformer;
 import cc.hyperium.launch.patching.conflicts.ModelBoxTransformer;
@@ -272,13 +273,13 @@ public class PatchManager {
                 new GuiOverlayDebugTransformer(),
                 new GuiIngameTransformer(),
                 new AbstractResourcePackTransformer(),
+                new ItemRendererTransformer(),
 
                 // TODO: Write actual transformers for these classes
                 new NoopTransformer("awi"),
                 new NoopTransformer("bma"),
                 new NoopTransformer("bma$1"),
                 new NoopTransformer("bjh"),
-                new NoopTransformer("bfn"),
 
                 // dont need actual transformers
                 new NoopTransformer("avh$1"),
