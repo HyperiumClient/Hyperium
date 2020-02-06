@@ -10,7 +10,14 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
@@ -96,6 +103,7 @@ public class ChangeBackgroundGui extends GuiScreen {
     private void handleChooseFile() {
         FileDialog dialog = new FileDialog((Frame) null, I18n.format("gui.changebackground.selectimage"), FileDialog.LOAD);
         dialog.setFile("*.jpg;*.jpeg;*.png");
+        dialog.setMultipleMode(true);
         dialog.setVisible(true);
 
         if (dialog.getFiles().length != 0) {
