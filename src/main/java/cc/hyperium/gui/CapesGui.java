@@ -145,6 +145,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     //22x17
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        drawDefaultBackground();
         try {
             if (!texturesImage.isEmpty()) {
                 for (Map.Entry<String, BufferedImage> entry : texturesImage.entrySet()) {

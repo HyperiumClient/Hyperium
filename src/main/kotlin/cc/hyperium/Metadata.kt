@@ -31,7 +31,7 @@ val MODID
 
 val VERSION
     @JvmName("getVersion")
-    get() = "1.3 (${Properties.HYPERIUM_VERSION}) - Alpha 2"
+    get() = "1.3 (${Properties.HYPERIUM_VERSION}) - Alpha 3"
 
 /**
  * @since 12 (Hyperium Build 12)
