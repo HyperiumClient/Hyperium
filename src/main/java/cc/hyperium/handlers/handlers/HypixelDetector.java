@@ -55,6 +55,7 @@ public class HypixelDetector {
         return instance;
     }
 
+    @SuppressWarnings("BusyWait")
     @InvokeEvent
     public void serverJoinEvent(ServerJoinEvent event) {
         hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
