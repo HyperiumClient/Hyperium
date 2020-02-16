@@ -1,0 +1,10 @@
+--- original/net/minecraft/world/chunk/storage/AnvilChunkLoader.java
++++ changed/net/minecraft/world/chunk/storage/AnvilChunkLoader.java
+@@ -57,6 +57,7 @@
+          }
+ 
+          nbttagcompound = CompressedStreamTools.read(datainputstream);
++         datainputstream.close();
+       }
+ 
+       return this.checkedReadChunkFromNBT(worldIn, x, z, nbttagcompound);
