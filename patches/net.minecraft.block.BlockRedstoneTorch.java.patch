@@ -1,0 +1,21 @@
+--- original/net/minecraft/block/BlockRedstoneTorch.java
++++ changed/net/minecraft/block/BlockRedstoneTorch.java
+@@ -5,6 +5,8 @@
+ import java.util.List;
+ import java.util.Map;
+ import java.util.Random;
++import java.util.WeakHashMap;
++
+ import net.minecraft.block.state.IBlockState;
+ import net.minecraft.creativetab.CreativeTabs;
+ import net.minecraft.init.Blocks;
+@@ -18,7 +20,8 @@
+ import net.minecraftforge.fml.relauncher.SideOnly;
+
+ public class BlockRedstoneTorch extends BlockTorch {
+-    private static Map<World, List<BlockRedstoneTorch.Toggle>> toggles = Maps.<World, List<BlockRedstoneTorch.Toggle>>newHashMap();
++    // Hyperium - Don't store the world in memory
++    private static Map<World, List<BlockRedstoneTorch.Toggle>> toggles = new WeakHashMap<>();
+     private final boolean isOn;
+
+     private boolean isBurnedOut(World worldIn, BlockPos pos, boolean turnOff) {

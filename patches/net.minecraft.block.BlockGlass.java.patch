@@ -1,0 +1,28 @@
+--- original/net/minecraft/block/BlockGlass.java
++++ changed/net/minecraft/block/BlockGlass.java
+@@ -1,9 +1,14 @@
+ package net.minecraft.block;
+
+ import java.util.Random;
++
++import cc.hyperium.config.Settings;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.creativetab.CreativeTabs;
++import net.minecraft.util.BlockPos;
++import net.minecraft.util.EnumFacing;
+ import net.minecraft.util.EnumWorldBlockLayer;
++import net.minecraft.world.IBlockAccess;
+ import net.minecraftforge.fml.relauncher.Side;
+ import net.minecraftforge.fml.relauncher.SideOnly;
+
+@@ -32,4 +37,10 @@
+     protected boolean canSilkHarvest() {
+         return true;
+     }
++
++    // Hyperium - Don't render glass if the setting is enabled
++    @Override
++    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
++        return !Settings.CLEAR_GLASS && super.shouldSideBeRendered(worldIn, pos, side);
++    }
+ }
