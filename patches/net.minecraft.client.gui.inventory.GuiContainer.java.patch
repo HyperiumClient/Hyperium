@@ -1,0 +1,69 @@
+--- original/net/minecraft/client/gui/inventory/GuiContainer.java
++++ changed/net/minecraft/client/gui/inventory/GuiContainer.java
+@@ -1,5 +1,6 @@
+ package net.minecraft.client.gui.inventory;
+ 
++import cc.hyperium.gui.ParticleOverlay;
+ import com.google.common.collect.Sets;
+ import java.io.IOException;
+ import java.util.Set;
+@@ -87,6 +88,20 @@
+         int i = this.guiLeft;
+         int j = this.guiTop;
+         this.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
++
++        // Hyperium start
++        ParticleOverlay overlay = ParticleOverlay.getOverlay();
++        if (overlay.getMode() != ParticleOverlay.Mode.OFF) {
++            overlay.render(
++                    mouseX,
++                    mouseY,
++                    guiLeft - (mc.thePlayer.getActivePotionEffects().isEmpty() ? 0 : xSize * 3 / 4),
++                    guiTop - 5,
++                    guiLeft + (240 * 4 / 5),
++                    guiTop + (240 * 4 / 5 - 10)
++            );
++        }
++        // Hyperium end
+         GlStateManager.disableRescaleNormal();
+         RenderHelper.disableStandardItemLighting();
+         GlStateManager.disableLighting();
+@@ -319,6 +334,7 @@
+             int j = this.guiLeft;
+             int k = this.guiTop;
+             boolean flag1 = mouseX < j || mouseY < k || mouseX >= j + this.xSize || mouseY >= k + this.ySize;
++            if (slot != null) flag1 = false; // Hyperium
+             int l = -1;
+ 
+             if (slot != null) {
+@@ -379,6 +395,9 @@
+             }
+         }
+ 
++        // Hyperium
++        checkHotbarKeys(mouseButton - 100);
++
+         this.lastClickSlot = slot;
+         this.lastClickTime = i;
+         this.lastClickButton = mouseButton;
+@@ -425,10 +444,12 @@
+      * Called when a mouse button is released.  Args : mouseX, mouseY, releaseButton
+      */
+     protected void mouseReleased(int mouseX, int mouseY, int state) {
++        super.mouseReleased(mouseX, mouseY, state); // Hyperium
+         Slot slot = this.getSlotAtPosition(mouseX, mouseY);
+         int i = this.guiLeft;
+         int j = this.guiTop;
+         boolean flag = mouseX < i || mouseY < j || mouseX >= i + this.xSize || mouseY >= j + this.ySize;
++        if (slot != null) flag = false; // Hyperium
+         int k = -1;
+ 
+         if (slot != null) {
+@@ -601,6 +622,7 @@
+      * Called when the screen is unloaded. Used to disable keyboard repeat events
+      */
+     public void onGuiClosed() {
++        super.onGuiClosed(); // Hyperium
+         if (this.mc.thePlayer != null) {
+             this.inventorySlots.onContainerClosed(this.mc.thePlayer);
+         }

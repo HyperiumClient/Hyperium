@@ -1,0 +1,14 @@
+--- original/net/minecraft/client/gui/GuiVideoSettings.java
++++ changed/net/minecraft/client/gui/GuiVideoSettings.java
+@@ -110,4 +110,11 @@
+         this.drawCenteredString(this.fontRendererObj, this.screenTitle, this.width / 2, 5, 16777215);
+         super.drawScreen(mouseX, mouseY, partialTicks);
+     }
++
++    // Hyperium
++    @Override
++    public void onGuiClosed() {
++        super.onGuiClosed();
++        mc.gameSettings.onGuiClosed();
++    }
+ }

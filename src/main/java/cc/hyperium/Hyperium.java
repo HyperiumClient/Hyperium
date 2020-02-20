@@ -95,7 +95,7 @@ public class Hyperium {
     private boolean optifineInstalled;
 
     // Is the user in a developer environment?
-    public boolean isDevEnv;
+    private boolean isDevEnv;
 
     // Is it the users first launch?
     private boolean firstLaunch;

@@ -1,0 +1,32 @@
+--- original/net/minecraft/client/gui/GuiMultiplayer.java
++++ changed/net/minecraft/client/gui/GuiMultiplayer.java
+@@ -1,5 +1,6 @@
+ package net.minecraft.client.gui;
+ 
++import cc.hyperium.Hyperium;
+ import com.google.common.base.Splitter;
+ import com.google.common.collect.Lists;
+ import java.io.IOException;
+@@ -298,6 +299,7 @@
+     }
+ 
+     public void connectToSelected() {
++        Hyperium.INSTANCE.setFromMainMenu(false); // Hyperium
+         GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.func_148193_k() < 0 ? null : this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k());
+ 
+         if (guilistextended$iguilistentry instanceof ServerListEntryNormal) {
+@@ -386,4 +388,14 @@
+ 
+         this.serverListSelector.func_148195_a(this.savedServerList);
+     }
++
++    // Hyperium
++    public void makeDirectConnect() {
++        directConnect = true;
++    }
++
++    // Hyperium
++    public void setIp(ServerData selectedServer) {
++        this.selectedServer = selectedServer;
++    }
+ }

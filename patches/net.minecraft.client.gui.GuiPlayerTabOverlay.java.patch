@@ -1,0 +1,212 @@
+--- original/net/minecraft/client/gui/GuiPlayerTabOverlay.java
++++ changed/net/minecraft/client/gui/GuiPlayerTabOverlay.java
+@@ -1,10 +1,22 @@
+ package net.minecraft.client.gui;
+ 
++import cc.hyperium.Hyperium;
++import cc.hyperium.config.Settings;
++import cc.hyperium.handlers.handlers.data.HypixelAPI;
++import cc.hyperium.mods.levelhead.guis.LevelheadGui;
++import cc.hyperium.utils.ChatColor;
++import cc.hyperium.utils.StaffUtils;
++import cc.hyperium.utils.StringUtil;
+ import com.google.common.collect.ComparisonChain;
+ import com.google.common.collect.Ordering;
+ import com.mojang.authlib.GameProfile;
+ import java.util.Comparator;
+ import java.util.List;
++import java.util.UUID;
++import java.util.concurrent.ConcurrentLinkedDeque;
++import java.util.concurrent.ConcurrentLinkedQueue;
++
++import me.semx11.autotip.Autotip;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.network.NetHandlerPlayClient;
+ import net.minecraft.client.network.NetworkPlayerInfo;
+@@ -68,6 +80,14 @@
+ 
+         for (NetworkPlayerInfo networkplayerinfo : list) {
+             int k = this.mc.fontRendererObj.getStringWidth(this.getPlayerName(networkplayerinfo));
++
++            // Hyperium
++            if (Settings.SHOW_ONLINE_PLAYERS) {
++                k += LevelheadGui.getLevelheadWidth(networkplayerinfo) + mc.fontRendererObj.getStringWidth("⚫") + (Settings.TAB_HEADS ? 0 : 10);
++            } else {
++                k += LevelheadGui.getLevelheadWidth(networkplayerinfo) + (Settings.TAB_HEADS ? 0 : 10);
++            }
++
+             i = Math.max(i, k);
+ 
+             if (scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
+@@ -77,6 +97,25 @@
+         }
+ 
+         list = list.subList(0, Math.min(list.size(), 80));
++
++        // Hyperium
++        if (Settings.FRIENDS_FIRST_IN_TAB) {
++            ConcurrentLinkedDeque<NetworkPlayerInfo> friends = new ConcurrentLinkedDeque<>();
++            List<UUID> friendUuidList = HypixelAPI.INSTANCE.getListOfCurrentUsersFriends();
++
++            for (NetworkPlayerInfo networkPlayerInfo : list) {
++                UUID id = networkPlayerInfo.getGameProfile().getId();
++                if (friendUuidList.contains(id)) {
++                    friends.add(networkPlayerInfo);
++                }
++            }
++
++            list.removeAll(friends);
++            friends.addAll(list);
++            list.clear();
++            list.addAll(friends);
++        }
++
+         int l3 = list.size();
+         int i4 = l3;
+ 
+@@ -122,7 +161,10 @@
+         }
+ 
+         if (list1 != null) {
+-            drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
++            // Hyperium
++            if (!Settings.FAST_TAB) {
++                drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
++            }
+ 
+             for (String s3 : list1) {
+                 int i2 = this.mc.fontRendererObj.getStringWidth(s3);
+@@ -133,14 +175,22 @@
+             ++k1;
+         }
+ 
+-        drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
++        // Hyperium
++        if (!Settings.FAST_TAB) {
++            drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
++        }
+ 
+         for (int k4 = 0; k4 < l3; ++k4) {
+             int l4 = k4 / i4;
+             int i5 = k4 % i4;
+             int j2 = j1 + l4 * i1 + l4 * 5;
+             int k2 = k1 + i5 * 9;
+-            drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
++
++            // Hyperium
++            if (!Settings.FAST_TAB) {
++                drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
++            }
++
+             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+             GlStateManager.enableAlpha();
+             GlStateManager.enableBlend();
+@@ -151,7 +201,7 @@
+                 String s1 = this.getPlayerName(networkplayerinfo1);
+                 GameProfile gameprofile = networkplayerinfo1.getGameProfile();
+ 
+-                if (flag) {
++                if (flag && Settings.TAB_HEADS) { // Hyperium
+                     EntityPlayer entityplayer = this.mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
+                     boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && (gameprofile.getName().equals("Dinnerbone") || gameprofile.getName().equals("Grumm"));
+                     this.mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
+@@ -168,6 +218,26 @@
+                     j2 += 9;
+                 }
+ 
++                // Hyperium start
++                int renderX = j2 + mc.fontRendererObj.getStringWidth(s1) + 2;
++                if (Settings.SHOW_ONLINE_PLAYERS) {
++                    String dot = "⚫";
++                    boolean online = mc.getSession().getProfile().getId() == gameprofile.getId() || Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
++
++                    if (StaffUtils.isStaff(gameprofile.getId()) || StaffUtils.isBooster(gameprofile.getId())) {
++                        StaffUtils.DotColour colour = StaffUtils.getColor(gameprofile.getId());
++                        if (colour.isChroma) {
++                            StringUtil.INSTANCE.drawChromaWaveString(dot, renderX, (k2 - 2));
++                        } else {
++                            String format = StaffUtils.getColor(gameprofile.getId()).baseColour + dot;
++                            mc.fontRendererObj.drawString(format, renderX, (k2 - 2), -1);
++                        }
++                    } else {
++                        String format = online ? ChatColor.GREEN + dot : (Settings.OFFLINE_DOTS ? ChatColor.RED + dot : "");
++                        mc.fontRendererObj.drawString(format, renderX, (k2 - 2), -1);
++                    }
++                }
++
+                 if (networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
+                     s1 = EnumChatFormatting.ITALIC + s1;
+                     this.mc.fontRendererObj.drawStringWithShadow(s1, (float)j2, (float)k2, -1862270977);
+@@ -190,8 +260,11 @@
+ 
+         if (list2 != null) {
+             k1 = k1 + i4 * 9 + 1;
+-            drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list2.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
+ 
++            if (!Settings.FAST_TAB) {
++                drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list2.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
++            }
++
+             for (String s4 : list2) {
+                 int j5 = this.mc.fontRendererObj.getStringWidth(s4);
+                 this.mc.fontRendererObj.drawStringWithShadow(s4, (float)(width / 2 - j5 / 2), (float)k1, -1);
+@@ -201,6 +274,42 @@
+     }
+ 
+     protected void drawPing(int p_175245_1_, int p_175245_2_, int p_175245_3_, NetworkPlayerInfo networkPlayerInfoIn) {
++        // Hyperium
++        LevelheadGui.drawPingHook(p_175245_1_, p_175245_2_ + (Settings.TAB_HEADS ? 0 : 8), p_175245_3_, networkPlayerInfoIn);
++
++        int ping = networkPlayerInfoIn.getResponseTime();
++        int x = p_175245_2_ + p_175245_1_ - (mc.fontRendererObj.getStringWidth(ping + "") >> 1) - 2;
++        int y = p_175245_3_ + (mc.fontRendererObj.FONT_HEIGHT >> 2);
++        if (Settings.NUMBER_PING) {
++            int colour;
++
++            if (ping > 500) {
++                colour = 11141120;
++            } else if (ping > 300) {
++                colour = 11184640;
++            } else if (ping > 200) {
++                colour = 11193344;
++            } else if (ping > 135) {
++                colour = 2128640;
++            } else if (ping > 70) {
++                colour = 39168;
++            } else if (ping >= 0) {
++                colour = 47872;
++            } else {
++                colour = 11141120;
++            }
++
++            if (ping >= 0 && ping < 10000) {
++                GlStateManager.pushMatrix();
++                GlStateManager.scale(0.5f, 0.5f, 0.5f);
++                mc.fontRendererObj.drawString("   " + ping + "", (2 * x) - (Settings.TAB_HEADS ? 10 : -5), (2 * y), colour);
++                GlStateManager.scale(2.0f, 2.0f, 2.0f);
++                GlStateManager.popMatrix();
++            }
++
++            return;
++        }
++
+         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+         this.mc.getTextureManager().bindTexture(icons);
+         int i = 0;
+@@ -221,7 +330,7 @@
+         }
+ 
+         this.zLevel += 100.0F;
+-        this.drawTexturedModalRect(p_175245_2_ + p_175245_1_ - 11, p_175245_3_, 0 + i * 10, 176 + j * 8, 10, 8);
++        this.drawTexturedModalRect(p_175245_2_ + p_175245_1_ - 5, p_175245_3_, i * 10, 176 + j * 8, 10, 8); // Hyperium
+         this.zLevel -= 100.0F;
+     }
+ 
+@@ -305,6 +414,7 @@
+     }
+ 
+     public void setHeader(IChatComponent headerIn) {
++        Autotip.tabHeader = headerIn; // Hyperium
+         this.header = headerIn;
+     }
+ 

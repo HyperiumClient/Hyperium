@@ -1,0 +1,420 @@
+--- original/net/minecraft/client/gui/GuiIngame.java
++++ changed/net/minecraft/client/gui/GuiIngame.java
+@@ -1,5 +1,11 @@
+ package net.minecraft.client.gui;
+ 
++import cc.hyperium.Hyperium;
++import cc.hyperium.config.Settings;
++import cc.hyperium.event.EventBus;
++import cc.hyperium.event.render.RenderHUDEvent;
++import cc.hyperium.event.render.RenderSelectedItemEvent;
++import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
+ import com.google.common.base.Predicate;
+ import com.google.common.collect.Iterables;
+ import com.google.common.collect.Lists;
+@@ -90,6 +96,13 @@
+     /** Used with updateCounter to make the heart bar flash */
+     private long healthUpdateCounter = 0L;
+ 
++    // Hyperium start
++    public static boolean renderScoreboard = true;
++    public static boolean renderHealth = true;
++    public static boolean renderFood = true;
++    public static boolean renderArmor = true;
++    // Hyperium end
++
+     public GuiIngame(Minecraft mcIn) {
+         this.mc = mcIn;
+         this.itemRenderer = mcIn.getRenderItem();
+@@ -299,6 +312,13 @@
+         GlStateManager.popMatrix();
+         scoreobjective1 = scoreboard.getObjectiveInDisplaySlot(0);
+ 
++        // Hyperium start
++        mc.mcProfiler.startSection("hyperium_overlay");
++        EventBus.INSTANCE.post(new RenderHUDEvent(new ScaledResolution(mc), partialTicks));
++        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
++        mc.mcProfiler.endSection();
++        // Hyperium end
++
+         if (!this.mc.gameSettings.keyBindPlayerList.isKeyDown() || this.mc.isIntegratedServerRunning() && this.mc.thePlayer.sendQueue.getPlayerInfoMap().size() <= 1 && scoreobjective1 == null) {
+             this.overlayPlayerList.updatePlayerList(false);
+         } else {
+@@ -418,6 +438,12 @@
+                 GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+                 this.getFontRenderer().drawStringWithShadow(s, (float)i, (float)j, 16777215 + (k << 24));
+                 GlStateManager.disableBlend();
++
++                // Hyperium start
++                EventBus.INSTANCE.post(new RenderSelectedItemEvent(scaledRes));
++                GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
++                // Hyperium end
++
+                 GlStateManager.popMatrix();
+             }
+         }
+@@ -467,52 +493,11 @@
+     }
+ 
+     private void renderScoreboard(ScoreObjective objective, ScaledResolution scaledRes) {
+-        Scoreboard scoreboard = objective.getScoreboard();
+-        Collection<Score> collection = scoreboard.getSortedScores(objective);
+-        List<Score> list = Lists.newArrayList(Iterables.filter(collection, new Predicate<Score>() {
+-            public boolean apply(Score p_apply_1_) {
+-                return p_apply_1_.getPlayerName() != null && !p_apply_1_.getPlayerName().startsWith("#");
+-            }
+-        }));
+-
+-        if (list.size() > 15) {
+-            collection = Lists.newArrayList(Iterables.skip(list, collection.size() - 15));
+-        } else {
+-            collection = list;
+-        }
+-
+-        int i = this.getFontRenderer().getStringWidth(objective.getDisplayName());
+-
+-        for (Score score : collection) {
+-            ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(score.getPlayerName());
+-            String s = ScorePlayerTeam.formatPlayerName(scoreplayerteam, score.getPlayerName()) + ": " + EnumChatFormatting.RED + score.getScorePoints();
+-            i = Math.max(i, this.getFontRenderer().getStringWidth(s));
+-        }
+-
+-        int i1 = collection.size() * this.getFontRenderer().FONT_HEIGHT;
+-        int j1 = scaledRes.getScaledHeight() / 2 + i1 / 3;
+-        int k1 = 3;
+-        int l1 = scaledRes.getScaledWidth() - i - k1;
+-        int j = 0;
+-
+-        for (Score score1 : collection) {
+-            ++j;
+-            ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName());
+-            String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName());
+-            String s2 = EnumChatFormatting.RED + "" + score1.getScorePoints();
+-            int k = j1 - j * this.getFontRenderer().FONT_HEIGHT;
+-            int l = scaledRes.getScaledWidth() - k1 + 2;
+-            drawRect(l1 - 2, k, l, k + this.getFontRenderer().FONT_HEIGHT, 1342177280);
+-            this.getFontRenderer().drawString(s1, l1, k, 553648127);
+-            this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
+-
+-            if (j == collection.size()) {
+-                String s3 = objective.getDisplayName();
+-                drawRect(l1 - 2, k - this.getFontRenderer().FONT_HEIGHT - 1, l, k - 1, 1610612736);
+-                drawRect(l1 - 2, k - 1, l, k, 1342177280);
+-                this.getFontRenderer().drawString(s3, l1 + i / 2 - this.getFontRenderer().getStringWidth(s3) / 2, k - this.getFontRenderer().FONT_HEIGHT, 553648127);
+-            }
+-        }
++        // Hyperium
++        if (!renderScoreboard) return;
++        ScoreboardDisplay.objective = objective;
++        ScoreboardDisplay.resolution = scaledRes;
++        Hyperium.INSTANCE.getHandlers().getScoreboardRenderer().render(objective, scaledRes);
+     }
+ 
+     private void renderPlayerStats(ScaledResolution scaledRes) {
+@@ -561,20 +546,23 @@
+ 
+             this.mc.mcProfiler.startSection("armor");
+ 
+-            for (int i3 = 0; i3 < 10; ++i3) {
+-                if (k2 > 0) {
+-                    int j3 = i1 + i3 * 8;
++            // Hyperium
++            if (renderArmor) {
++                for (int i3 = 0; i3 < 10; ++i3) {
++                    if (k2 > 0) {
++                        int j3 = i1 + i3 * 8;
+ 
+-                    if (i3 * 2 + 1 < k2) {
+-                        this.drawTexturedModalRect(j3, j2, 34, 9, 9, 9);
+-                    }
++                        if (i3 * 2 + 1 < k2) {
++                            this.drawTexturedModalRect(j3, j2, 34, 9, 9, 9);
++                        }
+ 
+-                    if (i3 * 2 + 1 == k2) {
+-                        this.drawTexturedModalRect(j3, j2, 25, 9, 9, 9);
+-                    }
++                        if (i3 * 2 + 1 == k2) {
++                            this.drawTexturedModalRect(j3, j2, 25, 9, 9, 9);
++                        }
+ 
+-                    if (i3 * 2 + 1 > k2) {
+-                        this.drawTexturedModalRect(j3, j2, 16, 9, 9, 9);
++                        if (i3 * 2 + 1 > k2) {
++                            this.drawTexturedModalRect(j3, j2, 16, 9, 9, 9);
++                        }
+                     }
+                 }
+             }
+@@ -614,119 +602,126 @@
+                     k4 = 5;
+                 }
+ 
+-                this.drawTexturedModalRect(i4, j4, 16 + k3 * 9, 9 * k4, 9, 9);
++                // Hyperium
++                if (renderHealth) {
++                    this.drawTexturedModalRect(i4, j4, 16 + k3 * 9, 9 * k4, 9, 9);
+ 
+-                if (flag) {
+-                    if (i6 * 2 + 1 < j) {
+-                        this.drawTexturedModalRect(i4, j4, j6 + 54, 9 * k4, 9, 9);
+-                    }
++                    // Hyperium
++                    if (flag && !Settings.OLD_HEALTH) {
++                        if (i6 * 2 + 1 < j) {
++                            this.drawTexturedModalRect(i4, j4, j6 + 54, 9 * k4, 9, 9);
++                        }
+ 
+-                    if (i6 * 2 + 1 == j) {
+-                        this.drawTexturedModalRect(i4, j4, j6 + 63, 9 * k4, 9, 9);
++                        if (i6 * 2 + 1 == j) {
++                            this.drawTexturedModalRect(i4, j4, j6 + 63, 9 * k4, 9, 9);
++                        }
+                     }
+-                }
+ 
+-                if (f2 > 0.0F) {
+-                    if (f2 == f1 && f1 % 2.0F == 1.0F) {
+-                        this.drawTexturedModalRect(i4, j4, j6 + 153, 9 * k4, 9, 9);
++                    if (f2 > 0.0F) {
++                        if (f2 == f1 && f1 % 2.0F == 1.0F) {
++                            this.drawTexturedModalRect(i4, j4, j6 + 153, 9 * k4, 9, 9);
++                        } else {
++                            this.drawTexturedModalRect(i4, j4, j6 + 144, 9 * k4, 9, 9);
++                        }
++
++                        f2 -= 2.0F;
+                     } else {
+-                        this.drawTexturedModalRect(i4, j4, j6 + 144, 9 * k4, 9, 9);
+-                    }
++                        if (i6 * 2 + 1 < i) {
++                            this.drawTexturedModalRect(i4, j4, j6 + 36, 9 * k4, 9, 9);
++                        }
+ 
+-                    f2 -= 2.0F;
+-                } else {
+-                    if (i6 * 2 + 1 < i) {
+-                        this.drawTexturedModalRect(i4, j4, j6 + 36, 9 * k4, 9, 9);
++                        if (i6 * 2 + 1 == i) {
++                            this.drawTexturedModalRect(i4, j4, j6 + 45, 9 * k4, 9, 9);
++                        }
+                     }
+-
+-                    if (i6 * 2 + 1 == i) {
+-                        this.drawTexturedModalRect(i4, j4, j6 + 45, 9 * k4, 9, 9);
+-                    }
+                 }
+             }
+ 
+             Entity entity = entityplayer.ridingEntity;
+ 
+-            if (entity == null) {
+-                this.mc.mcProfiler.endStartSection("food");
++            // Hyperium
++            if (renderFood) {
++                if (entity == null) {
++                    this.mc.mcProfiler.endStartSection("food");
+ 
+-                for (int k6 = 0; k6 < 10; ++k6) {
+-                    int i7 = k1;
+-                    int l7 = 16;
+-                    int j8 = 0;
++                    for (int k6 = 0; k6 < 10; ++k6) {
++                        int i7 = k1;
++                        int l7 = 16;
++                        int j8 = 0;
+ 
+-                    if (entityplayer.isPotionActive(Potion.hunger)) {
+-                        l7 += 36;
+-                        j8 = 13;
+-                    }
++                        if (entityplayer.isPotionActive(Potion.hunger)) {
++                            l7 += 36;
++                            j8 = 13;
++                        }
+ 
+-                    if (entityplayer.getFoodStats().getSaturationLevel() <= 0.0F && this.updateCounter % (k * 3 + 1) == 0) {
+-                        i7 = k1 + (this.rand.nextInt(3) - 1);
+-                    }
++                        if (entityplayer.getFoodStats().getSaturationLevel() <= 0.0F && this.updateCounter % (k * 3 + 1) == 0) {
++                            i7 = k1 + (this.rand.nextInt(3) - 1);
++                        }
+ 
+-                    if (flag1) {
+-                        j8 = 1;
+-                    }
++                        if (flag1) {
++                            j8 = 1;
++                        }
+ 
+-                    int i9 = j1 - k6 * 8 - 9;
+-                    this.drawTexturedModalRect(i9, i7, 16 + j8 * 9, 27, 9, 9);
++                        int i9 = j1 - k6 * 8 - 9;
++                        this.drawTexturedModalRect(i9, i7, 16 + j8 * 9, 27, 9, 9);
+ 
+-                    if (flag1) {
+-                        if (k6 * 2 + 1 < l) {
+-                            this.drawTexturedModalRect(i9, i7, l7 + 54, 27, 9, 9);
++                        if (flag1) {
++                            if (k6 * 2 + 1 < l) {
++                                this.drawTexturedModalRect(i9, i7, l7 + 54, 27, 9, 9);
++                            }
++
++                            if (k6 * 2 + 1 == l) {
++                                this.drawTexturedModalRect(i9, i7, l7 + 63, 27, 9, 9);
++                            }
+                         }
+ 
+-                        if (k6 * 2 + 1 == l) {
+-                            this.drawTexturedModalRect(i9, i7, l7 + 63, 27, 9, 9);
++                        if (k6 * 2 + 1 < k) {
++                            this.drawTexturedModalRect(i9, i7, l7 + 36, 27, 9, 9);
+                         }
+-                    }
+ 
+-                    if (k6 * 2 + 1 < k) {
+-                        this.drawTexturedModalRect(i9, i7, l7 + 36, 27, 9, 9);
++                        if (k6 * 2 + 1 == k) {
++                            this.drawTexturedModalRect(i9, i7, l7 + 45, 27, 9, 9);
++                        }
+                     }
++                } else if (entity instanceof EntityLivingBase) {
++                    this.mc.mcProfiler.endStartSection("mountHealth");
++                    EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
++                    int j7 = (int) Math.ceil((double) entitylivingbase.getHealth());
++                    float f3 = entitylivingbase.getMaxHealth();
++                    int k8 = (int) (f3 + 0.5F) / 2;
+ 
+-                    if (k6 * 2 + 1 == k) {
+-                        this.drawTexturedModalRect(i9, i7, l7 + 45, 27, 9, 9);
++                    if (k8 > 30) {
++                        k8 = 30;
+                     }
+-                }
+-            } else if (entity instanceof EntityLivingBase) {
+-                this.mc.mcProfiler.endStartSection("mountHealth");
+-                EntityLivingBase entitylivingbase = (EntityLivingBase)entity;
+-                int j7 = (int)Math.ceil((double)entitylivingbase.getHealth());
+-                float f3 = entitylivingbase.getMaxHealth();
+-                int k8 = (int)(f3 + 0.5F) / 2;
+ 
+-                if (k8 > 30) {
+-                    k8 = 30;
+-                }
++                    int j9 = k1;
+ 
+-                int j9 = k1;
++                    for (int k9 = 0; k8 > 0; k9 += 20) {
++                        int l4 = Math.min(k8, 10);
++                        k8 -= l4;
+ 
+-                for (int k9 = 0; k8 > 0; k9 += 20) {
+-                    int l4 = Math.min(k8, 10);
+-                    k8 -= l4;
++                        for (int i5 = 0; i5 < l4; ++i5) {
++                            int j5 = 52;
++                            int k5 = 0;
+ 
+-                    for (int i5 = 0; i5 < l4; ++i5) {
+-                        int j5 = 52;
+-                        int k5 = 0;
++                            if (flag1) {
++                                k5 = 1;
++                            }
+ 
+-                        if (flag1) {
+-                            k5 = 1;
+-                        }
++                            int l5 = j1 - i5 * 8 - 9;
++                            this.drawTexturedModalRect(l5, j9, j5 + k5 * 9, 9, 9, 9);
+ 
+-                        int l5 = j1 - i5 * 8 - 9;
+-                        this.drawTexturedModalRect(l5, j9, j5 + k5 * 9, 9, 9, 9);
++                            if (i5 * 2 + 1 + k9 < j7) {
++                                this.drawTexturedModalRect(l5, j9, j5 + 36, 9, 9, 9);
++                            }
+ 
+-                        if (i5 * 2 + 1 + k9 < j7) {
+-                            this.drawTexturedModalRect(l5, j9, j5 + 36, 9, 9, 9);
++                            if (i5 * 2 + 1 + k9 == j7) {
++                                this.drawTexturedModalRect(l5, j9, j5 + 45, 9, 9, 9);
++                            }
+                         }
+ 
+-                        if (i5 * 2 + 1 + k9 == j7) {
+-                            this.drawTexturedModalRect(l5, j9, j5 + 45, 9, 9, 9);
+-                        }
++                        j9 -= 10;
+                     }
+-
+-                    j9 -= 10;
+                 }
+             }
+ 
+@@ -754,26 +749,41 @@
+      * Renders dragon's (boss) health on the HUD
+      */
+     private void renderBossHealth() {
+-        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
++        // Hyperium
++        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0 && Settings.BOSSBAR_ALL) {
+             --BossStatus.statusBarTime;
+-            FontRenderer fontrenderer = this.mc.fontRendererObj;
+-            ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+-            int i = scaledresolution.getScaledWidth();
+-            int j = 182;
+-            int k = i / 2 - j / 2;
+-            int l = (int)(BossStatus.healthScale * (float)(j + 1));
+-            int i1 = 12;
+-            this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
+-            this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
+ 
+-            if (l > 0) {
+-                this.drawTexturedModalRect(k, i1, 0, 79, l, 5);
++            FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
++            ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
++            double scaledWidth = resolution.getScaledWidth();
++            double scaledHeight = resolution.getScaledHeight();
++
++            String bossName = BossStatus.bossName;
++
++            if (Settings.BOSSBAR_TEXT) {
++                GlStateManager.pushMatrix();
++                GlStateManager.translate(scaledWidth * Settings.BOSSBAR_X, scaledHeight * Settings.BOSSBAR_Y - (10D * Settings.BOSSBAR_SCALE), 0);
++                GlStateManager.scale(Settings.BOSSBAR_SCALE, Settings.BOSSBAR_SCALE, Settings.BOSSBAR_SCALE);
++                GlStateManager.translate(-fontRenderer.getStringWidth(bossName) / 2F , 0, 0);
++                fontRenderer.drawStringWithShadow(bossName, 0, 0, -1);
++                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
++                Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
++                GlStateManager.popMatrix();
+             }
+ 
+-            String s = BossStatus.bossName;
+-            this.getFontRenderer().drawStringWithShadow(s, (float)(i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float)(i1 - 10), 16777215);
+-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+-            this.mc.getTextureManager().bindTexture(icons);
++            int widthLocation = 182;
++
++            if (Settings.BOSSBAR_BAR) {
++                int healthScale = (int) (BossStatus.healthScale * (float) (widthLocation + 1) * Settings.BOSSBAR_SCALE);
++
++                GlStateManager.pushMatrix();
++                GlStateManager.translate(Settings.BOSSBAR_X * scaledWidth - widthLocation / 2F * Settings.BOSSBAR_SCALE, Settings.BOSSBAR_Y * scaledHeight , 0);
++                GlStateManager.scale(Settings.BOSSBAR_SCALE, Settings.BOSSBAR_SCALE, Settings.BOSSBAR_SCALE);
++
++                drawTexturedModalRect(0, 0, 0, 74, widthLocation, 5);
++                if (healthScale > 0) drawTexturedModalRect(0, 0, 0, 79, widthLocation, 5);
++                GlStateManager.popMatrix();
++            }
+         }
+     }
+ 
+@@ -946,6 +956,8 @@
+     }
+ 
+     public void displayTitle(String title, String subTitle, int timeFadeIn, int displayTime, int timeFadeOut) {
++        if (Settings.HIDE_TITLES) return; // Hyperium
++
+         if (title == null && subTitle == null && timeFadeIn < 0 && displayTime < 0 && timeFadeOut < 0) {
+             this.displayedTitle = "";
+             this.displayedSubTitle = "";

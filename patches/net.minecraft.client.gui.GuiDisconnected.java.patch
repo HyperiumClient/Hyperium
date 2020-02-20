@@ -1,0 +1,22 @@
+--- original/net/minecraft/client/gui/GuiDisconnected.java
++++ changed/net/minecraft/client/gui/GuiDisconnected.java
+@@ -2,6 +2,9 @@
+ 
+ import java.io.IOException;
+ import java.util.List;
++
++import cc.hyperium.event.EventBus;
++import cc.hyperium.event.network.server.ServerLeaveEvent;
+ import net.minecraft.client.resources.I18n;
+ import net.minecraft.util.IChatComponent;
+ import net.minecraftforge.fml.relauncher.Side;
+@@ -19,6 +22,9 @@
+         this.parentScreen = screen;
+         this.reason = I18n.format(reasonLocalizationKey, new Object[0]);
+         this.message = chatComp;
++
++        // Hyperium
++        EventBus.INSTANCE.post(new ServerLeaveEvent());
+     }
+ 
+     /**

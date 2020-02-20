@@ -1,0 +1,26 @@
+--- original/net/minecraft/client/gui/GuiScreenBook.java
++++ changed/net/minecraft/client/gui/GuiScreenBook.java
+@@ -540,4 +540,23 @@
+                 }
+             }
+         }
++
++    // Hyperium start
++    public int getCurrPage() {
++        return currPage;
++    }
++
++    public void setCurrPage(int currPage) {
++        this.currPage = currPage;
++    }
++
++    public NBTTagList getBookPages() {
++        return bookPages;
++    }
++
++    public void setBookPages(NBTTagList bookPages) {
++        this.bookPages = bookPages;
++    }
++
++    // Hyperium end
+ }

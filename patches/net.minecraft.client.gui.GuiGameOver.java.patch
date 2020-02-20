@@ -1,0 +1,11 @@
+--- original/net/minecraft/client/gui/GuiGameOver.java
++++ changed/net/minecraft/client/gui/GuiGameOver.java
+@@ -19,6 +19,8 @@
+      * resizes, the buttonList is cleared beforehand.
+      */
+     public void initGui() {
++        // Hyperium
++        enableButtonsTimer = 0;
+         this.buttonList.clear();
+ 
+         if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {

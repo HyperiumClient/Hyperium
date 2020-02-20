@@ -1,0 +1,83 @@
+--- original/net/minecraft/client/gui/GuiScreenResourcePacks.java
++++ changed/net/minecraft/client/gui/GuiScreenResourcePacks.java
+@@ -1,5 +1,6 @@
+ package net.minecraft.client.gui;
+ 
++import cc.hyperium.gui.resource.ResourcePackUtil;
+ import com.google.common.collect.Lists;
+ import java.io.File;
+ import java.io.IOException;
+@@ -30,6 +31,9 @@
+     private GuiResourcePackSelected selectedResourcePacksList;
+     private boolean changed = false;
+ 
++    // Hyperium
++    private GuiTextField textField;
++
+     public GuiScreenResourcePacks(GuiScreen parentScreenIn) {
+         this.parentScreen = parentScreenIn;
+     }
+@@ -39,6 +43,12 @@
+      * resizes, the buttonList is cleared beforehand.
+      */
+     public void initGui() {
++        // Hyperium start
++        String s1 = textField == null ? "" : textField.getText();
++        textField = new GuiTextField(3, fontRendererObj, width / 2 - 4 - 200, height - 24, 200, 20);
++        textField.setText(s1);
++        // Hyperium end
++
+         this.buttonList.add(new GuiOptionButton(2, this.width / 2 - 154, this.height - 48, I18n.format("resourcePack.openFolder", new Object[0])));
+         this.buttonList.add(new GuiOptionButton(1, this.width / 2 + 4, this.height - 48, I18n.format("gui.done", new Object[0])));
+ 
+@@ -67,6 +77,14 @@
+         this.selectedResourcePacksList = new GuiResourcePackSelected(this.mc, 200, this.height, this.selectedResourcePacks);
+         this.selectedResourcePacksList.setSlotXBoundsFromLeft(this.width / 2 + 4);
+         this.selectedResourcePacksList.registerScrollButtons(7, 8);
++
++        // Hyperium
++        for (GuiButton b : buttonList) {
++            b.setWidth(200);
++            if (b.id == 2) {
++                b.xPosition = width / 2 - 204;
++            }
++        }
+     }
+ 
+     /**
+@@ -176,6 +194,9 @@
+         super.mouseClicked(mouseX, mouseY, mouseButton);
+         this.availableResourcePacksList.mouseClicked(mouseX, mouseY, mouseButton);
+         this.selectedResourcePacksList.mouseClicked(mouseX, mouseY, mouseButton);
++
++        // Hyperium
++        if (textField != null) textField.mouseClicked(mouseX, mouseY, mouseButton);
+     }
+ 
+     /**
+@@ -193,8 +214,11 @@
+         this.availableResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
+         this.selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
+         this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.title", new Object[0]), this.width / 2, 16, 16777215);
+-        this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.folderInfo", new Object[0]), this.width / 2 - 77, this.height - 26, 8421504);
++        // Hyperium - don't render folder info
+         super.drawScreen(mouseX, mouseY, partialTicks);
++
++        // Hyperium
++        textField.drawTextBox();
+     }
+ 
+     /**
+@@ -203,4 +227,12 @@
+     public void markChanged() {
+         this.changed = true;
+     }
++
++    // Hyperium
++    @Override
++    protected void keyTyped(char typedChar, int keyCode) throws IOException {
++        super.keyTyped(typedChar, keyCode);
++        if (textField.isFocused()) textField.textboxKeyTyped(typedChar, keyCode);
++        availableResourcePacksList = ResourcePackUtil.updateList(textField, availableResourcePacksList, availableResourcePacks, mc, width, height);
++    }
+ }
