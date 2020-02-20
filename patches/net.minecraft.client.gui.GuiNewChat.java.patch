@@ -1,8 +1,9 @@
 --- original/net/minecraft/client/gui/GuiNewChat.java
 +++ changed/net/minecraft/client/gui/GuiNewChat.java
-@@ -1,14 +1,10 @@
+@@ -1,14 +1,11 @@
  package net.minecraft.client.gui;
  
++import cc.hyperium.Hyperium;
 +import cc.hyperium.config.Settings;
 +import cc.hyperium.event.EventBus;
 +import cc.hyperium.event.network.chat.ChatEvent;
@@ -18,7 +19,7 @@
  import net.minecraft.client.renderer.GlStateManager;
  import net.minecraft.entity.player.EntityPlayer;
  import net.minecraft.util.ChatComponentText;
-@@ -19,6 +15,11 @@
+@@ -19,6 +16,11 @@
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
@@ -30,7 +31,7 @@
  @SideOnly(Side.CLIENT)
  public class GuiNewChat extends Gui {
     private static final Logger logger = LogManager.getLogger();
-@@ -28,12 +29,49 @@
+@@ -28,12 +30,49 @@
     private final List<ChatLine> drawnChatLines = Lists.<ChatLine>newArrayList();
     private int scrollPos;
     private boolean isScrolled;
@@ -43,7 +44,7 @@
  
     public GuiNewChat(Minecraft mcIn) {
        this.mc = mcIn;
-+      int fifth = ticksLeft / 10;
++      int fifth = 0;
 +      lowerThreshold = fifth;
 +      topThreshold = ticksLeft - fifth;
     }
@@ -59,7 +60,7 @@
 +//              0.0f,
 +//              1.0f
 +//      );
-+      if (percentComplete < 1) percentComplete += 0.009f * diff;
++      if (percentComplete < 1) percentComplete += 0.007f * diff;
 +      percentComplete = clamp(percentComplete, 0, 1);
 +      //percentComplete = percentComplete*(2-percentComplete);
 +   }
@@ -80,7 +81,7 @@
        if(this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN) {
           int i = this.getLineCount();
           boolean flag = false;
-@@ -71,10 +109,27 @@
+@@ -71,10 +110,28 @@
                       if(l1 > 3) {
                          int i2 = 0;
                          int j2 = -i1 * 9;
@@ -89,9 +90,10 @@
 +                           if (Settings.SMOOTH_CHAT) {
 +                              if (ticksLeft > lowerThreshold && i1 < newLines) {
 +                                 float thing = percent * (-i1 * 9 - (j2 - 9));
-+                                 drawRect(i2, (int) (-i1 * 9 - thing), i2 + l + 4, (int) (thing), (int) ((l1 / 2) * percent) << 24);
-+                              } else
-+                                 drawRect(i2, ticksLeft > lowerThreshold ? (int) ((j2 - 9) + 9 - percent * 9) : j2 - 9, i2 + l + 4, ticksLeft > lowerThreshold ? (int) ((j2) + 9 - percent * 9) : j2, l1 / 2 << 24);
++                                 drawRect(i2, (int) (-i1 * 9 - thing), i2 + l + 4, (int) (thing), ((int) (l1*percent / 2) << 24));
++                              } else {
++                                 drawRect(i2, ticksLeft > lowerThreshold ? (int) ((j2 - 9) + 9 - percent * 9) : j2 - 9, i2 + l + 4, ticksLeft > lowerThreshold ? (int) ((j2) + 9 - percent * 9) : j2, ((int) (l1*percent / 2) << 24));
++                              }
 +                           }
 +                           else drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
 +                        }
@@ -110,7 +112,7 @@
                          GlStateManager.disableAlpha();
                          GlStateManager.disableBlend();
                       }
-@@ -112,6 +167,17 @@
+@@ -112,6 +169,17 @@
     }
  
     public void printChatMessage(IChatComponent chatComponent) {
@@ -128,7 +130,7 @@
        this.printChatMessageWithOptionalDeletion(chatComponent, 0);
     }
  
-@@ -119,6 +185,8 @@
+@@ -119,6 +187,8 @@
      * prints the ChatComponent to Chat. If the ID is not 0, deletes an existing Chat Line of that ID from the GUI
      */
     public void printChatMessageWithOptionalDeletion(IChatComponent chatComponent, int chatLineId) {
@@ -137,7 +139,7 @@
        this.setChatLine(chatComponent, chatLineId, this.mc.ingameGUI.getUpdateCounter(), false);
        logger.info("[CHAT] " + chatComponent.getUnformattedText());
     }
-@@ -131,6 +199,7 @@
+@@ -131,6 +201,7 @@
        int i = MathHelper.floor_float((float)this.getChatWidth() / this.getChatScale());
        List<IChatComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, this.mc.fontRendererObj, false, false);
        boolean flag = this.getChatOpen();
@@ -145,7 +147,7 @@
  
        for(IChatComponent ichatcomponent : list) {
           if(flag && this.scrollPos > 0) {
-@@ -141,14 +210,14 @@
+@@ -141,14 +212,14 @@
           this.drawnChatLines.add(0, new ChatLine(updateCounter, ichatcomponent, chatLineId));
        }
  
@@ -162,7 +164,7 @@
              this.chatLines.remove(this.chatLines.size() - 1);
           }
        }
-@@ -318,4 +387,12 @@
+@@ -318,4 +389,12 @@
     public int getLineCount() {
        return this.getChatHeight() / 9;
     }
