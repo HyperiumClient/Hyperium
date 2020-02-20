@@ -79,19 +79,11 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 
 #### Step 3 - Decompiling
 - Open the Gradle tab on the right hand side of IntelliJ, if it's not there, click 'View', 'Tool Windows', then 'Gradle'.
-- In the Gradle tab, expand `Tasks`, `mcgradle`, and run `setup`.
+- In the Gradle tab, expand `Tasks`, `mcgradle`, and run `setupDevWorkspace`.
 
 #### Step 4 - Creating a profile
-- Open the run configuration in the top right of IntelliJ, next to the green 'Run' button, click 'Edit Configurations'.
-- Click the plus button in the top left, select 'Application', name it to 'Minecraft Client', set 'Main Class' to `tk.amplifiable.mcgradle.Start`
-- Expand "Application", select 'Minecraft Client', change 'Use classpath of module' to 'Hyperium.generated.main'.
-- Click the plus above the hammer saying 'Build', select 'Run Gradle Task', click the Folder icon, select 'Hyperium',
-and type 'genProperties', select the one that comes up, click 'Ok', then press the up arrow beside the pencil icon.
-- Make sure genProperties task is above the 'Build' task.
-- In 'Program Arguments', add `--tweakClass cc.hyperium.launch.HyperiumTweaker`.
-- Append `\run` to the end of the working directory.
-- Press 'Apply' then 'Ok'.
-- Once you've finished all of that, click the green 'Run' button beside the application.
+- Open the Gradle tab on the right hand side of IntelliJ, if it's not there, click 'View', 'Tool Windows', then 'Gradle'.
+- In the Gradle tab, expand `Tasks`, `mcgradle`, and run `genRunConfigs`.
 
 #### Notes
 ##### Logging into Minecraft
