@@ -9,24 +9,22 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.resources.I18n;
  import net.minecraft.client.settings.GameSettings;
-@@ -47,6 +49,10 @@
+@@ -47,6 +49,9 @@
  
              ++i;
          }
 +
-+        // Hyperium
 +        buttonList.add(new GuiButton(10, buttonList.get(1).xPosition, buttonList.get(3).yPosition + 24,
-+                +              150, 20, "Hyperium Keybinds"));
++                150, 20, "Hyperium Keybinds"));
      }
  
      /**
-@@ -73,6 +79,9 @@
+@@ -73,6 +78,8 @@
              this.options.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
              button.displayString = this.options.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
          }
 +
-+        // Hyperium
-+        if (button.id == 10) Minecraft.getMinecraft().displayGuiScreen(new GuiKeybinds());
++        if (button.id == 10) Minecraft.getMinecraft().displayGuiScreen(new GuiKeybinds()); // Hyperium
      }
  
      /**

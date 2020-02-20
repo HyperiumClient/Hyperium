@@ -2,14 +2,14 @@
 +++ changed/net/minecraft/block/BlockBeacon.java
 @@ -101,8 +101,8 @@
      }
-
+ 
      public static void updateColorAsync(final World worldIn, final BlockPos glassPos) {
 -        HttpUtil.field_180193_a.submit(new Runnable() {
 -            public void run() {
 +        /*HttpUtil.field_180193_a.submit(new Runnable() {
 +            public void run() {*/
                  Chunk chunk = worldIn.getChunkFromBlockCoords(glassPos);
-
+ 
                  for (int i = glassPos.getY() - 1; i >= 0; --i) {
 @@ -128,6 +128,6 @@
                      }
