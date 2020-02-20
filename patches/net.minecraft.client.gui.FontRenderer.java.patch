@@ -1,0 +1,29 @@
+--- original/net/minecraft/client/gui/FontRenderer.java
++++ changed/net/minecraft/client/gui/FontRenderer.java
+@@ -1,5 +1,7 @@
+ package net.minecraft.client.gui;
+ 
++import cc.hyperium.config.Settings;
++import cc.hyperium.mods.nickhider.NickHider;
+ import com.ibm.icu.text.ArabicShaping;
+ import com.ibm.icu.text.ArabicShapingException;
+ import com.ibm.icu.text.Bidi;
+@@ -461,6 +463,9 @@
+      * Render single line string by setting GL color, current (posX,posY), and calling renderStringAtPos()
+      */
+     private int renderString(String text, float x, float y, int color, boolean dropShadow) {
++        // Hyperium
++        text = NickHider.instance == null ? text : NickHider.instance.apply(text);
++        if (dropShadow && Settings.DISABLE_SHADOW_TEXT) return 0;
+         if (text == null) {
+             return 0;
+         } else {
+@@ -492,6 +497,8 @@
+      * Returns the width of this string. Equivalent of FontMetrics.stringWidth(String s).
+      */
+     public int getStringWidth(String text) {
++        // Hyperium
++        text = NickHider.instance == null ? text : NickHider.instance.apply(text);
+         if (text == null) {
+             return 0;
+         } else {
