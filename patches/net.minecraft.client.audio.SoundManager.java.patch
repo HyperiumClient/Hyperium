@@ -1,0 +1,81 @@
+--- original/net/minecraft/client/audio/SoundManager.java
++++ changed/net/minecraft/client/audio/SoundManager.java
+@@ -1,5 +1,8 @@
+ package net.minecraft.client.audio;
+ 
++import cc.hyperium.config.Settings;
++import cc.hyperium.event.EventBus;
++import cc.hyperium.event.world.audio.SoundPlayEvent;
+ import com.google.common.collect.BiMap;
+ import com.google.common.collect.HashBiMap;
+ import com.google.common.collect.HashMultimap;
+@@ -17,6 +20,8 @@
+ import java.util.List;
+ import java.util.Map;
+ import java.util.Map.Entry;
++import java.util.concurrent.locks.ReentrantLock;
++
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.settings.GameSettings;
+ import net.minecraft.entity.player.EntityPlayer;
+@@ -28,6 +33,7 @@
+ import org.apache.logging.log4j.Logger;
+ import org.apache.logging.log4j.Marker;
+ import org.apache.logging.log4j.MarkerManager;
++import org.lwjgl.opengl.Display;
+ import paulscode.sound.SoundSystem;
+ import paulscode.sound.SoundSystemConfig;
+ import paulscode.sound.SoundSystemException;
+@@ -168,6 +174,8 @@
+      * Stops all currently playing sounds
+      */
+     public void stopAllSounds() {
++        // Hyperium - lock the entry
++        lock.lock();
+         if (this.loaded) {
+             for (String s : this.playingSounds.keySet()) {
+                 this.sndSystem.stop(s);
+@@ -180,9 +188,13 @@
+             this.playingSoundPoolEntries.clear();
+             this.playingSoundsStopTime.clear();
+         }
++        // Hyperium - unlock the entry
++        lock.unlock();
+     }
+ 
+     public void updateAllSounds() {
++        // Hyperium - lock the entry
++        lock.lock();
+         ++this.playTime;
+ 
+         for (ITickableSound itickablesound : this.tickableSounds) {
+@@ -250,6 +262,8 @@
+                 iterator1.remove();
+             }
+         }
++        // Hyperium - unlock the entry
++        lock.unlock();
+     }
+ 
+     /**
+@@ -274,11 +288,20 @@
+         }
+     }
+ 
++    // Hyperium
++    private ReentrantLock lock = new ReentrantLock();
++
+     public void playSound(ISound p_sound) {
+         if (this.loaded) {
+             if (this.sndSystem.getMasterVolume() <= 0.0F) {
+                 logger.debug(LOG_MARKER, "Skipped playing soundEvent: {}, master volume was zero", new Object[] {p_sound.getSoundLocation()});
+             } else {
++                // Hyperium - smart sounds and sound event
++                if (Settings.SMART_SOUNDS && !Display.isActive()) return;
++                SoundPlayEvent e = new SoundPlayEvent(p_sound);
++                EventBus.INSTANCE.post(e);
++                if (e.isCancelled()) return;
++
+                 SoundEventAccessorComposite soundeventaccessorcomposite = this.sndHandler.getSound(p_sound.getSoundLocation());
+ 
+                 if (soundeventaccessorcomposite == null) {
