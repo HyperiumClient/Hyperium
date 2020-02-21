@@ -10,7 +10,7 @@ notifications:
 before_install:
   - chmod +x gradlew
   - ./gradlew wrapper --gradle-version 5.6.2
-  - ./gradlew setup
+  - ./gradlew setupCIWorkspace
   - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_DIR/src/main/resources/build.txt
 after_success:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
@@ -20,8 +20,6 @@ after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh failure $WEBHOOK_URL
-script:
-  - ./gradlew distrib
 before_deploy:
   - git config --local user.name "HyperiumDeploy"
   - git config --local user.email "hyperiumclient@gmail.com"
