@@ -34,13 +34,13 @@
      public GuiNewChat(Minecraft mcIn) {
          this.mc = mcIn;
 +        // hyperium
-+        int fifth = ticksLeft / 10;
++        int fifth = 0;
 +        lowerThreshold = fifth;
 +        topThreshold = ticksLeft - fifth;
      }
 +    // hyperium
 +    public static void updatePercentage(long diff) {
-+        if (percentComplete < 1) percentComplete += 0.007f * diff;
++        if (percentComplete < 1) percentComplete += 0.006f * diff;
 +        percentComplete = clamp(percentComplete, 0, 1);
 +    }
  
@@ -69,11 +69,11 @@
 +                                // Hyperium
 +                                if (!Settings.FASTCHAT) {
 +                                    if (Settings.SMOOTH_CHAT) {
-+                                        if (ticksLeft < lowerThreshold && i1 < newLines) {
++                                        if (i1 <= newLines) {
 +                                            float thing = percent * (-i1 * 9 - (j2 - 9));
-+                                            drawRect(i2, (int) (-i1 * 9 - thing), i2 + l + 4, (int) (thing), (int) ((l1 / 2) * percent) << 24);
++                                            drawRect(i2, ticksLeft > lowerThreshold ? (int) ((j2 - 9) + 9 - percent * 9) : j2 - 9, i2 + l + 4, ticksLeft > lowerThreshold ? (int) ((j2) + 9 - percent * 9) : j2, ((int) (l1*percent / 2) << 24));
 +                                        } else {
-+                                            drawRect(i2, ticksLeft > lowerThreshold ? (int) ((j2 - 9) + 9 - percent * 9) : j2 - 9, i2 + l + 4, ticksLeft > lowerThreshold ? (int) ((j2) + 9 - percent * 9) : j2, l1 / 2 << 24);
++                                            drawRect(i2, ticksLeft > lowerThreshold ? (int) ((j2 - 9) + 9 - percent * 9) : j2 - 9, i2 + l + 4, ticksLeft > lowerThreshold ? (int) ((j2) + 9 - percent * 9) : j2, ((int) (l1 / 2) << 24));
 +                                        }
 +                                    } else {
 +                                        drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
@@ -84,7 +84,7 @@
 -                                this.mc.fontRendererObj.drawStringWithShadow(s, (float)i2, (float)(j2 - 8), 16777215 + (l1 << 24));
 +                                // Hyperium
 +                                if (Settings.SMOOTH_CHAT) {
-+                                    if (ticksLeft > lowerThreshold && i1 <= newLines) {
++                                    if (i1 <= newLines) {
 +                                        this.mc.fontRendererObj.drawStringWithShadow(s, 0, -i1 * 9 - percent * (-i1 * 9 - (j2 - 8)), 16777215 + ((int) (255 * percent) << 24));
 +                                    } else {
 +                                        this.mc.fontRendererObj.drawStringWithShadow(s, (float) i2, ticksLeft > lowerThreshold ? (j2 - 8) + 9 - percent * 9 : j2 - 8, 16777215 + (l1 << 24));
