@@ -8,32 +8,33 @@
  import net.minecraft.command.CommandResultStats;
  import net.minecraft.command.ICommandSender;
  import net.minecraft.crash.CrashReport;
-@@ -2108,14 +2109,24 @@
-       return true;
-    }
+@@ -2145,14 +2146,25 @@
+         return true;
+     }
  
-+   private long nameCacheTime = System.currentTimeMillis();
-+   private IChatComponent cachedName;
++    private long nameCacheTime = System.currentTimeMillis();
++    private IChatComponent cachedName;
 +
-    /**
-     * Get the formatted ChatComponent that will be used for the sender's username in chat
-     */
-    public IChatComponent getDisplayName() {
--      ChatComponentText chatcomponenttext = new ChatComponentText(this.getName());
--      chatcomponenttext.getChatStyle().setChatHoverEvent(this.getHoverEvent());
--      chatcomponenttext.getChatStyle().setInsertion(this.getUniqueID().toString());
--      return chatcomponenttext;
-+      if (cachedName == null || System.currentTimeMillis() - nameCacheTime > 50L) {
-+         ChatComponentText chatcomponenttext = new ChatComponentText(getName());
-+         //not needed otherwise
-+         if (Minecraft.getMinecraft().isIntegratedServerRunning())
-+            chatcomponenttext.getChatStyle().setChatHoverEvent(getHoverEvent());
-+         chatcomponenttext.getChatStyle().setInsertion(getUniqueID().toString());
-+         cachedName = chatcomponenttext;
-+         nameCacheTime = System.currentTimeMillis();
-+      }
+     /**
+      * Get the formatted ChatComponent that will be used for the sender's username in chat
+      */
+     public IChatComponent getDisplayName() {
+-        ChatComponentText chatcomponenttext = new ChatComponentText(this.getName());
+-        chatcomponenttext.getChatStyle().setChatHoverEvent(this.getHoverEvent());
+-        chatcomponenttext.getChatStyle().setInsertion(this.getUniqueID().toString());
+-        return chatcomponenttext;
++        if (cachedName == null || System.currentTimeMillis() - nameCacheTime > 50L) {
++            ChatComponentText chatcomponenttext = new ChatComponentText(getName());
++            //not needed otherwise
 +
-+      return cachedName;
-    }
++            if (Minecraft.getMinecraft().isIntegratedServerRunning())
++                chatcomponenttext.getChatStyle().setChatHoverEvent(getHoverEvent());
++            chatcomponenttext.getChatStyle().setInsertion(getUniqueID().toString());
++            cachedName = chatcomponenttext;
++            nameCacheTime = System.currentTimeMillis();
++        }
++
++        return cachedName;
+     }
  
-    /**
+     /**

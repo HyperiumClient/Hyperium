@@ -46,7 +46,7 @@ public abstract class AbstractCosmetic {
         this.purchaseType = purchaseType;
         try {
             PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
-                if (hyperiumPurchase == null && !Hyperium.INSTANCE.isDevEnv) {
+                if (hyperiumPurchase == null && !Hyperium.INSTANCE.isDevEnv()) {
                     Hyperium.LOGGER.error("Detected {} is null!", purchaseType.toString().toLowerCase(Locale.ENGLISH));
                     return;
                 }

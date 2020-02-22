@@ -24,7 +24,7 @@
  import java.util.Arrays;
  import java.util.List;
  import java.util.Set;
-@@ -43,6 +54,7 @@
+@@ -37,6 +48,7 @@
  import net.minecraft.util.ChatComponentTranslation;
  import net.minecraft.util.EnumChatFormatting;
  import net.minecraft.util.IChatComponent;
@@ -32,308 +32,314 @@
  import net.minecraftforge.fml.relauncher.Side;
  import net.minecraftforge.fml.relauncher.SideOnly;
  import org.apache.commons.lang3.StringUtils;
-@@ -82,6 +94,7 @@
-     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
-     */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-+      EventBus.INSTANCE.post(new GuiDrawScreenEvent(this, mouseX, mouseY, partialTicks));
-       for(int i = 0; i < this.buttonList.size(); ++i) {
-          ((GuiButton)this.buttonList.get(i)).drawButton(this.mc, mouseX, mouseY);
-       }
-@@ -97,6 +110,7 @@
-     * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
-     */
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
-+      EventBus.INSTANCE.post(new GuiKeyTypedEvent(this, typedChar, keyCode));
-       if(keyCode == 1) {
-          this.mc.displayGuiScreen((GuiScreen)null);
-          if(this.mc.currentScreen == null) {
-@@ -159,70 +173,154 @@
-       this.drawHoveringText(Arrays.<String>asList(new String[]{tabName}), mouseX, mouseY);
-    }
+@@ -76,6 +88,7 @@
+      * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+      */
+     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
++        EventBus.INSTANCE.post(new GuiDrawScreenEvent(this, mouseX, mouseY, partialTicks));
+         for (int i = 0; i < this.buttonList.size(); ++i) {
+             ((GuiButton)this.buttonList.get(i)).drawButton(this.mc, mouseX, mouseY);
+         }
+@@ -90,6 +103,8 @@
+      * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
+      */
+     protected void keyTyped(char typedChar, int keyCode) throws IOException {
++        EventBus.INSTANCE.post(new GuiKeyTypedEvent(this, typedChar, keyCode));
++
+         if (keyCode == 1) {
+             this.mc.displayGuiScreen((GuiScreen)null);
  
-+   private int scrollX, scrollY;
-+   private boolean allowScrolling;
-+
-    /**
-     * Draws a List of strings as a tooltip. Every entry is drawn on a seperate line.
-     */
-    protected void drawHoveringText(List<String> textLines, int x, int y) {
--      if(!textLines.isEmpty()) {
-+      drawScrollableHoveringText(textLines, x, y, width, height, -1, fontRendererObj);
-+   }
-+
-+   private void drawScrollableHoveringText(List<String> textLines, int mouseX, int mouseY, int screenWidth, int screenHeight, int maxTextWidth, FontRenderer font) {
-+      if (!textLines.isEmpty()) {
-+         if (!allowScrolling) {
-+            scrollX = 0;
-+            scrollY = 0;
-+         }
-+
-          GlStateManager.disableRescaleNormal();
-          RenderHelper.disableStandardItemLighting();
-          GlStateManager.disableLighting();
-          GlStateManager.disableDepth();
--         int i = 0;
-+         int tooltipTextWidth = 0;
+@@ -152,73 +167,159 @@
+         this.drawHoveringText(Arrays.<String>asList(new String[] {tabName}), mouseX, mouseY);
+     }
  
--         for(String s : textLines) {
--            int j = this.fontRendererObj.getStringWidth(s);
--            if(j > i) {
--               i = j;
-+         for (String textLine : textLines) {
-+            int textLineWidth = font.getStringWidth(textLine);
++    private int scrollX, scrollY;
++    private boolean allowScrolling;
 +
-+            if (textLineWidth > tooltipTextWidth) {
-+               tooltipTextWidth = textLineWidth;
+     /**
+      * Draws a List of strings as a tooltip. Every entry is drawn on a seperate line.
+      */
+     protected void drawHoveringText(List<String> textLines, int x, int y) {
++        drawScrollableHoveringText(textLines, x, y, width, height, -1, fontRendererObj);
++    }
++
++    private void drawScrollableHoveringText(List<String> textLines, int mouseX, int mouseY, int screenWidth, int screenHeight, int maxTextWidth, FontRenderer font) {
+         if (!textLines.isEmpty()) {
++            if (!allowScrolling) {
++                scrollX = 0;
++                scrollY = 0;
++            }
++
+             GlStateManager.disableRescaleNormal();
+             RenderHelper.disableStandardItemLighting();
+             GlStateManager.disableLighting();
+             GlStateManager.disableDepth();
+-            int i = 0;
++            int tooltipTextWidth = 0;
+ 
+-            for (String s : textLines) {
+-                int j = this.fontRendererObj.getStringWidth(s);
++            for (String textLine : textLines) {
++                int textLineWidth = font.getStringWidth(textLine);
+ 
+-                if (j > i) {
+-                    i = j;
++                if (textLineWidth > tooltipTextWidth) {
++                    tooltipTextWidth = textLineWidth;
+                 }
              }
-          }
  
--         int l1 = x + 12;
--         int i2 = y - 12;
--         int k = 8;
--         if(textLines.size() > 1) {
--            k += 2 + (textLines.size() - 1) * 10;
-+         boolean needsWrap = false;
-+
-+         int titleLinesCount = 1;
-+         int tooltipX = mouseX + 12;
-+         if (tooltipX + tooltipTextWidth + 4 > screenWidth) {
-+            tooltipX = mouseX - 16 - tooltipTextWidth;
-+            if (tooltipX < 4) { // if the tooltip doesn't fit on the screen
-+               tooltipTextWidth = mouseX > screenWidth / 2 ? mouseX - 12 - 8 : screenWidth - 16 - mouseX;
-+               needsWrap = true;
-+            }
-          }
+-            int l1 = x + 12;
+-            int i2 = y - 12;
+-            int k = 8;
++            boolean needsWrap = false;
  
--         if(l1 + i > this.width) {
--            l1 -= 28 + i;
-+         if (maxTextWidth > 0 && tooltipTextWidth > maxTextWidth) {
-+            tooltipTextWidth = maxTextWidth;
-+            needsWrap = true;
-          }
- 
--         if(i2 + k + 6 > this.height) {
--            i2 = this.height - k - 6;
-+         if (needsWrap) {
-+            int wrappedTooltipWidth = 0;
-+            List<String> wrappedTextLines = new ArrayList<>();
-+            for (int i = 0; i < textLines.size(); i++) {
-+               String textLine = textLines.get(i);
-+               List<String> wrappedLine = font.listFormattedStringToWidth(textLine, tooltipTextWidth);
++            int titleLinesCount = 1;
++            int tooltipX = mouseX + 12;
 +
-+               if (i == 0) {
-+                  titleLinesCount = wrappedLine.size();
-+               }
++            if (tooltipX + tooltipTextWidth + 4 > screenWidth) {
++                tooltipX = mouseX - 16 - tooltipTextWidth;
 +
-+               for (String line : wrappedLine) {
-+                  int lineWidth = font.getStringWidth(line);
-+
-+                  if (lineWidth > wrappedTooltipWidth) {
-+                     wrappedTooltipWidth = lineWidth;
-+                  }
-+
-+                  wrappedTextLines.add(line);
-+               }
++                if (tooltipX < 4) { // if the tooltip doesn't fit on the screen
++                    tooltipTextWidth = mouseX > screenWidth / 2 ? mouseX - 12 - 8 : screenWidth - 16 - mouseX;
++                    needsWrap = true;
++                }
 +            }
 +
-+            tooltipTextWidth = wrappedTooltipWidth;
-+            textLines = wrappedTextLines;
++            if (maxTextWidth > 0 && tooltipTextWidth > maxTextWidth) {
++                tooltipTextWidth = maxTextWidth;
++                needsWrap = true;
++            }
 +
-+            tooltipX = mouseX > screenWidth / 2 ? mouseX - 16 - tooltipTextWidth : mouseX + 12;
-          }
- 
--         this.zLevel = 300.0F;
--         this.itemRender.zLevel = 300.0F;
--         int l = -267386864;
--         this.drawGradientRect(l1 - 3, i2 - 4, l1 + i + 3, i2 - 3, l, l);
--         this.drawGradientRect(l1 - 3, i2 + k + 3, l1 + i + 3, i2 + k + 4, l, l);
--         this.drawGradientRect(l1 - 3, i2 - 3, l1 + i + 3, i2 + k + 3, l, l);
--         this.drawGradientRect(l1 - 4, i2 - 3, l1 - 3, i2 + k + 3, l, l);
--         this.drawGradientRect(l1 + i + 3, i2 - 3, l1 + i + 4, i2 + k + 3, l, l);
--         int i1 = 1347420415;
--         int j1 = (i1 & 16711422) >> 1 | i1 & -16777216;
--         this.drawGradientRect(l1 - 3, i2 - 3 + 1, l1 - 3 + 1, i2 + k + 3 - 1, i1, j1);
--         this.drawGradientRect(l1 + i + 2, i2 - 3 + 1, l1 + i + 3, i2 + k + 3 - 1, i1, j1);
--         this.drawGradientRect(l1 - 3, i2 - 3, l1 + i + 3, i2 - 3 + 1, i1, i1);
--         this.drawGradientRect(l1 - 3, i2 + k + 2, l1 + i + 3, i2 + k + 3, j1, j1);
-+         int tooltipY = mouseY - 12;
-+         int tooltipHeight = 8;
- 
--         for(int k1 = 0; k1 < textLines.size(); ++k1) {
--            String s1 = (String)textLines.get(k1);
--            this.fontRendererObj.drawStringWithShadow(s1, (float)l1, (float)i2, -1);
--            if(k1 == 0) {
--               i2 += 2;
-+         if (textLines.size() > 1) {
-+            tooltipHeight += (textLines.size() - 1) * 10;
-+            if (textLines.size() > titleLinesCount) {
-+               tooltipHeight += 2; // gap between title lines and next lines
++            if (needsWrap) {
++                int wrappedTooltipWidth = 0;
++                List<String> wrappedTextLines = new ArrayList<>();
++                for (int i = 0; i < textLines.size(); i++) {
++                    String textLine = textLines.get(i);
++                    List<String> wrappedLine = font.listFormattedStringToWidth(textLine, tooltipTextWidth);
++
++                    if (i == 0) {
++                        titleLinesCount = wrappedLine.size();
++                    }
++
++                    for (String line : wrappedLine) {
++                        int lineWidth = font.getStringWidth(line);
++
++                        if (lineWidth > wrappedTooltipWidth) {
++                            wrappedTooltipWidth = lineWidth;
++                        }
++
++                        wrappedTextLines.add(line);
++                    }
++                }
++
++                tooltipTextWidth = wrappedTooltipWidth;
++                textLines = wrappedTextLines;
++
++                tooltipX = mouseX > screenWidth / 2 ? mouseX - 16 - tooltipTextWidth : mouseX + 12;
++            }
++
++            int tooltipY = mouseY - 12;
++            int tooltipHeight = 8;
++
+             if (textLines.size() > 1) {
+-                k += 2 + (textLines.size() - 1) * 10;
++                tooltipHeight += (textLines.size() - 1) * 10;
++
++                if (textLines.size() > titleLinesCount) {
++                    tooltipHeight += 2; // gap between title lines and next lines
++                }
              }
-+         }
  
--            i2 += 10;
-+         if (tooltipY + tooltipHeight + 6 > screenHeight) {
-+            tooltipY = screenHeight - tooltipHeight - 6;
-          }
+-            if (l1 + i > this.width) {
+-                l1 -= 28 + i;
++            if (tooltipY + tooltipHeight + 6 > screenHeight) {
++                tooltipY = screenHeight - tooltipHeight - 6;
+             }
  
--         this.zLevel = 0.0F;
--         this.itemRender.zLevel = 0.0F;
-+         allowScrolling = tooltipY < 0;
-+         GlStateManager.pushMatrix();
-+         if (allowScrolling) {
-+            int eventDWheel = Mouse.getDWheel();
-+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-+               if (eventDWheel < 0) {
-+                  scrollX += 10;
-+               } else if (eventDWheel > 0) {
-+                  //Scrolling to access higher stuff
-+                  scrollX -= 10;
-+               }
-+            } else {
-+               if (eventDWheel < 0) {
-+                  scrollY -= 10;
-+               } else if (eventDWheel > 0) {
-+                  //Scrolling to access higher stuff
-+                  scrollY += 10;
-+               }
-+            }
+-            if (i2 + k + 6 > this.height) {
+-                i2 = this.height - k - 6;
++            allowScrolling = tooltipY < 0;
++            GlStateManager.pushMatrix();
 +
-+            if (scrollY + tooltipY > 6) {
-+               scrollY = -tooltipY + 6;
-+            } else if (scrollY + tooltipY + tooltipHeight + 6 < screenHeight) {
-+               scrollY = screenHeight - 6 - tooltipY - tooltipHeight;
-+            }
-+         }
++            if (allowScrolling) {
++                int eventDWheel = Mouse.getDWheel();
 +
-+         GlStateManager.translate(scrollX, scrollY, 0);
-+         int zLevel = 300;
-+         int backgroundColor = 0xF0100010;
-+         GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY - 4, tooltipX + tooltipTextWidth + 3, tooltipY - 3, backgroundColor, backgroundColor);
-+         GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY + tooltipHeight + 3, tooltipX + tooltipTextWidth + 3, tooltipY + tooltipHeight + 4, backgroundColor, backgroundColor);
-+         GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY - 3, tooltipX + tooltipTextWidth + 3, tooltipY + tooltipHeight + 3, backgroundColor, backgroundColor);
-+         GuiUtils.drawGradientRect(zLevel, tooltipX - 4, tooltipY - 3, tooltipX - 3, tooltipY + tooltipHeight + 3, backgroundColor, backgroundColor);
-+         GuiUtils.drawGradientRect(zLevel, tooltipX + tooltipTextWidth + 3, tooltipY - 3, tooltipX + tooltipTextWidth + 4, tooltipY + tooltipHeight + 3, backgroundColor, backgroundColor);
-+         int borderColorStart = 0x505000FF;
-+         int borderColorEnd = (borderColorStart & 0xFEFEFE) >> 1 | borderColorStart & 0xFF000000;
-+         GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY - 3 + 1, tooltipX - 3 + 1, tooltipY + tooltipHeight + 3 - 1, borderColorStart, borderColorEnd);
-+         GuiUtils.drawGradientRect(zLevel, tooltipX + tooltipTextWidth + 2, tooltipY - 3 + 1, tooltipX + tooltipTextWidth + 3, tooltipY + tooltipHeight + 3 - 1, borderColorStart, borderColorEnd);
-+         GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY - 3, tooltipX + tooltipTextWidth + 3, tooltipY - 3 + 1, borderColorStart, borderColorStart);
-+         GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY + tooltipHeight + 2, tooltipX + tooltipTextWidth + 3, tooltipY + tooltipHeight + 3, borderColorEnd, borderColorEnd);
++                if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
++                    if (eventDWheel < 0) {
++                        scrollX += 10;
++                    } else if (eventDWheel > 0) {
++                        //Scrolling to access higher stuff
++                        scrollX -= 10;
++                    }
++                } else {
++                    if (eventDWheel < 0) {
++                        scrollY -= 10;
++                    } else if (eventDWheel > 0) {
++                        //Scrolling to access higher stuff
++                        scrollY += 10;
++                    }
++                }
 +
-+         for (int lineNumber = 0; lineNumber < textLines.size(); ++lineNumber) {
-+            String line = textLines.get(lineNumber);
-+            font.drawStringWithShadow(line, (float) tooltipX, (float) tooltipY, -1);
-+
-+            if (lineNumber + 1 == titleLinesCount) {
-+               tooltipY += 2;
-+            }
-+
-+            tooltipY += 10;
-+         }
-+
-          GlStateManager.enableLighting();
-          GlStateManager.enableDepth();
-          RenderHelper.enableStandardItemLighting();
-          GlStateManager.enableRescaleNormal();
-+         GlStateManager.popMatrix();
-       }
-    }
++                if (scrollY + tooltipY > 6) {
++                    scrollY = -tooltipY + 6;
++                } else if (scrollY + tooltipY + tooltipHeight + 6 < screenHeight) {
++                    scrollY = screenHeight - 6 - tooltipY - tooltipHeight;
++                }
+             }
  
-@@ -351,6 +449,7 @@
-             } else if(clickevent.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
-                this.setText(clickevent.getValue(), true);
-             } else if(clickevent.getAction() == ClickEvent.Action.RUN_COMMAND) {
-+               Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().runningCommand = true;
-                this.sendChatMessage(clickevent.getValue(), false);
-             } else if(clickevent.getAction() == ClickEvent.Action.TWITCH_USER_INFO) {
-                ChatUserInfo chatuserinfo = this.mc.getTwitchStream().func_152926_a(clickevent.getValue());
-@@ -378,6 +477,8 @@
-    }
+-            this.zLevel = 300.0F;
+-            this.itemRender.zLevel = 300.0F;
+-            int l = -267386864;
+-            this.drawGradientRect(l1 - 3, i2 - 4, l1 + i + 3, i2 - 3, l, l);
+-            this.drawGradientRect(l1 - 3, i2 + k + 3, l1 + i + 3, i2 + k + 4, l, l);
+-            this.drawGradientRect(l1 - 3, i2 - 3, l1 + i + 3, i2 + k + 3, l, l);
+-            this.drawGradientRect(l1 - 4, i2 - 3, l1 - 3, i2 + k + 3, l, l);
+-            this.drawGradientRect(l1 + i + 3, i2 - 3, l1 + i + 4, i2 + k + 3, l, l);
+-            int i1 = 1347420415;
+-            int j1 = (i1 & 16711422) >> 1 | i1 & -16777216;
+-            this.drawGradientRect(l1 - 3, i2 - 3 + 1, l1 - 3 + 1, i2 + k + 3 - 1, i1, j1);
+-            this.drawGradientRect(l1 + i + 2, i2 - 3 + 1, l1 + i + 3, i2 + k + 3 - 1, i1, j1);
+-            this.drawGradientRect(l1 - 3, i2 - 3, l1 + i + 3, i2 - 3 + 1, i1, i1);
+-            this.drawGradientRect(l1 - 3, i2 + k + 2, l1 + i + 3, i2 + k + 3, j1, j1);
++            GlStateManager.translate(scrollX, scrollY, 0);
++            int zLevel = 300;
++            int backgroundColor = 0xF0100010;
++            GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY - 4, tooltipX + tooltipTextWidth + 3, tooltipY - 3, backgroundColor, backgroundColor);
++            GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY + tooltipHeight + 3, tooltipX + tooltipTextWidth + 3, tooltipY + tooltipHeight + 4, backgroundColor, backgroundColor);
++            GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY - 3, tooltipX + tooltipTextWidth + 3, tooltipY + tooltipHeight + 3, backgroundColor, backgroundColor);
++            GuiUtils.drawGradientRect(zLevel, tooltipX - 4, tooltipY - 3, tooltipX - 3, tooltipY + tooltipHeight + 3, backgroundColor, backgroundColor);
++            GuiUtils.drawGradientRect(zLevel, tooltipX + tooltipTextWidth + 3, tooltipY - 3, tooltipX + tooltipTextWidth + 4, tooltipY + tooltipHeight + 3, backgroundColor, backgroundColor);
++            int borderColorStart = 0x505000FF;
++            int borderColorEnd = (borderColorStart & 0xFEFEFE) >> 1 | borderColorStart & 0xFF000000;
++            GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY - 3 + 1, tooltipX - 3 + 1, tooltipY + tooltipHeight + 3 - 1, borderColorStart, borderColorEnd);
++            GuiUtils.drawGradientRect(zLevel, tooltipX + tooltipTextWidth + 2, tooltipY - 3 + 1, tooltipX + tooltipTextWidth + 3, tooltipY + tooltipHeight + 3 - 1, borderColorStart, borderColorEnd);
++            GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY - 3, tooltipX + tooltipTextWidth + 3, tooltipY - 3 + 1, borderColorStart, borderColorStart);
++            GuiUtils.drawGradientRect(zLevel, tooltipX - 3, tooltipY + tooltipHeight + 2, tooltipX + tooltipTextWidth + 3, tooltipY + tooltipHeight + 3, borderColorEnd, borderColorEnd);
  
-    public void sendChatMessage(String msg, boolean addToChat) {
-+      TriggerType.MESSAGE_SENT.triggerAll(addToChat, msg);
+-            for (int k1 = 0; k1 < textLines.size(); ++k1) {
+-                String s1 = (String)textLines.get(k1);
+-                this.fontRendererObj.drawStringWithShadow(s1, (float)l1, (float)i2, -1);
++            for (int lineNumber = 0; lineNumber < textLines.size(); ++lineNumber) {
++                String line = textLines.get(lineNumber);
++                font.drawStringWithShadow(line, (float) tooltipX, (float) tooltipY, -1);
+ 
+-                if (k1 == 0) {
+-                    i2 += 2;
++                if (lineNumber + 1 == titleLinesCount) {
++                    tooltipY += 2;
+                 }
+ 
+-                i2 += 10;
++                tooltipY += 10;
+             }
+ 
+-            this.zLevel = 0.0F;
+-            this.itemRender.zLevel = 0.0F;
+             GlStateManager.enableLighting();
+             GlStateManager.enableDepth();
+             RenderHelper.enableStandardItemLighting();
+             GlStateManager.enableRescaleNormal();
++            GlStateManager.popMatrix();
+         }
+     }
+ 
+@@ -355,6 +456,7 @@
+                 } else if (clickevent.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
+                     this.setText(clickevent.getValue(), true);
+                 } else if (clickevent.getAction() == ClickEvent.Action.RUN_COMMAND) {
++                    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().runningCommand = true;
+                     this.sendChatMessage(clickevent.getValue(), false);
+                 } else if (clickevent.getAction() == ClickEvent.Action.TWITCH_USER_INFO) {
+                     ChatUserInfo chatuserinfo = this.mc.getTwitchStream().func_152926_a(clickevent.getValue());
+@@ -383,6 +485,8 @@
+     }
+ 
+     public void sendChatMessage(String msg, boolean addToChat) {
++        TriggerType.MESSAGE_SENT.triggerAll(addToChat, msg);
 +
-       if(addToChat) {
-          this.mc.ingameGUI.getChatGUI().addToSentMessages(msg);
-       }
-@@ -389,6 +490,12 @@
-     * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
-     */
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-+      GuiClickEvent event = new GuiClickEvent(mouseX, mouseY, mouseButton, this);
-+      EventBus.INSTANCE.post(event);
-+      if (event.isCancelled()) {
-+         return;
-+      }
+         if (addToChat) {
+             this.mc.ingameGUI.getChatGUI().addToSentMessages(msg);
+         }
+@@ -394,6 +498,13 @@
+      * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
+      */
+     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
++        GuiClickEvent event = new GuiClickEvent(mouseX, mouseY, mouseButton, this);
++        EventBus.INSTANCE.post(event);
 +
-       if(mouseButton == 0) {
-          for(int i = 0; i < this.buttonList.size(); ++i) {
-             GuiButton guibutton = (GuiButton)this.buttonList.get(i);
-@@ -424,6 +531,9 @@
-     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
-     */
-    protected void actionPerformed(GuiButton button) throws IOException {
-+      ActionPerformedEvent event = new ActionPerformedEvent(this, button);
-+      EventBus.INSTANCE.post(event);
-+      if (event.isCancelled()) return;
-    }
- 
-    /**
-@@ -455,6 +565,7 @@
-     * window resizes, the buttonList is cleared beforehand.
-     */
-    public void initGui() {
-+      EventBus.INSTANCE.post(new InitGuiEvent(this));
-    }
- 
-    /**
-@@ -508,8 +619,10 @@
-     * Handles keyboard input.
-     */
-    public void handleKeyboardInput() throws IOException {
--      if(Keyboard.getEventKeyState()) {
--         this.keyTyped(Keyboard.getEventCharacter(), Keyboard.getEventKey());
-+      char character = Keyboard.getEventCharacter();
++        if (event.isCancelled()) {
++            return;
++        }
 +
-+      if (Keyboard.getEventKey() == 0 && character >= 32 || Keyboard.getEventKeyState()) {
-+         keyTyped(character, Keyboard.getEventKey());
-       }
- 
-       this.mc.dispatchKeypresses();
-@@ -531,6 +644,8 @@
-     * Draws either a gradient over the background screen (when it exists) or a flat gradient over background.png
-     */
-    public void drawDefaultBackground() {
-+      if (mc.theWorld != null && Settings.FAST_CONTAINER) return;
+         if (mouseButton == 0) {
+             for (int i = 0; i < this.buttonList.size(); ++i) {
+                 GuiButton guibutton = (GuiButton)this.buttonList.get(i);
+@@ -428,6 +539,10 @@
+      * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+      */
+     protected void actionPerformed(GuiButton button) throws IOException {
++        ActionPerformedEvent event = new ActionPerformedEvent(this, button);
++        EventBus.INSTANCE.post(event);
 +
-       this.drawWorldBackground(0);
-    }
++        if (event.isCancelled()) return;
+     }
  
-@@ -551,8 +666,6 @@
-       GlStateManager.disableFog();
-       Tessellator tessellator = Tessellator.getInstance();
-       WorldRenderer worldrenderer = tessellator.getWorldRenderer();
--      this.mc.getTextureManager().bindTexture(optionsBackground);
--      GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-       float f = 32.0F;
-       worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-       worldrenderer.pos(0.0D, (double)this.height, 0.0D).tex(0.0D, (double)((float)this.height / 32.0F + (float)tint)).color(64, 64, 64, 255).endVertex();
-@@ -560,6 +673,7 @@
-       worldrenderer.pos((double)this.width, 0.0D, 0.0D).tex((double)((float)this.width / 32.0F), (double)tint).color(64, 64, 64, 255).endVertex();
-       worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, (double)tint).color(64, 64, 64, 255).endVertex();
-       tessellator.draw();
-+      GuiHyperiumScreen.renderBackgroundImage();
-    }
+     /**
+@@ -459,6 +574,7 @@
+      * resizes, the buttonList is cleared beforehand.
+      */
+     public void initGui() {
++        EventBus.INSTANCE.post(new InitGuiEvent(this));
+     }
  
-    /**
-@@ -638,4 +752,9 @@
-    public void onResize(Minecraft mcIn, int w, int h) {
-       this.setWorldAndResolution(mcIn, w, h);
-    }
+     /**
+@@ -511,8 +627,10 @@
+      * Handles keyboard input.
+      */
+     public void handleKeyboardInput() throws IOException {
+-        if (Keyboard.getEventKeyState()) {
+-            this.keyTyped(Keyboard.getEventCharacter(), Keyboard.getEventKey());
++        char character = Keyboard.getEventCharacter();
 +
-+   // Hyperium: Add button list getter
-+   public List<GuiButton> getButtonList() {
-+      return buttonList;
-+   }
++        if (Keyboard.getEventKey() == 0 && character >= 32 || Keyboard.getEventKeyState()) {
++            keyTyped(character, Keyboard.getEventKey());
+         }
+ 
+         this.mc.dispatchKeypresses();
+@@ -534,6 +652,8 @@
+      * Draws either a gradient over the background screen (when it exists) or a flat gradient over background.png
+      */
+     public void drawDefaultBackground() {
++        if (mc.theWorld != null && Settings.FAST_CONTAINER) return;
++
+         this.drawWorldBackground(0);
+     }
+ 
+@@ -553,8 +673,6 @@
+         GlStateManager.disableFog();
+         Tessellator tessellator = Tessellator.getInstance();
+         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+-        this.mc.getTextureManager().bindTexture(optionsBackground);
+-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+         float f = 32.0F;
+         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+         worldrenderer.pos(0.0D, (double)this.height, 0.0D).tex(0.0D, (double)((float)this.height / 32.0F + (float)tint)).color(64, 64, 64, 255).endVertex();
+@@ -562,6 +680,7 @@
+         worldrenderer.pos((double)this.width, 0.0D, 0.0D).tex((double)((float)this.width / 32.0F), (double)tint).color(64, 64, 64, 255).endVertex();
+         worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, (double)tint).color(64, 64, 64, 255).endVertex();
+         tessellator.draw();
++        GuiHyperiumScreen.renderBackgroundImage();
+     }
+ 
+     /**
+@@ -638,4 +757,9 @@
+     public void onResize(Minecraft mcIn, int w, int h) {
+         this.setWorldAndResolution(mcIn, w, h);
+     }
++
++    // Hyperium: Add button list getter
++    public List<GuiButton> getButtonList() {
++        return buttonList;
++    }
  }

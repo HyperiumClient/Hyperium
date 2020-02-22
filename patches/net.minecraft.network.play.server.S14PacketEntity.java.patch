@@ -2,10 +2,10 @@
 +++ changed/net/minecraft/network/play/server/S14PacketEntity.java
 @@ -53,7 +53,7 @@
  
-    @SideOnly(Side.CLIENT)
-    public Entity getEntity(World worldIn) {
--      return worldIn.getEntityByID(this.entityId);
-+      return worldIn != null ? worldIn.getEntityByID(entityId) : null;
-    }
+     @SideOnly(Side.CLIENT)
+     public Entity getEntity(World worldIn) {
+-        return worldIn.getEntityByID(this.entityId);
++        return worldIn != null ? worldIn.getEntityByID(entityId) : null;
+     }
  
-    @SideOnly(Side.CLIENT)
+     @SideOnly(Side.CLIENT)

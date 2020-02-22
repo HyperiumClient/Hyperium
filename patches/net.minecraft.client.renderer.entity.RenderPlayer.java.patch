@@ -14,65 +14,67 @@
  import net.minecraft.client.entity.AbstractClientPlayer;
  import net.minecraft.client.entity.EntityPlayerSP;
  import net.minecraft.client.model.ModelPlayer;
-@@ -34,7 +42,8 @@
-    public RenderPlayer(RenderManager renderManager, boolean useSmallArms) {
-       super(renderManager, new ModelPlayer(0.0F, useSmallArms), 0.5F);
-       this.smallArms = useSmallArms;
--      this.addLayer(new LayerBipedArmor(this));
-+      LayerBipedArmor var3 = new LayerBipedArmor(this);
-+      this.addLayer(injectTwoPartLayerBipedArmor(var3));
-       this.addLayer(new LayerHeldItem(this));
-       this.addLayer(new LayerArrow(this));
-       this.addLayer(new LayerDeadmau5Head(this));
-@@ -50,12 +59,16 @@
-     * Renders the desired {@code T} type Entity.
-     */
-    public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks) {
-+      GlStateManager.resetColor();
-+      EventBus.INSTANCE.post(new RenderPlayerEvent(entity, renderManager, x, y, z, partialTicks));
+@@ -32,7 +40,8 @@
+     public RenderPlayer(RenderManager renderManager, boolean useSmallArms) {
+         super(renderManager, new ModelPlayer(0.0F, useSmallArms), 0.5F);
+         this.smallArms = useSmallArms;
+-        this.addLayer(new LayerBipedArmor(this));
++        LayerBipedArmor var3 = new LayerBipedArmor(this);
++        this.addLayer(injectTwoPartLayerBipedArmor(var3));
+         this.addLayer(new LayerHeldItem(this));
+         this.addLayer(new LayerArrow(this));
+         this.addLayer(new LayerDeadmau5Head(this));
+@@ -48,13 +57,17 @@
+      * Renders the desired {@code T} type Entity.
+      */
+     public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks) {
++        GlStateManager.resetColor();
++        EventBus.INSTANCE.post(new RenderPlayerEvent(entity, renderManager, x, y, z, partialTicks));
 +
-       if(!entity.isUser() || this.renderManager.livingPlayer == entity) {
-          double d0 = y;
-          if(entity.isSneaking() && !(entity instanceof EntityPlayerSP)) {
-             d0 = y - 0.125D;
-          }
+         if (!entity.isUser() || this.renderManager.livingPlayer == entity) {
+             double d0 = y;
+ 
+             if (entity.isSneaking() && !(entity instanceof EntityPlayerSP)) {
+                 d0 = y - 0.125D;
+             }
 -
-+         if(entity.isUser())
-+            super.renderName(entity, x, y, z);
-          this.setModelVisibilities(entity);
-          super.doRender(entity, x, d0, z, entityYaw, partialTicks);
-       }
-@@ -122,8 +135,13 @@
-          ScoreObjective scoreobjective = scoreboard.getObjectiveInDisplaySlot(2);
-          if(scoreobjective != null) {
-             Score score = scoreboard.getValueFromObjective(entityIn.getName(), scoreobjective);
--            this.renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
--            y += (double)((float)this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_);
-+            RenderNameTagEvent.CANCEL = true;
-+            if (entityIn != Minecraft.getMinecraft().thePlayer || (entityIn == Minecraft.getMinecraft().thePlayer && Settings.SHOW_OWN_NAME)) {
-+               renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
-+               y += (float) getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_;
-+            }
-+
-+            RenderNameTagEvent.CANCEL = false;
-          }
-       }
++            if (entity.isUser())
++                super.renderName(entity, x, y, z);
+             this.setModelVisibilities(entity);
+             super.doRender(entity, x, d0, z, entityYaw, partialTicks);
+         }
+@@ -125,8 +138,14 @@
  
-@@ -136,7 +154,7 @@
-       ModelPlayer modelplayer = this.getMainModel();
-       this.setModelVisibilities(clientPlayer);
-       modelplayer.swingProgress = 0.0F;
--      modelplayer.isSneak = false;
-+      modelplayer.isRiding = modelplayer.isSneak = false;
-       modelplayer.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, clientPlayer);
-       modelplayer.renderRightArm();
-    }
-@@ -174,4 +192,8 @@
-       }
- 
-    }
+             if (scoreobjective != null) {
+                 Score score = scoreboard.getValueFromObjective(entityIn.getName(), scoreobjective);
+-                this.renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
+-                y += (double)((float)this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_);
++                RenderNameTagEvent.CANCEL = true;
 +
-+   public <V extends EntityLivingBase, U extends LayerRenderer<V>> U injectTwoPartLayerBipedArmor(U original) {
-+      return (U) new TwoPartLayerBipedArmor(this);
-+   }
++                if (entityIn != Minecraft.getMinecraft().thePlayer || (entityIn == Minecraft.getMinecraft().thePlayer && Settings.SHOW_OWN_NAME)) {
++                    renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
++                    y += (float) getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_;
++                }
++
++                RenderNameTagEvent.CANCEL = false;
+             }
+         }
+ 
+@@ -139,7 +158,7 @@
+         ModelPlayer modelplayer = this.getMainModel();
+         this.setModelVisibilities(clientPlayer);
+         modelplayer.swingProgress = 0.0F;
+-        modelplayer.isSneak = false;
++        modelplayer.isRiding = modelplayer.isSneak = false;
+         modelplayer.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, clientPlayer);
+         modelplayer.renderRightArm();
+     }
+@@ -175,4 +194,8 @@
+             super.rotateCorpse(bat, p_77043_2_, p_77043_3_, partialTicks);
+         }
+     }
++
++    public <V extends EntityLivingBase, U extends LayerRenderer<V>> U injectTwoPartLayerBipedArmor(U original) {
++        return (U) new TwoPartLayerBipedArmor(this);
++    }
  }

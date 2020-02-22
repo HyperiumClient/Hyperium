@@ -7,12 +7,12 @@
  import net.minecraft.client.entity.AbstractClientPlayer;
  import net.minecraft.client.renderer.GlStateManager;
  import net.minecraft.client.renderer.entity.RenderPlayer;
-@@ -16,6 +17,8 @@
-    }
+@@ -15,6 +16,8 @@
+     }
  
-    public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
-+      Hyperium.INSTANCE.getHandlers().getLayerDeadmau5HeadHandler().doRenderLayer(entitylivingbaseIn, partialTicks, playerRenderer);
+     public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
++        Hyperium.INSTANCE.getHandlers().getLayerDeadmau5HeadHandler().doRenderLayer(entitylivingbaseIn, partialTicks, playerRenderer);
 +
-       if(entitylivingbaseIn.getName().equals("deadmau5") && entitylivingbaseIn.hasSkin() && !entitylivingbaseIn.isInvisible()) {
-          this.playerRenderer.bindTexture(entitylivingbaseIn.getLocationSkin());
+         if (entitylivingbaseIn.getName().equals("deadmau5") && entitylivingbaseIn.hasSkin() && !entitylivingbaseIn.isInvisible()) {
+             this.playerRenderer.bindTexture(entitylivingbaseIn.getLocationSkin());
  

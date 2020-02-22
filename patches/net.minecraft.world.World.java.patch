@@ -19,123 +19,121 @@
  import net.minecraft.crash.CrashReport;
  import net.minecraft.crash.CrashReportCategory;
  import net.minecraft.entity.Entity;
-@@ -497,6 +503,8 @@
-    }
+@@ -485,6 +491,8 @@
+     }
  
-    public int getLight(BlockPos pos) {
-+      if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
+     public int getLight(BlockPos pos) {
++        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
 +
-       if(pos.getY() < 0) {
-          return 0;
-       } else {
-@@ -509,10 +517,13 @@
-    }
+         if (pos.getY() < 0) {
+             return 0;
+         } else {
+@@ -497,10 +505,13 @@
+     }
  
-    public int getLightFromNeighbors(BlockPos pos) {
-+      if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
-       return this.getLight(pos, true);
-    }
+     public int getLightFromNeighbors(BlockPos pos) {
++        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
+         return this.getLight(pos, true);
+     }
  
-    public int getLight(BlockPos pos, boolean checkNeighbors) {
-+      if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
+     public int getLight(BlockPos pos, boolean checkNeighbors) {
++        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
 +
-       if(pos.getX() >= -30000000 && pos.getZ() >= -30000000 && pos.getX() < 30000000 && pos.getZ() < 30000000) {
-          if(checkNeighbors && this.getBlockState(pos).getBlock().getUseNeighborBrightness()) {
-             int i1 = this.getLight(pos.up(), false);
-@@ -603,6 +614,8 @@
+         if (pos.getX() >= -30000000 && pos.getZ() >= -30000000 && pos.getX() < 30000000 && pos.getZ() < 30000000) {
+             if (checkNeighbors && this.getBlockState(pos).getBlock().getUseNeighborBrightness()) {
+                 int i1 = this.getLight(pos.up(), false);
+@@ -593,6 +604,8 @@
  
-    @SideOnly(Side.CLIENT)
-    public int getLightFromNeighborsFor(EnumSkyBlock type, BlockPos pos) {
-+      if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
+     @SideOnly(Side.CLIENT)
+     public int getLightFromNeighborsFor(EnumSkyBlock type, BlockPos pos) {
++        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
 +
-       if(this.provider.getHasNoSky() && type == EnumSkyBlock.SKY) {
-          return 0;
-       } else {
-@@ -927,6 +940,7 @@
-             this.updateAllPlayersSleepingFlag();
-          }
+         if (this.provider.getHasNoSky() && type == EnumSkyBlock.SKY) {
+             return 0;
+         } else {
+@@ -921,6 +934,7 @@
+                 this.updateAllPlayersSleepingFlag();
+             }
  
-+         EventBus.INSTANCE.post(new EntityJoinWorldEvent(this, entityIn));
-          this.getChunkFromChunkCoords(i, j).addEntity(entityIn);
-          this.loadedEntityList.add(entityIn);
-          this.onEntityAdded(entityIn);
-@@ -960,6 +974,7 @@
-          entityIn.mountEntity((Entity)null);
-       }
++            EventBus.INSTANCE.post(new EntityJoinWorldEvent(this, entityIn));
+             this.getChunkFromChunkCoords(i, j).addEntity(entityIn);
+             this.loadedEntityList.add(entityIn);
+             this.onEntityAdded(entityIn);
+@@ -952,6 +966,7 @@
+             entityIn.mountEntity((Entity)null);
+         }
  
-+      EventBus.INSTANCE.post(new EntityLeaveWorldEvent(this, entityIn));
-       entityIn.setDead();
-       if(entityIn instanceof EntityPlayer) {
-          this.playerEntities.remove(entityIn);
-@@ -2202,6 +2217,8 @@
-     * gets the light level at the supplied position
-     */
-    private int getRawLight(BlockPos pos, EnumSkyBlock lightType) {
-+      if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
++        EventBus.INSTANCE.post(new EntityLeaveWorldEvent(this, entityIn));
+         entityIn.setDead();
+ 
+         if (entityIn instanceof EntityPlayer) {
+@@ -2261,6 +2276,8 @@
+      * gets the light level at the supplied position
+      */
+     private int getRawLight(BlockPos pos, EnumSkyBlock lightType) {
++        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
 +
-       if(lightType == EnumSkyBlock.SKY && this.canSeeSky(pos)) {
-          return 15;
-       } else {
-@@ -2239,6 +2256,8 @@
-    }
+         if (lightType == EnumSkyBlock.SKY && this.canSeeSky(pos)) {
+             return 15;
+         } else {
+@@ -2300,6 +2317,8 @@
+     }
  
-    public boolean checkLightFor(EnumSkyBlock lightType, BlockPos pos) {
-+      if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return false;
+     public boolean checkLightFor(EnumSkyBlock lightType, BlockPos pos) {
++        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return false;
 +
-       if(!this.isAreaLoaded(pos, 17, false)) {
-          return false;
-       } else {
-@@ -2480,12 +2499,14 @@
-    }
+         if (!this.isAreaLoaded(pos, 17, false)) {
+             return false;
+         } else {
+@@ -2550,10 +2569,14 @@
+     }
  
-    public void loadEntities(Collection<Entity> entityCollection) {
--      this.loadedEntityList.addAll(entityCollection);
+     public void loadEntities(Collection<Entity> entityCollection) {
+-        this.loadedEntityList.addAll(entityCollection);
 -
--      for(Entity entity : entityCollection) {
--         this.onEntityAdded(entity);
-+      for (Entity entity : entityCollection) {
-+         EntityJoinWorldEvent event = new EntityJoinWorldEvent((World) (Object) this, entity);
-+         EventBus.INSTANCE.post(event);
-+         if (!event.isCancelled()) {
-+            loadedEntityList.add(entity);
-+            onEntityAdded(entity);
-+         }
-       }
--
-    }
- 
-    public void unloadEntities(Collection<Entity> entityCollection) {
-@@ -2710,6 +2731,7 @@
-    }
- 
-    public void setSpawnPoint(BlockPos pos) {
-+      EventBus.INSTANCE.post(new SpawnpointChangeEvent(pos));
-       this.worldInfo.setSpawn(pos);
-    }
- 
-@@ -2730,6 +2752,7 @@
- 
-       if(!this.loadedEntityList.contains(entityIn)) {
-          this.loadedEntityList.add(entityIn);
-+         EventBus.INSTANCE.post(new EntityJoinWorldEvent(this, entityIn));
-       }
- 
-    }
-@@ -2968,7 +2991,7 @@
-     */
-    @SideOnly(Side.CLIENT)
-    public double getHorizon() {
--      return this.worldInfo.getTerrainType() == WorldType.FLAT?0.0D:63.0D;
-+      return Settings.VOID_FLICKER_FIX ? 0.0 : worldInfo.getTerrainType() == WorldType.FLAT ? 0.0D : 63.0D;
-    }
- 
-    public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {
-@@ -3071,4 +3094,8 @@
-       int k = 128;
-       return i >= -k && i <= k && j >= -k && j <= k;
-    }
+         for (Entity entity : entityCollection) {
+-            this.onEntityAdded(entity);
++            EntityJoinWorldEvent event = new EntityJoinWorldEvent((World) (Object) this, entity);
++            EventBus.INSTANCE.post(event);
 +
-+   public float getRainingStrength() {
-+      return rainingStrength;
-+   }
++            if (!event.isCancelled()) {
++                loadedEntityList.add(entity);
++                onEntityAdded(entity);
++            }
+         }
+     }
+ 
+@@ -2791,6 +2814,7 @@
+     }
+ 
+     public void setSpawnPoint(BlockPos pos) {
++        EventBus.INSTANCE.post(new SpawnpointChangeEvent(pos));
+         this.worldInfo.setSpawn(pos);
+     }
+ 
+@@ -2811,6 +2835,7 @@
+ 
+         if (!this.loadedEntityList.contains(entityIn)) {
+             this.loadedEntityList.add(entityIn);
++            EventBus.INSTANCE.post(new EntityJoinWorldEvent(this, entityIn));
+         }
+     }
+ 
+@@ -3045,7 +3070,7 @@
+      */
+     @SideOnly(Side.CLIENT)
+     public double getHorizon() {
+-        return this.worldInfo.getTerrainType() == WorldType.FLAT ? 0.0D : 63.0D;
++        return Settings.VOID_FLICKER_FIX ? 0.0 : worldInfo.getTerrainType() == WorldType.FLAT ? 0.0D : 63.0D;
+     }
+ 
+     public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {
+@@ -3150,4 +3175,8 @@
+         int k = 128;
+         return i >= -k && i <= k && j >= -k && j <= k;
+     }
++
++    public float getRainingStrength() {
++        return rainingStrength;
++    }
  }

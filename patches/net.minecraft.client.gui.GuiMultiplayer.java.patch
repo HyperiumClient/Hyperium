@@ -7,24 +7,24 @@
  import com.google.common.base.Splitter;
  import com.google.common.collect.Lists;
  import java.io.IOException;
-@@ -299,6 +300,7 @@
-    }
+@@ -298,6 +299,7 @@
+     }
  
-    public void connectToSelected() {
-+      Hyperium.INSTANCE.setFromMainMenu(false);
-       GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.func_148193_k() < 0?null:this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k());
-       if(guilistextended$iguilistentry instanceof ServerListEntryNormal) {
-          this.connectToServer(((ServerListEntryNormal)guilistextended$iguilistentry).getServerData());
-@@ -384,4 +386,12 @@
+     public void connectToSelected() {
++        Hyperium.INSTANCE.setFromMainMenu(false);
+         GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.func_148193_k() < 0 ? null : this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k());
  
-       this.serverListSelector.func_148195_a(this.savedServerList);
-    }
+         if (guilistextended$iguilistentry instanceof ServerListEntryNormal) {
+@@ -386,4 +388,12 @@
+ 
+         this.serverListSelector.func_148195_a(this.savedServerList);
+     }
 +
-+   public void makeDirectConnect() {
-+      directConnect = true;
-+   }
++    public void makeDirectConnect() {
++        directConnect = true;
++    }
 +
-+   public void setIp(ServerData ip) {
-+      selectedServer = ip;
-+   }
++    public void setIp(ServerData ip) {
++        selectedServer = ip;
++    }
  }

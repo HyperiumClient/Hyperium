@@ -11,77 +11,77 @@
  import net.minecraft.client.audio.PositionedSoundRecord;
  import net.minecraft.client.audio.SoundCategory;
  import net.minecraft.client.audio.SoundEventAccessorComposite;
-@@ -42,6 +46,8 @@
-    private GuiLockIconButton field_175356_r;
-    protected String field_146442_a = "Options";
+@@ -27,6 +31,8 @@
+     private GuiLockIconButton field_175356_r;
+     protected String field_146442_a = "Options";
  
-+   private GuiButton broadcastSettings, superSecretSettings;
++    private GuiButton broadcastSettings, superSecretSettings;
 +
-    public GuiOptions(GuiScreen p_i1046_1_, GameSettings p_i1046_2_) {
-       this.field_146441_g = p_i1046_1_;
-       this.game_settings_1 = p_i1046_2_;
-@@ -86,7 +92,7 @@
-       }
+     public GuiOptions(GuiScreen p_i1046_1_, GameSettings p_i1046_2_) {
+         this.field_146441_g = p_i1046_1_;
+         this.game_settings_1 = p_i1046_2_;
+@@ -72,7 +78,7 @@
+         }
  
-       this.buttonList.add(new GuiButton(110, this.width / 2 - 155, this.height / 6 + 48 - 6, 150, 20, I18n.format("options.skinCustomisation", new Object[0])));
--      this.buttonList.add(new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20, "Super Secret Settings...") {
-+      this.buttonList.add(superSecretSettings = new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20, "Super Secret Settings...") {
-          public void playPressSound(SoundHandler soundHandlerIn) {
-             SoundEventAccessorComposite soundeventaccessorcomposite = soundHandlerIn.getRandomSoundFromCategories(new SoundCategory[]{SoundCategory.ANIMALS, SoundCategory.BLOCKS, SoundCategory.MOBS, SoundCategory.PLAYERS, SoundCategory.WEATHER});
-             if(soundeventaccessorcomposite != null) {
-@@ -96,7 +102,7 @@
-          }
-       });
-       this.buttonList.add(new GuiButton(106, this.width / 2 - 155, this.height / 6 + 72 - 6, 150, 20, I18n.format("options.sounds", new Object[0])));
--      this.buttonList.add(new GuiButton(107, this.width / 2 + 5, this.height / 6 + 72 - 6, 150, 20, I18n.format("options.stream", new Object[0])));
-+      this.buttonList.add(broadcastSettings = new GuiButton(107, this.width / 2 + 5, this.height / 6 + 72 - 6, 150, 20, I18n.format("options.stream", new Object[0])));
-       this.buttonList.add(new GuiButton(101, this.width / 2 - 155, this.height / 6 + 96 - 6, 150, 20, I18n.format("options.video", new Object[0])));
-       this.buttonList.add(new GuiButton(100, this.width / 2 + 5, this.height / 6 + 96 - 6, 150, 20, I18n.format("options.controls", new Object[0])));
-       this.buttonList.add(new GuiButton(102, this.width / 2 - 155, this.height / 6 + 120 - 6, 150, 20, I18n.format("options.language", new Object[0])));
-@@ -104,6 +110,22 @@
-       this.buttonList.add(new GuiButton(105, this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.resourcepack", new Object[0])));
-       this.buttonList.add(new GuiButton(104, this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.snooper.view", new Object[0])));
-       this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
-+
-+      for (GuiButton b : buttonList) {
-+         if (b.id == 200) {
-+            b.yPosition = height - 30;
-+         }
-+      }
-+
-+      buttonList.add(new GuiButton(114514,
-+              Settings.CLEANER_MENUS ? width / 2 + 5 : width / 2 - 155,
-+              Settings.CLEANER_MENUS ? height / 6 + 48 - 6 : height / 6 + 18,
-+              150, 20,
-+              I18n.format("button.ingame.hyperiumsettings")));
-+      buttonList.add(new GuiButton(62727568, width / 2 + 5,
-+              Settings.CLEANER_MENUS ? height / 6 + 72 - 6 : height / 6 + 18,
-+              150, 20,
-+              "Hyperium Keybinds"));
-    }
+         this.buttonList.add(new GuiButton(110, this.width / 2 - 155, this.height / 6 + 48 - 6, 150, 20, I18n.format("options.skinCustomisation", new Object[0])));
+-        this.buttonList.add(new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20, "Super Secret Settings...") {
++        this.buttonList.add(superSecretSettings = new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20, "Super Secret Settings...") {
+             public void playPressSound(SoundHandler soundHandlerIn) {
+                 SoundEventAccessorComposite soundeventaccessorcomposite = soundHandlerIn.getRandomSoundFromCategories(new SoundCategory[] {SoundCategory.ANIMALS, SoundCategory.BLOCKS, SoundCategory.MOBS, SoundCategory.PLAYERS, SoundCategory.WEATHER});
  
-    public String func_175355_a(EnumDifficulty p_175355_1_) {
-@@ -204,7 +226,10 @@
+@@ -82,7 +88,7 @@
              }
-          }
+         });
+         this.buttonList.add(new GuiButton(106, this.width / 2 - 155, this.height / 6 + 72 - 6, 150, 20, I18n.format("options.sounds", new Object[0])));
+-        this.buttonList.add(new GuiButton(107, this.width / 2 + 5, this.height / 6 + 72 - 6, 150, 20, I18n.format("options.stream", new Object[0])));
++        this.buttonList.add(broadcastSettings = new GuiButton(107, this.width / 2 + 5, this.height / 6 + 72 - 6, 150, 20, I18n.format("options.stream", new Object[0])));
+         this.buttonList.add(new GuiButton(101, this.width / 2 - 155, this.height / 6 + 96 - 6, 150, 20, I18n.format("options.video", new Object[0])));
+         this.buttonList.add(new GuiButton(100, this.width / 2 + 5, this.height / 6 + 96 - 6, 150, 20, I18n.format("options.controls", new Object[0])));
+         this.buttonList.add(new GuiButton(102, this.width / 2 - 155, this.height / 6 + 120 - 6, 150, 20, I18n.format("options.language", new Object[0])));
+@@ -90,6 +96,22 @@
+         this.buttonList.add(new GuiButton(105, this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.resourcepack", new Object[0])));
+         this.buttonList.add(new GuiButton(104, this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.snooper.view", new Object[0])));
+         this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
++
++        for (GuiButton b : buttonList) {
++            if (b.id == 200) {
++                b.yPosition = height - 30;
++            }
++        }
++
++        buttonList.add(new GuiButton(114514,
++                                     Settings.CLEANER_MENUS ? width / 2 + 5 : width / 2 - 155,
++                                     Settings.CLEANER_MENUS ? height / 6 + 48 - 6 : height / 6 + 18,
++                                     150, 20,
++                                     I18n.format("button.ingame.hyperiumsettings")));
++        buttonList.add(new GuiButton(62727568, width / 2 + 5,
++                                     Settings.CLEANER_MENUS ? height / 6 + 72 - 6 : height / 6 + 18,
++                                     150, 20,
++                                     "Hyperium Keybinds"));
+     }
  
-+         if (button.id == 114514) HyperiumMainGui.INSTANCE.show();
-+         if (button.id == 62727568) mc.displayGuiScreen(new GuiKeybinds());
-       }
+     public String func_175355_a(EnumDifficulty p_175355_1_) {
+@@ -190,6 +212,10 @@
+                     GuiStreamUnavailable.func_152321_a(this);
+                 }
+             }
 +
-    }
++            if (button.id == 114514) HyperiumMainGui.INSTANCE.show();
++
++            if (button.id == 62727568) mc.displayGuiScreen(new GuiKeybinds());
+         }
+     }
  
-    /**
-@@ -212,6 +237,12 @@
-     */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-       this.drawDefaultBackground();
+@@ -198,6 +224,12 @@
+      */
+     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+         this.drawDefaultBackground();
 +
-+      if (Settings.CLEANER_MENUS) {
-+         superSecretSettings.visible = false;
-+         broadcastSettings.visible = false;
-+      }
++        if (Settings.CLEANER_MENUS) {
++            superSecretSettings.visible = false;
++            broadcastSettings.visible = false;
++        }
 +
-       this.drawCenteredString(this.fontRendererObj, this.field_146442_a, this.width / 2, 15, 16777215);
-       super.drawScreen(mouseX, mouseY, partialTicks);
-    }
+         this.drawCenteredString(this.fontRendererObj, this.field_146442_a, this.width / 2, 15, 16777215);
+         super.drawScreen(mouseX, mouseY, partialTicks);
+     }

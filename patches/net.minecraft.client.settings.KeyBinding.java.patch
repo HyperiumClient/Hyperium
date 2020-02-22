@@ -1,12 +1,11 @@
 --- original/net/minecraft/client/settings/KeyBinding.java
 +++ changed/net/minecraft/client/settings/KeyBinding.java
-@@ -125,4 +125,9 @@
+@@ -123,4 +123,8 @@
  
-       return i;
-    }
+         return i;
+     }
 +
-+   // Hyperium: Add setter
-+   public void setPressed(boolean pressed) {
-+      this.pressed = pressed;
-+   }
++    public void setPressed(boolean pressed) {
++        this.pressed = pressed;
++    }
  }

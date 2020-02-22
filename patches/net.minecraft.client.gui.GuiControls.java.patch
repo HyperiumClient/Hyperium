@@ -6,23 +6,24 @@
  import java.io.IOException;
 +import cc.hyperium.gui.keybinds.GuiKeybinds;
  import net.minecraft.client.Minecraft;
- import net.minecraft.client.gui.GuiButton;
- import net.minecraft.client.gui.GuiKeyBindingList;
-@@ -53,6 +54,8 @@
-          ++i;
-       }
+ import net.minecraft.client.resources.I18n;
+ import net.minecraft.client.settings.GameSettings;
+@@ -47,6 +48,9 @@
  
-+      buttonList.add(new GuiButton(10, buttonList.get(1).xPosition, buttonList.get(3).yPosition + 24,
-+              150, 20, "Hyperium Keybinds"));
-    }
- 
-    /**
-@@ -80,6 +83,8 @@
-          button.displayString = this.options.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
-       }
- 
-+      if (button.id == 10) Minecraft.getMinecraft().displayGuiScreen(new GuiKeybinds());
+             ++i;
+         }
 +
-    }
++        buttonList.add(new GuiButton(10, buttonList.get(1).xPosition, buttonList.get(3).yPosition + 24,
++                                     150, 20, "Hyperium Keybinds"));
+     }
  
-    /**
+     /**
+@@ -73,6 +77,8 @@
+             this.options.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
+             button.displayString = this.options.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
+         }
++
++        if (button.id == 10) Minecraft.getMinecraft().displayGuiScreen(new GuiKeybinds());
+     }
+ 
+     /**

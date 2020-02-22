@@ -11,10 +11,10 @@
  import net.minecraft.network.PacketBuffer;
  import net.minecraft.network.play.INetHandlerPlayClient;
 @@ -19,6 +22,7 @@
-     * Passes this Packet on to the NetHandler for processing.
-     */
-    public void processPacket(INetHandlerPlayClient handler) {
-+      if (Minecraft.getMinecraft().currentScreen instanceof GuiChat) return;
-       handler.handleCloseWindow(this);
-    }
+      * Passes this Packet on to the NetHandler for processing.
+      */
+     public void processPacket(INetHandlerPlayClient handler) {
++        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat) return;
+         handler.handleCloseWindow(this);
+     }
  

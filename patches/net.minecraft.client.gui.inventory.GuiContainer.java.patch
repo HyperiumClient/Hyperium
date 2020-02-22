@@ -7,57 +7,61 @@
  import com.google.common.collect.Sets;
  import java.io.IOException;
  import java.util.Set;
-@@ -87,6 +88,15 @@
-       int i = this.guiLeft;
-       int j = this.guiTop;
-       this.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
-+      ParticleOverlay overlay = ParticleOverlay.getOverlay();
-+      if (overlay.getMode() != ParticleOverlay.Mode.OFF) {
-+         overlay.render(mouseX,
-+                 mouseY,
-+                 guiLeft - (Minecraft.getMinecraft().thePlayer.getActivePotionEffects().isEmpty() ? 0 : xSize * 3 / 4),
-+                 guiTop - 5,
-+                 guiLeft + (240 * 4 / 5),
-+                 guiTop + (240 * 4 / 5 - 10));
-+      }
-       GlStateManager.disableRescaleNormal();
-       RenderHelper.disableStandardItemLighting();
-       GlStateManager.disableLighting();
-@@ -306,6 +316,7 @@
-          int j = this.guiLeft;
-          int k = this.guiTop;
-          boolean flag1 = mouseX < j || mouseY < k || mouseX >= j + this.xSize || mouseY >= k + this.ySize;
-+         if (slot != null) flag1 = false;
-          int l = -1;
-          if(slot != null) {
-             l = slot.slotNumber;
-@@ -363,6 +374,8 @@
-          }
-       }
- 
-+      checkHotbarKeys(mouseButton - 100);
+@@ -87,6 +88,16 @@
+         int i = this.guiLeft;
+         int j = this.guiTop;
+         this.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
++        ParticleOverlay overlay = ParticleOverlay.getOverlay();
 +
-       this.lastClickSlot = slot;
-       this.lastClickTime = i;
-       this.lastClickButton = mouseButton;
-@@ -408,10 +421,12 @@
-     * Called when a mouse button is released.  Args : mouseX, mouseY, releaseButton
-     */
-    protected void mouseReleased(int mouseX, int mouseY, int state) {
-+      super.mouseReleased(mouseX, mouseY, state);
-       Slot slot = this.getSlotAtPosition(mouseX, mouseY);
-       int i = this.guiLeft;
-       int j = this.guiTop;
-       boolean flag = mouseX < i || mouseY < j || mouseX >= i + this.xSize || mouseY >= j + this.ySize;
-+      if (slot != null) flag = false;
-       int k = -1;
-       if(slot != null) {
-          k = slot.slotNumber;
-@@ -580,6 +595,7 @@
-     * Called when the screen is unloaded. Used to disable keyboard repeat events
-     */
-    public void onGuiClosed() {
-+       super.onGuiClosed();
-       if(this.mc.thePlayer != null) {
-          this.inventorySlots.onContainerClosed(this.mc.thePlayer);
-       }
++        if (overlay.getMode() != ParticleOverlay.Mode.OFF) {
++            overlay.render(mouseX,
++                           mouseY,
++                           guiLeft - (Minecraft.getMinecraft().thePlayer.getActivePotionEffects().isEmpty() ? 0 : xSize * 3 / 4),
++                           guiTop - 5,
++                           guiLeft + (240 * 4 / 5),
++                           guiTop + (240 * 4 / 5 - 10));
++        }
+         GlStateManager.disableRescaleNormal();
+         RenderHelper.disableStandardItemLighting();
+         GlStateManager.disableLighting();
+@@ -319,6 +330,8 @@
+             int j = this.guiLeft;
+             int k = this.guiTop;
+             boolean flag1 = mouseX < j || mouseY < k || mouseX >= j + this.xSize || mouseY >= k + this.ySize;
++
++            if (slot != null) flag1 = false;
+             int l = -1;
+ 
+             if (slot != null) {
+@@ -379,6 +392,8 @@
+             }
+         }
+ 
++        checkHotbarKeys(mouseButton - 100);
++
+         this.lastClickSlot = slot;
+         this.lastClickTime = i;
+         this.lastClickButton = mouseButton;
+@@ -425,10 +440,13 @@
+      * Called when a mouse button is released.  Args : mouseX, mouseY, releaseButton
+      */
+     protected void mouseReleased(int mouseX, int mouseY, int state) {
++        super.mouseReleased(mouseX, mouseY, state);
+         Slot slot = this.getSlotAtPosition(mouseX, mouseY);
+         int i = this.guiLeft;
+         int j = this.guiTop;
+         boolean flag = mouseX < i || mouseY < j || mouseX >= i + this.xSize || mouseY >= j + this.ySize;
++
++        if (slot != null) flag = false;
+         int k = -1;
+ 
+         if (slot != null) {
+@@ -601,6 +619,8 @@
+      * Called when the screen is unloaded. Used to disable keyboard repeat events
+      */
+     public void onGuiClosed() {
++        super.onGuiClosed();
++
+         if (this.mc.thePlayer != null) {
+             this.inventorySlots.onContainerClosed(this.mc.thePlayer);
+         }

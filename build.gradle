@@ -1,117 +1,115 @@
 buildscript {
     repositories {
+        maven { url 'https://maven.ampthedev.club' }
+        maven { url 'https://files.minecraftforge.net/maven' }
         mavenCentral()
-        maven {
-            url 'https://maven.ampthedev.club' // MCGradle
-        }
-        maven {
-            url 'https://files.minecraftforge.net/maven' // MCGradle uses some Forge libraries
-        }
     }
-
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61"
-        classpath 'tk.amplifiable.mcgradle:MCGradle:1.2.6'
+        classpath 'club.ampthedev.mcgradle:MCGradle:2.0.5'
     }
 }
 
-import tk.amplifiable.gitversion.GitVersion
+plugins {
+    id 'club.ampthedev.versionjson'
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.61'
+}
 
-apply plugin: 'tk.amplifiable.mcgradle'
+apply plugin: 'club.ampthedev.mcgradle'
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava.options.encoding = 'UTF-8'
 
 mcgradle {
     version '1.8.9'
-    hyperiumVersion = GitVersion.gitVersion(getRootDir())
-    kotlinVersion '1.3.61'
+    gitVersion = true
     clientMainClass = 'net.minecraft.launchwrapper.Launch'
+    args += ['--tweakClass', 'cc.hyperium.launch.HyperiumTweaker']
 }
 
+mcgradle.hyperiumVersion = project.version
+
 group 'cc.hyperium'
-version mcgradle.hyperiumVersion
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'kotlin'
-    apply plugin: 'tk.amplifiable.mcgradle'
-    apply plugin: 'club.ampthedev.versionjson'
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
 
-    configurations {
-        embed
-        compile.extendsFrom(embed)
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://jitpack.io'
+    }
+    maven {
+        url 'https://libraries.minecraft.net'
+    }
+    maven {
+        url 'https://repo.spongepowered.org/maven'
+    }
+}
+
+configurations {
+    embed
+    compile.extendsFrom embed
+}
+
+// Jitpack compatibility
+if (!new File(projectDir, 'src/minecraft').exists()) {
+    tasks.compileKotlin.dependsOn tasks.setupCIWorkspace
+    tasks.compileJava.dependsOn tasks.setupCIWorkspace
+}
+
+dependencies {
+    library "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61"
+    library "org.jetbrains.kotlin:kotlin-reflect:1.3.61"
+
+    library 'com.github.jagrosh:DiscordIPC:e29d6d8'
+
+    library 'com.github.FalseHonesty:reflections:855f40b80b'
+    library 'com.github.ben-manes.caffeine:caffeine:2.8.0'
+
+    library('org.slick2d:slick2d-core:1.0.2') {
+        exclude module: 'lwjgl'
     }
 
-    repositories {
-        mavenCentral()
-        maven {
-            url 'https://maven.ampthedev.club'
-        }
-        maven {
-            url 'https://jitpack.io'
-        }
-        maven {
-            url 'https://libraries.minecraft.net'
-        }
-        maven {
-            url 'https://repo.spongepowered.org/maven'
-        }
+    library("com.github.KevinPriv:MojangAPI:1.0") {
+        exclude module: "gson"
     }
 
-    configurations {
-        embed
-        compile.extendsFrom embed
+    library 'com.github.Cubxity:DeobfStack:1.2'
+
+    library 'org.ow2.asm:asm:5.0.3'
+
+    library('net.minecraft:launchwrapper:1.12') { // still need this for addons
+        exclude module: 'lwjgl'
     }
 
-    dependencies {
-        library "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61"
-        library "org.jetbrains.kotlin:kotlin-reflect:1.3.61"
-
-        library 'com.github.jagrosh:DiscordIPC:e29d6d8'
-
-        library 'com.github.FalseHonesty:reflections:855f40b80b'
-        library 'com.github.ben-manes.caffeine:caffeine:2.8.0'
-
-        library('org.slick2d:slick2d-core:1.0.2') {
-            exclude module: 'lwjgl'
-        }
-
-        library("com.github.KevinPriv:MojangAPI:1.0") {
-            exclude module: "gson"
-        }
-
-        library 'com.github.Cubxity:DeobfStack:1.2'
-
-        library 'org.ow2.asm:asm:5.0.3'
-
-        library('net.minecraft:launchwrapper:1.12') { // still need this for addons
-            exclude module: 'lwjgl'
-        }
-
-        embed rootProject.fileTree(dir: 'libs', include: '*.jar')
-        library('org.spongepowered:mixin:0.7.11-SNAPSHOT') { // we still need this for addons
-            exclude module: 'launchwrapper'
-            exclude module: 'guava'
-            exclude module: 'gson'
-            exclude module: 'commons-io'
-        }
-
-        // patching
-        library group: 'com.nothome', name: 'javaxdelta', version: '2.0.1'
-        library 'com.github.jponge:lzma-java:1.3'
-        // conflicts
-        library('com.github.half-cambodian-hacker-man:Koffee:d8cee73') {
-            exclude module: 'asm-commons'
-            exclude module: 'asm-tree'
-            exclude module: 'asm'
-        }
+    embed rootProject.fileTree(dir: 'libs', include: '*.jar')
+    library('org.spongepowered:mixin:0.7.11-SNAPSHOT') { // we still need this for addons
+        exclude module: 'launchwrapper'
+        exclude module: 'guava'
+        exclude module: 'gson'
+        exclude module: 'commons-io'
     }
 
-    jar {
-        dependsOn configurations.compile
-        from {
-            configurations.embed.collect {
-                it.isDirectory() ? it : zipTree(it)
-            }
-        }
-        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    // patching
+    library group: 'com.nothome', name: 'javaxdelta', version: '2.0.1'
+    library 'com.github.jponge:lzma-java:1.3'
+    // conflicts
+    library('com.github.half-cambodian-hacker-man:Koffee:d8cee73') {
+        exclude module: 'asm-commons'
+        exclude module: 'asm-tree'
+        exclude module: 'asm'
     }
+}
+
+jar {
+    dependsOn configurations.compile
+    from {
+        configurations.embed.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
 }

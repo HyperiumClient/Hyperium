@@ -18,40 +18,40 @@
  import net.minecraft.crash.CrashReport;
  import net.minecraft.crash.CrashReportCategory;
  import net.minecraft.entity.Entity;
-@@ -595,6 +600,8 @@
-    }
+@@ -619,6 +624,8 @@
+     }
  
-    public int getLightFor(EnumSkyBlock p_177413_1_, BlockPos pos) {
-+      if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
+     public int getLightFor(EnumSkyBlock p_177413_1_, BlockPos pos) {
++        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
 +
-       int i = pos.getX() & 15;
-       int j = pos.getY();
-       int k = pos.getZ() & 15;
-@@ -624,6 +631,8 @@
-    }
+         int i = pos.getX() & 15;
+         int j = pos.getY();
+         int k = pos.getZ() & 15;
+@@ -649,6 +656,8 @@
+     }
  
-    public int getLightSubtracted(BlockPos pos, int amount) {
-+      if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
+     public int getLightSubtracted(BlockPos pos, int amount) {
++        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
 +
-       int i = pos.getX() & 15;
-       int j = pos.getY();
-       int k = pos.getZ() & 15;
-@@ -663,6 +672,8 @@
-          k = this.entityLists.length - 1;
-       }
+         int i = pos.getX() & 15;
+         int j = pos.getY();
+         int k = pos.getZ() & 15;
+@@ -692,6 +701,8 @@
+             k = this.entityLists.length - 1;
+         }
  
-+      // Hyperium - Alert the client when an entity enters the chunk
-+      EventBus.INSTANCE.post(new EntityEnterChunkEvent(entityIn, xPosition, zPosition, entityIn.chunkCoordX, entityIn.chunkCoordZ));
-       entityIn.addedToChunk = true;
-       entityIn.chunkCoordX = this.xPosition;
-       entityIn.chunkCoordY = k;
-@@ -767,6 +778,9 @@
-          this.worldObj.loadEntities(this.entityLists[i]);
-       }
++        // Hyperium - Alert the client when an entity enters the chunk
++        EventBus.INSTANCE.post(new EntityEnterChunkEvent(entityIn, xPosition, zPosition, entityIn.chunkCoordX, entityIn.chunkCoordZ));
+         entityIn.addedToChunk = true;
+         entityIn.chunkCoordX = this.xPosition;
+         entityIn.chunkCoordY = k;
+@@ -797,6 +808,9 @@
  
-+      // Hyperium - Post chunk loading event
-+      EventBus.INSTANCE.post(new ChunkLoadEvent(this));
+             this.worldObj.loadEntities(this.entityLists[i]);
+         }
 +
-    }
++        // Hyperium - Post chunk loading event
++        EventBus.INSTANCE.post(new ChunkLoadEvent(this));
+     }
  
-    /**
+     /**

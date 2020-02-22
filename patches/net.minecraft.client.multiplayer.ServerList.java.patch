@@ -7,147 +7,143 @@
  import com.google.common.collect.Lists;
  import java.io.File;
  import java.util.List;
-@@ -31,21 +32,21 @@
-     */
-    public void loadServerList() {
-       try {
--         this.servers.clear();
--         NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(this.mc.mcDataDir, "servers.dat"));
--         if(nbttagcompound == null) {
--            return;
--         }
-+         servers.clear();
-+         NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(mc.mcDataDir, "servers.dat"));
+@@ -30,20 +31,20 @@
+      */
+     public void loadServerList() {
+         try {
+-            this.servers.clear();
+-            NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(this.mc.mcDataDir, "servers.dat"));
++            servers.clear();
++            NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(mc.mcDataDir, "servers.dat"));
  
-+         if (nbttagcompound == null) return;
+-            if (nbttagcompound == null) {
+-                return;
+-            }
++            if (nbttagcompound == null) return;
+ 
+             NBTTagList nbttaglist = nbttagcompound.getTagList("servers", 10);
+ 
+-            for (int i = 0; i < nbttaglist.tagCount(); ++i) {
+-                this.servers.add(ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i)));
++            int bound = nbttaglist.tagCount();
++            for (int i = 0; i < bound; i++) {
++                ServerData serverDataFromNBTCompound = ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i));
++                servers.add(serverDataFromNBTCompound);
+             }
+         } catch (Exception exception) {
+-            logger.error((String)"Couldn\'t load server list", (Throwable)exception);
++            Hyperium.LOGGER.error("Failed to load server list", exception);
+         }
+     }
+ 
+@@ -55,15 +56,16 @@
+         try {
+             NBTTagList nbttaglist = new NBTTagList();
+ 
+-            for (ServerData serverdata : this.servers) {
+-                nbttaglist.appendTag(serverdata.getNBTCompound());
++            for (ServerData server : servers) {
++                NBTTagCompound nbtCompound = server.getNBTCompound();
++                nbttaglist.appendTag(nbtCompound);
+             }
+ 
+             NBTTagCompound nbttagcompound = new NBTTagCompound();
+             nbttagcompound.setTag("servers", nbttaglist);
+-            CompressedStreamTools.safeWrite(nbttagcompound, new File(this.mc.mcDataDir, "servers.dat"));
++            CompressedStreamTools.safeWrite(nbttagcompound, new File(mc.mcDataDir, "servers.dat"));
+         } catch (Exception exception) {
+-            logger.error((String)"Couldn\'t save server list", (Throwable)exception);
++            Hyperium.LOGGER.error("Save server list error", exception);
+         }
+     }
+ 
+@@ -71,53 +73,75 @@
+      * Gets the ServerData instance stored for the given index in the list.
+      */
+     public ServerData getServerData(int index) {
+-        return (ServerData)this.servers.get(index);
++        try {
++            return servers.get(index);
++        } catch (Exception e) {
++            Hyperium.LOGGER.error("Failed to get server data", e);
++        }
 +
-          NBTTagList nbttaglist = nbttagcompound.getTagList("servers", 10);
++        return null;
+     }
  
--         for(int i = 0; i < nbttaglist.tagCount(); ++i) {
--            this.servers.add(ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i)));
-+         int bound = nbttaglist.tagCount();
-+         for (int i = 0; i < bound; i++) {
-+            ServerData serverDataFromNBTCompound = ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i));
-+            servers.add(serverDataFromNBTCompound);
-          }
-       } catch (Exception exception) {
--         logger.error((String)"Couldn\'t load server list", (Throwable)exception);
-+         Hyperium.LOGGER.error("Failed to load server list", exception);
-       }
--
-    }
+     /**
+      * Removes the ServerData instance stored for the given index in the list.
+      */
+     public void removeServerData(int index) {
+-        this.servers.remove(index);
++        try {
++            servers.remove(index);
++        } catch (Exception e) {
++            Hyperium.LOGGER.error("Failed to remove server data", e);
++        }
+     }
  
-    /**
-@@ -56,69 +57,92 @@
-       try {
-          NBTTagList nbttaglist = new NBTTagList();
+     /**
+      * Adds the given ServerData instance to the list.
+      */
+-    public void addServerData(ServerData server) {
+-        this.servers.add(server);
++    public void addServerData(ServerData index) {
++        try {
++            servers.add(index);
++        } catch (Exception e) {
++            Hyperium.LOGGER.error("Failed to add server data", e);
++        }
+     }
  
--         for(ServerData serverdata : this.servers) {
--            nbttaglist.appendTag(serverdata.getNBTCompound());
-+         for (ServerData server : servers) {
-+            NBTTagCompound nbtCompound = server.getNBTCompound();
-+            nbttaglist.appendTag(nbtCompound);
-          }
+     /**
+      * Counts the number of ServerData instances in the list.
+      */
+     public int countServers() {
+-        return this.servers.size();
++        return servers.size();
+     }
  
-          NBTTagCompound nbttagcompound = new NBTTagCompound();
-          nbttagcompound.setTag("servers", nbttaglist);
--         CompressedStreamTools.safeWrite(nbttagcompound, new File(this.mc.mcDataDir, "servers.dat"));
-+         CompressedStreamTools.safeWrite(nbttagcompound, new File(mc.mcDataDir, "servers.dat"));
-       } catch (Exception exception) {
--         logger.error((String)"Couldn\'t save server list", (Throwable)exception);
-+         Hyperium.LOGGER.error("Save server list error", exception);
-       }
--
-    }
+     /**
+      * Takes two list indexes, and swaps their order around.
+      */
+-    public void swapServers(int p_78857_1_, int p_78857_2_) {
+-        ServerData serverdata = this.getServerData(p_78857_1_);
+-        this.servers.set(p_78857_1_, this.getServerData(p_78857_2_));
+-        this.servers.set(p_78857_2_, serverdata);
+-        this.saveServerList();
++    public void swapServers(int pos1, int pos2) {
++        try {
++            ServerData serverdata = getServerData(pos1);
++            servers.set(pos1, getServerData(pos2));
++            servers.set(pos2, serverdata);
++            saveServerList();
++        } catch (Exception e) {
++            Hyperium.LOGGER.error("Failed to swap servers", e);
++        }
+     }
  
-    /**
-     * Gets the ServerData instance stored for the given index in the list.
-     */
-    public ServerData getServerData(int index) {
--      return (ServerData)this.servers.get(index);
-+      try {
-+         return servers.get(index);
-+      } catch (Exception e) {
-+         Hyperium.LOGGER.error("Failed to get server data", e);
-+      }
-+
-+      return null;
-    }
+     public void func_147413_a(int index, ServerData server) {
+-        this.servers.set(index, server);
++        try {
++            servers.set(index, server);
++        } catch (Exception e) {
++            Hyperium.LOGGER.error("Failed to set server data", e);
++        }
+     }
  
-    /**
-     * Removes the ServerData instance stored for the given index in the list.
-     */
-    public void removeServerData(int index) {
--      this.servers.remove(index);
-+      try {
-+         servers.remove(index);
-+      } catch (Exception e) {
-+         Hyperium.LOGGER.error("Failed to remove server data", e);
-+      }
-    }
+-    public static void func_147414_b(ServerData p_147414_0_) {
++    public static void func_147414_b(ServerData serverData) {
+         ServerList serverlist = new ServerList(Minecraft.getMinecraft());
+         serverlist.loadServerList();
  
-    /**
-     * Adds the given ServerData instance to the list.
-     */
--   public void addServerData(ServerData server) {
--      this.servers.add(server);
-+   public void addServerData(ServerData index) {
-+      try {
-+         servers.add(index);
-+      } catch (Exception e) {
-+         Hyperium.LOGGER.error("Failed to add server data", e);
-+      }
-    }
+         for (int i = 0; i < serverlist.countServers(); ++i) {
+             ServerData serverdata = serverlist.getServerData(i);
  
-    /**
-     * Counts the number of ServerData instances in the list.
-     */
-    public int countServers() {
--      return this.servers.size();
-+      return servers.size();
-    }
- 
-    /**
-     * Takes two list indexes, and swaps their order around.
-     */
--   public void swapServers(int p_78857_1_, int p_78857_2_) {
--      ServerData serverdata = this.getServerData(p_78857_1_);
--      this.servers.set(p_78857_1_, this.getServerData(p_78857_2_));
--      this.servers.set(p_78857_2_, serverdata);
--      this.saveServerList();
-+   public void swapServers(int pos1, int pos2) {
-+      try {
-+         ServerData serverdata = getServerData(pos1);
-+         servers.set(pos1, getServerData(pos2));
-+         servers.set(pos2, serverdata);
-+         saveServerList();
-+      } catch (Exception e) {
-+         Hyperium.LOGGER.error("Failed to swap servers", e);
-+      }
-    }
- 
-    public void func_147413_a(int index, ServerData server) {
--      this.servers.set(index, server);
-+      try {
-+         servers.set(index, server);
-+      } catch (Exception e) {
-+         Hyperium.LOGGER.error("Failed to set server data", e);
-+      }
-    }
- 
--   public static void func_147414_b(ServerData p_147414_0_) {
-+   public static void func_147414_b(ServerData serverData) {
-       ServerList serverlist = new ServerList(Minecraft.getMinecraft());
-       serverlist.loadServerList();
- 
--      for(int i = 0; i < serverlist.countServers(); ++i) {
-+      for (int i = 0; i < serverlist.countServers(); ++i) {
-          ServerData serverdata = serverlist.getServerData(i);
--         if(serverdata.serverName.equals(p_147414_0_.serverName) && serverdata.serverIP.equals(p_147414_0_.serverIP)) {
--            serverlist.func_147413_a(i, p_147414_0_);
-+
-+         if (serverdata.serverName.equals(serverData.serverName) && serverdata.serverIP.equals(serverData.serverIP)) {
-+            serverlist.func_147413_a(i, serverData);
-             break;
-          }
-       }
+-            if (serverdata.serverName.equals(p_147414_0_.serverName) && serverdata.serverIP.equals(p_147414_0_.serverIP)) {
+-                serverlist.func_147413_a(i, p_147414_0_);
++            if (serverdata.serverName.equals(serverData.serverName) && serverdata.serverIP.equals(serverData.serverIP)) {
++                serverlist.func_147413_a(i, serverData);
+                 break;
+             }
+         }

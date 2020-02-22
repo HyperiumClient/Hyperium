@@ -13,196 +13,202 @@
  import com.google.common.base.Predicate;
  import com.google.common.base.Predicates;
  import com.google.gson.JsonSyntaxException;
-@@ -183,6 +190,7 @@
-          }
-       }
- 
-+      new ShaderHelper(this);
-    }
- 
-    public boolean isShaderActive() {
-@@ -241,7 +249,7 @@
-       }
-    }
- 
--   private void loadShader(ResourceLocation resourceLocationIn) {
-+   public void loadShader(ResourceLocation resourceLocationIn) {
-       try {
-          this.theShaderGroup = new ShaderGroup(this.mc.getTextureManager(), this.resourceManager, this.mc.getFramebuffer(), resourceLocationIn);
-          this.theShaderGroup.createBindFramebuffers(this.mc.displayWidth, this.mc.displayHeight);
-@@ -303,7 +311,7 @@
-          this.mc.setRenderViewEntity(this.mc.thePlayer);
-       }
- 
--      float f3 = this.mc.theWorld.getLightBrightness(new BlockPos(this.mc.getRenderViewEntity()));
-+      float f3 = this.mc.theWorld.getLightBrightness(new BlockPos(this.mc.getRenderViewEntity().getPositionEyes(1.0F)));
-       float f4 = (float)this.mc.gameSettings.renderDistanceChunks / 32.0F;
-       float f2 = f3 * (1.0F - f4) + f4;
-       this.fogColor1 += (f2 - this.fogColor1) * 0.1F;
-@@ -521,13 +529,14 @@
-     * sets up player's eye (or camera in third person mode)
-     */
-    private void orientCamera(float partialTicks) {
-+      PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
-       Entity entity = this.mc.getRenderViewEntity();
-       float f = entity.getEyeHeight();
-       double d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * (double)partialTicks;
-       double d1 = entity.prevPosY + (entity.posY - entity.prevPosY) * (double)partialTicks + (double)f;
-       double d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double)partialTicks;
-       if(entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isPlayerSleeping()) {
--         f = (float)((double)f + 1.0D);
-+         ++f;
-          GlStateManager.translate(0.0F, 0.3F, 0.0F);
-          if(!this.mc.gameSettings.debugCamEnable) {
-             BlockPos blockpos = new BlockPos(entity);
-@@ -548,6 +557,10 @@
-          } else {
-             float f1 = entity.rotationYaw;
-             float f2 = entity.rotationPitch;
-+            if (perspectiveHandler.enabled) {
-+               f1 = perspectiveHandler.modifiedYaw;
-+               f2 = perspectiveHandler.modifiedPitch;
-+            }
-             if(this.mc.gameSettings.thirdPersonView == 2) {
-                f2 += 180.0F;
+@@ -173,6 +180,8 @@
+                 this.rainYCoords[i << 5 | j] = f / f2;
              }
-@@ -576,23 +589,41 @@
-                GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+         }
++
++        new ShaderHelper(this);
+     }
+ 
+     public boolean isShaderActive() {
+@@ -231,7 +240,7 @@
+         }
+     }
+ 
+-    private void loadShader(ResourceLocation resourceLocationIn) {
++    public void loadShader(ResourceLocation resourceLocationIn) {
+         try {
+             this.theShaderGroup = new ShaderGroup(this.mc.getTextureManager(), this.resourceManager, this.mc.getFramebuffer(), resourceLocationIn);
+             this.theShaderGroup.createBindFramebuffers(this.mc.displayWidth, this.mc.displayHeight);
+@@ -293,7 +302,7 @@
+             this.mc.setRenderViewEntity(this.mc.thePlayer);
+         }
+ 
+-        float f3 = this.mc.theWorld.getLightBrightness(new BlockPos(this.mc.getRenderViewEntity()));
++        float f3 = this.mc.theWorld.getLightBrightness(new BlockPos(this.mc.getRenderViewEntity().getPositionEyes(1.0F)));
+         float f4 = (float)this.mc.gameSettings.renderDistanceChunks / 32.0F;
+         float f2 = f3 * (1.0F - f4) + f4;
+         this.fogColor1 += (f2 - this.fogColor1) * 0.1F;
+@@ -520,6 +529,7 @@
+      * sets up player's eye (or camera in third person mode)
+      */
+     private void orientCamera(float partialTicks) {
++        PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
+         Entity entity = this.mc.getRenderViewEntity();
+         float f = entity.getEyeHeight();
+         double d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * (double)partialTicks;
+@@ -527,7 +537,7 @@
+         double d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double)partialTicks;
+ 
+         if (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isPlayerSleeping()) {
+-            f = (float)((double)f + 1.0D);
++            ++f;
+             GlStateManager.translate(0.0F, 0.3F, 0.0F);
+ 
+             if (!this.mc.gameSettings.debugCamEnable) {
+@@ -552,6 +562,10 @@
+                 float f1 = entity.rotationYaw;
+                 float f2 = entity.rotationPitch;
+ 
++                if (perspectiveHandler.enabled) {
++                    f1 = perspectiveHandler.modifiedYaw;
++                    f2 = perspectiveHandler.modifiedPitch;
++                }
+                 if (this.mc.gameSettings.thirdPersonView == 2) {
+                     f2 += 180.0F;
+                 }
+@@ -582,24 +596,42 @@
+                     GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+                 }
+ 
+-                GlStateManager.rotate(entity.rotationPitch - f2, 1.0F, 0.0F, 0.0F);
+-                GlStateManager.rotate(entity.rotationYaw - f1, 0.0F, 1.0F, 0.0F);
+-                GlStateManager.translate(0.0F, 0.0F, (float)(-d3));
+-                GlStateManager.rotate(f1 - entity.rotationYaw, 0.0F, 1.0F, 0.0F);
+-                GlStateManager.rotate(f2 - entity.rotationPitch, 1.0F, 0.0F, 0.0F);
++                if (perspectiveHandler.enabled) {
++                    GlStateManager.rotate(perspectiveHandler.modifiedPitch - f2, 1.0f, 0.0f, 0.0f);
++                    GlStateManager.rotate(perspectiveHandler.modifiedYaw - f1, 0.0f, 1.0f, 0.0f);
++                    GlStateManager.translate(0.0f, 0.0f, (float) (-d3));
++                    GlStateManager.rotate(f1 - perspectiveHandler.modifiedYaw, 0.0f, 1.0f, 0.0f);
++                    GlStateManager.rotate(f2 - perspectiveHandler.modifiedPitch, 1.0f, 0.0f, 0.0f);
++                } else {
++                    GlStateManager.rotate(entity.rotationPitch - f2, 1.0F, 0.0F, 0.0F);
++                    GlStateManager.rotate(entity.rotationYaw - f1, 0.0F, 1.0F, 0.0F);
++                    GlStateManager.translate(0.0F, 0.0F, (float)(-d3));
++                    GlStateManager.rotate(f1 - entity.rotationYaw, 0.0F, 1.0F, 0.0F);
++                    GlStateManager.rotate(f2 - entity.rotationPitch, 1.0F, 0.0F, 0.0F);
++                }
              }
+         } else {
+             GlStateManager.translate(0.0F, 0.0F, -0.1F);
+         }
  
--            GlStateManager.rotate(entity.rotationPitch - f2, 1.0F, 0.0F, 0.0F);
--            GlStateManager.rotate(entity.rotationYaw - f1, 0.0F, 1.0F, 0.0F);
--            GlStateManager.translate(0.0F, 0.0F, (float)(-d3));
--            GlStateManager.rotate(f1 - entity.rotationYaw, 0.0F, 1.0F, 0.0F);
--            GlStateManager.rotate(f2 - entity.rotationPitch, 1.0F, 0.0F, 0.0F);
+         if (!this.mc.gameSettings.debugCamEnable) {
+-            GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 1.0F, 0.0F, 0.0F);
++            float yaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0f;
++            final float pitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
++            final float roll = 0.0f;
+ 
+             if (entity instanceof EntityAnimal) {
+-                EntityAnimal entityanimal = (EntityAnimal)entity;
+-                GlStateManager.rotate(entityanimal.prevRotationYawHead + (entityanimal.rotationYawHead - entityanimal.prevRotationYawHead) * partialTicks + 180.0F, 0.0F, 1.0F, 0.0F);
++                final EntityAnimal entityanimal = (EntityAnimal) entity;
++                yaw = entityanimal.prevRotationYawHead + (entityanimal.rotationYawHead - entityanimal.prevRotationYawHead) * partialTicks + 180.0f;
++            }
++
 +            if (perspectiveHandler.enabled) {
-+               GlStateManager.rotate(perspectiveHandler.modifiedPitch - f2, 1.0f, 0.0f, 0.0f);
-+               GlStateManager.rotate(perspectiveHandler.modifiedYaw - f1, 0.0f, 1.0f, 0.0f);
-+               GlStateManager.translate(0.0f, 0.0f, (float) (-d3));
-+               GlStateManager.rotate(f1 - perspectiveHandler.modifiedYaw, 0.0f, 1.0f, 0.0f);
-+               GlStateManager.rotate(f2 - perspectiveHandler.modifiedPitch, 1.0f, 0.0f, 0.0f);
-+            } else {
-+               GlStateManager.rotate(entity.rotationPitch - f2, 1.0F, 0.0F, 0.0F);
-+               GlStateManager.rotate(entity.rotationYaw - f1, 0.0F, 1.0F, 0.0F);
-+               GlStateManager.translate(0.0F, 0.0F, (float)(-d3));
-+               GlStateManager.rotate(f1 - entity.rotationYaw, 0.0F, 1.0F, 0.0F);
-+               GlStateManager.rotate(f2 - entity.rotationPitch, 1.0F, 0.0F, 0.0F);
++                GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
++                GlStateManager.rotate(perspectiveHandler.modifiedPitch, 1.0f, 0.0f, 0.0f);
++                GlStateManager.rotate(perspectiveHandler.modifiedYaw + 180.0f, 0.0f, 1.0f, 0.0f);
+             } else {
+-                GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0F, 0.0F, 1.0F, 0.0F);
++                GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
++                GlStateManager.rotate(pitch, 1.0f, 0.0f, 0.0f);
++                GlStateManager.rotate(yaw, 0.0f, 1.0f, 0.0f);
+             }
+         }
+ 
+@@ -901,6 +933,42 @@
+             this.prevFrameTime = Minecraft.getSystemTime();
+         }
+ 
++        if (Hyperium.INSTANCE.getHandlers() == null || Hyperium.INSTANCE.getHandlers().getPerspectiveHandler() == null) {
++            return;
++        }
++
++        PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
++        boolean flag2 = Display.isActive();
++
++        if (Minecraft.getMinecraft().inGameHasFocus && flag2) {
++            if (perspectiveHandler.enabled && Minecraft.getMinecraft().gameSettings.thirdPersonView != 1) {
++                perspectiveHandler.onDisable();
 +            }
-          }
-       } else {
-          GlStateManager.translate(0.0F, 0.0F, -0.1F);
-       }
- 
-       if(!this.mc.gameSettings.debugCamEnable) {
--         GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 1.0F, 0.0F, 0.0F);
--         if(entity instanceof EntityAnimal) {
--            EntityAnimal entityanimal = (EntityAnimal)entity;
--            GlStateManager.rotate(entityanimal.prevRotationYawHead + (entityanimal.rotationYawHead - entityanimal.prevRotationYawHead) * partialTicks + 180.0F, 0.0F, 1.0F, 0.0F);
-+         float yaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0f;
-+         final float pitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
-+         final float roll = 0.0f;
-+         if (entity instanceof EntityAnimal) {
-+            final EntityAnimal entityanimal = (EntityAnimal) entity;
-+            yaw = entityanimal.prevRotationYawHead + (entityanimal.rotationYawHead - entityanimal.prevRotationYawHead) * partialTicks + 180.0f;
-+         }
 +
-+         if (perspectiveHandler.enabled) {
-+            GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
-+            GlStateManager.rotate(perspectiveHandler.modifiedPitch, 1.0f, 0.0f, 0.0f);
-+            GlStateManager.rotate(perspectiveHandler.modifiedYaw + 180.0f, 0.0f, 1.0f, 0.0f);
-          } else {
--            GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0F, 0.0F, 1.0F, 0.0F);
-+            GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
-+            GlStateManager.rotate(pitch, 1.0f, 0.0f, 0.0f);
-+            GlStateManager.rotate(yaw, 0.0f, 1.0f, 0.0f);
-          }
-       }
- 
-@@ -879,6 +910,40 @@
-          this.prevFrameTime = Minecraft.getSystemTime();
-       }
- 
-+      if (Hyperium.INSTANCE.getHandlers() == null || Hyperium.INSTANCE.getHandlers().getPerspectiveHandler() == null) {
-+         return;
-+      }
++            if (perspectiveHandler.enabled) {
++                Minecraft.getMinecraft().mouseHelper.mouseXYChange();
 +
-+      PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
-+      boolean flag2 = Display.isActive();
-+      if (Minecraft.getMinecraft().inGameHasFocus && flag2) {
-+         if (perspectiveHandler.enabled && Minecraft.getMinecraft().gameSettings.thirdPersonView != 1) {
-+            perspectiveHandler.onDisable();
-+         }
++                float f = Minecraft.getMinecraft().gameSettings.mouseSensitivity * 0.6F + 0.2F;
++                float f1 = f * f * f * 8.0F;
++                float f2 = (float) Minecraft.getMinecraft().mouseHelper.deltaX * f1;
++                float f3 = (float) Minecraft.getMinecraft().mouseHelper.deltaY * f1;
 +
-+         if (perspectiveHandler.enabled) {
-+            Minecraft.getMinecraft().mouseHelper.mouseXYChange();
++                // Modifying pitch and yaw values.
++                perspectiveHandler.modifiedYaw += f2 / 8.0F;
++                perspectiveHandler.modifiedPitch += f3 / 8.0F;
 +
-+            float f = Minecraft.getMinecraft().gameSettings.mouseSensitivity * 0.6F + 0.2F;
-+            float f1 = f * f * f * 8.0F;
-+            float f2 = (float) Minecraft.getMinecraft().mouseHelper.deltaX * f1;
-+            float f3 = (float) Minecraft.getMinecraft().mouseHelper.deltaY * f1;
++                // Checking if pitch exceeds maximum range.
 +
-+            // Modifying pitch and yaw values.
-+            perspectiveHandler.modifiedYaw += f2 / 8.0F;
-+            perspectiveHandler.modifiedPitch += f3 / 8.0F;
-+
-+            // Checking if pitch exceeds maximum range.
-+            if (Math.abs(perspectiveHandler.modifiedPitch) > 90.0F) {
-+               if (perspectiveHandler.modifiedPitch > 0.0F) {
-+                  perspectiveHandler.modifiedPitch = 90.0F;
-+               } else {
-+                  perspectiveHandler.modifiedPitch = -90.0F;
-+               }
++                if (Math.abs(perspectiveHandler.modifiedPitch) > 90.0F) {
++                    if (perspectiveHandler.modifiedPitch > 0.0F) {
++                        perspectiveHandler.modifiedPitch = 90.0F;
++                    } else {
++                        perspectiveHandler.modifiedPitch = -90.0F;
++                    }
++                }
 +            }
-+         }
-+      }
++        }
 +
-       this.mc.mcProfiler.startSection("mouse");
-       if(flag && Minecraft.isRunningOnMac && this.mc.inGameHasFocus && !Mouse.isInsideWindow()) {
-          Mouse.setGrabbed(false);
-@@ -943,6 +1008,7 @@
+         this.mc.mcProfiler.startSection("mouse");
  
-             this.renderEndNanoTime = System.nanoTime();
-             this.mc.mcProfiler.endStartSection("gui");
-+            EventBus.INSTANCE.post(new RenderEvent());
-             if(!this.mc.gameSettings.hideGUI || this.mc.currentScreen != null) {
-                GlStateManager.alphaFunc(516, 0.1F);
-                this.mc.ingameGUI.renderGameOverlay(partialTicks);
-@@ -1146,6 +1212,13 @@
-          if(this.mc.objectMouseOver != null && entity.isInsideOfMaterial(Material.water) && flag) {
-             EntityPlayer entityplayer = (EntityPlayer)entity;
+         if (flag && Minecraft.isRunningOnMac && this.mc.inGameHasFocus && !Mouse.isInsideWindow()) {
+@@ -971,6 +1039,7 @@
+ 
+                 this.renderEndNanoTime = System.nanoTime();
+                 this.mc.mcProfiler.endStartSection("gui");
++                EventBus.INSTANCE.post(new RenderEvent());
+ 
+                 if (!this.mc.gameSettings.hideGUI || this.mc.currentScreen != null) {
+                     GlStateManager.alphaFunc(516, 0.1F);
+@@ -1183,6 +1252,14 @@
+             if (this.mc.objectMouseOver != null && entity.isInsideOfMaterial(Material.water) && flag) {
+                 EntityPlayer entityplayer = (EntityPlayer)entity;
+                 GlStateManager.disableAlpha();
++
++                DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) mc.getRenderViewEntity()), mc.objectMouseOver, partialTicks);
++                EventBus.INSTANCE.post(drawBlockHighlightEvent);
++
++                if (drawBlockHighlightEvent.isCancelled()) {
++                    Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = true;
++                }
++
+                 this.mc.mcProfiler.endStartSection("outline");
+                 renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, partialTicks);
+                 GlStateManager.enableAlpha();
+@@ -1195,6 +1272,14 @@
+         if (flag && this.mc.objectMouseOver != null && !entity.isInsideOfMaterial(Material.water)) {
+             EntityPlayer entityplayer1 = (EntityPlayer)entity;
              GlStateManager.disableAlpha();
 +
 +            DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) mc.getRenderViewEntity()), mc.objectMouseOver, partialTicks);
 +            EventBus.INSTANCE.post(drawBlockHighlightEvent);
++
 +            if (drawBlockHighlightEvent.isCancelled()) {
-+               Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = true;
++                Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = true;
 +            }
 +
              this.mc.mcProfiler.endStartSection("outline");
-             renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, partialTicks);
+             renderglobal.drawSelectionBox(entityplayer1, this.mc.objectMouseOver, 0, partialTicks);
              GlStateManager.enableAlpha();
-@@ -1157,6 +1230,13 @@
-       if(flag && this.mc.objectMouseOver != null && !entity.isInsideOfMaterial(Material.water)) {
-          EntityPlayer entityplayer1 = (EntityPlayer)entity;
-          GlStateManager.disableAlpha();
-+
-+         DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) mc.getRenderViewEntity()), mc.objectMouseOver, partialTicks);
-+         EventBus.INSTANCE.post(drawBlockHighlightEvent);
-+         if (drawBlockHighlightEvent.isCancelled()) {
-+            Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = true;
-+         }
-+
-          this.mc.mcProfiler.endStartSection("outline");
-          renderglobal.drawSelectionBox(entityplayer1, this.mc.objectMouseOver, 0, partialTicks);
-          GlStateManager.enableAlpha();
-@@ -1207,6 +1287,10 @@
-          this.renderCloudsCheck(renderglobal, partialTicks, pass);
-       }
+@@ -1247,6 +1332,10 @@
+             this.renderCloudsCheck(renderglobal, partialTicks, pass);
+         }
  
-+      mc.mcProfiler.startSection("hyperium_render_last");
-+      new RenderWorldEvent(mc.renderGlobal, partialTicks).post();
-+      mc.mcProfiler.endSection();
++        mc.mcProfiler.startSection("hyperium_render_last");
++        new RenderWorldEvent(mc.renderGlobal, partialTicks).post();
++        mc.mcProfiler.endSection();
 +
-       this.mc.mcProfiler.endStartSection("hand");
-       if(this.renderHand) {
-          GlStateManager.clear(256);
+         this.mc.mcProfiler.endStartSection("hand");
+ 
+         if (this.renderHand) {

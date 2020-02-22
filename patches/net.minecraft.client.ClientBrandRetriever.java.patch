@@ -3,8 +3,8 @@
 @@ -6,6 +6,6 @@
  @SideOnly(Side.CLIENT)
  public class ClientBrandRetriever {
-    public static String getClientModName() {
--      return "vanilla";
-+      return "hyperium";
-    }
+     public static String getClientModName() {
+-        return "vanilla";
++        return "hyperium";
+     }
  }

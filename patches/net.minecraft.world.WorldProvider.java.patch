@@ -7,18 +7,18 @@
  import net.minecraft.init.Blocks;
  import net.minecraft.util.BlockPos;
  import net.minecraft.util.MathHelper;
-@@ -245,4 +246,14 @@
-    public WorldBorder getWorldBorder() {
-       return new WorldBorder();
-    }
+@@ -241,4 +242,14 @@
+     public WorldBorder getWorldBorder() {
+         return new WorldBorder();
+     }
 +
-+   private IRenderHandler cloudRenderer;
++    private IRenderHandler cloudRenderer;
 +
-+   public IRenderHandler getCloudRenderer() {
-+      return cloudRenderer;
-+   }
++    public IRenderHandler getCloudRenderer() {
++        return cloudRenderer;
++    }
 +
-+   public void setCloudRenderer(IRenderHandler cloudRenderer) {
-+      this.cloudRenderer = cloudRenderer;
-+   }
++    public void setCloudRenderer(IRenderHandler cloudRenderer) {
++        this.cloudRenderer = cloudRenderer;
++    }
  }

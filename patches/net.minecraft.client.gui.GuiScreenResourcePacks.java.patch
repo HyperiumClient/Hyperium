@@ -7,7 +7,7 @@
  import com.google.common.collect.Lists;
  import java.io.File;
  import java.io.IOException;
-@@ -16,6 +17,7 @@
+@@ -11,6 +12,7 @@
  import net.minecraft.client.resources.ResourcePackListEntryDefault;
  import net.minecraft.client.resources.ResourcePackListEntryFound;
  import net.minecraft.client.resources.ResourcePackRepository;
@@ -15,7 +15,7 @@
  import net.minecraft.util.Util;
  import net.minecraftforge.fml.relauncher.Side;
  import net.minecraftforge.fml.relauncher.SideOnly;
-@@ -23,6 +25,8 @@
+@@ -18,6 +20,8 @@
  import org.apache.logging.log4j.Logger;
  import org.lwjgl.Sys;
  
@@ -23,110 +23,114 @@
 +
  @SideOnly(Side.CLIENT)
  public class GuiScreenResourcePacks extends GuiScreen {
-    private static final Logger logger = LogManager.getLogger();
-@@ -35,6 +39,8 @@
-    private GuiResourcePackSelected selectedResourcePacksList;
-    private boolean changed = false;
+     private static final Logger logger = LogManager.getLogger();
+@@ -30,6 +34,8 @@
+     private GuiResourcePackSelected selectedResourcePacksList;
+     private boolean changed = false;
  
-+   private GuiTextField textField;
++    private GuiTextField textField;
 +
-    public GuiScreenResourcePacks(GuiScreen parentScreenIn) {
-       this.parentScreen = parentScreenIn;
-    }
-@@ -44,6 +50,10 @@
-     * window resizes, the buttonList is cleared beforehand.
-     */
-    public void initGui() {
-+      String s1 = textField == null ? "" : textField.getText();
-+      textField = new GuiTextField(3, fontRendererObj, width / 2 - 4 - 200, height - 24, 200, 20);
-+      textField.setText(s1);
+     public GuiScreenResourcePacks(GuiScreen parentScreenIn) {
+         this.parentScreen = parentScreenIn;
+     }
+@@ -39,6 +45,10 @@
+      * resizes, the buttonList is cleared beforehand.
+      */
+     public void initGui() {
++        String s1 = textField == null ? "" : textField.getText();
++        textField = new GuiTextField(3, fontRendererObj, width / 2 - 4 - 200, height - 24, 200, 20);
++        textField.setText(s1);
 +
-       this.buttonList.add(new GuiOptionButton(2, this.width / 2 - 154, this.height - 48, I18n.format("resourcePack.openFolder", new Object[0])));
-       this.buttonList.add(new GuiOptionButton(1, this.width / 2 + 4, this.height - 48, I18n.format("gui.done", new Object[0])));
-       if(!this.changed) {
-@@ -71,6 +81,13 @@
-       this.selectedResourcePacksList = new GuiResourcePackSelected(this.mc, 200, this.height, this.selectedResourcePacks);
-       this.selectedResourcePacksList.setSlotXBoundsFromLeft(this.width / 2 + 4);
-       this.selectedResourcePacksList.registerScrollButtons(7, 8);
-+
-+      for (GuiButton b : buttonList) {
-+         b.setWidth(200);
-+         if (b.id == 2) {
-+            b.xPosition = width / 2 - 204;
-+         }
-+      }
-    }
+         this.buttonList.add(new GuiOptionButton(2, this.width / 2 - 154, this.height - 48, I18n.format("resourcePack.openFolder", new Object[0])));
+         this.buttonList.add(new GuiOptionButton(1, this.width / 2 + 4, this.height - 48, I18n.format("gui.done", new Object[0])));
  
-    /**
-@@ -179,8 +196,17 @@
-       super.mouseClicked(mouseX, mouseY, mouseButton);
-       this.availableResourcePacksList.mouseClicked(mouseX, mouseY, mouseButton);
-       this.selectedResourcePacksList.mouseClicked(mouseX, mouseY, mouseButton);
-+      textField.mouseClicked(mouseX, mouseY, mouseButton);
-+      if (textField != null) textField.mouseClicked(mouseX, mouseY, mouseButton);
-    }
+@@ -67,6 +77,14 @@
+         this.selectedResourcePacksList = new GuiResourcePackSelected(this.mc, 200, this.height, this.selectedResourcePacks);
+         this.selectedResourcePacksList.setSlotXBoundsFromLeft(this.width / 2 + 4);
+         this.selectedResourcePacksList.registerScrollButtons(7, 8);
++
++        for (GuiButton b : buttonList) {
++            b.setWidth(200);
++
++            if (b.id == 2) {
++                b.xPosition = width / 2 - 204;
++            }
++        }
+     }
  
-+   @Override
-+   protected void keyTyped(char typedChar, int keyCode) throws IOException {
-+      super.keyTyped(typedChar, keyCode);
-+      if (textField.isFocused()) textField.textboxKeyTyped(typedChar, keyCode);
-+      availableResourcePacksList = updateList(textField, availableResourcePacksList, availableResourcePacks, mc, width, height);
-+   }
+     /**
+@@ -176,8 +194,19 @@
+         super.mouseClicked(mouseX, mouseY, mouseButton);
+         this.availableResourcePacksList.mouseClicked(mouseX, mouseY, mouseButton);
+         this.selectedResourcePacksList.mouseClicked(mouseX, mouseY, mouseButton);
++        textField.mouseClicked(mouseX, mouseY, mouseButton);
 +
-    /**
-     * Called when a mouse button is released.  Args : mouseX, mouseY, releaseButton
-     */
-@@ -196,8 +222,8 @@
-       this.availableResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
-       this.selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
-       this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.title", new Object[0]), this.width / 2, 16, 16777215);
--      this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.folderInfo", new Object[0]), this.width / 2 - 77, this.height - 26, 8421504);
-       super.drawScreen(mouseX, mouseY, partialTicks);
-+      textField.drawTextBox();
-    }
++        if (textField != null) textField.mouseClicked(mouseX, mouseY, mouseButton);
+     }
  
-    /**
-@@ -206,4 +232,43 @@
-    public void markChanged() {
-       this.changed = true;
-    }
++    @Override
++    protected void keyTyped(char typedChar, int keyCode) throws IOException {
++        super.keyTyped(typedChar, keyCode);
 +
-+   public GuiResourcePackAvailable updateList(GuiTextField searchField, GuiResourcePackAvailable availablePacksClone,
-+                                              List<ResourcePackListEntry> availableResourcePacks, Minecraft mc, int width, int height) {
-+      GuiResourcePackAvailable availableResourcePacksList;
-+      if (searchField == null || searchField.getText().isEmpty()) {
-+         availableResourcePacksList = new GuiResourcePackAvailable(mc, 200, height, availableResourcePacks);
-+         availableResourcePacksList.setSlotXBoundsFromLeft(width / 2 - 4 - 200);
-+         availablePacksClone.registerScrollButtons(7, 8);
-+      } else {
-+         availableResourcePacksList = new GuiResourcePackAvailable(mc, 200, height, Arrays.asList(availablePacksClone.getList().stream()
-+                 .filter(resourcePackListEntry -> {
-+                    try {
-+                       String name = ChatColor.stripColor(resourcePackListEntry.func_148312_b().
-+                               replaceAll("[^A-Za-z0-9 ]", "").trim().toLowerCase());
-+                       String text = searchField.getText().toLowerCase();
++        if (textField.isFocused()) textField.textboxKeyTyped(typedChar, keyCode);
++        availableResourcePacksList = updateList(textField, availableResourcePacksList, availableResourcePacks, mc, width, height);
++    }
 +
-+                       if (name.endsWith("zip")) {
-+                          name = name.subSequence(0, name.length() - 3).toString();
-+                       }
+     /**
+      * Called when a mouse button is released.  Args : mouseX, mouseY, releaseButton
+      */
+@@ -193,8 +222,8 @@
+         this.availableResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
+         this.selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
+         this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.title", new Object[0]), this.width / 2, 16, 16777215);
+-        this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.folderInfo", new Object[0]), this.width / 2 - 77, this.height - 26, 8421504);
+         super.drawScreen(mouseX, mouseY, partialTicks);
++        textField.drawTextBox();
+     }
+ 
+     /**
+@@ -203,4 +232,44 @@
+     public void markChanged() {
+         this.changed = true;
+     }
 +
-+                       for (String s : text.split(" ")) {
-+                          if (!name.contains(s.toLowerCase())) {
-+                             return false;
-+                          }
-+                       }
++    public GuiResourcePackAvailable updateList(GuiTextField searchField, GuiResourcePackAvailable availablePacksClone,
++            List<ResourcePackListEntry> availableResourcePacks, Minecraft mc, int width, int height) {
++        GuiResourcePackAvailable availableResourcePacksList;
 +
-+                       return name.startsWith(text) || name.contains(text) || name.equalsIgnoreCase(text);
-+                    } catch (Exception e) {
-+                       e.printStackTrace();
-+                       return true;
++        if (searchField == null || searchField.getText().isEmpty()) {
++            availableResourcePacksList = new GuiResourcePackAvailable(mc, 200, height, availableResourcePacks);
++            availableResourcePacksList.setSlotXBoundsFromLeft(width / 2 - 4 - 200);
++            availablePacksClone.registerScrollButtons(7, 8);
++        } else {
++            availableResourcePacksList = new GuiResourcePackAvailable(mc, 200, height, Arrays.asList(availablePacksClone.getList().stream()
++            .filter(resourcePackListEntry -> {
++                try {
++                    String name = ChatColor.stripColor(resourcePackListEntry.func_148312_b().
++                    replaceAll("[^A-Za-z0-9 ]", "").trim().toLowerCase());
++                    String text = searchField.getText().toLowerCase();
++
++                    if (name.endsWith("zip")) {
++                        name = name.subSequence(0, name.length() - 3).toString();
 +                    }
-+                 }).toArray(ResourcePackListEntry[]::new)));
 +
-+         availableResourcePacksList.setSlotXBoundsFromLeft(width / 2 - 4 - 200);
-+         availableResourcePacksList.registerScrollButtons(7, 8);
-+      }
++                    for (String s : text.split(" ")) {
++                        if (!name.contains(s.toLowerCase())) {
++                            return false;
++                        }
++                    }
 +
-+      return availableResourcePacksList;
-+   }
++                    return name.startsWith(text) || name.contains(text) || name.equalsIgnoreCase(text);
++                } catch (Exception e) {
++                    e.printStackTrace();
++                    return true;
++                }
++            }).toArray(ResourcePackListEntry[]::new)));
++
++            availableResourcePacksList.setSlotXBoundsFromLeft(width / 2 - 4 - 200);
++            availableResourcePacksList.registerScrollButtons(7, 8);
++        }
++
++        return availableResourcePacksList;
++    }
  }

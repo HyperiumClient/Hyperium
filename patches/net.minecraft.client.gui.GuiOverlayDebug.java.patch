@@ -8,19 +8,19 @@
  import com.google.common.base.Strings;
  import com.google.common.collect.Lists;
  import java.util.List;
-@@ -44,6 +46,15 @@
-    public void renderDebugInfo(ScaledResolution scaledResolutionIn) {
-       this.mc.mcProfiler.startSection("debug");
-       GlStateManager.pushMatrix();
+@@ -41,6 +43,15 @@
+     public void renderDebugInfo(ScaledResolution scaledResolutionIn) {
+         this.mc.mcProfiler.startSection("debug");
+         GlStateManager.pushMatrix();
 +
-+      if (Settings.OLD_DEBUG) {
-+         DebugOverlayUtil.INSTANCE.renderOldDebugInfoLeft();
-+         DebugOverlayUtil.INSTANCE.renderOldDebugInfoRight(scaledResolutionIn);
-+         GlStateManager.popMatrix();
-+         mc.mcProfiler.endSection();
-+         return;
-+      }
++        if (Settings.OLD_DEBUG) {
++            DebugOverlayUtil.INSTANCE.renderOldDebugInfoLeft();
++            DebugOverlayUtil.INSTANCE.renderOldDebugInfoRight(scaledResolutionIn);
++            GlStateManager.popMatrix();
++            mc.mcProfiler.endSection();
++            return;
++        }
 +
-       this.renderDebugInfoLeft();
-       this.renderDebugInfoRight(scaledResolutionIn);
-       GlStateManager.popMatrix();
+         this.renderDebugInfoLeft();
+         this.renderDebugInfoRight(scaledResolutionIn);
+         GlStateManager.popMatrix();
