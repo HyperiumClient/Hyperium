@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'club.ampthedev.mcgradle:MCGradle:2.0.4'
+        classpath 'club.ampthedev.mcgradle:MCGradle:2.0.5'
     }
 }
 
@@ -56,7 +56,8 @@ configurations {
 
 // Jitpack compatibility
 if (!new File(projectDir, 'src/minecraft').exists()) {
-    tasks.assemble.dependsOn tasks.setupCIWorkspace
+    tasks.compileKotlin.dependsOn tasks.setupCIWorkspace
+    tasks.compileJava.dependsOn tasks.setupCIWorkspace
 }
 
 dependencies {
