@@ -19,7 +19,7 @@
  @SideOnly(Side.CLIENT)
  public class GuiNewChat extends Gui {
      private static final Logger logger = LogManager.getLogger();
-@@ -23,12 +29,41 @@
+@@ -23,12 +29,42 @@
      private final List<ChatLine> drawnChatLines = Lists.<ChatLine>newArrayList();
      private int scrollPos;
      private boolean isScrolled;
@@ -40,7 +40,7 @@
      }
 +    // hyperium
 +    public static void updatePercentage(long diff) {
-+        if (percentComplete < 1) percentComplete += 0.006f * diff;
++        if (percentComplete < 1) percentComplete += 0.004f * diff;
 +        percentComplete = clamp(percentComplete, 0, 1);
 +    }
  
@@ -56,12 +56,13 @@
 +            prevMillis = current;
 +            updatePercentage(diff);
 +        }
-+        float percent = percentComplete * (2 - percentComplete);
++        float t = percentComplete;
++        float percent = 1-(--t)*t*t*t;
 +        percent = clamp(percent, 0, 1);
          if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN) {
              int i = this.getLineCount();
              boolean flag = false;
-@@ -71,10 +106,31 @@
+@@ -71,10 +107,26 @@
                              if (l1 > 3) {
                                  int i2 = 0;
                                  int j2 = -i1 * 9;
@@ -69,12 +70,7 @@
 +                                // Hyperium
 +                                if (!Settings.FASTCHAT) {
 +                                    if (Settings.SMOOTH_CHAT) {
-+                                        if (i1 <= newLines) {
-+                                            float thing = percent * (-i1 * 9 - (j2 - 9));
-+                                            drawRect(i2, ticksLeft > lowerThreshold ? (int) ((j2 - 9) + 9 - percent * 9) : j2 - 9, i2 + l + 4, ticksLeft > lowerThreshold ? (int) ((j2) + 9 - percent * 9) : j2, ((int) (l1*percent / 2) << 24));
-+                                        } else {
-+                                            drawRect(i2, ticksLeft > lowerThreshold ? (int) ((j2 - 9) + 9 - percent * 9) : j2 - 9, i2 + l + 4, ticksLeft > lowerThreshold ? (int) ((j2) + 9 - percent * 9) : j2, ((int) (l1 / 2) << 24));
-+                                        }
++                                        drawRect(i2, (int) ((j2 - 9) + 9 - percent * 9), i2 + l + 4, (int) ((j2) + 9 - percent * 9), (l1 / 2) << 24);
 +                                    } else {
 +                                        drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
 +                                    }
@@ -87,7 +83,7 @@
 +                                    if (i1 <= newLines) {
 +                                        this.mc.fontRendererObj.drawStringWithShadow(s, 0, -i1 * 9 - percent * (-i1 * 9 - (j2 - 8)), 16777215 + ((int) (255 * percent) << 24));
 +                                    } else {
-+                                        this.mc.fontRendererObj.drawStringWithShadow(s, (float) i2, ticksLeft > lowerThreshold ? (j2 - 8) + 9 - percent * 9 : j2 - 8, 16777215 + (l1 << 24));
++                                        this.mc.fontRendererObj.drawStringWithShadow(s, (float) i2, (j2 - 8) + 9 - percent * 9, 16777215 + (l1 << 24));
 +                                    }
 +                                } else {
 +                                    this.mc.fontRendererObj.drawStringWithShadow(s, (float) i2, (float) (j2 - 8), 16777215 + (l1 << 24));
@@ -95,7 +91,7 @@
                                  GlStateManager.disableAlpha();
                                  GlStateManager.disableBlend();
                              }
-@@ -113,6 +169,14 @@
+@@ -113,6 +165,14 @@
      }
  
      public void printChatMessage(IChatComponent chatComponent) {
@@ -110,7 +106,7 @@
          this.printChatMessageWithOptionalDeletion(chatComponent, 0);
      }
  
-@@ -120,6 +184,9 @@
+@@ -120,6 +180,9 @@
       * prints the ChatComponent to Chat. If the ID is not 0, deletes an existing Chat Line of that ID from the GUI
       */
      public void printChatMessageWithOptionalDeletion(IChatComponent chatComponent, int chatLineId) {
@@ -120,7 +116,7 @@
          this.setChatLine(chatComponent, chatLineId, this.mc.ingameGUI.getUpdateCounter(), false);
          logger.info("[CHAT] " + chatComponent.getUnformattedText());
      }
-@@ -132,6 +199,7 @@
+@@ -132,6 +195,7 @@
          int i = MathHelper.floor_float((float)this.getChatWidth() / this.getChatScale());
          List<IChatComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, this.mc.fontRendererObj, false, false);
          boolean flag = this.getChatOpen();
@@ -128,7 +124,7 @@
  
          for (IChatComponent ichatcomponent : list) {
              if (flag && this.scrollPos > 0) {
-@@ -142,14 +210,14 @@
+@@ -142,14 +206,14 @@
              this.drawnChatLines.add(0, new ChatLine(updateCounter, ichatcomponent, chatLineId));
          }
  
@@ -145,7 +141,7 @@
                  this.chatLines.remove(this.chatLines.size() - 1);
              }
          }
-@@ -314,4 +382,13 @@
+@@ -314,4 +378,13 @@
      public int getLineCount() {
          return this.getChatHeight() / 9;
      }
