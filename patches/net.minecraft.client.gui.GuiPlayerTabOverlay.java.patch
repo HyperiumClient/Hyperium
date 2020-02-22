@@ -43,7 +43,7 @@
              i = Math.max(i, k);
  
              if (scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
-@@ -77,9 +95,27 @@
+@@ -77,6 +95,25 @@
          }
  
          list = list.subList(0, Math.min(list.size(), 80));
@@ -68,11 +68,8 @@
 +
          int l3 = list.size();
          int i4 = l3;
--
-         int j4;
-         for (j4 = 1; i4 > 20; i4 = (l3 + j4 - 1) / j4) {
-             ++j4;
-@@ -122,25 +158,33 @@
+ 
+@@ -122,7 +159,9 @@
          }
  
          if (list1 != null) {
@@ -83,11 +80,7 @@
  
              for (String s3 : list1) {
                  int i2 = this.mc.fontRendererObj.getStringWidth(s3);
--                this.mc.fontRendererObj.drawStringWithShadow(s3, (float)(width / 2 - i2 / 2), (float)k1, -1);
-+                this.mc.fontRendererObj.drawStringWithShadow(s3, (float) (width / 2 - i2 / 2), (float) k1, -1);
-                 k1 += this.mc.fontRendererObj.FONT_HEIGHT;
-             }
- 
+@@ -133,14 +172,20 @@
              ++k1;
          }
  
@@ -110,42 +103,19 @@
              GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
              GlStateManager.enableAlpha();
              GlStateManager.enableBlend();
-@@ -151,21 +195,46 @@
+@@ -151,7 +196,7 @@
                  String s1 = this.getPlayerName(networkplayerinfo1);
                  GameProfile gameprofile = networkplayerinfo1.getGameProfile();
  
 -                if (flag) {
--                    EntityPlayer entityplayer = this.mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
--                    boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && (gameprofile.getName().equals("Dinnerbone") || gameprofile.getName().equals("Grumm"));
--                    this.mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
--                    int l2 = 8 + (flag1 ? 8 : 0);
--                    int i3 = 8 * (flag1 ? -1 : 1);
--                    Gui.drawScaledCustomSizeModalRect(j2, k2, 8.0F, (float)l2, 8, i3, 8, 8, 64.0F, 64.0F);
-+                if (Settings.TAB_HEADS) {
-+                    if (flag) {
-+                        EntityPlayer entityplayer = mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
-+                        boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) &&
-+                                        (gameprofile.getName().equals("Dinnerbone") || gameprofile.getName().equals("Grumm"));
-+                        mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
-+                        int l2 = 8 + (flag1 ? 8 : 0);
-+                        int i3 = 8 * (flag1 ? -1 : 1);
-+                        Gui.drawScaledCustomSizeModalRect(j2, k2, 8.0F, (float) l2, 8, i3, 8, 8, 64.0F, 64.0F);
++                if (Settings.TAB_HEADS && flag) {
+                     EntityPlayer entityplayer = this.mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
+                     boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && (gameprofile.getName().equals("Dinnerbone") || gameprofile.getName().equals("Grumm"));
+                     this.mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
+@@ -168,6 +213,28 @@
+                     j2 += 9;
+                 }
  
--                    if (entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.HAT)) {
--                        int j3 = 8 + (flag1 ? 8 : 0);
--                        int k3 = 8 * (flag1 ? -1 : 1);
--                        Gui.drawScaledCustomSizeModalRect(j2, k2, 40.0F, (float)j3, 8, k3, 8, 8, 64.0F, 64.0F);
-+                        if (entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.HAT)) {
-+                            int j3 = 8 + (flag1 ? 8 : 0);
-+                            int k3 = 8 * (flag1 ? -1 : 1);
-+                            Gui.drawScaledCustomSizeModalRect(j2, k2, 40.0F, (float) j3, 8, k3, 8, 8, 64.0F, 64.0F);
-+                        }
-+
-+                        j2 += 9;
-                     }
-+                }
- 
--                    j2 += 9;
 +                int renderX = j2 + mc.fontRendererObj.getStringWidth(s1) + 2;
 +
 +                if (Settings.SHOW_ONLINE_PLAYERS) {
@@ -166,10 +136,12 @@
 +                        String format = online ? ChatColor.GREEN + s : (Settings.OFFLINE_DOTS ? ChatColor.RED + s : "");
 +                        mc.fontRendererObj.drawString(format, renderX, (k2 - 2), -1);
 +                    }
-                 }
- 
++                }
++
                  if (networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
-@@ -190,8 +259,11 @@
+                     s1 = EnumChatFormatting.ITALIC + s1;
+                     this.mc.fontRendererObj.drawStringWithShadow(s1, (float)j2, (float)k2, -1862270977);
+@@ -190,8 +257,11 @@
  
          if (list2 != null) {
              k1 = k1 + i4 * 9 + 1;
@@ -182,7 +154,7 @@
              for (String s4 : list2) {
                  int j5 = this.mc.fontRendererObj.getStringWidth(s4);
                  this.mc.fontRendererObj.drawStringWithShadow(s4, (float)(width / 2 - j5 / 2), (float)k1, -1);
-@@ -201,27 +273,63 @@
+@@ -201,6 +271,42 @@
      }
  
      protected void drawPing(int p_175245_1_, int p_175245_2_, int p_175245_3_, NetworkPlayerInfo networkPlayerInfoIn) {
@@ -225,25 +197,7 @@
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.mc.getTextureManager().bindTexture(icons);
          int i = 0;
-         int j = 0;
- 
--        if (networkPlayerInfoIn.getResponseTime() < 0) {
-+        if (ping < 0) {
-             j = 5;
--        } else if (networkPlayerInfoIn.getResponseTime() < 150) {
-+        } else if (ping < 150) {
-             j = 0;
--        } else if (networkPlayerInfoIn.getResponseTime() < 300) {
-+        } else if (ping < 300) {
-             j = 1;
--        } else if (networkPlayerInfoIn.getResponseTime() < 600) {
-+        } else if (ping < 600) {
-             j = 2;
--        } else if (networkPlayerInfoIn.getResponseTime() < 1000) {
-+        } else if (ping < 1000) {
-             j = 3;
-         } else {
-             j = 4;
+@@ -221,7 +327,7 @@
          }
  
          this.zLevel += 100.0F;
@@ -252,7 +206,7 @@
          this.zLevel -= 100.0F;
      }
  
-@@ -305,6 +413,7 @@
+@@ -305,6 +411,7 @@
      }
  
      public void setHeader(IChatComponent headerIn) {

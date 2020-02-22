@@ -166,8 +166,12 @@ public class Hyperium {
             Multithreading.runAsync(() -> {
                 networkHandler = new NetworkHandler();
                 CONFIG.register(networkHandler);
-                this.client = new NettyClient(networkHandler);
-                UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
+                try {
+                    this.client = new NettyClient(networkHandler);
+                    UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
+                } catch (Exception e) {
+                    LOGGER.error("Failed to initialize Netty & register Login Reply.");
+                }
             });
 
             // Initialize notifications

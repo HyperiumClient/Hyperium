@@ -1,23 +1,12 @@
 --- original/net/minecraft/scoreboard/Scoreboard.java
 +++ changed/net/minecraft/scoreboard/Scoreboard.java
-@@ -235,14 +235,15 @@
-     /**
+@@ -236,7 +236,8 @@
       * Removes the team from the scoreboard, updates all player memberships and broadcasts the deletion to all players
       */
--    public void removeTeam(ScorePlayerTeam p_96511_1_) {
+     public void removeTeam(ScorePlayerTeam p_96511_1_) {
 -        this.teams.remove(p_96511_1_.getRegisteredName());
-+    public void removeTeam(ScorePlayerTeam team) {
-+        if (team == null) return;
-+        if (team.getRegisteredName() != null) teams.remove(team.getRegisteredName());
++        if (p_96511_1_ == null) return;
++        if (p_96511_1_.getRegisteredName() != null) teams.remove(p_96511_1_.getRegisteredName());
  
--        for (String s : p_96511_1_.getMembershipCollection()) {
--            this.teamMemberships.remove(s);
-+        for (String s : team.getMembershipCollection()) {
-+            teamMemberships.remove(s);
-         }
- 
--        this.func_96513_c(p_96511_1_);
-+        func_96513_c(team);
-     }
- 
-     /**
+         for (String s : p_96511_1_.getMembershipCollection()) {
+             this.teamMemberships.remove(s);

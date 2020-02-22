@@ -1,19 +1,6 @@
 --- original/net/minecraft/nbt/NBTUtil.java
 +++ changed/net/minecraft/nbt/NBTUtil.java
-@@ -13,24 +13,21 @@
-         String s = null;
-         String s1 = null;
- 
--        if (compound.hasKey("Name", 8)) {
--            s = compound.getString("Name");
--        }
-+        if (compound.hasKey("Name", 8)) s = compound.getString("Name");
- 
--        if (compound.hasKey("Id", 8)) {
--            s1 = compound.getString("Id");
--        }
-+        if (compound.hasKey("Id", 8)) s1 = compound.getString("Id");
- 
+@@ -24,11 +24,13 @@
          if (StringUtils.isNullOrEmpty(s) && StringUtils.isNullOrEmpty(s1)) {
              return null;
          } else {
@@ -22,35 +9,13 @@
 -                uuid = UUID.fromString(s1);
 -            } catch (Throwable var12) {
 -                uuid = null;
--            }
 +            UUID uuid = null;
- 
-+            if (s1 != null)
++
++            if (s1 != null) {
 +                try {
 +                    uuid = UUID.fromString(s1);
 +                } catch (Throwable ignored) {
 +                }
-+
-             GameProfile gameprofile = new GameProfile(uuid, s);
- 
-             if (compound.hasKey("Properties", 10)) {
-@@ -39,15 +36,12 @@
-                 for (String s2 : nbttagcompound.getKeySet()) {
-                     NBTTagList nbttaglist = nbttagcompound.getTagList(s2, 10);
- 
--                    for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-+                    int bound = nbttaglist.tagCount();
-+                    for (int i = 0; i < bound; i++) {
-                         NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-                         String s3 = nbttagcompound1.getString("Value");
--
--                        if (nbttagcompound1.hasKey("Signature", 8)) {
--                            gameprofile.getProperties().put(s2, new Property(s2, s3, nbttagcompound1.getString("Signature")));
--                        } else {
--                            gameprofile.getProperties().put(s2, new Property(s2, s3));
--                        }
-+                        gameprofile.getProperties().put(s2, nbttagcompound1.hasKey("Signature", 8) ?
-+                                                        new Property(s2, s3, nbttagcompound1.getString("Signature")) : new Property(s2, s3));
-                     }
-                 }
              }
+ 
+             GameProfile gameprofile = new GameProfile(uuid, s);

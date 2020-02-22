@@ -3,28 +3,11 @@
 @@ -1,5 +1,6 @@
  package net.minecraft.client.gui;
  
-+import cc.hyperium.utils.ChatColor;
++import cc.hyperium.gui.resource.ResourcePackUtil;
  import com.google.common.collect.Lists;
  import java.io.File;
  import java.io.IOException;
-@@ -11,6 +12,7 @@
- import net.minecraft.client.resources.ResourcePackListEntryDefault;
- import net.minecraft.client.resources.ResourcePackListEntryFound;
- import net.minecraft.client.resources.ResourcePackRepository;
-+import net.minecraft.client.Minecraft;
- import net.minecraft.util.Util;
- import net.minecraftforge.fml.relauncher.Side;
- import net.minecraftforge.fml.relauncher.SideOnly;
-@@ -18,6 +20,8 @@
- import org.apache.logging.log4j.Logger;
- import org.lwjgl.Sys;
- 
-+import java.util.Arrays;
-+
- @SideOnly(Side.CLIENT)
- public class GuiScreenResourcePacks extends GuiScreen {
-     private static final Logger logger = LogManager.getLogger();
-@@ -30,6 +34,8 @@
+@@ -30,6 +31,8 @@
      private GuiResourcePackSelected selectedResourcePacksList;
      private boolean changed = false;
  
@@ -33,7 +16,7 @@
      public GuiScreenResourcePacks(GuiScreen parentScreenIn) {
          this.parentScreen = parentScreenIn;
      }
-@@ -39,6 +45,10 @@
+@@ -39,6 +42,10 @@
       * resizes, the buttonList is cleared beforehand.
       */
      public void initGui() {
@@ -44,7 +27,7 @@
          this.buttonList.add(new GuiOptionButton(2, this.width / 2 - 154, this.height - 48, I18n.format("resourcePack.openFolder", new Object[0])));
          this.buttonList.add(new GuiOptionButton(1, this.width / 2 + 4, this.height - 48, I18n.format("gui.done", new Object[0])));
  
-@@ -67,6 +77,14 @@
+@@ -67,6 +74,14 @@
          this.selectedResourcePacksList = new GuiResourcePackSelected(this.mc, 200, this.height, this.selectedResourcePacks);
          this.selectedResourcePacksList.setSlotXBoundsFromLeft(this.width / 2 + 4);
          this.selectedResourcePacksList.registerScrollButtons(7, 8);
@@ -59,12 +42,10 @@
      }
  
      /**
-@@ -176,8 +194,19 @@
+@@ -176,8 +191,17 @@
          super.mouseClicked(mouseX, mouseY, mouseButton);
          this.availableResourcePacksList.mouseClicked(mouseX, mouseY, mouseButton);
          this.selectedResourcePacksList.mouseClicked(mouseX, mouseY, mouseButton);
-+        textField.mouseClicked(mouseX, mouseY, mouseButton);
-+
 +        if (textField != null) textField.mouseClicked(mouseX, mouseY, mouseButton);
      }
  
@@ -73,13 +54,13 @@
 +        super.keyTyped(typedChar, keyCode);
 +
 +        if (textField.isFocused()) textField.textboxKeyTyped(typedChar, keyCode);
-+        availableResourcePacksList = updateList(textField, availableResourcePacksList, availableResourcePacks, mc, width, height);
++        availableResourcePacksList = ResourcePackUtil.updateList(textField, availableResourcePacksList, availableResourcePacks, mc, width, height);
 +    }
 +
      /**
       * Called when a mouse button is released.  Args : mouseX, mouseY, releaseButton
       */
-@@ -193,8 +222,8 @@
+@@ -193,8 +217,8 @@
          this.availableResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
          this.selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
          this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.title", new Object[0]), this.width / 2, 16, 16777215);
@@ -89,48 +70,3 @@
      }
  
      /**
-@@ -203,4 +232,44 @@
-     public void markChanged() {
-         this.changed = true;
-     }
-+
-+    public GuiResourcePackAvailable updateList(GuiTextField searchField, GuiResourcePackAvailable availablePacksClone,
-+            List<ResourcePackListEntry> availableResourcePacks, Minecraft mc, int width, int height) {
-+        GuiResourcePackAvailable availableResourcePacksList;
-+
-+        if (searchField == null || searchField.getText().isEmpty()) {
-+            availableResourcePacksList = new GuiResourcePackAvailable(mc, 200, height, availableResourcePacks);
-+            availableResourcePacksList.setSlotXBoundsFromLeft(width / 2 - 4 - 200);
-+            availablePacksClone.registerScrollButtons(7, 8);
-+        } else {
-+            availableResourcePacksList = new GuiResourcePackAvailable(mc, 200, height, Arrays.asList(availablePacksClone.getList().stream()
-+            .filter(resourcePackListEntry -> {
-+                try {
-+                    String name = ChatColor.stripColor(resourcePackListEntry.func_148312_b().
-+                    replaceAll("[^A-Za-z0-9 ]", "").trim().toLowerCase());
-+                    String text = searchField.getText().toLowerCase();
-+
-+                    if (name.endsWith("zip")) {
-+                        name = name.subSequence(0, name.length() - 3).toString();
-+                    }
-+
-+                    for (String s : text.split(" ")) {
-+                        if (!name.contains(s.toLowerCase())) {
-+                            return false;
-+                        }
-+                    }
-+
-+                    return name.startsWith(text) || name.contains(text) || name.equalsIgnoreCase(text);
-+                } catch (Exception e) {
-+                    e.printStackTrace();
-+                    return true;
-+                }
-+            }).toArray(ResourcePackListEntry[]::new)));
-+
-+            availableResourcePacksList.setSlotXBoundsFromLeft(width / 2 - 4 - 200);
-+            availableResourcePacksList.registerScrollButtons(7, 8);
-+        }
-+
-+        return availableResourcePacksList;
-+    }
- }

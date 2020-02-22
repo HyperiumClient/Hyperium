@@ -89,48 +89,18 @@
          this.parentStyle = parent;
          return this;
      }
-@@ -352,36 +364,25 @@
+@@ -352,6 +364,7 @@
       */
      @SideOnly(Side.CLIENT)
      public String getFormattingCode() {
--        if (this.isEmpty()) {
--            return this.parentStyle != null ? this.parentStyle.getFormattingCode() : "";
 +        if (cachedState != null) return cachedState;
-+        if (isEmpty()) {
-+            return parentStyle != null ? parentStyle.getFormattingCode() : "";
+         if (this.isEmpty()) {
+             return this.parentStyle != null ? this.parentStyle.getFormattingCode() : "";
          } else {
-             StringBuilder stringbuilder = new StringBuilder();
+@@ -381,7 +394,9 @@
+                 stringbuilder.append((Object)EnumChatFormatting.STRIKETHROUGH);
+             }
  
--            if (this.getColor() != null) {
--                stringbuilder.append((Object)this.getColor());
--            }
-+            if (getColor() != null) stringbuilder.append(getColor());
- 
--            if (this.getBold()) {
--                stringbuilder.append((Object)EnumChatFormatting.BOLD);
--            }
-+            if (getBold()) stringbuilder.append(EnumChatFormatting.BOLD);
-+            if (getItalic()) stringbuilder.append(EnumChatFormatting.ITALIC);
- 
--            if (this.getItalic()) {
--                stringbuilder.append((Object)EnumChatFormatting.ITALIC);
--            }
-+            if (getUnderlined()) stringbuilder.append(EnumChatFormatting.UNDERLINE);
-+            if (getObfuscated()) stringbuilder.append(EnumChatFormatting.OBFUSCATED);
- 
--            if (this.getUnderlined()) {
--                stringbuilder.append((Object)EnumChatFormatting.UNDERLINE);
--            }
-+            if (getStrikethrough()) stringbuilder.append(EnumChatFormatting.STRIKETHROUGH);
- 
--            if (this.getObfuscated()) {
--                stringbuilder.append((Object)EnumChatFormatting.OBFUSCATED);
--            }
--
--            if (this.getStrikethrough()) {
--                stringbuilder.append((Object)EnumChatFormatting.STRIKETHROUGH);
--            }
--
 -            return stringbuilder.toString();
 +            String s = stringbuilder.toString();
 +            cachedState = s;
@@ -138,7 +108,7 @@
          }
      }
  
-@@ -618,4 +619,8 @@
+@@ -618,4 +633,8 @@
                  }
              }
          }

@@ -30,12 +30,9 @@
  import java.util.Collection;
  import java.util.List;
  import java.util.Map;
-@@ -724,12 +741,21 @@
-      * Prints a chatmessage in the chat GUI
-      */
+@@ -726,10 +743,19 @@
      public void handleChat(S02PacketChat packetIn) {
--        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-+        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, gameController);
+         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
  
 +        ServerChatEvent event = new ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
 +
@@ -55,55 +52,18 @@
          }
      }
  
-@@ -738,22 +764,36 @@
-      * receiving a critical hit by normal or magical means
+@@ -739,6 +765,10 @@
       */
      public void handleAnimation(S0BPacketAnimation packetIn) {
--        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
--        Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
-+        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (NetHandlerPlayClient) (Object) this, gameController);
- 
+         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
++
 +        // Stops the code if the world is null, usually due to a weird packet from the server
 +
 +        if (clientWorldController == null) return;
-+        Entity entity = clientWorldController.getEntityByID(packetIn.getEntityID());
-+
+         Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
+ 
          if (entity != null) {
--            if (packetIn.getAnimationType() == 0) {
--                EntityLivingBase entitylivingbase = (EntityLivingBase)entity;
-+            switch (packetIn.getAnimationType()) {
-+            case 0:
-+                EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
-                 entitylivingbase.swingItem();
--            } else if (packetIn.getAnimationType() == 1) {
-+                break;
-+
-+            case 1:
-                 entity.performHurtAnimation();
--            } else if (packetIn.getAnimationType() == 2) {
--                EntityPlayer entityplayer = (EntityPlayer)entity;
-+                break;
-+
-+            case 2:
-+                EntityPlayer entityplayer = (EntityPlayer) entity;
-                 entityplayer.wakeUpPlayer(false, false, false);
--            } else if (packetIn.getAnimationType() == 4) {
--                this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
--            } else if (packetIn.getAnimationType() == 5) {
--                this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
-+                break;
-+
-+            case 4:
-+                gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
-+                break;
-+
-+            case 5:
-+                gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
-+                break;
-             }
-         }
-     }
-@@ -805,12 +845,39 @@
+@@ -805,12 +835,39 @@
          }
      }
  
@@ -121,18 +81,18 @@
 +        }
 +
 +        switch (timeChanger.getTimeType()) {
-+        case DAY:
-+            handleActualPacket(new S03PacketTimeUpdate(packetIn.getWorldTime(), -6000L, true));
-+            break;
-+        case SUNSET:
-+            handleActualPacket(new S03PacketTimeUpdate(packetIn.getWorldTime(), -22880L, true));
-+            break;
-+        case NIGHT:
-+            handleActualPacket(new S03PacketTimeUpdate(packetIn.getWorldTime(), -18000L, true));
-+            break;
-+        case VANILLA:
-+            handleActualPacket(packetIn);
-+            break;
++            case DAY:
++                handleActualPacket(new S03PacketTimeUpdate(packetIn.getWorldTime(), -6000L, true));
++                break;
++            case SUNSET:
++                handleActualPacket(new S03PacketTimeUpdate(packetIn.getWorldTime(), -22880L, true));
++                break;
++            case NIGHT:
++                handleActualPacket(new S03PacketTimeUpdate(packetIn.getWorldTime(), -18000L, true));
++                break;
++            case VANILLA:
++                handleActualPacket(packetIn);
++                break;
 +        }
      }
  
@@ -146,7 +106,7 @@
      public void handleSpawnPosition(S05PacketSpawnPosition packetIn) {
          PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
          this.gameController.thePlayer.setSpawnPoint(packetIn.getSpawnPos(), true);
-@@ -1396,16 +1463,25 @@
+@@ -1396,16 +1453,25 @@
  
          if (this.gameController.currentScreen instanceof GuiChat) {
              GuiChat guichat = (GuiChat)this.gameController.currentScreen;
@@ -173,7 +133,7 @@
          final String s = packetIn.getURL();
          final String s1 = packetIn.getHash();
  
-@@ -1526,6 +1602,48 @@
+@@ -1526,6 +1592,48 @@
                  this.gameController.displayGuiScreen(new GuiScreenBook(this.gameController.thePlayer, itemstack, false));
              }
          }
@@ -222,7 +182,7 @@
      }
  
      /**
-@@ -1731,4 +1849,39 @@
+@@ -1731,4 +1839,39 @@
      public GameProfile getGameProfile() {
          return this.profile;
      }
