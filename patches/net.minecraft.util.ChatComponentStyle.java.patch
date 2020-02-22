@@ -1,0 +1,42 @@
+--- original/net/minecraft/util/ChatComponentStyle.java
++++ changed/net/minecraft/util/ChatComponentStyle.java
+@@ -15,6 +15,12 @@
+     /**
+      * Appends the given component to the end of this one.
+      */
++    private String cache;
++
++    public void invalidateCache() {
++        cache = null;
++    }
++
+     public IChatComponent appendSibling(IChatComponent component) {
+         component.getChatStyle().setParentStyle(this.getChatStyle());
+         this.siblings.add(component);
+@@ -33,6 +39,7 @@
+     }
+ 
+     public IChatComponent setChatStyle(ChatStyle style) {
++        invalidateCache();
+         this.style = style;
+ 
+         for (IChatComponent ichatcomponent : this.siblings) {
+@@ -76,6 +83,8 @@
+      */
+     @SideOnly(Side.CLIENT)
+     public final String getFormattedText() {
++        if (cache != null) return cache;
++
+         StringBuilder stringbuilder = new StringBuilder();
+ 
+         for (IChatComponent ichatcomponent : this) {
+@@ -84,7 +93,8 @@
+             stringbuilder.append((Object)EnumChatFormatting.RESET);
+         }
+ 
+-        return stringbuilder.toString();
++        cache = stringbuilder.toString();
++        return cache;
+     }
+ 
+     public static Iterator<IChatComponent> createDeepCopyIterator(Iterable<IChatComponent> components) {

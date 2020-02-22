@@ -141,7 +141,7 @@
                  this.chatLines.remove(this.chatLines.size() - 1);
              }
          }
-@@ -314,4 +378,13 @@
+@@ -321,4 +385,13 @@
      public int getLineCount() {
          return this.getChatHeight() / 9;
      }

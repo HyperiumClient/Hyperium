@@ -1,0 +1,17 @@
+--- original/net/minecraft/world/gen/feature/WorldGenBigTree.java
++++ changed/net/minecraft/world/gen/feature/WorldGenBigTree.java
+@@ -261,12 +261,14 @@
+         }
+ 
+         if (!this.validTreeLocation()) {
++            world = null;
+             return false;
+         } else {
+             this.generateLeafNodeList();
+             this.generateLeaves();
+             this.generateTrunk();
+             this.generateLeafNodeBases();
++            world = null;
+             return true;
+         }
+     }

@@ -9,18 +9,16 @@
  @SideOnly(Side.CLIENT)
  public class GuiOptionSlider extends GuiButton {
      private float sliderValue;
-@@ -52,10 +54,11 @@
+@@ -52,10 +54,9 @@
                  this.displayString = mc.gameSettings.getKeyBinding(this.options);
              }
  
 -            mc.getTextureManager().bindTexture(buttonTextures);
-+            // Hyperium start
              GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 -            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (float)(this.width - 8)), this.yPosition, 0, 66, 4, 20);
 -            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (float)(this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
 +            drawRect(xPosition + (int) (sliderValue * (float) (width - 6)), yPosition,
-+                    xPosition + (int) (sliderValue * (float) (width - 6)) + 6, yPosition + 20, new Color(0, 0, 0, 150).getRGB());
-+            // Hyperium end
++                     xPosition + (int) (sliderValue * (float) (width - 6)) + 6, yPosition + 20, new Color(0, 0, 0, 150).getRGB());
          }
      }
  

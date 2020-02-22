@@ -10,12 +10,10 @@
  import net.minecraft.client.resources.I18n;
  import net.minecraft.util.IChatComponent;
  import net.minecraftforge.fml.relauncher.Side;
-@@ -19,6 +22,9 @@
+@@ -19,6 +22,7 @@
          this.parentScreen = screen;
          this.reason = I18n.format(reasonLocalizationKey, new Object[0]);
          this.message = chatComp;
-+
-+        // Hyperium
 +        EventBus.INSTANCE.post(new ServerLeaveEvent());
      }
  

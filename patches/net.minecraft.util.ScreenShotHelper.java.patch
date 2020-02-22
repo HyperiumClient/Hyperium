@@ -1,0 +1,130 @@
+--- original/net/minecraft/util/ScreenShotHelper.java
++++ changed/net/minecraft/util/ScreenShotHelper.java
+@@ -7,6 +7,15 @@
+ import java.text.SimpleDateFormat;
+ import java.util.Date;
+ import javax.imageio.ImageIO;
++import cc.hyperium.Hyperium;
++import cc.hyperium.config.Settings;
++import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
++import cc.hyperium.utils.ChatColor;
++import cc.hyperium.utils.mods.AsyncScreenshotSaver;
++import net.minecraft.client.Minecraft;
++import org.lwjgl.input.Mouse;
++import org.lwjgl.input.Keyboard;
++import org.lwjgl.opengl.GL12;
+ import net.minecraft.client.renderer.GlStateManager;
+ import net.minecraft.client.renderer.OpenGlHelper;
+ import net.minecraft.client.renderer.texture.TextureUtil;
+@@ -18,7 +27,6 @@
+ import org.apache.logging.log4j.Logger;
+ import org.lwjgl.BufferUtils;
+ import org.lwjgl.opengl.GL11;
+-import org.lwjgl.opengl.GL12;
+ 
+ @SideOnly(Side.CLIENT)
+ public class ScreenShotHelper {
+@@ -46,68 +54,51 @@
+      * gameDirectory, fileName, requestedWidthInPixels, requestedHeightInPixels, frameBuffer
+      */
+     public static IChatComponent saveScreenshot(File gameDirectory, String screenshotName, int width, int height, Framebuffer buffer) {
+-        try {
+-            File file1 = new File(gameDirectory, "screenshots");
+-            file1.mkdir();
++        final File file1 = new File(Minecraft.getMinecraft().mcDataDir, "screenshots");
++        file1.mkdir();
+ 
+-            if (OpenGlHelper.isFramebufferEnabled()) {
+-                width = buffer.framebufferTextureWidth;
+-                height = buffer.framebufferTextureHeight;
+-            }
++        if (OpenGlHelper.isFramebufferEnabled()) {
++            width = buffer.framebufferTextureWidth;
++            height = buffer.framebufferTextureHeight;
++        }
+ 
+-            int i = width * height;
++        final int i = width * height;
+ 
+-            if (pixelBuffer == null || pixelBuffer.capacity() < i) {
+-                pixelBuffer = BufferUtils.createIntBuffer(i);
+-                pixelValues = new int[i];
+-            }
++        if (pixelBuffer == null || pixelBuffer.capacity() < i) {
++            pixelBuffer = BufferUtils.createIntBuffer(i);
++            pixelValues = new int[i];
++        }
+ 
+-            GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
+-            GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+-            pixelBuffer.clear();
++        GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
++        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
++        pixelBuffer.clear();
+ 
+-            if (OpenGlHelper.isFramebufferEnabled()) {
+-                GlStateManager.bindTexture(buffer.framebufferTexture);
+-                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
+-            } else {
+-                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
+-            }
++        if (OpenGlHelper.isFramebufferEnabled()) {
++            GlStateManager.bindTexture(buffer.framebufferTexture);
++            GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
++        } else {
++            GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
++        }
+ 
+-            pixelBuffer.get(pixelValues);
+-            TextureUtil.processPixelValues(pixelValues, width, height);
+-            BufferedImage bufferedimage = null;
++        boolean upload = true;
++        pixelBuffer.get(pixelValues);
+ 
+-            if (OpenGlHelper.isFramebufferEnabled()) {
+-                bufferedimage = new BufferedImage(buffer.framebufferWidth, buffer.framebufferHeight, 1);
+-                int j = buffer.framebufferTextureHeight - buffer.framebufferHeight;
++        if (!Settings.DEFAULT_UPLOAD_SS) {
++            HyperiumBind uploadBind = Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBinding("Upload Screenshot");
++            int keyCode = uploadBind.getKeyCode();
++            upload = keyCode < 0 ? Mouse.isButtonDown(keyCode + 100) : Keyboard.isKeyDown(keyCode);
++        }
+ 
+-                for (int k = j; k < buffer.framebufferTextureHeight; ++k) {
+-                    for (int l = 0; l < buffer.framebufferWidth; ++l) {
+-                        bufferedimage.setRGB(l, k - j, pixelValues[k * buffer.framebufferTextureWidth + l]);
+-                    }
+-                }
+-            } else {
+-                bufferedimage = new BufferedImage(width, height, 1);
+-                bufferedimage.setRGB(0, 0, width, height, pixelValues, 0, width);
+-            }
++        new Thread(new AsyncScreenshotSaver(width, height, pixelValues, Minecraft.getMinecraft().getFramebuffer(),
++                                            new File(Minecraft.getMinecraft().mcDataDir, "screenshots"), upload)).start();
+ 
+-            File file2;
+-
+-            if (screenshotName == null) {
+-                file2 = getTimestampedPNGFileForDirectory(file1);
+-            } else {
+-                file2 = new File(file1, screenshotName);
+-            }
+-
+-            ImageIO.write(bufferedimage, "png", (File)file2);
+-            IChatComponent ichatcomponent = new ChatComponentText(file2.getName());
+-            ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath()));
+-            ichatcomponent.getChatStyle().setUnderlined(Boolean.valueOf(true));
+-            return new ChatComponentTranslation("screenshot.success", new Object[] {ichatcomponent});
+-        } catch (Exception exception) {
+-            logger.warn((String)"Couldn\'t save screenshot", (Throwable)exception);
+-            return new ChatComponentTranslation("screenshot.failure", new Object[] {exception.getMessage()});
++        if (!upload) {
++            return Settings.HYPERIUM_CHAT_PREFIX ? new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Capturing...") :
++                   new ChatComponentText(ChatColor.WHITE + "Capturing...");
+         }
++
++        return Settings.HYPERIUM_CHAT_PREFIX ? new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Uploading...") :
++               new ChatComponentText(ChatColor.WHITE + "Uploading...");
+     }
+ 
+     /**

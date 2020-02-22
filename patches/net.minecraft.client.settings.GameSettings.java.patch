@@ -1,0 +1,45 @@
+--- original/net/minecraft/client/settings/GameSettings.java
++++ changed/net/minecraft/client/settings/GameSettings.java
+@@ -54,7 +54,7 @@
+     };
+     /** GUI scale values */
+     private static final String[] GUISCALES = new String[] {"options.guiScale.auto", "options.guiScale.small", "options.guiScale.normal", "options.guiScale.large"};
+-    private static final String[] PARTICLES = new String[] {"options.particles.all", "options.particles.decreased", "options.particles.minimal"};
++    private static final String[] PARTICLES = new String[] {"options.particles.all", "options.particles.decreased", "options.particles.minimal", "options.particles.disabled"};
+     private static final String[] AMBIENT_OCCLUSIONS = new String[] {"options.ao.off", "options.ao.min", "options.ao.max"};
+     private static final String[] STREAM_COMPRESSIONS = new String[] {"options.stream.compression.low", "options.stream.compression.medium", "options.stream.compression.high"};
+     private static final String[] STREAM_CHAT_MODES = new String[] {"options.stream.chat.enabled.streaming", "options.stream.chat.enabled.always", "options.stream.chat.enabled.never"};
+@@ -282,7 +282,7 @@
+                 this.mc.getTextureMapBlocks().setMipmapLevels(this.mipmapLevels);
+                 this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+                 this.mc.getTextureMapBlocks().setBlurMipmapDirect(false, this.mipmapLevels > 0);
+-                this.mc.scheduleResourcesRefresh();
++                needsResourceRefresh = true;
+             }
+         }
+ 
+@@ -335,7 +335,7 @@
+         }
+ 
+         if (settingsOption == GameSettings.Options.PARTICLES) {
+-            this.particleSetting = (this.particleSetting + value) % 3;
++            this.particleSetting = (this.particleSetting + value) % 4;
+         }
+ 
+         if (settingsOption == GameSettings.Options.VIEW_BOBBING) {
+@@ -1028,6 +1028,15 @@
+         return this.useNativeTransport;
+     }
+ 
++    private boolean needsResourceRefresh;
++
++    public void onGuiClosed() {
++        if (needsResourceRefresh) {
++            mc.scheduleResourcesRefresh();
++            needsResourceRefresh = false;
++        }
++    }
++
+     @SideOnly(Side.CLIENT)
+     public static enum Options {
+         INVERT_MOUSE("options.invertMouse", false, true),

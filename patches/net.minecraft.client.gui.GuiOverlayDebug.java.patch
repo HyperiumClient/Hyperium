@@ -8,12 +8,11 @@
  import com.google.common.base.Strings;
  import com.google.common.collect.Lists;
  import java.util.List;
-@@ -41,6 +43,16 @@
+@@ -41,6 +43,15 @@
      public void renderDebugInfo(ScaledResolution scaledResolutionIn) {
          this.mc.mcProfiler.startSection("debug");
          GlStateManager.pushMatrix();
 +
-+        // Hyperium
 +        if (Settings.OLD_DEBUG) {
 +            DebugOverlayUtil.INSTANCE.renderOldDebugInfoLeft();
 +            DebugOverlayUtil.INSTANCE.renderOldDebugInfoRight(scaledResolutionIn);

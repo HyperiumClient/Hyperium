@@ -1,0 +1,20 @@
+--- original/net/minecraft/server/dedicated/DedicatedServer.java
++++ changed/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -27,6 +27,7 @@
+ import net.minecraft.server.management.PreYggdrasilConverter;
+ import net.minecraft.util.BlockPos;
+ import net.minecraft.util.CryptManager;
++import net.minecraft.util.IChatComponent;
+ import net.minecraft.util.MathHelper;
+ import net.minecraft.world.EnumDifficulty;
+ import net.minecraft.world.World;
+@@ -575,4 +576,9 @@
+         this.commandManager.executeCommand(RConConsoleSource.getInstance(), command);
+         return RConConsoleSource.getInstance().getLogContents();
+     }
++
++    @Override
++    public void addChatMessage(IChatComponent component) {
++        logger.info(component.getFormattedText());
++    }
+ }

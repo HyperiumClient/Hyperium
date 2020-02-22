@@ -9,15 +9,14 @@
  @SideOnly(Side.CLIENT)
  public class GuiSlider extends GuiButton {
      private float sliderPosition = 1.0F;
-@@ -77,8 +79,9 @@
+@@ -77,8 +79,8 @@
              }
  
              GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 -            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderPosition * (float)(this.width - 8)), this.yPosition, 0, 66, 4, 20);
 -            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderPosition * (float)(this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
-+            // Hyperium
 +            drawRect(xPosition + (int) (sliderPosition * (float) (width - 6)), yPosition,
-+                    xPosition + (int) (sliderPosition * (float) (width - 6)) + 6, yPosition + 20, new Color(0, 0, 0, 150).getRGB());
++                     xPosition + (int) (sliderPosition * (float) (width - 6)) + 6, yPosition + 20, new Color(0, 0, 0, 150).getRGB());
          }
      }
  

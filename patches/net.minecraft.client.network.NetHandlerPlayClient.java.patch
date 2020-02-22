@@ -1,0 +1,264 @@
+--- original/net/minecraft/client/network/NetHandlerPlayClient.java
++++ changed/net/minecraft/client/network/NetHandlerPlayClient.java
+@@ -1,12 +1,29 @@
+ package net.minecraft.client.network;
+ 
++import cc.hyperium.Hyperium;
++import cc.hyperium.Metadata;
++import cc.hyperium.event.EventBus;
++import cc.hyperium.event.network.chat.ServerChatEvent;
++import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
++import cc.hyperium.internal.addons.AddonBootstrap;
++import cc.hyperium.internal.addons.AddonManifest;
++import cc.hyperium.mods.timechanger.TimeChanger;
++import cc.hyperium.network.LoginReplyHandler;
++import cc.hyperium.utils.ChatColor;
++import com.google.common.base.Charsets;
+ import com.google.common.collect.Maps;
++import com.google.common.collect.ObjectArrays;
+ import com.google.common.util.concurrent.FutureCallback;
+ import com.google.common.util.concurrent.Futures;
+ import com.mojang.authlib.GameProfile;
+ import io.netty.buffer.Unpooled;
+ import java.io.File;
+ import java.io.IOException;
++import java.io.UnsupportedEncodingException;
++import java.net.URI;
++import java.net.URISyntaxException;
++import java.net.URLDecoder;
++import java.nio.charset.StandardCharsets;
+ import java.util.Collection;
+ import java.util.List;
+ import java.util.Map;
+@@ -724,12 +741,21 @@
+      * Prints a chatmessage in the chat GUI
+      */
+     public void handleChat(S02PacketChat packetIn) {
+-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
++        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, gameController);
+ 
++        ServerChatEvent event = new ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
++
++        EventBus.INSTANCE.post(event);
++
++        // If the event is cancelled or the message is empty, we'll ignore the packet.
++
++        if (event.isCancelled() || event.getChat().getFormattedText().isEmpty()) return;
++
+         if (packetIn.getType() == 2) {
+-            this.gameController.ingameGUI.setRecordPlaying(packetIn.getChatComponent(), false);
++            gameController.ingameGUI.setRecordPlaying(event.getChat(), false);
+         } else {
+-            this.gameController.ingameGUI.getChatGUI().printChatMessage(packetIn.getChatComponent());
++            // This will then trigger the other chat event
++            gameController.ingameGUI.getChatGUI().printChatMessage(event.getChat());
+         }
+     }
+ 
+@@ -738,22 +764,36 @@
+      * receiving a critical hit by normal or magical means
+      */
+     public void handleAnimation(S0BPacketAnimation packetIn) {
+-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
+-        Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
++        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (NetHandlerPlayClient) (Object) this, gameController);
+ 
++        // Stops the code if the world is null, usually due to a weird packet from the server
++
++        if (clientWorldController == null) return;
++        Entity entity = clientWorldController.getEntityByID(packetIn.getEntityID());
++
+         if (entity != null) {
+-            if (packetIn.getAnimationType() == 0) {
+-                EntityLivingBase entitylivingbase = (EntityLivingBase)entity;
++            switch (packetIn.getAnimationType()) {
++            case 0:
++                EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
+                 entitylivingbase.swingItem();
+-            } else if (packetIn.getAnimationType() == 1) {
++                break;
++
++            case 1:
+                 entity.performHurtAnimation();
+-            } else if (packetIn.getAnimationType() == 2) {
+-                EntityPlayer entityplayer = (EntityPlayer)entity;
++                break;
++
++            case 2:
++                EntityPlayer entityplayer = (EntityPlayer) entity;
+                 entityplayer.wakeUpPlayer(false, false, false);
+-            } else if (packetIn.getAnimationType() == 4) {
+-                this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
+-            } else if (packetIn.getAnimationType() == 5) {
+-                this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
++                break;
++
++            case 4:
++                gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
++                break;
++
++            case 5:
++                gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
++                break;
+             }
+         }
+     }
+@@ -805,12 +845,39 @@
+         }
+     }
+ 
++    private TimeChanger timeChanger = Hyperium.INSTANCE.getModIntegration().getTimeChanger();
++
+     public void handleTimeUpdate(S03PacketTimeUpdate packetIn) {
+-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
+-        this.gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
+-        this.gameController.theWorld.setWorldTime(packetIn.getWorldTime());
++        if (timeChanger == null) timeChanger = Hyperium.INSTANCE.getModIntegration().getTimeChanger();
++
++        if (timeChanger.getTimeType() == null) {
++            handleActualPacket(packetIn);
++            return;
++        }
++
++        switch (timeChanger.getTimeType()) {
++        case DAY:
++            handleActualPacket(new S03PacketTimeUpdate(packetIn.getWorldTime(), -6000L, true));
++            break;
++        case SUNSET:
++            handleActualPacket(new S03PacketTimeUpdate(packetIn.getWorldTime(), -22880L, true));
++            break;
++        case NIGHT:
++            handleActualPacket(new S03PacketTimeUpdate(packetIn.getWorldTime(), -18000L, true));
++            break;
++        case VANILLA:
++            handleActualPacket(packetIn);
++            break;
++        }
+     }
+ 
++    private void handleActualPacket(S03PacketTimeUpdate packetIn) {
++        if (gameController == null || gameController.theWorld == null) return;
++        PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, gameController);
++        gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
++        gameController.theWorld.setWorldTime(packetIn.getWorldTime());
++    }
++
+     public void handleSpawnPosition(S05PacketSpawnPosition packetIn) {
+         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
+         this.gameController.thePlayer.setSpawnPoint(packetIn.getSpawnPos(), true);
+@@ -1396,16 +1463,25 @@
+ 
+         if (this.gameController.currentScreen instanceof GuiChat) {
+             GuiChat guichat = (GuiChat)this.gameController.currentScreen;
+-            guichat.onAutocompleteResponse(astring);
++            guichat.onAutocompleteResponse(addHyperiumCompletions(astring));
+         }
+     }
+ 
++    private String[] addHyperiumCompletions(String[] currentCompletions) {
++        String[] modCompletions = Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().getLatestAutoComplete();
++
++        if (modCompletions != null) currentCompletions = ObjectArrays.concat(modCompletions, currentCompletions, String.class);
++        return currentCompletions;
++    }
++
+     public void handleSoundEffect(S29PacketSoundEffect packetIn) {
+         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
+         this.gameController.theWorld.playSound(packetIn.getX(), packetIn.getY(), packetIn.getZ(), packetIn.getSoundName(), packetIn.getVolume(), packetIn.getPitch(), false);
+     }
+ 
+     public void handleResourcePack(S48PacketResourcePackSend packetIn) {
++        if (!validateResourcePackUrl(packetIn.getURL(), packetIn.getHash())) return;
++
+         final String s = packetIn.getURL();
+         final String s1 = packetIn.getHash();
+ 
+@@ -1526,6 +1602,48 @@
+                 this.gameController.displayGuiScreen(new GuiScreenBook(this.gameController.thePlayer, itemstack, false));
+             }
+         }
++
++        PacketBuffer packetBuffer = packetIn.getBufferData();
++        try {
++            int readableBytes = packetBuffer.readableBytes();
++
++            if (readableBytes > 0) {
++                byte[] payload = new byte[readableBytes - 1];
++                packetBuffer.readBytes(payload);
++                String message = new String(payload, Charsets.UTF_8);
++
++                if (LoginReplyHandler.SHOW_MESSAGES) {
++                    GeneralChatHandler.instance().sendMessage("Packet message on channel " + packetIn.getChannelName() + " -> " + message);
++                }
++
++                if ("REGISTER".equalsIgnoreCase(packetIn.getChannelName())) {
++                    if (message.contains("Hyperium")) {
++                        PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
++                        buffer.writeString("Hyperium;" + Metadata.getVersion() + ";" + Metadata.getVersionID());
++                        addToSendQueue(new C17PacketCustomPayload("REGISTER", buffer));
++                        PacketBuffer addonbuffer = new PacketBuffer(Unpooled.buffer());
++                        List<AddonManifest> addons = AddonBootstrap.INSTANCE.getAddonManifests();
++                        addonbuffer.writeInt(addons.size());
++
++                        for (AddonManifest addonmanifest : addons) {
++                            String addonName = addonmanifest.getName();
++                            String version = addonmanifest.getVersion();
++
++                            if (addonName == null) addonName = addonmanifest.getMainClass();
++
++                            if (version == null) version = "unknown";
++
++                            addonbuffer.writeString(addonName);
++                            addonbuffer.writeString(version);
++                        }
++
++                        addToSendQueue(new C17PacketCustomPayload("hyperium|Addons", addonbuffer));
++                    }
++                }
++            }
++        } catch (Exception ex) {
++            ex.printStackTrace();
++        }
+     }
+ 
+     /**
+@@ -1731,4 +1849,39 @@
+     public GameProfile getGameProfile() {
+         return this.profile;
+     }
++
++    private boolean validateResourcePackUrl(String url, String hash) {
++        try {
++            URI uri = new URI(url);
++            String scheme = uri.getScheme();
++            boolean isLevelProtocol = "level".equals(scheme);
++
++            if (!"http".equals(scheme) && !"https".equals(scheme) && !isLevelProtocol) {
++                netManager.sendPacket(new C19PacketResourcePackStatus(hash, C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
++                throw new URISyntaxException(url, "Wrong protocol");
++            }
++
++            url = URLDecoder.decode(url.substring("level://".length()), StandardCharsets.UTF_8.toString());
++
++            if (isLevelProtocol && (url.contains("..") || !url.endsWith("/resources.zip"))) {
++                Hyperium.LOGGER.warn("[Resource Exploit Fix Warning] Malicious server tried to access {}", url);
++                EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
++
++                if (thePlayer != null) {
++                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.RED + ChatColor.BOLD.toString() +
++                            "[EXPLOIT FIX WARNING] The current server has attempted to be malicious but we have stopped them!");
++                }
++
++                throw new URISyntaxException(url, "Invalid levelstorage resourcepack path");
++            }
++
++            return true;
++        } catch (URISyntaxException e) {
++            return false;
++        } catch (UnsupportedEncodingException e) {
++            e.printStackTrace();
++        }
++
++        return false;
++    }
+ }

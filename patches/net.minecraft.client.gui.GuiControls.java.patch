@@ -1,30 +1,29 @@
 --- original/net/minecraft/client/gui/GuiControls.java
 +++ changed/net/minecraft/client/gui/GuiControls.java
-@@ -1,6 +1,8 @@
+@@ -1,6 +1,7 @@
  package net.minecraft.client.gui;
  
  import java.io.IOException;
-+
 +import cc.hyperium.gui.keybinds.GuiKeybinds;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.resources.I18n;
  import net.minecraft.client.settings.GameSettings;
-@@ -47,6 +49,9 @@
+@@ -47,6 +48,9 @@
  
              ++i;
          }
 +
 +        buttonList.add(new GuiButton(10, buttonList.get(1).xPosition, buttonList.get(3).yPosition + 24,
-+                150, 20, "Hyperium Keybinds"));
++                                     150, 20, "Hyperium Keybinds"));
      }
  
      /**
-@@ -73,6 +78,8 @@
+@@ -73,6 +77,8 @@
              this.options.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
              button.displayString = this.options.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
          }
 +
-+        if (button.id == 10) Minecraft.getMinecraft().displayGuiScreen(new GuiKeybinds()); // Hyperium
++        if (button.id == 10) Minecraft.getMinecraft().displayGuiScreen(new GuiKeybinds());
      }
  
      /**

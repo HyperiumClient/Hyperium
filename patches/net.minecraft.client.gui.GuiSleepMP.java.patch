@@ -5,7 +5,7 @@
  
              if (!s.isEmpty()) {
 -                this.mc.thePlayer.sendChatMessage(s);
-+                sendChatMessage(s); // Hyperium
++                sendChatMessage(s);
              }
  
              this.inputField.setText("");

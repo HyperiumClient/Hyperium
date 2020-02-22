@@ -1,0 +1,34 @@
+--- original/net/minecraft/item/Item.java
++++ changed/net/minecraft/item/Item.java
+@@ -877,6 +877,31 @@
+         itemRegistry.register(id, textualID, itemIn);
+     }
+ 
++    // Hyperium - Taken from Forge for Skyblock Addons
++
++    /**
++     * Determines if the durability bar should be rendered for this item.
++     * Defaults to vanilla stack.isDamaged behavior.
++     * But modders can use this for any data they wish.
++     *
++     * @param stack The current Item Stack
++     * @return True if it should render the 'durability' bar.
++     */
++    public boolean showDurabilityBar(ItemStack stack)
++    {
++        return stack.isItemDamaged();
++    }
++
++    /**
++     * Queries the percentage of the 'Durability' bar that should be drawn.
++     *
++     * @param stack The current ItemStack
++     * @return 1.0 for 100% 0 for 0%
++     */
++    public double getDurabilityForDisplay(ItemStack stack) {
++        return (double) stack.getItemDamage() / (double) stack.getMaxDamage();
++    }
++
+     public static enum ToolMaterial {
+         WOOD(0, 59, 2.0F, 0.0F, 15),
+         STONE(1, 131, 4.0F, 1.0F, 5),

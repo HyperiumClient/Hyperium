@@ -1,0 +1,87 @@
+--- original/net/minecraft/client/renderer/ThreadDownloadImageData.java
++++ changed/net/minecraft/client/renderer/ThreadDownloadImageData.java
+@@ -7,6 +7,8 @@
+ import java.net.URL;
+ import java.util.concurrent.atomic.AtomicInteger;
+ import javax.imageio.ImageIO;
++
++import cc.hyperium.mods.sk1ercommon.Multithreading;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.renderer.texture.SimpleTexture;
+ import net.minecraft.client.renderer.texture.TextureUtil;
+@@ -88,45 +90,48 @@
+     }
+ 
+     protected void loadTextureFromServer() {
+-        this.imageThread = new Thread("Texture Downloader #" + threadDownloadCounter.incrementAndGet()) {
++        // Please don't use a lambda.
++        // Please.
++        // It makes the transformer 10 times harder to make
++        // please
++        // i just want to implement this easily
++        Multithreading.runAsync(new Runnable() {
++            @Override
+             public void run() {
+-                HttpURLConnection httpurlconnection = null;
+-                ThreadDownloadImageData.logger.debug("Downloading http texture from {} to {}", new Object[] {ThreadDownloadImageData.this.imageUrl, ThreadDownloadImageData.this.cacheFile});
++                HttpURLConnection connection = null;
+ 
+                 try {
+-                    httpurlconnection = (HttpURLConnection)(new URL(ThreadDownloadImageData.this.imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
+-                    httpurlconnection.setDoInput(true);
+-                    httpurlconnection.setDoOutput(false);
+-                    httpurlconnection.connect();
++                    connection = (HttpURLConnection) (new URL(imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
++                    connection.setRequestProperty("User-Agent", "Hyperium Client");
++                    connection.setDoInput(true);
++                    connection.setDoOutput(true);
++                    connection.connect();
+ 
+-                    if (httpurlconnection.getResponseCode() / 100 == 2) {
+-                        BufferedImage bufferedimage;
++                    if (connection.getResponseCode() / 100 == 2) {
++                        BufferedImage image;
+ 
+-                        if (ThreadDownloadImageData.this.cacheFile != null) {
+-                            FileUtils.copyInputStreamToFile(httpurlconnection.getInputStream(), ThreadDownloadImageData.this.cacheFile);
+-                            bufferedimage = ImageIO.read(ThreadDownloadImageData.this.cacheFile);
++                        if (cacheFile != null) {
++                            FileUtils.copyInputStreamToFile(connection.getInputStream(), cacheFile);
++                            image = ImageIO.read(cacheFile);
+                         } else {
+-                            bufferedimage = TextureUtil.readBufferedImage(httpurlconnection.getInputStream());
++                            image = TextureUtil.readBufferedImage(connection.getInputStream());
+                         }
+ 
+-                        if (ThreadDownloadImageData.this.imageBuffer != null) {
+-                            bufferedimage = ThreadDownloadImageData.this.imageBuffer.parseUserSkin(bufferedimage);
+-                        }
+-
+-                        ThreadDownloadImageData.this.setBufferedImage(bufferedimage);
+-                        return;
++                        if (imageBuffer != null) image = imageBuffer.parseUserSkin(image);
++                        setBufferedImage(image);
+                     }
+-                } catch (Exception exception) {
+-                    ThreadDownloadImageData.logger.error((String)"Couldn\'t download http texture", (Throwable)exception);
+-                    return;
++                } catch (Exception ignored) {
+                 } finally {
+-                    if (httpurlconnection != null) {
+-                        httpurlconnection.disconnect();
++                    if (connection != null) {
++                        connection.disconnect();
+                     }
+                 }
+             }
+-        };
+-        this.imageThread.setDaemon(true);
+-        this.imageThread.start();
++        });
+     }
++
++    // Hyperium: Add image buffer getter
++    public IImageBuffer getImageBuffer() {
++        return imageBuffer;
++    }
+ }

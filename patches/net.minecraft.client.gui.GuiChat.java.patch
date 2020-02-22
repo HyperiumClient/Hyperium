@@ -14,7 +14,7 @@
          this.inputField.setFocused(true);
          this.inputField.setText(this.defaultInputFieldText);
          this.inputField.setCanLoseFocus(false);
-+        inputField.setMaxStringLength(HypixelDetector.getInstance().isHypixel() ? 256 : 100); // Hyperium
++        inputField.setMaxStringLength(HypixelDetector.getInstance().isHypixel() ? 256 : 100);
      }
  
      /**
@@ -23,7 +23,7 @@
          }
  
 -        this.inputField.writeText((String)this.foundPlayerNames.get(this.autocompleteIndex++));
-+        this.inputField.writeText(ChatColor.stripColor(this.foundPlayerNames.get(this.autocompleteIndex++))); // Hyperium - strip color
++        this.inputField.writeText(ChatColor.stripColor(this.foundPlayerNames.get(this.autocompleteIndex++)));
      }
  
      private void sendAutocompleteRequest(String p_146405_1_, String p_146405_2_) {
@@ -31,37 +31,37 @@
                  blockpos = this.mc.objectMouseOver.getBlockPos();
              }
  
-+            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().autoComplete(p_146405_1_); // Hyperium
++            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().autoComplete(p_146405_1_);
              this.mc.thePlayer.sendQueue.addToSendQueue(new C14PacketTabComplete(p_146405_1_, blockpos));
              this.waitingOnAutocomplete = true;
          }
-@@ -254,6 +260,8 @@
+@@ -254,6 +260,9 @@
      }
  
      public void onAutocompleteResponse(String[] p_146406_1_) {
 +        p_146406_1_ = NickHider.instance == null || !NickHider.instance.getNickHiderConfig().isMasterEnabled() ?
-+                p_146406_1_ : NickHider.instance.tabComplete(p_146406_1_, inputField.getText()); // hyperium
++                      p_146406_1_ : NickHider.instance.tabComplete(p_146406_1_, inputField.getText());
++
          if (this.waitingOnAutocomplete) {
              this.playerNamesFound = false;
              this.foundPlayerNames.clear();
-@@ -267,9 +275,9 @@
+@@ -267,9 +276,9 @@
              String s1 = this.inputField.getText().substring(this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false));
              String s2 = StringUtils.getCommonPrefix(p_146406_1_);
  
 -            if (s2.length() > 0 && !s1.equalsIgnoreCase(s2)) {
-+            if (s2.length() > 0 && !s1.equalsIgnoreCase(ChatColor.stripColor(s2))) { // hyperium - strip
++            if (s2.length() > 0 && !s1.equalsIgnoreCase(ChatColor.stripColor(s2))) {
                  this.inputField.deleteFromCursor(this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false) - this.inputField.getCursorPosition());
 -                this.inputField.writeText(s2);
-+                this.inputField.writeText(ChatColor.stripColor(s2)); // hyperium - strip
++                this.inputField.writeText(ChatColor.stripColor(s2));
              } else if (this.foundPlayerNames.size() > 0) {
                  this.playerNamesFound = true;
                  this.autocompletePlayerNames();
-@@ -283,4 +291,9 @@
+@@ -283,4 +292,8 @@
      public boolean doesGuiPauseGame() {
          return false;
      }
 +
-+    // Hyperium
 +    public GuiTextField getInputField() {
 +        return inputField;
 +    }

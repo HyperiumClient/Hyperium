@@ -1,0 +1,16 @@
+--- original/net/minecraft/client/particle/EntityFX.java
++++ changed/net/minecraft/client/particle/EntityFX.java
+@@ -229,4 +229,13 @@
+     public String toString() {
+         return this.getClass().getSimpleName() + ", Pos (" + this.posX + "," + this.posY + "," + this.posZ + "), RGBA (" + this.particleRed + "," + this.particleGreen + "," + this.particleBlue + "," + this.particleAlpha + "), Age " + this.particleAge;
+     }
++
++    public void setParticleMaxAge(int particleMaxAge) {
++        this.particleMaxAge = particleMaxAge;
++    }
++
++    // Hyperium: Add setter
++    public void setParticleGravity(float particleGravity) {
++        this.particleGravity = particleGravity;
++    }
+ }

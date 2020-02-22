@@ -13,7 +13,7 @@
              if (button.id == 1) {
                  this.field_146303_a.confirmClicked(false, 0);
              } else if (button.id == 0) {
-+                Hyperium.INSTANCE.setFromMainMenu(false); // Hyperium
++                Hyperium.INSTANCE.setFromMainMenu(false);
                  this.field_146301_f.serverIP = this.field_146302_g.getText();
                  this.field_146303_a.confirmClicked(true, 0);
              }

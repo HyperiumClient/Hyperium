@@ -11,22 +11,20 @@
      }
  
      public void connectToSelected() {
-+        Hyperium.INSTANCE.setFromMainMenu(false); // Hyperium
++        Hyperium.INSTANCE.setFromMainMenu(false);
          GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.func_148193_k() < 0 ? null : this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k());
  
          if (guilistextended$iguilistentry instanceof ServerListEntryNormal) {
-@@ -386,4 +388,14 @@
+@@ -386,4 +388,12 @@
  
          this.serverListSelector.func_148195_a(this.savedServerList);
      }
 +
-+    // Hyperium
 +    public void makeDirectConnect() {
 +        directConnect = true;
 +    }
 +
-+    // Hyperium
-+    public void setIp(ServerData selectedServer) {
-+        this.selectedServer = selectedServer;
++    public void setIp(ServerData ip) {
++        selectedServer = ip;
 +    }
  }

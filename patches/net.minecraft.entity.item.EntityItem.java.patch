@@ -1,0 +1,44 @@
+--- original/net/minecraft/entity/item/EntityItem.java
++++ changed/net/minecraft/entity/item/EntityItem.java
+@@ -1,5 +1,6 @@
+ package net.minecraft.entity.item;
+ 
++import cc.hyperium.event.world.item.ItemPickupEvent;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.entity.Entity;
+ import net.minecraft.entity.player.EntityPlayer;
+@@ -132,6 +133,12 @@
+      * Looks for other itemstacks nearby and tries to stack them together
+      */
+     private void searchForOtherItemsNearby() {
++        ItemStack stack = getEntityItem();
++
++        if (stack.stackSize > stack.getMaxStackSize()) {
++            return;
++        }
++
+         for (EntityItem entityitem : this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.5D, 0.0D, 0.5D))) {
+             this.combineItems(entityitem);
+         }
+@@ -142,6 +149,12 @@
+      * other item will  be removed from the world.
+      */
+     private boolean combineItems(EntityItem other) {
++        ItemStack stack = getEntityItem();
++
++        if (stack.stackSize > stack.getMaxStackSize()) {
++            return false;
++        }
++
+         if (other == this) {
+             return false;
+         } else if (other.isEntityAlive() && this.isEntityAlive()) {
+@@ -288,6 +301,8 @@
+      */
+     public void onCollideWithPlayer(EntityPlayer entityIn) {
+         if (!this.worldObj.isRemote) {
++            new ItemPickupEvent(entityIn, this).post();
++
+             ItemStack itemstack = this.getEntityItem();
+             int i = itemstack.stackSize;
+ 

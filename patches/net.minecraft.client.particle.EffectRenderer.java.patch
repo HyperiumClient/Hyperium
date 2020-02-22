@@ -1,0 +1,11 @@
+--- original/net/minecraft/client/particle/EffectRenderer.java
++++ changed/net/minecraft/client/particle/EffectRenderer.java
+@@ -405,4 +405,8 @@
+ 
+         return "" + i;
+     }
++
++    public Map<Integer, IParticleFactory> getParticleMap() {
++        return particleTypes;
++    }
+ }

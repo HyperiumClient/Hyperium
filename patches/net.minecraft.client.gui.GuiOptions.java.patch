@@ -11,17 +11,16 @@
  import net.minecraft.client.audio.PositionedSoundRecord;
  import net.minecraft.client.audio.SoundCategory;
  import net.minecraft.client.audio.SoundEventAccessorComposite;
-@@ -27,6 +31,9 @@
+@@ -27,6 +31,8 @@
      private GuiLockIconButton field_175356_r;
      protected String field_146442_a = "Options";
  
-+    // Hyperium
 +    private GuiButton broadcastSettings, superSecretSettings;
 +
      public GuiOptions(GuiScreen p_i1046_1_, GameSettings p_i1046_2_) {
          this.field_146441_g = p_i1046_1_;
          this.game_settings_1 = p_i1046_2_;
-@@ -72,7 +79,7 @@
+@@ -72,7 +78,7 @@
          }
  
          this.buttonList.add(new GuiButton(110, this.width / 2 - 155, this.height / 6 + 48 - 6, 150, 20, I18n.format("options.skinCustomisation", new Object[0])));
@@ -30,7 +29,7 @@
              public void playPressSound(SoundHandler soundHandlerIn) {
                  SoundEventAccessorComposite soundeventaccessorcomposite = soundHandlerIn.getRandomSoundFromCategories(new SoundCategory[] {SoundCategory.ANIMALS, SoundCategory.BLOCKS, SoundCategory.MOBS, SoundCategory.PLAYERS, SoundCategory.WEATHER});
  
-@@ -82,7 +89,7 @@
+@@ -82,7 +88,7 @@
              }
          });
          this.buttonList.add(new GuiButton(106, this.width / 2 - 155, this.height / 6 + 72 - 6, 150, 20, I18n.format("options.sounds", new Object[0])));
@@ -39,12 +38,10 @@
          this.buttonList.add(new GuiButton(101, this.width / 2 - 155, this.height / 6 + 96 - 6, 150, 20, I18n.format("options.video", new Object[0])));
          this.buttonList.add(new GuiButton(100, this.width / 2 + 5, this.height / 6 + 96 - 6, 150, 20, I18n.format("options.controls", new Object[0])));
          this.buttonList.add(new GuiButton(102, this.width / 2 - 155, this.height / 6 + 120 - 6, 150, 20, I18n.format("options.language", new Object[0])));
-@@ -90,6 +97,26 @@
+@@ -90,6 +96,22 @@
          this.buttonList.add(new GuiButton(105, this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.resourcepack", new Object[0])));
          this.buttonList.add(new GuiButton(104, this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.snooper.view", new Object[0])));
          this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
-+
-+        // Hyperium start
 +
 +        for (GuiButton b : buttonList) {
 +            if (b.id == 200) {
@@ -53,36 +50,33 @@
 +        }
 +
 +        buttonList.add(new GuiButton(114514,
-+                Settings.CLEANER_MENUS ? width / 2 + 5 : width / 2 - 155,
-+                Settings.CLEANER_MENUS ? height / 6 + 48 - 6 : height / 6 + 18,
-+                150, 20,
-+                I18n.format("button.ingame.hyperiumsettings")));
++                                     Settings.CLEANER_MENUS ? width / 2 + 5 : width / 2 - 155,
++                                     Settings.CLEANER_MENUS ? height / 6 + 48 - 6 : height / 6 + 18,
++                                     150, 20,
++                                     I18n.format("button.ingame.hyperiumsettings")));
 +        buttonList.add(new GuiButton(62727568, width / 2 + 5,
-+                Settings.CLEANER_MENUS ? height / 6 + 72 - 6 : height / 6 + 18,
-+                150, 20,
-+                "Hyperium Keybinds"));
-+
-+        // Hyperium end
++                                     Settings.CLEANER_MENUS ? height / 6 + 72 - 6 : height / 6 + 18,
++                                     150, 20,
++                                     "Hyperium Keybinds"));
      }
  
      public String func_175355_a(EnumDifficulty p_175355_1_) {
-@@ -190,6 +217,10 @@
+@@ -190,6 +212,10 @@
                      GuiStreamUnavailable.func_152321_a(this);
                  }
              }
 +
-+            // Hyperium
 +            if (button.id == 114514) HyperiumMainGui.INSTANCE.show();
++
 +            if (button.id == 62727568) mc.displayGuiScreen(new GuiKeybinds());
          }
      }
  
-@@ -198,6 +229,13 @@
+@@ -198,6 +224,12 @@
       */
      public void drawScreen(int mouseX, int mouseY, float partialTicks) {
          this.drawDefaultBackground();
 +
-+        // Hyperium
 +        if (Settings.CLEANER_MENUS) {
 +            superSecretSettings.visible = false;
 +            broadcastSettings.visible = false;

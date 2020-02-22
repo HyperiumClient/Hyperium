@@ -1,0 +1,11 @@
+--- original/net/minecraft/client/resources/ResourcePackListEntryDefault.java
++++ changed/net/minecraft/client/resources/ResourcePackListEntryDefault.java
+@@ -69,7 +69,7 @@
+         return false;
+     }
+ 
+-    protected String func_148312_b() {
++    public String func_148312_b() {
+         return "Default";
+     }
+ 

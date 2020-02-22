@@ -1,0 +1,57 @@
+--- original/net/minecraft/world/chunk/Chunk.java
++++ changed/net/minecraft/world/chunk/Chunk.java
+@@ -1,5 +1,9 @@
+ package net.minecraft.world.chunk;
+ 
++import cc.hyperium.config.Settings;
++import cc.hyperium.event.EventBus;
++import cc.hyperium.event.entity.EntityEnterChunkEvent;
++import cc.hyperium.event.world.chunk.ChunkLoadEvent;
+ import com.google.common.base.Predicate;
+ import com.google.common.collect.Maps;
+ import com.google.common.collect.Queues;
+@@ -13,6 +17,7 @@
+ import net.minecraft.block.ITileEntityProvider;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.state.IBlockState;
++import net.minecraft.client.Minecraft;
+ import net.minecraft.crash.CrashReport;
+ import net.minecraft.crash.CrashReportCategory;
+ import net.minecraft.entity.Entity;
+@@ -619,6 +624,8 @@
+     }
+ 
+     public int getLightFor(EnumSkyBlock p_177413_1_, BlockPos pos) {
++        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
++
+         int i = pos.getX() & 15;
+         int j = pos.getY();
+         int k = pos.getZ() & 15;
+@@ -649,6 +656,8 @@
+     }
+ 
+     public int getLightSubtracted(BlockPos pos, int amount) {
++        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) return 15;
++
+         int i = pos.getX() & 15;
+         int j = pos.getY();
+         int k = pos.getZ() & 15;
+@@ -692,6 +701,8 @@
+             k = this.entityLists.length - 1;
+         }
+ 
++        // Hyperium - Alert the client when an entity enters the chunk
++        EventBus.INSTANCE.post(new EntityEnterChunkEvent(entityIn, xPosition, zPosition, entityIn.chunkCoordX, entityIn.chunkCoordZ));
+         entityIn.addedToChunk = true;
+         entityIn.chunkCoordX = this.xPosition;
+         entityIn.chunkCoordY = k;
+@@ -797,6 +808,9 @@
+ 
+             this.worldObj.loadEntities(this.entityLists[i]);
+         }
++
++        // Hyperium - Post chunk loading event
++        EventBus.INSTANCE.post(new ChunkLoadEvent(this));
+     }
+ 
+     /**

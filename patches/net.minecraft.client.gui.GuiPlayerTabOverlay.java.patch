@@ -1,6 +1,6 @@
 --- original/net/minecraft/client/gui/GuiPlayerTabOverlay.java
 +++ changed/net/minecraft/client/gui/GuiPlayerTabOverlay.java
-@@ -1,10 +1,22 @@
+@@ -1,10 +1,18 @@
  package net.minecraft.client.gui;
  
 +import cc.hyperium.Hyperium;
@@ -15,20 +15,25 @@
  import com.mojang.authlib.GameProfile;
  import java.util.Comparator;
  import java.util.List;
-+import java.util.UUID;
-+import java.util.concurrent.ConcurrentLinkedDeque;
-+import java.util.concurrent.ConcurrentLinkedQueue;
-+
 +import me.semx11.autotip.Autotip;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.network.NetHandlerPlayClient;
  import net.minecraft.client.network.NetworkPlayerInfo;
-@@ -68,6 +80,14 @@
+@@ -22,6 +30,9 @@
+ import net.minecraftforge.fml.relauncher.Side;
+ import net.minecraftforge.fml.relauncher.SideOnly;
+ 
++import java.util.UUID;
++import java.util.concurrent.ConcurrentLinkedDeque;
++
+ @SideOnly(Side.CLIENT)
+ public class GuiPlayerTabOverlay extends Gui {
+     private static final Ordering<NetworkPlayerInfo> field_175252_a = Ordering.from(new GuiPlayerTabOverlay.PlayerComparator());
+@@ -68,6 +79,13 @@
  
          for (NetworkPlayerInfo networkplayerinfo : list) {
              int k = this.mc.fontRendererObj.getStringWidth(this.getPlayerName(networkplayerinfo));
 +
-+            // Hyperium
 +            if (Settings.SHOW_ONLINE_PLAYERS) {
 +                k += LevelheadGui.getLevelheadWidth(networkplayerinfo) + mc.fontRendererObj.getStringWidth("⚫") + (Settings.TAB_HEADS ? 0 : 10);
 +            } else {
@@ -38,19 +43,19 @@
              i = Math.max(i, k);
  
              if (scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
-@@ -77,6 +97,25 @@
+@@ -77,9 +95,27 @@
          }
  
          list = list.subList(0, Math.min(list.size(), 80));
 +
-+        // Hyperium
 +        if (Settings.FRIENDS_FIRST_IN_TAB) {
 +            ConcurrentLinkedDeque<NetworkPlayerInfo> friends = new ConcurrentLinkedDeque<>();
-+            List<UUID> friendUuidList = HypixelAPI.INSTANCE.getListOfCurrentUsersFriends();
++            List<UUID> friendUUIDList = HypixelAPI.INSTANCE.getListOfCurrentUsersFriends();
 +
 +            for (NetworkPlayerInfo networkPlayerInfo : list) {
 +                UUID id = networkPlayerInfo.getGameProfile().getId();
-+                if (friendUuidList.contains(id)) {
++
++                if (friendUUIDList.contains(id)) {
 +                    friends.add(networkPlayerInfo);
 +                }
 +            }
@@ -63,25 +68,30 @@
 +
          int l3 = list.size();
          int i4 = l3;
- 
-@@ -122,7 +161,10 @@
+-
+         int j4;
+         for (j4 = 1; i4 > 20; i4 = (l3 + j4 - 1) / j4) {
+             ++j4;
+@@ -122,25 +158,33 @@
          }
  
          if (list1 != null) {
 -            drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
-+            // Hyperium
 +            if (!Settings.FAST_TAB) {
 +                drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
 +            }
  
              for (String s3 : list1) {
                  int i2 = this.mc.fontRendererObj.getStringWidth(s3);
-@@ -133,14 +175,22 @@
+-                this.mc.fontRendererObj.drawStringWithShadow(s3, (float)(width / 2 - i2 / 2), (float)k1, -1);
++                this.mc.fontRendererObj.drawStringWithShadow(s3, (float) (width / 2 - i2 / 2), (float) k1, -1);
+                 k1 += this.mc.fontRendererObj.FONT_HEIGHT;
+             }
+ 
              ++k1;
          }
  
 -        drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
-+        // Hyperium
 +        if (!Settings.FAST_TAB) {
 +            drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
 +        }
@@ -93,7 +103,6 @@
              int k2 = k1 + i5 * 9;
 -            drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
 +
-+            // Hyperium
 +            if (!Settings.FAST_TAB) {
 +                drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
 +            }
@@ -101,43 +110,66 @@
              GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
              GlStateManager.enableAlpha();
              GlStateManager.enableBlend();
-@@ -151,7 +201,7 @@
+@@ -151,21 +195,46 @@
                  String s1 = this.getPlayerName(networkplayerinfo1);
                  GameProfile gameprofile = networkplayerinfo1.getGameProfile();
  
 -                if (flag) {
-+                if (flag && Settings.TAB_HEADS) { // Hyperium
-                     EntityPlayer entityplayer = this.mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
-                     boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && (gameprofile.getName().equals("Dinnerbone") || gameprofile.getName().equals("Grumm"));
-                     this.mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
-@@ -168,6 +218,26 @@
-                     j2 += 9;
-                 }
+-                    EntityPlayer entityplayer = this.mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
+-                    boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && (gameprofile.getName().equals("Dinnerbone") || gameprofile.getName().equals("Grumm"));
+-                    this.mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
+-                    int l2 = 8 + (flag1 ? 8 : 0);
+-                    int i3 = 8 * (flag1 ? -1 : 1);
+-                    Gui.drawScaledCustomSizeModalRect(j2, k2, 8.0F, (float)l2, 8, i3, 8, 8, 64.0F, 64.0F);
++                if (Settings.TAB_HEADS) {
++                    if (flag) {
++                        EntityPlayer entityplayer = mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
++                        boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) &&
++                                        (gameprofile.getName().equals("Dinnerbone") || gameprofile.getName().equals("Grumm"));
++                        mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
++                        int l2 = 8 + (flag1 ? 8 : 0);
++                        int i3 = 8 * (flag1 ? -1 : 1);
++                        Gui.drawScaledCustomSizeModalRect(j2, k2, 8.0F, (float) l2, 8, i3, 8, 8, 64.0F, 64.0F);
  
-+                // Hyperium start
+-                    if (entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.HAT)) {
+-                        int j3 = 8 + (flag1 ? 8 : 0);
+-                        int k3 = 8 * (flag1 ? -1 : 1);
+-                        Gui.drawScaledCustomSizeModalRect(j2, k2, 40.0F, (float)j3, 8, k3, 8, 8, 64.0F, 64.0F);
++                        if (entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.HAT)) {
++                            int j3 = 8 + (flag1 ? 8 : 0);
++                            int k3 = 8 * (flag1 ? -1 : 1);
++                            Gui.drawScaledCustomSizeModalRect(j2, k2, 40.0F, (float) j3, 8, k3, 8, 8, 64.0F, 64.0F);
++                        }
++
++                        j2 += 9;
+                     }
++                }
+ 
+-                    j2 += 9;
 +                int renderX = j2 + mc.fontRendererObj.getStringWidth(s1) + 2;
++
 +                if (Settings.SHOW_ONLINE_PLAYERS) {
-+                    String dot = "⚫";
++                    String s = "⚫";
++
 +                    boolean online = mc.getSession().getProfile().getId() == gameprofile.getId() || Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
 +
 +                    if (StaffUtils.isStaff(gameprofile.getId()) || StaffUtils.isBooster(gameprofile.getId())) {
 +                        StaffUtils.DotColour colour = StaffUtils.getColor(gameprofile.getId());
++
 +                        if (colour.isChroma) {
-+                            StringUtil.INSTANCE.drawChromaWaveString(dot, renderX, (k2 - 2));
++                            StringUtil.INSTANCE.drawChromaWaveString(s, renderX, (k2 - 2));
 +                        } else {
-+                            String format = StaffUtils.getColor(gameprofile.getId()).baseColour + dot;
++                            String format = StaffUtils.getColor(gameprofile.getId()).baseColour + s;
 +                            mc.fontRendererObj.drawString(format, renderX, (k2 - 2), -1);
 +                        }
 +                    } else {
-+                        String format = online ? ChatColor.GREEN + dot : (Settings.OFFLINE_DOTS ? ChatColor.RED + dot : "");
++                        String format = online ? ChatColor.GREEN + s : (Settings.OFFLINE_DOTS ? ChatColor.RED + s : "");
 +                        mc.fontRendererObj.drawString(format, renderX, (k2 - 2), -1);
 +                    }
-+                }
-+
+                 }
+ 
                  if (networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
-                     s1 = EnumChatFormatting.ITALIC + s1;
-                     this.mc.fontRendererObj.drawStringWithShadow(s1, (float)j2, (float)k2, -1862270977);
-@@ -190,8 +260,11 @@
+@@ -190,8 +259,11 @@
  
          if (list2 != null) {
              k1 = k1 + i4 * 9 + 1;
@@ -150,16 +182,16 @@
              for (String s4 : list2) {
                  int j5 = this.mc.fontRendererObj.getStringWidth(s4);
                  this.mc.fontRendererObj.drawStringWithShadow(s4, (float)(width / 2 - j5 / 2), (float)k1, -1);
-@@ -201,6 +274,42 @@
+@@ -201,27 +273,63 @@
      }
  
      protected void drawPing(int p_175245_1_, int p_175245_2_, int p_175245_3_, NetworkPlayerInfo networkPlayerInfoIn) {
-+        // Hyperium
 +        LevelheadGui.drawPingHook(p_175245_1_, p_175245_2_ + (Settings.TAB_HEADS ? 0 : 8), p_175245_3_, networkPlayerInfoIn);
 +
-+        int ping = networkPlayerInfoIn.getResponseTime();
-+        int x = p_175245_2_ + p_175245_1_ - (mc.fontRendererObj.getStringWidth(ping + "") >> 1) - 2;
-+        int y = p_175245_3_ + (mc.fontRendererObj.FONT_HEIGHT >> 2);
++        final int ping = networkPlayerInfoIn.getResponseTime();
++        final int x = p_175245_2_ + p_175245_1_ - (mc.fontRendererObj.getStringWidth(ping + "") >> 1) - 2;
++        final int y = p_175245_3_ + (mc.fontRendererObj.FONT_HEIGHT >> 2);
++
 +        if (Settings.NUMBER_PING) {
 +            int colour;
 +
@@ -193,20 +225,38 @@
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.mc.getTextureManager().bindTexture(icons);
          int i = 0;
-@@ -221,7 +330,7 @@
+         int j = 0;
+ 
+-        if (networkPlayerInfoIn.getResponseTime() < 0) {
++        if (ping < 0) {
+             j = 5;
+-        } else if (networkPlayerInfoIn.getResponseTime() < 150) {
++        } else if (ping < 150) {
+             j = 0;
+-        } else if (networkPlayerInfoIn.getResponseTime() < 300) {
++        } else if (ping < 300) {
+             j = 1;
+-        } else if (networkPlayerInfoIn.getResponseTime() < 600) {
++        } else if (ping < 600) {
+             j = 2;
+-        } else if (networkPlayerInfoIn.getResponseTime() < 1000) {
++        } else if (ping < 1000) {
+             j = 3;
+         } else {
+             j = 4;
          }
  
          this.zLevel += 100.0F;
 -        this.drawTexturedModalRect(p_175245_2_ + p_175245_1_ - 11, p_175245_3_, 0 + i * 10, 176 + j * 8, 10, 8);
-+        this.drawTexturedModalRect(p_175245_2_ + p_175245_1_ - 5, p_175245_3_, i * 10, 176 + j * 8, 10, 8); // Hyperium
++        this.drawTexturedModalRect(p_175245_2_ + p_175245_1_ - 5, p_175245_3_, i * 10, 176 + j * 8, 10, 8);
          this.zLevel -= 100.0F;
      }
  
-@@ -305,6 +414,7 @@
+@@ -305,6 +413,7 @@
      }
  
      public void setHeader(IChatComponent headerIn) {
-+        Autotip.tabHeader = headerIn; // Hyperium
++        Autotip.tabHeader = headerIn;
          this.header = headerIn;
      }
  

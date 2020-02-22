@@ -1,11 +1,10 @@
 --- original/net/minecraft/client/resources/ResourcePackListEntry.java
 +++ changed/net/minecraft/client/resources/ResourcePackListEntry.java
-@@ -108,7 +108,8 @@
+@@ -108,7 +108,7 @@
  
      protected abstract String func_148311_a();
  
 -    protected abstract String func_148312_b();
-+    // Hyperium
 +    public abstract String func_148312_b();
  
      protected abstract void func_148313_c();

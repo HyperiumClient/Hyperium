@@ -5,7 +5,7 @@
              GuiLanguage.this.languageManager.setCurrentLanguage(language);
              GuiLanguage.this.game_settings_3.language = language.getLanguageCode();
 -            this.mc.refreshResources();
-+            mc.getLanguageManager().onResourceManagerReload(mc.getResourceManager()); // Hyperium
++            Minecraft.getMinecraft().getLanguageManager().onResourceManagerReload(Minecraft.getMinecraft().getResourceManager());
              GuiLanguage.this.fontRendererObj.setUnicodeFlag(GuiLanguage.this.languageManager.isCurrentLocaleUnicode() || GuiLanguage.this.game_settings_3.forceUnicodeFont);
              GuiLanguage.this.fontRendererObj.setBidiFlag(GuiLanguage.this.languageManager.isCurrentLanguageBidirectional());
              GuiLanguage.this.confirmSettingsBtn.displayString = I18n.format("gui.done", new Object[0]);

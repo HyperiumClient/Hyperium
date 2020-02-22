@@ -12,8 +12,8 @@
       * Render single line string by setting GL color, current (posX,posY), and calling renderStringAtPos()
       */
      private int renderString(String text, float x, float y, int color, boolean dropShadow) {
-+        // Hyperium
 +        text = NickHider.instance == null ? text : NickHider.instance.apply(text);
++
 +        if (dropShadow && Settings.DISABLE_SHADOW_TEXT) return 0;
          if (text == null) {
              return 0;
@@ -22,8 +22,8 @@
       * Returns the width of this string. Equivalent of FontMetrics.stringWidth(String s).
       */
      public int getStringWidth(String text) {
-+        // Hyperium
 +        text = NickHider.instance == null ? text : NickHider.instance.apply(text);
++
          if (text == null) {
              return 0;
          } else {

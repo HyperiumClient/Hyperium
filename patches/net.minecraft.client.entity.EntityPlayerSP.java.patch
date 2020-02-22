@@ -10,14 +10,13 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.audio.MovingSoundMinecartRiding;
  import net.minecraft.client.audio.PositionedSoundRecord;
-@@ -249,7 +253,16 @@
+@@ -249,7 +253,15 @@
       * Sends a chat message from the player. Args: chatMessage
       */
      public void sendChatMessage(String message) {
 -        this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
-+        // Hyperium
 +        NickHider instance = NickHider.instance;
-+        message = instance == null || !instance.getNickHiderConfig().isMasterEnabled() ? message : instance.out(message);
++        message =  instance == null || !instance.getNickHiderConfig().isMasterEnabled() ? message : instance.out(message);
 +
 +        SendChatMessageEvent event = new SendChatMessageEvent(message);
 +        EventBus.INSTANCE.post(event);
@@ -28,12 +27,11 @@
      }
  
      /**
-@@ -733,4 +746,15 @@
+@@ -733,4 +745,14 @@
              this.sendPlayerAbilities();
          }
      }
 +
-+    // Hyperium
 +    @Override
 +    public void removePotionEffectClient(int potionId) {
 +        if (potionId == Potion.confusion.id) {

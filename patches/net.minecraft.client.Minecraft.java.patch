@@ -5,6 +5,7 @@
  
 +import cc.hyperium.Hyperium;
 +import cc.hyperium.Metadata;
++import cc.hyperium.gui.SplashProgress;
 +import cc.hyperium.config.Settings;
 +import cc.hyperium.event.EventBus;
 +import cc.hyperium.event.client.InitializationEvent;
@@ -19,7 +20,6 @@
 +import cc.hyperium.event.world.WorldLoadEvent;
 +import cc.hyperium.event.world.WorldUnloadEvent;
 +import cc.hyperium.gui.GuiHyperiumScreenMainMenu;
-+import cc.hyperium.gui.SplashProgress;
 +import cc.hyperium.handlers.HyperiumHandlers;
 +import cc.hyperium.internal.addons.AddonBootstrap;
 +import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
@@ -32,115 +32,84 @@
  import com.google.common.collect.Iterables;
  import com.google.common.collect.Lists;
  import com.google.common.collect.Maps;
-@@ -79,18 +105,7 @@
- import net.minecraft.client.renderer.texture.TextureManager;
- import net.minecraft.client.renderer.texture.TextureMap;
- import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
--import net.minecraft.client.resources.DefaultResourcePack;
--import net.minecraft.client.resources.FoliageColorReloadListener;
--import net.minecraft.client.resources.GrassColorReloadListener;
--import net.minecraft.client.resources.I18n;
--import net.minecraft.client.resources.IReloadableResourceManager;
--import net.minecraft.client.resources.IResourceManager;
--import net.minecraft.client.resources.IResourcePack;
--import net.minecraft.client.resources.LanguageManager;
--import net.minecraft.client.resources.ResourceIndex;
--import net.minecraft.client.resources.ResourcePackRepository;
--import net.minecraft.client.resources.SimpleReloadableResourceManager;
--import net.minecraft.client.resources.SkinManager;
-+import net.minecraft.client.resources.*;
+@@ -91,6 +117,7 @@
+ import net.minecraft.client.resources.ResourcePackRepository;
+ import net.minecraft.client.resources.SimpleReloadableResourceManager;
+ import net.minecraft.client.resources.SkinManager;
++import net.minecraft.client.resources.FileResourcePack;
  import net.minecraft.client.resources.data.AnimationMetadataSection;
  import net.minecraft.client.resources.data.AnimationMetadataSectionSerializer;
  import net.minecraft.client.resources.data.FontMetadataSection;
-@@ -144,21 +159,7 @@
- import net.minecraft.stats.IStatStringFormat;
- import net.minecraft.stats.StatFileWriter;
- import net.minecraft.tileentity.TileEntity;
--import net.minecraft.util.BlockPos;
--import net.minecraft.util.ChatComponentText;
--import net.minecraft.util.FrameTimer;
--import net.minecraft.util.IThreadListener;
--import net.minecraft.util.MathHelper;
--import net.minecraft.util.MinecraftError;
--import net.minecraft.util.MouseHelper;
--import net.minecraft.util.MovementInputFromOptions;
--import net.minecraft.util.MovingObjectPosition;
--import net.minecraft.util.ReportedException;
--import net.minecraft.util.ResourceLocation;
--import net.minecraft.util.ScreenShotHelper;
--import net.minecraft.util.Session;
--import net.minecraft.util.Timer;
--import net.minecraft.util.Util;
-+import net.minecraft.util.*;
+@@ -159,6 +186,7 @@
+ import net.minecraft.util.Session;
+ import net.minecraft.util.Timer;
+ import net.minecraft.util.Util;
++import net.minecraft.util.IChatComponent;
  import net.minecraft.world.EnumDifficulty;
  import net.minecraft.world.WorldProviderEnd;
  import net.minecraft.world.WorldProviderHell;
-@@ -408,7 +409,25 @@
+@@ -408,8 +436,25 @@
       * Starts the game: initializes the canvas, the title, the settings, etcetera.
       */
      private void startGame() throws LWJGLException, IOException {
 -        this.gameSettings = new GameSettings(this, this.mcDataDir);
-+        // Hyperium start
 +        Hyperium.INSTANCE.setLaunchTime(System.currentTimeMillis());
 +        EventBus.INSTANCE.register(Hyperium.INSTANCE);
 +
-+        for (File file : AddonBootstrap.getAddonResourcePacks()) {
-+            AbstractResourcePack abstractResourcePack = file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file);
-+            defaultResourcePacks.add(abstractResourcePack);
-+        }
++        defaultResourcePacks.add(mcDefaultResourcePack);
++        AddonBootstrap.getAddonResourcePacks().stream().map(file -> file == null ? new AddonWorkspaceResourcePack() :
++                new FileResourcePack(file)).forEach(defaultResourcePacks::add);
 +
 +        AddonMinecraftBootstrap.init();
 +        CTJS.loadIntoJVM();
 +        EventBus.INSTANCE.post(new PreInitializationEvent());
 +
 +        SplashProgress.setProgress(1, "Starting Game...");
++
 +        this.gameSettings = new GameSettings(this, Hyperium.folder);
 +
 +        SplashProgress.setProgress(2, "Loading Resources...");
-+        // Hyperium end
 +
          this.defaultResourcePacks.add(this.mcDefaultResourcePack);
++
          this.startTimerHackThread();
  
-@@ -420,7 +439,15 @@
+         if (this.gameSettings.overrideHeight > 0 && this.gameSettings.overrideWidth > 0) {
+@@ -420,7 +465,13 @@
          logger.info("LWJGL Version: " + Sys.getVersion());
          this.setWindowIcon();
          this.setInitialDisplayMode();
 +
-+        // Hyperium
 +        SplashProgress.setProgress(3, "Creating Display...");
 +
          this.createDisplay();
 +
-+        // Hyperium
 +        SplashProgress.setProgress(4, "Initializing Textures...");
 +
          OpenGlHelper.initializeTextures();
          this.framebufferMc = new Framebuffer(this.displayWidth, this.displayHeight, true);
          this.framebufferMc.setFramebufferColor(0.0F, 0.0F, 0.0F, 0.0F);
-@@ -522,6 +549,10 @@
+@@ -524,6 +575,9 @@
          }
  
          this.renderGlobal.makeEntityOutlineShader();
 +
-+        // Hyperium
 +        enableGLErrorChecking = Hyperium.INSTANCE.isDevEnv();
 +        EventBus.INSTANCE.post(new InitializationEvent());
      }
  
      private void registerMetadataSerializers() {
-@@ -565,35 +596,38 @@
+@@ -567,35 +621,37 @@
      }
  
      private void setInitialDisplayMode() throws LWJGLException {
--        if (this.fullscreen) {
++        Display.setFullscreen(false);
++
+         if (this.fullscreen) {
 -            Display.setFullscreen(true);
 -            DisplayMode displaymode = Display.getDisplayMode();
 -            this.displayWidth = Math.max(1, displaymode.getWidth());
 -            this.displayHeight = Math.max(1, displaymode.getHeight());
-+        // Hyperium
-+        Display.setFullscreen(false);
-+        if(this.fullscreen) {
 +            if (Settings.WINDOWED_FULLSCREEN) {
 +                System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 +            } else {
@@ -181,34 +150,31 @@
 -            } finally {
 -                IOUtils.closeQuietly(inputstream);
 -                IOUtils.closeQuietly(inputstream1);
-+        // Hyperium
 +        if (Util.getOSType() != Util.EnumOS.OSX) {
 +            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
-+                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
-+                ByteBuffer[] icons = new ByteBuffer[]{Utils.INSTANCE.readImageToBuffer(inputStream16x), Utils.INSTANCE.readImageToBuffer(inputStream32x)};
++                        InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
++                ByteBuffer[] icons = new ByteBuffer[] {Utils.INSTANCE.readImageToBuffer(inputStream16x), Utils.INSTANCE.readImageToBuffer(inputStream32x)};
 +                Display.setIcon(icons);
 +            } catch (Exception e) {
 +                Hyperium.LOGGER.error("Couldn't set Windows Icon", e);
              }
          }
      }
-@@ -646,7 +680,14 @@
+@@ -648,7 +704,12 @@
       */
      public void displayCrashReport(CrashReport crashReportIn) {
          File file1 = new File(getMinecraft().mcDataDir, "crash-reports");
 -        File file2 = new File(file1, "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + "-client.txt");
 +
-+        // Hyperium start
 +        File file2 = new File(file1,
-+                "hyperium-crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
-+                        + "-client-version-" + Metadata.getVersion().replace(" ", "-") + ".txt");
-+        crashReportIn.saveToFile(file2);
-+        // Hyperium end
++                              "hyperium-crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
++                              + "-client-version-" + Metadata.getVersion().replace(" ", "-") + ".txt");
 +
++        crashReportIn.saveToFile(file2);
          Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
  
          if (crashReportIn.getFile() != null) {
-@@ -753,51 +794,8 @@
+@@ -755,51 +816,7 @@
      }
  
      private void drawSplashScreen(TextureManager textureManagerInstance) throws LWJGLException {
@@ -257,68 +223,66 @@
 -        GlStateManager.enableAlpha();
 -        GlStateManager.alphaFunc(516, 0.1F);
 -        this.updateDisplay();
-+        // Hyperium
 +        SplashProgress.drawSplash(textureManagerInstance);
      }
  
      /**
-@@ -835,14 +833,27 @@
+@@ -844,14 +861,27 @@
          }
  
          if (guiScreenIn == null && this.theWorld == null) {
 -            guiScreenIn = new GuiMainMenu();
-+            guiScreenIn = new GuiHyperiumScreenMainMenu(); // Hyperium
++            guiScreenIn = new GuiHyperiumScreenMainMenu();
          } else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F) {
              guiScreenIn = new GuiGameOver();
          }
  
 -        if (guiScreenIn instanceof GuiMainMenu) {
-+        // Hyperium start
+-            this.gameSettings.showDebugInfo = false;
+-            this.ingameGUI.getChatGUI().clearChatMessages();
 +        GuiOpenEvent event = new GuiOpenEvent(guiScreenIn);
 +        EventBus.INSTANCE.post(event);
++
 +        if (event.isCancelled()) return;
 +
 +        guiScreenIn = event.getGui();
++
 +        if (currentScreen != null && guiScreenIn != currentScreen) currentScreen.onGuiClosed();
 +        if (currentScreen != null) EventBus.INSTANCE.unregister(currentScreen);
-+        // Hyperium end
 +
-+        if (guiScreenIn instanceof GuiHyperiumScreenMainMenu) { // Hyperium
-             this.gameSettings.showDebugInfo = false;
--            this.ingameGUI.getChatGUI().clearChatMessages();
++        if (guiScreenIn instanceof GuiHyperiumScreenMainMenu) {
++            gameSettings.showDebugInfo = false;
 +
-+            if (!Settings.PERSISTENT_CHAT) { // Hyperium
-+                this.ingameGUI.getChatGUI().clearChatMessages();
++            if (!Settings.PERSISTENT_CHAT) {
++                ingameGUI.getChatGUI().clearChatMessages();
 +            }
          }
  
          this.currentScreen = (GuiScreen)guiScreenIn;
-@@ -858,6 +869,11 @@
+@@ -867,6 +897,10 @@
              this.mcSoundHandler.resumeSounds();
              this.setIngameFocus();
          }
 +
-+        // Hyperium
 +        if (Hyperium.INSTANCE.getHandlers() != null) {
 +            Hyperium.INSTANCE.getHandlers().getKeybindHandler().releaseAllKeybinds();
 +        }
      }
  
      /**
-@@ -907,6 +923,21 @@
+@@ -916,6 +950,20 @@
       * Called repeatedly from run()
       */
      private void runGameLoop() throws IOException {
-+        // Hyperium
 +        if (inGameHasFocus && theWorld != null) {
 +            HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();
-+            RenderPlayerEvent event = new RenderPlayerEvent(
-+                    thePlayer,
++            RenderPlayerEvent event = new RenderPlayerEvent(thePlayer,
 +                    renderManager,
-+                    renderManager.viewerPosX,
++                    renderManager.viewerPosZ,
 +                    renderManager.viewerPosY,
 +                    renderManager.viewerPosZ,
 +                    timer.renderPartialTicks);
++
 +            if (handlers != null && Settings.SHOW_PART_1ST_PERSON) {
 +                handlers.getParticleAuraHandler().renderPlayer(event);
 +            }
@@ -327,11 +291,10 @@
          long i = System.nanoTime();
          this.mcProfiler.startSection("root");
  
-@@ -956,6 +987,11 @@
+@@ -965,6 +1013,10 @@
  
          this.mcProfiler.endSection();
  
-+        // Hyperium start
 +        mcProfiler.startSection("hyperium_rendertick");
 +        EventBus.INSTANCE.post(new RenderTickEvent());
 +        mcProfiler.endSection();
@@ -339,72 +302,59 @@
          if (!this.skipRenderWorld) {
              this.mcProfiler.endStartSection("gameRenderer");
              this.entityRenderer.updateCameraAndRender(this.timer.renderPartialTicks, i);
-@@ -1053,6 +1089,7 @@
+@@ -1062,6 +1114,7 @@
      }
  
      public int getLimitFramerate() {
-+        if (FPSLimiter.shouldLimitFramerate()) return FPSLimiter.getInstance().getFpsLimit(); // Hyperium
++        if (FPSLimiter.shouldLimitFramerate()) return FPSLimiter.getInstance().getFpsLimit();
          return this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
      }
  
-@@ -1082,6 +1119,7 @@
+@@ -1091,6 +1144,7 @@
       * Update debugProfilerName in response to number keys in debug screen
       */
      private void updateDebugProfilerName(int keyCount) {
-+        keyCount = GuiScreen.isCtrlKeyDown() ? keyCount + 10 : keyCount; // Hyperium
++        keyCount = GuiScreen.isCtrlKeyDown() ? keyCount + 10 : keyCount;
          List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
  
          if (list != null && !list.isEmpty()) {
-@@ -1213,6 +1251,11 @@
+@@ -1222,6 +1276,7 @@
       * Called when the window is closing. Sets 'running' to false which allows the game loop to exit cleanly.
       */
      public void shutdown() {
-+        // Hyperium
-+        for (IAddon iAddon : AddonMinecraftBootstrap.getLoadedAddons()) {
-+            iAddon.onClose();
-+        }
-+
++        AddonMinecraftBootstrap.getLoadedAddons().forEach(IAddon::onClose);
          this.running = false;
      }
  
-@@ -1305,6 +1348,9 @@
+@@ -1314,6 +1369,8 @@
                  }
              }
          }
 +
-+        // Hyperium
 +        EventBus.INSTANCE.post(new LeftMouseClickEvent());
      }
  
      /**
-@@ -1335,6 +1381,18 @@
+@@ -1344,6 +1401,11 @@
                      if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
                          int i = itemstack != null ? itemstack.stackSize : 0;
  
-+                        // Hyperium start
-+                        PlayerInteractEvent event = new PlayerInteractEvent(
-+                                thePlayer,
-+                                PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK,
-+                                blockpos,
-+                                theWorld,
-+                                objectMouseOver.sideHit,
-+                                objectMouseOver.hitVec);
++                        PlayerInteractEvent event = new PlayerInteractEvent(thePlayer, PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK, blockpos, theWorld, objectMouseOver.sideHit, objectMouseOver.hitVec);
 +                        EventBus.INSTANCE.post(event);
++
 +                        if (event.isCancelled()) return;
-+                        // Hyperium end
 +
                          if (this.playerController.onPlayerRightClick(this.thePlayer, this.theWorld, itemstack, blockpos, this.objectMouseOver.sideHit, this.objectMouseOver.hitVec)) {
                              flag = false;
                              this.thePlayer.swingItem();
-@@ -1356,11 +1414,20 @@
+@@ -1364,12 +1426,18 @@
+ 
              if (flag) {
                  ItemStack itemstack1 = this.thePlayer.inventory.getCurrentItem();
- 
-+                // Hyperium start
 +                PlayerInteractEvent event = new PlayerInteractEvent(thePlayer, PlayerInteractEvent.Action.RIGHT_CLICK_AIR, null, theWorld, null, null);
 +                EventBus.INSTANCE.post(event);
+ 
 +                if (event.isCancelled()) return;
-+                // Hyperium end
 +
                  if (itemstack1 != null && this.playerController.sendUseItem(this.thePlayer, this.theWorld, itemstack1)) {
                      this.entityRenderer.itemRenderer.resetEquippedProgress2();
@@ -412,17 +362,15 @@
              }
          }
 +
-+        // Hyperium
 +        EventBus.INSTANCE.post(new RightMouseClickEvent());
      }
  
      /**
-@@ -1405,6 +1472,27 @@
+@@ -1414,6 +1482,25 @@
  
              Display.setFullscreen(this.fullscreen);
              Display.setVSyncEnabled(this.gameSettings.enableVsync);
 +
-+            // Hyperium start
 +            if (Settings.WINDOWED_FULLSCREEN) {
 +                if (fullscreen) {
 +                    System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
@@ -440,30 +388,25 @@
 +
 +            Display.setResizable(false);
 +            Display.setResizable(true);
-+            // Hyperium end
 +
              this.updateDisplay();
          } catch (Exception exception) {
              logger.error((String)"Couldn\'t toggle fullscreen", (Throwable)exception);
-@@ -1519,6 +1607,12 @@
+@@ -1528,6 +1615,9 @@
  
              while (Mouse.next()) {
                  int i = Mouse.getEventButton();
-+
-+                // Hyperium start
 +                boolean state = Mouse.getEventButtonState();
 +                EventBus.INSTANCE.post(state ? new MouseButtonEvent(i, true) : new MouseButtonEvent(i, false));
-+                // Hyperium end
 +
                  KeyBinding.setKeyBindState(i - 100, Mouse.getEventButtonState());
  
                  if (Mouse.getEventButtonState()) {
-@@ -1848,12 +1942,19 @@
+@@ -1857,12 +1947,18 @@
  
          this.mcProfiler.endSection();
          this.systemTime = getSystemTime();
 +
-+        // Hyperium
 +        mcProfiler.startSection("hyperium_tick");
 +        EventBus.INSTANCE.post(new TickEvent());
 +        mcProfiler.endSection();
@@ -473,18 +416,17 @@
       * Arguments: World foldername,  World ingame name, WorldSettings
       */
      public void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn) {
-+        EventBus.INSTANCE.post(new SingleplayerJoinEvent()); // Hyperium
++        EventBus.INSTANCE.post(new SingleplayerJoinEvent());
 +
          this.loadWorld((WorldClient)null);
          System.gc();
          ISaveHandler isavehandler = this.saveLoader.getSaveLoader(folderName, false);
-@@ -1903,7 +2004,18 @@
+@@ -1912,7 +2008,15 @@
          NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
          networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, this, (GuiScreen)null));
          networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
 -        networkmanager.sendPacket(new C00PacketLoginStart(this.getSession().getProfile()));
 +
-+        // Hyperium start
 +        GameProfile profile = getSession().getProfile();
 +
 +        if (!getSession().hasCachedProperties()) {
@@ -493,67 +435,58 @@
 +        }
 +
 +        networkmanager.sendPacket(new C00PacketLoginStart(profile));
-+        // Hyperium end
-+
          this.myNetworkManager = networkmanager;
      }
  
-@@ -1911,6 +2023,11 @@
+@@ -1920,6 +2024,9 @@
       * unloads the current world first
       */
      public void loadWorld(WorldClient worldClientIn) {
-+        // Hyperium start
-+        if (theWorld != null) EventBus.INSTANCE.post(new WorldUnloadEvent());
++        if (Minecraft.getMinecraft().theWorld != null) new WorldUnloadEvent().post();
 +        EventBus.INSTANCE.post(new WorldChangeEvent());
-+        // Hyperium end
 +
          this.loadWorld(worldClientIn, "");
      }
  
-@@ -1977,7 +2094,11 @@
+@@ -1986,7 +2093,9 @@
              this.thePlayer = null;
          }
  
 -        System.gc();
-+        // Hyperium start
-+        EventBus.INSTANCE.post(new WorldLoadEvent());
-+        if (!Settings.FAST_WORLD_LOADING) return;
-+        // Hyperium end
++        new WorldLoadEvent().post();
 +
++        if (!Settings.FAST_WORLD_LOADING) return;
          this.systemTime = 0L;
      }
  
-@@ -2560,6 +2681,14 @@
+@@ -2572,6 +2681,11 @@
  
          if (i != 0 && !Keyboard.isRepeatEvent()) {
              if (!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L) {
-+
-+                // Hyperium start
 +                int key = Keyboard.getEventKey();
 +                boolean repeat = Keyboard.isRepeatEvent();
 +                boolean press = Keyboard.getEventKeyState();
 +                EventBus.INSTANCE.post(press ? new KeyPressEvent(key, repeat) : new KeyReleaseEvent(key, repeat));
-+                // Hyperium end
 +
                  if (Keyboard.getEventKeyState()) {
                      if (i == this.gameSettings.keyBindStreamStartStop.getKeyCode()) {
                          if (this.getTwitchStream().isBroadcasting()) {
-@@ -2598,7 +2727,8 @@
+@@ -2610,7 +2724,8 @@
                      } else if (i == this.gameSettings.keyBindFullscreen.getKeyCode()) {
                          this.toggleFullscreen();
                      } else if (i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
 -                        this.ingameGUI.getChatGUI().printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));
-+                        // Hyperium
-+                        new TextComponent(ScreenShotHelper.saveScreenshot(mcDataDir, displayWidth, displayHeight, framebufferMc)).chat();
++                        IChatComponent chatComponent = ScreenShotHelper.saveScreenshot(mcDataDir, displayWidth, displayHeight, framebufferMc);
++                        new TextComponent(chatComponent).chat();
                      }
                  } else if (i == this.gameSettings.keyBindStreamToggleMic.getKeyCode()) {
                      this.stream.muteMicrophone(false);
-@@ -2704,4 +2834,9 @@
+@@ -2717,4 +2832,9 @@
      public void setConnectedToRealms(boolean isConnected) {
          this.connectedToRealms = isConnected;
      }
 +
-+    // Hyperium
++    // Allow access to the default packs list
 +    public List<IResourcePack> getDefaultResourcePacks() {
 +        return defaultResourcePacks;
 +    }

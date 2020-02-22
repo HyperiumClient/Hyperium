@@ -9,29 +9,27 @@
  @SideOnly(Side.CLIENT)
  public class GuiButton extends Gui {
      protected static final ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
-@@ -28,6 +30,10 @@
+@@ -28,6 +30,9 @@
      public boolean visible;
      protected boolean hovered;
  
-+    // hyperium
 +    private double hoverFade;
 +    private long prevDeltaTime;
 +
      public GuiButton(int buttonId, int x, int y, String buttonText) {
          this(buttonId, x, y, 200, 20, buttonText);
      }
-@@ -65,27 +71,28 @@
+@@ -65,27 +70,27 @@
       * Draws this button to the screen.
       */
      public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 -        if (this.visible) {
 -            FontRenderer fontrenderer = mc.fontRendererObj;
-+        // hyperium - completely rewrite
 +        if (prevDeltaTime == 0) prevDeltaTime = System.currentTimeMillis();
 +
 +        if (visible) {
              mc.getTextureManager().bindTexture(buttonTextures);
--            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 -            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 -            int i = this.getHoverState(this.hovered);
 -            GlStateManager.enableBlend();
@@ -41,9 +39,8 @@
 -            this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
 -            this.mouseDragged(mc, mouseX, mouseY);
 -            int j = 14737632;
-+            GlStateManager.color(1f, 1f, 1f, 1f);
 +            hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
-+            double hoverInc = (System.currentTimeMillis() - prevDeltaTime) / 2f;
++            double hoverInc = (System.currentTimeMillis() - prevDeltaTime) / 2F;
 +            hoverFade = hovered ? Math.min(100, hoverFade + hoverInc) : Math.max(0, hoverInc - hoverInc);
  
 -            if (!this.enabled) {
@@ -59,9 +56,9 @@
 -            this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
 +            mouseDragged(mc, mouseX, mouseY);
 +
-+            int textColor = enabled ? 255 : 100;
++            int textColor = enabled ? 255 : 180;
 +            drawCenteredString(mc.fontRendererObj, displayString, xPosition + width / 2, yPosition + (height - 8) / 2,
-+                    new Color(textColor, textColor, textColor, 255).getRGB());
++                               new Color(textColor, textColor, textColor, 255).getRGB());
 +            prevDeltaTime = System.currentTimeMillis();
          }
      }

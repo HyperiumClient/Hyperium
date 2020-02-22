@@ -1,6 +1,6 @@
 --- original/net/minecraft/client/gui/inventory/GuiInventory.java
 +++ changed/net/minecraft/client/gui/inventory/GuiInventory.java
-@@ -1,6 +1,9 @@
+@@ -1,8 +1,12 @@
  package net.minecraft.client.gui.inventory;
  
  import java.io.IOException;
@@ -9,12 +9,16 @@
 +import cc.hyperium.event.interact.ActionPerformedEvent;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.GuiButton;
++import net.minecraft.client.gui.GuiScreen;
  import net.minecraft.client.gui.achievement.GuiAchievements;
-@@ -127,6 +130,7 @@
+ import net.minecraft.client.gui.achievement.GuiStats;
+ import net.minecraft.client.renderer.GlStateManager;
+@@ -127,6 +131,8 @@
       * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
       */
      protected void actionPerformed(GuiButton button) throws IOException {
-+        EventBus.INSTANCE.post(new ActionPerformedEvent(this, button)); // Hyperium
++        EventBus.INSTANCE.post(new ActionPerformedEvent(this, button));
++
          if (button.id == 0) {
              this.mc.displayGuiScreen(new GuiAchievements(this, this.mc.thePlayer.getStatFileWriter()));
          }
