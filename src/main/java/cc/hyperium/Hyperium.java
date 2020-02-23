@@ -179,7 +179,7 @@ public class Hyperium {
 
             // Get the build id
             createBuildId();
-            Hyperium.LOGGER.info("Hyperium Build ID: {}", BUILD_ID);
+            LOGGER.info("Hyperium Build ID: {}", BUILD_ID);
 
             // Check for if the user is in a developers environment
             checkForDevEnvironment();
@@ -426,7 +426,7 @@ public class Hyperium {
                     }
                 }
             } else {
-                Hyperium.LOGGER.debug("chat.txt not found, not restoring chat");
+                LOGGER.debug("chat.txt not found, not restoring chat");
             }
         });
     }
