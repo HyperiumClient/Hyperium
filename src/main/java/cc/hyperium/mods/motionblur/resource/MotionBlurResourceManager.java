@@ -17,27 +17,32 @@
 
 package cc.hyperium.mods.motionblur.resource;
 
-import java.io.IOException;
+import net.minecraft.client.resources.FallbackResourceManager;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.resources.data.IMetadataSerializer;
+import net.minecraft.util.ResourceLocation;
+
 import java.util.List;
 import java.util.Set;
 
-import net.minecraft.client.resources.IResource;
-import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.util.ResourceLocation;
-
-public class MotionBlurResourceManager implements IResourceManager {
-    public MotionBlurResourceManager() {
+public class MotionBlurResourceManager extends FallbackResourceManager implements IResourceManager {
+    public MotionBlurResourceManager(IMetadataSerializer frmMetadataSerializerIn) {
+        super(frmMetadataSerializerIn);
     }
 
+    @Override
     public Set<String> getResourceDomains() {
         return null;
     }
 
-    public IResource getResource(ResourceLocation location) throws IOException {
+    @Override
+    public IResource getResource(ResourceLocation location) {
         return new MotionBlurResource();
     }
 
-    public List<IResource> getAllResources(ResourceLocation location) throws IOException {
+    @Override
+    public List<IResource> getAllResources(ResourceLocation location) {
         return null;
     }
 }

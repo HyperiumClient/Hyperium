@@ -22,13 +22,15 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
+import cc.hyperium.event.interact.KeyPressEvent;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.motionblur.resource.MotionBlurResourceManager;
-import cc.hyperium.utils.renderer.shader.ShaderHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.FallbackResourceManager;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -36,27 +38,19 @@ import java.util.Map;
 
 public class MotionBlurMod extends AbstractMod {
 
-    private Minecraft mc;
-    private Map domainResourceManagers;
-
-    static boolean isFastRenderEnabled() {
-        try {
-            Field fastRender = GameSettings.class.getDeclaredField("ofFastRender");
-            return fastRender.getBoolean(Minecraft.getMinecraft().gameSettings);
-        } catch (Exception var1) {
-            return false;
-        }
-    }
-
-    static void applyShader() {
-        ShaderHelper.INSTANCE.loadShader(new ResourceLocation("motionblur", "motionblur"));
-    }
+    private final Minecraft mc = Minecraft.getMinecraft();
+    private final Map<String, FallbackResourceManager> domainResourceManagers = ((SimpleReloadableResourceManager) mc.getResourceManager()).domainResourceManagers;
+    private Field cachedFastRender;
+    private int ticks;
 
     @Override
     public AbstractMod init() {
-        mc = Minecraft.getMinecraft();
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
-                .registerCommand(new MotionBlurCommand());
+        try {
+            cachedFastRender = GameSettings.class.getDeclaredField("ofFastRender");
+        } catch (Exception ignored) {
+        }
+
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new MotionBlurCommand());
         EventBus.INSTANCE.register(this);
         return this;
     }
@@ -68,27 +62,35 @@ public class MotionBlurMod extends AbstractMod {
 
     @InvokeEvent
     public void onClientTick(TickEvent event) {
-        if (Settings.MOTION_BLUR_ENABLED && !Minecraft.getMinecraft().entityRenderer.isShaderActive() && mc.theWorld != null && !isFastRenderEnabled()) {
-            applyShader();
-        }
-
-        if (domainResourceManagers == null) {
-            try {
-                Field[] var2 = SimpleReloadableResourceManager.class.getDeclaredFields();
-                for (Field field : var2) {
-                    if (field.getType() == Map.class) {
-                        field.setAccessible(true);
-                        domainResourceManagers = (Map) field.get(Minecraft.getMinecraft().getResourceManager());
-                        break;
-                    }
-                }
-            } catch (Exception var6) {
-                throw new RuntimeException(var6);
+        if (domainResourceManagers != null) {
+            if (!domainResourceManagers.containsKey("motionblur")) {
+                domainResourceManagers.put("motionblur", new MotionBlurResourceManager(mc.metadataSerializer_));
             }
         }
 
-        if (!domainResourceManagers.containsKey("motionblur")) {
-            domainResourceManagers.put("motionblur", new MotionBlurResourceManager());
+        ++ticks;
+        if (ticks % 5000 == 0) {
+            if (isFastRenderEnabled() && Settings.MOTION_BLUR_ENABLED) {
+                if (mc.thePlayer != null && mc.theWorld != null) {
+                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Motion Blur is not compatible with OptiFine's Fast Render.");
+                }
+            }
+        }
+    }
+
+    @InvokeEvent
+    public void onKey(KeyPressEvent event) {
+        if (mc.thePlayer != null && Settings.MOTION_BLUR_ENABLED && Keyboard.isKeyDown(mc.gameSettings.keyBindTogglePerspective.getKeyCode())) {
+            mc.entityRenderer.loadShader(new ResourceLocation("motionblur", "motionblur"));
+            mc.entityRenderer.getShaderGroup().createBindFramebuffers(mc.displayWidth, mc.displayHeight);
+        }
+    }
+
+    public boolean isFastRenderEnabled() {
+        try {
+            return cachedFastRender.getBoolean(mc.gameSettings);
+        } catch (Exception ignored) {
+            return false;
         }
     }
 }
