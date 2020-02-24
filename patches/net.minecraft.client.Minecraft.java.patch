@@ -48,6 +48,15 @@
  import net.minecraft.world.EnumDifficulty;
  import net.minecraft.world.WorldProviderEnd;
  import net.minecraft.world.WorldProviderHell;
+@@ -286,7 +314,7 @@
+     /** Keeps track of how long the debug crash keycombo (F3+C) has been pressed for, in order to crash after 10 seconds. */
+     private long debugCrashKeyPressTime = -1L;
+     private IReloadableResourceManager mcResourceManager;
+-    private final IMetadataSerializer metadataSerializer_ = new IMetadataSerializer();
++    public final IMetadataSerializer metadataSerializer_ = new IMetadataSerializer();
+     private final List<IResourcePack> defaultResourcePacks = Lists.<IResourcePack>newArrayList();
+     private final DefaultResourcePack mcDefaultResourcePack;
+     private ResourcePackRepository mcResourcePackRepository;
 @@ -408,8 +436,25 @@
       * Starts the game: initializes the canvas, the title, the settings, etcetera.
       */
