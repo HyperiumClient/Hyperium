@@ -28,7 +28,7 @@ import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 
 public class DiscordPresence {
 
-    private IPCClient client = new IPCClient(412963310867054602L);
+    private final IPCClient client = new IPCClient(412963310867054602L);
 
     public void load() {
         if (Settings.DISCORD_RP) {
@@ -49,7 +49,7 @@ public class DiscordPresence {
 
     public void shutdown() {
         try {
-            if (client != null && client.getStatus() == PipeStatus.CONNECTED) {
+            if (client.getStatus() == PipeStatus.CONNECTED) {
                 client.close();
             }
         } catch (Exception e) {

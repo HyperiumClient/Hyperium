@@ -1,20 +1,3 @@
-/*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
- *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package net.hypixel.api.util;
 
 public interface ILeveling {
@@ -50,7 +33,7 @@ public interface ILeveling {
      * @return Absolute level of player (Smallest value is 1.0)
      */
     static double getLevel(double exp) {
-        return exp <= 1 ? 1 : Math.floor(1 + REVERSE_PQ_PREFIX + Math.sqrt(REVERSE_CONST + GROWTH_DIVIDES_2 * exp));
+        return exp < 0 ? 1 : Math.floor(1 + REVERSE_PQ_PREFIX + Math.sqrt(REVERSE_CONST + GROWTH_DIVIDES_2 * exp));
     }
 
     /**
@@ -148,5 +131,4 @@ public interface ILeveling {
         double lv = ILeveling.getLevel(exp), x0 = getTotalExpToLevel(lv);
         return (exp - x0) / (ILeveling.getTotalExpToLevel(lv + 1) - x0);
     }
-    //xp - getTotalExpToLevel(ILeveling.getLevel(XP))
 }
