@@ -57,7 +57,7 @@ public class MotionBlurMod extends AbstractMod {
 
     @Override
     public Metadata getModMetadata() {
-        return new Metadata(this, "Motion Blur Mod", "1.0", "Chachy, Amp, Koding");
+        return new Metadata(this, "Motion Blur Mod", "2.0", "Sk1er LLC");
     }
 
     @InvokeEvent
