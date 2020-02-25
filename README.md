@@ -68,6 +68,9 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 	
 ### Building the Project with IntelliJ ###
 
+<!-- so nobody ever has to go through my pain again -violet -->
+**IMPORTANT NOTE: YOU MUST USE JDKu232 OR LOWER, OR IT WON'T BUILD!**
+
 #### Step 1 - Cloning
 - Click 'Clone or Download' and click the noteboard icon to copy to clipboard.
 
