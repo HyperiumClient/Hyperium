@@ -17,7 +17,6 @@
 
 package cc.hyperium.gui.main.components;
 
-import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.utils.GraphicsUtil;
 import cc.hyperium.utils.RenderUtils;
 import org.lwjgl.opengl.GL11;
@@ -52,19 +51,18 @@ public class OverlayToggle extends OverlayComponent {
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            int color = GraphicsUtil.INSTANCE.transitionOfHueRange(colorStep, 1, getHue(ColourOptions.accent_r, ColourOptions.accent_g,
-                ColourOptions.accent_b), 0.7F, 0.7F).getRGB();
+            int color = GraphicsUtil.INSTANCE.transitionOfHueRange(colorStep, 1, getHue(136, 255, 0), 0.7F, 0.7F).getRGB();
 
             RenderUtils.drawSmoothRect(overlayX + w - 30, overlayY + 5, overlayX + w - 5, overlayY + h - 5, color);
             RenderUtils.drawFilledCircle(toggle ? (int) (overlayX + w - 10 - (step * 15)) : (int) (overlayX + w - 25 + (step * 15)), overlayY + h / 2, 4,
-                new Color(30, 30, 30).getRGB());
+                    new Color(30, 30, 30).getRGB());
 
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_LINE_SMOOTH);
         } else {
             RenderUtils.drawSmoothRect(overlayX + w - 30, overlayY + 5, overlayX + w - 5, overlayY + h - 5, new Color(169, 169, 169).getRGB());
             RenderUtils.drawFilledCircle(toggle ? (int) (overlayX + w - 10 - (step * 15)) : (int) (overlayX + w - 25 + (step * 15)), overlayY + h / 2, 4,
-                new Color(30, 30, 30).getRGB());
+                    new Color(30, 30, 30).getRGB());
         }
 
         if (step > 0f) step -= 0.1f;

@@ -18,18 +18,14 @@
 package cc.hyperium.utils.mods;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.Priority;
-import cc.hyperium.event.network.server.ServerLeaveEvent;
-import cc.hyperium.event.world.SpawnpointChangeEvent;
 import cc.hyperium.event.client.TickEvent;
+import cc.hyperium.event.network.chat.ChatEvent;
+import cc.hyperium.event.world.WorldChangeEvent;
 import org.lwjgl.opengl.Display;
 
 public class FPSLimiter {
-
-    // Create an instance to be used in other classes
-    private static FPSLimiter instance;
 
     // Is the user in limbo?
     private static boolean limbo;
@@ -37,25 +33,9 @@ public class FPSLimiter {
     // How long have they been in limbo?
     private static long time;
 
-    /**
-     * Create the instance
-     *
-     * @return the class instance
-     */
-    public static FPSLimiter getInstance() {
-        if (instance == null) instance = new FPSLimiter();
-        return instance;
-    }
-
-    // Should the client limit the framerate?
-    public static boolean shouldLimitFramerate() {
-        return getInstance().limit();
-    }
-
     // Check if it's been 5 seconds, if it has, apply the limited framerate
-    public boolean limit() {
-        long secondsWait = 5;
-        return (!Display.isActive() || limbo) && Settings.FPS_LIMITER && time * 20 >= secondsWait;
+    public boolean shouldLimitFramerate() {
+        return (!Display.isActive() || limbo) && Settings.FPS_LIMITER && time * 20 >= 5;
     }
 
     /**
@@ -65,8 +45,8 @@ public class FPSLimiter {
      */
     @InvokeEvent(priority = Priority.LOW)
     public void onChat(ChatEvent event) {
-        if (event.getChat().getUnformattedText().trim().equals("You were spawned in Limbo.") ||
-            event.getChat().getUnformattedText().trim().equals("You are AFK. Move around to return from AFK.")) {
+        String trimmedChat = event.getChat().getUnformattedText().trim();
+        if (trimmedChat.equals("You were spawned in Limbo.") || trimmedChat.equals("You are AFK. Move around to return from AFK.")) {
             limbo = true;
         }
     }
@@ -82,18 +62,8 @@ public class FPSLimiter {
         else time = 0;
     }
 
-    /**
-     * Once the spawnpoint has changed, assume the user is no longer in limbo and joined a new world
-     *
-     * @param event called whenever the user either switches worlds or the server has changed the world spawn
-     */
-    @InvokeEvent(priority = Priority.LOW)
-    public void onWorldChange(SpawnpointChangeEvent event) {
-        limbo = false;
-    }
-
     @InvokeEvent
-    public void leaveServer(ServerLeaveEvent event) {
+    public void leaveServer(WorldChangeEvent event) {
         if (limbo) {
             limbo = false;
         }

@@ -311,15 +311,18 @@
          if (!this.skipRenderWorld) {
              this.mcProfiler.endStartSection("gameRenderer");
              this.entityRenderer.updateCameraAndRender(this.timer.renderPartialTicks, i);
-@@ -1062,6 +1114,7 @@
+@@ -1062,6 +1114,10 @@
      }
  
      public int getLimitFramerate() {
-+        if (FPSLimiter.shouldLimitFramerate()) return FPSLimiter.getInstance().getFpsLimit();
++        if (Hyperium.INSTANCE.getHandlers().getFpsLimiter().shouldLimitFramerate()) {
++            return Hyperium.INSTANCE.getHandlers().getFpsLimiter().getFpsLimit();
++        }
++
          return this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
      }
  
-@@ -1091,6 +1144,7 @@
+@@ -1091,6 +1147,7 @@
       * Update debugProfilerName in response to number keys in debug screen
       */
      private void updateDebugProfilerName(int keyCount) {
@@ -327,7 +330,7 @@
          List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
  
          if (list != null && !list.isEmpty()) {
-@@ -1222,6 +1276,7 @@
+@@ -1222,6 +1279,7 @@
       * Called when the window is closing. Sets 'running' to false which allows the game loop to exit cleanly.
       */
      public void shutdown() {
@@ -335,7 +338,7 @@
          this.running = false;
      }
  
-@@ -1314,6 +1369,8 @@
+@@ -1314,6 +1372,8 @@
                  }
              }
          }
@@ -344,7 +347,7 @@
      }
  
      /**
-@@ -1344,6 +1401,11 @@
+@@ -1344,6 +1404,11 @@
                      if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
                          int i = itemstack != null ? itemstack.stackSize : 0;
  
@@ -356,7 +359,7 @@
                          if (this.playerController.onPlayerRightClick(this.thePlayer, this.theWorld, itemstack, blockpos, this.objectMouseOver.sideHit, this.objectMouseOver.hitVec)) {
                              flag = false;
                              this.thePlayer.swingItem();
-@@ -1364,12 +1426,18 @@
+@@ -1364,12 +1429,18 @@
  
              if (flag) {
                  ItemStack itemstack1 = this.thePlayer.inventory.getCurrentItem();
@@ -375,7 +378,7 @@
      }
  
      /**
-@@ -1414,6 +1482,25 @@
+@@ -1414,6 +1485,25 @@
  
              Display.setFullscreen(this.fullscreen);
              Display.setVSyncEnabled(this.gameSettings.enableVsync);
@@ -401,7 +404,7 @@
              this.updateDisplay();
          } catch (Exception exception) {
              logger.error((String)"Couldn\'t toggle fullscreen", (Throwable)exception);
-@@ -1528,6 +1615,9 @@
+@@ -1528,6 +1618,9 @@
  
              while (Mouse.next()) {
                  int i = Mouse.getEventButton();
@@ -411,7 +414,7 @@
                  KeyBinding.setKeyBindState(i - 100, Mouse.getEventButtonState());
  
                  if (Mouse.getEventButtonState()) {
-@@ -1857,12 +1947,18 @@
+@@ -1857,12 +1950,18 @@
  
          this.mcProfiler.endSection();
          this.systemTime = getSystemTime();
@@ -430,7 +433,7 @@
          this.loadWorld((WorldClient)null);
          System.gc();
          ISaveHandler isavehandler = this.saveLoader.getSaveLoader(folderName, false);
-@@ -1912,7 +2008,15 @@
+@@ -1912,7 +2011,15 @@
          NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
          networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, this, (GuiScreen)null));
          networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
@@ -447,7 +450,7 @@
          this.myNetworkManager = networkmanager;
      }
  
-@@ -1920,6 +2024,9 @@
+@@ -1920,6 +2027,9 @@
       * unloads the current world first
       */
      public void loadWorld(WorldClient worldClientIn) {
@@ -457,7 +460,7 @@
          this.loadWorld(worldClientIn, "");
      }
  
-@@ -1986,7 +2093,9 @@
+@@ -1986,7 +2096,9 @@
              this.thePlayer = null;
          }
  
@@ -468,7 +471,7 @@
          this.systemTime = 0L;
      }
  
-@@ -2572,6 +2681,11 @@
+@@ -2572,6 +2684,11 @@
  
          if (i != 0 && !Keyboard.isRepeatEvent()) {
              if (!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L) {
@@ -480,7 +483,7 @@
                  if (Keyboard.getEventKeyState()) {
                      if (i == this.gameSettings.keyBindStreamStartStop.getKeyCode()) {
                          if (this.getTwitchStream().isBroadcasting()) {
-@@ -2610,7 +2724,8 @@
+@@ -2610,7 +2727,8 @@
                      } else if (i == this.gameSettings.keyBindFullscreen.getKeyCode()) {
                          this.toggleFullscreen();
                      } else if (i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
@@ -490,7 +493,7 @@
                      }
                  } else if (i == this.gameSettings.keyBindStreamToggleMic.getKeyCode()) {
                      this.stream.muteMicrophone(false);
-@@ -2717,4 +2832,9 @@
+@@ -2717,4 +2835,9 @@
      public void setConnectedToRealms(boolean isConnected) {
          this.connectedToRealms = isConnected;
      }

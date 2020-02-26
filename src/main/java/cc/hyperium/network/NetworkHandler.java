@@ -142,7 +142,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
 
     @Override
     public void setLeader(String s) {
-        Hyperium.INSTANCE.getConfirmation().setAcceptFrom(s);
+        Hyperium.INSTANCE.getHandlers().getConfirmationPopup().setAcceptFrom(s);
     }
 
     public boolean isPost() {

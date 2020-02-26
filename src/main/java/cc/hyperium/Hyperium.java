@@ -28,14 +28,10 @@ import cc.hyperium.event.Priority;
 import cc.hyperium.event.client.GameShutDownEvent;
 import cc.hyperium.event.client.InitializationEvent;
 import cc.hyperium.event.client.PreInitializationEvent;
-import cc.hyperium.gui.ColourOptions;
-import cc.hyperium.gui.ConfirmationPopup;
-import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.SplashProgress;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.integrations.discord.DiscordPresence;
-import cc.hyperium.integrations.sprint.ToggleSprintContainer;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
@@ -53,9 +49,6 @@ import cc.hyperium.resources.ClassLoaderResourcePack;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.AddonCheckerUtil;
-import cc.hyperium.utils.mods.CompactChat;
-import cc.hyperium.utils.mods.FPSLimiter;
-import cc.hyperium.utils.statistics.GeneralStatisticsTracking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.crash.CrashReport;
@@ -100,17 +93,8 @@ public class Hyperium {
     // Is it the users first launch?
     private boolean firstLaunch;
 
-    // Track the users amount of Hypixel coins to be used somewhere (ChromaHUD module for example)
-    private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
-
     // Discord Rich Presence, displays information such as the server, the username, etc
     private final DiscordPresence richPresenceManager = new DiscordPresence();
-
-    // Ingame popups for events such as Friend Requests or Party requests on Hypixel
-    private final ConfirmationPopup confirmation = new ConfirmationPopup();
-
-    // Hyperium's custom Notification system
-    private NotificationCenter notification;
 
     // Hyperium's Cosmetics system
     private HyperiumCosmetics cosmetics;
@@ -174,9 +158,6 @@ public class Hyperium {
                 }
             });
 
-            // Initialize notifications
-            notification = new NotificationCenter();
-
             // Get the build id
             createBuildId();
             LOGGER.info("Hyperium Build ID: {}", BUILD_ID);
@@ -204,30 +185,17 @@ public class Hyperium {
             handlers = new HyperiumHandlers();
             handlers.postInit();
 
-            SplashProgress.setProgress(6, I18n.format("splashprogress.registeringlisteners"));
-
-            // Register events
-            EventBus.INSTANCE.register(new ToggleSprintContainer());
-            EventBus.INSTANCE.register(notification);
-            EventBus.INSTANCE.register(CompactChat.getInstance());
-            EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
-            EventBus.INSTANCE.register(confirmation);
-            EventBus.INSTANCE.register(statTrack);
-            CONFIG.register(statTrack);
-            CONFIG.register(new ToggleSprintContainer());
-
-            SplashProgress.setProgress(7, I18n.format("splashprogress.startinghyperium"));
+            SplashProgress.setProgress(6, I18n.format("splashprogress.startinghyperium"));
             LOGGER.info("Hyperium Started!");
 
             // Set the window title
             Display.setTitle("Hyperium " + Metadata.getVersion());
 
-            SplashProgress.setProgress(8, I18n.format("splashprogress.registeringconfiguration"));
+            SplashProgress.setProgress(7, I18n.format("splashprogress.registeringconfiguration"));
 
             // Register the settings
             Settings.register();
-            CONFIG.register(new ColourOptions());
-            SplashProgress.setProgress(9, I18n.format("splashprogress.registeringcommands"));
+            SplashProgress.setProgress(8, I18n.format("splashprogress.registeringcommands"));
 
             // Register all the default commands
             registerCommands();
@@ -235,7 +203,7 @@ public class Hyperium {
             // Initialize the Purchase API
             EventBus.INSTANCE.register(PurchaseApi.getInstance());
 
-            SplashProgress.setProgress(10, I18n.format("splashprogress.loadingintegrations"));
+            SplashProgress.setProgress(9, I18n.format("splashprogress.loadingintegrations"));
 
             // Register mods & addons
             modIntegration = new HyperiumModIntegration();
@@ -259,7 +227,7 @@ public class Hyperium {
                 sk1erMod.checkStatus();
             }
 
-            SplashProgress.setProgress(11, I18n.format("splashprogress.finishing"));
+            SplashProgress.setProgress(10, I18n.format("splashprogress.finishing"));
 
             // Load the previous chat session
             loadPreviousChatFile();
@@ -470,24 +438,12 @@ public class Hyperium {
         }
     }
 
-    public GeneralStatisticsTracking getStatTrack() {
-        return this.statTrack;
-    }
-
     public HyperiumHandlers getHandlers() {
         return handlers;
     }
 
     public HyperiumModIntegration getModIntegration() {
         return modIntegration;
-    }
-
-    public NotificationCenter getNotification() {
-        return notification;
-    }
-
-    public ConfirmationPopup getConfirmation() {
-        return confirmation;
     }
 
     public HyperiumCosmetics getCosmetics() {

@@ -25,6 +25,8 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.event.network.server.hypixel.minigames.MinigameListener;
 import cc.hyperium.gui.BlurHandler;
+import cc.hyperium.gui.ConfirmationPopup;
+import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.ScoreboardRenderer;
 import cc.hyperium.handlers.handlers.*;
 import cc.hyperium.handlers.handlers.animation.*;
@@ -40,11 +42,15 @@ import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
 import cc.hyperium.integrations.perspective.PerspectiveModifierHandler;
+import cc.hyperium.integrations.sprint.ToggleSprintContainer;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.internal.MemoryHelper;
 import cc.hyperium.internal.UpdateChecker;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.MouseListener;
+import cc.hyperium.utils.mods.CompactChat;
+import cc.hyperium.utils.mods.FPSLimiter;
+import cc.hyperium.utils.statistics.GeneralStatisticsTracking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -96,6 +102,12 @@ public class HyperiumHandlers {
     private final CloudHandler cloudHandler;
     private final HypixelConnectionMessage hypixelConnectionMessage;
     private final HyperiumDebug hyperiumDebug;
+    private final GeneralStatisticsTracking generalStatisticsTracking;
+    private final NotificationCenter notificationCenter;
+    private final ToggleSprintContainer toggleSprintContainer;
+    private final FPSLimiter fpsLimiter;
+    private final CompactChat compactChat;
+    private final ConfirmationPopup confirmationPopup;
 
     public HyperiumHandlers() {
         Hyperium.LOGGER.info("Loading handlers");
@@ -134,6 +146,12 @@ public class HyperiumHandlers {
         register(cloudHandler = new CloudHandler());
         register(hypixelConnectionMessage = new HypixelConnectionMessage());
         register(hyperiumDebug = new HyperiumDebug());
+        register(generalStatisticsTracking = new GeneralStatisticsTracking());
+        register(notificationCenter = new NotificationCenter());
+        register(toggleSprintContainer = new ToggleSprintContainer());
+        register(fpsLimiter = new FPSLimiter());
+        register(compactChat = new CompactChat());
+        register(confirmationPopup = new ConfirmationPopup());
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
         // Chat Handlers
@@ -299,5 +317,23 @@ public class HyperiumHandlers {
     }
     public HyperiumDebug getHyperiumDebug() {
         return hyperiumDebug;
+    }
+    public GeneralStatisticsTracking getGeneralStatisticsTracking() {
+        return generalStatisticsTracking;
+    }
+    public NotificationCenter getNotificationCenter() {
+        return notificationCenter;
+    }
+    public ToggleSprintContainer getToggleSprintContainer() {
+        return toggleSprintContainer;
+    }
+    public FPSLimiter getFpsLimiter() {
+        return fpsLimiter;
+    }
+    public CompactChat getCompactChat() {
+        return compactChat;
+    }
+    public ConfirmationPopup getConfirmationPopup() {
+        return confirmationPopup;
     }
 }

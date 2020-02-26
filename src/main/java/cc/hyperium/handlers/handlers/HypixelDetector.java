@@ -93,7 +93,7 @@ public class HypixelDetector {
     @InvokeEvent
     public void join(JoinHypixelEvent event) {
         if (Settings.HYPIXEL_ZOO) {
-            Hyperium.INSTANCE.getNotification().display("Welcome to the Hypixel Zoo.", "Click to visit https://hypixel.net/", 5f,
+            Hyperium.INSTANCE.getHandlers().getNotificationCenter().display("Welcome to the Hypixel Zoo.", "Click to visit https://hypixel.net/", 5f,
                     null, () -> {
                         try {
                             HyperiumDesktop.INSTANCE.browse(new URI("https://hypixel.net"));

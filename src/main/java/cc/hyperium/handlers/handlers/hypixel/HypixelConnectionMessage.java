@@ -26,7 +26,7 @@ public class HypixelConnectionMessage {
                     String theirGuild = HypixelAPI.INSTANCE.getGuildFromPlayer(event.getUsername()).get().getName();
                     boolean isInGuild = myGuild.equals(theirGuild);
                     
-                    Hyperium.INSTANCE.getNotification().display(event.getUsername(),
+                    Hyperium.INSTANCE.getHandlers().getNotificationCenter().display(event.getUsername(),
                             "has joined the server.\nClick to say hello to them.",
                             5,
                             null,
@@ -50,7 +50,7 @@ public class HypixelConnectionMessage {
                     String myGuild = HypixelAPI.INSTANCE.getGuildFromPlayer(Minecraft.getMinecraft().thePlayer.getName()).get().getName();
                     String theirGuild = HypixelAPI.INSTANCE.getGuildFromPlayer(event.getUsername()).get().getName();
                     boolean isInGuild = myGuild.equals(theirGuild);
-                    Hyperium.INSTANCE.getNotification().display(event.getUsername(),
+                    Hyperium.INSTANCE.getHandlers().getNotificationCenter().display(event.getUsername(),
                             "has left the server.",
                             5,
                             null,

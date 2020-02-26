@@ -39,7 +39,7 @@ public class UpdateChecker {
 
         Multithreading.runAsync(() -> {
             if (Minecraft.getMinecraft().theWorld != null) {
-                Hyperium.INSTANCE.getNotification().display("You have an update pending.",
+                Hyperium.INSTANCE.getHandlers().getNotificationCenter().display("You have an update pending.",
                         "Click here to be sent to the installer.",
                         10f,
                         null, () -> {
