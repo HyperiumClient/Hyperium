@@ -67,7 +67,15 @@
          entityIn.setDead();
  
          if (entityIn instanceof EntityPlayer) {
-@@ -2261,6 +2276,8 @@
+@@ -1960,6 +1975,7 @@
+      */
+     public void markTileEntityForRemoval(TileEntity tileEntityIn) {
+         this.tileEntitiesToBeRemoved.add(tileEntityIn);
++        tileEntityIn.invalidate();
+     }
+ 
+     public boolean isBlockFullCube(BlockPos pos) {
+@@ -2261,6 +2277,8 @@
       * gets the light level at the supplied position
       */
      private int getRawLight(BlockPos pos, EnumSkyBlock lightType) {
@@ -76,7 +84,7 @@
          if (lightType == EnumSkyBlock.SKY && this.canSeeSky(pos)) {
              return 15;
          } else {
-@@ -2300,6 +2317,8 @@
+@@ -2300,6 +2318,8 @@
      }
  
      public boolean checkLightFor(EnumSkyBlock lightType, BlockPos pos) {
@@ -85,7 +93,7 @@
          if (!this.isAreaLoaded(pos, 17, false)) {
              return false;
          } else {
-@@ -2550,10 +2569,14 @@
+@@ -2550,10 +2570,14 @@
      }
  
      public void loadEntities(Collection<Entity> entityCollection) {
@@ -103,7 +111,7 @@
          }
      }
  
-@@ -2791,6 +2814,7 @@
+@@ -2791,6 +2815,7 @@
      }
  
      public void setSpawnPoint(BlockPos pos) {
@@ -111,7 +119,7 @@
          this.worldInfo.setSpawn(pos);
      }
  
-@@ -2811,6 +2835,7 @@
+@@ -2811,6 +2836,7 @@
  
          if (!this.loadedEntityList.contains(entityIn)) {
              this.loadedEntityList.add(entityIn);
@@ -119,7 +127,7 @@
          }
      }
  
-@@ -3045,7 +3070,7 @@
+@@ -3045,7 +3071,7 @@
       */
      @SideOnly(Side.CLIENT)
      public double getHorizon() {
@@ -128,7 +136,7 @@
      }
  
      public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {
-@@ -3150,4 +3175,8 @@
+@@ -3150,4 +3176,8 @@
          int k = 128;
          return i >= -k && i <= k && j >= -k && j <= k;
      }
