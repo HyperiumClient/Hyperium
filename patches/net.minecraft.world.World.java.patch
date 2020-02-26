@@ -67,7 +67,30 @@
          entityIn.setDead();
  
          if (entityIn instanceof EntityPlayer) {
-@@ -1960,6 +1975,7 @@
+@@ -1920,16 +1935,21 @@
+             if (this.processingLoadedTiles) {
+                 tileEntityIn.setPos(pos);
+                 Iterator<TileEntity> iterator = this.addedTileEntityList.iterator();
++                List<TileEntity> toInvalidate = Lists.newArrayList();
+ 
+                 while (iterator.hasNext()) {
+                     TileEntity tileentity = (TileEntity)iterator.next();
+ 
+                     if (tileentity.getPos().equals(pos)) {
+-                        tileentity.invalidate();
++                        toInvalidate.add(tileentity);
+                         iterator.remove();
+                     }
+                 }
+ 
++                for (TileEntity entity : toInvalidate) {
++                    entity.invalidate();
++                }
++
+                 this.addedTileEntityList.add(tileEntityIn);
+             } else {
+                 this.addTileEntity(tileEntityIn);
+@@ -1960,6 +1980,7 @@
       */
      public void markTileEntityForRemoval(TileEntity tileEntityIn) {
          this.tileEntitiesToBeRemoved.add(tileEntityIn);
@@ -75,7 +98,7 @@
      }
  
      public boolean isBlockFullCube(BlockPos pos) {
-@@ -2261,6 +2277,8 @@
+@@ -2261,6 +2282,8 @@
       * gets the light level at the supplied position
       */
      private int getRawLight(BlockPos pos, EnumSkyBlock lightType) {
@@ -84,7 +107,7 @@
          if (lightType == EnumSkyBlock.SKY && this.canSeeSky(pos)) {
              return 15;
          } else {
-@@ -2300,6 +2318,8 @@
+@@ -2300,6 +2323,8 @@
      }
  
      public boolean checkLightFor(EnumSkyBlock lightType, BlockPos pos) {
@@ -93,7 +116,7 @@
          if (!this.isAreaLoaded(pos, 17, false)) {
              return false;
          } else {
-@@ -2550,10 +2570,14 @@
+@@ -2550,10 +2575,14 @@
      }
  
      public void loadEntities(Collection<Entity> entityCollection) {
@@ -111,7 +134,7 @@
          }
      }
  
-@@ -2791,6 +2815,7 @@
+@@ -2791,6 +2820,7 @@
      }
  
      public void setSpawnPoint(BlockPos pos) {
@@ -119,7 +142,7 @@
          this.worldInfo.setSpawn(pos);
      }
  
-@@ -2811,6 +2836,7 @@
+@@ -2811,6 +2841,7 @@
  
          if (!this.loadedEntityList.contains(entityIn)) {
              this.loadedEntityList.add(entityIn);
@@ -127,7 +150,7 @@
          }
      }
  
-@@ -3045,7 +3071,7 @@
+@@ -3045,7 +3076,7 @@
       */
      @SideOnly(Side.CLIENT)
      public double getHorizon() {
@@ -136,7 +159,7 @@
      }
  
      public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {
-@@ -3150,4 +3176,8 @@
+@@ -3150,4 +3181,8 @@
          int k = 128;
          return i >= -k && i <= k && j >= -k && j <= k;
      }
