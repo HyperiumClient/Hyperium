@@ -83,8 +83,9 @@ object AddonMinecraftBootstrap {
                         val dependencyManifest = toLoadMap[dependency]
                         if (dependencyManifest == null) {
                             toLoadMap.remove(manifest.name)
-                            Hyperium.LOGGER
-                                .error("Can't load addon ${manifest.name}. Its dependency, $dependency, isn't available.")
+                            Hyperium.LOGGER.error(
+                                "Can't load addon ${manifest.name}. Its dependency, $dependency, isn't available."
+                            )
                             MISSING_DEPENDENCIES_MAP.computeIfAbsent(manifest) { arrayListOf() }.add(dependency)
                             continue@loadBeforeLoop
                         }
@@ -109,7 +110,7 @@ object AddonMinecraftBootstrap {
             val outEdges = toLoad.map { it to hashSetOf<AddonManifest>() }.toMap().toMutableMap()
 
             for (manifest in toLoad) {
-                manifest.dependencies.forEach {
+                for (it in manifest.dependencies) {
                     val dependency = toLoadMap[it]
                     if (dependency != null) {
                         outEdges[manifest]!!.add(dependency)
@@ -174,18 +175,6 @@ object AddonMinecraftBootstrap {
                     Hyperium.LOGGER.error(output)
                 }
             })
-
-            for (addon in toLoad) {
-                try {
-                    if (addon.overlay != null) {
-                        OverlayChecker.checkOverlayField(addon.overlay)
-                    }
-                } catch (e: Throwable) {
-                    dontLoad.add(addon)
-                    e.printStackTrace()
-                    ADDON_ERRORS.add(e)
-                }
-            }
 
             for (addon in dontLoad) {
                 toLoad.remove(addon)

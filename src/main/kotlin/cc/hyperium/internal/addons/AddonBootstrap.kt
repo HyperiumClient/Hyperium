@@ -57,12 +57,12 @@ object AddonBootstrap {
      * Addons as resource packs to load
      */
     @JvmStatic
-    val addonResourcePacks: ArrayList<File?> = arrayListOf()
+    val addonResourcePacks = arrayListOf<File?>()
 
     /**
      * All the filtered jars inside of the {@link #modDirectory} folder,
      */
-    private var jars: ArrayList<File>
+    private var jars = arrayListOf<File>()
 
     /**
      * Method of loading all the valid addonManifests to the classloader
@@ -122,8 +122,6 @@ object AddonBootstrap {
         }
 
         phase = Phase.PREINIT
-//        Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonBootstrap")
-//        Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonManifest")
 
         with(addonManifests) {
             val workspaceAddon = loadWorkspaceAddon()
@@ -131,11 +129,14 @@ object AddonBootstrap {
             if (workspaceAddon != null) {
                 add(workspaceAddon)
             }
+
             addAll(loadAddons(loader))
         }
 
-        addonManifests.forEach { manifest ->
-            translators.forEach { translator -> translator.translate(manifest) }
+        for (manifest in addonManifests) {
+            for (translator in translators) {
+                translator.translate(manifest)
+            }
         }
 
         phase = Phase.INIT
@@ -163,39 +164,46 @@ object AddonBootstrap {
      * @param loader Addon loader
      * @return returns a list of the addon manifests
      */
+    @Suppress("UnstableApiUsage", "SameParameterValue")
     private fun loadAddons(loader: AddonLoaderStrategy): List<AddonManifest> {
         val addons = arrayListOf<AddonManifest>()
         val pendings = if (pendingDirectory.exists()) pendingDirectory.listFiles() else arrayOf()
+
         try {
             if (pendingDirectory.exists())
                 pendings?.forEach { pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest()) }
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
+
         val benchmark = Stopwatch.createStarted()
         LOGGER.info("Starting to load external jars...")
-        jars.forEach { jar ->
+
+        for (jar in jars) {
             try {
-                val addon = loadAddon(loader, jar) ?: return@forEach
+                val addon = loadAddon(loader, jar) ?: continue
                 addons.add(addon)
             } catch (e: Exception) {
-                LOGGER.error("Could not load {}!", jar.name)
+                LOGGER.error("Could not load ${jar.name}!")
                 e.printStackTrace()
             }
         }
+
         pendingManifests.clear()
-        pendings?.forEach { jar ->
+
+        for (jar in pendings) {
             val dest = File(modDirectory, jar.name)
             FileUtils.moveFile(jar, dest)
+
             try {
-                val addon = loadAddon(loader, dest) ?: return@forEach
+                val addon = loadAddon(loader, dest) ?: continue
                 addons.add(addon)
             } catch (e: Exception) {
-                LOGGER.error("Could not load {}!", dest.name)
-                e.printStackTrace()
+                LOGGER.error("Could not load ${dest.name}", e)
             }
         }
-        LOGGER.debug("Finished loading all jars in {}.", benchmark)
+
+        LOGGER.debug("Finished loading all jars in $benchmark.")
         return addons
     }
 

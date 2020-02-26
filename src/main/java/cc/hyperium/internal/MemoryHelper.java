@@ -45,10 +45,27 @@ public class MemoryHelper {
     private List<ResourceLocation> locations = new ArrayList<>();
     private int tickCounter;
 
+    private Field resourceCache;
+    private Field packageManifests;
+
     public static MemoryHelper INSTANCE;
 
     public MemoryHelper() {
         INSTANCE = this;
+
+        try {
+            resourceCache = LaunchClassLoader.class.getDeclaredField("resourceCache");
+            packageManifests = LaunchClassLoader.class.getDeclaredField("packageManifests");
+        } catch (Exception e) {
+            Hyperium.LOGGER.error("Failed to assign resourceCache/packageManifests", e);
+        }
+
+        try {
+            resourceCache.setAccessible(true);
+            packageManifests.setAccessible(true);
+        } catch (Exception e) {
+            Hyperium.LOGGER.error("Failed to set resourceCache/packageManifests to accessible", e);
+        }
     }
 
     @InvokeEvent
@@ -146,15 +163,10 @@ public class MemoryHelper {
         if (tickCounter % 20 * 60 == 0) {
             Minecraft.memoryReserve = new byte[0];
             try {
-                Field resourceCache = LaunchClassLoader.class.getDeclaredField("resourceCache");
-                resourceCache.setAccessible(true);
                 ((Map) resourceCache.get(Launch.classLoader)).clear();
-
-                Field packageManifests = LaunchClassLoader.class.getDeclaredField("packageManifests");
-                packageManifests.setAccessible(true);
                 ((Map) packageManifests.get(Launch.classLoader)).clear();
-            } catch (IllegalAccessException | NoSuchFieldException e) {
-                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                Hyperium.LOGGER.error("Failed to clear resourceCache/packageManifests", e);
             }
         }
 
