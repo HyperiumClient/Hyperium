@@ -53,13 +53,8 @@ public class AccountGUI extends GuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        // determine the mouse position, and which field to use
-        if (mouseY <= 165 || mouseY >= 145) {
-            usernameField.mouseClicked(mouseX, mouseY, mouseButton);
-        }
-        if (mouseY <= 125 || mouseY >= 105) {
-            passwordField.mouseClicked(mouseX, mouseY, mouseButton);
-        }
+        usernameField.mouseClicked(mouseX, mouseY, mouseButton);
+        passwordField.mouseClicked(mouseX, mouseY, mouseButton);
 
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }

@@ -25,6 +25,7 @@ import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.tips.TipRegistry;
 import cc.hyperium.gui.util.CreateServerButton;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
+import cc.hyperium.mods.accountswitcher.gui.AccountGUI;
 import cc.hyperium.optifine.Reflector;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.ChatColor;
@@ -218,7 +219,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                 break;
 
             case 8:
-                Hyperium.INSTANCE.getModIntegration().getAccountSwitcher().displayGui(this);
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new AccountGUI(this));
                 break;
         }
     }

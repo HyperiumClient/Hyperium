@@ -37,10 +37,6 @@ public class AccountSwitcher extends AbstractMod {
         accountManager = new AccountManager();
     }
 
-    public void displayGui(GuiScreen prev) {
-        new AccountGUI(prev).display();
-    }
-
     @Override
     public AbstractMod init() {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
