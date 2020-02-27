@@ -246,7 +246,8 @@ public class HypixelAPI {
 
         return new HypixelApiGuild(new JsonHolder(
             Sk1erMod.getInstance().rawWithAgent(
-                String.format(guildKey.type.getUrl(), guildKey.formatStrings)
+                    // shut up gradle
+                String.format(guildKey.type.getUrl(), (Object) guildKey.formatStrings)
             )
         ));
     }

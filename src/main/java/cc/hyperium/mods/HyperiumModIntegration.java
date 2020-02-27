@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods;
 
+import cc.hyperium.mods.accountswitcher.AccountSwitcher;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.chromahud.ChromaHUD;
@@ -56,6 +57,7 @@ public class HyperiumModIntegration {
     private final ChunkAnimator chunkAnimator;
     private final SoundHandler soundHandler;
     private final EntityRadius entityRadius;
+    private final AccountSwitcher accountSwitcher;
     private final SidebarAddon sidebarAddon;
 
     public HyperiumModIntegration() {
@@ -80,6 +82,9 @@ public class HyperiumModIntegration {
 
         // AutoGG implementation
         autogg = ((AutoGG) new AutoGG().init());
+
+        // AccountSwitcher implementation
+        accountSwitcher = ((AccountSwitcher) new AccountSwitcher().init());
 
         // Old Animations implementation
         oldAnimations = ((OldAnimations) new OldAnimations().init());
@@ -165,5 +170,9 @@ public class HyperiumModIntegration {
 
     public SidebarAddon getSidebarAddon() {
         return sidebarAddon;
+    }
+
+    public AccountSwitcher getAccountSwitcher() {
+        return accountSwitcher;
     }
 }

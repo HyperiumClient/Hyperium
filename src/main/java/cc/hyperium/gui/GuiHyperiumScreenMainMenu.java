@@ -106,6 +106,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                 new ResourceLocation("hyperium", "textures/material/shopping_bag.png")));
         buttonList.add(new IconButton(7, 23, 3, 16, 16, I18n.format("button.menu.changebackground"),
                 new ResourceLocation("hyperium", "textures/material/gallery.png")));
+        buttonList.add(new IconButton(8, 43, 3, 16, 16, I18n.format("button.menu.accountswitch"),
+                new ResourceLocation("hyperium", "textures/material/account.png")));
     }
 
     /**
@@ -213,6 +215,10 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
             case 7:
                 mc.displayGuiScreen(new ChangeBackgroundGui(this));
+                break;
+
+            case 8:
+                Hyperium.INSTANCE.getModIntegration().getAccountSwitcher().displayGui(this);
                 break;
         }
     }
