@@ -48,6 +48,15 @@
  import net.minecraft.world.EnumDifficulty;
  import net.minecraft.world.WorldProviderEnd;
  import net.minecraft.world.WorldProviderHell;
+@@ -226,7 +254,7 @@
+     private Entity renderViewEntity;
+     public Entity pointedEntity;
+     public EffectRenderer effectRenderer;
+-    private final Session session;
++    private Session session;
+     private boolean isGamePaused;
+     /** The font renderer used for displaying and measuring text */
+     public FontRenderer fontRendererObj;
 @@ -286,7 +314,7 @@
      /** Keeps track of how long the debug crash keycombo (F3+C) has been pressed for, in order to crash after 10 seconds. */
      private long debugCrashKeyPressTime = -1L;
@@ -493,10 +502,14 @@
                      }
                  } else if (i == this.gameSettings.keyBindStreamToggleMic.getKeyCode()) {
                      this.stream.muteMicrophone(false);
-@@ -2717,4 +2835,9 @@
+@@ -2717,4 +2835,13 @@
      public void setConnectedToRealms(boolean isConnected) {
          this.connectedToRealms = isConnected;
      }
++
++    public void setSession(Session session) {
++        this.session = session;
++    }
 +
 +    // Allow access to the default packs list
 +    public List<IResourcePack> getDefaultResourcePacks() {
