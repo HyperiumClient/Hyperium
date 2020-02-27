@@ -11,8 +11,10 @@ options.particles.disabled=Disabled
 #Hyperium Buttons
 button.menu.changebackground=Menu Background
 button.menu.cosmeticshop=Cosmetic Shop
+button.menu.accountswitch=Account Switcher
 button.ingame.hyperiumsettings=Hyperium Settings
 button.ingame.hyperiumcredits=Contributors
+button.ingame.accountswitch=Switch Accounts
 button.ingame.serverlist=Server List
 button.changebackground.seturl=Set URL
 button.changebackground.choosefile=Choose File
@@ -43,6 +45,9 @@ gui.ingamemenu.playercount.now=Online Now: %s
 gui.ingamemenu.playercount.lastday=Past Day: %s
 gui.ingamemenu.playercount.lastweek=Past Week: %s
 gui.ingamemenu.playercount.alltime=All Time: %s
+
+# Hyperium Account Switcher
+button.accountswitch.login=Login
 
 #Hyperium Change Background Text
 gui.changebackground.line1=Enter a URL below to change the background or choose file.

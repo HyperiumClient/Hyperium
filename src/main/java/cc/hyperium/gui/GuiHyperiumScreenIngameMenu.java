@@ -22,6 +22,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.network.server.ServerLeaveEvent;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
+import cc.hyperium.mods.accountswitcher.AccountSwitcher;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.purchases.PurchaseApi;
