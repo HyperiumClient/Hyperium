@@ -20,7 +20,17 @@
      /** A reference to the screen object that created this. Used for navigating between screens. */
      private GuiScreen parentScreen;
      protected String screenTitle = "Controls";
-@@ -106,6 +110,9 @@
+@@ -67,6 +71,9 @@
+             for (KeyBinding keybinding : this.mc.gameSettings.keyBindings) {
+                 keybinding.setKeyCode(keybinding.getKeyCodeDefault());
+             }
++            for (HyperiumBind bind : Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values()) {
++                bind.setKeyCode(bind.getDefaultKeyCode());
++            }
+ 
+             KeyBinding.resetKeyBindingArrayAndHash();
+         } else if (button.id < 100 && button instanceof GuiOptionButton) {
+@@ -106,6 +113,9 @@
              if (keyCode == 1) {
                  this.options.setOptionKeyBinding(this.buttonId, 0);
              } else if (keyCode != 0) {
@@ -30,3 +40,15 @@
                  this.options.setOptionKeyBinding(this.buttonId, keyCode);
              } else if (typedChar > 0) {
                  this.options.setOptionKeyBinding(this.buttonId, typedChar + 256);
+@@ -119,6 +129,11 @@
+         }
+     }
+ 
++    @Override
++    public void onGuiClosed() {
++        Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeyBindConfig().save();
++    }
++
+     /**
+      * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+      */
