@@ -129,9 +129,6 @@ public class AccountGUI extends GuiScreen {
         break;
     }
 
-    super.actionPerformed(button);
-  }
-
   @Override
   public void onGuiClosed() {
     Keyboard.enableRepeatEvents(false);
