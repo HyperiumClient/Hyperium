@@ -31,7 +31,7 @@ class KeyBind {
             }
         }
 
-        keyBinding = object : HyperiumBind(description, keyCode, "ChatTriggers") {
+        keyBinding = object : HyperiumBind(description, keyCode, "ChatTriggers", KeyType.UTIL) {
             override fun onPress() {
                 super.onPress()
 
@@ -55,7 +55,7 @@ class KeyBind {
     }
 
     constructor(keyBinding: KeyBinding) {
-        this.keyBinding = HyperiumBind(keyBinding.keyDescription, keyBinding.keyCode, keyBinding.keyCategory)
+        this.keyBinding = HyperiumBind(keyBinding.keyDescription, keyBinding.keyCode, keyBinding.keyCategory, HyperiumBind.KeyType.DEFAULT)
         isCustom = false
     }
 

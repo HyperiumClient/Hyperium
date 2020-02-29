@@ -27,7 +27,7 @@ import org.lwjgl.input.Keyboard;
 
 public class TwerkDanceKeybind extends HyperiumBind {
     public TwerkDanceKeybind() {
-        super("Twerk", Keyboard.KEY_NONE);
+        super("Twerk", Keyboard.KEY_NONE, KeyType.COSMETIC);
     }
 
     @Override

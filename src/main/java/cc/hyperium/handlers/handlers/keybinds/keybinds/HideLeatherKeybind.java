@@ -9,7 +9,7 @@ import org.lwjgl.input.Keyboard;
 public class HideLeatherKeybind extends HyperiumBind {
 
     public HideLeatherKeybind() {
-        super("Toggle Leather Armor", Keyboard.KEY_NONE);
+        super("Toggle Leather Armor", Keyboard.KEY_NONE, KeyType.UTIL);
     }
 
     @Override

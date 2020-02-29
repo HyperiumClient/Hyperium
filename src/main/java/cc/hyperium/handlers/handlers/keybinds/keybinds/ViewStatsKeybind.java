@@ -27,7 +27,7 @@ import org.lwjgl.input.Keyboard;
 public class ViewStatsKeybind extends HyperiumBind {
 
     public ViewStatsKeybind() {
-        super("View Hypixel Stats", Keyboard.KEY_RBRACKET);
+        super("View Hypixel Stats", Keyboard.KEY_RBRACKET, KeyType.GUI);
     }
 
     @Override

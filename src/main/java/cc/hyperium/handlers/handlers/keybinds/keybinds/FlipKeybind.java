@@ -31,7 +31,7 @@ public class FlipKeybind extends HyperiumBind {
     private boolean inverted;
 
     public FlipKeybind() {
-        super("Flip (Requires Purchase)", Keyboard.KEY_NONE);
+        super("Flip (Requires Purchase)", Keyboard.KEY_NONE, KeyType.COSMETIC);
     }
 
     @Override

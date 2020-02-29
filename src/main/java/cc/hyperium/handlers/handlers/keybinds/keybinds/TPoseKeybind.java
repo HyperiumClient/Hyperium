@@ -34,7 +34,7 @@ import java.util.UUID;
 public class TPoseKeybind extends HyperiumBind {
 
     public TPoseKeybind() {
-        super("T-Pose", Keyboard.KEY_NONE);
+        super("T-Pose", Keyboard.KEY_NONE, KeyType.COSMETIC);
     }
 
     private boolean tPoseToggled;

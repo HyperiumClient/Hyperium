@@ -25,7 +25,7 @@ import org.lwjgl.input.Keyboard;
 
 public class TogglePerspectiveKeybind extends HyperiumBind {
     public TogglePerspectiveKeybind() {
-        super("Perspective", Keyboard.KEY_P);
+        super("Perspective", Keyboard.KEY_P, KeyType.UTIL);
     }
 
     @Override

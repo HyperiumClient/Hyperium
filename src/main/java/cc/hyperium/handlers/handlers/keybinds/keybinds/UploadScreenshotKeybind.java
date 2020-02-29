@@ -23,7 +23,7 @@ import org.lwjgl.input.Keyboard;
 public class UploadScreenshotKeybind extends HyperiumBind {
 
     public UploadScreenshotKeybind() {
-        super("Upload Screenshot", Keyboard.KEY_LSHIFT);
+        super("Upload Screenshot", Keyboard.KEY_RSHIFT, KeyType.UTIL);
         conflictExempt = true;
     }
 }
