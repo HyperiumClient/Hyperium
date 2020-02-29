@@ -30,6 +30,7 @@ public class AccountGUI extends GuiScreen {
 
   private final GuiScreen prevGui;
   private GuiTextField usernameField, passwordField;
+  private GuiTextField currentlyFocusedField;
 
   public AccountGUI(GuiScreen prevGui) {
     this.prevGui = prevGui;
@@ -37,20 +38,23 @@ public class AccountGUI extends GuiScreen {
 
   @Override
   public void initGui() {
+    Keyboard.enableRepeatEvents(true);
     buttonList.clear();
     // add them fields
-    passwordField = new GuiTextField(0, mc.fontRendererObj, width / 4, height / 2 + 20, width / 2,
-        20);
+    passwordField = new GuiTextField(0, mc.fontRendererObj, width >> 2, (height >> 1) + 20,
+      width >> 1, 20);
     passwordField.setVisible(true);
-    usernameField = new GuiTextField(0, mc.fontRendererObj, width / 4, height / 2 - 20, width / 2,
-        20);
+    usernameField = new GuiTextField(1, mc.fontRendererObj, width >> 2, (height >> 1) - 20,
+      width >> 1, 20);
     usernameField.setVisible(true);
+    usernameField.setFocused(true);
+    currentlyFocusedField = usernameField;
 
     // add them buttons
-    buttonList.add(new GuiButton(1, width / 2 - 150 / 2, height / 2 + 50, 150, 20,
-        I18n.format("button.accountswitch.login")));
-    buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 72, 150, 20,
-        I18n.format("gui.cancel")));
+    buttonList.add(new GuiButton(2, (width >> 1) - 150 / 2, (height >> 1) + 50, 150, 20,
+      I18n.format("button.accountswitch.login")));
+    buttonList.add(new GuiButton(3, (width >> 1) - 150 / 2, (height >> 1) + 72, 150, 20,
+      I18n.format("gui.cancel")));
   }
 
   @Override
@@ -68,53 +72,59 @@ public class AccountGUI extends GuiScreen {
     usernameField.drawTextBox();
     passwordField.drawTextBox();
     // draw strings indicating which box is which
-    drawCenteredString(mc.fontRendererObj, "Username", width / 4 + 20, height / 2 - 35, 0xffffff);
-    drawCenteredString(mc.fontRendererObj, "Password", width / 4 + 20, height / 2 + 8, 0xffffff);
+    drawCenteredString(mc.fontRendererObj, "Username", (width >> 2) + 24, (height >> 1) - 35,
+      0xffffff);
+    drawCenteredString(mc.fontRendererObj, "Password", (width >> 2) + 24, (height >> 1) + 8,
+      0xffffff);
     super.drawScreen(mouseX, mouseY, partialTicks);
   }
 
   @Override
   public void updateScreen() {
     // update the cursor on the focused box
-    if (usernameField.isFocused()) {
-      usernameField.updateCursorCounter();
-    }
-    if (passwordField.isFocused()) {
-      passwordField.updateCursorCounter();
-    }
+    usernameField.updateCursorCounter();
+    passwordField.updateCursorCounter();
   }
 
   @Override
   protected void keyTyped(char typedChar, int keyCode) throws IOException {
     // type a character into the focused box
-    if (usernameField.isFocused()) {
-      usernameField.textboxKeyTyped(typedChar, keyCode);
-    }
-    if (passwordField.isFocused()) {
-      passwordField.textboxKeyTyped(typedChar, keyCode);
-    }
+    usernameField.textboxKeyTyped(typedChar, keyCode);
+    passwordField.textboxKeyTyped(typedChar, keyCode);
+    super.keyTyped(typedChar, keyCode);
 
     // if the user wants to escape the gui
     if (keyCode == Keyboard.KEY_ESCAPE) {
       mc.displayGuiScreen(prevGui);
     }
 
-    super.keyTyped(typedChar, keyCode);
+    if (keyCode == Keyboard.KEY_TAB) {
+      if (currentlyFocusedField == usernameField) {
+        currentlyFocusedField = passwordField;
+        usernameField.setFocused(false);
+        passwordField.setFocused(true);
+      } else if (currentlyFocusedField == passwordField) {
+        currentlyFocusedField = usernameField;
+        passwordField.setFocused(false);
+        usernameField.setFocused(true);
+      }
+    }
   }
 
   @Override
   protected void actionPerformed(GuiButton button) throws IOException {
     switch (button.id) {
-      case 1:
+      case 2:
         // make sure either field isn't empty
         if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty()) {
+          System.out.println("ahh");
           return;
         }
         // try and login
         Hyperium.INSTANCE.getModIntegration().getAccountSwitcher().getAccountManager()
-            .setUser(usernameField.getText(), passwordField.getText());
+          .setUser(usernameField.getText(), passwordField.getText());
         break;
-      case 2:
+      case 3:
         mc.displayGuiScreen(prevGui);
         break;
     }
@@ -122,7 +132,8 @@ public class AccountGUI extends GuiScreen {
     super.actionPerformed(button);
   }
 
-  public void display() {
-    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
+  @Override
+  public void onGuiClosed() {
+    Keyboard.enableRepeatEvents(false);
   }
 }
