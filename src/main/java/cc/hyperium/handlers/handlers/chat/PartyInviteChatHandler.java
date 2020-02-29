@@ -26,15 +26,17 @@ import java.util.regex.Matcher;
 
 public class PartyInviteChatHandler extends HyperiumChatHandler {
 
-    @Override
-    public boolean chatReceived(IChatComponent component, String text) {
-        if (!text.toLowerCase(Locale.ENGLISH).contains("their party!")) return false;
-        Matcher matcher = regexPatterns.get(ChatRegexType.PARTY_INVITE).matcher(text);
-
-        if (matcher.find()) {
-            EventBus.INSTANCE.post(new HypixelPartyInviteEvent(matcher.group("player")));
-        }
-
-        return false;
+  @Override
+  public boolean chatReceived(IChatComponent component, String text) {
+    if (!text.toLowerCase(Locale.ENGLISH).contains("their party!")) {
+      return false;
     }
+    Matcher matcher = regexPatterns.get(ChatRegexType.PARTY_INVITE).matcher(text);
+
+    if (matcher.find()) {
+      EventBus.INSTANCE.post(new HypixelPartyInviteEvent(matcher.group("player")));
+    }
+
+    return false;
+  }
 }

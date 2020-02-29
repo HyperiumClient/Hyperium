@@ -24,47 +24,50 @@ import java.util.regex.Pattern;
 
 public class TypeMysteryBox extends ToggleBase {
 
-    private final Pattern mysteryPattern = Pattern.compile("(?<player>\\S{1,16}) found a (?<star>\\S{1,5}) Mystery Box!");
-    private final Pattern mysteryFoundPattern = Pattern.compile("\\[Mystery Box] (?<player>\\S{1,16}) found a (?<thing>.*)!");
+  private final Pattern mysteryPattern = Pattern
+      .compile("(?<player>\\S{1,16}) found a (?<star>\\S{1,5}) Mystery Box!");
+  private final Pattern mysteryFoundPattern = Pattern
+      .compile("\\[Mystery Box] (?<player>\\S{1,16}) found a (?<thing>.*)!");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Mystery box";
-    }
+  @Override
+  public String getName() {
+    return "Mystery box";
+  }
 
-    @Override
-    public String getDisplayName() {
-        return "Mystery Box: %s";
-    }
+  @Override
+  public String getDisplayName() {
+    return "Mystery Box: %s";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return mysteryPattern.matcher(message).matches() || mysteryFoundPattern.matcher(message).matches();
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return mysteryPattern.matcher(message).matches() || mysteryFoundPattern.matcher(message)
+        .matches();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Turns finding mystery box",
-                "messages on or off",
-                "",
-                "&7I &rfound a &e\u2730\u2730 &bMystery Box&r!",
-                "&b[Mystery Box] &7I &rfound a &6Dab&r!",
-                "",
-                "Useful to prevent those",
-                "weird box opening messages"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Turns finding mystery box",
+        "messages on or off",
+        "",
+        "&7I &rfound a &e\u2730\u2730 &bMystery Box&r!",
+        "&b[Mystery Box] &7I &rfound a &6Dab&r!",
+        "",
+        "Useful to prevent those",
+        "weird box opening messages"
+    );
+  }
 }

@@ -35,12 +35,12 @@ class Module(val name: String, val metadata: ModuleMetadata, val folder: File) {
         gui.y = y
 
         Renderer.drawRect(
-            0xaa000000.toInt(),
-            x, y, width, 13f
+                0xaa000000.toInt(),
+                x, y, width, 13f
         )
         Renderer.drawStringWithShadow(
-            metadata.name ?: name,
-            x + 3, y + 3
+                metadata.name ?: name,
+                x + 3, y + 3
         )
 
         return if (gui.collapsed) {
@@ -59,15 +59,15 @@ class Module(val name: String, val metadata: ModuleMetadata, val folder: File) {
 
             if (metadata.version != null) {
                 Renderer.drawStringWithShadow(
-                    ChatLib.addColor("&8v" + (metadata.version)),
-                    x + width - Renderer.getStringWidth(ChatLib.addColor("&8v" + metadata.version)),
-                    y + gui.description.getHeight() + 15
+                        ChatLib.addColor("&8v" + (metadata.version)),
+                        x + width - Renderer.getStringWidth(ChatLib.addColor("&8v" + metadata.version)),
+                        y + gui.description.getHeight() + 15
                 )
             }
 
             Renderer.drawStringWithShadow(
-                ChatLib.addColor(if (metadata.isRequired) "&8required" else "&4[delete]"),
-                x + 3, y + gui.description.getHeight() + 15
+                    ChatLib.addColor(if (metadata.isRequired) "&8required" else "&4[delete]"),
+                    x + 3, y + gui.description.getHeight() + 15
             )
 
             gui.description.getHeight() + 27
@@ -76,7 +76,7 @@ class Module(val name: String, val metadata: ModuleMetadata, val folder: File) {
 
     fun click(x: Int, y: Int, width: Float) {
         if (x > gui.x && x < gui.x + width
-            && y > gui.y && y < gui.y + 13
+                && y > gui.y && y < gui.y + 13
         ) {
             gui.collapsed = !gui.collapsed
             return
@@ -85,7 +85,7 @@ class Module(val name: String, val metadata: ModuleMetadata, val folder: File) {
         if (gui.collapsed) return
 
         if (x > gui.x && x < gui.x + 45
-            && y > gui.y + gui.description.getHeight() + 15 && y < gui.y + gui.description.getHeight() + 25
+                && y > gui.y + gui.description.getHeight() + 15 && y < gui.y + gui.description.getHeight() + 25
         ) {
             ModuleManager.deleteModule(name)
         }

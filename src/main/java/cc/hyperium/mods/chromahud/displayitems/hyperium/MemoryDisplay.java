@@ -25,21 +25,22 @@ import net.minecraft.client.gui.FontRenderer;
 
 public class MemoryDisplay extends DisplayItem {
 
-    public MemoryDisplay(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-    }
+  public MemoryDisplay(JsonHolder data, int ordinal) {
+    super(data, ordinal);
+  }
 
-    @Override
-    public void draw(int x, double y, boolean config) {
-        int mbDiv = 1048576;
-        long maxMemory = Runtime.getRuntime().maxMemory() / mbDiv;
-        long totalMemory = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / mbDiv;
+  @Override
+  public void draw(int x, double y, boolean config) {
+    int mbDiv = 1048576;
+    long maxMemory = Runtime.getRuntime().maxMemory() / mbDiv;
+    long totalMemory =
+        (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / mbDiv;
 
-        String displayString = totalMemory + " / " + maxMemory + "MB";
-        ElementRenderer.draw(x, y, displayString);
-        FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+    String displayString = totalMemory + " / " + maxMemory + "MB";
+    ElementRenderer.draw(x, y, displayString);
+    FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 
-        height = fr.FONT_HEIGHT * ElementRenderer.getCurrentScale();
-        width = fr.getStringWidth(displayString) * ElementRenderer.getCurrentScale();
-    }
+    height = fr.FONT_HEIGHT * ElementRenderer.getCurrentScale();
+    width = fr.getStringWidth(displayString) * ElementRenderer.getCurrentScale();
+  }
 }

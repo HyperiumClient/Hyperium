@@ -8,25 +8,25 @@ import java.security.SecureRandom;
 
 public class HashUtil {
 
-    private static final SecureRandom RANDOM = new SecureRandom();
+  private static final SecureRandom RANDOM = new SecureRandom();
 
-    public static String getNextSalt() {
-        return new BigInteger(130, RANDOM).toString(32);
-    }
+  public static String getNextSalt() {
+    return new BigInteger(130, RANDOM).toString(32);
+  }
 
-    public static String hash(String str) {
-        try {
-            byte[] digest = digest(str, "SHA-1");
-            return new BigInteger(digest).toString(16);
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalArgumentException(e);
-        }
+  public static String hash(String str) {
+    try {
+      byte[] digest = digest(str, "SHA-1");
+      return new BigInteger(digest).toString(16);
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalArgumentException(e);
     }
+  }
 
-    private static byte[] digest(String str, String algorithm) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance(algorithm);
-        byte[] strBytes = str.getBytes(StandardCharsets.UTF_8);
-        return md.digest(strBytes);
-    }
+  private static byte[] digest(String str, String algorithm) throws NoSuchAlgorithmException {
+    MessageDigest md = MessageDigest.getInstance(algorithm);
+    byte[] strBytes = str.getBytes(StandardCharsets.UTF_8);
+    return md.digest(strBytes);
+  }
 
 }

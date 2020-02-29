@@ -28,16 +28,16 @@ import net.minecraft.client.Minecraft;
  */
 public class CCounter extends DisplayItem {
 
-    public CCounter(JsonHolder raw, int ordinal) {
-        super(raw, ordinal);
-        height = 10;
-    }
+  public CCounter(JsonHolder raw, int ordinal) {
+    super(raw, ordinal);
+    height = 10;
+  }
 
 
-    @Override
-    public void draw(int starX, double startY, boolean ignored) {
-        String string = ElementRenderer.getCValue();
-        ElementRenderer.draw(starX, startY, string);
-        width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
-    }
+  @Override
+  public void draw(int starX, double startY, boolean ignored) {
+    String string = ElementRenderer.getCValue();
+    ElementRenderer.draw(starX, startY, string);
+    width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
+  }
 }

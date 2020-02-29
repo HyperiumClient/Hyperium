@@ -16,11 +16,11 @@ class ChunkRenderContainerTransformer : ConflictTransformer {
 
     override fun transform(original: ClassNode): ClassNode {
         original.visitField(
-            Opcodes.ACC_PRIVATE,
-            "handler",
-            "Lcc/hyperium/mods/chunkanimator/AnimationHandler;",
-            null,
-            null
+                Opcodes.ACC_PRIVATE,
+                "handler",
+                "Lcc/hyperium/mods/chunkanimator/AnimationHandler;",
+                null,
+                null
         ).visitEnd()
 
         for (method in original.methods) {

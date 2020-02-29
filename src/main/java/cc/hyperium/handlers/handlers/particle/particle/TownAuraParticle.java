@@ -30,10 +30,15 @@ import java.util.Map;
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
  */
 public class TownAuraParticle implements IParticle {
-    @Override
-    public EntityFX spawn(World world, double x, double y, double z) {
-        Map<Integer, IParticleFactory> particleMap = Minecraft.getMinecraft().effectRenderer.getParticleMap();
-        IParticleFactory iParticleFactory = particleMap.get(EnumParticleTypes.TOWN_AURA.getParticleID());
-        return iParticleFactory.getEntityFX(EnumParticleTypes.TOWN_AURA.getParticleID(), world, x, y, z, 0.0F, -0.1F, 0.0F, 0);
-    }
+
+  @Override
+  public EntityFX spawn(World world, double x, double y, double z) {
+    Map<Integer, IParticleFactory> particleMap = Minecraft.getMinecraft().effectRenderer
+        .getParticleMap();
+    IParticleFactory iParticleFactory = particleMap
+        .get(EnumParticleTypes.TOWN_AURA.getParticleID());
+    return iParticleFactory
+        .getEntityFX(EnumParticleTypes.TOWN_AURA.getParticleID(), world, x, y, z, 0.0F, -0.1F, 0.0F,
+            0);
+  }
 }

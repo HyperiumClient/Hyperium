@@ -10,19 +10,19 @@ import java.lang.reflect.Type;
 
 public interface TypeAdapter<T> extends JsonSerializer<T>, JsonDeserializer<T> {
 
-    @Override
-    default T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-            throws JsonParseException {
-        return deserialize(json);
-    }
+  @Override
+  default T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
+    return deserialize(json);
+  }
 
-    @Override
-    default JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context) {
-        return serialize(src);
-    }
+  @Override
+  default JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context) {
+    return serialize(src);
+  }
 
-    T deserialize(JsonElement json);
+  T deserialize(JsonElement json);
 
-    JsonElement serialize(T src);
+  JsonElement serialize(T src);
 
 }

@@ -27,34 +27,34 @@ import org.jetbrains.annotations.NotNull;
 
 public final class PurchaseLoadEvent extends Event {
 
-    @NotNull
-    private final UUID uuid;
+  @NotNull
+  private final UUID uuid;
 
-    @NotNull
-    private final HyperiumPurchase purchase;
+  @NotNull
+  private final HyperiumPurchase purchase;
 
-    private final boolean self;
+  private final boolean self;
 
-    public PurchaseLoadEvent(@NotNull UUID uuid, @NotNull HyperiumPurchase purchase, boolean self) {
-        Preconditions.checkNotNull(uuid, "uuid");
-        Preconditions.checkNotNull(purchase, "purchase");
+  public PurchaseLoadEvent(@NotNull UUID uuid, @NotNull HyperiumPurchase purchase, boolean self) {
+    Preconditions.checkNotNull(uuid, "uuid");
+    Preconditions.checkNotNull(purchase, "purchase");
 
-        this.uuid = uuid;
-        this.purchase = purchase;
-        this.self = self;
-    }
+    this.uuid = uuid;
+    this.purchase = purchase;
+    this.self = self;
+  }
 
-    @NotNull
-    public final UUID getUuid() {
-        return uuid;
-    }
+  @NotNull
+  public final UUID getUuid() {
+    return uuid;
+  }
 
-    @NotNull
-    public final HyperiumPurchase getPurchase() {
-        return purchase;
-    }
+  @NotNull
+  public final HyperiumPurchase getPurchase() {
+    return purchase;
+  }
 
-    public final boolean getSelf() {
-        return self;
-    }
+  public final boolean getSelf() {
+    return self;
+  }
 }

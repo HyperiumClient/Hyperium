@@ -5,29 +5,29 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class FovUpdateEvent extends Event {
 
-    private final EntityPlayer player;
-    private final float currentFov;
-    private float newFov;
+  private final EntityPlayer player;
+  private final float currentFov;
+  private float newFov;
 
-    public FovUpdateEvent(EntityPlayer player, float fov) {
-        this.player = player;
-        this.currentFov = fov;
-        this.newFov = fov;
-    }
+  public FovUpdateEvent(EntityPlayer player, float fov) {
+    this.player = player;
+    this.currentFov = fov;
+    this.newFov = fov;
+  }
 
-    public EntityPlayer getPlayer() {
-        return player;
-    }
+  public EntityPlayer getPlayer() {
+    return player;
+  }
 
-    public float getCurrentFov() {
-        return currentFov;
-    }
+  public float getCurrentFov() {
+    return currentFov;
+  }
 
-    public float getNewFov() {
-        return newFov;
-    }
+  public float getNewFov() {
+    return newFov;
+  }
 
-    public void setNewFov(float newFov) {
-        this.newFov = newFov;
-    }
+  public void setNewFov(float newFov) {
+    this.newFov = newFov;
+  }
 }

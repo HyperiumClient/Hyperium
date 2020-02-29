@@ -52,275 +52,289 @@ import java.util.function.Supplier;
  */
 public class HyperiumMainGui extends HyperiumGui {
 
-    public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
-    private static int tabIndex; // save tab position
-    public boolean show;
-    private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
-    private final HashMap<Field, List<Consumer<Object>>> callbacks = new HashMap<>();
-    private final List<Object> settingsObjects = new ArrayList<>();
-    private final HyperiumFontRenderer smol;
-    private final HyperiumFontRenderer font;
-    private final HyperiumFontRenderer title;
-    private final HyperiumFontRenderer title2;
-    private final List<AbstractTab> tabs;
-    private AbstractTab currentTab;
-    private final List<RGBFieldSet> rgbFields = new ArrayList<>();
-    Alert currentAlert;
-    private MaterialTextField searchField;
-    private final Queue<Alert> alerts = new ArrayDeque<>();
+  public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
+  private static int tabIndex; // save tab position
+  public boolean show;
+  private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
+  private final HashMap<Field, List<Consumer<Object>>> callbacks = new HashMap<>();
+  private final List<Object> settingsObjects = new ArrayList<>();
+  private final HyperiumFontRenderer smol;
+  private final HyperiumFontRenderer font;
+  private final HyperiumFontRenderer title;
+  private final HyperiumFontRenderer title2;
+  private final List<AbstractTab> tabs;
+  private AbstractTab currentTab;
+  private final List<RGBFieldSet> rgbFields = new ArrayList<>();
+  Alert currentAlert;
+  private MaterialTextField searchField;
+  private final Queue<Alert> alerts = new ArrayDeque<>();
 
-    private HyperiumMainGui() {
-        smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F);
-        font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F);
-        title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F);
-        title2 = new HyperiumFontRenderer("roboto medium", 24.0F);
-        settingsObjects.add(Settings.INSTANCE);
-        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
-        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig());
-        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getMotionBlur());
-        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getDisplayManager().getMasterConfig());
-        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getGlintColorizer().getColors());
-        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getChunkAnimator().getConfig());
-        SettingsHandler settingsHandler = Hyperium.INSTANCE.getHandlers().getSettingsHandler();
-        settingsObjects.addAll(settingsHandler.getSettingsObjects());
-        HashMap<Field, List<Consumer<Object>>> call1 = settingsHandler.getcallbacks();
-        for (Map.Entry<Field, List<Consumer<Object>>> entry : call1.entrySet()) {
-            Field k = entry.getKey();
-            List<Consumer<Object>> v = entry.getValue();
-            callbacks.computeIfAbsent(k, tmp -> new ArrayList<>()).addAll(v);
+  private HyperiumMainGui() {
+    smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F);
+    font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F);
+    title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F);
+    title2 = new HyperiumFontRenderer("roboto medium", 24.0F);
+    settingsObjects.add(Settings.INSTANCE);
+    settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
+    settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig());
+    settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getMotionBlur());
+    settingsObjects.add(
+        Hyperium.INSTANCE.getModIntegration().getLevelhead().getDisplayManager().getMasterConfig());
+    settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getGlintColorizer().getColors());
+    settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getChunkAnimator().getConfig());
+    SettingsHandler settingsHandler = Hyperium.INSTANCE.getHandlers().getSettingsHandler();
+    settingsObjects.addAll(settingsHandler.getSettingsObjects());
+    HashMap<Field, List<Consumer<Object>>> call1 = settingsHandler.getcallbacks();
+    for (Map.Entry<Field, List<Consumer<Object>>> entry : call1.entrySet()) {
+      Field k = entry.getKey();
+      List<Consumer<Object>> v = entry.getValue();
+      callbacks.computeIfAbsent(k, tmp -> new ArrayList<>()).addAll(v);
+    }
+    HashMap<Field, Supplier<String[]>> customStates = settingsHandler.getCustomStates();
+    for (Map.Entry<Field, Supplier<String[]>> entry : customStates.entrySet()) {
+      Field key = entry.getKey();
+      Supplier<String[]> value = entry.getValue();
+      this.customStates.put(key, value);
+    }
+
+    try {
+      rgbFields.add(new RGBFieldSet(
+          Settings.class.getDeclaredField("WINGS_RED"),
+          Settings.class.getDeclaredField("WINGS_GREEN"),
+          Settings.class.getDeclaredField("WINGS_BLUE"), Category.COSMETICS, false,
+          Settings.INSTANCE));
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    }
+
+    tabs = Arrays.asList(
+        new SettingsTab(this),
+        new ShopTab(this)
+    );
+
+    scrollMultiplier = 2;
+    setTab(tabIndex);
+  }
+
+  public HashMap<Field, Supplier<String[]>> getCustomStates() {
+    return customStates;
+  }
+
+  public HashMap<Field, List<Consumer<Object>>> getCallbacks() {
+    return callbacks;
+  }
+
+  public List<RGBFieldSet> getRgbFields() {
+    return rgbFields;
+  }
+
+  public List<Object> getSettingsObjects() {
+    return settingsObjects;
+  }
+
+  @Override
+  protected void pack() {
+    show = false;
+    int yg = (height / 10);  // Y grid
+    int xg = (width / 11);   // X grid
+    searchField = new MaterialTextField(xg * 10 - 110, yg + (yg / 2 - 10), 100, 20,
+        I18n.format("tabs.searchbar"), font);
+  }
+
+  @Override
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    int yg = (height / 10);  // Y grid
+    int xg = (width / 11);   // X grid
+
+    if (Minecraft.getMinecraft().theWorld == null) {
+      GlStateManager.disableDepth();
+      GlStateManager.depthMask(false);
+      GlStateManager
+          .tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE,
+              GL11.GL_ZERO);
+      GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+      GlStateManager.disableAlpha();
+      GuiHyperiumScreen.renderBackgroundImage();
+      GlStateManager.depthMask(true);
+      GlStateManager.enableDepth();
+      GlStateManager.enableAlpha();
+      GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    /* Render Header */
+    drawRect(xg, yg, xg * 10, yg << 1, new Color(0, 0, 0, (int) Settings.SETTINGS_ALPHA).getRGB());
+    drawRect(xg, yg << 1, xg * 10, yg * 9,
+        new Color(0, 0, 0, (int) (Settings.SETTINGS_ALPHA / 2)).getRGB());
+    searchField.render(mouseX, mouseY);
+    GlStateModifier.INSTANCE.reset();
+
+    title2.drawCenteredString(I18n.format(currentTab.getTitle()), width >> 1,
+        yg + ((yg >> 1) - 6), 0xFFFFFF);
+
+    /* Render Body */
+    currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());
+    currentTab.render(xg, yg << 1, xg * 9, yg * 7);
+
+    /* Render Footer */
+    smol.drawString(Metadata.getVersion(), width - smol.getWidth(Metadata.getVersion()) - 1,
+        height - 10, 0xffffffff);
+
+    /* Render Tab Switcher */
+    Icons.ARROW_LEFT.bind();
+    GlStateManager.pushMatrix();
+    Gui.drawScaledCustomSizeModalRect(width / 2 - xg, yg * 9, 0, 0, 144, 144, yg / 2, yg / 2,
+        144, 144);
+    Icons.ARROW_RIGHT.bind();
+    Gui.drawScaledCustomSizeModalRect(width / 2 + xg - (yg / 2), yg * 9, 0, 0, 144, 144, yg / 2,
+        yg / 2, 144, 144);
+    GlStateManager.popMatrix();
+
+    // Alerts
+    if (!alerts.isEmpty() && currentAlert == null) {
+      currentAlert = alerts.poll();
+    }
+    if (currentAlert != null) {
+      currentAlert.render(font, width, height);
+    }
+  }
+
+  @Override
+  public void updateScreen() {
+    super.updateScreen();
+    searchField.update();
+  }
+
+  @Override
+  public void show() {
+    super.show();
+  }
+
+  @Override
+  protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    super.mouseClicked(mouseX, mouseY, mouseButton);
+    int yg = (height / 10);  // Y grid
+    int xg = (width / 11);   // X grid
+
+    if (mouseY >= yg * 9 && mouseY <= yg * 10) {
+      int size = tabs.size();
+      int i = tabs.indexOf(currentTab);
+      int ix = width / 2 - xg;
+
+      if (mouseX >= ix && mouseX <= ix + xg / 2) {
+        i--;
+        if (i < 0) {
+          i = size - 1;
         }
-        HashMap<Field, Supplier<String[]>> customStates = settingsHandler.getCustomStates();
-        for (Map.Entry<Field, Supplier<String[]>> entry : customStates.entrySet()) {
-            Field key = entry.getKey();
-            Supplier<String[]> value = entry.getValue();
-            this.customStates.put(key, value);
+        setTab(i);
+      }
+
+      ix = width / 2 + xg / 2;
+
+      if (mouseX >= ix && mouseX <= ix + xg / 2) {
+        i++;
+        if (i > size - 1) {
+          i = 0;
         }
-
-        try {
-            rgbFields.add(new RGBFieldSet(
-                    Settings.class.getDeclaredField("WINGS_RED"),
-                    Settings.class.getDeclaredField("WINGS_GREEN"),
-                    Settings.class.getDeclaredField("WINGS_BLUE"), Category.COSMETICS, false,
-                    Settings.INSTANCE));
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
-        tabs = Arrays.asList(
-            new SettingsTab(this),
-            new ShopTab(this)
-        );
-
-        scrollMultiplier = 2;
-        setTab(tabIndex);
+        setTab(i);
+      }
     }
 
-    public HashMap<Field, Supplier<String[]>> getCustomStates() {
-        return customStates;
+    if (mouseButton == 0) {
+      if (currentAlert != null && width / 4 <= mouseX && height - 20 <= mouseY
+          && width - 20 - width / 4 >= mouseX) {
+        currentAlert.runAction();
+      } else if (currentAlert != null && mouseX >= width - 20 - width / 4
+          && mouseX <= width - width / 4 && mouseY >= height - 20) {
+        currentAlert.dismiss();
+      }
     }
 
-    public HashMap<Field, List<Consumer<Object>>> getCallbacks() {
-        return callbacks;
+    searchField.onClick(mouseX, mouseY, mouseButton);
+  }
+
+  public HyperiumFontRenderer getFont() {
+    return font;
+  }
+
+  public HyperiumFontRenderer getTitle() {
+    return title;
+  }
+
+  public void setTab(int i) {
+    tabIndex = i;
+    currentTab = tabs.get(i);
+  }
+
+  @Override
+  public void onGuiClosed() {
+    super.onGuiClosed();
+
+    // Save all settings.
+    Hyperium.CONFIG.save();
+  }
+
+  @Override
+  public void handleMouseInput() throws IOException {
+    super.handleMouseInput();
+    currentTab.handleMouseInput();
+  }
+
+  @Override
+  protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    super.keyTyped(typedChar, keyCode);
+    searchField.keyTyped(typedChar, keyCode);
+  }
+
+  /**
+   * Important alerts and announcements from Hyperium team
+   */
+  public static class Alert {
+
+    private final ResourceLocation icon;
+    private final Runnable action;
+    private final String title;
+    private int step;
+
+    public Alert(ResourceLocation icon, Runnable action, String title) {
+      this.icon = icon;
+      this.action = action;
+      this.title = title;
     }
 
-    public List<RGBFieldSet> getRgbFields() {
-        return rgbFields;
-    }
+    protected void render(HyperiumFontRenderer fr, int width, int height) {
+      GlStateManager.pushMatrix();
+      GlStateManager.translate(0, (20 - step), 0);
+      drawRect(width / 4, height - 20, width - width / 4, height,
+          new Color(0, 0, 0, 40).getRGB());
+      fr.drawString(title, (width >> 2) + 20, height - 20 + ((20 - fr.FONT_HEIGHT) >> 1), 0xffffff);
 
-    public List<Object> getSettingsObjects() {
-        return settingsObjects;
-    }
-
-    @Override
-    protected void pack() {
-        show = false;
-        int yg = (height / 10);  // Y grid
-        int xg = (width / 11);   // X grid
-        searchField = new MaterialTextField(xg * 10 - 110, yg + (yg / 2 - 10), 100, 20,
-            I18n.format("tabs.searchbar"), font);
-    }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        int yg = (height / 10);  // Y grid
-        int xg = (width / 11);   // X grid
-
-        if (Minecraft.getMinecraft().theWorld == null) {
-            GlStateManager.disableDepth();
-            GlStateManager.depthMask(false);
-            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.disableAlpha();
-            GuiHyperiumScreen.renderBackgroundImage();
-            GlStateManager.depthMask(true);
-            GlStateManager.enableDepth();
-            GlStateManager.enableAlpha();
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        }
-
-        /* Render Header */
-        drawRect(xg, yg, xg * 10, yg << 1, new Color(0, 0, 0, (int) Settings.SETTINGS_ALPHA).getRGB());
-        drawRect(xg, yg << 1, xg * 10, yg * 9, new Color(0, 0, 0, (int) (Settings.SETTINGS_ALPHA / 2)).getRGB());
-        searchField.render(mouseX, mouseY);
-        GlStateModifier.INSTANCE.reset();
-
-        title2.drawCenteredString(I18n.format(currentTab.getTitle()), width >> 1,
-            yg + ((yg >> 1) - 6), 0xFFFFFF);
-
-        /* Render Body */
-        currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());
-        currentTab.render(xg, yg << 1, xg * 9, yg * 7);
-
-        /* Render Footer */
-        smol.drawString(Metadata.getVersion(), width - smol.getWidth(Metadata.getVersion()) - 1,
-            height - 10, 0xffffffff);
-
-        /* Render Tab Switcher */
-        Icons.ARROW_LEFT.bind();
-        GlStateManager.pushMatrix();
-        Gui.drawScaledCustomSizeModalRect(width / 2 - xg, yg * 9, 0, 0, 144, 144, yg / 2, yg / 2,
+      if (icon != null) {
+        GlStateManager.enableBlend();
+        GlStateManager.color(1f, 1f, 1f);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
+        drawScaledCustomSizeModalRect(width / 4 + 2, height - 18, 0, 0, 144, 144, 16, 16,
             144, 144);
-        Icons.ARROW_RIGHT.bind();
-        Gui.drawScaledCustomSizeModalRect(width / 2 + xg - (yg / 2), yg * 9, 0, 0, 144, 144, yg / 2,
-            yg / 2, 144, 144);
-        GlStateManager.popMatrix();
+        GlStateManager.disableBlend();
+      }
 
-        // Alerts
-        if (!alerts.isEmpty() && currentAlert == null) currentAlert = alerts.poll();
-        if (currentAlert != null) currentAlert.render(font, width, height);
+      Icons.CLOSE.bind();
+      drawScaledCustomSizeModalRect(width - width / 4 - 18, height - 18, 0, 0, 144, 144, 16,
+          16, 144, 144);
+      GlStateManager.popMatrix();
+
+      if (step != 20) {
+        step++;
+      }
     }
 
-    @Override
-    public void updateScreen() {
-        super.updateScreen();
-        searchField.update();
+    void runAction() {
+      if (action != null) {
+        action.run();
+      }
     }
 
-    @Override
-    public void show() {
-        super.show();
+    void dismiss() {
+      INSTANCE.currentAlert = null;
     }
-
-    @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
-        int yg = (height / 10);  // Y grid
-        int xg = (width / 11);   // X grid
-
-        if (mouseY >= yg * 9 && mouseY <= yg * 10) {
-            int size = tabs.size();
-            int i = tabs.indexOf(currentTab);
-            int ix = width / 2 - xg;
-
-            if (mouseX >= ix && mouseX <= ix + xg / 2) {
-                i--;
-                if (i < 0) i = size - 1;
-                setTab(i);
-            }
-
-            ix = width / 2 + xg / 2;
-
-            if (mouseX >= ix && mouseX <= ix + xg / 2) {
-                i++;
-                if (i > size - 1) i = 0;
-                setTab(i);
-            }
-        }
-
-        if (mouseButton == 0) {
-            if (currentAlert != null && width / 4 <= mouseX && height - 20 <= mouseY && width - 20 - width / 4 >= mouseX) {
-                currentAlert.runAction();
-            } else if (currentAlert != null && mouseX >= width - 20 - width / 4
-                && mouseX <= width - width / 4 && mouseY >= height - 20) {
-                currentAlert.dismiss();
-            }
-        }
-
-        searchField.onClick(mouseX, mouseY, mouseButton);
-    }
-
-    public HyperiumFontRenderer getFont() {
-        return font;
-    }
-
-    public HyperiumFontRenderer getTitle() {
-        return title;
-    }
-
-    public void setTab(int i) {
-        tabIndex = i;
-        currentTab = tabs.get(i);
-    }
-
-    @Override
-    public void onGuiClosed() {
-        super.onGuiClosed();
-
-        // Save all settings.
-        Hyperium.CONFIG.save();
-    }
-
-    @Override
-    public void handleMouseInput() throws IOException {
-        super.handleMouseInput();
-        currentTab.handleMouseInput();
-    }
-
-    @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        super.keyTyped(typedChar, keyCode);
-        searchField.keyTyped(typedChar, keyCode);
-    }
-
-    /**
-     * Important alerts and announcements from Hyperium team
-     */
-    public static class Alert {
-        private final ResourceLocation icon;
-        private final Runnable action;
-        private final String title;
-        private int step;
-
-        public Alert(ResourceLocation icon, Runnable action, String title) {
-            this.icon = icon;
-            this.action = action;
-            this.title = title;
-        }
-
-        protected void render(HyperiumFontRenderer fr, int width, int height) {
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(0, (20 - step), 0);
-            drawRect(width / 4, height - 20, width - width / 4, height,
-                new Color(0, 0, 0, 40).getRGB());
-            fr.drawString(title, (width >> 2) + 20, height - 20 + ((20 - fr.FONT_HEIGHT) >> 1), 0xffffff);
-
-            if (icon != null) {
-                GlStateManager.enableBlend();
-                GlStateManager.color(1f, 1f, 1f);
-                Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
-                drawScaledCustomSizeModalRect(width / 4 + 2, height - 18, 0, 0, 144, 144, 16, 16,
-                    144, 144);
-                GlStateManager.disableBlend();
-            }
-
-            Icons.CLOSE.bind();
-            drawScaledCustomSizeModalRect(width - width / 4 - 18, height - 18, 0, 0, 144, 144, 16,
-                16, 144, 144);
-            GlStateManager.popMatrix();
-
-            if (step != 20) {
-                step++;
-            }
-        }
-
-        void runAction() {
-            if (action != null) {
-                action.run();
-            }
-        }
-
-        void dismiss() {
-            INSTANCE.currentAlert = null;
-        }
-    }
+  }
 }

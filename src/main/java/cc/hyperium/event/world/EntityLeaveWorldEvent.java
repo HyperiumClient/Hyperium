@@ -6,19 +6,19 @@ import net.minecraft.world.World;
 
 public class EntityLeaveWorldEvent extends Event {
 
-    private final World world;
-    private final Entity entity;
+  private final World world;
+  private final Entity entity;
 
-    public EntityLeaveWorldEvent(World world, Entity entity) {
-        this.world = world;
-        this.entity = entity;
-    }
+  public EntityLeaveWorldEvent(World world, Entity entity) {
+    this.world = world;
+    this.entity = entity;
+  }
 
-    public World getWorld() {
-        return world;
-    }
+  public World getWorld() {
+    return world;
+  }
 
-    public Entity getEntity() {
-        return entity;
-    }
+  public Entity getEntity() {
+    return entity;
+  }
 }

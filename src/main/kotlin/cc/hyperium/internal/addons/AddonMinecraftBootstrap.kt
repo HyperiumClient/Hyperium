@@ -84,7 +84,7 @@ object AddonMinecraftBootstrap {
                         if (dependencyManifest == null) {
                             toLoadMap.remove(manifest.name)
                             Hyperium.LOGGER.error(
-                                "Can't load addon ${manifest.name}. Its dependency, $dependency, isn't available."
+                                    "Can't load addon ${manifest.name}. Its dependency, $dependency, isn't available."
                             )
                             MISSING_DEPENDENCIES_MAP.computeIfAbsent(manifest) { arrayListOf() }.add(dependency)
                             continue@loadBeforeLoop
@@ -96,7 +96,7 @@ object AddonMinecraftBootstrap {
                             toLoadMap.remove(manifest.name)
                             done = false
                             Hyperium.LOGGER
-                                .error("Can't load addon ${manifest.name} because it and ${dependencyManifest.name} depend on each other.")
+                                    .error("Can't load addon ${manifest.name} because it and ${dependencyManifest.name} depend on each other.")
                             DEPENDENCIES_LOOP_MAP.computeIfAbsent(manifest) { arrayListOf() }.add(dependencyManifest)
                             continue@loadBeforeLoop
                         }
@@ -169,8 +169,8 @@ object AddonMinecraftBootstrap {
             }.also {
                 for (addon in it) {
                     val output =
-                        if (addon.versionCode != null) "Addon ${addon.name}'s version code (${addon.versionCode}) doesnt match our version code! $VERSION_CODE"
-                        else "Addon ${addon.name}'s version code is null. Please include a \'\"versionCode\": \"$VERSION_CODE\"\"\' in your addon.json file."
+                            if (addon.versionCode != null) "Addon ${addon.name}'s version code (${addon.versionCode}) doesnt match our version code! $VERSION_CODE"
+                            else "Addon ${addon.name}'s version code is null. Please include a \'\"versionCode\": \"$VERSION_CODE\"\"\' in your addon.json file."
 
                     Hyperium.LOGGER.error(output)
                 }

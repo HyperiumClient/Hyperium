@@ -29,20 +29,23 @@ import java.util.regex.Matcher;
 public class DMChatHandler extends HyperiumChatHandler {
 
 
-    @Override
-    public boolean chatReceived(IChatComponent component, String text) {
-        if (!Settings.PING_ON_DM)
-            return false;
-
-        Matcher matcher = regexPatterns.get(ChatRegexType.PRIVATE_MESSAGE_FROM).matcher(text);
-        if (matcher.matches()) {
-            SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
-            if (soundHandler != null && Minecraft.getMinecraft().theWorld != null) {
-                soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("note.pling"),
-                    (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
-            }
-        }
-
-        return false;
+  @Override
+  public boolean chatReceived(IChatComponent component, String text) {
+    if (!Settings.PING_ON_DM) {
+      return false;
     }
+
+    Matcher matcher = regexPatterns.get(ChatRegexType.PRIVATE_MESSAGE_FROM).matcher(text);
+    if (matcher.matches()) {
+      SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
+      if (soundHandler != null && Minecraft.getMinecraft().theWorld != null) {
+        soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("note.pling"),
+            (float) Minecraft.getMinecraft().thePlayer.posX,
+            (float) Minecraft.getMinecraft().thePlayer.posY,
+            (float) Minecraft.getMinecraft().thePlayer.posZ));
+      }
+    }
+
+    return false;
+  }
 }

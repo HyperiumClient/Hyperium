@@ -27,22 +27,38 @@ object Renderer {
     var colorized: Int? = null
     private var retainTransforms = false
 
-    @JvmStatic val BLACK = color(0, 0, 0, 255)
-    @JvmStatic val DARK_BLUE = color(0, 0, 190, 255)
-    @JvmStatic val DARK_GREEN = color(0, 190, 0, 255)
-    @JvmStatic val DARK_AQUA = color(0, 190, 190, 255)
-    @JvmStatic val DARK_RED = color(190, 0, 0, 255)
-    @JvmStatic val DARK_PURPLE = color(190, 0, 190, 255)
-    @JvmStatic val GOLD = color(217, 163, 52, 255)
-    @JvmStatic val GRAY = color(190, 190, 190, 255)
-    @JvmStatic val DARK_GRAY = color(63, 63, 63, 255)
-    @JvmStatic val BLUE = color(63, 63, 254, 255)
-    @JvmStatic val GREEN = color(63, 254, 63, 255)
-    @JvmStatic val AQUA = color(63, 254, 254, 255)
-    @JvmStatic val RED = color(254, 63, 63, 255)
-    @JvmStatic val LIGHT_PURPLE = color(254, 63, 254, 255)
-    @JvmStatic val YELLOW = color(254, 254, 63, 255)
-    @JvmStatic val WHITE = color(255, 255, 255, 255)
+    @JvmStatic
+    val BLACK = color(0, 0, 0, 255)
+    @JvmStatic
+    val DARK_BLUE = color(0, 0, 190, 255)
+    @JvmStatic
+    val DARK_GREEN = color(0, 190, 0, 255)
+    @JvmStatic
+    val DARK_AQUA = color(0, 190, 190, 255)
+    @JvmStatic
+    val DARK_RED = color(190, 0, 0, 255)
+    @JvmStatic
+    val DARK_PURPLE = color(190, 0, 190, 255)
+    @JvmStatic
+    val GOLD = color(217, 163, 52, 255)
+    @JvmStatic
+    val GRAY = color(190, 190, 190, 255)
+    @JvmStatic
+    val DARK_GRAY = color(63, 63, 63, 255)
+    @JvmStatic
+    val BLUE = color(63, 63, 254, 255)
+    @JvmStatic
+    val GREEN = color(63, 254, 63, 255)
+    @JvmStatic
+    val AQUA = color(63, 254, 254, 255)
+    @JvmStatic
+    val RED = color(254, 63, 63, 255)
+    @JvmStatic
+    val LIGHT_PURPLE = color(254, 63, 254, 255)
+    @JvmStatic
+    val YELLOW = color(254, 254, 63, 255)
+    @JvmStatic
+    val WHITE = color(255, 255, 255, 255)
 
     @JvmStatic
     fun getColor(color: Int): Int {
@@ -132,10 +148,10 @@ object Renderer {
         colorized = fixAlpha(color(red.toInt(), green.toInt(), blue.toInt(), alpha.toInt()))
 
         GlStateManager.color(
-            MathLib.clampFloat(red, 0f, 255f),
-            MathLib.clampFloat(green, 0f, 255f),
-            MathLib.clampFloat(blue, 0f, 255f),
-            MathLib.clampFloat(alpha, 0f, 255f)
+                MathLib.clampFloat(red, 0f, 255f),
+                MathLib.clampFloat(green, 0f, 255f),
+                MathLib.clampFloat(blue, 0f, 255f),
+                MathLib.clampFloat(alpha, 0f, 255f)
         )
     }
 
@@ -148,53 +164,53 @@ object Renderer {
     }
 
     @Deprecated(
-        message = "Replaced with Image object",
-        replaceWith = ReplaceWith(
-            expression = "Image(name[, url])",
-            imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Image"]
-        )
+            message = "Replaced with Image object",
+            replaceWith = ReplaceWith(
+                    expression = "Image(name[, url])",
+                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Image"]
+            )
     )
     @JvmStatic
     fun image(name: String, url: String): Image = Image(name, url)
 
     @JvmStatic
     @Deprecated(
-        message = "Replaced with Text object",
-        replaceWith = ReplaceWith(
-            expression = "Text(text, x, y)",
-            imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Text"]
-        )
+            message = "Replaced with Text object",
+            replaceWith = ReplaceWith(
+                    expression = "Text(text, x, y)",
+                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Text"]
+            )
     )
     fun text(text: String, x: Float, y: Float): Text = Text(text, x, y)
 
     @JvmStatic
     @Deprecated(
-        message = "Replaced with Text object",
-        replaceWith = ReplaceWith(
-            expression = "Text(text)",
-            imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Text"]
-        )
+            message = "Replaced with Text object",
+            replaceWith = ReplaceWith(
+                    expression = "Text(text)",
+                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Text"]
+            )
     )
     fun text(text: String): Text = Text(text)
 
     @JvmStatic
     @Deprecated(
-        message = "Replaced with Rectangle object",
-        replaceWith = ReplaceWith(
-            expression = "Rectangle(color, x, y, width, height)",
-            imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Rectangle"]
-        )
+            message = "Replaced with Rectangle object",
+            replaceWith = ReplaceWith(
+                    expression = "Rectangle(color, x, y, width, height)",
+                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Rectangle"]
+            )
     )
     fun rectangle(color: Int, x: Float, y: Float, width: Float, height: Float): Rectangle =
-        Rectangle(color, x, y, width, height)
+            Rectangle(color, x, y, width, height)
 
     @JvmStatic
     @Deprecated(
-        message = "Replaced with Shape object",
-        replaceWith = ReplaceWith(
-            expression = "Shape(color)",
-            imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Shape"]
-        )
+            message = "Replaced with Shape object",
+            replaceWith = ReplaceWith(
+                    expression = "Shape(color)",
+                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Shape"]
+            )
     )
     fun shape(color: Int): Shape = Shape(color)
 
@@ -354,13 +370,15 @@ object Renderer {
 
     @JvmStatic
     fun drawString(text: String, x: Float, y: Float) {
-        getFontRenderer().drawString(ChatLib.addColor(text), x, y, colorized ?: 0xffffffff.toInt(), false)
+        getFontRenderer().drawString(ChatLib.addColor(text), x, y, colorized
+                ?: 0xffffffff.toInt(), false)
         finishDraw()
     }
 
     @JvmStatic
     fun drawStringWithShadow(text: String, x: Float, y: Float) {
-        getFontRenderer().drawString(ChatLib.addColor(text), x, y, colorized ?: 0xffffffff.toInt(), true)
+        getFontRenderer().drawString(ChatLib.addColor(text), x, y, colorized
+                ?: 0xffffffff.toInt(), true)
         finishDraw()
     }
 

@@ -25,30 +25,32 @@ import java.util.function.BiConsumer;
  * @author Sk1er
  */
 public class TextConfig {
-    /*
-        Action is called when the text field is drawn. You cancel actions, please modify the given GuiTextField class.
-        Load is called on load to initialize  to right state
-     */
-    private final BiConsumer<GuiTextField, DisplayItem> action;
-    private final GuiTextField button;
-    private final BiConsumer<GuiTextField, DisplayItem> load;
 
-    public TextConfig(BiConsumer<GuiTextField, DisplayItem> action, GuiTextField button, BiConsumer<GuiTextField, DisplayItem> load) {
-        this.action = action;
-        this.button = button;
-        this.load = load;
-    }
+  /*
+      Action is called when the text field is drawn. You cancel actions, please modify the given GuiTextField class.
+      Load is called on load to initialize  to right state
+   */
+  private final BiConsumer<GuiTextField, DisplayItem> action;
+  private final GuiTextField button;
+  private final BiConsumer<GuiTextField, DisplayItem> load;
 
-    public BiConsumer<GuiTextField, DisplayItem> getAction() {
-        return action;
-    }
+  public TextConfig(BiConsumer<GuiTextField, DisplayItem> action, GuiTextField button,
+      BiConsumer<GuiTextField, DisplayItem> load) {
+    this.action = action;
+    this.button = button;
+    this.load = load;
+  }
 
-    public GuiTextField getTextField() {
-        return button;
-    }
+  public BiConsumer<GuiTextField, DisplayItem> getAction() {
+    return action;
+  }
+
+  public GuiTextField getTextField() {
+    return button;
+  }
 
 
-    public BiConsumer<GuiTextField, DisplayItem> getLoad() {
-        return load;
-    }
+  public BiConsumer<GuiTextField, DisplayItem> getLoad() {
+    return load;
+  }
 }

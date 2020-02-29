@@ -26,142 +26,143 @@ import java.io.FileReader;
 import java.util.stream.Collectors;
 
 public class BlockOverlaySettings {
-    private File configFile;
-    private BlockOverlayMode overlayMode = BlockOverlayMode.DEFAULT;
-    private boolean alwaysRender = true;
-    private boolean isChroma;
-    private float lineWidth = 1.0f;
-    private float overlayRed = 1.0f;
-    private float overlayGreen = 1.0f;
-    private float overlayBlue = 1.0f;
-    private float overlayAlpha = 1.0f;
-    private int chromaSpeed = 5;
 
-    public BlockOverlaySettings(File directory) {
-        if (!directory.exists()) {
-            directory.mkdirs();
+  private File configFile;
+  private BlockOverlayMode overlayMode = BlockOverlayMode.DEFAULT;
+  private boolean alwaysRender = true;
+  private boolean isChroma;
+  private float lineWidth = 1.0f;
+  private float overlayRed = 1.0f;
+  private float overlayGreen = 1.0f;
+  private float overlayBlue = 1.0f;
+  private float overlayAlpha = 1.0f;
+  private int chromaSpeed = 5;
+
+  public BlockOverlaySettings(File directory) {
+    if (!directory.exists()) {
+      directory.mkdirs();
+    }
+
+    configFile = new File(directory, "blockoverlay.json");
+  }
+
+  public void load() {
+    try {
+      if (configFile.getParentFile().exists() && configFile.exists()) {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile));
+        String stringBuilder = bufferedReader.lines().collect(Collectors.joining(""));
+        BetterJsonObject json = new BetterJsonObject(stringBuilder);
+        String overlayMode = json.optString("overlayMode");
+
+        for (BlockOverlayMode mode : BlockOverlayMode.values()) {
+          if (mode.getName().equals(overlayMode)) {
+            this.overlayMode = mode;
+            break;
+          }
         }
 
-        configFile = new File(directory, "blockoverlay.json");
+        alwaysRender = json.optBoolean("alwaysRender");
+        isChroma = json.optBoolean("isChroma");
+        lineWidth = (float) json.optDouble("lineWidth");
+        overlayRed = (float) json.optDouble("overlayRed");
+        overlayGreen = (float) json.optDouble("overlayGreen");
+        overlayBlue = (float) json.optDouble("overlayBlue");
+        overlayAlpha = (float) json.optDouble("overlayAlpha");
+        chromaSpeed = json.optInt("chromaSpeed");
+
+        bufferedReader.close();
+      }
+    } catch (Exception exception) {
+      Hyperium.LOGGER.error("Error occurred while loading BlockOverlay configuration!");
     }
+  }
 
-    public void load() {
-        try {
-            if (configFile.getParentFile().exists() && configFile.exists()) {
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile));
-                String stringBuilder = bufferedReader.lines().collect(Collectors.joining(""));
-                BetterJsonObject json = new BetterJsonObject(stringBuilder);
-                String overlayMode = json.optString("overlayMode");
+  public void save() {
+    try {
+      if (!configFile.getParentFile().exists()) {
+        configFile.getParentFile().mkdirs();
+      }
+      if (!configFile.exists()) {
+        configFile.createNewFile();
+      }
 
-                for (BlockOverlayMode mode : BlockOverlayMode.values()) {
-                    if (mode.getName().equals(overlayMode)) {
-                        this.overlayMode = mode;
-                        break;
-                    }
-                }
-
-                alwaysRender = json.optBoolean("alwaysRender");
-                isChroma = json.optBoolean("isChroma");
-                lineWidth = (float) json.optDouble("lineWidth");
-                overlayRed = (float) json.optDouble("overlayRed");
-                overlayGreen = (float) json.optDouble("overlayGreen");
-                overlayBlue = (float) json.optDouble("overlayBlue");
-                overlayAlpha = (float) json.optDouble("overlayAlpha");
-                chromaSpeed = json.optInt("chromaSpeed");
-
-                bufferedReader.close();
-            }
-        } catch (Exception exception) {
-            Hyperium.LOGGER.error("Error occurred while loading BlockOverlay configuration!");
-        }
+      BetterJsonObject json = new BetterJsonObject();
+      json.addProperty("overlayMode", overlayMode.getName());
+      json.addProperty("alwaysRender", alwaysRender);
+      json.addProperty("isChroma", isChroma);
+      json.addProperty("lineWidth", lineWidth);
+      json.addProperty("overlayRed", overlayRed);
+      json.addProperty("overlayGreen", overlayGreen);
+      json.addProperty("overlayBlue", overlayBlue);
+      json.addProperty("overlayAlpha", overlayAlpha);
+      json.addProperty("chromaSpeed", chromaSpeed);
+      json.writeToFile(configFile);
+    } catch (Exception exception) {
+      Hyperium.LOGGER.error("Error occurred while saving BlockOverlay configuration!");
     }
+  }
 
-    public void save() {
-        try {
-            if (!configFile.getParentFile().exists()) {
-                configFile.getParentFile().mkdirs();
-            }
-            if (!configFile.exists()) {
-                configFile.createNewFile();
-            }
+  public BlockOverlayMode getOverlayMode() {
+    return overlayMode;
+  }
 
-            BetterJsonObject json = new BetterJsonObject();
-            json.addProperty("overlayMode", overlayMode.getName());
-            json.addProperty("alwaysRender", alwaysRender);
-            json.addProperty("isChroma", isChroma);
-            json.addProperty("lineWidth", lineWidth);
-            json.addProperty("overlayRed", overlayRed);
-            json.addProperty("overlayGreen", overlayGreen);
-            json.addProperty("overlayBlue", overlayBlue);
-            json.addProperty("overlayAlpha", overlayAlpha);
-            json.addProperty("chromaSpeed", chromaSpeed);
-            json.writeToFile(configFile);
-        } catch (Exception exception) {
-            Hyperium.LOGGER.error("Error occurred while saving BlockOverlay configuration!");
-        }
-    }
+  public void setOverlayMode(BlockOverlayMode overlayMode) {
+    this.overlayMode = overlayMode;
+  }
 
-    public BlockOverlayMode getOverlayMode() {
-        return overlayMode;
-    }
+  public boolean isChroma() {
+    return isChroma;
+  }
 
-    public void setOverlayMode(BlockOverlayMode overlayMode) {
-        this.overlayMode = overlayMode;
-    }
+  public void setChroma(boolean chroma) {
+    isChroma = chroma;
+  }
 
-    public boolean isChroma() {
-        return isChroma;
-    }
+  public float getOverlayRed() {
+    return overlayRed;
+  }
 
-    public void setChroma(boolean chroma) {
-        isChroma = chroma;
-    }
+  public void setOverlayRed(float overlayRed) {
+    this.overlayRed = overlayRed;
+  }
 
-    public float getOverlayRed() {
-        return overlayRed;
-    }
+  public float getOverlayGreen() {
+    return overlayGreen;
+  }
 
-    public void setOverlayRed(float overlayRed) {
-        this.overlayRed = overlayRed;
-    }
+  public void setOverlayGreen(float overlayGreen) {
+    this.overlayGreen = overlayGreen;
+  }
 
-    public float getOverlayGreen() {
-        return overlayGreen;
-    }
+  public float getOverlayBlue() {
+    return overlayBlue;
+  }
 
-    public void setOverlayGreen(float overlayGreen) {
-        this.overlayGreen = overlayGreen;
-    }
+  public void setOverlayBlue(float overlayBlue) {
+    this.overlayBlue = overlayBlue;
+  }
 
-    public float getOverlayBlue() {
-        return overlayBlue;
-    }
+  public float getOverlayAlpha() {
+    return overlayAlpha;
+  }
 
-    public void setOverlayBlue(float overlayBlue) {
-        this.overlayBlue = overlayBlue;
-    }
+  public void setOverlayAlpha(float overlayAlpha) {
+    this.overlayAlpha = overlayAlpha;
+  }
 
-    public float getOverlayAlpha() {
-        return overlayAlpha;
-    }
+  public int getChromaSpeed() {
+    return chromaSpeed;
+  }
 
-    public void setOverlayAlpha(float overlayAlpha) {
-        this.overlayAlpha = overlayAlpha;
-    }
+  public void setChromaSpeed(int chromaSpeed) {
+    this.chromaSpeed = chromaSpeed;
+  }
 
-    public int getChromaSpeed() {
-        return chromaSpeed;
-    }
+  public float getLineWidth() {
+    return lineWidth;
+  }
 
-    public void setChromaSpeed(int chromaSpeed) {
-        this.chromaSpeed = chromaSpeed;
-    }
-
-    public float getLineWidth() {
-        return lineWidth;
-    }
-
-    public void setLineWidth(float lineWidth) {
-        this.lineWidth = lineWidth;
-    }
+  public void setLineWidth(float lineWidth) {
+    this.lineWidth = lineWidth;
+  }
 }

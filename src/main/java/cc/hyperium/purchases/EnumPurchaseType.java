@@ -21,43 +21,43 @@ import java.util.Arrays;
 import java.util.Locale;
 
 public enum EnumPurchaseType {
-    PARTICLE_BACKGROUND("Particle Background"),
-    WING_COSMETIC("wings"),
-    LEVEL_HEAD("Custom Levelhead"),
-    FLIP_COSMETIC("Flip Cosmetic"),
-    BUTT("Butt"),
-    DEADMAU5_COSMETIC("Ears"),
-    DRAGON_HEAD("Dragon Head"),
-    DRAGON_COMPANION("Dragon Companion"),
-    BACKPACK_ENDER_DRAGON("Ender Dragon Backpack"),
-    HAT_TOPHAT("Tophat"),
-    HAT_FEZ("Fez Hat"),
-    HAT_LEGO("Lego Hat"),
-    HAMSTER_COMPANION("Hamster Companion"),
-    UNKNOWN("Unknown");
+  PARTICLE_BACKGROUND("Particle Background"),
+  WING_COSMETIC("wings"),
+  LEVEL_HEAD("Custom Levelhead"),
+  FLIP_COSMETIC("Flip Cosmetic"),
+  BUTT("Butt"),
+  DEADMAU5_COSMETIC("Ears"),
+  DRAGON_HEAD("Dragon Head"),
+  DRAGON_COMPANION("Dragon Companion"),
+  BACKPACK_ENDER_DRAGON("Ender Dragon Backpack"),
+  HAT_TOPHAT("Tophat"),
+  HAT_FEZ("Fez Hat"),
+  HAT_LEGO("Lego Hat"),
+  HAMSTER_COMPANION("Hamster Companion"),
+  UNKNOWN("Unknown");
 
-    private String displayName;
+  private String displayName;
 
-    EnumPurchaseType(String displayName) {
-        this.displayName = displayName;
-    }
+  EnumPurchaseType(String displayName) {
+    this.displayName = displayName;
+  }
 
-    public static EnumPurchaseType parse(String asString) {
-        try {
-            return valueOf(asString.toUpperCase(Locale.ENGLISH));
-        } catch (Exception e) {
-            for (EnumPurchaseType enumPurchaseType : values()) {
-                if (enumPurchaseType.displayName.equalsIgnoreCase(asString)) {
-                    return enumPurchaseType;
-                }
-            }
-
-            return UNKNOWN;
+  public static EnumPurchaseType parse(String asString) {
+    try {
+      return valueOf(asString.toUpperCase(Locale.ENGLISH));
+    } catch (Exception e) {
+      for (EnumPurchaseType enumPurchaseType : values()) {
+        if (enumPurchaseType.displayName.equalsIgnoreCase(asString)) {
+          return enumPurchaseType;
         }
-    }
+      }
 
-    public String getDisplayName() {
-        return displayName;
+      return UNKNOWN;
     }
+  }
+
+  public String getDisplayName() {
+    return displayName;
+  }
 
 }

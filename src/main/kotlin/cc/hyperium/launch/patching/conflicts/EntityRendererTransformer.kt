@@ -60,7 +60,7 @@ class EntityRendererTransformer : ConflictTransformer {
 
                 for (insn in method.instructions.iterator()) {
                     if (insn.opcode == Opcodes.INVOKESPECIAL && insn is MethodInsnNode && insn.owner == "net/minecraft/util/BlockPos"
-                        && insn.name == "<init>" && insn.desc == "(DDD)V"
+                            && insn.name == "<init>" && insn.desc == "(DDD)V"
                     ) {
                         method.instructions.insertBefore(insn.previous.previous.previous, setPositionEyes)
                         method.instructions.remove(insn.previous.previous.previous)

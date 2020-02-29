@@ -33,32 +33,35 @@ import java.util.regex.Matcher;
  */
 public class WinTrackingChatHandler extends HyperiumChatHandler {
 
-    @Override
-    public boolean chatReceived(IChatComponent component, String text) {
-        Matcher matcher = regexPatterns.get(ChatRegexType.WIN).matcher(text);
-        if (matcher.matches()) {
-            String winnersString = matcher.group("winners");
-            String[] winners = winnersString.split(", ");
+  @Override
+  public boolean chatReceived(IChatComponent component, String text) {
+    Matcher matcher = regexPatterns.get(ChatRegexType.WIN).matcher(text);
+    if (matcher.matches()) {
+      String winnersString = matcher.group("winners");
+      String[] winners = winnersString.split(", ");
 
-            // Means they have a rank prefix. We don't want that
-            for (int i = 0; i < winners.length; i++) {
-                String winner = winners[i];
-                if (winner.contains(" ")) {
-                    winners[i] = winner.split(" ")[1];
-                }
-            }
-
-            EventBus.INSTANCE.post(new HypixelWinEvent(Arrays.asList(winners)));
+      // Means they have a rank prefix. We don't want that
+      for (int i = 0; i < winners.length; i++) {
+        String winner = winners[i];
+        if (winner.contains(" ")) {
+          winners[i] = winner.split(" ")[1];
         }
+      }
 
-        // Should actually change the regex tho
-        EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-        if (thePlayer == null) return false;
-
-        if (text.toLowerCase(Locale.ENGLISH).contains(thePlayer.getName().toLowerCase(Locale.ENGLISH) + " winner!")) {
-            EventBus.INSTANCE.post(new HypixelWinEvent(Collections.singletonList(thePlayer.getName())));
-        }
-
-        return false;
+      EventBus.INSTANCE.post(new HypixelWinEvent(Arrays.asList(winners)));
     }
+
+    // Should actually change the regex tho
+    EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+    if (thePlayer == null) {
+      return false;
+    }
+
+    if (text.toLowerCase(Locale.ENGLISH)
+        .contains(thePlayer.getName().toLowerCase(Locale.ENGLISH) + " winner!")) {
+      EventBus.INSTANCE.post(new HypixelWinEvent(Collections.singletonList(thePlayer.getName())));
+    }
+
+    return false;
+  }
 }

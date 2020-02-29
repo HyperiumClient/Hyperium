@@ -7,21 +7,22 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 
 public class GuiSliderOpacity extends GuiSlider {
 
-    private final KeystrokesSettings settings;
-    private final GuiScreenKeystrokes keystrokesGui;
+  private final KeystrokesSettings settings;
+  private final GuiScreenKeystrokes keystrokesGui;
 
-    public GuiSliderOpacity(KeystrokesMod mod, int id, int xPos, int yPos, int width, int height, GuiScreenKeystrokes keystrokes) {
-        super(id, xPos, yPos, width, height, "Key Opacity: ", "", 0,
-                255, mod.getSettings().getKeyBackgroundOpacity(), false, true);
+  public GuiSliderOpacity(KeystrokesMod mod, int id, int xPos, int yPos, int width, int height,
+      GuiScreenKeystrokes keystrokes) {
+    super(id, xPos, yPos, width, height, "Key Opacity: ", "", 0,
+        255, mod.getSettings().getKeyBackgroundOpacity(), false, true);
 
-        settings = mod.getSettings();
-        keystrokesGui = keystrokes;
-    }
+    settings = mod.getSettings();
+    keystrokesGui = keystrokes;
+  }
 
-    @Override
-    public void updateSlider() {
-        super.updateSlider();
-        settings.setKeyBackgroundOpacity(getValueInt());
-        keystrokesGui.setUpdated();
-    }
+  @Override
+  public void updateSlider() {
+    super.updateSlider();
+    settings.setKeyBackgroundOpacity(getValueInt());
+    keystrokesGui.setUpdated();
+  }
 }

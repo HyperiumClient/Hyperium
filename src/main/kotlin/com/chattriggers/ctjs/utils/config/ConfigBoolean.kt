@@ -10,7 +10,7 @@ import kotlin.properties.Delegates
 import kotlin.reflect.KMutableProperty
 
 class ConfigBoolean
-    (private val prop: KMutableProperty<Boolean>, name: String = "", x: Int = 0, y: Int = 0) : ConfigOption() {
+(private val prop: KMutableProperty<Boolean>, name: String = "", x: Int = 0, y: Int = 0) : ConfigOption() {
 
     private var value: Boolean by Delegates.observable(prop.getter.call(Config)) { _, _, new ->
         prop.setter.call(Config, new)
@@ -25,10 +25,10 @@ class ConfigBoolean
     }
 
     private var button: GuiButton = GuiButton(
-        0,
-        Renderer.Screen.getWidth() / 2 - 100 + this.x,
-        this.y + 15,
-        stringValue
+            0,
+            Renderer.Screen.getWidth() / 2 - 100 + this.x,
+            this.y + 15,
+            stringValue
     )
 
     private val stringValue: String
@@ -40,8 +40,8 @@ class ConfigBoolean
         val middle = Renderer.Screen.getWidth() / 2
 
         Rectangle(-0x80000000, (middle - 105 + x).toFloat(), (y - 5).toFloat(), 210f, 45f)
-            .setShadow(-0x30000000, 3f, 3f)
-            .draw()
+                .setShadow(-0x30000000, 3f, 3f)
+                .draw()
 
         Text(name!!, (middle - 100 + x).toFloat(), y.toFloat()).draw()
 

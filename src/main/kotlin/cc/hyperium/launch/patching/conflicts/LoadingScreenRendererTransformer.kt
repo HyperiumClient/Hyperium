@@ -33,16 +33,16 @@ class LoadingScreenRendererTransformer : ConflictTransformer {
                     getfield(LoadingScreenRenderer::class, "message", String::class)
                     iload_1
                     invokestatic(
-                        HyperiumLoadingScreen::class,
-                        "renderHyperiumLoadingScreen",
-                        void,
-                        long,
-                        Framebuffer::class,
-                        Minecraft::class,
-                        ScaledResolution::class,
-                        String::class,
-                        String::class,
-                        int
+                            HyperiumLoadingScreen::class,
+                            "renderHyperiumLoadingScreen",
+                            void,
+                            long,
+                            Framebuffer::class,
+                            Minecraft::class,
+                            ScaledResolution::class,
+                            String::class,
+                            String::class,
+                            int
                     )
                     _return
                     +L["4"]

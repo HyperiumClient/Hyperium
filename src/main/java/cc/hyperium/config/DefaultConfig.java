@@ -33,114 +33,124 @@ import java.util.stream.Collectors;
  */
 public class DefaultConfig {
 
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private final List<Object> configObjects = new ArrayList<>();
-    private final File file;
-    private JsonObject config = new JsonObject();
+  private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+  private final List<Object> configObjects = new ArrayList<>();
+  private final File file;
+  private JsonObject config = new JsonObject();
 
-    public DefaultConfig(File configFile) {
-        file = configFile;
-        try {
-            if (configFile.exists()) {
-                FileReader fr = new FileReader(file);
-                BufferedReader br = new BufferedReader(fr);
-                config = new JsonParser().parse(br.lines().collect(Collectors.joining())).getAsJsonObject();
-                fr.close();
-                br.close();
-            } else {
-                config = new JsonObject();
-                saveFile();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveFile() {
-        try {
-            file.createNewFile();
-            FileWriter fw = new FileWriter(file);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(gson.toJson(config));
-            bw.close();
-            fw.close();
-        } catch (Exception ignored) {
-        }
-    }
-
-    public void save() {
-        for (Object configObject : configObjects) {
-            saveToJsonFromRamObject(configObject);
-        }
-
+  public DefaultConfig(File configFile) {
+    file = configFile;
+    try {
+      if (configFile.exists()) {
+        FileReader fr = new FileReader(file);
+        BufferedReader br = new BufferedReader(fr);
+        config = new JsonParser().parse(br.lines().collect(Collectors.joining())).getAsJsonObject();
+        fr.close();
+        br.close();
+      } else {
+        config = new JsonObject();
         saveFile();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void saveFile() {
+    try {
+      file.createNewFile();
+      FileWriter fw = new FileWriter(file);
+      BufferedWriter bw = new BufferedWriter(fw);
+      bw.write(gson.toJson(config));
+      bw.close();
+      fw.close();
+    } catch (Exception ignored) {
+    }
+  }
+
+  public void save() {
+    for (Object configObject : configObjects) {
+      saveToJsonFromRamObject(configObject);
     }
 
-    public Object register(Object object) {
-        //Don't register stuff to config if they don't have any config opt fields
-        boolean b = true;
-        for (Field f : object.getClass().getDeclaredFields()) {
-            if (f.isAnnotationPresent(ConfigOpt.class)) {
-                b = false;
-                break;
-            }
+    saveFile();
+  }
+
+  public Object register(Object object) {
+    //Don't register stuff to config if they don't have any config opt fields
+    boolean b = true;
+    for (Field f : object.getClass().getDeclaredFields()) {
+      if (f.isAnnotationPresent(ConfigOpt.class)) {
+        b = false;
+        break;
+      }
+    }
+
+    if (b) {
+      return object;
+    }
+
+    if (object instanceof PreConfigHandler) {
+      ((PreConfigHandler) object).preUpdate();
+    }
+    loadToClass(object);
+    configObjects.add(object);
+    if (object instanceof PostConfigHandler) {
+      ((PostConfigHandler) object).postUpdate();
+    }
+    return object;
+  }
+
+  private void loadToClass(Object o) {
+    loadToClassObject(o);
+  }
+
+  private void loadToClassObject(Object object) {
+    Class<?> c = object.getClass();
+    if (!config.has(c.getName())) {
+      config.add(c.getName(), new JsonObject());
+    }
+
+    for (Field f : c.getDeclaredFields()) {
+      if (f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())) {
+        f.setAccessible(true);
+        JsonObject tmp = config.get(c.getName()).getAsJsonObject();
+
+        if (tmp.has(f.getName())) {
+          try {
+            f.set(object, gson.fromJson(tmp.get(f.getName()), f.getType()));
+          } catch (IllegalAccessException e) {
+            e.printStackTrace();
+          }
         }
-
-        if (b) return object;
-
-        if (object instanceof PreConfigHandler) ((PreConfigHandler) object).preUpdate();
-        loadToClass(object);
-        configObjects.add(object);
-        if (object instanceof PostConfigHandler) ((PostConfigHandler) object).postUpdate();
-        return object;
+      }
     }
+  }
 
-    private void loadToClass(Object o) {
-        loadToClassObject(o);
+  private void saveToJsonFromRamObject(Object o) {
+    loadToJson(o);
+  }
+
+  private void loadToJson(Object object) {
+    if (object instanceof PreSaveHandler) {
+      ((PreSaveHandler) object).preSave();
     }
+    Class<?> c = object.getClass();
+    for (Field f : c.getDeclaredFields()) {
+      if (f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())) {
+        f.setAccessible(true);
+        JsonObject classObject = config.get(c.getName()).getAsJsonObject();
 
-    private void loadToClassObject(Object object) {
-        Class<?> c = object.getClass();
-        if (!config.has(c.getName())) config.add(c.getName(), new JsonObject());
-
-        for (Field f : c.getDeclaredFields()) {
-            if (f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())) {
-                f.setAccessible(true);
-                JsonObject tmp = config.get(c.getName()).getAsJsonObject();
-
-                if (tmp.has(f.getName())) {
-                    try {
-                        f.set(object, gson.fromJson(tmp.get(f.getName()), f.getType()));
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+        try {
+          classObject.add(f.getName(), gson.toJsonTree(f.get(object), f.getType()));
+        } catch (IllegalAccessException e) {
+          e.printStackTrace();
         }
+      }
     }
+  }
 
-    private void saveToJsonFromRamObject(Object o) {
-        loadToJson(o);
-    }
-
-    private void loadToJson(Object object) {
-        if (object instanceof PreSaveHandler) ((PreSaveHandler) object).preSave();
-        Class<?> c = object.getClass();
-        for (Field f : c.getDeclaredFields()) {
-            if (f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())) {
-                f.setAccessible(true);
-                JsonObject classObject = config.get(c.getName()).getAsJsonObject();
-
-                try {
-                    classObject.add(f.getName(), gson.toJsonTree(f.get(object), f.getType()));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public JsonObject getConfig() {
-        return config;
-    }
+  public JsonObject getConfig() {
+    return config;
+  }
 }

@@ -19,12 +19,12 @@ package cc.hyperium.config
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD)
 annotation class SliderSetting(
-    val min: Float,
-    val max: Float,
-    val name: String,
-    val round: Boolean = true,
-    val category: Category = Category.GENERAL,
-    val enabled: Boolean = true,
-    val mods: Boolean = false,
-    val isInt: Boolean = false
+        val min: Float,
+        val max: Float,
+        val name: String,
+        val round: Boolean = true,
+        val category: Category = Category.GENERAL,
+        val enabled: Boolean = true,
+        val mods: Boolean = false,
+        val isInt: Boolean = false
 )

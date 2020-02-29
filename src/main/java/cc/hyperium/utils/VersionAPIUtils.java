@@ -29,35 +29,37 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 public class VersionAPIUtils {
-    private final HttpClient httpClient;
-    private final String versionsUrl = "https://api.hyperium.cc/versions";
 
-    public VersionAPIUtils() {
-        httpClient = HttpClients.createDefault();
+  private final HttpClient httpClient;
+  private final String versionsUrl = "https://api.hyperium.cc/versions";
+
+  public VersionAPIUtils() {
+    httpClient = HttpClients.createDefault();
+  }
+
+  public String getDownloadLink(JsonObject json, String version) {
+    JsonObject latest = json.getAsJsonObject(version);
+    return latest.get("url").getAsString();
+  }
+
+  public JsonObject getJson() {
+    JsonParser parser = new JsonParser();
+    return parser.parse(getRaw(httpClient, versionsUrl)).getAsJsonObject();
+  }
+
+  public int getVersion(JsonObject json) {
+    JsonObject latest = json.getAsJsonObject(Hyperium.IS_BETA ? "latest_beta" : "latest");
+    return latest.get("id").getAsInt();
+  }
+
+  public String getRaw(HttpClient client, String url) {
+    try {
+      return IOUtils.toString(client.execute(new HttpGet(url)).getEntity().getContent(),
+          Charset.defaultCharset());
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
-    public String getDownloadLink(JsonObject json, String version) {
-        JsonObject latest = json.getAsJsonObject(version);
-        return latest.get("url").getAsString();
-    }
-
-    public JsonObject getJson() {
-        JsonParser parser = new JsonParser();
-        return parser.parse(getRaw(httpClient, versionsUrl)).getAsJsonObject();
-    }
-
-    public int getVersion(JsonObject json) {
-        JsonObject latest = json.getAsJsonObject(Hyperium.IS_BETA ? "latest_beta" : "latest");
-        return latest.get("id").getAsInt();
-    }
-
-    public String getRaw(HttpClient client, String url) {
-        try {
-            return IOUtils.toString(client.execute(new HttpGet(url)).getEntity().getContent(), Charset.defaultCharset());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return "error";
-    }
+    return "error";
+  }
 }

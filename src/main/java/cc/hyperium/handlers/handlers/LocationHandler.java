@@ -39,121 +39,135 @@ import java.util.regex.Pattern;
 
 public class LocationHandler {
 
-    private final Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
-    private String location = "";
-    private boolean sendingWhereAmI;
-    private long ticksInWorld;
+  private final Pattern whereami = Pattern
+      .compile("You are currently connected to server (?<server>.+)");
+  private String location = "";
+  private boolean sendingWhereAmI;
+  private long ticksInWorld;
 
-    @InvokeEvent
-    public void serverJoinEvent(ServerJoinEvent event) {
-        NettyClient client = NettyClient.getClient();
-        if (client != null) {
-            location = event.getServer();
-            client.write(UpdateLocationPacket.build("Other"));
-        }
+  @InvokeEvent
+  public void serverJoinEvent(ServerJoinEvent event) {
+    NettyClient client = NettyClient.getClient();
+    if (client != null) {
+      location = event.getServer();
+      client.write(UpdateLocationPacket.build("Other"));
+    }
+  }
+
+  @InvokeEvent
+  public void serverLeaveEvent(ServerLeaveEvent event) {
+    location = "Offline";
+    NettyClient client = NettyClient.getClient();
+    if (client != null) {
+      client.write(UpdateLocationPacket.build("offline"));
+    }
+  }
+
+  @InvokeEvent
+  public void chatRecieve(ServerChatEvent event) {
+    if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+      return;
+    }
+    String raw = ChatColor.stripColor(event.getChat().getUnformattedText());
+    Matcher whereAmIMatcher = whereami.matcher(raw);
+    if (raw.equalsIgnoreCase("you are currently in limbo")) {
+      EventBus.INSTANCE.post(new ServerSwitchEvent(location, "Limbo"));
+      location = "Limbo";
+
+      if (sendingWhereAmI) {
+        sendingWhereAmI = false;
+        event.setCancelled(true);
+      }
+
+      return;
     }
 
-    @InvokeEvent
-    public void serverLeaveEvent(ServerLeaveEvent event) {
-        location = "Offline";
-        NettyClient client = NettyClient.getClient();
-        if (client != null) {
-            client.write(UpdateLocationPacket.build("offline"));
-        }
+    if (!whereAmIMatcher.matches()) {
+      return;
     }
 
-    @InvokeEvent
-    public void chatRecieve(ServerChatEvent event) {
-        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
-            return;
-        String raw = ChatColor.stripColor(event.getChat().getUnformattedText());
-        Matcher whereAmIMatcher = whereami.matcher(raw);
-        if (raw.equalsIgnoreCase("you are currently in limbo")) {
-            EventBus.INSTANCE.post(new ServerSwitchEvent(location, "Limbo"));
-            location = "Limbo";
+    String to = whereAmIMatcher.group("server");
+    String old = location;
 
-            if (sendingWhereAmI) {
-                sendingWhereAmI = false;
-                event.setCancelled(true);
-            }
-
-            return;
-        }
-
-        if (!whereAmIMatcher.matches()) {
-            return;
-        }
-
-        String to = whereAmIMatcher.group("server");
-        String old = location;
-
-        if (!location.equalsIgnoreCase(to)) {
-            EventBus.INSTANCE.post(new ServerSwitchEvent(old, to));
-        }
-
-        location = to;
-        if (sendingWhereAmI) {
-            sendingWhereAmI = false;
-            event.setCancelled(true);
-        }
+    if (!location.equalsIgnoreCase(to)) {
+      EventBus.INSTANCE.post(new ServerSwitchEvent(old, to));
     }
 
-    @InvokeEvent
-    public void serverSwap(ServerSwitchEvent event) {
-        if (NettyClient.getClient() == null) {
-            return;
-        }
+    location = to;
+    if (sendingWhereAmI) {
+      sendingWhereAmI = false;
+      event.setCancelled(true);
+    }
+  }
 
-        NettyClient.getClient().write(Hyperium.INSTANCE.getHandlers().getMinigameListener().getScoreboardTitle().equalsIgnoreCase(Minigame.HOUSING.name()) ?
-            UpdateLocationPacket.build(Minigame.HOUSING.name()) : UpdateLocationPacket.build(event.getTo()));
-
-        if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0) {
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", 1)));
-        }
-
+  @InvokeEvent
+  public void serverSwap(ServerSwitchEvent event) {
+    if (NettyClient.getClient() == null) {
+      return;
     }
 
-    @InvokeEvent
-    public void miniGameJoin(JoinMinigameEvent event) {
-        if (NettyClient.getClient() == null) return;
+    NettyClient.getClient().write(
+        Hyperium.INSTANCE.getHandlers().getMinigameListener().getScoreboardTitle()
+            .equalsIgnoreCase(Minigame.HOUSING.name()) ?
+            UpdateLocationPacket.build(Minigame.HOUSING.name())
+            : UpdateLocationPacket.build(event.getTo()));
 
-        if (event.getMinigame() == Minigame.HOUSING) {
-            NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
-            if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0) {
-                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", 2)));
-            }
-        }
+    if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0) {
+      NettyClient.getClient().write(ServerCrossDataPacket
+          .build(new JsonHolder().put("type", "flip_update").put("flip_state", 1)));
     }
 
-    @InvokeEvent
-    public void tick(TickEvent event) {
-        Hyperium instance = Hyperium.INSTANCE;
-        HyperiumHandlers handlers = instance.getHandlers();
-        if (handlers == null) return;
+  }
 
-        HypixelDetector hypixelDetector = handlers.getHypixelDetector();
-        if (!hypixelDetector.isHypixel()) ticksInWorld = 0;
-
-        if (ticksInWorld < 20) {
-            ticksInWorld++;
-
-            if (ticksInWorld == 20) {
-                sendingWhereAmI = true;
-                Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/whereami");
-            }
-        }
+  @InvokeEvent
+  public void miniGameJoin(JoinMinigameEvent event) {
+    if (NettyClient.getClient() == null) {
+      return;
     }
 
-    @InvokeEvent
-    public void swapWorld(SpawnpointChangeEvent event) {
-        ticksInWorld = 0;
+    if (event.getMinigame() == Minigame.HOUSING) {
+      NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
+      if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0) {
+        NettyClient.getClient().write(ServerCrossDataPacket
+            .build(new JsonHolder().put("type", "flip_update").put("flip_state", 2)));
+      }
+    }
+  }
+
+  @InvokeEvent
+  public void tick(TickEvent event) {
+    Hyperium instance = Hyperium.INSTANCE;
+    HyperiumHandlers handlers = instance.getHandlers();
+    if (handlers == null) {
+      return;
     }
 
-    public String getLocation() {
-        return location;
+    HypixelDetector hypixelDetector = handlers.getHypixelDetector();
+    if (!hypixelDetector.isHypixel()) {
+      ticksInWorld = 0;
     }
 
-    public boolean isLobbyOrHousing() {
-        return Hyperium.INSTANCE.getHandlers().getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || location.contains("lobby");
+    if (ticksInWorld < 20) {
+      ticksInWorld++;
+
+      if (ticksInWorld == 20) {
+        sendingWhereAmI = true;
+        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/whereami");
+      }
     }
+  }
+
+  @InvokeEvent
+  public void swapWorld(SpawnpointChangeEvent event) {
+    ticksInWorld = 0;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public boolean isLobbyOrHousing() {
+    return Hyperium.INSTANCE.getHandlers().getMinigameListener().getCurrentMinigameName()
+        .equalsIgnoreCase("HOUSING") || location.contains("lobby");
+  }
 }

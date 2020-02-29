@@ -27,67 +27,68 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 
 /**
- * Handles all the main ToggleChat events for the lightweight
- * version of ToggleChat!
+ * Handles all the main ToggleChat events for the lightweight version of ToggleChat!
  *
  * @author boomboompower
  */
 public class ToggleChatEvents {
 
-    private final ToggleChatMod mod;
+  private final ToggleChatMod mod;
 
-    public ToggleChatEvents(ToggleChatMod theMod) {
-        mod = theMod;
-    }
+  public ToggleChatEvents(ToggleChatMod theMod) {
+    mod = theMod;
+  }
 
-    @InvokeEvent(priority = Priority.HIGH) // We use the high priority to grab things first
-    public void onChatReceive(ServerChatEvent event) {
-        // Strip the message of any colors for improved detectability
-        String unformattedText = ChatColor.stripColor(event.getChat().getUnformattedText());
+  @InvokeEvent(priority = Priority.HIGH) // We use the high priority to grab things first
+  public void onChatReceive(ServerChatEvent event) {
+    // Strip the message of any colors for improved detectability
+    String unformattedText = ChatColor.stripColor(event.getChat().getUnformattedText());
 
-        // The formatted message for a few of the custom toggles
-        String formattedText = event.getChat().getFormattedText();
+    // The formatted message for a few of the custom toggles
+    String formattedText = event.getChat().getFormattedText();
 
-        try {
-            // Loop through all the toggles
-            for (ToggleBase type : mod.getToggleHandler().getToggles().values()) {
-                // The chat its looking for shouldn't be toggled, move to next one!
-                if (type.isEnabled()) continue;
-
-                // We don't want an issue with one toggle bringing
-                // the whole toggle system crashing down in flames.
-                try {
-                    // The text we want to input into the shouldToggle method.
-                    String input = type.useFormattedMessage() ? formattedText : unformattedText;
-
-                    // If the toggle should toggle the specified message and
-                    // the toggle is not enabled (this message is turned off)
-                    // don't send the message to the player & stop looping
-                    if (type.shouldToggle(input)) {
-                        if (type instanceof TypeMessageSeparator) {
-                            // Attempt to keep the formatting
-                            ChatStyle style = event.getChat().getChatStyle();
-
-                            String edited = ((TypeMessageSeparator) type).editMessage(formattedText);
-
-                            // Don't bother sending the message if its empty
-                            if (!input.equals(edited) && edited.isEmpty()) {
-                                event.setCancelled(true);
-                            } else {
-                                event.setChat(new ChatComponentText(edited).setChatStyle(style));
-                            }
-                        } else {
-                            event.setCancelled(true);
-                        }
-
-                        break;
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        } catch (Exception e1) {
-            e1.printStackTrace();
+    try {
+      // Loop through all the toggles
+      for (ToggleBase type : mod.getToggleHandler().getToggles().values()) {
+        // The chat its looking for shouldn't be toggled, move to next one!
+        if (type.isEnabled()) {
+          continue;
         }
+
+        // We don't want an issue with one toggle bringing
+        // the whole toggle system crashing down in flames.
+        try {
+          // The text we want to input into the shouldToggle method.
+          String input = type.useFormattedMessage() ? formattedText : unformattedText;
+
+          // If the toggle should toggle the specified message and
+          // the toggle is not enabled (this message is turned off)
+          // don't send the message to the player & stop looping
+          if (type.shouldToggle(input)) {
+            if (type instanceof TypeMessageSeparator) {
+              // Attempt to keep the formatting
+              ChatStyle style = event.getChat().getChatStyle();
+
+              String edited = ((TypeMessageSeparator) type).editMessage(formattedText);
+
+              // Don't bother sending the message if its empty
+              if (!input.equals(edited) && edited.isEmpty()) {
+                event.setCancelled(true);
+              } else {
+                event.setChat(new ChatComponentText(edited).setChatStyle(style));
+              }
+            } else {
+              event.setCancelled(true);
+            }
+
+            break;
+          }
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      }
+    } catch (Exception e1) {
+      e1.printStackTrace();
     }
+  }
 }

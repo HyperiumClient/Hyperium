@@ -24,13 +24,13 @@ import cc.hyperium.event.Event;
  */
 public final class RenderEntitiesEvent extends Event {
 
-    private final float partialTicks;
+  private final float partialTicks;
 
-    public RenderEntitiesEvent(float partialTicks) {
-        this.partialTicks = partialTicks;
-    }
+  public RenderEntitiesEvent(float partialTicks) {
+    this.partialTicks = partialTicks;
+  }
 
-    public final float getPartialTicks() {
-        return partialTicks;
-    }
+  public final float getPartialTicks() {
+    return partialTicks;
+  }
 }

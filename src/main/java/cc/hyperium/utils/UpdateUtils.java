@@ -33,38 +33,39 @@ import java.io.IOException;
  */
 public class UpdateUtils {
 
-    public static UpdateUtils INSTANCE = new UpdateUtils();
+  public static UpdateUtils INSTANCE = new UpdateUtils();
 
-    private static final HttpClient client = HttpClients.createDefault();
-    private final VersionAPIUtils apiUtils = new VersionAPIUtils();
+  private static final HttpClient client = HttpClients.createDefault();
+  private final VersionAPIUtils apiUtils = new VersionAPIUtils();
 
-    public static JsonHolder get(String url) {
-        try {
-            return new JsonHolder(getRaw(url));
-        } catch (Exception var2) {
-            var2.printStackTrace();
-            return new JsonHolder();
-        }
+  public static JsonHolder get(String url) {
+    try {
+      return new JsonHolder(getRaw(url));
+    } catch (Exception var2) {
+      var2.printStackTrace();
+      return new JsonHolder();
     }
+  }
 
-    public static String getRaw(String url) throws IOException {
-        return IOUtils.toString(client.execute(new HttpGet(url)).getEntity().getContent(), Charsets.UTF_8);
+  public static String getRaw(String url) throws IOException {
+    return IOUtils
+        .toString(client.execute(new HttpGet(url)).getEntity().getContent(), Charsets.UTF_8);
+  }
+
+  public boolean isAbsoluteLatest() {
+    JsonObject json = apiUtils.getJson();
+    int version = apiUtils.getVersion(json);
+
+    return version <= Metadata.getVersionID();
+  }
+
+  public boolean isBeta() {
+    for (JsonElement element : apiUtils.getJson().get("versions").getAsJsonArray()) {
+      JsonHolder holder = new JsonHolder(element.getAsJsonObject());
+      if (holder.optInt("id") == Metadata.getVersionID()) {
+        return holder.optBoolean("beta");
+      }
     }
-
-    public boolean isAbsoluteLatest() {
-        JsonObject json = apiUtils.getJson();
-        int version = apiUtils.getVersion(json);
-
-        return version <= Metadata.getVersionID();
-    }
-
-    public boolean isBeta() {
-        for (JsonElement element : apiUtils.getJson().get("versions").getAsJsonArray()) {
-            JsonHolder holder = new JsonHolder(element.getAsJsonObject());
-            if (holder.optInt("id") == Metadata.getVersionID()) {
-                return holder.optBoolean("beta");
-            }
-        }
-        return false;
-    }
+    return false;
+  }
 }

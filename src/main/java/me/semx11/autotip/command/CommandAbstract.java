@@ -6,13 +6,11 @@ import net.minecraft.command.ICommandSender;
 
 public abstract class CommandAbstract implements BaseCommand {
 
-    public final Autotip autotip;
+  public final Autotip autotip;
 
-    public CommandAbstract(Autotip autotip) {
-        this.autotip = autotip;
-    }
-
-
+  public CommandAbstract(Autotip autotip) {
+    this.autotip = autotip;
+  }
 
 
 }

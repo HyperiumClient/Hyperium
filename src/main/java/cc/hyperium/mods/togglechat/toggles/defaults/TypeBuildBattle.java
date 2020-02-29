@@ -26,72 +26,73 @@ import java.util.regex.Pattern;
 
 public class TypeBuildBattle extends ToggleBase {
 
-    private final Pattern battlePattern = Pattern.compile("(?<battle>.*\\w) (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+  private final Pattern battlePattern = Pattern
+      .compile("(?<battle>.*\\w) (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Build Battle";
+  @Override
+  public String getName() {
+    return "Build Battle";
+  }
+
+  @Override
+  public String getDisplayName() {
+    return "Build battle: %s";
+  }
+
+  // Rookie [MVP+] boomboompower: tt
+
+  @Override
+  public boolean shouldToggle(String message) {
+    Matcher matcher = battlePattern.matcher(ChatColor.stripColor(message));
+
+    return matcher.matches() && validBattleRank(matcher.group("battle"));
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Turns all build battle",
+        "chat on or off",
+        "",
+        "You can now play build",
+        "battle chat free!"
+    );
+  }
+
+  private boolean validBattleRank(String input) {
+    if (input == null || input.isEmpty()) {
+      return false;
     }
 
-    @Override
-    public String getDisplayName() {
-        return "Build battle: %s";
+    switch (input) {
+      case "Rookie":
+      case "Untrained":
+      case "Amateur":
+      case "Apprentice":
+      case "Experienced":
+      case "Seasoned":
+      case "Trained":
+      case "Skilled":
+      case "Talented":
+      case "Professional":
+      case "Expert":
+      case "Master":
+      case "#1 Builder":
+        return true;
+      default:
+        return false;
     }
-
-    // Rookie [MVP+] boomboompower: tt
-
-    @Override
-    public boolean shouldToggle(String message) {
-        Matcher matcher = battlePattern.matcher(ChatColor.stripColor(message));
-
-        return matcher.matches() && validBattleRank(matcher.group("battle"));
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Turns all build battle",
-                "chat on or off",
-                "",
-                "You can now play build",
-                "battle chat free!"
-        );
-    }
-
-    private boolean validBattleRank(String input) {
-        if (input == null || input.isEmpty()) {
-            return false;
-        }
-
-        switch (input) {
-            case "Rookie":
-            case "Untrained":
-            case "Amateur":
-            case "Apprentice":
-            case "Experienced":
-            case "Seasoned":
-            case "Trained":
-            case "Skilled":
-            case "Talented":
-            case "Professional":
-            case "Expert":
-            case "Master":
-            case "#1 Builder":
-                return true;
-            default:
-                return false;
-        }
-    }
+  }
 }

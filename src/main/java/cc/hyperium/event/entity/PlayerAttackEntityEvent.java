@@ -31,27 +31,27 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class PlayerAttackEntityEvent extends Event {
 
-    @NotNull
-    private final UUID uuid;
+  @NotNull
+  private final UUID uuid;
 
-    @NotNull
-    private final Entity entity;
+  @NotNull
+  private final Entity entity;
 
-    public PlayerAttackEntityEvent(@NotNull UUID uuid, @NotNull Entity entity) {
-        Preconditions.checkNotNull(uuid, "uuid");
-        Preconditions.checkNotNull(entity, "entity");
+  public PlayerAttackEntityEvent(@NotNull UUID uuid, @NotNull Entity entity) {
+    Preconditions.checkNotNull(uuid, "uuid");
+    Preconditions.checkNotNull(entity, "entity");
 
-        this.uuid = uuid;
-        this.entity = entity;
-    }
+    this.uuid = uuid;
+    this.entity = entity;
+  }
 
-    @NotNull
-    public final UUID getUuid() {
-        return uuid;
-    }
+  @NotNull
+  public final UUID getUuid() {
+    return uuid;
+  }
 
-    @NotNull
-    public final Entity getEntity() {
-        return entity;
-    }
+  @NotNull
+  public final Entity getEntity() {
+    return entity;
+  }
 }

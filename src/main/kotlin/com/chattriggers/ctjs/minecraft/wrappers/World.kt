@@ -75,7 +75,8 @@ object World {
     fun isRaining(): Boolean = getWorld()?.worldInfo?.isRaining ?: false
 
     @JvmStatic
-    fun getRainingStrength(): Float = (getWorld() as? net.minecraft.world.World)?.rainingStrength ?: -1f
+    fun getRainingStrength(): Float = (getWorld() as? net.minecraft.world.World)?.rainingStrength
+            ?: -1f
 
     @JvmStatic
     fun getTime(): Long = getWorld()?.worldTime ?: -1L
@@ -129,8 +130,8 @@ object World {
     @Throws(IllegalArgumentException::class)
     fun getPlayerByName(name: String): PlayerMP {
         return PlayerMP(
-            getWorld()?.getPlayerEntityByName(name)
-                ?: throw IllegalArgumentException()
+                getWorld()?.getPlayerEntityByName(name)
+                        ?: throw IllegalArgumentException()
         )
     }
 
@@ -140,9 +141,9 @@ object World {
     @JvmStatic
     fun getChunk(x: Int, y: Int, z: Int): Chunk {
         return Chunk(
-            getWorld()!!.getChunkFromBlockCoords(
-                BlockPos(x, y, z)
-            )
+                getWorld()!!.getChunkFromBlockCoords(
+                        BlockPos(x, y, z)
+                )
         )
     }
 
@@ -267,13 +268,13 @@ object World {
          */
         @JvmStatic
         fun spawnParticle(
-            particle: String,
-            x: Double,
-            y: Double,
-            z: Double,
-            xSpeed: Double,
-            ySpeed: Double,
-            zSpeed: Double
+                particle: String,
+                x: Double,
+                y: Double,
+                z: Double,
+                xSpeed: Double,
+                ySpeed: Double,
+                zSpeed: Double
         ): Particle? {
             val particleType = EnumParticleTypes.valueOf(particle)
 
@@ -282,10 +283,10 @@ object World {
             }?.let {
                 it.isAccessible = true
                 it.call(
-                    Client.getMinecraft().renderGlobal,
-                    particleType.particleID,
-                    particleType.shouldIgnoreRange,
-                    x, y, z, xSpeed, ySpeed, zSpeed, intArrayOf()
+                        Client.getMinecraft().renderGlobal,
+                        particleType.particleID,
+                        particleType.shouldIgnoreRange,
+                        x, y, z, xSpeed, ySpeed, zSpeed, intArrayOf()
                 ) as MCParticle
             }!!
 

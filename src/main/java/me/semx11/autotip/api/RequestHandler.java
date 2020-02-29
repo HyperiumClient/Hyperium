@@ -25,40 +25,44 @@ import org.apache.commons.io.IOUtils;
 
 public class RequestHandler {
 
-    private static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(Locale.class, new LocaleAdapter())
-            .registerTypeAdapter(Pattern.class, new PatternAdapter())
-            .registerTypeAdapter(SessionKey.class, new SessionKeyAdapter())
-            .registerTypeAdapter(Version.class, new VersionAdapter())
-            .create();
+  private static final Gson GSON = new GsonBuilder()
+      .registerTypeAdapter(Locale.class, new LocaleAdapter())
+      .registerTypeAdapter(Pattern.class, new PatternAdapter())
+      .registerTypeAdapter(SessionKey.class, new SessionKeyAdapter())
+      .registerTypeAdapter(Version.class, new VersionAdapter())
+      .create();
 
-    private static Autotip autotip;
+  private static Autotip autotip;
 
-    public static void setAutotip(Autotip autotip) {
-        RequestHandler.autotip = autotip;
+  public static void setAutotip(Autotip autotip) {
+    RequestHandler.autotip = autotip;
+  }
+
+  public static Optional<Reply> getReply(Request request, URI uri) {
+    String json = null;
+    HttpURLConnection conn = null;
+    try {
+      conn = (HttpURLConnection) uri.toURL().openConnection();
+      conn.setRequestProperty("User-Agent", "Autotip v" + autotip.getVersion());
+
+      InputStream input =
+          conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST ? conn.getInputStream()
+              : conn.getErrorStream();
+      json = IOUtils.toString(input, StandardCharsets.UTF_8);
+      Autotip.LOGGER.info(request.getType() + " JSON: " + json);
+
+      Reply reply = GSON.fromJson(json, (Type) request.getType().getReplyClass());
+
+      return Optional.ofNullable(reply);
+    } catch (IOException | JsonParseException e) {
+      ErrorReport.reportException(e);
+      Autotip.LOGGER.info(request.getType() + " JSON: " + json);
+      return Optional.empty();
+    } finally {
+      if (conn != null) {
+        conn.disconnect();
+      }
     }
-
-    public static Optional<Reply> getReply(Request request, URI uri) {
-        String json = null;
-        HttpURLConnection conn = null;
-        try {
-            conn = (HttpURLConnection) uri.toURL().openConnection();
-            conn.setRequestProperty("User-Agent", "Autotip v" + autotip.getVersion());
-
-            InputStream input = conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST ? conn.getInputStream() : conn.getErrorStream();
-            json = IOUtils.toString(input, StandardCharsets.UTF_8);
-            Autotip.LOGGER.info(request.getType() + " JSON: " + json);
-
-            Reply reply = GSON.fromJson(json, (Type) request.getType().getReplyClass());
-
-            return Optional.ofNullable(reply);
-        } catch (IOException | JsonParseException e) {
-            ErrorReport.reportException(e);
-            Autotip.LOGGER.info(request.getType() + " JSON: " + json);
-            return Optional.empty();
-        } finally {
-            if (conn != null) conn.disconnect();
-        }
-    }
+  }
 
 }

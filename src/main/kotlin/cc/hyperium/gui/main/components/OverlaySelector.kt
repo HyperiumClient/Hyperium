@@ -25,22 +25,22 @@ import java.util.function.Supplier
 
 @Deprecated("Soon to be removed, please refrain from using.")
 class OverlaySelector<T> @JvmOverloads constructor(
-    label: String,
-    var selected: T,
-    val callback: Consumer<T>,
-    val items: Supplier<Array<T>>,
-    var enabled: Boolean = true
+        label: String,
+        var selected: T,
+        val callback: Consumer<T>,
+        val items: Supplier<Array<T>>,
+        var enabled: Boolean = true
 ) : OverlayLabel(label, enabled, Runnable { }) {
     private val fr = HyperiumFontRenderer("Arial", Font.PLAIN, 20)
 
     override fun render(
-        mouseX: Int,
-        mouseY: Int,
-        overlayX: Int,
-        overlayY: Int,
-        w: Int,
-        h: Int,
-        overlayH: Int
+            mouseX: Int,
+            mouseY: Int,
+            overlayX: Int,
+            overlayY: Int,
+            w: Int,
+            h: Int,
+            overlayH: Int
     ): Boolean {
         if (!super.render(mouseX, mouseY, overlayX, overlayY, w, h, overlayH))
             return false
@@ -48,17 +48,17 @@ class OverlaySelector<T> @JvmOverloads constructor(
         val textY = overlayY + (h - fr.FONT_HEIGHT) / 2
         if (super.enabled) {
             fr.drawString(
-                selected.toString(),
-                overlayX + w - fr.getWidth(selected.toString()) - 5,
-                textY.toFloat(),
-                0xffffff
+                    selected.toString(),
+                    overlayX + w - fr.getWidth(selected.toString()) - 5,
+                    textY.toFloat(),
+                    0xffffff
             )
         } else {
             fr.drawString(
-                selected.toString(),
-                overlayX + w - fr.getWidth(selected.toString()) - 5,
-                textY.toFloat(),
-                Color(169, 169, 169).rgb
+                    selected.toString(),
+                    overlayX + w - fr.getWidth(selected.toString()) - 5,
+                    textY.toFloat(),
+                    Color(169, 169, 169).rgb
             )
         }
         return true

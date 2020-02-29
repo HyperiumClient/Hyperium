@@ -19,8 +19,10 @@ package cc.hyperium.utils;
 
 public interface IGlStateModifier {
 
-    void reset();
-    void setTexture(int id);
-    void resetColor();
+  void reset();
+
+  void setTexture(int id);
+
+  void resetColor();
 
 }

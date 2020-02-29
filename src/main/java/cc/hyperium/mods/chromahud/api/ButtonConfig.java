@@ -25,29 +25,31 @@ import java.util.function.BiConsumer;
  * @author Sk1er
  */
 public class ButtonConfig {
-    /*
-        Called when the button is pressed. GuiButton is the gui button instance provided. StatsDisplayItem is the object of that display item
-        Load is called on load to initalize to right state
-     */
-    private final BiConsumer<GuiButton, DisplayItem> action;
-    private final GuiButton button;
-    private final BiConsumer<GuiButton, DisplayItem> load;
 
-    public ButtonConfig(BiConsumer<GuiButton, DisplayItem> action, GuiButton button, BiConsumer<GuiButton, DisplayItem> load) {
-        this.action = action;
-        this.button = button;
-        this.load = load;
-    }
+  /*
+      Called when the button is pressed. GuiButton is the gui button instance provided. StatsDisplayItem is the object of that display item
+      Load is called on load to initalize to right state
+   */
+  private final BiConsumer<GuiButton, DisplayItem> action;
+  private final GuiButton button;
+  private final BiConsumer<GuiButton, DisplayItem> load;
 
-    public BiConsumer<GuiButton, DisplayItem> getAction() {
-        return action;
-    }
+  public ButtonConfig(BiConsumer<GuiButton, DisplayItem> action, GuiButton button,
+      BiConsumer<GuiButton, DisplayItem> load) {
+    this.action = action;
+    this.button = button;
+    this.load = load;
+  }
 
-    public GuiButton getButton() {
-        return button;
-    }
+  public BiConsumer<GuiButton, DisplayItem> getAction() {
+    return action;
+  }
 
-    public BiConsumer<GuiButton, DisplayItem> getLoad() {
-        return load;
-    }
+  public GuiButton getButton() {
+    return button;
+  }
+
+  public BiConsumer<GuiButton, DisplayItem> getLoad() {
+    return load;
+  }
 }

@@ -23,7 +23,7 @@ import cc.hyperium.utils.JsonHolder;
 
 public class FlipCosmeticPackage extends AbstractHyperiumPurchase {
 
-    public FlipCosmeticPackage(EnumPurchaseType type, JsonHolder data) {
-        super(type, data);
-    }
+  public FlipCosmeticPackage(EnumPurchaseType type, JsonHolder data) {
+    super(type, data);
+  }
 }

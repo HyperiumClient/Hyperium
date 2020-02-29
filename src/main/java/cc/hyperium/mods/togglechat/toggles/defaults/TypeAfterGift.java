@@ -23,43 +23,43 @@ import java.util.LinkedList;
 
 public class TypeAfterGift extends ToggleBase {
 
-    private boolean enabled;
+  private boolean enabled;
 
-    @Override
-    public String getName() {
-        return "Generosity";
-    }
+  @Override
+  public String getName() {
+    return "Generosity";
+  }
 
-    @Override
-    public String getDisplayName() {
-        return "Generosity: %s";
-    }
+  @Override
+  public String getDisplayName() {
+    return "Generosity: %s";
+  }
 
-    @Override
+  @Override
 
-    public boolean shouldToggle(String message) {
-        return message.contains("radiating with Generosity");
-    }
+  public boolean shouldToggle(String message) {
+    return message.contains("radiating with Generosity");
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Removes all messages saying",
-                "a user is radiating",
-                "with Generosity.",
-                "",
-                "&cSk1er &ris radiating",
-                "with &bGenerosity!"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Removes all messages saying",
+        "a user is radiating",
+        "with Generosity.",
+        "",
+        "&cSk1er &ris radiating",
+        "with &bGenerosity!"
+    );
+  }
 }

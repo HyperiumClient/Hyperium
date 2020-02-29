@@ -25,11 +25,11 @@ import cc.hyperium.utils.JsonHolder;
  */
 public interface HypixelApiObject {
 
-    boolean isValid();
+  boolean isValid();
 
-    JsonHolder getData();
+  JsonHolder getData();
 
-    default boolean isLoaded() {
-        return getData().optBoolean("loaded");
-    }
+  default boolean isLoaded() {
+    return getData().optBoolean("loaded");
+  }
 }

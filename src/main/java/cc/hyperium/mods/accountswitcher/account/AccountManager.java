@@ -31,57 +31,59 @@ import java.util.UUID;
 
 public class AccountManager {
 
-    private final UserAuthentication auth;
+  private final UserAuthentication auth;
 
-    public AccountManager() {
-        // Create a random UUID for the session token.
-        UUID uuid = UUID.randomUUID();
-        // Create a new session service, for use.
-        AuthenticationService service = new YggdrasilAuthenticationService(Minecraft.getMinecraft().getProxy(), uuid.toString());
-        // Setup auth & the session service.
-        auth = service.createUserAuthentication(Agent.MINECRAFT);
-        service.createMinecraftSessionService();
+  public AccountManager() {
+    // Create a random UUID for the session token.
+    UUID uuid = UUID.randomUUID();
+    // Create a new session service, for use.
+    AuthenticationService service = new YggdrasilAuthenticationService(
+        Minecraft.getMinecraft().getProxy(), uuid.toString());
+    // Setup auth & the session service.
+    auth = service.createUserAuthentication(Agent.MINECRAFT);
+    service.createMinecraftSessionService();
+  }
+
+  public boolean setUser(String username, String password) {
+    // Make sure the user isn't already logged in, to not waste time relogging.
+    if (Minecraft.getMinecraft().getSession().getUsername().equalsIgnoreCase(username)) {
+      Hyperium.LOGGER.warn("Tried to log in as the user already logged in, can't do that.");
+      return false;
     }
 
-    public boolean setUser(String username, String password) {
-        // Make sure the user isn't already logged in, to not waste time relogging.
-        if (Minecraft.getMinecraft().getSession().getUsername().equalsIgnoreCase(username)) {
-            Hyperium.LOGGER.warn("Tried to log in as the user already logged in, can't do that.");
-            return false;
-        }
+    auth.logOut();
+    auth.setUsername(username);
+    auth.setPassword(password);
 
-        auth.logOut();
-        auth.setUsername(username);
-        auth.setPassword(password);
-
-        // Make sure it can be logged in with.
-        if (auth.canLogIn()) {
-            try {
-                auth.logIn();
-                // Create a new session, using the new log in.
-                Session session = new Session(auth.getSelectedProfile().getName(), UUIDTypeAdapter.fromUUID(auth.getSelectedProfile().getId()), auth.getAuthenticatedToken(), auth.getUserType().getName());
-                // Set the session.
-                Minecraft.getMinecraft().setSession(session);
-            } catch (AuthenticationException e) {
-                e.printStackTrace();
-                return false;
-            }
-        } else {
-            // :(
-            Hyperium.LOGGER.warn("Can't log in with this account.");
-            return false;
-        }
-
-
-        return true;
-    }
-
-    public void setOffline(String username) {
-        // Log out of the current session
-        auth.logOut();
-        // Create a new offline session, and set it
-        Session session = new Session(username, username, "0", "legacy");
+    // Make sure it can be logged in with.
+    if (auth.canLogIn()) {
+      try {
+        auth.logIn();
+        // Create a new session, using the new log in.
+        Session session = new Session(auth.getSelectedProfile().getName(),
+            UUIDTypeAdapter.fromUUID(auth.getSelectedProfile().getId()),
+            auth.getAuthenticatedToken(), auth.getUserType().getName());
+        // Set the session.
         Minecraft.getMinecraft().setSession(session);
+      } catch (AuthenticationException e) {
+        e.printStackTrace();
+        return false;
+      }
+    } else {
+      // :(
+      Hyperium.LOGGER.warn("Can't log in with this account.");
+      return false;
     }
+
+    return true;
+  }
+
+  public void setOffline(String username) {
+    // Log out of the current session
+    auth.logOut();
+    // Create a new offline session, and set it
+    Session session = new Session(username, username, "0", "legacy");
+    Minecraft.getMinecraft().setSession(session);
+  }
 
 }

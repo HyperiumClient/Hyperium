@@ -32,34 +32,34 @@ import java.util.concurrent.TimeUnit;
  */
 public class CommandQueue {
 
-    private final Queue<String> commands = new ConcurrentLinkedQueue<>();
-    private final Map<String, Runnable> asyncCallbacks = new ConcurrentHashMap<>();
+  private final Queue<String> commands = new ConcurrentLinkedQueue<>();
+  private final Map<String, Runnable> asyncCallbacks = new ConcurrentHashMap<>();
 
-    public CommandQueue() {
-        long DELAY = 1000;
-        Multithreading.schedule(CommandQueue.this::check, 0, DELAY, TimeUnit.MILLISECONDS);
-    }
+  public CommandQueue() {
+    long DELAY = 1000;
+    Multithreading.schedule(CommandQueue.this::check, 0, DELAY, TimeUnit.MILLISECONDS);
+  }
 
-    public void register(String chat, Runnable task) {
-        asyncCallbacks.put(chat, task);
-        queue(chat);
-    }
+  public void register(String chat, Runnable task) {
+    asyncCallbacks.put(chat, task);
+    queue(chat);
+  }
 
-    private void check() {
-        if (!commands.isEmpty()) {
-            EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-            if (thePlayer != null && commands.peek() != null) {
-                String poll = commands.poll();
-                Runnable runnable = asyncCallbacks.get(poll);
-                thePlayer.sendChatMessage(poll);
-                if (runnable != null) {
-                    runnable.run();
-                }
-            }
+  private void check() {
+    if (!commands.isEmpty()) {
+      EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+      if (thePlayer != null && commands.peek() != null) {
+        String poll = commands.poll();
+        Runnable runnable = asyncCallbacks.get(poll);
+        thePlayer.sendChatMessage(poll);
+        if (runnable != null) {
+          runnable.run();
         }
+      }
     }
+  }
 
-    public void queue(String message) {
-        commands.add(message);
-    }
+  public void queue(String message) {
+    commands.add(message);
+  }
 }

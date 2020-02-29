@@ -22,11 +22,11 @@ class HyperiumTweaker : ITweaker {
 
     override fun acceptOptions(args: MutableList<String>, gameDir: File, assetsDir: File, profile: String) {
         hyperiumArguments.addAll(
-            args + listOf(
-                "--gameDir", gameDir.absolutePath,
-                "--assetsDir", assetsDir.absolutePath,
-                "--version", profile
-            )
+                args + listOf(
+                        "--gameDir", gameDir.absolutePath,
+                        "--assetsDir", assetsDir.absolutePath,
+                        "--version", profile
+                )
         )
     }
 
@@ -67,10 +67,10 @@ class HyperiumTweaker : ITweaker {
 
         try {
             classLoader.addURL(
-                File(
-                    System.getProperty("java.home"),
-                    "lib/ext/nashorn.jar"
-                ).toURI().toURL()
+                    File(
+                            System.getProperty("java.home"),
+                            "lib/ext/nashorn.jar"
+                    ).toURI().toURL()
             )
         } catch (e: MalformedURLException) {
             e.printStackTrace()

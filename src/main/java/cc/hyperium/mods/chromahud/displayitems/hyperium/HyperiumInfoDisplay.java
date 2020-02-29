@@ -26,17 +26,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HyperiumInfoDisplay extends DisplayItem {
-    public HyperiumInfoDisplay(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-    }
 
-    @Override
-    public void draw(int x, double y, boolean config) {
-        List<String> list = new ArrayList<>();
-        list.add("Client: " + Metadata.getModid());
-        list.add("Version " + Metadata.getVersion());
-        ElementRenderer.draw(x, y, list);
-        width = config ? ElementRenderer.maxWidth(list) : 0;
-        height = list.size() * 10;
-    }
+  public HyperiumInfoDisplay(JsonHolder data, int ordinal) {
+    super(data, ordinal);
+  }
+
+  @Override
+  public void draw(int x, double y, boolean config) {
+    List<String> list = new ArrayList<>();
+    list.add("Client: " + Metadata.getModid());
+    list.add("Version " + Metadata.getVersion());
+    ElementRenderer.draw(x, y, list);
+    width = config ? ElementRenderer.maxWidth(list) : 0;
+    height = list.size() * 10;
+  }
 }

@@ -27,19 +27,20 @@ import net.minecraft.util.ResourceLocation;
  */
 public class WingsCosmetic extends AbstractCosmetic {
 
-    private final ResourceLocation dragon = new ResourceLocation("hyperium","textures/cosmetics/wings/dragonwings.png");
-    private WingsRenderer wingsRenderer;
+  private final ResourceLocation dragon = new ResourceLocation("hyperium",
+      "textures/cosmetics/wings/dragonwings.png");
+  private WingsRenderer wingsRenderer;
 
-    public WingsCosmetic() {
-        super(true, EnumPurchaseType.WING_COSMETIC);
-        EventBus.INSTANCE.register(wingsRenderer = new WingsRenderer(this));
-    }
+  public WingsCosmetic() {
+    super(true, EnumPurchaseType.WING_COSMETIC);
+    EventBus.INSTANCE.register(wingsRenderer = new WingsRenderer(this));
+  }
 
-    public WingsRenderer getWingsRenderer() {
-        return wingsRenderer;
-    }
+  public WingsRenderer getWingsRenderer() {
+    return wingsRenderer;
+  }
 
-    public ResourceLocation getLocation(String s) {
-        return dragon;
-    }
+  public ResourceLocation getLocation(String s) {
+    return dragon;
+  }
 }

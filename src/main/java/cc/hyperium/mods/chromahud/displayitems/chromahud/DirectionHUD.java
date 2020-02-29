@@ -30,53 +30,58 @@ import java.util.List;
  * Created by Mitchell Katz on 6/1/2017.
  */
 public class DirectionHUD extends DisplayItem {
-    private static final String[] dir = {"South", "South West", "West", "North West", "North", "North East", "East", "South East"};
-    private static final String[] dirShort = {"S", "SW", "W", "NW", "N", "NE", "E", "SE"};
 
-    private boolean shortDirection;
+  private static final String[] dir = {"South", "South West", "West", "North West", "North",
+      "North East", "East", "South East"};
+  private static final String[] dirShort = {"S", "SW", "W", "NW", "N", "NE", "E", "SE"};
 
-    public DirectionHUD(JsonHolder raw, int ordinal) {
-        super(raw, ordinal);
-        height = 10;
-        shortDirection = raw.optBoolean("shortDirection");
-    }
+  private boolean shortDirection;
 
-    public void draw(int x, double y, boolean isConfig) {
-        List<String> list = new ArrayList<>();
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if (player != null) {
-            int d = (int) player.rotationYaw;
-            if (d < 0) d += 360;
-            d += 22;
-            int direction = (d % 360);
-            direction = direction / (45);
+  public DirectionHUD(JsonHolder raw, int ordinal) {
+    super(raw, ordinal);
+    height = 10;
+    shortDirection = raw.optBoolean("shortDirection");
+  }
 
-            try {
-                while (direction < 0) {
-                    direction += 8;
-                }
+  public void draw(int x, double y, boolean isConfig) {
+    List<String> list = new ArrayList<>();
+    EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+    if (player != null) {
+      int d = (int) player.rotationYaw;
+      if (d < 0) {
+        d += 360;
+      }
+      d += 22;
+      int direction = (d % 360);
+      direction = direction / (45);
 
-                list.add(!shortDirection ? dir[direction] : dirShort[direction]);
-            } catch (Exception ignored) {}
+      try {
+        while (direction < 0) {
+          direction += 8;
         }
 
-        ElementRenderer.draw(x, y, list);
-        width = isConfig ? ElementRenderer.maxWidth(list) : 0;
+        list.add(!shortDirection ? dir[direction] : dirShort[direction]);
+      } catch (Exception ignored) {
+      }
     }
 
-    public void toggleShortDirection() {
-        shortDirection = !shortDirection;
-    }
+    ElementRenderer.draw(x, y, list);
+    width = isConfig ? ElementRenderer.maxWidth(list) : 0;
+  }
 
-    @Override
-    public void save() {
-        data.put("shortDirection", shortDirection);
-    }
+  public void toggleShortDirection() {
+    shortDirection = !shortDirection;
+  }
 
-    @Override
-    public String toString() {
-        return "DirectionHUD{" +
-            "shortDirection=" + shortDirection +
-            '}';
-    }
+  @Override
+  public void save() {
+    data.put("shortDirection", shortDirection);
+  }
+
+  @Override
+  public String toString() {
+    return "DirectionHUD{" +
+        "shortDirection=" + shortDirection +
+        '}';
+  }
 }

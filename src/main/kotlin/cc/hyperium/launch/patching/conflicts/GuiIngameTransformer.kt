@@ -28,32 +28,32 @@ class GuiIngameTransformer : ConflictTransformer {
     // todo renderBossHealth & renderPlayerStats
     override fun transform(original: ClassNode): ClassNode {
         original.visitField(
-            Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
-            "renderScoreboard",
-            "Z",
-            null,
-            true
+                Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
+                "renderScoreboard",
+                "Z",
+                null,
+                true
         ).visitEnd()
         original.visitField(
-            Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
-            "renderHealth",
-            "Z",
-            null,
-            true
+                Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
+                "renderHealth",
+                "Z",
+                null,
+                true
         ).visitEnd()
         original.visitField(
-            Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
-            "renderFood",
-            "Z",
-            null,
-            true
+                Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
+                "renderFood",
+                "Z",
+                null,
+                true
         ).visitEnd()
         original.visitField(
-            Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
-            "renderArmor",
-            "Z",
-            null,
-            true
+                Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
+                "renderArmor",
+                "Z",
+                null,
+                true
         ).visitEnd()
 
         for (method in original.methods) {

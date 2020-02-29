@@ -33,33 +33,33 @@ import net.hypixel.api.GameType;
  */
 public class BuildBattleStats extends AbstractHypixelStats {
 
-    @Override
-    public String getImage() {
-        return "BuildBattle-64";
-    }
+  @Override
+  public String getImage() {
+    return "BuildBattle-64";
+  }
 
-    @Override
-    public GameType getGameType() {
-        return GameType.BUILD_BATTLE;
-    }
+  @Override
+  public GameType getGameType() {
+    return GameType.BUILD_BATTLE;
+  }
 
-    @Override
-    public String getName() {
-        return "Build Battle";
-    }
+  @Override
+  public String getName() {
+    return "Build Battle";
+  }
 
-    @Override
-    public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
-        List<StatsDisplayItem> stats = new ArrayList<>();
-        JsonHolder arcade = player.getStats(GameType.ARCADE);
+  @Override
+  public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
+    List<StatsDisplayItem> stats = new ArrayList<>();
+    JsonHolder arcade = player.getStats(GameType.ARCADE);
 
-        stats.add(new DisplayLine(bold("Build Battle wins: ", arcade.optInt("wins_buildbattle"))));
+    stats.add(new DisplayLine(bold("Build Battle wins: ", arcade.optInt("wins_buildbattle"))));
 
-        return stats;
-    }
+    return stats;
+  }
 
-    @Override
-    public List<StatsDisplayItem> getDeepStats(HypixelApiPlayer player) {
-        return getPreview(player);
-    }
+  @Override
+  public List<StatsDisplayItem> getDeepStats(HypixelApiPlayer player) {
+    return getPreview(player);
+  }
 }

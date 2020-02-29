@@ -27,63 +27,67 @@ import org.lwjgl.opengl.Display;
 
 public class FPSLimiter {
 
-    // Is the user in limbo?
-    private static boolean limbo;
+  // Is the user in limbo?
+  private static boolean limbo;
 
-    // How long have they been in limbo?
-    private static long time;
+  // How long have they been in limbo?
+  private static long time;
 
-    // Check if it's been 5 seconds, if it has, apply the limited framerate
-    public boolean shouldLimitFramerate() {
-        return (!Display.isActive() || limbo) && Settings.FPS_LIMITER && time * 20 >= 5;
+  // Check if it's been 5 seconds, if it has, apply the limited framerate
+  public boolean shouldLimitFramerate() {
+    return (!Display.isActive() || limbo) && Settings.FPS_LIMITER && time * 20 >= 5;
+  }
+
+  /**
+   * Check if any messages that are sent when the user is sent to Limbo have been sent
+   *
+   * @param event called whenever a message is sent through chat
+   */
+  @InvokeEvent(priority = Priority.LOW)
+  public void onChat(ChatEvent event) {
+    String trimmedChat = event.getChat().getUnformattedText().trim();
+    if (trimmedChat.equals("You were spawned in Limbo.") || trimmedChat
+        .equals("You are AFK. Move around to return from AFK.")) {
+      limbo = true;
     }
+  }
 
-    /**
-     * Check if any messages that are sent when the user is sent to Limbo have been sent
-     *
-     * @param event called whenever a message is sent through chat
-     */
-    @InvokeEvent(priority = Priority.LOW)
-    public void onChat(ChatEvent event) {
-        String trimmedChat = event.getChat().getUnformattedText().trim();
-        if (trimmedChat.equals("You were spawned in Limbo.") || trimmedChat.equals("You are AFK. Move around to return from AFK.")) {
-            limbo = true;
-        }
+  /**
+   * If the user is in limbo, add up the time, otherwise set the time to 0
+   *
+   * @param event called every tick
+   */
+  @InvokeEvent
+  public void tick(TickEvent event) {
+    if (limbo) {
+      time++;
+    } else {
+      time = 0;
     }
+  }
 
-    /**
-     * If the user is in limbo, add up the time, otherwise set the time to 0
-     *
-     * @param event called every tick
-     */
-    @InvokeEvent
-    public void tick(TickEvent event) {
-        if (limbo) time++;
-        else time = 0;
+  @InvokeEvent
+  public void leaveServer(WorldChangeEvent event) {
+    if (limbo) {
+      limbo = false;
     }
+  }
 
-    @InvokeEvent
-    public void leaveServer(WorldChangeEvent event) {
-        if (limbo) {
-            limbo = false;
-        }
-    }
+  /**
+   * Get the users current fps limit
+   *
+   * @return the fps limit
+   */
+  public int getFpsLimit() {
+    return Settings.FPS_LIMITER_AMOUNT;
+  }
 
-    /**
-     * Get the users current fps limit
-     *
-     * @return the fps limit
-     */
-    public int getFpsLimit() {
-        return Settings.FPS_LIMITER_AMOUNT;
-    }
-
-    /**
-     * Used for developers to do something if they want to when the user is in Limbo
-     *
-     * @return true if the user is in limbo
-     */
-    public static boolean isInLimbo() {
-        return limbo;
-    }
+  /**
+   * Used for developers to do something if they want to when the user is in Limbo
+   *
+   * @return true if the user is in limbo
+   */
+  public static boolean isInLimbo() {
+    return limbo;
+  }
 }

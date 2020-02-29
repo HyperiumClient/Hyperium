@@ -24,104 +24,114 @@ import com.google.gson.JsonPrimitive;
 import java.util.*;
 
 public class HyperiumPurchase {
-    private final UUID playerUUID;
-    private final List<AbstractHyperiumPurchase> purchases = new ArrayList<>();
-    private final JsonHolder response;
-    private JsonHolder purchaseSettings = new JsonHolder();
-    private boolean everything;
-    private PurchaseSettings cachedSettings = new PurchaseSettings(new JsonHolder());
 
-    public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
-        this.playerUUID = playerUUID;
-        this.response = response;
-        if (response.optBoolean("non_player"))
-            return;
-        everything = (response.optLong("everything") > System.currentTimeMillis());
+  private final UUID playerUUID;
+  private final List<AbstractHyperiumPurchase> purchases = new ArrayList<>();
+  private final JsonHolder response;
+  private JsonHolder purchaseSettings = new JsonHolder();
+  private boolean everything;
+  private PurchaseSettings cachedSettings = new PurchaseSettings(new JsonHolder());
 
-        purchaseSettings = PurchaseApi.getInstance().get("https://api.hyperium.cc/purchaseSettings/" + (playerUUID.toString()));
-        cachedSettings = new PurchaseSettings(purchaseSettings);
-        for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
-            String asString = nicePackages.getAsString();
-            EnumPurchaseType parse = EnumPurchaseType.parse(asString);
-            if (parse != EnumPurchaseType.UNKNOWN)
-                try {
-                    AbstractHyperiumPurchase parse1 = PurchaseApi.getInstance().parse(parse,
-                            purchaseSettings.optJSONObject(parse.name().toLowerCase(Locale.ENGLISH)));
-                    if (parse1 != null)
-                        purchases.add(parse1);
-                } catch (Exception wtf) {
+  public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
+    this.playerUUID = playerUUID;
+    this.response = response;
+    if (response.optBoolean("non_player")) {
+      return;
+    }
+    everything = (response.optLong("everything") > System.currentTimeMillis());
+
+    purchaseSettings = PurchaseApi.getInstance()
+        .get("https://api.hyperium.cc/purchaseSettings/" + (playerUUID.toString()));
+    cachedSettings = new PurchaseSettings(purchaseSettings);
+    for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
+      String asString = nicePackages.getAsString();
+      EnumPurchaseType parse = EnumPurchaseType.parse(asString);
+      if (parse != EnumPurchaseType.UNKNOWN) {
+        try {
+          AbstractHyperiumPurchase parse1 = PurchaseApi.getInstance().parse(parse,
+              purchaseSettings.optJSONObject(parse.name().toLowerCase(Locale.ENGLISH)));
+          if (parse1 != null) {
+            purchases.add(parse1);
+          }
+        } catch (Exception wtf) {
 //                    wtf.printStackTrace();
-                }
         }
-        if (everything) {
-            for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
-                if (getPurchase(enumPurchaseType) == null && enumPurchaseType != EnumPurchaseType.UNKNOWN) {
-                    AbstractHyperiumPurchase parse = PurchaseApi.getInstance().parse(enumPurchaseType,
-                            purchaseSettings.optJSONObject(enumPurchaseType.name().toLowerCase(Locale.ENGLISH)));
-                    if (parse != null) {
-                        purchases.add(parse);
-                    }
-                }
-            }
+      }
+    }
+    if (everything) {
+      for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
+        if (getPurchase(enumPurchaseType) == null && enumPurchaseType != EnumPurchaseType.UNKNOWN) {
+          AbstractHyperiumPurchase parse = PurchaseApi.getInstance().parse(enumPurchaseType,
+              purchaseSettings.optJSONObject(enumPurchaseType.name().toLowerCase(Locale.ENGLISH)));
+          if (parse != null) {
+            purchases.add(parse);
+          }
         }
+      }
+    }
+  }
+
+  public void refreshCachedSettings() {
+    cachedSettings = new PurchaseSettings(purchaseSettings);
+  }
+
+  public PurchaseSettings getCachedSettings() {
+    return cachedSettings;
+  }
+
+  public boolean isEverything() {
+    return everything;
+  }
+
+  public JsonHolder getPurchaseSettings() {
+    return purchaseSettings;
+  }
+
+  public boolean hasPurchased(EnumPurchaseType type) {
+    if (type == EnumPurchaseType.UNKNOWN) {
+      return false;
+    }
+    if (everything) {
+      return true;
+    }
+    return getPurchase(type) != null;
+  }
+
+  public boolean hasPurchased(String key) {
+    if (everything) {
+      return true;
+    }
+    for (JsonElement element : response.optJSONArray("hyperium")) {
+      if (element instanceof JsonPrimitive && element.getAsString().equalsIgnoreCase(key)) {
+        return true;
+      }
     }
 
-    public void refreshCachedSettings() {
-        cachedSettings = new PurchaseSettings(purchaseSettings);
-    }
+    return false;
+  }
 
-    public PurchaseSettings getCachedSettings() {
-        return cachedSettings;
-    }
+  public List<AbstractHyperiumPurchase> getPurchases() {
+    return purchases;
+  }
 
-    public boolean isEverything() {
-        return everything;
-    }
+  public UUID getPlayerUUID() {
+    return playerUUID;
+  }
 
-    public JsonHolder getPurchaseSettings() {
-        return purchaseSettings;
-    }
+  public JsonHolder getResponse() {
+    return response;
+  }
 
-    public boolean hasPurchased(EnumPurchaseType type) {
-        if (type == EnumPurchaseType.UNKNOWN)
-            return false;
-        if (everything)
-            return true;
-        return getPurchase(type) != null;
-    }
+  @Override
+  public String toString() {
+    return "HyperiumPurchase{" +
+        "playerUUID=" + playerUUID +
+        ", response=" + response +
+        '}';
+  }
 
-    public boolean hasPurchased(String key) {
-        if (everything) return true;
-        for (JsonElement element : response.optJSONArray("hyperium")) {
-            if (element instanceof JsonPrimitive && element.getAsString().equalsIgnoreCase(key)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public List<AbstractHyperiumPurchase> getPurchases() {
-        return purchases;
-    }
-
-    public UUID getPlayerUUID() {
-        return playerUUID;
-    }
-
-    public JsonHolder getResponse() {
-        return response;
-    }
-
-    @Override
-    public String toString() {
-        return "HyperiumPurchase{" +
-            "playerUUID=" + playerUUID +
-            ", response=" + response +
-            '}';
-    }
-
-    public AbstractHyperiumPurchase getPurchase(EnumPurchaseType type) {
-        return purchases.stream().filter(purchase -> purchase.getType() == type).findFirst().orElse(null);
-    }
+  public AbstractHyperiumPurchase getPurchase(EnumPurchaseType type) {
+    return purchases.stream().filter(purchase -> purchase.getType() == type).findFirst()
+        .orElse(null);
+  }
 }

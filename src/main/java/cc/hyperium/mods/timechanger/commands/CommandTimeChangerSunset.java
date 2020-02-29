@@ -25,25 +25,27 @@ import cc.hyperium.utils.ChatColor;
 
 public class CommandTimeChangerSunset implements BaseCommand {
 
-    private final TimeChanger mod;
+  private final TimeChanger mod;
 
-    public CommandTimeChangerSunset(TimeChanger main) {
-        mod = main;
-    }
+  public CommandTimeChangerSunset(TimeChanger main) {
+    mod = main;
+  }
 
-    @Override
-    public String getName() {
-        return "sunset";
-    }
+  @Override
+  public String getName() {
+    return "sunset";
+  }
 
-    @Override
-    public String getUsage() {
-        return ChatColor.RED + "Usage: /sunset";
-    }
+  @Override
+  public String getUsage() {
+    return ChatColor.RED + "Usage: /sunset";
+  }
 
-    @Override
-    public void onExecute(String[] args) {
-        mod.setTimeType(TimeType.SUNSET);
-        GeneralChatHandler.instance().sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to sunset.", false);
-    }
+  @Override
+  public void onExecute(String[] args) {
+    mod.setTimeType(TimeType.SUNSET);
+    GeneralChatHandler.instance()
+        .sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to sunset.",
+            false);
+  }
 }

@@ -23,12 +23,12 @@ import org.lwjgl.input.Keyboard;
 
 public class GuiDanceKeybind extends HyperiumBind {
 
-    public GuiDanceKeybind() {
-        super("Use Dances", Keyboard.KEY_O, KeyType.GUI);
-    }
+  public GuiDanceKeybind() {
+    super("Use Dances", Keyboard.KEY_O, KeyType.GUI);
+  }
 
-    @Override
-    public void onPress() {
-        new GuiDances().show();
-    }
+  @Override
+  public void onPress() {
+    new GuiDances().show();
+  }
 }

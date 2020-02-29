@@ -26,17 +26,17 @@ import org.lwjgl.input.Keyboard;
  */
 public class RearCamKeybind extends HyperiumBind {
 
-    public RearCamKeybind() {
-        super("Rear Cam", Keyboard.KEY_R, KeyType.UTIL);
-    }
+  public RearCamKeybind() {
+    super("Rear Cam", Keyboard.KEY_R, KeyType.UTIL);
+  }
 
-    @Override
-    public void onPress() {
-        Minecraft.getMinecraft().gameSettings.thirdPersonView = 2;
-    }
+  @Override
+  public void onPress() {
+    Minecraft.getMinecraft().gameSettings.thirdPersonView = 2;
+  }
 
-    @Override
-    public void onRelease() {
-        Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
-    }
+  @Override
+  public void onRelease() {
+    Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
+  }
 }

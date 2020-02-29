@@ -31,33 +31,33 @@ import org.lwjgl.opengl.GL11;
  */
 public class PlayerDisplay extends DisplayItem {
 
-    public PlayerDisplay(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-        width = 51;
-        height = 100;
-    }
+  public PlayerDisplay(JsonHolder data, int ordinal) {
+    super(data, ordinal);
+    width = 51;
+    height = 100;
+  }
 
 
-    @Override
-    public void draw(int x, double y, boolean config) {
-        double scale = ElementRenderer.getCurrentScale();
+  @Override
+  public void draw(int x, double y, boolean config) {
+    double scale = ElementRenderer.getCurrentScale();
 
-        GlStateManager.pushMatrix();
-        GlStateManager.color(1, 1, 1);
+    GlStateManager.pushMatrix();
+    GlStateManager.color(1, 1, 1);
 
-        GlStateManager.translate(x / scale, y / scale, 0);
-        RenderHelper.enableStandardItemLighting();
-        GlStateManager.enableAlpha();
+    GlStateManager.translate(x / scale, y / scale, 0);
+    RenderHelper.enableStandardItemLighting();
+    GlStateManager.enableAlpha();
 
-        GlStateManager.shadeModel(GL11.GL_FLAT);
-        GlStateManager.enableDepth();
+    GlStateManager.shadeModel(GL11.GL_FLAT);
+    GlStateManager.enableDepth();
 
-        GlStateManager.rotate(30, 0, 1.0F, 0);
-        GuiInventory.drawEntityOnScreen(0, 100, 50, 0, 0, Minecraft.getMinecraft().thePlayer);
-        GlStateManager.depthFunc(GL11.GL_LEQUAL);
-        GlStateManager.resetColor();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.disableDepth();
-        GlStateManager.popMatrix();
-    }
+    GlStateManager.rotate(30, 0, 1.0F, 0);
+    GuiInventory.drawEntityOnScreen(0, 100, 50, 0, 0, Minecraft.getMinecraft().thePlayer);
+    GlStateManager.depthFunc(GL11.GL_LEQUAL);
+    GlStateManager.resetColor();
+    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+    GlStateManager.disableDepth();
+    GlStateManager.popMatrix();
+  }
 }

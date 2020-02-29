@@ -24,11 +24,11 @@ class AbstractClientPlayerTransformer : ConflictTransformer {
 
     override fun transform(original: ClassNode): ClassNode {
         original.visitField(
-            Opcodes.ACC_PRIVATE,
-            "hook",
-            "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;",
-            null,
-            null
+                Opcodes.ACC_PRIVATE,
+                "hook",
+                "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;",
+                null,
+                null
         ).visitEnd()
 
         for (method in original.methods) {

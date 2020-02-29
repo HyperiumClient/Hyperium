@@ -24,48 +24,50 @@ import java.util.regex.Pattern;
 
 public class TypeHousing extends ToggleBase {
 
-    private final Pattern worldJoinPattern = Pattern.compile("(?<rank>\\[.+] )?(?<player>\\S{1,16}) (?<action>.*) the world\\.");
+  private final Pattern worldJoinPattern = Pattern
+      .compile("(?<rank>\\[.+] )?(?<player>\\S{1,16}) (?<action>.*) the world\\.");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Housing";
-    }
+  @Override
+  public String getName() {
+    return "Housing";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return worldJoinPattern.matcher(message).matches() || (message.startsWith("[OWNER] ") || message.startsWith("[CO-OWNER] ") || message.startsWith("[RES] "));
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return worldJoinPattern.matcher(message).matches() || (message.startsWith("[OWNER] ") || message
+        .startsWith("[CO-OWNER] ") || message.startsWith("[RES] "));
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles all Housing chat",
-                "messages that start with",
-                "the following",
-                "",
-                "&6[OWNER]",
-                "&6[CO-OWNER]",
-                "&6[RES]",
-                "",
-                "Also toggles housing join",
-                "and leave messages",
-                "",
-                "Build peacefully and",
-                "without hassle,",
-                "as if you were in a",
-                "zen garden"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles all Housing chat",
+        "messages that start with",
+        "the following",
+        "",
+        "&6[OWNER]",
+        "&6[CO-OWNER]",
+        "&6[RES]",
+        "",
+        "Also toggles housing join",
+        "and leave messages",
+        "",
+        "Build peacefully and",
+        "without hassle,",
+        "as if you were in a",
+        "zen garden"
+    );
+  }
 }

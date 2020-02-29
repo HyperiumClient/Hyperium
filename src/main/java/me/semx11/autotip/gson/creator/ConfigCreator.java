@@ -7,15 +7,15 @@ import me.semx11.autotip.config.Config;
 
 public class ConfigCreator implements InstanceCreator<Config> {
 
-    private final Autotip autotip;
+  private final Autotip autotip;
 
-    public ConfigCreator(Autotip autotip) {
-        this.autotip = autotip;
-    }
+  public ConfigCreator(Autotip autotip) {
+    this.autotip = autotip;
+  }
 
-    @Override
-    public Config createInstance(Type type) {
-        return new Config(autotip);
-    }
+  @Override
+  public Config createInstance(Type type) {
+    return new Config(autotip);
+  }
 
 }

@@ -15,77 +15,80 @@ import net.minecraft.util.IChatComponent;
 import java.util.Locale;
 
 public class EventClientConnection implements Event {
-    private final Autotip autotip;
-    private final String hypixelHeader;
 
-    private String serverIp;
-    private long lastLogin;
+  private final Autotip autotip;
+  private final String hypixelHeader;
 
-    public EventClientConnection(Autotip autotip) {
-        this.autotip = autotip;
-        hypixelHeader = autotip.getGlobalSettings().getHypixelHeader();
-    }
+  private String serverIp;
+  private long lastLogin;
 
-    public String getServerIp() {
-        return serverIp;
-    }
+  public EventClientConnection(Autotip autotip) {
+    this.autotip = autotip;
+    hypixelHeader = autotip.getGlobalSettings().getHypixelHeader();
+  }
 
-    public long getLastLogin() {
-        return lastLogin;
-    }
+  public String getServerIp() {
+    return serverIp;
+  }
 
-    public Object getHeader() {
-        return Autotip.tabHeader;
-    }
+  public long getLastLogin() {
+    return lastLogin;
+  }
 
-    public void setHeader(IChatComponent component) {
-        Minecraft.getMinecraft().ingameGUI.getTabList().setHeader(component);
-    }
+  public Object getHeader() {
+    return Autotip.tabHeader;
+  }
 
-    private void resetHeader() {
-        setHeader(null);
-    }
+  public void setHeader(IChatComponent component) {
+    Minecraft.getMinecraft().ingameGUI.getTabList().setHeader(component);
+  }
 
-    @InvokeEvent
-    public void playerLoggedIn(ServerJoinEvent event) {
-        TaskManager taskManager = autotip.getTaskManager();
-        SessionManager manager = autotip.getSessionManager();
+  private void resetHeader() {
+    setHeader(null);
+  }
 
-        autotip.getMessageUtil().clearQueues();
+  @InvokeEvent
+  public void playerLoggedIn(ServerJoinEvent event) {
+    TaskManager taskManager = autotip.getTaskManager();
+    SessionManager manager = autotip.getSessionManager();
 
-        serverIp = UniversalUtil.getRemoteAddress(event).toLowerCase(Locale.ENGLISH);
-        lastLogin = System.currentTimeMillis();
+    autotip.getMessageUtil().clearQueues();
 
-        taskManager.getExecutor().execute(() -> {
-            Object header;
-            int attempts = 0;
-            while ((header = getHeader()) == null) {
-                if (attempts > 15) return;
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ignored) {
-                }
-                attempts++;
-            }
+    serverIp = UniversalUtil.getRemoteAddress(event).toLowerCase(Locale.ENGLISH);
+    lastLogin = System.currentTimeMillis();
 
-            if (UniversalUtil.getUnformattedText(header).equals(hypixelHeader)) {
-                manager.setOnHypixel(true);
-                if (autotip.getConfig().isEnabled()) {
-                    taskManager.executeTask(TaskType.LOGIN, manager::login);
-                    taskManager.schedule(manager::checkVersions, 5);
-                }
-            } else {
-                manager.setOnHypixel(false);
-            }
-        });
-    }
+    taskManager.getExecutor().execute(() -> {
+      Object header;
+      int attempts = 0;
+      while ((header = getHeader()) == null) {
+        if (attempts > 15) {
+          return;
+        }
+        try {
+          Thread.sleep(500);
+        } catch (InterruptedException ignored) {
+        }
+        attempts++;
+      }
 
-    @InvokeEvent
-    public void playerLoggedOut(ServerLeaveEvent event) {
-        TaskManager taskManager = autotip.getTaskManager();
-        SessionManager manager = autotip.getSessionManager();
+      if (UniversalUtil.getUnformattedText(header).equals(hypixelHeader)) {
+        manager.setOnHypixel(true);
+        if (autotip.getConfig().isEnabled()) {
+          taskManager.executeTask(TaskType.LOGIN, manager::login);
+          taskManager.schedule(manager::checkVersions, 5);
+        }
+      } else {
         manager.setOnHypixel(false);
-        taskManager.executeTask(TaskType.LOGOUT, manager::logout);
-        resetHeader();
-    }
+      }
+    });
+  }
+
+  @InvokeEvent
+  public void playerLoggedOut(ServerLeaveEvent event) {
+    TaskManager taskManager = autotip.getTaskManager();
+    SessionManager manager = autotip.getSessionManager();
+    manager.setOnHypixel(false);
+    taskManager.executeTask(TaskType.LOGOUT, manager::logout);
+    resetHeader();
+  }
 }

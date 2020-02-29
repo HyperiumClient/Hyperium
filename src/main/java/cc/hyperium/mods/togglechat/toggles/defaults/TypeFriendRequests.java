@@ -24,48 +24,49 @@ import java.util.regex.Pattern;
 
 public class TypeFriendRequests extends ToggleBase {
 
-    private final Pattern friendPattern = Pattern.compile(
-            "----------------------------------------------------\n" +
-                    "Friend request from (?<rank>\\[.+] )?(?<player>\\S{1,16})\n" +
-                    "\\[ACCEPT] - \\[DENY] - \\[IGNORE]\n" +
-                    "----------------------------------------------------");
+  private final Pattern friendPattern = Pattern.compile(
+      "----------------------------------------------------\n" +
+          "Friend request from (?<rank>\\[.+] )?(?<player>\\S{1,16})\n" +
+          "\\[ACCEPT] - \\[DENY] - \\[IGNORE]\n" +
+          "----------------------------------------------------");
 
-    // This is used for expiry messages
-    private final Pattern oldPattern = Pattern.compile(Pattern.quote("Friend request from "), Pattern.CASE_INSENSITIVE);
+  // This is used for expiry messages
+  private final Pattern oldPattern = Pattern
+      .compile(Pattern.quote("Friend request from "), Pattern.CASE_INSENSITIVE);
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Friend requests";
-    }
+  @Override
+  public String getName() {
+    return "Friend requests";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return oldPattern.matcher(message).find() || friendPattern.matcher(message).matches();
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return oldPattern.matcher(message).find() || friendPattern.matcher(message).matches();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles the ability to see",
-                "new friend requests from",
-                "other players.",
-                "",
-                "It can be useful if you",
-                "wish to keep friend",
-                "requests open, but don't",
-                "want to see notifications"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles the ability to see",
+        "new friend requests from",
+        "other players.",
+        "",
+        "It can be useful if you",
+        "wish to keep friend",
+        "requests open, but don't",
+        "want to see notifications"
+    );
+  }
 }

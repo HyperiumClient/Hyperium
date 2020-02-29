@@ -24,17 +24,17 @@ import org.jetbrains.annotations.NotNull;
 
 public final class SoundPlayEvent extends CancellableEvent {
 
-    @NotNull
-    private final ISound sound;
+  @NotNull
+  private final ISound sound;
 
-    public SoundPlayEvent(@NotNull ISound sound) {
-        Preconditions.checkNotNull(sound, "sound");
+  public SoundPlayEvent(@NotNull ISound sound) {
+    Preconditions.checkNotNull(sound, "sound");
 
-        this.sound = sound;
-    }
+    this.sound = sound;
+  }
 
-    @NotNull
-    public final ISound getSound() {
-        return sound;
-    }
+  @NotNull
+  public final ISound getSound() {
+    return sound;
+  }
 }

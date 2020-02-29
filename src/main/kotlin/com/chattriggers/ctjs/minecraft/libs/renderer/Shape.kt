@@ -28,6 +28,7 @@ class Shape(private var color: Int) {
     fun setColor(color: Int) = apply { this.color = color }
 
     fun getDrawMode(): Int = drawMode
+
     /**
      * Sets the GL draw mode of the shape. Possible draw modes are:<br>
      * 0 = points<br>

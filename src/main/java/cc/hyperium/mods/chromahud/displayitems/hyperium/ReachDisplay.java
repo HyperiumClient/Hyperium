@@ -31,34 +31,38 @@ import java.text.DecimalFormat;
 
 public class ReachDisplay extends DisplayItem {
 
-    private final Minecraft mc = Minecraft.getMinecraft();
-    private String rangeText = "Hasn't attacked";
-    private long lastAttack;
+  private final Minecraft mc = Minecraft.getMinecraft();
+  private String rangeText = "Hasn't attacked";
+  private long lastAttack;
 
-    public ReachDisplay(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-        EventBus.INSTANCE.register(this);
+  public ReachDisplay(JsonHolder data, int ordinal) {
+    super(data, ordinal);
+    EventBus.INSTANCE.register(this);
+  }
+
+  @InvokeEvent
+  public void onAttack(PlayerAttackEntityEvent event) {
+    if (mc.objectMouseOver != null
+        && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY
+        && mc.objectMouseOver.entityHit.getEntityId() ==
+        event.getEntity().getEntityId()) {
+      Vec3 vec = mc.getRenderViewEntity().getPositionEyes(1.0f);
+      double range = mc.objectMouseOver.hitVec.distanceTo(vec);
+      rangeText = new DecimalFormat(".##").format(range) + " blocks";
+    } else {
+      rangeText = "Not on target?";
     }
 
-    @InvokeEvent
-    public void onAttack(PlayerAttackEntityEvent event) {
-        if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && mc.objectMouseOver.entityHit.getEntityId() ==
-            event.getEntity().getEntityId()) {
-            Vec3 vec = mc.getRenderViewEntity().getPositionEyes(1.0f);
-            double range = mc.objectMouseOver.hitVec.distanceTo(vec);
-            rangeText = new DecimalFormat(".##").format(range) + " blocks";
-        } else {
-            rangeText = "Not on target?";
-        }
+    lastAttack = System.currentTimeMillis();
+  }
 
-        lastAttack = System.currentTimeMillis();
+  @Override
+  public void draw(int x, double y, boolean config) {
+    if (System.currentTimeMillis() - lastAttack > 2000L) {
+      rangeText = "Hasn't attacked";
     }
-
-    @Override
-    public void draw(int x, double y, boolean config) {
-        if (System.currentTimeMillis() - lastAttack > 2000L) rangeText = "Hasn't attacked";
-        height = mc.fontRendererObj.FONT_HEIGHT;
-        width = mc.fontRendererObj.getStringWidth(rangeText);
-        ElementRenderer.draw(x, y, rangeText);
-    }
+    height = mc.fontRendererObj.FONT_HEIGHT;
+    width = mc.fontRendererObj.getStringWidth(rangeText);
+    ElementRenderer.draw(x, y, rangeText);
+  }
 }

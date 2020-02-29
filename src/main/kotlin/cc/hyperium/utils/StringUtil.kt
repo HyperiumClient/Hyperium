@@ -12,11 +12,11 @@ object StringUtil {
             val dif = x * 10 - (y * 10)
             val i = Color.HSBtoRGB(((System.currentTimeMillis() - dif) % 2000) / 2000f, 0.8f, 0.8f)
             renderer.drawString(
-                chars.toString(),
-                x.toFloat(),
-                y.toFloat(),
-                i,
-                false
+                    chars.toString(),
+                    x.toFloat(),
+                    y.toFloat(),
+                    i,
+                    false
             )
 
             x += renderer.getCharWidth(chars)

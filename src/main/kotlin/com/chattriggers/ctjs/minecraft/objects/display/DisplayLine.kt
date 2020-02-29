@@ -116,7 +116,7 @@ abstract class DisplayLine {
         for (button in 0..5) handleDragged(button)
 
         if (Client.getMouseX() > x && Client.getMouseX() < x + width
-            && Client.getMouseY() > y && Client.getMouseY() < y + height
+                && Client.getMouseY() > y && Client.getMouseY() < y + height
         ) {
             handleHovered()
 
@@ -138,17 +138,17 @@ abstract class DisplayLine {
 
     private fun handleClicked(button: Int) {
         onClicked?.trigger(
-            Client.getMouseX(),
-            Client.getMouseY(),
-            button,
-            Mouse.isButtonDown(button)
+                Client.getMouseX(),
+                Client.getMouseY(),
+                button,
+                Mouse.isButtonDown(button)
         )
     }
 
     private fun handleHovered() {
         onHovered?.trigger(
-            Client.getMouseX(),
-            Client.getMouseY()
+                Client.getMouseX(),
+                Client.getMouseY()
         )
     }
 
@@ -159,11 +159,11 @@ abstract class DisplayLine {
             return
 
         onDragged?.trigger(
-            Client.getMouseX() - draggedState[button]!!.x,
-            Client.getMouseY() - draggedState[button]!!.y,
-            Client.getMouseX(),
-            Client.getMouseY(),
-            button
+                Client.getMouseX() - draggedState[button]!!.x,
+                Client.getMouseY() - draggedState[button]!!.y,
+                Client.getMouseX(),
+                Client.getMouseY(),
+                button
         )
 
         draggedState[button] = Vector2f(Client.getMouseX(), Client.getMouseY())
@@ -175,24 +175,24 @@ abstract class DisplayLine {
     }
 
     private fun drawPerLineBG(
-        bg: DisplayHandler.Background,
-        color: Int,
-        x: Float,
-        y: Float,
-        width: Float,
-        height: Float
+            bg: DisplayHandler.Background,
+            color: Int,
+            x: Float,
+            y: Float,
+            width: Float,
+            height: Float
     ) {
         if (bg === DisplayHandler.Background.PER_LINE)
             Renderer.drawRect(color, x, y, width, height)
     }
 
     fun drawLeft(
-        x: Float,
-        y: Float,
-        maxWidth: Float,
-        background: DisplayHandler.Background,
-        backgroundColor: Int,
-        textColor: Int
+            x: Float,
+            y: Float,
+            maxWidth: Float,
+            background: DisplayHandler.Background,
+            backgroundColor: Int,
+            textColor: Int
     ) {
         val bg = this.background ?: background
         val bgColor = this.backgroundColor ?: backgroundColor
@@ -220,12 +220,12 @@ abstract class DisplayLine {
     }
 
     fun drawRight(
-        x: Float,
-        y: Float,
-        maxWidth: Float,
-        background: DisplayHandler.Background,
-        backgroundColor: Int,
-        textColor: Int
+            x: Float,
+            y: Float,
+            maxWidth: Float,
+            background: DisplayHandler.Background,
+            backgroundColor: Int,
+            textColor: Int
     ) {
         val bg = this.background ?: background
         val bgColor = this.backgroundColor ?: backgroundColor
@@ -253,12 +253,12 @@ abstract class DisplayLine {
     }
 
     fun drawCenter(
-        x: Float,
-        y: Float,
-        maxWidth: Float,
-        background: DisplayHandler.Background,
-        backgroundColor: Int,
-        textColor: Int
+            x: Float,
+            y: Float,
+            maxWidth: Float,
+            background: DisplayHandler.Background,
+            backgroundColor: Int,
+            textColor: Int
     ) {
         val bg = this.background ?: background
         val bgColor = this.backgroundColor ?: backgroundColor
@@ -288,8 +288,8 @@ abstract class DisplayLine {
     internal abstract fun getLoader(): ILoader
 
     override fun toString() =
-        "DisplayLine{" +
-                "text=$text, textColor=$textColor, align=$align, " +
-                "background=$background, backgroundColor=$backgroundColor, " +
-                "}"
+            "DisplayLine{" +
+                    "text=$text, textColor=$textColor, align=$align, " +
+                    "background=$background, backgroundColor=$backgroundColor, " +
+                    "}"
 }

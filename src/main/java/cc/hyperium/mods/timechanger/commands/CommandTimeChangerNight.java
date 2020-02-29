@@ -25,25 +25,27 @@ import cc.hyperium.utils.ChatColor;
 
 public class CommandTimeChangerNight implements BaseCommand {
 
-    private final TimeChanger mod;
+  private final TimeChanger mod;
 
-    public CommandTimeChangerNight(TimeChanger main) {
-        mod = main;
-    }
+  public CommandTimeChangerNight(TimeChanger main) {
+    mod = main;
+  }
 
-    @Override
-    public String getName() {
-        return "night";
-    }
+  @Override
+  public String getName() {
+    return "night";
+  }
 
-    @Override
-    public String getUsage() {
-        return ChatColor.RED + "Usage: /night";
-    }
+  @Override
+  public String getUsage() {
+    return ChatColor.RED + "Usage: /night";
+  }
 
-    @Override
-    public void onExecute(String[] args) {
-        mod.setTimeType(TimeType.NIGHT);
-        GeneralChatHandler.instance().sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to night.", false);
-    }
+  @Override
+  public void onExecute(String[] args) {
+    mod.setTimeType(TimeType.NIGHT);
+    GeneralChatHandler.instance()
+        .sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to night.",
+            false);
+  }
 }

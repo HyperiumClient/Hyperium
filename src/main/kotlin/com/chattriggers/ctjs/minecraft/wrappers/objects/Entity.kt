@@ -21,7 +21,7 @@ open class Entity(val entity: MCEntity) {
      * @return the entity's pitch
      */
     fun getPitch(): Double =
-        MathHelper.wrapAngleTo180_float(entity.rotationPitch).toDouble()
+            MathHelper.wrapAngleTo180_float(entity.rotationPitch).toDouble()
 
     /**
      * Gets the yaw, the vertical direction the entity is facing towards.
@@ -30,7 +30,7 @@ open class Entity(val entity: MCEntity) {
      * @return the entity's yaw
      */
     fun getYaw(): Double =
-        MathHelper.wrapAngleTo180_float(entity.rotationYaw).toDouble()
+            MathHelper.wrapAngleTo180_float(entity.rotationYaw).toDouble()
 
     /**
      * Gets the entity's x motion.

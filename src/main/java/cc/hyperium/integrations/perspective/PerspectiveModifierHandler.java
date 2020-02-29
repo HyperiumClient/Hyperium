@@ -26,44 +26,46 @@ import net.minecraft.client.Minecraft;
  */
 public class PerspectiveModifierHandler {
 
-    /**
-     * This class requires massive improvements, this will be worked on and fixed in a later release
-     */
-    public float modifiedYaw;
-    public float modifiedPitch;
+  /**
+   * This class requires massive improvements, this will be worked on and fixed in a later release
+   */
+  public float modifiedYaw;
+  public float modifiedPitch;
 
-    public boolean enabled;
+  public boolean enabled;
 
-    public void onEnable() {
-        enabled = true;
-        if (Minecraft.getMinecraft().gameSettings.thirdPersonView == 2) {
-            modifiedYaw = Minecraft.getMinecraft().thePlayer.rotationYaw + 180.0F;
-            modifiedPitch = -Minecraft.getMinecraft().thePlayer.rotationPitch;
-        } else {
-            modifiedPitch = Minecraft.getMinecraft().thePlayer.rotationPitch;
-            modifiedYaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
-        }
-
-        Minecraft.getMinecraft().gameSettings.thirdPersonView = 1;
-
-        if (Settings.SPRINT_PERSPECTIVE_MESSAGES) {
-            GeneralChatHandler.instance().sendMessage("Enabled 360 Degree Perspective.");
-        }
+  public void onEnable() {
+    enabled = true;
+    if (Minecraft.getMinecraft().gameSettings.thirdPersonView == 2) {
+      modifiedYaw = Minecraft.getMinecraft().thePlayer.rotationYaw + 180.0F;
+      modifiedPitch = -Minecraft.getMinecraft().thePlayer.rotationPitch;
+    } else {
+      modifiedPitch = Minecraft.getMinecraft().thePlayer.rotationPitch;
+      modifiedYaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
     }
 
-    public void onDisable() {
-        // Prevents being disabled twice by different methods.
-        if (!enabled) return;
+    Minecraft.getMinecraft().gameSettings.thirdPersonView = 1;
 
-        enabled = false;
-
-        Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
-        if (Settings.SPRINT_PERSPECTIVE_MESSAGES) {
-            GeneralChatHandler.instance().sendMessage("Disabled 360 Degree Perspective.");
-        }
-
-        // Reset the states anyway
-        modifiedYaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
-        modifiedPitch = Minecraft.getMinecraft().thePlayer.rotationPitch;
+    if (Settings.SPRINT_PERSPECTIVE_MESSAGES) {
+      GeneralChatHandler.instance().sendMessage("Enabled 360 Degree Perspective.");
     }
+  }
+
+  public void onDisable() {
+    // Prevents being disabled twice by different methods.
+    if (!enabled) {
+      return;
+    }
+
+    enabled = false;
+
+    Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
+    if (Settings.SPRINT_PERSPECTIVE_MESSAGES) {
+      GeneralChatHandler.instance().sendMessage("Disabled 360 Degree Perspective.");
+    }
+
+    // Reset the states anyway
+    modifiedYaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
+    modifiedPitch = Minecraft.getMinecraft().thePlayer.rotationPitch;
+  }
 }

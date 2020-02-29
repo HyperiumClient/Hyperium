@@ -30,25 +30,27 @@ import cc.hyperium.config.Settings;
  */
 public class PingDisplay extends DisplayItem {
 
-    public PingDisplay(JsonHolder raw, int ordinal) {
-        super(raw, ordinal);
-        height = 10;
+  public PingDisplay(JsonHolder raw, int ordinal) {
+    super(raw, ordinal);
+    height = 10;
+  }
+
+  @Override
+  public void draw(int starX, double startY, boolean isConfig) {
+    if (Minecraft.getMinecraft().theWorld != null && !Minecraft.getMinecraft().theWorld.isRemote
+        && !isConfig) {
+      return;
     }
 
-    @Override
-    public void draw(int starX, double startY, boolean isConfig) {
-        if (Minecraft.getMinecraft().theWorld != null && !Minecraft.getMinecraft().theWorld.isRemote && !isConfig) {
-            return;
-        }
+    EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
 
-        EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-
-        if (thePlayer != null) {
-            NetworkPlayerInfo playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID());
-            String string = "Ping: " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
-            ElementRenderer.draw(starX, startY, string);
-            width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
-        }
+    if (thePlayer != null) {
+      NetworkPlayerInfo playerInfo = Minecraft.getMinecraft().getNetHandler()
+          .getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID());
+      String string = "Ping: " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
+      ElementRenderer.draw(starX, startY, string);
+      width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
     }
+  }
 
 }

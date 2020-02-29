@@ -38,11 +38,11 @@ class Book(bookName: String) {
         val pages = bookData["pages"] as NBTTagList
 
         pages.appendTag(
-            NBTTagString(
-                TextComponentSerializer.componentToJson(
-                    message.getChatMessage()
+                NBTTagString(
+                        TextComponentSerializer.componentToJson(
+                                message.getChatMessage()
+                        )
                 )
-            )
         )
 
         updateBookScreen(pages)
@@ -69,11 +69,11 @@ class Book(bookName: String) {
         val pages = bookData.getTag("pages") as NBTTagList
 
         pages.set(
-            pageNumber, NBTTagString(
+                pageNumber, NBTTagString(
                 TextComponentSerializer.componentToJson(
-                    message.getChatMessage()
+                        message.getChatMessage()
                 )
-            )
+        )
         )
 
         updateBookScreen(pages)

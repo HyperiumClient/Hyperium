@@ -9,20 +9,22 @@ import java.util.regex.Matcher;
 
 public class HypixelJoinChatHandler extends HyperiumChatHandler {
 
-    /**
-     * @param component Entire component from event
-     * @param text      Pure text for parsing
-     * @return boolean to cancel event
-     */
-    @Override
-    public boolean chatReceived(IChatComponent component, String text) {
-        if (!text.toLowerCase(Locale.ENGLISH).contains("joined")) return false;
-        Matcher matcher = regexPatterns.get(ChatRegexType.PLAYER_JOIN).matcher(text);
-
-        if (matcher.find()) {
-            EventBus.INSTANCE.post(new PlayerJoinHypixelEvent(matcher.group("player")));
-        }
-
-        return false;
+  /**
+   * @param component Entire component from event
+   * @param text      Pure text for parsing
+   * @return boolean to cancel event
+   */
+  @Override
+  public boolean chatReceived(IChatComponent component, String text) {
+    if (!text.toLowerCase(Locale.ENGLISH).contains("joined")) {
+      return false;
     }
+    Matcher matcher = regexPatterns.get(ChatRegexType.PLAYER_JOIN).matcher(text);
+
+    if (matcher.find()) {
+      EventBus.INSTANCE.post(new PlayerJoinHypixelEvent(matcher.group("player")));
+    }
+
+    return false;
+  }
 }

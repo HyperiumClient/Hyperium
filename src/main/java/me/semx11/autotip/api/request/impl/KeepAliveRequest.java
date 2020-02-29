@@ -12,31 +12,31 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 public class KeepAliveRequest implements Request<KeepAliveReply> {
 
-    private final SessionKey sessionKey;
+  private final SessionKey sessionKey;
 
-    private KeepAliveRequest(SessionKey sessionKey) {
-        this.sessionKey = sessionKey;
-    }
+  private KeepAliveRequest(SessionKey sessionKey) {
+    this.sessionKey = sessionKey;
+  }
 
-    public static KeepAliveRequest of(SessionKey sessionKey) {
-        return new KeepAliveRequest(sessionKey);
-    }
+  public static KeepAliveRequest of(SessionKey sessionKey) {
+    return new KeepAliveRequest(sessionKey);
+  }
 
-    @Override
-    public KeepAliveReply execute() {
-        HttpUriRequest request = GetBuilder.of(this)
-                .addParameter("key", sessionKey)
-                .build();
+  @Override
+  public KeepAliveReply execute() {
+    HttpUriRequest request = GetBuilder.of(this)
+        .addParameter("key", sessionKey)
+        .build();
 
-        Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());
-        return optional
-                .map(reply -> (KeepAliveReply) reply)
-                .orElseGet(() -> new KeepAliveReply(false));
-    }
+    Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());
+    return optional
+        .map(reply -> (KeepAliveReply) reply)
+        .orElseGet(() -> new KeepAliveReply(false));
+  }
 
-    @Override
-    public RequestType getType() {
-        return RequestType.KEEP_ALIVE;
-    }
+  @Override
+  public RequestType getType() {
+    return RequestType.KEEP_ALIVE;
+  }
 
 }

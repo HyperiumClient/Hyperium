@@ -24,18 +24,18 @@ import net.minecraft.client.gui.GuiScreen;
 
 public class GuiDisplayHandler {
 
-    private GuiScreen displayNextTick;
+  private GuiScreen displayNextTick;
 
-    public void setDisplayNextTick(GuiScreen displayNextTick) {
-        this.displayNextTick = displayNextTick;
-    }
+  public void setDisplayNextTick(GuiScreen displayNextTick) {
+    this.displayNextTick = displayNextTick;
+  }
 
-    @InvokeEvent
-    public void tick(TickEvent event) {
-        if (displayNextTick != null) {
-            Minecraft.getMinecraft().displayGuiScreen(displayNextTick);
-            displayNextTick = null;
-        }
+  @InvokeEvent
+  public void tick(TickEvent event) {
+    if (displayNextTick != null) {
+      Minecraft.getMinecraft().displayGuiScreen(displayNextTick);
+      displayNextTick = null;
     }
+  }
 }
 

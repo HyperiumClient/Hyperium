@@ -24,31 +24,33 @@ import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 
 public class BlockOverlay extends AbstractMod {
-    public final static Minecraft mc = Minecraft.getMinecraft();
 
-    private final Metadata meta;
-    private BlockOverlaySettings settings;
+  public final static Minecraft mc = Minecraft.getMinecraft();
 
-    public BlockOverlay() {
-        meta = new Metadata(this, "BlockOverlay", "1.0", "aycy & powns");
-        meta.setDisplayName(ChatColor.RED + "BlockOverlay");
-    }
+  private final Metadata meta;
+  private BlockOverlaySettings settings;
 
-    @Override
-    public AbstractMod init() {
-        settings = new BlockOverlaySettings(Hyperium.folder);
-        settings.load();
-        EventBus.INSTANCE.register(new BlockOverlayRender(this));
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new BlockOverlayCommand(this));
-        return this;
-    }
+  public BlockOverlay() {
+    meta = new Metadata(this, "BlockOverlay", "1.0", "aycy & powns");
+    meta.setDisplayName(ChatColor.RED + "BlockOverlay");
+  }
 
-    @Override
-    public Metadata getModMetadata() {
-        return meta;
-    }
+  @Override
+  public AbstractMod init() {
+    settings = new BlockOverlaySettings(Hyperium.folder);
+    settings.load();
+    EventBus.INSTANCE.register(new BlockOverlayRender(this));
+    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        .registerCommand(new BlockOverlayCommand(this));
+    return this;
+  }
 
-    public BlockOverlaySettings getSettings() {
-        return settings;
-    }
+  @Override
+  public Metadata getModMetadata() {
+    return meta;
+  }
+
+  public BlockOverlaySettings getSettings() {
+    return settings;
+  }
 }

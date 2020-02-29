@@ -5,26 +5,26 @@ import java.util.regex.Pattern;
 
 public class MessageMatcher {
 
-    private final Matcher matcher;
+  private final Matcher matcher;
 
-    public MessageMatcher(Pattern pattern, String input) {
-        matcher = pattern.matcher(input);
-    }
+  public MessageMatcher(Pattern pattern, String input) {
+    matcher = pattern.matcher(input);
+  }
 
-    public boolean matches() {
-        return matcher.matches();
-    }
+  public boolean matches() {
+    return matcher.matches();
+  }
 
-    public int getInt(String group) {
-        try {
-            return Integer.parseInt(getString(group));
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Group " + group + " is not of type int.");
-        }
+  public int getInt(String group) {
+    try {
+      return Integer.parseInt(getString(group));
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException("Group " + group + " is not of type int.");
     }
+  }
 
-    public String getString(String group) {
-        return matcher.group(group);
-    }
+  public String getString(String group) {
+    return matcher.group(group);
+  }
 
 }

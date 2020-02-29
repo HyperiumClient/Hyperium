@@ -21,32 +21,33 @@ package cc.hyperium.mods.chromahud.api;
  * @author Sk1er
  */
 public class ChromaHUDDescription {
-    private final String id;
-    private final String version;
-    private final String name;
-    private final String description;
 
-    public ChromaHUDDescription(String id, String version, String name, String description) {
+  private final String id;
+  private final String version;
+  private final String name;
+  private final String description;
 
-        this.id = id;
-        this.version = version;
-        this.name = name;
-        this.description = description;
-    }
+  public ChromaHUDDescription(String id, String version, String name, String description) {
 
-    public String getId() {
-        return id;
-    }
+    this.id = id;
+    this.version = version;
+    this.name = name;
+    this.description = description;
+  }
 
-    public String getVersion() {
-        return version;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getVersion() {
+    return version;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getName() {
+    return name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
 }

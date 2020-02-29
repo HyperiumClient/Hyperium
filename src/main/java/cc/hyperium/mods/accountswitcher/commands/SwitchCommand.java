@@ -25,38 +25,42 @@ import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 
 public class SwitchCommand implements BaseCommand {
 
-    @Override
-    public String getName() {
-        return "accountswitcher";
+  @Override
+  public String getName() {
+    return "accountswitcher";
+  }
+
+  @Override
+  public String getUsage() {
+    return "Usage: /accountswitcher <username/email> [password]";
+  }
+
+  @Override
+  public void onExecute(String[] args) throws CommandException {
+    if (args.length == 0 || args.length > 3) {
+      throw new CommandUsageException();
     }
 
-    @Override
-    public String getUsage() {
-        return "Usage: /accountswitcher <username/email> [password]";
+    if (args.length == 1) {
+      // log in using an offline account.
+      Hyperium.INSTANCE.getModIntegration().getAccountSwitcher().getAccountManager()
+          .setOffline(args[0]);
     }
 
-    @Override
-    public void onExecute(String[] args) throws CommandException {
-        if (args.length == 0 || args.length > 3) {
-            throw new CommandUsageException();
-        }
-
-        if (args.length == 1) {
-            // log in using an offline account.
-            Hyperium.INSTANCE.getModIntegration().getAccountSwitcher().getAccountManager().setOffline(args[0]);
-        }
-
-        if (args.length == 2) {
-            // log in using a username/email and password.
-            boolean b = Hyperium.INSTANCE.getModIntegration().getAccountSwitcher().getAccountManager().setUser(args[0], args[1]);
-            // Failed to login :(
-            if (!b) {
-                sendPlayerMessage("&cNot able to login with that account! Are authentication servers down?");
-                return;
-            }
-        }
-
-        sendPlayerMessage("&aYou should now be using a different account! Please rejoin the world/server.");
+    if (args.length == 2) {
+      // log in using a username/email and password.
+      boolean b = Hyperium.INSTANCE.getModIntegration().getAccountSwitcher().getAccountManager()
+          .setUser(args[0], args[1]);
+      // Failed to login :(
+      if (!b) {
+        sendPlayerMessage(
+            "&cNot able to login with that account! Are authentication servers down?");
+        return;
+      }
     }
+
+    sendPlayerMessage(
+        "&aYou should now be using a different account! Please rejoin the world/server.");
+  }
 
 }

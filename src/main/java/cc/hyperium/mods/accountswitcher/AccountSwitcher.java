@@ -27,31 +27,31 @@ import net.minecraft.client.gui.GuiScreen;
 
 public class AccountSwitcher extends AbstractMod {
 
-    private AccountManager accountManager;
-    private final Metadata metadata;
+  private AccountManager accountManager;
+  private final Metadata metadata;
 
-    public AccountSwitcher() {
-        metadata = new Metadata(this, "AccountSwitcher", "1.0", "littlemissantivirus");
-        metadata.setDisplayName(ChatColor.AQUA + "AccountSwitcher");
+  public AccountSwitcher() {
+    metadata = new Metadata(this, "AccountSwitcher", "1.0", "littlemissantivirus");
+    metadata.setDisplayName(ChatColor.AQUA + "AccountSwitcher");
 
-        accountManager = new AccountManager();
-    }
+    accountManager = new AccountManager();
+  }
 
-    @Override
-    public AbstractMod init() {
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
-                .registerCommand(new SwitchCommand());
+  @Override
+  public AbstractMod init() {
+    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        .registerCommand(new SwitchCommand());
 
-        return this;
-    }
+    return this;
+  }
 
-    @Override
-    public Metadata getModMetadata() {
-        return metadata;
-    }
+  @Override
+  public Metadata getModMetadata() {
+    return metadata;
+  }
 
-    public AccountManager getAccountManager() {
-        return accountManager;
-    }
+  public AccountManager getAccountManager() {
+    return accountManager;
+  }
 
 }

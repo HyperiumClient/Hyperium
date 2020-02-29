@@ -10,10 +10,10 @@ class ThreadHandler {
     }
 
     fun addThread(thread: WrappedThread) =
-        activeThreads.add(thread)
+            activeThreads.add(thread)
 
     fun removeThread(thread: WrappedThread) =
-        activeThreads.removeIf { thread1 -> thread1 === thread }
+            activeThreads.removeIf { thread1 -> thread1 === thread }
 
     fun stopThreads() {
         activeThreads.forEach { it.interrupt() }

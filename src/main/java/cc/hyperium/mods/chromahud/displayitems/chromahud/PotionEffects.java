@@ -41,93 +41,99 @@ import java.util.List;
  */
 public class PotionEffects extends DisplayItem {
 
-    private boolean potionIcon;
+  private boolean potionIcon;
 
-    public PotionEffects(JsonHolder raw, int ordinal) {
-        super(raw, ordinal);
-        potionIcon = raw.optBoolean("potionIcon");
+  public PotionEffects(JsonHolder raw, int ordinal) {
+    super(raw, ordinal);
+    potionIcon = raw.optBoolean("potionIcon");
+  }
+
+  public void draw(int x, double y, boolean isConfig) {
+    int row = 0;
+    double scale = ElementRenderer.getCurrentScale();
+    Collection<PotionEffect> effects = new ArrayList<>();
+
+    if (isConfig) {
+      effects.add(new PotionEffect(1, 100, 1));
+      effects.add(new PotionEffect(3, 100, 2));
+    } else {
+      effects = Minecraft.getMinecraft().thePlayer.getActivePotionEffects();
     }
 
-    public void draw(int x, double y, boolean isConfig) {
-        int row = 0;
-        double scale = ElementRenderer.getCurrentScale();
-        Collection<PotionEffect> effects = new ArrayList<>();
+    List<String> tmp = new ArrayList<>();
 
-        if (isConfig) {
-            effects.add(new PotionEffect(1, 100, 1));
-            effects.add(new PotionEffect(3, 100, 2));
-        } else {
-            effects = Minecraft.getMinecraft().thePlayer.getActivePotionEffects();
+    for (PotionEffect potioneffect : effects) {
+      Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
+
+      if (potionIcon) {
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        Minecraft.getMinecraft().getTextureManager()
+            .bindTexture(new ResourceLocation("textures/gui/container/inventory.png"));
+
+        if (potion.hasStatusIcon()) {
+          int potionStatusIconIndex = potion.getStatusIconIndex();
+          drawTexturedModalRect(
+              !ElementRenderer.getCurrent().isRightSided() ? (int) (x / scale) - 20 :
+                  (int) (x / scale), (int) ((y + (row << 4))) - 4, potionStatusIconIndex % 8 * 18,
+              198 + potionStatusIconIndex / 8 * 18, 18, 18);
         }
+      }
 
-        List<String> tmp = new ArrayList<>();
+      StringBuilder s1 = new StringBuilder(I18n.format(potion.getName()));
 
-        for (PotionEffect potioneffect : effects) {
-            Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
+      switch (potioneffect.getAmplifier()) {
+        case 1:
+          s1.append(" ").append(I18n.format("enchantment.level.2"));
+          break;
+        case 2:
+          s1.append(" ").append(I18n.format("enchantment.level.3"));
+          break;
+        case 3:
+          s1.append(" ").append(I18n.format("enchantment.level.4"));
+          break;
+      }
 
-            if (potionIcon) {
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/inventory.png"));
-
-                if (potion.hasStatusIcon()) {
-                    int potionStatusIconIndex = potion.getStatusIconIndex();
-                    drawTexturedModalRect(!ElementRenderer.getCurrent().isRightSided() ? (int) (x / scale) - 20 :
-                            (int) (x / scale), (int) ((y + (row << 4))) - 4, potionStatusIconIndex % 8 * 18,
-                        198 + potionStatusIconIndex / 8 * 18, 18, 18);
-                }
-            }
-
-            StringBuilder s1 = new StringBuilder(I18n.format(potion.getName()));
-
-            switch (potioneffect.getAmplifier()) {
-                case 1:
-                    s1.append(" ").append(I18n.format("enchantment.level.2"));
-                    break;
-                case 2:
-                    s1.append(" ").append(I18n.format("enchantment.level.3"));
-                    break;
-                case 3:
-                    s1.append(" ").append(I18n.format("enchantment.level.4"));
-                    break;
-            }
-
-            String s = Potion.getDurationString(potioneffect);
-            String text = s1 + " - " + s;
-            tmp.add(text);
-            ElementRenderer.draw((int) (x / scale), ((y + (row << 4))), text);
-            row++;
-        }
-
-        width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;
-        height = row << 4;
+      String s = Potion.getDurationString(potioneffect);
+      String text = s1 + " - " + s;
+      tmp.add(text);
+      ElementRenderer.draw((int) (x / scale), ((y + (row << 4))), text);
+      row++;
     }
 
-    public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
-        float f = 0.00390625F;
-        float f1 = 0.00390625F;
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos(x, y + height, 0).tex((float) (textureX) * f, (float) (textureY + height) * f1).endVertex();
-        worldrenderer.pos(x + width, y + height, 0).tex((float) (textureX + width) * f, (float) (textureY + height) * f1).endVertex();
-        worldrenderer.pos(x + width, y, 0).tex((float) (textureX + width) * f, (float) (textureY) * f1).endVertex();
-        worldrenderer.pos(x, y, 0).tex((float) (textureX) * f, (float) (textureY) * f1).endVertex();
-        tessellator.draw();
-    }
+    width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;
+    height = row << 4;
+  }
 
-    public void togglePotionIcon() {
-        potionIcon = !potionIcon;
-    }
+  public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width,
+      int height) {
+    float f = 0.00390625F;
+    float f1 = 0.00390625F;
+    Tessellator tessellator = Tessellator.getInstance();
+    WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+    worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+    worldrenderer.pos(x, y + height, 0)
+        .tex((float) (textureX) * f, (float) (textureY + height) * f1).endVertex();
+    worldrenderer.pos(x + width, y + height, 0)
+        .tex((float) (textureX + width) * f, (float) (textureY + height) * f1).endVertex();
+    worldrenderer.pos(x + width, y, 0).tex((float) (textureX + width) * f, (float) (textureY) * f1)
+        .endVertex();
+    worldrenderer.pos(x, y, 0).tex((float) (textureX) * f, (float) (textureY) * f1).endVertex();
+    tessellator.draw();
+  }
 
-    @Override
-    public void save() {
-        data.put("potionIcon", potionIcon);
-    }
+  public void togglePotionIcon() {
+    potionIcon = !potionIcon;
+  }
 
-    @Override
-    public String toString() {
-        return "PotionEffects{" +
-            "potionIcon=" + potionIcon +
-            '}';
-    }
+  @Override
+  public void save() {
+    data.put("potionIcon", potionIcon);
+  }
+
+  @Override
+  public String toString() {
+    return "PotionEffects{" +
+        "potionIcon=" + potionIcon +
+        '}';
+  }
 }
