@@ -1,6 +1,18 @@
 --- original/net/minecraft/client/settings/KeyBinding.java
 +++ changed/net/minecraft/client/settings/KeyBinding.java
-@@ -123,4 +123,8 @@
+@@ -60,6 +60,11 @@
+         return keybindSet;
+     }
+ 
++    public KeyBinding(String description, int keyCode, String category, int defaultKeyCode) {
++        this(description, defaultKeyCode, category);
++        this.keyCode = keyCode;
++    }
++
+     public KeyBinding(String description, int keyCode, String category) {
+         this.keyDescription = description;
+         this.keyCode = keyCode;
+@@ -123,4 +128,8 @@
  
          return i;
      }

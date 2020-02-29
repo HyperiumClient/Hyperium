@@ -1,29 +1,64 @@
 --- original/net/minecraft/client/gui/GuiControls.java
 +++ changed/net/minecraft/client/gui/GuiControls.java
-@@ -1,6 +1,7 @@
+@@ -1,6 +1,10 @@
  package net.minecraft.client.gui;
  
  import java.io.IOException;
++
++import cc.hyperium.Hyperium;
 +import cc.hyperium.gui.keybinds.GuiKeybinds;
++import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.resources.I18n;
  import net.minecraft.client.settings.GameSettings;
-@@ -47,6 +48,9 @@
+@@ -10,13 +14,19 @@
  
-             ++i;
-         }
-+
-+        buttonList.add(new GuiButton(10, buttonList.get(1).xPosition, buttonList.get(3).yPosition + 24,
-+                                     150, 20, "Hyperium Keybinds"));
-     }
+ @SideOnly(Side.CLIENT)
+ public class GuiControls extends GuiScreen {
+-    private static final GameSettings.Options[] optionsArr = new GameSettings.Options[] {GameSettings.Options.INVERT_MOUSE, GameSettings.Options.SENSITIVITY, GameSettings.Options.TOUCHSCREEN};
+-    /** A reference to the screen object that created this. Used for navigating between screens. */
++    private static final GameSettings.Options[] optionsArr = new GameSettings.Options[]{GameSettings.Options.INVERT_MOUSE, GameSettings.Options.SENSITIVITY, GameSettings.Options.TOUCHSCREEN};
++    /**
++     * A reference to the screen object that created this. Used for navigating between screens.
++     */
+     private GuiScreen parentScreen;
+     protected String screenTitle = "Controls";
+-    /** Reference to the GameSettings object. */
++    /**
++     * Reference to the GameSettings object.
++     */
+     private GameSettings options;
+-    /** The ID of the button that has been pressed. */
++    /**
++     * The ID of the button that has been pressed.
++     */
+     public KeyBinding buttonId = null;
+     public long time;
+     private GuiKeyBindingList keyBindingList;
+@@ -61,6 +71,7 @@
+      * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+      */
+     protected void actionPerformed(GuiButton button) throws IOException {
++        System.out.println(button.id);
+         if (button.id == 200) {
+             this.mc.displayGuiScreen(this.parentScreen);
+         } else if (button.id == 201) {
+@@ -70,7 +81,7 @@
  
-     /**
-@@ -73,6 +77,8 @@
-             this.options.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
+             KeyBinding.resetKeyBindingArrayAndHash();
+         } else if (button.id < 100 && button instanceof GuiOptionButton) {
+-            this.options.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
++            this.options.setOptionValue(((GuiOptionButton) button).returnEnumOptions(), 1);
              button.displayString = this.options.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
          }
-+
-+        if (button.id == 10) Minecraft.getMinecraft().displayGuiScreen(new GuiKeybinds());
      }
- 
-     /**
+@@ -106,6 +117,9 @@
+             if (keyCode == 1) {
+                 this.options.setOptionKeyBinding(this.buttonId, 0);
+             } else if (keyCode != 0) {
++                if (buttonId.getKeyCategory().contains("hyperium"))
++                    Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBinding(buttonId.getKeyDescription()).setKeyCode(keyCode);
++
+                 this.options.setOptionKeyBinding(this.buttonId, keyCode);
+             } else if (typedChar > 0) {
+                 this.options.setOptionKeyBinding(this.buttonId, typedChar + 256);
