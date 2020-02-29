@@ -43,7 +43,7 @@ object FileLib {
      */
     @JvmStatic
     fun read(importName: String, fileName: String): String? =
-        read(Config.modulesFolder + "/" + importName + "/" + fileName)
+            read(Config.modulesFolder + "/" + importName + "/" + fileName)
 
     /**
      * Reads a file from anywhere on the system.<br></br>

@@ -27,14 +27,15 @@ import net.minecraft.client.Minecraft;
  */
 public class CpsDisplay extends DisplayItem {
 
-    public CpsDisplay(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-        height = 10;
-    }
+  public CpsDisplay(JsonHolder data, int ordinal) {
+    super(data, ordinal);
+    height = 10;
+  }
 
-    @Override
-    public void draw(int starX, double startY, boolean isConfig) {
-        ElementRenderer.draw(starX, startY, "CPS: " + ElementRenderer.getCPS());
-        width = isConfig ? Minecraft.getMinecraft().fontRendererObj.getStringWidth("CPS: " + ElementRenderer.getCPS()) : 0;
-    }
+  @Override
+  public void draw(int starX, double startY, boolean isConfig) {
+    ElementRenderer.draw(starX, startY, "CPS: " + ElementRenderer.getCPS());
+    width = isConfig ? Minecraft.getMinecraft().fontRendererObj
+        .getStringWidth("CPS: " + ElementRenderer.getCPS()) : 0;
+  }
 }

@@ -27,27 +27,27 @@ import org.jetbrains.annotations.NotNull;
 
 public final class LivingDeathEvent extends Event {
 
-    @NotNull
-    private final EntityLivingBase entity;
+  @NotNull
+  private final EntityLivingBase entity;
 
-    @NotNull
-    private final DamageSource cause;
+  @NotNull
+  private final DamageSource cause;
 
-    public LivingDeathEvent(@NotNull EntityLivingBase entity, @NotNull DamageSource cause) {
-        Preconditions.checkNotNull(entity, "entity");
-        Preconditions.checkNotNull(cause, "cause");
+  public LivingDeathEvent(@NotNull EntityLivingBase entity, @NotNull DamageSource cause) {
+    Preconditions.checkNotNull(entity, "entity");
+    Preconditions.checkNotNull(cause, "cause");
 
-        this.entity = entity;
-        this.cause = cause;
-    }
+    this.entity = entity;
+    this.cause = cause;
+  }
 
-    @NotNull
-    public final EntityLivingBase getEntity() {
-        return entity;
-    }
+  @NotNull
+  public final EntityLivingBase getEntity() {
+    return entity;
+  }
 
-    @NotNull
-    public final DamageSource getCause() {
-        return cause;
-    }
+  @NotNull
+  public final DamageSource getCause() {
+    return cause;
+  }
 }

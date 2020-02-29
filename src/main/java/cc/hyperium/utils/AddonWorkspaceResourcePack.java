@@ -31,53 +31,58 @@ import java.util.Set;
 
 public class AddonWorkspaceResourcePack extends AbstractResourcePack {
 
-    /**
-     * Check for if the addon has a pack.mcmeta file, which is required for any resource pack
-     * If it's not null, retrieve the pack.mcmeta file, otherwise ignore it
-     */
-    public AddonWorkspaceResourcePack() {
-        super(AddonWorkspaceResourcePack.class.getClassLoader().getResource("pack.mcmeta") !=
-            null ? new File(AddonWorkspaceResourcePack.class.getClassLoader().getResource("pack.mcmeta").getFile()).getParentFile() : null);
-    }
+  /**
+   * Check for if the addon has a pack.mcmeta file, which is required for any resource pack If it's
+   * not null, retrieve the pack.mcmeta file, otherwise ignore it
+   */
+  public AddonWorkspaceResourcePack() {
+    super(AddonWorkspaceResourcePack.class.getClassLoader().getResource("pack.mcmeta") !=
+        null ? new File(
+        AddonWorkspaceResourcePack.class.getClassLoader().getResource("pack.mcmeta").getFile())
+        .getParentFile() : null);
+  }
 
-    /**
-     * Get the file by the name
-     *
-     * @param name the name of the files inside the resource pack
-     * @return the pack.mcmeta file
-     * @throws IOException if it can't be found
-     */
-    protected InputStream getInputStreamByName(String name) throws IOException {
-        return AddonWorkspaceResourcePack.class.getClassLoader().getResourceAsStream("pack.mcmeta");
-    }
+  /**
+   * Get the file by the name
+   *
+   * @param name the name of the files inside the resource pack
+   * @return the pack.mcmeta file
+   * @throws IOException if it can't be found
+   */
+  protected InputStream getInputStreamByName(String name) throws IOException {
+    return AddonWorkspaceResourcePack.class.getClassLoader().getResourceAsStream("pack.mcmeta");
+  }
 
-    /**
-     * Check for the resource name
-     *
-     * @param name resource
-     * @return resource file
-     */
-    protected boolean hasResourceName(String name) {
-        return (new File(resourcePackFile, name)).isFile();
-    }
+  /**
+   * Check for the resource name
+   *
+   * @param name resource
+   * @return resource file
+   */
+  protected boolean hasResourceName(String name) {
+    return (new File(resourcePackFile, name)).isFile();
+  }
 
-    /**
-     * Get the domain resource
-     *
-     * @return a string such as "assets/addonid/textures/texture.png"
-     */
-    public Set<String> getResourceDomains() {
-        Set<String> set = Sets.newHashSet();
-        File file1 = new File(resourcePackFile, "assets/");
+  /**
+   * Get the domain resource
+   *
+   * @return a string such as "assets/addonid/textures/texture.png"
+   */
+  public Set<String> getResourceDomains() {
+    Set<String> set = Sets.newHashSet();
+    File file1 = new File(resourcePackFile, "assets/");
 
-        if (file1.isDirectory()) {
-            for (File file2 : file1.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY)) {
-                String s = getRelativeName(file1, file2);
-                if (!s.equals(s.toLowerCase(Locale.ENGLISH))) logNameNotLowercase(s);
-                else set.add(s.substring(0, s.length() - 1));
-            }
+    if (file1.isDirectory()) {
+      for (File file2 : file1.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY)) {
+        String s = getRelativeName(file1, file2);
+        if (!s.equals(s.toLowerCase(Locale.ENGLISH))) {
+          logNameNotLowercase(s);
+        } else {
+          set.add(s.substring(0, s.length() - 1));
         }
-
-        return set;
+      }
     }
+
+    return set;
+  }
 }

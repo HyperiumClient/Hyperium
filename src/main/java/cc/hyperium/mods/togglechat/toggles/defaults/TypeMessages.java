@@ -23,38 +23,38 @@ import java.util.LinkedList;
 
 public class TypeMessages extends ToggleBase {
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Messages";
-    }
+  @Override
+  public String getName() {
+    return "Messages";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return message.startsWith("To ") || message.startsWith("From ");
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return message.startsWith("To ") || message.startsWith("From ");
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles all incoming",
-                "private messages",
-                "or any being sent",
-                "",
-                "These are the formats",
-                "&dFrom &7Player&r: Hello",
-                "&dTo &7Player&r: Hello"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles all incoming",
+        "private messages",
+        "or any being sent",
+        "",
+        "These are the formats",
+        "&dFrom &7Player&r: Hello",
+        "&dTo &7Player&r: Hello"
+    );
+  }
 }

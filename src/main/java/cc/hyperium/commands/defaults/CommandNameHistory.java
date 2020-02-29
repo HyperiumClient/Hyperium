@@ -31,35 +31,37 @@ import java.util.List;
  */
 public class CommandNameHistory implements BaseCommand {
 
-    @Override
-    public String getName() {
-        return "namehistory";
+  @Override
+  public String getName() {
+    return "namehistory";
+  }
+
+  @Override
+  public String getUsage() {
+    return "/namehistory <player>";
+  }
+
+  @Override
+  public List<String> getCommandAliases() {
+    return Arrays.asList("nhistory", "names", "name");
+  }
+
+  @Override
+  public void onExecute(String[] args) {
+    switch (args.length) {
+      case 0:
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+            .setDisplayNextTick(new NameHistoryGui());
+        break;
+
+      case 1:
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+            .setDisplayNextTick(new NameHistoryGui(args[0]));
+        break;
+
+      default:
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Usage: " + getUsage());
+        break;
     }
-
-    @Override
-    public String getUsage() {
-        return "/namehistory <player>";
-    }
-
-    @Override
-    public List<String> getCommandAliases() {
-        return Arrays.asList("nhistory", "names", "name");
-    }
-
-    @Override
-    public void onExecute(String[] args) {
-        switch (args.length) {
-            case 0:
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
-                break;
-
-            case 1:
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui(args[0]));
-                break;
-
-            default:
-                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Usage: " + getUsage());
-                break;
-        }
-    }
+  }
 }

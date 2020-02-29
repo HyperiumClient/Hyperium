@@ -12,31 +12,31 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 public class LogoutRequest implements Request<LogoutReply> {
 
-    private final SessionKey sessionKey;
+  private final SessionKey sessionKey;
 
-    private LogoutRequest(SessionKey sessionKey) {
-        this.sessionKey = sessionKey;
-    }
+  private LogoutRequest(SessionKey sessionKey) {
+    this.sessionKey = sessionKey;
+  }
 
-    public static LogoutRequest of(SessionKey sessionKey) {
-        return new LogoutRequest(sessionKey);
-    }
+  public static LogoutRequest of(SessionKey sessionKey) {
+    return new LogoutRequest(sessionKey);
+  }
 
-    @Override
-    public LogoutReply execute() {
-        HttpUriRequest request = GetBuilder.of(this)
-                .addParameter("key", sessionKey)
-                .build();
+  @Override
+  public LogoutReply execute() {
+    HttpUriRequest request = GetBuilder.of(this)
+        .addParameter("key", sessionKey)
+        .build();
 
-        Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());
-        return optional
-                .map(reply -> (LogoutReply) reply)
-                .orElseGet(() -> new LogoutReply(false));
-    }
+    Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());
+    return optional
+        .map(reply -> (LogoutReply) reply)
+        .orElseGet(() -> new LogoutReply(false));
+  }
 
-    @Override
-    public RequestType getType() {
-        return RequestType.LOGOUT;
-    }
+  @Override
+  public RequestType getType() {
+    return RequestType.LOGOUT;
+  }
 
 }

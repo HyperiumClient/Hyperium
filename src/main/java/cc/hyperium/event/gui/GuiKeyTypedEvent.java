@@ -22,25 +22,25 @@ import net.minecraft.client.gui.GuiScreen;
 
 public class GuiKeyTypedEvent extends Event {
 
-    private final GuiScreen screen;
-    private final char typedChar;
-    private final int keyCode;
+  private final GuiScreen screen;
+  private final char typedChar;
+  private final int keyCode;
 
-    public GuiKeyTypedEvent(GuiScreen screen, char typedChar, int keyCode) {
-        this.screen = screen;
-        this.typedChar = typedChar;
-        this.keyCode = keyCode;
-    }
+  public GuiKeyTypedEvent(GuiScreen screen, char typedChar, int keyCode) {
+    this.screen = screen;
+    this.typedChar = typedChar;
+    this.keyCode = keyCode;
+  }
 
-    public GuiScreen getScreen() {
-        return screen;
-    }
+  public GuiScreen getScreen() {
+    return screen;
+  }
 
-    public char getTypedChar() {
-        return typedChar;
-    }
+  public char getTypedChar() {
+    return typedChar;
+  }
 
-    public int getKeyCode() {
-        return keyCode;
-    }
+  public int getKeyCode() {
+    return keyCode;
+  }
 }

@@ -23,16 +23,16 @@ import org.jetbrains.annotations.NotNull;
 
 public final class AchievementGetEvent extends Event {
 
-    @NotNull
-    private final String achievement;
+  @NotNull
+  private final String achievement;
 
-    public AchievementGetEvent(@NotNull String achievement) {
-        Preconditions.checkNotNull(achievement, "achievement");
-        this.achievement = achievement;
-    }
+  public AchievementGetEvent(@NotNull String achievement) {
+    Preconditions.checkNotNull(achievement, "achievement");
+    this.achievement = achievement;
+  }
 
-    @NotNull
-    public final String getAchievement() {
-        return achievement;
-    }
+  @NotNull
+  public final String getAchievement() {
+    return achievement;
+  }
 }

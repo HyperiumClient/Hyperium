@@ -28,12 +28,12 @@ object ChatListener {
                 // print to console
                 if (Config.printChatToConsole) {
                     ModuleManager.generalConsole.out.println(
-                        "[CHAT] " + ChatLib.replaceFormatting(
-                            ChatLib.getChatMessage(
-                                event,
-                                true
+                            "[CHAT] " + ChatLib.replaceFormatting(
+                                    ChatLib.getChatMessage(
+                                            event,
+                                            true
+                                    )
                             )
-                        )
                     )
                 }
             }

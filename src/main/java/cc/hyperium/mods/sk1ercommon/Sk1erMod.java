@@ -34,91 +34,99 @@ import java.util.concurrent.TimeUnit;
  * Created by Mitchell Katz on 6/8/2017.
  */
 public class Sk1erMod {
-    /*
-        Sk1erMod 5.0
-        Dabbing intensifies
-     */
-    private static Sk1erMod instance;
-    private final String modid;
-    private final String version;
-    private String apiKey = "";
-    private JsonHolder en = new JsonHolder();
-    private GenKeyCallback callback = object -> {
-    };
 
-    public Sk1erMod(String modid, String version) {
-        this.modid = modid;
-        this.version = version;
-        instance = this;
-    }
+  /*
+      Sk1erMod 5.0
+      Dabbing intensifies
+   */
+  private static Sk1erMod instance;
+  private final String modid;
+  private final String version;
+  private String apiKey = "";
+  private JsonHolder en = new JsonHolder();
+  private GenKeyCallback callback = object -> {
+  };
 
-    public Sk1erMod(String modid, String version, GenKeyCallback callback) {
-        this(modid, version);
-        this.callback = callback;
-    }
+  public Sk1erMod(String modid, String version) {
+    this.modid = modid;
+    this.version = version;
+    instance = this;
+  }
 
-    public static Sk1erMod getInstance() {
-        return instance;
-    }
+  public Sk1erMod(String modid, String version, GenKeyCallback callback) {
+    this(modid, version);
+    this.callback = callback;
+  }
 
-    public JsonHolder getResponse() {
-        return en;
-    }
+  public static Sk1erMod getInstance() {
+    return instance;
+  }
 
-    public boolean isEnabled() {
-        return true;
-    }
+  public JsonHolder getResponse() {
+    return en;
+  }
 
-    public JsonObject getPlayer(String name) {
-        return new JsonParser().parse(rawWithAgent("https://sk1er.club/data/" + name + "/" + apiKey)).getAsJsonObject();
-    }
+  public boolean isEnabled() {
+    return true;
+  }
 
-    public void checkStatus() {
-        if (Minecraft.getMinecraft().gameSettings.snooperEnabled) {
-            Multithreading.schedule(() -> {
-                en = new JsonHolder(rawWithAgent("https://sk1er.club/genkey?name=" + Minecraft.getMinecraft().getSession().getProfile().getName()
-                    + "&uuid=" + Minecraft.getMinecraft().getSession().getPlayerID().replace("-", "")
-                    + "&mcver=" + Minecraft.getMinecraft().getVersion()
-                    + "&modver=" + version
-                    + "&mod=" + modid
-                ));
-                if (callback != null)
-                    callback.call(en);
-                en.optBoolean("enabled");
-                apiKey = en.optString("key");
-            }, 0, 5, TimeUnit.MINUTES);
+  public JsonObject getPlayer(String name) {
+    return new JsonParser().parse(rawWithAgent("https://sk1er.club/data/" + name + "/" + apiKey))
+        .getAsJsonObject();
+  }
+
+  public void checkStatus() {
+    if (Minecraft.getMinecraft().gameSettings.snooperEnabled) {
+      Multithreading.schedule(() -> {
+        en = new JsonHolder(rawWithAgent(
+            "https://sk1er.club/genkey?name=" + Minecraft.getMinecraft().getSession().getProfile()
+                .getName()
+                + "&uuid=" + Minecraft.getMinecraft().getSession().getPlayerID().replace("-", "")
+                + "&mcver=" + Minecraft.getMinecraft().getVersion()
+                + "&modver=" + version
+                + "&mod=" + modid
+        ));
+        if (callback != null) {
+          callback.call(en);
         }
+        en.optBoolean("enabled");
+        apiKey = en.optString("key");
+      }, 0, 5, TimeUnit.MINUTES);
+    }
+  }
+
+  public String rawWithAgent(String url) {
+    Hyperium.LOGGER.info("[Sk1erMod] Fetching " + url);
+    if (!Hyperium.INSTANCE.isAcceptedTos()) {
+      return new JsonHolder().put("success", false).put("cause", "TOS_NOT_ACCEPTED").toString();
     }
 
-    public String rawWithAgent(String url) {
-        Hyperium.LOGGER.info("[Sk1erMod] Fetching " + url);
-        if (!Hyperium.INSTANCE.isAcceptedTos()) {
-            return new JsonHolder().put("success", false).put("cause", "TOS_NOT_ACCEPTED").toString();
-        }
+    url = url.replace(" ", "%20");
 
-        url = url.replace(" ", "%20");
-
-        HttpURLConnection connection = null;
-        try {
-            URL u = new URL(url);
-            connection = (HttpURLConnection) u.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setUseCaches(true);
-            connection.addRequestProperty("User-Agent", "Mozilla/4.76 (" + modid + " V" + version + ") via Hyperium ");
-            connection.setReadTimeout(15000);
-            connection.setConnectTimeout(15000);
-            connection.setDoOutput(true);
-            InputStream is = connection.getInputStream();
-            return IOUtils.toString(is, StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) connection.disconnect();
-        }
-
-        JsonObject object = new JsonObject();
-        object.addProperty("success", false);
-        object.addProperty("cause", "Exception");
-        return object.toString();
+    HttpURLConnection connection = null;
+    try {
+      URL u = new URL(url);
+      connection = (HttpURLConnection) u.openConnection();
+      connection.setRequestMethod("GET");
+      connection.setUseCaches(true);
+      connection.addRequestProperty("User-Agent",
+          "Mozilla/4.76 (" + modid + " V" + version + ") via Hyperium ");
+      connection.setReadTimeout(15000);
+      connection.setConnectTimeout(15000);
+      connection.setDoOutput(true);
+      InputStream is = connection.getInputStream();
+      return IOUtils.toString(is, StandardCharsets.UTF_8);
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
     }
+
+    JsonObject object = new JsonObject();
+    object.addProperty("success", false);
+    object.addProperty("cause", "Exception");
+    return object.toString();
+  }
 }

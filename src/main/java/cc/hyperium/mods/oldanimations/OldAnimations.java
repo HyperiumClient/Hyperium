@@ -22,14 +22,14 @@ import cc.hyperium.mods.AbstractMod;
 
 public class OldAnimations extends AbstractMod {
 
-    @Override
-    public AbstractMod init() {
-        EventBus.INSTANCE.register(new AnimationEventHandler());
-        return this;
-    }
+  @Override
+  public AbstractMod init() {
+    EventBus.INSTANCE.register(new AnimationEventHandler());
+    return this;
+  }
 
-    @Override
-    public Metadata getModMetadata() {
-        return new Metadata(this, "OldAnimations", "1.0", "Amplifiable");
-    }
+  @Override
+  public Metadata getModMetadata() {
+    return new Metadata(this, "OldAnimations", "1.0", "Amplifiable");
+  }
 }

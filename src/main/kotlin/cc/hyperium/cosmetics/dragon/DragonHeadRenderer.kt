@@ -73,7 +73,7 @@ class DragonHeadRenderer(private val dragonCosmetic: DragonCosmetic) : ModelBase
                 var e = -1
                 val theWorld = Minecraft.getMinecraft().theWorld
                 val chunk =
-                    theWorld.getChunkFromBlockCoords(BlockPos(player.posX, player.posY, player.posZ))
+                        theWorld.getChunkFromBlockCoords(BlockPos(player.posX, player.posY, player.posZ))
                 for (i in 0..254) {
                     if (i > player.posY) break
                     val block = chunk.getBlock(BlockPos(player.posX, i.toDouble(), player.posZ))

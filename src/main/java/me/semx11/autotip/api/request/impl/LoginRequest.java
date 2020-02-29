@@ -13,43 +13,43 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 public class LoginRequest implements Request<LoginReply> {
 
-    private final Autotip autotip;
-    private final GameProfile profile;
-    private final String hash;
-    private final int tips;
+  private final Autotip autotip;
+  private final GameProfile profile;
+  private final String hash;
+  private final int tips;
 
-    private LoginRequest(Autotip autotip, GameProfile profile, String hash, int tips) {
-        this.autotip = autotip;
-        this.profile = profile;
-        this.hash = hash;
-        this.tips = tips;
-    }
+  private LoginRequest(Autotip autotip, GameProfile profile, String hash, int tips) {
+    this.autotip = autotip;
+    this.profile = profile;
+    this.hash = hash;
+    this.tips = tips;
+  }
 
-    public static LoginRequest of(Autotip autotip, GameProfile profile, String hash, int tips) {
-        return new LoginRequest(autotip, profile, hash, tips);
-    }
+  public static LoginRequest of(Autotip autotip, GameProfile profile, String hash, int tips) {
+    return new LoginRequest(autotip, profile, hash, tips);
+  }
 
-    @Override
-    public LoginReply execute() {
-        HttpUriRequest request = GetBuilder.of(this)
-                .addParameter("username", profile.getName())
-                .addParameter("uuid", profile.getId().toString().replace("-", ""))
-                .addParameter("tips", tips)
-                .addParameter("v", autotip.getVersion())
-                .addParameter("mc", autotip.getMcVersion())
-                .addParameter("os", System.getProperty("os.name"))
-                .addParameter("hash", hash)
-                .build();
+  @Override
+  public LoginReply execute() {
+    HttpUriRequest request = GetBuilder.of(this)
+        .addParameter("username", profile.getName())
+        .addParameter("uuid", profile.getId().toString().replace("-", ""))
+        .addParameter("tips", tips)
+        .addParameter("v", autotip.getVersion())
+        .addParameter("mc", autotip.getMcVersion())
+        .addParameter("os", System.getProperty("os.name"))
+        .addParameter("hash", hash)
+        .build();
 
-        Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());
-        return optional
-                .map(reply -> (LoginReply) reply)
-                .orElseGet(() -> new LoginReply(false));
-    }
+    Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());
+    return optional
+        .map(reply -> (LoginReply) reply)
+        .orElseGet(() -> new LoginReply(false));
+  }
 
-    @Override
-    public RequestType getType() {
-        return RequestType.LOGIN;
-    }
+  @Override
+  public RequestType getType() {
+    return RequestType.LOGIN;
+  }
 
 }

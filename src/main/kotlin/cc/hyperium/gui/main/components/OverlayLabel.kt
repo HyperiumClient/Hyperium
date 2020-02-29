@@ -39,13 +39,13 @@ open class OverlayLabel(label: String, enabled: Boolean, var click: Runnable) : 
     }
 
     override fun render(
-        mouseX: Int,
-        mouseY: Int,
-        overlayX: Int,
-        overlayY: Int,
-        w: Int,
-        h: Int,
-        overlayH: Int
+            mouseX: Int,
+            mouseY: Int,
+            overlayX: Int,
+            overlayY: Int,
+            w: Int,
+            h: Int,
+            overlayH: Int
     ): Boolean {
         // Draw distinguishing box.
         val cls = OverlayLabel::class.java

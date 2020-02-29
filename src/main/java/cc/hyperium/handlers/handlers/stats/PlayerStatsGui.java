@@ -74,250 +74,264 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerStatsGui extends HyperiumGui {
 
-    private HypixelApiPlayer player;
-    private AbstractHypixelStats hovered;
-    private AbstractHypixelStats focused;
+  private HypixelApiPlayer player;
+  private AbstractHypixelStats hovered;
+  private AbstractHypixelStats focused;
 
-    private List<AbstractHypixelStats> fields = new ArrayList<>();
-    private Map<AbstractHypixelStats, BufferedImage> texturesImage = new ConcurrentHashMap<>();
-    private static Map<AbstractHypixelStats, DynamicTexture> logos = new HashMap<>();
-    private ConcurrentHashMap<AbstractHypixelStats, GuiBlock> location = new ConcurrentHashMap<>();
+  private List<AbstractHypixelStats> fields = new ArrayList<>();
+  private Map<AbstractHypixelStats, BufferedImage> texturesImage = new ConcurrentHashMap<>();
+  private static Map<AbstractHypixelStats, DynamicTexture> logos = new HashMap<>();
+  private ConcurrentHashMap<AbstractHypixelStats, GuiBlock> location = new ConcurrentHashMap<>();
 
-    //TODO make only generate once
-    public PlayerStatsGui(HypixelApiPlayer player) {
-        this.player = player;
-        fields.add(new GeneralStats());
-        fields.add(new ArcadeStats());
-        fields.add(new ArenaStats());
-        fields.add(new BedWarsStats());
-        fields.add(new BlitzStats());
-        fields.add(new BuildBattleStats());
-        fields.add(new CrazyWallsStats());
-        fields.add(new CVCStats());
-        fields.add(new DuelsStats());
-        fields.add(new MegaWallsStats());
-        fields.add(new MurderMysteryStats());
-        fields.add(new PaintballStats());
-        fields.add(new QuakecraftStats());
-        fields.add(new SkyClashStats());
-        fields.add(new SkyWarsStats());
-        fields.add(new SmashHeroesStats());
-        fields.add(new SpeedUHCStats());
-        fields.add(new TKRStats());
-        fields.add(new TNTGamesStats());
-        fields.add(new UHCStats());
-        fields.add(new VampireZStats());
-        fields.add(new WallsStats());
-        fields.add(new WarlordsStats());
+  //TODO make only generate once
+  public PlayerStatsGui(HypixelApiPlayer player) {
+    this.player = player;
+    fields.add(new GeneralStats());
+    fields.add(new ArcadeStats());
+    fields.add(new ArenaStats());
+    fields.add(new BedWarsStats());
+    fields.add(new BlitzStats());
+    fields.add(new BuildBattleStats());
+    fields.add(new CrazyWallsStats());
+    fields.add(new CVCStats());
+    fields.add(new DuelsStats());
+    fields.add(new MegaWallsStats());
+    fields.add(new MurderMysteryStats());
+    fields.add(new PaintballStats());
+    fields.add(new QuakecraftStats());
+    fields.add(new SkyClashStats());
+    fields.add(new SkyWarsStats());
+    fields.add(new SmashHeroesStats());
+    fields.add(new SpeedUHCStats());
+    fields.add(new TKRStats());
+    fields.add(new TNTGamesStats());
+    fields.add(new UHCStats());
+    fields.add(new VampireZStats());
+    fields.add(new WallsStats());
+    fields.add(new WarlordsStats());
 
-        for (AbstractHypixelStats field : fields) {
-            Multithreading.runAsync(() -> {
-                if (!logos.containsKey(field)) {
-                    HttpURLConnection connection = null;
-                    try {
-                        URL url = new URL("https://static.sk1er.club/hypixel_games/" + field.getImage() + ".png");
-                        connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("GET");
-                        connection.setUseCaches(true);
-                        connection.addRequestProperty("User-Agent", "Mozilla/4.76 Hyperium ");
-                        connection.setReadTimeout(15000);
-                        connection.setConnectTimeout(15000);
-                        connection.setDoOutput(true);
-                        InputStream is = connection.getInputStream();
-                        BufferedImage img = ImageIO.read(ImageIO.createImageInputStream(is));
-                        texturesImage.put(field, img);
-                        is.close();
-                    } catch (Exception e) {
-                        Hyperium.LOGGER.error(field.getClass().getName());
-                        e.printStackTrace();
-                    } finally {
-                        if (connection != null) connection.disconnect();
-                    }
-                }
-            });
+    for (AbstractHypixelStats field : fields) {
+      Multithreading.runAsync(() -> {
+        if (!logos.containsKey(field)) {
+          HttpURLConnection connection = null;
+          try {
+            URL url = new URL(
+                "https://static.sk1er.club/hypixel_games/" + field.getImage() + ".png");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setUseCaches(true);
+            connection.addRequestProperty("User-Agent", "Mozilla/4.76 Hyperium ");
+            connection.setReadTimeout(15000);
+            connection.setConnectTimeout(15000);
+            connection.setDoOutput(true);
+            InputStream is = connection.getInputStream();
+            BufferedImage img = ImageIO.read(ImageIO.createImageInputStream(is));
+            texturesImage.put(field, img);
+            is.close();
+          } catch (Exception e) {
+            Hyperium.LOGGER.error(field.getClass().getName());
+            e.printStackTrace();
+          } finally {
+            if (connection != null) {
+              connection.disconnect();
+            }
+          }
         }
+      });
+    }
+  }
+
+  @Override
+  protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    super.mouseClicked(mouseX, mouseY, mouseButton);
+    boolean flag = false;
+    for (GuiButton guiButton : buttonList) {
+      if (guiButton.isMouseOver()) {
+        flag = true;
+        break;
+      }
     }
 
-    @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
-        boolean flag = false;
-        for (GuiButton guiButton : buttonList) {
-            if (guiButton.isMouseOver()) {
-                flag = true;
-                break;
-            }
-        }
-
-        boolean flag2 = focused == null;
-        if (!flag && flag2) focused = null;
-
-        ScaledResolution current = ResolutionUtil.current();
-        if (focused != null && new GuiBlock((current.getScaledWidth() / 2 - 22 - 64), (current.getScaledWidth() / 2 - 22), 73, 73 + 64).isMouseOver(mouseX, mouseY)) {
-            focused = null;
-            offset = 0;
-        }
-
-        if (flag2 && mouseButton == 0) {
-            for (AbstractHypixelStats abstractHypixelStats : location.keySet()) {
-                if (location.get(abstractHypixelStats).isMouseOver(mouseX, mouseY)) {
-                    focused = abstractHypixelStats;
-                    hovered = null;
-                    offset = 0;
-                }
-            }
-        }
+    boolean flag2 = focused == null;
+    if (!flag && flag2) {
+      focused = null;
     }
 
-    @Override
-    protected void pack() {
-        reg("VIEW_ON_BEST_WEBSITE", new GuiButton(nextId(), 1, 1, "View on Sk1er.club"), button -> {
-            try {
-                HyperiumDesktop.INSTANCE.browse(new URI("https://sk1er.club/stats/" + player.getName()));
-            } catch (Exception e) {
-                Hyperium.LOGGER.error("Could not open link", e);
-            }
-        }, button -> {
-        });
+    ScaledResolution current = ResolutionUtil.current();
+    if (focused != null && new GuiBlock((current.getScaledWidth() / 2 - 22 - 64),
+        (current.getScaledWidth() / 2 - 22), 73, 73 + 64).isMouseOver(mouseX, mouseY)) {
+      focused = null;
+      offset = 0;
     }
 
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        if (!texturesImage.isEmpty()) {
-            for (Map.Entry<AbstractHypixelStats, BufferedImage> entry : texturesImage.entrySet()) {
-                AbstractHypixelStats s = entry.getKey();
-                BufferedImage value = entry.getValue();
-                if (!logos.containsKey(s))
-                    logos.put(s, new DynamicTexture(value));
-            }
+    if (flag2 && mouseButton == 0) {
+      for (AbstractHypixelStats abstractHypixelStats : location.keySet()) {
+        if (location.get(abstractHypixelStats).isMouseOver(mouseX, mouseY)) {
+          focused = abstractHypixelStats;
+          hovered = null;
+          offset = 0;
         }
-
-        super.drawScreen(mouseX, mouseY, partialTicks);
-        ScaledResolution current = ResolutionUtil.current();
-        HypixelApiGuild guild = player.getGuild();
-
-        if (guild == null) {
-            GeneralChatHandler.instance().sendMessage("Player not found!");
-            mc.displayGuiScreen(null);
-            return;
-        }
-
-        boolean isInGuild = guild.isLoaded() && guild.isValid();
-        drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 30, 2, -1,
-                true, true);
-        if (focused == null) {
-            final int blockWidth = 64 + 32;
-            int blocksPerLine = (int) (current.getScaledWidth() / (1.2D * blockWidth));
-
-            if (blocksPerLine % 2 == 1) {
-                blocksPerLine--;
-            }
-
-            final int startX = ResolutionUtil.current().getScaledWidth() / 2 - (blocksPerLine * blockWidth / 2);
-            int x = -1;
-            int y = 0;
-            hovered = null;
-
-            for (AbstractHypixelStats field : fields) {
-                DynamicTexture dynamicTexture = logos.get(field);
-                x++;
-
-                if (x > blocksPerLine) {
-                    x = 0;
-                    y++;
-                }
-
-                if (dynamicTexture != null) {
-                    int y1 = 100 + y * blockWidth - 10 - offset;
-                    if (y1 < 70) continue;
-
-                    GlStateManager.pushMatrix();
-                    GlStateManager.resetColor();
-                    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                    int y2 = 100 + y * blockWidth - offset;
-                    int x1 = startX + x * blockWidth;
-                    GuiBlock value = new GuiBlock(x1, x1 + blockWidth / 2, y2, y2 + blockWidth / 2);
-
-                    if (value.isMouseOver(mouseX, mouseY)) {
-                        hovered = field;
-                    }
-
-                    location.put(field, value);
-                    GlStateManager.translate(x1, y2, 0);
-                    GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
-                    GlStateManager.scale(.2, .2, .2);
-                    drawTexturedModalRect(0, 0, 0, 0, 128 << 1, 128 << 1);
-                    GlStateManager.popMatrix();
-
-                    GlStateManager.pushMatrix();
-                    GlStateManager.translate(startX + x * blockWidth + 24, y1, 0);
-                    drawScaledText(field.getName(), 0, 0, 1.0, Color.RED.getRGB(), true, true);
-                    GlStateManager.popMatrix();
-                }
-            }
-
-            if (hovered != null) {
-                List<StatsDisplayItem> preview = hovered.getPreview(player);
-                int width = 0;
-                int height = 0;
-
-                for (StatsDisplayItem statsDisplayItem : preview) {
-                    width = Math.max(width, statsDisplayItem.width);
-                    height += statsDisplayItem.height;
-                }
-
-                GuiBlock block = location.get(hovered);
-                int xOffset = 0;
-                int yRenderOffset = 16;
-                int rightSide = block.getRight() + ((width + yRenderOffset) << 1);
-
-                if (rightSide > current.getScaledWidth()) {
-                    xOffset = rightSide - current.getScaledWidth();
-                }
-
-                float scale = 1.0F;
-                GlStateManager.scale(scale, scale, scale);
-                int left = block.getRight() - xOffset + yRenderOffset - 8;
-                int top = block.getTop();
-                int printY = 0;
-
-                if (top + (height << 1) > current.getScaledHeight()) {
-                    top = current.getScaledHeight() - (height << 1) - 50;
-                }
-
-                RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
-                        new Color(0, 0, 0, 220).getRGB());
-
-                for (StatsDisplayItem statsDisplayItem : preview) {
-                    statsDisplayItem.draw((int) (left / scale), (int) ((top) / scale) + printY);
-                    printY += statsDisplayItem.height;
-                }
-
-                GlStateManager.scale(1 / scale, 1 / scale, 1 / scale);
-            }
-        } else {
-            DynamicTexture dynamicTexture = logos.get(focused);
-            GlStateManager.resetColor();
-            GlStateManager.pushMatrix();
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
-            GlStateManager.translate((current.getScaledWidth() >> 1) - 24, 80, 0);
-            GlStateManager.scale(.2, .2, .2);
-            drawTexturedModalRect(0, 0, 0, 0, 128 << 1, 128 << 1);
-            GlStateManager.popMatrix();
-
-            GlStateManager.pushMatrix();
-            drawScaledText(focused.getName(), current.getScaledWidth() / 2, 60, 2.0, Color.RED.getRGB(), true, true);
-            Icons.EXTENSION.bind();
-            GlStateModifier.INSTANCE.reset();
-            Icons.EXIT.bind();
-            float scale = 2.0F;
-            GlStateManager.scale(scale, scale, scale);
-            GlStateManager.translate(current.getScaledWidth() / 2F / scale - 90 / scale, (73) / scale, 0);
-            GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);
-            GlStateManager.translate(-16, -16, 0);
-            drawScaledCustomSizeModalRect(0, 0, 0, 0, 64, 64, 16, 16, 64, 64);
-            GlStateManager.popMatrix();
-        }
+      }
     }
+  }
+
+  @Override
+  protected void pack() {
+    reg("VIEW_ON_BEST_WEBSITE", new GuiButton(nextId(), 1, 1, "View on Sk1er.club"), button -> {
+      try {
+        HyperiumDesktop.INSTANCE.browse(new URI("https://sk1er.club/stats/" + player.getName()));
+      } catch (Exception e) {
+        Hyperium.LOGGER.error("Could not open link", e);
+      }
+    }, button -> {
+    });
+  }
+
+  @Override
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    if (!texturesImage.isEmpty()) {
+      for (Map.Entry<AbstractHypixelStats, BufferedImage> entry : texturesImage.entrySet()) {
+        AbstractHypixelStats s = entry.getKey();
+        BufferedImage value = entry.getValue();
+        if (!logos.containsKey(s)) {
+          logos.put(s, new DynamicTexture(value));
+        }
+      }
+    }
+
+    super.drawScreen(mouseX, mouseY, partialTicks);
+    ScaledResolution current = ResolutionUtil.current();
+    HypixelApiGuild guild = player.getGuild();
+
+    if (guild == null) {
+      GeneralChatHandler.instance().sendMessage("Player not found!");
+      mc.displayGuiScreen(null);
+      return;
+    }
+
+    boolean isInGuild = guild.isLoaded() && guild.isValid();
+    drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""),
+        current.getScaledWidth() / 2, 30, 2, -1,
+        true, true);
+    if (focused == null) {
+      final int blockWidth = 64 + 32;
+      int blocksPerLine = (int) (current.getScaledWidth() / (1.2D * blockWidth));
+
+      if (blocksPerLine % 2 == 1) {
+        blocksPerLine--;
+      }
+
+      final int startX =
+          ResolutionUtil.current().getScaledWidth() / 2 - (blocksPerLine * blockWidth / 2);
+      int x = -1;
+      int y = 0;
+      hovered = null;
+
+      for (AbstractHypixelStats field : fields) {
+        DynamicTexture dynamicTexture = logos.get(field);
+        x++;
+
+        if (x > blocksPerLine) {
+          x = 0;
+          y++;
+        }
+
+        if (dynamicTexture != null) {
+          int y1 = 100 + y * blockWidth - 10 - offset;
+          if (y1 < 70) {
+            continue;
+          }
+
+          GlStateManager.pushMatrix();
+          GlStateManager.resetColor();
+          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+          int y2 = 100 + y * blockWidth - offset;
+          int x1 = startX + x * blockWidth;
+          GuiBlock value = new GuiBlock(x1, x1 + blockWidth / 2, y2, y2 + blockWidth / 2);
+
+          if (value.isMouseOver(mouseX, mouseY)) {
+            hovered = field;
+          }
+
+          location.put(field, value);
+          GlStateManager.translate(x1, y2, 0);
+          GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
+          GlStateManager.scale(.2, .2, .2);
+          drawTexturedModalRect(0, 0, 0, 0, 128 << 1, 128 << 1);
+          GlStateManager.popMatrix();
+
+          GlStateManager.pushMatrix();
+          GlStateManager.translate(startX + x * blockWidth + 24, y1, 0);
+          drawScaledText(field.getName(), 0, 0, 1.0, Color.RED.getRGB(), true, true);
+          GlStateManager.popMatrix();
+        }
+      }
+
+      if (hovered != null) {
+        List<StatsDisplayItem> preview = hovered.getPreview(player);
+        int width = 0;
+        int height = 0;
+
+        for (StatsDisplayItem statsDisplayItem : preview) {
+          width = Math.max(width, statsDisplayItem.width);
+          height += statsDisplayItem.height;
+        }
+
+        GuiBlock block = location.get(hovered);
+        int xOffset = 0;
+        int yRenderOffset = 16;
+        int rightSide = block.getRight() + ((width + yRenderOffset) << 1);
+
+        if (rightSide > current.getScaledWidth()) {
+          xOffset = rightSide - current.getScaledWidth();
+        }
+
+        float scale = 1.0F;
+        GlStateManager.scale(scale, scale, scale);
+        int left = block.getRight() - xOffset + yRenderOffset - 8;
+        int top = block.getTop();
+        int printY = 0;
+
+        if (top + (height << 1) > current.getScaledHeight()) {
+          top = current.getScaledHeight() - (height << 1) - 50;
+        }
+
+        RenderUtils
+            .drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale,
+                (top + (height + 3) * scale) / scale,
+                new Color(0, 0, 0, 220).getRGB());
+
+        for (StatsDisplayItem statsDisplayItem : preview) {
+          statsDisplayItem.draw((int) (left / scale), (int) ((top) / scale) + printY);
+          printY += statsDisplayItem.height;
+        }
+
+        GlStateManager.scale(1 / scale, 1 / scale, 1 / scale);
+      }
+    } else {
+      DynamicTexture dynamicTexture = logos.get(focused);
+      GlStateManager.resetColor();
+      GlStateManager.pushMatrix();
+      GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+      GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
+      GlStateManager.translate((current.getScaledWidth() >> 1) - 24, 80, 0);
+      GlStateManager.scale(.2, .2, .2);
+      drawTexturedModalRect(0, 0, 0, 0, 128 << 1, 128 << 1);
+      GlStateManager.popMatrix();
+
+      GlStateManager.pushMatrix();
+      drawScaledText(focused.getName(), current.getScaledWidth() / 2, 60, 2.0, Color.RED.getRGB(),
+          true, true);
+      Icons.EXTENSION.bind();
+      GlStateModifier.INSTANCE.reset();
+      Icons.EXIT.bind();
+      float scale = 2.0F;
+      GlStateManager.scale(scale, scale, scale);
+      GlStateManager.translate(current.getScaledWidth() / 2F / scale - 90 / scale, (73) / scale, 0);
+      GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);
+      GlStateManager.translate(-16, -16, 0);
+      drawScaledCustomSizeModalRect(0, 0, 0, 0, 64, 64, 16, 16, 64, 64);
+      GlStateManager.popMatrix();
+    }
+  }
 }

@@ -26,7 +26,7 @@ class KeyBind {
         for (key in Client.getMinecraft().gameSettings.keyBindings) {
             if (key.keyCategory == "ChatTriggers" && key.keyDescription == description) {
                 Client.getMinecraft().gameSettings.keyBindings =
-                    ArrayUtils.removeElement(Client.getMinecraft().gameSettings.keyBindings, key)
+                        ArrayUtils.removeElement(Client.getMinecraft().gameSettings.keyBindings, key)
                 break
             }
         }
@@ -97,7 +97,7 @@ class KeyBind {
             keyBinds.forEach {
                 if (!it.isCustom) return
                 Client.getMinecraft().gameSettings.keyBindings =
-                    ArrayUtils.removeElement(Client.getMinecraft().gameSettings.keyBindings, it.keyBinding)
+                        ArrayUtils.removeElement(Client.getMinecraft().gameSettings.keyBindings, it.keyBinding)
             }
         }
     }

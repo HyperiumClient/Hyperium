@@ -28,15 +28,16 @@ import net.minecraft.client.Minecraft;
  */
 public class LocationDisplay extends DisplayItem {
 
-    public LocationDisplay(JsonHolder raw, int ordinal) {
-        super(raw, ordinal);
-        height = 10;
-    }
+  public LocationDisplay(JsonHolder raw, int ordinal) {
+    super(raw, ordinal);
+    height = 10;
+  }
 
-    @Override
-    public void draw(int starX, double startY, boolean config) {
-        String string = "Location: " + Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation();
-        ElementRenderer.draw(starX, startY, string);
-        width = config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0;
-    }
+  @Override
+  public void draw(int starX, double startY, boolean config) {
+    String string =
+        "Location: " + Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation();
+    ElementRenderer.draw(starX, startY, string);
+    width = config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0;
+  }
 }

@@ -55,17 +55,17 @@ object TabList {
             val teamTwo = playerTwo.playerTeam
 
             return ComparisonChain
-                .start()
-                .compareTrueFirst(
-                    playerOne.gameType != GameType.SPECTATOR,
-                    playerTwo.gameType != GameType.SPECTATOR
-                ).compare(
-                    teamOne?.registeredName ?: "",
-                    teamTwo?.registeredName ?: ""
-                ).compare(
-                    playerOne.gameProfile.name,
-                    playerTwo.gameProfile.name
-                ).result()
+                    .start()
+                    .compareTrueFirst(
+                            playerOne.gameType != GameType.SPECTATOR,
+                            playerTwo.gameType != GameType.SPECTATOR
+                    ).compare(
+                            teamOne?.registeredName ?: "",
+                            teamTwo?.registeredName ?: ""
+                    ).compare(
+                            playerOne.gameProfile.name,
+                            playerTwo.gameProfile.name
+                    ).result()
         }
     }
 }

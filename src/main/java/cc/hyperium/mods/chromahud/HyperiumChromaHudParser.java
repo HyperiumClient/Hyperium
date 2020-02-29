@@ -31,59 +31,59 @@ import java.util.Map;
  */
 public class HyperiumChromaHudParser implements ChromaHUDParser {
 
-    private final Map<String, String> names = new HashMap<>();
+  private final Map<String, String> names = new HashMap<>();
 
-    HyperiumChromaHudParser() {
-        names.put("LOCATION", "Location");
-        names.put("HYPIXEL", "Hypixel");
-        names.put("SCOREBOARD", "Scoreboard");
-        names.put("INFO", "Hyperium Info");
-        names.put("COINS", "Coin Display");
-        names.put("PLAYER", "Player Display");
-        names.put("DOUBLE_CPS_DISPLAY", "L+R CPS Display");
-        names.put("SPRINT_STATUS", "ToggleSprint Status");
-        names.put("MEMORY", "Memory Display");
-        names.put("REACH_DISPLAY", "Reach Display");
-        names.put("XP", "Daily XP");
+  HyperiumChromaHudParser() {
+    names.put("LOCATION", "Location");
+    names.put("HYPIXEL", "Hypixel");
+    names.put("SCOREBOARD", "Scoreboard");
+    names.put("INFO", "Hyperium Info");
+    names.put("COINS", "Coin Display");
+    names.put("PLAYER", "Player Display");
+    names.put("DOUBLE_CPS_DISPLAY", "L+R CPS Display");
+    names.put("SPRINT_STATUS", "ToggleSprint Status");
+    names.put("MEMORY", "Memory Display");
+    names.put("REACH_DISPLAY", "Reach Display");
+    names.put("XP", "Daily XP");
+  }
+
+  @Override
+  public DisplayItem parse(String type, int ord, JsonHolder item) {
+    switch (type) {
+      case "INFO":
+        return new HyperiumInfoDisplay(item, ord);
+      case "LOCATION":
+        return new LocationDisplay(item, ord);
+      case "HYPIXEL":
+        return new HypixelDisplay(item, ord);
+      case "COINS":
+        return new CoinsDisplay(item, ord);
+      case "SCOREBOARD":
+        return new ScoreboardDisplay(item, ord);
+      case "PLAYER":
+        return new PlayerDisplay(item, ord);
+      case "DOUBLE_CPS_DISPLAY":
+        return new DoubleCPSDisplay(item, ord);
+      case "SPRINT_STATUS":
+        return new ToggleSprintStatus(item, ord);
+      case "MEMORY":
+        return new MemoryDisplay(item, ord);
+      case "REACH_DISPLAY":
+        return new ReachDisplay(item, ord);
+      case "XP":
+        return new XPDisplay(item, ord);
     }
 
-    @Override
-    public DisplayItem parse(String type, int ord, JsonHolder item) {
-        switch (type) {
-            case "INFO":
-                return new HyperiumInfoDisplay(item, ord);
-            case "LOCATION":
-                return new LocationDisplay(item, ord);
-            case "HYPIXEL":
-                return new HypixelDisplay(item, ord);
-            case "COINS":
-                return new CoinsDisplay(item, ord);
-            case "SCOREBOARD":
-                return new ScoreboardDisplay(item, ord);
-            case "PLAYER":
-                return new PlayerDisplay(item, ord);
-            case "DOUBLE_CPS_DISPLAY":
-                return new DoubleCPSDisplay(item, ord);
-            case "SPRINT_STATUS":
-                return new ToggleSprintStatus(item, ord);
-            case "MEMORY":
-                return new MemoryDisplay(item, ord);
-            case "REACH_DISPLAY":
-                return new ReachDisplay(item, ord);
-            case "XP":
-                return new XPDisplay(item, ord);
-        }
+    return null;
+  }
 
-        return null;
-    }
+  @Override
+  public Map<String, String> getNames() {
+    return names;
+  }
 
-    @Override
-    public Map<String, String> getNames() {
-        return names;
-    }
-
-    @Override
-    public ChromaHUDDescription description() {
-        return new ChromaHUDDescription("DEFAULT", "1.0", "Hyperium", "Default Items in Hyperium.");
-    }
+  @Override
+  public ChromaHUDDescription description() {
+    return new ChromaHUDDescription("DEFAULT", "1.0", "Hyperium", "Default Items in Hyperium.");
+  }
 }

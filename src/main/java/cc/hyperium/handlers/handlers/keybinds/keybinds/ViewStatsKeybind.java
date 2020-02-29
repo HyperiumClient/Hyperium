@@ -26,15 +26,15 @@ import org.lwjgl.input.Keyboard;
 
 public class ViewStatsKeybind extends HyperiumBind {
 
-    public ViewStatsKeybind() {
-        super("View Hypixel Stats", Keyboard.KEY_RBRACKET, KeyType.GUI);
-    }
+  public ViewStatsKeybind() {
+    super("View Hypixel Stats", Keyboard.KEY_RBRACKET, KeyType.GUI);
+  }
 
-    @Override
-    public void onPress() {
-        Entity pointedEntity = Minecraft.getMinecraft().pointedEntity;
-        if (pointedEntity instanceof EntityPlayer) {
-            Hyperium.INSTANCE.getHandlers().getStatsHandler().initStatsViewer(pointedEntity.getName());
-        }
+  @Override
+  public void onPress() {
+    Entity pointedEntity = Minecraft.getMinecraft().pointedEntity;
+    if (pointedEntity instanceof EntityPlayer) {
+      Hyperium.INSTANCE.getHandlers().getStatsHandler().initStatsViewer(pointedEntity.getName());
     }
+  }
 }

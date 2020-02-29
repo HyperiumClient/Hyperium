@@ -27,16 +27,16 @@ import net.minecraft.client.Minecraft;
  */
 public class FPS extends DisplayItem {
 
-    public FPS(JsonHolder raw, int ordinal) {
-        super(raw, ordinal);
-        height = 10;
-    }
+  public FPS(JsonHolder raw, int ordinal) {
+    super(raw, ordinal);
+    height = 10;
+  }
 
 
-    @Override
-    public void draw(int starX, double startY, boolean ignored) {
-        String string = "FPS: " + Minecraft.getDebugFPS();
-        ElementRenderer.draw(starX, startY, string);
-        width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
-    }
+  @Override
+  public void draw(int starX, double startY, boolean ignored) {
+    String string = "FPS: " + Minecraft.getDebugFPS();
+    ElementRenderer.draw(starX, startY, string);
+    width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
+  }
 }

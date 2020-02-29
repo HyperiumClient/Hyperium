@@ -4,13 +4,13 @@ import cc.hyperium.event.Event;
 
 public class PlayerJoinHypixelEvent extends Event {
 
-    private final String username;
+  private final String username;
 
-    public PlayerJoinHypixelEvent(String username) {
-        this.username = username;
-    }
+  public PlayerJoinHypixelEvent(String username) {
+    this.username = username;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 }

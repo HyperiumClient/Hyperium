@@ -9,91 +9,91 @@ import net.minecraft.client.Minecraft;
 
 public class MessageUtil {
 
-    private static final String PREFIX = "&6A&eT &8> &7";
+  private static final String PREFIX = "&6A&eT &8> &7";
 
-    private final Autotip autotip;
+  private final Autotip autotip;
 
-    private final Queue<String> chatQueue = Queues.newConcurrentLinkedQueue();
-    private final Queue<String> cmdQueue = Queues.newConcurrentLinkedQueue();
+  private final Queue<String> chatQueue = Queues.newConcurrentLinkedQueue();
+  private final Queue<String> cmdQueue = Queues.newConcurrentLinkedQueue();
 
-    public MessageUtil(Autotip autotip) {
-        this.autotip = autotip;
+  public MessageUtil(Autotip autotip) {
+    this.autotip = autotip;
+  }
+
+  public ChatComponentBuilder getBuilder(String text, Object... params) {
+    return getBuilder(true, text, params);
+  }
+
+  public ChatComponentBuilder getBuilder(boolean prefix, String text, Object... params) {
+    return ChatComponentBuilder.of(prefix, text, params);
+  }
+
+  public KeyHelper getKeyHelper(String rootKey) {
+    return new KeyHelper(this, rootKey);
+  }
+
+  public void sendKey(String key, Object... params) {
+    send(getKey(key), params);
+  }
+
+  public String getKey(String key) {
+    return autotip.getLocaleHolder().getKey(key);
+  }
+
+  public void send(String msg, Object... params) {
+    sendRaw(PREFIX + msg, params);
+  }
+
+  public void send(String msg, String url, String hoverText, Object... params) {
+    UniversalUtil.addChatMessage(StringUtil.params(PREFIX + msg, params), url,
+        StringUtil.format(hoverText));
+  }
+
+  public void separator() {
+    sendRaw("&6&m&l----------------------------------");
+  }
+
+  public void sendRaw(String msg, Object... params) {
+    msg = StringUtil.params(msg, params);
+    if (isPlayerLoaded()) {
+      flushQueues();
+      UniversalUtil.addChatMessage(msg);
+    } else {
+      chatQueue.add(msg);
+      Autotip.LOGGER.info("Queued chat message: " + msg);
     }
+  }
 
-    public ChatComponentBuilder getBuilder(String text, Object... params) {
-        return getBuilder(true, text, params);
+  public void sendCommand(String command) {
+    if (isPlayerLoaded()) {
+      flushQueues();
+      autotip.getMinecraft().thePlayer.sendChatMessage(command);
+    } else {
+      cmdQueue.add(command);
+      Autotip.LOGGER.info("Queued command: " + command);
     }
+  }
 
-    public ChatComponentBuilder getBuilder(boolean prefix, String text, Object... params) {
-        return ChatComponentBuilder.of(prefix, text, params);
+  public void flushQueues() {
+    if (isPlayerLoaded()) {
+      while (!chatQueue.isEmpty()) {
+        sendRaw(chatQueue.poll());
+      }
+
+      while (!cmdQueue.isEmpty()) {
+        sendCommand(cmdQueue.poll());
+      }
     }
+  }
 
-    public KeyHelper getKeyHelper(String rootKey) {
-        return new KeyHelper(this, rootKey);
-    }
+  public void clearQueues() {
+    chatQueue.clear();
+    cmdQueue.clear();
+  }
 
-    public void sendKey(String key, Object... params) {
-        send(getKey(key), params);
-    }
-
-    public String getKey(String key) {
-        return autotip.getLocaleHolder().getKey(key);
-    }
-
-    public void send(String msg, Object... params) {
-        sendRaw(PREFIX + msg, params);
-    }
-
-    public void send(String msg, String url, String hoverText, Object... params) {
-        UniversalUtil.addChatMessage(StringUtil.params(PREFIX + msg, params), url,
-                StringUtil.format(hoverText));
-    }
-
-    public void separator() {
-        sendRaw("&6&m&l----------------------------------");
-    }
-
-    public void sendRaw(String msg, Object... params) {
-        msg = StringUtil.params(msg, params);
-        if (isPlayerLoaded()) {
-            flushQueues();
-            UniversalUtil.addChatMessage(msg);
-        } else {
-            chatQueue.add(msg);
-            Autotip.LOGGER.info("Queued chat message: " + msg);
-        }
-    }
-
-    public void sendCommand(String command) {
-        if (isPlayerLoaded()) {
-            flushQueues();
-            autotip.getMinecraft().thePlayer.sendChatMessage(command);
-        } else {
-            cmdQueue.add(command);
-            Autotip.LOGGER.info("Queued command: " + command);
-        }
-    }
-
-    public void flushQueues() {
-        if (isPlayerLoaded()) {
-            while (!chatQueue.isEmpty()) {
-                sendRaw(chatQueue.poll());
-            }
-
-            while (!cmdQueue.isEmpty()) {
-                sendCommand(cmdQueue.poll());
-            }
-        }
-    }
-
-    public void clearQueues() {
-        chatQueue.clear();
-        cmdQueue.clear();
-    }
-
-    private boolean isPlayerLoaded() {
-        Minecraft minecraft = autotip.getMinecraft();
-        return minecraft != null && minecraft.thePlayer != null;
-    }
+  private boolean isPlayerLoaded() {
+    Minecraft minecraft = autotip.getMinecraft();
+    return minecraft != null && minecraft.thePlayer != null;
+  }
 
 }

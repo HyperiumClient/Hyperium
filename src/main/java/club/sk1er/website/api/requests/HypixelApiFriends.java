@@ -12,41 +12,44 @@ import java.util.List;
  */
 public class HypixelApiFriends implements HypixelApiObject {
 
-    private JsonHolder master;
+  private JsonHolder master;
 
-    public HypixelApiFriends(JsonHolder o) {
-        if (o != null)
-            master = o;
-        else
-            master = new JsonHolder();
+  public HypixelApiFriends(JsonHolder o) {
+    if (o != null) {
+      master = o;
+    } else {
+      master = new JsonHolder();
     }
+  }
 
-    @Override
-    public String toString() {
-        return master.toString();
-    }
+  @Override
+  public String toString() {
+    return master.toString();
+  }
 
-    @Override
-    public JsonHolder getData() {
-        return master;
-    }
+  @Override
+  public JsonHolder getData() {
+    return master;
+  }
 
-    public boolean isValid() {
-        return master != null && !master.isNull("records");
-    }
+  public boolean isValid() {
+    return master != null && !master.isNull("records");
+  }
 
-    public JsonArray getFriends() {
-        return master.optJSONArray("records");
-    }
+  public JsonArray getFriends() {
+    return master.optJSONArray("records");
+  }
 
-    public List<JsonHolder> getFriendsAsList() {
-        List<JsonHolder> friends = new ArrayList<>();
-        for (JsonElement tmp1 : getFriends()) friends.add(new JsonHolder(tmp1.getAsJsonObject()));
-        return friends;
+  public List<JsonHolder> getFriendsAsList() {
+    List<JsonHolder> friends = new ArrayList<>();
+    for (JsonElement tmp1 : getFriends()) {
+      friends.add(new JsonHolder(tmp1.getAsJsonObject()));
     }
+    return friends;
+  }
 
-    public int getCount() {
-        return getFriends().size();
-    }
+  public int getCount() {
+    return getFriends().size();
+  }
 
 }

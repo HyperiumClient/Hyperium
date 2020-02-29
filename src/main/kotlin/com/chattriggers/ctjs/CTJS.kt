@@ -83,9 +83,9 @@ object CTJS {
         try {
             val parser = JsonParser()
             val obj = parser.parse(
-                FileReader(
-                    File(configLocation, "ChatTriggers.json")
-                )
+                    FileReader(
+                            File(configLocation, "ChatTriggers.json")
+                    )
             ).asJsonObject
 
             Config.load(obj)
@@ -105,7 +105,7 @@ object CTJS {
         Hyperium.INSTANCE.handlers.hyperiumCommandHandler.registerCommand(CTCommand)
 
         Runtime.getRuntime().addShutdownHook(
-            Thread { TriggerType.GAME_UNLOAD::triggerAll }
+                Thread { TriggerType.GAME_UNLOAD::triggerAll }
         )
     }
 

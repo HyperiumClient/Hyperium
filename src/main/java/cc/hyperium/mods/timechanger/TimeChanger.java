@@ -28,57 +28,62 @@ import net.minecraft.client.Minecraft;
 
 public class TimeChanger extends AbstractMod {
 
-    private final Minecraft mc = Minecraft.getMinecraft();
+  private final Minecraft mc = Minecraft.getMinecraft();
 
-    @ConfigOpt
-    private double fastTimeMultiplier = 1.0D;
+  @ConfigOpt
+  private double fastTimeMultiplier = 1.0D;
 
-    @ConfigOpt
-    private TimeType timeType = TimeType.VANILLA;
+  @ConfigOpt
+  private TimeType timeType = TimeType.VANILLA;
 
-    @Override
-    public AbstractMod init() {
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandTimeChangerDay(this));
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandTimeChangerNight(this));
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandTimeChangerSunset(this));
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandTimeChangerReset(this));
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandTimeChangerFastTime(this));
+  @Override
+  public AbstractMod init() {
+    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        .registerCommand(new CommandTimeChangerDay(this));
+    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        .registerCommand(new CommandTimeChangerNight(this));
+    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        .registerCommand(new CommandTimeChangerSunset(this));
+    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        .registerCommand(new CommandTimeChangerReset(this));
+    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        .registerCommand(new CommandTimeChangerFastTime(this));
 
-        EventBus.INSTANCE.register(this);
-        Hyperium.CONFIG.register(this);
+    EventBus.INSTANCE.register(this);
+    Hyperium.CONFIG.register(this);
 
-        return this;
+    return this;
+  }
+
+  @Override
+  public Metadata getModMetadata() {
+    return new Metadata(this, "timechanger", "1.0", "fyu");
+  }
+
+  public TimeType getTimeType() {
+    return timeType;
+  }
+
+  public void setTimeType(TimeType timeType) {
+    this.timeType = timeType;
+  }
+
+  public void setFastTimeMultiplier(double fastTimeMultiplier) {
+    this.fastTimeMultiplier = fastTimeMultiplier;
+  }
+
+  @InvokeEvent
+  public void onTick(TickEvent event) {
+    if (mc.theWorld != null && timeType == TimeType.FAST) {
+      mc.theWorld.setWorldTime((long) (System.currentTimeMillis() * fastTimeMultiplier % 24000.0));
     }
+  }
 
-    @Override
-    public Metadata getModMetadata() {
-        return new Metadata(this, "timechanger", "1.0", "fyu");
-    }
-
-    public TimeType getTimeType() {
-        return timeType;
-    }
-
-    public void setTimeType(TimeType timeType) {
-        this.timeType = timeType;
-    }
-
-    public void setFastTimeMultiplier(double fastTimeMultiplier) {
-        this.fastTimeMultiplier = fastTimeMultiplier;
-    }
-
-    @InvokeEvent
-    public void onTick(TickEvent event) {
-        if (mc.theWorld != null && timeType == TimeType.FAST) {
-            mc.theWorld.setWorldTime((long) (System.currentTimeMillis() * fastTimeMultiplier % 24000.0));
-        }
-    }
-
-    public enum TimeType {
-        DAY, // During the day
-        SUNSET, // Just before night
-        NIGHT, // Always night
-        VANILLA, // The normal time of the game
-        FAST // Sped up vanilla time
-    }
+  public enum TimeType {
+    DAY, // During the day
+    SUNSET, // Just before night
+    NIGHT, // Always night
+    VANILLA, // The normal time of the game
+    FAST // Sped up vanilla time
+  }
 }

@@ -27,35 +27,39 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 public class CommandTimeChangerFastTime implements BaseCommand {
 
-    private final TimeChanger mod;
+  private final TimeChanger mod;
 
-    public CommandTimeChangerFastTime(TimeChanger main) {
-        mod = main;
+  public CommandTimeChangerFastTime(TimeChanger main) {
+    mod = main;
+  }
+
+  @Override
+  public String getName() {
+    return "fasttime";
+  }
+
+  @Override
+  public String getUsage() {
+    return ChatColor.RED + "Usage: /fasttime <multiplier>";
+  }
+
+  @Override
+  public void onExecute(String[] args) throws CommandException {
+    assert args.length != 0;
+
+    final double multiplier = NumberUtils.toDouble(args[0], -1.0);
+
+    if (multiplier < 0.0) {
+      GeneralChatHandler.instance()
+          .sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.RED + "Invalid multiplier!",
+              false);
+      return;
     }
 
-    @Override
-    public String getName() {
-        return "fasttime";
-    }
-
-    @Override
-    public String getUsage() {
-        return ChatColor.RED + "Usage: /fasttime <multiplier>";
-    }
-
-    @Override
-    public void onExecute(String[] args) throws CommandException {
-        assert args.length != 0;
-
-        final double multiplier = NumberUtils.toDouble(args[0], -1.0);
-
-        if (multiplier < 0.0) {
-            GeneralChatHandler.instance().sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.RED + "Invalid multiplier!", false);
-            return;
-        }
-
-        mod.setTimeType(TimeType.FAST);
-        mod.setFastTimeMultiplier(multiplier);
-        GeneralChatHandler.instance().sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to fast (" + multiplier + ").", false);
-    }
+    mod.setTimeType(TimeType.FAST);
+    mod.setFastTimeMultiplier(multiplier);
+    GeneralChatHandler.instance().sendMessage(
+        ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to fast (" + multiplier
+            + ").", false);
+  }
 }

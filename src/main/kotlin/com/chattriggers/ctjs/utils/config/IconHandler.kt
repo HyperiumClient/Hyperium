@@ -15,25 +15,25 @@ object IconHandler {
 
         icons.add(Icon(Image("CT_logo.png", imageUrl + "logo-icon.png"), "https://chattriggers.com/"))
         icons.add(
-            Icon(
-                Image("CT_Patreon.png", imageUrl + "Patreon-dark.png"),
-                "https://www.patreon.com/ChatTriggers",
-                1
-            )
+                Icon(
+                        Image("CT_Patreon.png", imageUrl + "Patreon-dark.png"),
+                        "https://www.patreon.com/ChatTriggers",
+                        1
+                )
         )
         icons.add(
-            Icon(
-                Image("CT_Github.png", imageUrl + "github-dark.png"),
-                "https://github.com/ChatTriggers/ct.js",
-                2
-            )
+                Icon(
+                        Image("CT_Github.png", imageUrl + "github-dark.png"),
+                        "https://github.com/ChatTriggers/ct.js",
+                        2
+                )
         )
         icons.add(
-            Icon(
-                Image("CT_Discord.png", imageUrl + "discord-dark.png"),
-                "https://discordapp.com/invite/0fNjZyopOvBHZyG8",
-                3
-            )
+                Icon(
+                        Image("CT_Discord.png", imageUrl + "discord-dark.png"),
+                        "https://discordapp.com/invite/0fNjZyopOvBHZyG8",
+                        3
+                )
         )
     }
 
@@ -46,10 +46,10 @@ object IconHandler {
                 image.draw(0.0, (Renderer.Screen.getHeight() - 65).toDouble(), 64.0, 64.0)
             else
                 image.draw(
-                    65.0,
-                    (Renderer.Screen.getHeight() - y * 21.3f).toInt().toDouble(),
-                    (64 / 3).toDouble(),
-                    (64 / 3).toDouble()
+                        65.0,
+                        (Renderer.Screen.getHeight() - y * 21.3f).toInt().toDouble(),
+                        (64 / 3).toDouble(),
+                        (64 / 3).toDouble()
                 )
         }
 

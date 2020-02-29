@@ -25,13 +25,13 @@ import net.minecraft.util.IChatComponent;
  */
 public class ChatEvent extends CancellableEvent {
 
-    private final IChatComponent chat;
+  private final IChatComponent chat;
 
-    public ChatEvent(IChatComponent chat) {
-        this.chat = chat;
-    }
+  public ChatEvent(IChatComponent chat) {
+    this.chat = chat;
+  }
 
-    public IChatComponent getChat() {
-        return chat;
-    }
+  public IChatComponent getChat() {
+    return chat;
+  }
 }

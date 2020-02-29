@@ -25,24 +25,24 @@ import net.minecraft.util.IChatComponent;
  */
 public class ServerChatEvent extends CancellableEvent {
 
-    private final byte type;
-    private IChatComponent chat;
+  private final byte type;
+  private IChatComponent chat;
 
 
-    public ServerChatEvent(byte type, IChatComponent chat) {
-        this.type = type;
-        this.chat = chat;
-    }
+  public ServerChatEvent(byte type, IChatComponent chat) {
+    this.type = type;
+    this.chat = chat;
+  }
 
-    public byte getType() {
-        return type;
-    }
+  public byte getType() {
+    return type;
+  }
 
-    public IChatComponent getChat() {
-        return chat;
-    }
+  public IChatComponent getChat() {
+    return chat;
+  }
 
-    public void setChat(IChatComponent chat) {
-        this.chat = chat;
-    }
+  public void setChat(IChatComponent chat) {
+    this.chat = chat;
+  }
 }

@@ -36,135 +36,166 @@ import java.util.function.Consumer;
 
 public class CustomLevelheadConfigurer extends GuiScreen {
 
-    private int idIteration;
-    private GuiTextField header;
-    private GuiTextField level;
-    private LevelheadJsonHolder levelheadPropose = new LevelheadJsonHolder();
-    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+  private int idIteration;
+  private GuiTextField header;
+  private GuiTextField level;
+  private LevelheadJsonHolder levelheadPropose = new LevelheadJsonHolder();
+  private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
 
-    @Override
-    public void initGui() {
-        super.initGui();
+  @Override
+  public void initGui() {
+    super.initGui();
 
-        header = new GuiTextField(nextId(), fontRendererObj, width / 2 - 205, 30, 200, 20);
-        level = new GuiTextField(nextId(), fontRendererObj, width / 2 + 5, 30, 200, 20);
-        header.setMaxStringLength(50);
-        level.setMaxStringLength(50);
+    header = new GuiTextField(nextId(), fontRendererObj, width / 2 - 205, 30, 200, 20);
+    level = new GuiTextField(nextId(), fontRendererObj, width / 2 + 5, 30, 200, 20);
+    header.setMaxStringLength(50);
+    level.setMaxStringLength(50);
 
-        Multithreading.runAsync(() -> {
-            LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://sk1er.club/newlevel/" +
-                    mc.getSession().getProfile().getId().toString().replace("-", "")));
-            header.setText(jsonHolder.optString("header"));
-            level.setText(jsonHolder.optString("true_footer"));
-        });
-        Multithreading.runAsync(() -> levelheadPropose = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/levelhead_propose" +
-                mc.getSession().getProfile().getId().toString().replace("-", ""))));
-        Multithreading.runAsync(() -> {
-            LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelheadv5/" +
-                    mc.getSession().getProfile().getId().toString().replace("-", "") + "/LEVEL"));
-            if (!jsonHolder.has("uuid")) {
-                if (mc.currentScreen instanceof CustomLevelheadConfigurer) {
-                    mc.displayGuiScreen(null);
-                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("You must purchase Custom Levelhead to use this!");
-                }
-            }
-        });
-
-        refresh();
-        reg(new GuiButton(nextId(), width / 2 - 205, 55, 200, 20, "Reset to default"), button -> {
-            Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/customlevelhead/reset?hash=" + Levelhead.getInstance().getAuth().getHash() + "&level=default&header=default");
-            refresh();
-        });
-        reg(new GuiButton(nextId(), width / 2 + 5, 55, 200, 20, "Send for review"), button -> {
-            Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/customlevelhead/propose?hash=" + Levelhead.getInstance().getAuth().getHash() + "&footer=" + URLEncoder.encode(level.getText()) + "&header=" + URLEncoder.encode(header.getText()));
-            refresh();
-        });
-        reg(new GuiButton(nextId(), width / 2 - 50, 80, 100, 20, "Refresh"), button -> refresh());
-    }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
-        header.drawTextBox();
-        level.drawTextBox();
-        drawScaledText(ChatColor.UNDERLINE.toString() + ChatColor.BOLD + "Custom Levelhead Message Configurer", width / 2, 5, 2, -1, true, true);
-        if (levelheadPropose.getKeys().size() == 0) {
-            drawScaledText(ChatColor.RED + "Loading: Error", width / 2, 115, 1.25, Color.RED.getRGB(), true, true);
-            return;
+    Multithreading.runAsync(() -> {
+      LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(
+          Sk1erMod.getInstance().rawWithAgent("https://sk1er.club/newlevel/" +
+              mc.getSession().getProfile().getId().toString().replace("-", "")));
+      header.setText(jsonHolder.optString("header"));
+      level.setText(jsonHolder.optString("true_footer"));
+    });
+    Multithreading.runAsync(() -> levelheadPropose = new LevelheadJsonHolder(
+        Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/levelhead_propose" +
+            mc.getSession().getProfile().getId().toString().replace("-", ""))));
+    Multithreading.runAsync(() -> {
+      LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(
+          Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelheadv5/" +
+              mc.getSession().getProfile().getId().toString().replace("-", "") + "/LEVEL"));
+      if (!jsonHolder.has("uuid")) {
+        if (mc.currentScreen instanceof CustomLevelheadConfigurer) {
+          mc.displayGuiScreen(null);
+          Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+              .sendMessage("You must purchase Custom Levelhead to use this!");
         }
-        if (levelheadPropose.optBoolean("denied")) {
-            drawScaledText(ChatColor.YELLOW + "Status: " + ChatColor.RED + "Denied", width / 2, 115, 1.25, -1, true, true);
-            return;
-        }
-        if (levelheadPropose.optBoolean("enabled")) {
-            int i = 115;
-            drawScaledText(ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Accepted", width / 2, i - 5, 1.25, -1, true, true);
-            drawScaledText(ChatColor.YELLOW + "Header: " + ChatColor.GRAY + levelheadPropose.optString("header"), width / 2, 125, 1.25, -1, true, true);
-            drawScaledText(ChatColor.YELLOW + "Level: " + ChatColor.GRAY + levelheadPropose.optString("strlevel"), width / 2, 140, 1.25, -1, true, true);
-        } else {
-            int i = 115;
-            drawScaledText(ChatColor.YELLOW + "Status: Pending", width / 2, i - 5, 1.25, -1, true, true);
-            drawScaledText(ChatColor.YELLOW + "Header: " + ChatColor.GRAY + levelheadPropose.optString("header"), width / 2, 125, 1.25, -1, true, true);
-            drawScaledText(ChatColor.YELLOW + "Level: " + ChatColor.GRAY + levelheadPropose.optString("strlevel"), width / 2, 140, 1.25, -1, true, true);
-            drawScaledText(ChatColor.YELLOW + "It will be reviewed soon!", width / 2, 155, 1.25, -1, true, true);
-        }
-    }
+      }
+    });
 
-    @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
-        header.mouseClicked(mouseX, mouseY, mouseButton);
-        level.mouseClicked(mouseX, mouseY, mouseButton);
-    }
+    refresh();
+    reg(new GuiButton(nextId(), width / 2 - 205, 55, 200, 20, "Reset to default"), button -> {
+      Sk1erMod.getInstance().rawWithAgent(
+          "https://api.sk1er.club/customlevelhead/reset?hash=" + Levelhead.getInstance().getAuth()
+              .getHash() + "&level=default&header=default");
+      refresh();
+    });
+    reg(new GuiButton(nextId(), width / 2 + 5, 55, 200, 20, "Send for review"), button -> {
+      Sk1erMod.getInstance().rawWithAgent(
+          "https://api.sk1er.club/customlevelhead/propose?hash=" + Levelhead.getInstance().getAuth()
+              .getHash() + "&footer=" + URLEncoder.encode(level.getText()) + "&header=" + URLEncoder
+              .encode(header.getText()));
+      refresh();
+    });
+    reg(new GuiButton(nextId(), width / 2 - 50, 80, 100, 20, "Refresh"), button -> refresh());
+  }
 
-    @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        super.keyTyped(typedChar, keyCode);
-        header.textboxKeyTyped(typedChar, keyCode);
-        level.textboxKeyTyped(typedChar, keyCode);
+  @Override
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    drawDefaultBackground();
+    super.drawScreen(mouseX, mouseY, partialTicks);
+    header.drawTextBox();
+    level.drawTextBox();
+    drawScaledText(
+        ChatColor.UNDERLINE.toString() + ChatColor.BOLD + "Custom Levelhead Message Configurer",
+        width / 2, 5, 2, -1, true, true);
+    if (levelheadPropose.getKeys().size() == 0) {
+      drawScaledText(ChatColor.RED + "Loading: Error", width / 2, 115, 1.25, Color.RED.getRGB(),
+          true, true);
+      return;
     }
+    if (levelheadPropose.optBoolean("denied")) {
+      drawScaledText(ChatColor.YELLOW + "Status: " + ChatColor.RED + "Denied", width / 2, 115, 1.25,
+          -1, true, true);
+      return;
+    }
+    if (levelheadPropose.optBoolean("enabled")) {
+      int i = 115;
+      drawScaledText(ChatColor.YELLOW + "Status: " + ChatColor.GREEN + "Accepted", width / 2, i - 5,
+          1.25, -1, true, true);
+      drawScaledText(
+          ChatColor.YELLOW + "Header: " + ChatColor.GRAY + levelheadPropose.optString("header"),
+          width / 2, 125, 1.25, -1, true, true);
+      drawScaledText(
+          ChatColor.YELLOW + "Level: " + ChatColor.GRAY + levelheadPropose.optString("strlevel"),
+          width / 2, 140, 1.25, -1, true, true);
+    } else {
+      int i = 115;
+      drawScaledText(ChatColor.YELLOW + "Status: Pending", width / 2, i - 5, 1.25, -1, true, true);
+      drawScaledText(
+          ChatColor.YELLOW + "Header: " + ChatColor.GRAY + levelheadPropose.optString("header"),
+          width / 2, 125, 1.25, -1, true, true);
+      drawScaledText(
+          ChatColor.YELLOW + "Level: " + ChatColor.GRAY + levelheadPropose.optString("strlevel"),
+          width / 2, 140, 1.25, -1, true, true);
+      drawScaledText(ChatColor.YELLOW + "It will be reviewed soon!", width / 2, 155, 1.25, -1, true,
+          true);
+    }
+  }
 
-    @Override
-    protected void actionPerformed(GuiButton button) {
-        Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
-        if (guiButtonConsumer != null) {
-            guiButtonConsumer.accept(button);
-        }
-    }
+  @Override
+  protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    super.mouseClicked(mouseX, mouseY, mouseButton);
+    header.mouseClicked(mouseX, mouseY, mouseButton);
+    level.mouseClicked(mouseX, mouseY, mouseButton);
+  }
 
-    private void drawScaledText(String text, int trueX, int trueY, double scaleFac, int color, boolean shadow, boolean centered) {
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(scaleFac, scaleFac, scaleFac);
-        fontRendererObj.drawString(text, (float) (((double) trueX) / scaleFac) - (centered ? fontRendererObj.getStringWidth(text) / 2F : 0), (float) (((double) trueY) / scaleFac), color, shadow);
-        GlStateManager.scale(1 / scaleFac, 1 / scaleFac, 1 / scaleFac);
-        GlStateManager.popMatrix();
-    }
+  @Override
+  protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    super.keyTyped(typedChar, keyCode);
+    header.textboxKeyTyped(typedChar, keyCode);
+    level.textboxKeyTyped(typedChar, keyCode);
+  }
 
-    private void refresh() {
-        Multithreading.runAsync(() -> {
-            LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://sk1er.club/newlevel/" + mc.getSession().getProfile().getId().toString().replace("-", "")));
-            header.setText(jsonHolder.optString("header"));
-            level.setText(jsonHolder.optString("true_footer"));
-        });
-        Multithreading.runAsync(() -> levelheadPropose = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/levelhead_propose" + mc.getSession().getProfile().getId().toString().replace("-", ""))));
+  @Override
+  protected void actionPerformed(GuiButton button) {
+    Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
+    if (guiButtonConsumer != null) {
+      guiButtonConsumer.accept(button);
     }
+  }
 
-    private void reg(GuiButton button, Consumer<GuiButton> consumer) {
-        buttonList.removeIf(button1 -> button1.id == button.id);
-        clicks.keySet().removeIf(button1 -> button1.id == button.id);
-        buttonList.add(button);
-        if (consumer != null) {
-            clicks.put(button, consumer);
-        }
-    }
+  private void drawScaledText(String text, int trueX, int trueY, double scaleFac, int color,
+      boolean shadow, boolean centered) {
+    GlStateManager.pushMatrix();
+    GlStateManager.scale(scaleFac, scaleFac, scaleFac);
+    fontRendererObj.drawString(text,
+        (float) (((double) trueX) / scaleFac) - (centered ? fontRendererObj.getStringWidth(text)
+            / 2F : 0), (float) (((double) trueY) / scaleFac), color, shadow);
+    GlStateManager.scale(1 / scaleFac, 1 / scaleFac, 1 / scaleFac);
+    GlStateManager.popMatrix();
+  }
 
-    @Override
-    public boolean doesGuiPauseGame() {
-        return false;
-    }
+  private void refresh() {
+    Multithreading.runAsync(() -> {
+      LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent(
+          "https://sk1er.club/newlevel/" + mc.getSession().getProfile().getId().toString()
+              .replace("-", "")));
+      header.setText(jsonHolder.optString("header"));
+      level.setText(jsonHolder.optString("true_footer"));
+    });
+    Multithreading.runAsync(() -> levelheadPropose = new LevelheadJsonHolder(Sk1erMod.getInstance()
+        .rawWithAgent(
+            "https://api.hyperium.cc/levelhead_propose" + mc.getSession().getProfile().getId()
+                .toString().replace("-", ""))));
+  }
 
-    public int nextId() {
-        return (++idIteration);
+  private void reg(GuiButton button, Consumer<GuiButton> consumer) {
+    buttonList.removeIf(button1 -> button1.id == button.id);
+    clicks.keySet().removeIf(button1 -> button1.id == button.id);
+    buttonList.add(button);
+    if (consumer != null) {
+      clicks.put(button, consumer);
     }
+  }
+
+  @Override
+  public boolean doesGuiPauseGame() {
+    return false;
+  }
+
+  public int nextId() {
+    return (++idIteration);
+  }
 }

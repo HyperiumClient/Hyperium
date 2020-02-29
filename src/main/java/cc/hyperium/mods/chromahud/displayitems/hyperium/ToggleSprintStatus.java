@@ -24,29 +24,32 @@ import cc.hyperium.utils.JsonHolder;
 import net.minecraft.util.StringUtils;
 
 public class ToggleSprintStatus extends DisplayItem {
-    private String sprintEnabledText;
 
-    public ToggleSprintStatus(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-        sprintEnabledText = data.optString("sprintEnabledText");
-        if (StringUtils.isNullOrEmpty(sprintEnabledText)) sprintEnabledText = "ToggleSprint Enabled";
-        height = 10;
-    }
+  private String sprintEnabledText;
 
-    @Override
-    public void draw(int x, double y, boolean config) {
-        if (ToggleSprintContainer.toggleSprintActive) {
-            width = ElementRenderer.getFontRenderer().getStringWidth(sprintEnabledText);
-            ElementRenderer.draw(x, y, sprintEnabledText);
-        }
+  public ToggleSprintStatus(JsonHolder data, int ordinal) {
+    super(data, ordinal);
+    sprintEnabledText = data.optString("sprintEnabledText");
+    if (StringUtils.isNullOrEmpty(sprintEnabledText)) {
+      sprintEnabledText = "ToggleSprint Enabled";
     }
+    height = 10;
+  }
 
-    public String getStatusText() {
-        return sprintEnabledText;
+  @Override
+  public void draw(int x, double y, boolean config) {
+    if (ToggleSprintContainer.toggleSprintActive) {
+      width = ElementRenderer.getFontRenderer().getStringWidth(sprintEnabledText);
+      ElementRenderer.draw(x, y, sprintEnabledText);
     }
+  }
 
-    public void setSprintEnabledText(String text) {
-        sprintEnabledText = text;
-        data.put("sprintEnabledText", text);
-    }
+  public String getStatusText() {
+    return sprintEnabledText;
+  }
+
+  public void setSprintEnabledText(String text) {
+    sprintEnabledText = text;
+    data.put("sprintEnabledText", text);
+  }
 }

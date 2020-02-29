@@ -23,46 +23,46 @@ import java.util.LinkedList;
 
 public class TypeMessageSeparator extends ToggleBase {
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Separators";
-    }
+  @Override
+  public String getName() {
+    return "Separators";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return message.matches("^[-]+$");
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return message.matches("^[-]+$");
+  }
 
-    public String editMessage(String formattedText) {
-        formattedText = formattedText.replace("---\n", "");
-        return formattedText.replace("-", "");
-    }
+  public String editMessage(String formattedText) {
+    formattedText = formattedText.replace("---\n", "");
+    return formattedText.replace("-", "");
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles all messages",
-                "that contain a lot",
-                "of separators",
-                "",
-                "Checks for message",
-                "separators that look",
-                "like this",
-                "-----------------",
-                "",
-                "Less lines = more fun"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles all messages",
+        "that contain a lot",
+        "of separators",
+        "",
+        "Checks for message",
+        "separators that look",
+        "like this",
+        "-----------------",
+        "",
+        "Less lines = more fun"
+    );
+  }
 }

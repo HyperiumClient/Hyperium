@@ -26,28 +26,31 @@ import java.io.IOException;
 
 public class CommandFetchStaff implements BaseCommand {
 
-    @Override
-    public String getName() {
-        return "fetchstaff";
-    }
+  @Override
+  public String getName() {
+    return "fetchstaff";
+  }
 
-    @Override
-    public String getUsage() {
-        return "/fetchstaff";
-    }
+  @Override
+  public String getUsage() {
+    return "/fetchstaff";
+  }
 
-    @Override
-    public void onExecute(String[] args) {
-        Multithreading.runAsync(() -> {
-            try {
-                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Fetching staff and boosters...");
-                StaffUtils.clearCache();
-                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Successfully fetched staff and boosters.");
-            } catch (IOException e) {
-                e.printStackTrace();
-                Hyperium.LOGGER.info("[Staff] Failed to fetch staff & boosters");
-                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Failed to fetch staff & boosters!");
-            }
-        });
-    }
+  @Override
+  public void onExecute(String[] args) {
+    Multithreading.runAsync(() -> {
+      try {
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+            .sendMessage("Fetching staff and boosters...");
+        StaffUtils.clearCache();
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+            .sendMessage("Successfully fetched staff and boosters.");
+      } catch (IOException e) {
+        e.printStackTrace();
+        Hyperium.LOGGER.info("[Staff] Failed to fetch staff & boosters");
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+            .sendMessage("Failed to fetch staff & boosters!");
+      }
+    });
+  }
 }

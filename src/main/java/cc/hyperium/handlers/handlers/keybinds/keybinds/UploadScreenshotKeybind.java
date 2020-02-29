@@ -22,8 +22,8 @@ import org.lwjgl.input.Keyboard;
 
 public class UploadScreenshotKeybind extends HyperiumBind {
 
-    public UploadScreenshotKeybind() {
-        super("Upload Screenshot", Keyboard.KEY_RSHIFT, KeyType.UTIL);
-        conflictExempt = true;
-    }
+  public UploadScreenshotKeybind() {
+    super("Upload Screenshot", Keyboard.KEY_RSHIFT, KeyType.UTIL);
+    conflictExempt = true;
+  }
 }

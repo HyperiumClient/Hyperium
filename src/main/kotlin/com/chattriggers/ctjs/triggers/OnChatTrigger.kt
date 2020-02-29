@@ -31,8 +31,8 @@ class OnChatTrigger(method: Any, type: TriggerType, loader: ILoader) : OnTrigger
         this.chatCriteria = chatCriteria
 
         val replacedCriteria = chatCriteria.replace("\n", "->newLine<-").let { Pattern.quote(it) }
-            .replace("\\$\\{[^*]+?}".toRegex(), "\\\\E(.+)\\\\Q")
-            .replace("\\$\\{\\*?}".toRegex(), "\\\\E(?:.+)\\\\Q")
+                .replace("\\$\\{[^*]+?}".toRegex(), "\\\\E(.+)\\\\Q")
+                .replace("\\$\\{\\*?}".toRegex(), "\\\\E(?:.+)\\\\Q")
 
         this.criteriaPattern = Pattern.compile(if ("" == chatCriteria) ".+" else replacedCriteria)
     }
@@ -106,13 +106,13 @@ class OnChatTrigger(method: Any, type: TriggerType, loader: ILoader) : OnTrigger
 
     // helper method to get the proper chat message based on the presence of color codes
     private fun getChatMessage(chatEvent: ServerChatEvent, chatMessage: String) =
-        if (chatCriteria.contains("&"))
-            chatEvent.chat.formattedText.replace("\u00a7", "&")
-        else chatMessage
+            if (chatCriteria.contains("&"))
+                chatEvent.chat.formattedText.replace("\u00a7", "&")
+            else chatMessage
 
     // helper method to get the variables to pass through
     private fun getVariables(chatMessage: String) =
-        if ("" != chatCriteria) matchesChatCriteria(chatMessage.replace("\n", "->newLine<-")) else ArrayList()
+            if ("" != chatCriteria) matchesChatCriteria(chatMessage.replace("\n", "->newLine<-")) else ArrayList()
 
     /**
      * A method to check whether or not a received chat message

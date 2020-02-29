@@ -28,48 +28,50 @@ import org.lwjgl.input.Keyboard;
 
 public class FlipKeybind extends HyperiumBind {
 
-    private boolean inverted;
+  private boolean inverted;
 
-    public FlipKeybind() {
-        super("Flip (Requires Purchase)", Keyboard.KEY_NONE, KeyType.COSMETIC);
+  public FlipKeybind() {
+    super("Flip (Requires Purchase)", Keyboard.KEY_NONE, KeyType.COSMETIC);
+  }
+
+  @Override
+  public void onPress() {
+    if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked()) {
+      return;
     }
 
-    @Override
-    public void onPress() {
-        if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked()) {
-            return;
-        }
+    if (Settings.isFlipToggle) {
+      inverted = !inverted;
+      int state = inverted ? Settings.flipType : 0;
+      Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), state);
+      NettyClient client = NettyClient.getClient();
 
-        if (Settings.isFlipToggle) {
-            inverted = !inverted;
-            int state = inverted ? Settings.flipType : 0;
-            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), state);
-            NettyClient client = NettyClient.getClient();
+      if (client != null) {
+        client.write(ServerCrossDataPacket
+            .build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+      }
 
-            if (client != null) {
-                client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
-            }
+      Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
+    }
+  }
 
-            Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
-        }
+  @Override
+  public void onRelease() {
+    if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked()) {
+      return;
     }
 
-    @Override
-    public void onRelease() {
-        if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked()) {
-            return;
-        }
+    if (!Settings.isFlipToggle) {
+      inverted = !inverted;
+      int state = inverted ? Settings.flipType : 0;
+      Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), state);
+      NettyClient client = NettyClient.getClient();
 
-        if (!Settings.isFlipToggle) {
-            inverted = !inverted;
-            int state = inverted ? Settings.flipType : 0;
-            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), state);
-            NettyClient client = NettyClient.getClient();
-
-            if (client != null) {
-                client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
-            }
-        }
+      if (client != null) {
+        client.write(ServerCrossDataPacket
+            .build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+      }
     }
+  }
 }
 

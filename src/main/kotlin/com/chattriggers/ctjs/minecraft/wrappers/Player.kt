@@ -192,10 +192,10 @@ object Player {
     @JvmStatic
     fun getActivePotionEffects(): List<PotionEffect> {
         return getPlayer()?.activePotionEffects
-            ?.stream()
-            ?.map { PotionEffect(it) }
-            ?.collect(Collectors.toList())
-            ?: listOf()
+                ?.stream()
+                ?.map { PotionEffect(it) }
+                ?.collect(Collectors.toList())
+                ?: listOf()
     }
 
     /**

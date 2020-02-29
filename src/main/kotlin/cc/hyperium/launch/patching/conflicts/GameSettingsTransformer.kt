@@ -69,20 +69,20 @@ class GameSettingsTransformer : ConflictTransformer {
 
                 for (insn in method.instructions.iterator()) {
                     if (insn is MethodInsnNode && insn.owner == "net/minecraft/client/Minecraft" &&
-                        insn.name == "scheduleResourcesRefresh" && insn.desc == "()Lcom/google/common/util/concurrent/ListenableFuture;"
+                            insn.name == "scheduleResourcesRefresh" && insn.desc == "()Lcom/google/common/util/concurrent/ListenableFuture;"
                     ) {
                         method.instructions.insertBefore(insn.previous?.previous, insertBoolean)
                     }
                 }
 
                 method.instructions.insert(
-                    MethodInsnNode(
-                        Opcodes.INVOKEVIRTUAL,
-                        "net/minecraft/client/renderer/texture/TextureMap",
-                        "setBlurMipmapDirect",
-                        "(ZZ)V",
-                        false
-                    ), insertBoolean
+                        MethodInsnNode(
+                                Opcodes.INVOKEVIRTUAL,
+                                "net/minecraft/client/renderer/texture/TextureMap",
+                                "setBlurMipmapDirect",
+                                "(ZZ)V",
+                                false
+                        ), insertBoolean
                 )
             }
 
@@ -93,7 +93,7 @@ class GameSettingsTransformer : ConflictTransformer {
 
                 for (insn in method.instructions.iterator()) {
                     if (insn is InsnNode && insn.opcode == Opcodes.ICONST_3 &&
-                        insn.next?.next is FieldInsnNode && (insn.next?.next as FieldInsnNode).name == "particleSetting"
+                            insn.next?.next is FieldInsnNode && (insn.next?.next as FieldInsnNode).name == "particleSetting"
                     ) {
                         method.instructions.insertBefore(insn, changeNode)
                         method.instructions.remove(insn)

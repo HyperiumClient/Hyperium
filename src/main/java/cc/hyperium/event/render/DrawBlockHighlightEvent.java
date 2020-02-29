@@ -25,34 +25,35 @@ import org.jetbrains.annotations.NotNull;
 
 public final class DrawBlockHighlightEvent extends CancellableEvent {
 
-    @NotNull
-    private final EntityPlayer player;
+  @NotNull
+  private final EntityPlayer player;
 
-    @NotNull
-    private final MovingObjectPosition target;
+  @NotNull
+  private final MovingObjectPosition target;
 
-    private final float partialTicks;
+  private final float partialTicks;
 
-    public DrawBlockHighlightEvent(@NotNull EntityPlayer player, @NotNull MovingObjectPosition target, float partialTicks) {
-        Preconditions.checkNotNull(player, "player");
-        Preconditions.checkNotNull(target, "target");
+  public DrawBlockHighlightEvent(@NotNull EntityPlayer player, @NotNull MovingObjectPosition target,
+      float partialTicks) {
+    Preconditions.checkNotNull(player, "player");
+    Preconditions.checkNotNull(target, "target");
 
-        this.player = player;
-        this.target = target;
-        this.partialTicks = partialTicks;
-    }
+    this.player = player;
+    this.target = target;
+    this.partialTicks = partialTicks;
+  }
 
-    @NotNull
-    public final EntityPlayer getPlayer() {
-        return player;
-    }
+  @NotNull
+  public final EntityPlayer getPlayer() {
+    return player;
+  }
 
-    @NotNull
-    public final MovingObjectPosition getTarget() {
-        return target;
-    }
+  @NotNull
+  public final MovingObjectPosition getTarget() {
+    return target;
+  }
 
-    public final float getPartialTicks() {
-        return partialTicks;
-    }
+  public final float getPartialTicks() {
+    return partialTicks;
+  }
 }

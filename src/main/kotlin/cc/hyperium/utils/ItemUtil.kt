@@ -5,9 +5,9 @@ import net.minecraft.item.Item
 
 object ItemUtil {
     val leatherArmorCollection = arrayListOf<Item>(
-        Items.leather_boots,
-        Items.leather_leggings,
-        Items.leather_chestplate,
-        Items.leather_helmet
+            Items.leather_boots,
+            Items.leather_leggings,
+            Items.leather_chestplate,
+            Items.leather_helmet
     )
 }

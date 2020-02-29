@@ -20,4 +20,5 @@ package cc.hyperium.event.render;
 import cc.hyperium.event.Event;
 
 public final class RenderTickEvent extends Event {
+
 }

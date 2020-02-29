@@ -6,24 +6,24 @@ import net.minecraft.client.Minecraft;
 
 public class CloudHandler {
 
-    private CloudRenderer cloudRenderer = new CloudRenderer();
+  private CloudRenderer cloudRenderer = new CloudRenderer();
 
-    @InvokeEvent
-    public void checkSettings(TickEvent event) {
-        cloudRenderer.checkSettings();
+  @InvokeEvent
+  public void checkSettings(TickEvent event) {
+    cloudRenderer.checkSettings();
+  }
+
+  public boolean renderClouds(int cloudTicks, float partialTicks) {
+    IRenderHandler renderer = Minecraft.getMinecraft().theWorld.provider.getCloudRenderer();
+    if (renderer != null) {
+      renderer.render(partialTicks, Minecraft.getMinecraft().theWorld, Minecraft.getMinecraft());
+      return true;
     }
 
-    public boolean renderClouds(int cloudTicks, float partialTicks) {
-        IRenderHandler renderer = Minecraft.getMinecraft().theWorld.provider.getCloudRenderer();
-        if (renderer != null) {
-            renderer.render(partialTicks, Minecraft.getMinecraft().theWorld, Minecraft.getMinecraft());
-            return true;
-        }
+    return cloudRenderer.render(cloudTicks, partialTicks);
+  }
 
-        return cloudRenderer.render(cloudTicks, partialTicks);
-    }
-
-    public CloudRenderer getCloudRenderer() {
-        return cloudRenderer;
-    }
+  public CloudRenderer getCloudRenderer() {
+    return cloudRenderer;
+  }
 }

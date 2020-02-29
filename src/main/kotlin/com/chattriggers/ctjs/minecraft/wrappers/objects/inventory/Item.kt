@@ -103,7 +103,7 @@ class Item {
     fun getEnchantments(): Map<String, Int> {
         return EnchantmentHelper.getEnchantments(itemStack).mapKeys {
             Enchantment.getEnchantmentById(
-                it.key
+                    it.key
             ).name.replace("enchantment.", "")
         }
     }
@@ -140,7 +140,7 @@ class Item {
     fun isDamagable(): Boolean = itemStack.isItemStackDamageable
 
     fun getLore(): List<String> =
-        itemStack.getTooltip(Player.getPlayer(), Client.getMinecraft().gameSettings.advancedItemTooltips)
+            itemStack.getTooltip(Player.getPlayer(), Client.getMinecraft().gameSettings.advancedItemTooltips)
 
     /**
      * Renders the item icon to the client's overlay.

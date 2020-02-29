@@ -45,16 +45,16 @@ class RendererLivingEntityTransformer : ConflictTransformer {
                     fload(8)
                     fconst_1
                     invokespecial(
-                        EntityRenderEvent::class,
-                        "<init>",
-                        void,
-                        Entity::class,
-                        float,
-                        float,
-                        float,
-                        float,
-                        float,
-                        float
+                            EntityRenderEvent::class,
+                            "<init>",
+                            void,
+                            Entity::class,
+                            float,
+                            float,
+                            float,
+                            float,
+                            float,
+                            float
                     )
                     astore(10)
                     getstatic(EventBus::class, "INSTANCE", EventBus::class)

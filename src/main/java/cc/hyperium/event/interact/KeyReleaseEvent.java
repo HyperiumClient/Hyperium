@@ -24,19 +24,19 @@ import cc.hyperium.event.Event;
  */
 public class KeyReleaseEvent extends Event {
 
-    private final int key;
-    private final boolean repeat;
+  private final int key;
+  private final boolean repeat;
 
-    public KeyReleaseEvent(int key, boolean isRepeat) {
-        this.key = key;
-        repeat = isRepeat;
-    }
+  public KeyReleaseEvent(int key, boolean isRepeat) {
+    this.key = key;
+    repeat = isRepeat;
+  }
 
-    public int getKey() {
-        return key;
-    }
+  public int getKey() {
+    return key;
+  }
 
-    public boolean isRepeat() {
-        return repeat;
-    }
+  public boolean isRepeat() {
+    return repeat;
+  }
 }

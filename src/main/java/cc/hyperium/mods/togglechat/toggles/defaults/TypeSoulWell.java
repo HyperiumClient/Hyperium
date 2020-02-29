@@ -24,46 +24,47 @@ import java.util.regex.Pattern;
 
 public class TypeSoulWell extends ToggleBase {
 
-    private final Pattern soulPattern = Pattern.compile("(?<player>\\S{1,16}) has found (?<message>.*) in the Soul Well!");
+  private final Pattern soulPattern = Pattern
+      .compile("(?<player>\\S{1,16}) has found (?<message>.*) in the Soul Well!");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Soul";
-    }
+  @Override
+  public String getName() {
+    return "Soul";
+  }
 
-    @Override
-    public String getDisplayName() {
-        return "Soul Well: %s";
-    }
+  @Override
+  public String getDisplayName() {
+    return "Soul Well: %s";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return soulPattern.matcher(message).matches();
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return soulPattern.matcher(message).matches();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Turns off perk and kit",
-                "messages for skywars",
-                "",
-                "&cSk1er &7has found &6Slime",
-                "&6Cage &7in the &bSoul Well&r!",
-                "",
-                "Good for recording",
-                "in a skywars lobby"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Turns off perk and kit",
+        "messages for skywars",
+        "",
+        "&cSk1er &7has found &6Slime",
+        "&6Cage &7in the &bSoul Well&r!",
+        "",
+        "Good for recording",
+        "in a skywars lobby"
+    );
+  }
 }

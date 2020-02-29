@@ -23,26 +23,26 @@ import org.jetbrains.annotations.NotNull;
 
 public final class FriendRemoveEvent extends Event {
 
-    @NotNull
-    private final String fullName;
-    @NotNull
-    private final String name;
+  @NotNull
+  private final String fullName;
+  @NotNull
+  private final String name;
 
-    public FriendRemoveEvent(@NotNull String fullName, @NotNull String name) {
-        Preconditions.checkNotNull(fullName, "fullName");
-        Preconditions.checkNotNull(name, "name");
+  public FriendRemoveEvent(@NotNull String fullName, @NotNull String name) {
+    Preconditions.checkNotNull(fullName, "fullName");
+    Preconditions.checkNotNull(name, "name");
 
-        this.fullName = fullName;
-        this.name = name;
-    }
+    this.fullName = fullName;
+    this.name = name;
+  }
 
-    @NotNull
-    public final String getFullName() {
-        return fullName;
-    }
+  @NotNull
+  public final String getFullName() {
+    return fullName;
+  }
 
-    @NotNull
-    public final String getName() {
-        return name;
-    }
+  @NotNull
+  public final String getName() {
+    return name;
+  }
 }

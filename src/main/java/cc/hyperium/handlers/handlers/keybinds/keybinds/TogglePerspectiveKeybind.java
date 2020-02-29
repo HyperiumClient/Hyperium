@@ -24,29 +24,31 @@ import cc.hyperium.integrations.perspective.PerspectiveModifierHandler;
 import org.lwjgl.input.Keyboard;
 
 public class TogglePerspectiveKeybind extends HyperiumBind {
-    public TogglePerspectiveKeybind() {
-        super("Perspective", Keyboard.KEY_P, KeyType.UTIL);
-    }
 
-    @Override
-    public void onPress() {
-        PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
+  public TogglePerspectiveKeybind() {
+    super("Perspective", Keyboard.KEY_P, KeyType.UTIL);
+  }
 
-        if (Settings.PERSPECTIVE_HOLD) {
-            perspectiveHandler.onEnable();
-        } else {
-            if (!perspectiveHandler.enabled) {
-                perspectiveHandler.onEnable();
-            } else {
-                perspectiveHandler.onDisable();
-            }
-        }
-    }
+  @Override
+  public void onPress() {
+    PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers()
+        .getPerspectiveHandler();
 
-    @Override
-    public void onRelease() {
-        if (Settings.PERSPECTIVE_HOLD) {
-            Hyperium.INSTANCE.getHandlers().getPerspectiveHandler().onDisable();
-        }
+    if (Settings.PERSPECTIVE_HOLD) {
+      perspectiveHandler.onEnable();
+    } else {
+      if (!perspectiveHandler.enabled) {
+        perspectiveHandler.onEnable();
+      } else {
+        perspectiveHandler.onDisable();
+      }
     }
+  }
+
+  @Override
+  public void onRelease() {
+    if (Settings.PERSPECTIVE_HOLD) {
+      Hyperium.INSTANCE.getHandlers().getPerspectiveHandler().onDisable();
+    }
+  }
 }

@@ -20,10 +20,10 @@ class CrashReportTransformer : ConflictTransformer {
         original.version = 52
         original.koffee {
             method5(
-                public + static + synthetic,
-                "lambda\$populateEnvironment\$0",
-                String::class,
-                exceptions = arrayOf(Type.getType(Exception::class.java))
+                    public + static + synthetic,
+                    "lambda\$populateEnvironment\$0",
+                    String::class,
+                    exceptions = arrayOf(Type.getType(Exception::class.java))
             ) {
                 getstatic(ModuleManager::class, "INSTANCE", ModuleManager::class)
                 invokevirtual(ModuleManager::class, "getCachedModules", List::class)
@@ -41,41 +41,41 @@ class CrashReportTransformer : ConflictTransformer {
                     getfield(CrashReport::class, "theReportCategory", CrashReportCategory::class)
                     ldc("ct.js modules")
                     invokedynamic(
-                        "call",
-                        Callable::class,
-                        handle = Handle(
-                            Opcodes.H_INVOKESTATIC,
-                            "java/lang/invoke/LambdaMetafactory",
-                            "metafactory",
-                            "(Ljava/lang/invoke/MethodHandles\$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;"
-                        ),
-                        args = arrayOf(
-                            Type.getType("()Ljava/lang/Object;"),
-                            Handle(
-                                Opcodes.H_INVOKESTATIC,
-                                "net/minecraft/crash/CrashReport",
-                                "lambda\$populateEnvironment\$0",
-                                "()Ljava/lang/String;"
+                            "call",
+                            Callable::class,
+                            handle = Handle(
+                                    Opcodes.H_INVOKESTATIC,
+                                    "java/lang/invoke/LambdaMetafactory",
+                                    "metafactory",
+                                    "(Ljava/lang/invoke/MethodHandles\$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;"
                             ),
-                            Type.getType("()Ljava/lang/String;")
-                        )
+                            args = arrayOf(
+                                    Type.getType("()Ljava/lang/Object;"),
+                                    Handle(
+                                            Opcodes.H_INVOKESTATIC,
+                                            "net/minecraft/crash/CrashReport",
+                                            "lambda\$populateEnvironment\$0",
+                                            "()Ljava/lang/String;"
+                                    ),
+                                    Type.getType("()Ljava/lang/String;")
+                            )
                     )
                     invokevirtual(
-                        CrashReportCategory::class,
-                        "addCrashSectionCallable",
-                        void,
-                        String::class,
-                        Callable::class
+                            CrashReportCategory::class,
+                            "addCrashSectionCallable",
+                            void,
+                            String::class,
+                            Callable::class
                     )
                     aload_0
                     ldc("Affected level")
                     iconst_1
                     invokevirtual(
-                        CrashReport::class,
-                        "makeCategoryDepth",
-                        CrashReportCategory::class,
-                        String::class,
-                        int
+                            CrashReport::class,
+                            "makeCategoryDepth",
+                            CrashReportCategory::class,
+                            String::class,
+                            int
                     )
                     astore_1
                     aload_1

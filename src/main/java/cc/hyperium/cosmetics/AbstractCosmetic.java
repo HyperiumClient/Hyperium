@@ -36,63 +36,67 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class AbstractCosmetic {
 
-    private final boolean selfOnly;
-    private final EnumPurchaseType purchaseType;
-    private final Map<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
-    private boolean selfUnlocked;
+  private final boolean selfOnly;
+  private final EnumPurchaseType purchaseType;
+  private final Map<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
+  private boolean selfUnlocked;
 
-    public AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType) {
-        this.selfOnly = selfOnly;
-        this.purchaseType = purchaseType;
-        try {
-            PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
-                if (hyperiumPurchase == null && !Hyperium.INSTANCE.isDevEnv()) {
-                    Hyperium.LOGGER.error("Detected {} is null!", purchaseType.toString().toLowerCase(Locale.ENGLISH));
-                    return;
-                }
-                selfUnlocked = hyperiumPurchase.hasPurchased(purchaseType);
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+  public AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType) {
+    this.selfOnly = selfOnly;
+    this.purchaseType = purchaseType;
+    try {
+      PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
+        if (hyperiumPurchase == null && !Hyperium.INSTANCE.isDevEnv()) {
+          Hyperium.LOGGER
+              .error("Detected {} is null!", purchaseType.toString().toLowerCase(Locale.ENGLISH));
+          return;
         }
+        selfUnlocked = hyperiumPurchase.hasPurchased(purchaseType);
+      });
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @InvokeEvent
+  public void worldSwitch(WorldChangeEvent changeEvent) {
+    UUID id = UUIDUtil.getClientUUID();
+    if (id == null) {
+      return;
+    }
+    Boolean aBoolean = purchasedBy.get(id);
+    purchasedBy.clear();
+    if (aBoolean != null) {
+      purchasedBy.put(id, aBoolean);
+    }
+  }
+
+  @InvokeEvent
+  public void purchaseLoadEvent(PurchaseLoadEvent event) {
+    purchasedBy.put(event.getUuid(), event.getPurchase().hasPurchased(purchaseType));
+  }
+
+  public boolean isPurchasedBy(UUID uuid) {
+    if (purchasedBy.containsKey(uuid)) {
+      return purchasedBy.get(uuid);
+    } else {
+      purchasedBy.put(uuid, false);
+      Multithreading.runAsync(() -> purchasedBy
+          .put(uuid, PurchaseApi.getInstance().getPackageSync(uuid).hasPurchased(purchaseType)));
+      return false;
     }
 
-    @InvokeEvent
-    public void worldSwitch(WorldChangeEvent changeEvent) {
-        UUID id = UUIDUtil.getClientUUID();
-        if (id == null) {
-            return;
-        }
-        Boolean aBoolean = purchasedBy.get(id);
-        purchasedBy.clear();
-        if (aBoolean != null) purchasedBy.put(id, aBoolean);
-    }
+  }
 
-    @InvokeEvent
-    public void purchaseLoadEvent(PurchaseLoadEvent event) {
-        purchasedBy.put(event.getUuid(), event.getPurchase().hasPurchased(purchaseType));
-    }
+  public boolean isSelfOnly() {
+    return selfOnly;
+  }
 
-    public boolean isPurchasedBy(UUID uuid) {
-        if (purchasedBy.containsKey(uuid)) {
-            return purchasedBy.get(uuid);
-        } else {
-            purchasedBy.put(uuid, false);
-            Multithreading.runAsync(() -> purchasedBy.put(uuid, PurchaseApi.getInstance().getPackageSync(uuid).hasPurchased(purchaseType)));
-            return false;
-        }
+  public EnumPurchaseType getPurchaseType() {
+    return purchaseType;
+  }
 
-    }
-
-    public boolean isSelfOnly() {
-        return selfOnly;
-    }
-
-    public EnumPurchaseType getPurchaseType() {
-        return purchaseType;
-    }
-
-    public boolean isSelfUnlocked() {
-        return selfUnlocked;
-    }
+  public boolean isSelfUnlocked() {
+    return selfUnlocked;
+  }
 }

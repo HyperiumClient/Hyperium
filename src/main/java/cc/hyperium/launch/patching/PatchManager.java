@@ -78,256 +78,276 @@ import java.util.zip.ZipEntry;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PatchManager {
-    private static final Logger LOGGER = LogManager.getLogger();
-    private static final List<String> IGNORED_OF_CHANGES = Arrays.asList(
-            "bbr",
-            "avj"
-    );
-    private static final Map<String, ConflictTransformer> transformers = Maps.newHashMap();
-    public static final PatchManager INSTANCE = new PatchManager();
-    private boolean setupComplete = false;
-    private boolean disableInputCheck = false;
-    private final Map<String, Patch> patches = Maps.newConcurrentMap();
-    private final Map<String, byte[]> processedClasses = Maps.newConcurrentMap();
-    private final GDiffPatcher patcher = new GDiffPatcher();
 
-    public byte[] patch(String className, byte[] classData, boolean cache) {
-        if (processedClasses.containsKey(className)) return processedClasses.get(className);
-        if (!patches.containsKey(className)) {
-            return classData;
-        }
-        long start = System.nanoTime();
-        Patch patch = patches.get(className);
-        if (!disableInputCheck) {
-            long hash = hash(classData);
-            if (patch.checksum != hash) {
-                if (IGNORED_OF_CHANGES.contains(className)) {
-                    classData = getVanillaClassData(className, classData);
-                } else if (transformers.containsKey(className)) {
-                    System.out.println("crab");
-                    ClassReader reader = new ClassReader(classData);
-                    ClassNode node = new ClassNode();
-                    reader.accept(new DeobfAdapter(node), ClassReader.EXPAND_FRAMES);
-                    ClassWriter writer = new PatchDeobfClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
-                    transformers.get(className.replace('.', '/')).transform(node).accept(writer);
-                    return writer.toByteArray();
-                } else {
-                    throw new IllegalStateException("crab - " + className);
-                }
-            }
-        }
-        synchronized (patcher) {
-            try {
-                byte[] data = patcher.patch(classData, patch.patchData);
-                if (cache) patches.remove(className);
-                if (cache) processedClasses.put(className, data);
-                long end = System.nanoTime();
-                LOGGER.debug("Patched {} in {}ms", className, ((double) end - (double) start) / 1_000_000.0);
-                return data;
-            } catch (IOException e) {
-                LOGGER.warn("Failed to patch class {}", className, e);
-                return classData;
-            }
-        }
+  private static final Logger LOGGER = LogManager.getLogger();
+  private static final List<String> IGNORED_OF_CHANGES = Arrays.asList(
+      "bbr",
+      "avj"
+  );
+  private static final Map<String, ConflictTransformer> transformers = Maps.newHashMap();
+  public static final PatchManager INSTANCE = new PatchManager();
+  private boolean setupComplete = false;
+  private boolean disableInputCheck = false;
+  private final Map<String, Patch> patches = Maps.newConcurrentMap();
+  private final Map<String, byte[]> processedClasses = Maps.newConcurrentMap();
+  private final GDiffPatcher patcher = new GDiffPatcher();
+
+  public byte[] patch(String className, byte[] classData, boolean cache) {
+    if (processedClasses.containsKey(className)) {
+      return processedClasses.get(className);
     }
-
-    private static void registerTransformers(ConflictTransformer... transformers) {
-        for (ConflictTransformer transformer : transformers) {
-            PatchManager.transformers.put(DeobfRemapper.INSTANCE.unmap(transformer.getClassName()), transformer);
-        }
+    if (!patches.containsKey(className)) {
+      return classData;
     }
-
-    private byte[] getVanillaClassData(String name, byte[] d) {
-        try {
-            Class<?> mcClass = Class.forName("ave", false, ClassLoader.getSystemClassLoader());
-            File mcJar = new File(mcClass.getProtectionDomain().getCodeSource().getLocation().toURI());
-            if (mcJar.isFile()) {
-                try (JarFile file = new JarFile(mcJar)) {
-                    ZipEntry e = file.getEntry(name + ".class");
-                    if (e != null) {
-                        return IOUtils.toByteArray(file.getInputStream(e));
-                    } else {
-                        return d;
-                    }
-                }
-            } else {
-                File classFile = new File(mcJar, name + ".class");
-                if (!classFile.isFile()) {
-                    return d;
-                }
-                return FileUtils.readFileToByteArray(classFile);
-            }
-        } catch (ClassNotFoundException | URISyntaxException e) {
-            throw new IllegalStateException("Couldn't find MC jarfile", e);
-        } catch (IOException e) {
-            throw new IllegalStateException("Failed to read vanilla class file", e);
-        }
-    }
-
-    public void setup(LaunchClassLoader classLoader, boolean disableInputCheck) throws IOException {
-        if (setupComplete) {
-            throw new IllegalStateException("Already set up!");
-        }
-        this.disableInputCheck = disableInputCheck;
-        InputStream patchArchive = PatchManager.class.getResourceAsStream("/binpatches.lzma");
-        if (patchArchive == null) {
-            // probably in dev env, but check just in case
-            if (classLoader.getClassBytes("net.minecraft.client.Minecraft") == null) {
-                throw new IllegalStateException("Couldn't find crab files in production. Something is very wrong.");
-            } else {
-                LOGGER.warn("Failed to find crabs, but client is probably in dev env so we're skipping them");
-            }
+    long start = System.nanoTime();
+    Patch patch = patches.get(className);
+    if (!disableInputCheck) {
+      long hash = hash(classData);
+      if (patch.checksum != hash) {
+        if (IGNORED_OF_CHANGES.contains(className)) {
+          classData = getVanillaClassData(className, classData);
+        } else if (transformers.containsKey(className)) {
+          System.out.println("crab");
+          ClassReader reader = new ClassReader(classData);
+          ClassNode node = new ClassNode();
+          reader.accept(new DeobfAdapter(node), ClassReader.EXPAND_FRAMES);
+          ClassWriter writer = new PatchDeobfClassWriter(
+              ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+          transformers.get(className.replace('.', '/')).transform(node).accept(writer);
+          return writer.toByteArray();
         } else {
-            // Load all patches. There's probably some performance/memory usage balancing needed here, but at the moment it loads everything into memory
-            // and once they're used they get deleted (or at least removed from map, so gc needed to actually delete them)
-            LOGGER.info("Loading crab");
-            long start = System.nanoTime();
-            Pattern patchFilePattern = Pattern.compile("binpatch/client/.*.binpatch");
-            LzmaInputStream decompressedInput = new LzmaInputStream(patchArchive, new Decoder());
-            JarInputStream jis = new JarInputStream(decompressedInput); // the patches are inside an LZMA compressed JAR
-            while (true) {
-                try {
-                    JarEntry entry = jis.getNextJarEntry();
-                    if (entry == null) break;
-                    if (patchFilePattern.matcher(entry.getName()).matches()) {
-                        Patch patch = readPatch(jis);
-                        String name = patch.sourceName.replace('.', '/');
-                        patches.put(name, patch);
-                    } else jis.closeEntry();
-                } catch (IOException ex) {
-                    LOGGER.warn("Failed to load a crab", ex);
-                }
-            }
-            long end = System.nanoTime();
-            LOGGER.info("Loaded {} crabs in {} milliseconds", patches.size(), ((double) end - (double) start) / 1_000_000.0);
+          throw new IllegalStateException("crab - " + className);
         }
-        setupComplete = true;
+      }
     }
-
-    private Patch readPatch(InputStream in) throws IOException {
-        ByteArrayDataInput input = ByteStreams.newDataInput(ByteStreams.toByteArray(in));
-        String name = input.readUTF();
-        String srcName = input.readUTF();
-        String targetName = input.readUTF();
-        boolean exists = input.readBoolean();
-        long checksum = -1;
-        if (exists) {
-            checksum = input.readLong();
+    synchronized (patcher) {
+      try {
+        byte[] data = patcher.patch(classData, patch.patchData);
+        if (cache) {
+          patches.remove(className);
         }
-        int length = input.readInt();
-        byte[] patchData = new byte[length];
-        input.readFully(patchData);
-        return new Patch(name, srcName, targetName, exists, patchData, checksum);
-    }
-
-    long hash(byte[] bytes) {
-        Adler32 hasher = new Adler32();
-        hasher.update(bytes);
-        return hasher.getValue();
-    }
-
-    private static class Patch {
-        final String name;
-        final String sourceName;
-        final String targetName;
-        final boolean targetHasFile;
-        final byte[] patchData;
-        final long checksum;
-
-        Patch(String name, String sourceName, String targetName, boolean targetHasFile, byte[] patchData, long checksum) {
-            this.name = name;
-            this.sourceName = sourceName;
-            this.targetName = targetName;
-            this.targetHasFile = targetHasFile;
-            this.patchData = patchData;
-            this.checksum = checksum;
+        if (cache) {
+          processedClasses.put(className, data);
         }
+        long end = System.nanoTime();
+        LOGGER
+            .debug("Patched {} in {}ms", className, ((double) end - (double) start) / 1_000_000.0);
+        return data;
+      } catch (IOException e) {
+        LOGGER.warn("Failed to patch class {}", className, e);
+        return classData;
+      }
     }
+  }
 
-    static {
-        registerTransformers(
-                new GameSettingsTransformer(),
-                new WorldClientTransformer(),
-                new AbstractClientPlayerTransformer(),
-                new CrashReportTransformer(),
-                new ModelBoxTransformer(),
-                new RenderManagerTransformer(),
-                new RenderItemFrameTransformer(),
-                new ModelRendererTransformer(),
-                new FontRendererTransformer(),
-                new EffectRendererTransformer(),
-                new GuiMainMenuTransformer(),
-                new TextureManagerTransformer(),
-                new GuiVideoSettingsTransformer(),
-                new TileEntityEndPortalRendererTransformer(),
-                new EntityRendererTransformer(),
-                new ResourcePackRepositoryTransformer(),
-                new RenderGlobalTransformer(),
-                new ChunkRenderContainerTransformer(),
-                new RenderChunkTransformer(),
-                new LoadingScreenRendererTransformer(),
-                new RenderTransformer(),
-                new RendererLivingEntityTransformer(),
-                new LayerArmorBaseTransformer(),
-                new GuiOverlayDebugTransformer(),
-                new GuiIngameTransformer(),
-                new AbstractResourcePackTransformer(),
+  private static void registerTransformers(ConflictTransformer... transformers) {
+    for (ConflictTransformer transformer : transformers) {
+      PatchManager.transformers
+          .put(DeobfRemapper.INSTANCE.unmap(transformer.getClassName()), transformer);
+    }
+  }
+
+  private byte[] getVanillaClassData(String name, byte[] d) {
+    try {
+      Class<?> mcClass = Class.forName("ave", false, ClassLoader.getSystemClassLoader());
+      File mcJar = new File(mcClass.getProtectionDomain().getCodeSource().getLocation().toURI());
+      if (mcJar.isFile()) {
+        try (JarFile file = new JarFile(mcJar)) {
+          ZipEntry e = file.getEntry(name + ".class");
+          if (e != null) {
+            return IOUtils.toByteArray(file.getInputStream(e));
+          } else {
+            return d;
+          }
+        }
+      } else {
+        File classFile = new File(mcJar, name + ".class");
+        if (!classFile.isFile()) {
+          return d;
+        }
+        return FileUtils.readFileToByteArray(classFile);
+      }
+    } catch (ClassNotFoundException | URISyntaxException e) {
+      throw new IllegalStateException("Couldn't find MC jarfile", e);
+    } catch (IOException e) {
+      throw new IllegalStateException("Failed to read vanilla class file", e);
+    }
+  }
+
+  public void setup(LaunchClassLoader classLoader, boolean disableInputCheck) throws IOException {
+    if (setupComplete) {
+      throw new IllegalStateException("Already set up!");
+    }
+    this.disableInputCheck = disableInputCheck;
+    InputStream patchArchive = PatchManager.class.getResourceAsStream("/binpatches.lzma");
+    if (patchArchive == null) {
+      // probably in dev env, but check just in case
+      if (classLoader.getClassBytes("net.minecraft.client.Minecraft") == null) {
+        throw new IllegalStateException(
+            "Couldn't find crab files in production. Something is very wrong.");
+      } else {
+        LOGGER
+            .warn("Failed to find crabs, but client is probably in dev env so we're skipping them");
+      }
+    } else {
+      // Load all patches. There's probably some performance/memory usage balancing needed here, but at the moment it loads everything into memory
+      // and once they're used they get deleted (or at least removed from map, so gc needed to actually delete them)
+      LOGGER.info("Loading crab");
+      long start = System.nanoTime();
+      Pattern patchFilePattern = Pattern.compile("binpatch/client/.*.binpatch");
+      LzmaInputStream decompressedInput = new LzmaInputStream(patchArchive, new Decoder());
+      JarInputStream jis = new JarInputStream(
+          decompressedInput); // the patches are inside an LZMA compressed JAR
+      while (true) {
+        try {
+          JarEntry entry = jis.getNextJarEntry();
+          if (entry == null) {
+            break;
+          }
+          if (patchFilePattern.matcher(entry.getName()).matches()) {
+            Patch patch = readPatch(jis);
+            String name = patch.sourceName.replace('.', '/');
+            patches.put(name, patch);
+          } else {
+            jis.closeEntry();
+          }
+        } catch (IOException ex) {
+          LOGGER.warn("Failed to load a crab", ex);
+        }
+      }
+      long end = System.nanoTime();
+      LOGGER.info("Loaded {} crabs in {} milliseconds", patches.size(),
+          ((double) end - (double) start) / 1_000_000.0);
+    }
+    setupComplete = true;
+  }
+
+  private Patch readPatch(InputStream in) throws IOException {
+    ByteArrayDataInput input = ByteStreams.newDataInput(ByteStreams.toByteArray(in));
+    String name = input.readUTF();
+    String srcName = input.readUTF();
+    String targetName = input.readUTF();
+    boolean exists = input.readBoolean();
+    long checksum = -1;
+    if (exists) {
+      checksum = input.readLong();
+    }
+    int length = input.readInt();
+    byte[] patchData = new byte[length];
+    input.readFully(patchData);
+    return new Patch(name, srcName, targetName, exists, patchData, checksum);
+  }
+
+  long hash(byte[] bytes) {
+    Adler32 hasher = new Adler32();
+    hasher.update(bytes);
+    return hasher.getValue();
+  }
+
+  private static class Patch {
+
+    final String name;
+    final String sourceName;
+    final String targetName;
+    final boolean targetHasFile;
+    final byte[] patchData;
+    final long checksum;
+
+    Patch(String name, String sourceName, String targetName, boolean targetHasFile,
+        byte[] patchData, long checksum) {
+      this.name = name;
+      this.sourceName = sourceName;
+      this.targetName = targetName;
+      this.targetHasFile = targetHasFile;
+      this.patchData = patchData;
+      this.checksum = checksum;
+    }
+  }
+
+  static {
+    registerTransformers(
+        new GameSettingsTransformer(),
+        new WorldClientTransformer(),
+        new AbstractClientPlayerTransformer(),
+        new CrashReportTransformer(),
+        new ModelBoxTransformer(),
+        new RenderManagerTransformer(),
+        new RenderItemFrameTransformer(),
+        new ModelRendererTransformer(),
+        new FontRendererTransformer(),
+        new EffectRendererTransformer(),
+        new GuiMainMenuTransformer(),
+        new TextureManagerTransformer(),
+        new GuiVideoSettingsTransformer(),
+        new TileEntityEndPortalRendererTransformer(),
+        new EntityRendererTransformer(),
+        new ResourcePackRepositoryTransformer(),
+        new RenderGlobalTransformer(),
+        new ChunkRenderContainerTransformer(),
+        new RenderChunkTransformer(),
+        new LoadingScreenRendererTransformer(),
+        new RenderTransformer(),
+        new RendererLivingEntityTransformer(),
+        new LayerArmorBaseTransformer(),
+        new GuiOverlayDebugTransformer(),
+        new GuiIngameTransformer(),
+        new AbstractResourcePackTransformer(),
 //                new ItemRendererTransformer(),
 
-                // TODO: Write actual transformers for these classes
-                new NoopTransformer("awi"),
-                new NoopTransformer("bma"),
-                new NoopTransformer("bma$1"),
-                new NoopTransformer("bjh"),
-                new NoopTransformer("bfn"),
+        // TODO: Write actual transformers for these classes
+        new NoopTransformer("awi"),
+        new NoopTransformer("bma"),
+        new NoopTransformer("bma$1"),
+        new NoopTransformer("bjh"),
+        new NoopTransformer("bfn"),
 
-                // dont need actual transformers
-                new NoopTransformer("avh$1"),
-                new NoopTransformer("avh$2"),
-                new NoopTransformer("avh$a"),
+        // dont need actual transformers
+        new NoopTransformer("avh$1"),
+        new NoopTransformer("avh$2"),
+        new NoopTransformer("avh$a"),
 
-                new NoopTransformer("avv$1"),
+        new NoopTransformer("avv$1"),
 
-                new NoopTransformer("b$1"),
-                new NoopTransformer("b$2"),
-                new NoopTransformer("b$3"),
-                new NoopTransformer("b$4"),
-                new NoopTransformer("b$5"),
-                new NoopTransformer("b$6"),
-                new NoopTransformer("b$7"),
+        new NoopTransformer("b$1"),
+        new NoopTransformer("b$2"),
+        new NoopTransformer("b$3"),
+        new NoopTransformer("b$4"),
+        new NoopTransformer("b$5"),
+        new NoopTransformer("b$6"),
+        new NoopTransformer("b$7"),
 
-                new NoopTransformer("bdb$1"),
-                new NoopTransformer("bdb$2"),
-                new NoopTransformer("bdb$3"),
-                new NoopTransformer("bdb$4"),
+        new NoopTransformer("bdb$1"),
+        new NoopTransformer("bdb$2"),
+        new NoopTransformer("bdb$3"),
+        new NoopTransformer("bdb$4"),
 
-                new NoopTransformer("bfk$1"),
-                new NoopTransformer("bfk$2"),
-                new NoopTransformer("bfk$3"),
-                new NoopTransformer("bfk$4"),
+        new NoopTransformer("bfk$1"),
+        new NoopTransformer("bfk$2"),
+        new NoopTransformer("bfk$3"),
+        new NoopTransformer("bfk$4"),
 
-                new NoopTransformer("bfn$1"),
+        new NoopTransformer("bfn$1"),
 
-                new NoopTransformer("bfr$1"),
-                new NoopTransformer("bfr$2"),
-                new NoopTransformer("bfr$a"),
+        new NoopTransformer("bfr$1"),
+        new NoopTransformer("bfr$2"),
+        new NoopTransformer("bfr$a"),
 
-                new NoopTransformer("bjh$1"),
-                new NoopTransformer("bjh$2"),
-                new NoopTransformer("bjh$3"),
-                new NoopTransformer("bjh$4"),
-                new NoopTransformer("bjh$5"),
-                new NoopTransformer("bjh$6"),
-                new NoopTransformer("bjh$7"),
-                new NoopTransformer("bjh$8"),
-                new NoopTransformer("bjh$9"),
+        new NoopTransformer("bjh$1"),
+        new NoopTransformer("bjh$2"),
+        new NoopTransformer("bjh$3"),
+        new NoopTransformer("bjh$4"),
+        new NoopTransformer("bjh$5"),
+        new NoopTransformer("bjh$6"),
+        new NoopTransformer("bjh$7"),
+        new NoopTransformer("bjh$8"),
+        new NoopTransformer("bjh$9"),
 
-                new NoopTransformer("bjl$1"),
+        new NoopTransformer("bjl$1"),
 
-                new NoopTransformer("bkn$1"),
+        new NoopTransformer("bkn$1"),
 
-                new NoopTransformer("bnm$a"),
-                new NoopTransformer("bnm$1")
-        );
-    }
+        new NoopTransformer("bnm$a"),
+        new NoopTransformer("bnm$1")
+    );
+  }
 }

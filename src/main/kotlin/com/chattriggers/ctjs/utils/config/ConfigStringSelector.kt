@@ -10,22 +10,23 @@ import kotlin.properties.Delegates
 import kotlin.reflect.KMutableProperty
 
 open class ConfigStringSelector
-    (
-    private val prop: KMutableProperty<String>,
-    name: String = "",
-    private val values: Array<String> = emptyArray(),
-    x: Int = 0,
-    y: Int = 0
+(
+        private val prop: KMutableProperty<String>,
+        name: String = "",
+        private val values: Array<String> = emptyArray(),
+        x: Int = 0,
+        y: Int = 0
 ) : ConfigOption() {
 
     private var value: Int by Delegates.observable(
-        values.indexOf(prop.getter.call(Config))
+            values.indexOf(prop.getter.call(Config))
     ) { _, _, new ->
         prop.setter.call(Config, values[new])
     }
     private val initial = value
 
     private var leftArrowButton: GuiButton? = null
+
     @Transient
     private var rightArrowButton: GuiButton? = null
 
@@ -53,21 +54,21 @@ open class ConfigStringSelector
         super.init()
 
         leftArrowButton = GuiButton(
-            0,
-            Renderer.Screen.getWidth() / 2 - 100 + x,
-            y + 15,
-            30,
-            20,
-            "<"
+                0,
+                Renderer.Screen.getWidth() / 2 - 100 + x,
+                y + 15,
+                30,
+                20,
+                "<"
         )
 
         rightArrowButton = GuiButton(
-            0,
-            Renderer.Screen.getWidth() / 2 + 70 + x,
-            y + 15,
-            30,
-            20,
-            ">"
+                0,
+                Renderer.Screen.getWidth() / 2 + 70 + x,
+                y + 15,
+                30,
+                20,
+                ">"
         )
     }
 
@@ -77,14 +78,14 @@ open class ConfigStringSelector
         val middle = Renderer.Screen.getWidth() / 2
 
         Rectangle(-0x80000000, (middle - 105 + x).toFloat(), (y - 5).toFloat(), 210f, 45f)
-            .setShadow(-0x30000000, 3f, 3f)
-            .draw()
+                .setShadow(-0x30000000, 3f, 3f)
+                .draw()
         Text(name!!, (middle - 100 + x).toFloat(), y.toFloat()).draw()
 
         Text(
-            getValue(),
-            (middle + x - Renderer.getStringWidth(getValue()) / 2).toFloat(),
-            (y + 20).toFloat()
+                getValue(),
+                (middle + x - Renderer.getStringWidth(getValue()) / 2).toFloat(),
+                (y + 20).toFloat()
         ).draw()
 
         leftArrowButton!!.xPosition = middle - 100 + x
@@ -119,25 +120,25 @@ open class ConfigStringSelector
 }
 
 class ConsoleThemeSelector
-    (prop: KMutableProperty<String>, name: String = "", x: Int = 0, y: Int = 0) : ConfigStringSelector(
-    prop, name,
-    arrayOf(
-        "default.dark",
-        "ashes.dark",
-        "atelierforest.dark",
-        "isotope.dark",
-        "codeschool.dark",
-        "gotham",
-        "hybrid",
-        "3024.light",
-        "chalk.light",
-        "blue",
-        "slate",
-        "red",
-        "green",
-        "aids"
-    ),
-    x, y
+(prop: KMutableProperty<String>, name: String = "", x: Int = 0, y: Int = 0) : ConfigStringSelector(
+        prop, name,
+        arrayOf(
+                "default.dark",
+                "ashes.dark",
+                "atelierforest.dark",
+                "isotope.dark",
+                "codeschool.dark",
+                "gotham",
+                "hybrid",
+                "3024.light",
+                "chalk.light",
+                "blue",
+                "slate",
+                "red",
+                "green",
+                "aids"
+        ),
+        x, y
 ) {
     override fun draw(mouseX: Int, mouseY: Int, partialTicks: Float) {
         hidden = Config.customTheme

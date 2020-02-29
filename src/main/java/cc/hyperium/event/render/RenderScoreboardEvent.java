@@ -28,41 +28,42 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class RenderScoreboardEvent extends CancellableEvent {
 
-    private final double x;
-    private final double y;
+  private final double x;
+  private final double y;
 
-    @NotNull
-    private final ScoreObjective objective;
+  @NotNull
+  private final ScoreObjective objective;
 
-    @NotNull
-    private final ScaledResolution resolution;
+  @NotNull
+  private final ScaledResolution resolution;
 
-    public RenderScoreboardEvent(double x, double y, @NotNull ScoreObjective objective, @NotNull ScaledResolution resolution) {
-        Preconditions.checkNotNull(objective, "objective");
-        Preconditions.checkNotNull(resolution, "resolution");
+  public RenderScoreboardEvent(double x, double y, @NotNull ScoreObjective objective,
+      @NotNull ScaledResolution resolution) {
+    Preconditions.checkNotNull(objective, "objective");
+    Preconditions.checkNotNull(resolution, "resolution");
 
-        this.x = x;
-        this.y = y;
+    this.x = x;
+    this.y = y;
 
-        this.objective = objective;
-        this.resolution = resolution;
-    }
+    this.objective = objective;
+    this.resolution = resolution;
+  }
 
-    @NotNull
-    public final ScoreObjective getObjective() {
-        return objective;
-    }
+  @NotNull
+  public final ScoreObjective getObjective() {
+    return objective;
+  }
 
-    @NotNull
-    public final ScaledResolution getResolution() {
-        return resolution;
-    }
+  @NotNull
+  public final ScaledResolution getResolution() {
+    return resolution;
+  }
 
-    public final double getX() {
-        return x;
-    }
+  public final double getX() {
+    return x;
+  }
 
-    public final double getY() {
-        return y;
-    }
+  public final double getY() {
+    return y;
+  }
 }

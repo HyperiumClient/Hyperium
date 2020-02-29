@@ -28,17 +28,17 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class HypixelWinEvent extends Event {
 
-    @NotNull
-    private final List<String> winners;
+  @NotNull
+  private final List<String> winners;
 
-    public HypixelWinEvent(@NotNull List<String> winners) {
-        Preconditions.checkNotNull(winners, "winners");
+  public HypixelWinEvent(@NotNull List<String> winners) {
+    Preconditions.checkNotNull(winners, "winners");
 
-        this.winners = winners;
-    }
+    this.winners = winners;
+  }
 
-    @NotNull
-    public final List<String> getWinners() {
-        return winners;
-    }
+  @NotNull
+  public final List<String> getWinners() {
+    return winners;
+  }
 }

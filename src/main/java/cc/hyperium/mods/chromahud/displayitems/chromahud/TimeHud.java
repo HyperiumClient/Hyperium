@@ -29,33 +29,36 @@ import java.util.Date;
  * @author Sk1er
  */
 public class TimeHud extends DisplayItem {
-    private String format;
 
-    public TimeHud(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-        format = data.optString("format");
-        if (format.isEmpty()) format = "HH:mm:ss";
-    }
+  private String format;
 
-    public String getFormat() {
-        return format;
+  public TimeHud(JsonHolder data, int ordinal) {
+    super(data, ordinal);
+    format = data.optString("format");
+    if (format.isEmpty()) {
+      format = "HH:mm:ss";
     }
+  }
 
-    public void setFormat(String format) {
-        data.put("format", format);
-        this.format = format;
-    }
+  public String getFormat() {
+    return format;
+  }
 
-    @Override
-    public void draw(int starX, double startY, boolean isConfig) {
-        try {
-            String string = new SimpleDateFormat(format).format(new Date(System.currentTimeMillis()));
-            ElementRenderer.draw(starX, startY, string);
-            width = isConfig ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0;
-            height = 10;
-        } catch (Exception e) {
-            ElementRenderer.draw(starX, startY, "Invalid");
-        }
+  public void setFormat(String format) {
+    data.put("format", format);
+    this.format = format;
+  }
+
+  @Override
+  public void draw(int starX, double startY, boolean isConfig) {
+    try {
+      String string = new SimpleDateFormat(format).format(new Date(System.currentTimeMillis()));
+      ElementRenderer.draw(starX, startY, string);
+      width = isConfig ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0;
+      height = 10;
+    } catch (Exception e) {
+      ElementRenderer.draw(starX, startY, "Invalid");
     }
+  }
 
 }

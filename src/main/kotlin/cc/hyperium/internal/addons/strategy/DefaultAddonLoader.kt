@@ -53,10 +53,10 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
 
         val manifest = AddonManifestParser(jar).getAddonManifest()
         if (AddonBootstrap.pendingManifests.stream().anyMatch {
-                it.name.equals(
-                    manifest.name
-                )
-            }) {
+                    it.name.equals(
+                            manifest.name
+                    )
+                }) {
             file.delete()
             return null
         }

@@ -22,12 +22,13 @@ import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import org.lwjgl.input.Keyboard;
 
 public class GuiKeybind extends HyperiumBind {
-    public GuiKeybind() {
-        super("Hyperium GUI", Keyboard.KEY_GRAVE, KeyType.GUI);
-    }
 
-    @Override
-    public void onPress() {
-        HyperiumMainGui.INSTANCE.show();
-    }
+  public GuiKeybind() {
+    super("Hyperium GUI", Keyboard.KEY_GRAVE, KeyType.GUI);
+  }
+
+  @Override
+  public void onPress() {
+    HyperiumMainGui.INSTANCE.show();
+  }
 }

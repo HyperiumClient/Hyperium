@@ -32,64 +32,65 @@ import cc.hyperium.utils.ChatColor;
  */
 public final class ToggleChatMod extends AbstractMod {
 
-    /**
-     * The metadata of ToggleChat
-     */
-    private final Metadata meta;
+  /**
+   * The metadata of ToggleChat
+   */
+  private final Metadata meta;
 
-    /**
-     * A basic CONFIG loader
-     */
-    private ToggleChatConfig configLoader;
+  /**
+   * A basic CONFIG loader
+   */
+  private ToggleChatConfig configLoader;
 
-    /**
-     * A different implementation to the normal ToggleChat, just manages all toggles
-     */
-    private ToggleBaseHandler toggleHandler;
+  /**
+   * A different implementation to the normal ToggleChat, just manages all toggles
+   */
+  private ToggleBaseHandler toggleHandler;
 
-    public ToggleChatMod() {
-        Metadata metadata = new Metadata(this, "ToggleChatLite", "1.0", "boomboompower");
+  public ToggleChatMod() {
+    Metadata metadata = new Metadata(this, "ToggleChatLite", "1.0", "boomboompower");
 
-        metadata.setDisplayName(ChatColor.AQUA + "ToggleChatLite");
+    metadata.setDisplayName(ChatColor.AQUA + "ToggleChatLite");
 
-        meta = metadata;
-    }
+    meta = metadata;
+  }
 
-    public AbstractMod init() {
-        configLoader = new ToggleChatConfig(this, Hyperium.folder);
+  public AbstractMod init() {
+    configLoader = new ToggleChatConfig(this, Hyperium.folder);
 
-        toggleHandler = new ToggleBaseHandler();
-        toggleHandler.remake();
+    toggleHandler = new ToggleBaseHandler();
+    toggleHandler.remake();
 
-        EventBus.INSTANCE.register(new ToggleChatEvents(this));
+    EventBus.INSTANCE.register(new ToggleChatEvents(this));
 
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandToggleChat(this));
+    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        .registerCommand(new CommandToggleChat(this));
 
-        configLoader.loadToggles();
+    configLoader.loadToggles();
 
-        return this;
-    }
+    return this;
+  }
 
-    @Override
-    public Metadata getModMetadata() {
-        return meta;
-    }
+  @Override
+  public Metadata getModMetadata() {
+    return meta;
+  }
 
-    /**
-     * Getter for ToggleChat's configuration
-     *
-     * @return the configuration
-     */
-    public ToggleChatConfig getConfigLoader() {
-        return configLoader;
-    }
+  /**
+   * Getter for ToggleChat's configuration
+   *
+   * @return the configuration
+   */
+  public ToggleChatConfig getConfigLoader() {
+    return configLoader;
+  }
 
-    /**
-     * Getter for ToggleChat's ToggleHandler
-     *
-     * @return the handlers instance
-     */
-    public ToggleBaseHandler getToggleHandler() {
-        return toggleHandler;
-    }
+  /**
+   * Getter for ToggleChat's ToggleHandler
+   *
+   * @return the handlers instance
+   */
+  public ToggleBaseHandler getToggleHandler() {
+    return toggleHandler;
+  }
 }

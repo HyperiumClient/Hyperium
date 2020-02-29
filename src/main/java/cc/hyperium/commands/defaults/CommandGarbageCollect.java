@@ -26,28 +26,30 @@ import java.util.List;
 
 public class CommandGarbageCollect implements BaseCommand {
 
-    @Override
-    public String getName() {
-        return "gcollect";
-    }
+  @Override
+  public String getName() {
+    return "gcollect";
+  }
 
-    @Override
-    public List<String> getCommandAliases() {
-        return Arrays.asList("garbagecollect", "gc");
-    }
+  @Override
+  public List<String> getCommandAliases() {
+    return Arrays.asList("garbagecollect", "gc");
+  }
 
-    @Override
-    public String getUsage() {
-        return "/gcollect";
-    }
+  @Override
+  public String getUsage() {
+    return "/gcollect";
+  }
 
-    @Override
-    public void onExecute(String[] args) {
-        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Performing a Garbage Collect.");
-        long start = System.currentTimeMillis();
-        System.gc();
-        long end = System.currentTimeMillis();
-        float sec = (end - start) / 1000F;
-        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Garbage Collect took " + sec + " seconds.");
-    }
+  @Override
+  public void onExecute(String[] args) {
+    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+        .sendMessage("Performing a Garbage Collect.");
+    long start = System.currentTimeMillis();
+    System.gc();
+    long end = System.currentTimeMillis();
+    float sec = (end - start) / 1000F;
+    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+        .sendMessage("Garbage Collect took " + sec + " seconds.");
+  }
 }

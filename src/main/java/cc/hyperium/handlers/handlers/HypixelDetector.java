@@ -41,85 +41,93 @@ import java.util.regex.Pattern;
 
 public class HypixelDetector {
 
-    private static final Pattern HYPIXEL_PATTERN =
-            Pattern.compile("^(?:(?:(?:.+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3})|(?:99\\.198\\.123\\.[123]?\\d?))\\.?(?::\\d{1,5}\\.?)?$", Pattern.CASE_INSENSITIVE);
+  private static final Pattern HYPIXEL_PATTERN =
+      Pattern.compile(
+          "^(?:(?:(?:.+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3})|(?:99\\.198\\.123\\.[123]?\\d?))\\.?(?::\\d{1,5}\\.?)?$",
+          Pattern.CASE_INSENSITIVE);
 
-    private static HypixelDetector instance;
-    private boolean hypixel;
+  private static HypixelDetector instance;
+  private boolean hypixel;
 
-    public HypixelDetector() {
-        instance = this;
-    }
+  public HypixelDetector() {
+    instance = this;
+  }
 
-    public static HypixelDetector getInstance() {
-        return instance;
-    }
+  public static HypixelDetector getInstance() {
+    return instance;
+  }
 
-    @SuppressWarnings("BusyWait")
-    @InvokeEvent
-    public void serverJoinEvent(ServerJoinEvent event) {
-        hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
+  @SuppressWarnings("BusyWait")
+  @InvokeEvent
+  public void serverJoinEvent(ServerJoinEvent event) {
+    hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
 
-        Multithreading.runAsync(() -> {
-            // Wait a while until the player isn't null, signifying the joining process is complete
-            int tries = 0;
-            while (Minecraft.getMinecraft().thePlayer == null) {
-                tries++;
-                if (tries > 20 * 10) {
-                    return;
-                }
-                try {
-                    Thread.sleep(50L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (hypixel) { // If player is online recognized Hypixel IP
-                EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.IP));
-            } else { // Double check the player isn't online Hypixel
-                if (Minecraft.getMinecraft().getCurrentServerData() != null) {
-                    ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
-
-                    if (serverData != null && serverData.serverMOTD != null && serverData.serverMOTD.toLowerCase(Locale.ENGLISH).contains("hypixel network")) { // Check MOTD for Hypixel
-                        hypixel = true;
-                        EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.MOTD));
-                    }
-                }
-            }
-        });
-    }
-
-    @InvokeEvent
-    public void join(JoinHypixelEvent event) {
-        if (Settings.HYPIXEL_ZOO) {
-            Hyperium.INSTANCE.getHandlers().getNotificationCenter().display("Welcome to the Hypixel Zoo.", "Click to visit https://hypixel.net/", 5f,
-                    null, () -> {
-                        try {
-                            HyperiumDesktop.INSTANCE.browse(new URI("https://hypixel.net"));
-                        } catch (Exception e) {
-                            Hyperium.LOGGER.error("Could not open link", e);
-                        }
-                    }, new Color(200, 150, 50));
-
-            SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
-            if (soundHandler == null || Minecraft.getMinecraft().theWorld == null) return;
-            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("hyperium", "zoo"),
-                    (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+    Multithreading.runAsync(() -> {
+      // Wait a while until the player isn't null, signifying the joining process is complete
+      int tries = 0;
+      while (Minecraft.getMinecraft().thePlayer == null) {
+        tries++;
+        if (tries > 20 * 10) {
+          return;
         }
-    }
+        try {
+          Thread.sleep(50L);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
 
-    @InvokeEvent
-    public void serverLeaveEvent(ServerLeaveEvent event) {
-        hypixel = false;
-    }
+      if (hypixel) { // If player is online recognized Hypixel IP
+        EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.IP));
+      } else { // Double check the player isn't online Hypixel
+        if (Minecraft.getMinecraft().getCurrentServerData() != null) {
+          ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
 
-    @InvokeEvent
-    public void singlePlayerJoin(SingleplayerJoinEvent event) {
-        hypixel = false;
-    }
+          if (serverData != null && serverData.serverMOTD != null && serverData.serverMOTD
+              .toLowerCase(Locale.ENGLISH).contains("hypixel network")) { // Check MOTD for Hypixel
+            hypixel = true;
+            EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.MOTD));
+          }
+        }
+      }
+    });
+  }
 
-    public boolean isHypixel() {
-        return hypixel;
+  @InvokeEvent
+  public void join(JoinHypixelEvent event) {
+    if (Settings.HYPIXEL_ZOO) {
+      Hyperium.INSTANCE.getHandlers().getNotificationCenter()
+          .display("Welcome to the Hypixel Zoo.", "Click to visit https://hypixel.net/", 5f,
+              null, () -> {
+                try {
+                  HyperiumDesktop.INSTANCE.browse(new URI("https://hypixel.net"));
+                } catch (Exception e) {
+                  Hyperium.LOGGER.error("Could not open link", e);
+                }
+              }, new Color(200, 150, 50));
+
+      SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
+      if (soundHandler == null || Minecraft.getMinecraft().theWorld == null) {
+        return;
+      }
+      soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("hyperium", "zoo"),
+          (float) Minecraft.getMinecraft().thePlayer.posX,
+          (float) Minecraft.getMinecraft().thePlayer.posY,
+          (float) Minecraft.getMinecraft().thePlayer.posZ));
     }
+  }
+
+  @InvokeEvent
+  public void serverLeaveEvent(ServerLeaveEvent event) {
+    hypixel = false;
+  }
+
+  @InvokeEvent
+  public void singlePlayerJoin(SingleplayerJoinEvent event) {
+    hypixel = false;
+  }
+
+  public boolean isHypixel() {
+    return hypixel;
+  }
 }

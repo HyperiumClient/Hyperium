@@ -23,12 +23,13 @@ import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import org.lwjgl.input.Keyboard;
 
 public class NamesKeybind extends HyperiumBind {
-    public NamesKeybind() {
-        super("Name History", Keyboard.KEY_H, KeyType.GUI);
-    }
 
-    @Override
-    public void onPress() {
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
-    }
+  public NamesKeybind() {
+    super("Name History", Keyboard.KEY_H, KeyType.GUI);
+  }
+
+  @Override
+  public void onPress() {
+    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
+  }
 }

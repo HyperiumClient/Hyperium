@@ -27,26 +27,25 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class JoinHypixelEvent extends Event {
 
-    @NotNull
-    private final ServerVerificationMethod method;
+  @NotNull
+  private final ServerVerificationMethod method;
 
-    public JoinHypixelEvent(@NotNull ServerVerificationMethod method) {
-        Preconditions.checkNotNull(method, "method");
+  public JoinHypixelEvent(@NotNull ServerVerificationMethod method) {
+    Preconditions.checkNotNull(method, "method");
 
-        this.method = method;
-    }
+    this.method = method;
+  }
 
-    @NotNull
-    public final ServerVerificationMethod getMethod() {
-        return method;
-    }
+  @NotNull
+  public final ServerVerificationMethod getMethod() {
+    return method;
+  }
 
-    /**
-     * All the methods used by HypixelDetector to detect Hypixel
-     * This is used by the above two events
-     */
-    public enum ServerVerificationMethod {
-        IP,
-        MOTD
-    }
+  /**
+   * All the methods used by HypixelDetector to detect Hypixel This is used by the above two events
+   */
+  public enum ServerVerificationMethod {
+    IP,
+    MOTD
+  }
 }

@@ -46,201 +46,223 @@ import java.util.Random;
 
 public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiYesNoCallback {
 
-    private static boolean FIRST_START = true;
-    private final String createdByTeam = I18n.format("menu.credits");
-    private final TipRegistry tipRegistry = TipRegistry.INSTANCE;
-    private int widthCredits;
-    private int widthCreditsRest;
+  private static boolean FIRST_START = true;
+  private final String createdByTeam = I18n.format("menu.credits");
+  private final TipRegistry tipRegistry = TipRegistry.INSTANCE;
+  private int widthCredits;
+  private int widthCreditsRest;
 
-    private String selectedTip;
-    private Random random = new Random();
-    private int ticksUntilNewTip;
+  private String selectedTip;
+  private Random random = new Random();
+  private int ticksUntilNewTip;
 
-    private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Raleway", 64.0F);
+  private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Raleway", 64.0F);
 
-    public GuiHyperiumScreenMainMenu() {
-        if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
-            GuiHyperiumScreenMainMenu.FIRST_START = false;
-            Minecraft.getMinecraft().toggleFullscreen();
-            Minecraft.getMinecraft().toggleFullscreen();
-        }
-
-        if (Hyperium.INSTANCE.isFirstLaunch()) new SettingsMigrator().migrate();
-
-        tipRegistry.registerTips(
-                "menu.hyperiumtip.1",
-                "menu.hyperiumtip.2",
-                "menu.hyperiumtip.3",
-                "menu.hyperiumtip.4",
-                "menu.hyperiumtip.5",
-                "menu.hyperiumtip.6",
-                "menu.hyperiumtip.7",
-                "menu.hyperiumtip.8",
-                "menu.hyperiumtip.9",
-                "menu.hyperiumtip.10",
-                "menu.hyperiumtip.11",
-                "menu.hyperiumtip.12",
-                "menu.hyperiumtip.13"
-        );
-
-        selectedTip = tipRegistry.getTips().get(random.nextInt(tipRegistry.getTips().size()));
+  public GuiHyperiumScreenMainMenu() {
+    if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
+      GuiHyperiumScreenMainMenu.FIRST_START = false;
+      Minecraft.getMinecraft().toggleFullscreen();
+      Minecraft.getMinecraft().toggleFullscreen();
     }
 
-    /**
-     * Override initGui
-     *
-     * @author Cubxity
-     */
-    public void initGui() {
-        int centerX = width / 2;
-        int centerY = height / 2;
-        widthCredits = fontRendererObj.getStringWidth(createdByTeam);
-        widthCreditsRest = width - widthCredits - 2;
-
-        buttonList.add(new GuiButton(0, centerX - 100, centerY - 50, I18n.format("menu.singleplayer")));
-        buttonList.add(new GuiButton(1, centerX - 100, centerY - 28, I18n.format("menu.multiplayer")));
-        buttonList.add(serverButton = new GuiButton(2, centerX - 100, centerY - 6, I18n.format("button.ingame.joinhypixel")));
-        buttonList.add(new GuiButton(3, centerX - 100, centerY + 16, I18n.format("button.ingame.hyperiumsettings")));
-        buttonList.add(new GuiButton(4, centerX - 100, centerY + 38, 98, 20, I18n.format("menu.options")));
-        buttonList.add(new GuiButton(5, centerX + 2, centerY + 38, 98, 20, I18n.format("menu.quit")));
-        buttonList.add(new IconButton(6, 3, 3, 16, 16, I18n.format("button.menu.cosmeticshop"),
-                new ResourceLocation("hyperium", "textures/material/shopping_bag.png")));
-        buttonList.add(new IconButton(7, 23, 3, 16, 16, I18n.format("button.menu.changebackground"),
-                new ResourceLocation("hyperium", "textures/material/gallery.png")));
-        buttonList.add(new IconButton(8, 43, 3, 16, 16, I18n.format("button.menu.accountswitch"),
-                new ResourceLocation("hyperium", "textures/material/account.png")));
+    if (Hyperium.INSTANCE.isFirstLaunch()) {
+      new SettingsMigrator().migrate();
     }
 
-    /**
-     * Override drawScreen method
-     *
-     * @author Cubxity
-     */
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-        renderBackgroundImage();
+    tipRegistry.registerTips(
+        "menu.hyperiumtip.1",
+        "menu.hyperiumtip.2",
+        "menu.hyperiumtip.3",
+        "menu.hyperiumtip.4",
+        "menu.hyperiumtip.5",
+        "menu.hyperiumtip.6",
+        "menu.hyperiumtip.7",
+        "menu.hyperiumtip.8",
+        "menu.hyperiumtip.9",
+        "menu.hyperiumtip.10",
+        "menu.hyperiumtip.11",
+        "menu.hyperiumtip.12",
+        "menu.hyperiumtip.13"
+    );
 
-        int versionOffset = Reflector.OF_VERSION.exists() ? 20 : 10;
-        if (versionOffset == 20) {
-            fontRendererObj.drawStringWithShadow("OptiFine " + Reflector.OF_VERSION.get(null).substring(9), 3, height - 10, -1);
-        }
-        fontRendererObj.drawStringWithShadow("Hyperium " + Metadata.getVersion(), 3, height - versionOffset, -1);
-        String creditsString = I18n.format("menu.right");
-        drawString(fontRendererObj, creditsString, width - fontRendererObj.getStringWidth(creditsString) - 2, height - 20, -1);
-        creditsString = createdByTeam;
-        drawString(fontRendererObj, creditsString, width - fontRendererObj.getStringWidth(creditsString) - 2, height - 10, -1);
+    selectedTip = tipRegistry.getTips().get(random.nextInt(tipRegistry.getTips().size()));
+  }
 
-        if (Settings.HYPERIUM_TIPS && !tipRegistry.getTips().isEmpty()) {
-            fontRendererObj.drawSplitString(ChatColor.YELLOW + I18n.format(selectedTip), width / 2 - 200 / 2,
-                    height / 2 + 62, 200, -1);
-        }
+  /**
+   * Override initGui
+   *
+   * @author Cubxity
+   */
+  public void initGui() {
+    int centerX = width / 2;
+    int centerY = height / 2;
+    widthCredits = fontRendererObj.getStringWidth(createdByTeam);
+    widthCreditsRest = width - widthCredits - 2;
 
-        // yoinked from 1.12
-        if (mouseX > widthCreditsRest && mouseX < widthCreditsRest + widthCredits && mouseY > height - 10 && mouseY < height && Mouse.isInsideWindow()) {
-            drawRect(widthCreditsRest, height - 1, widthCreditsRest + widthCredits, height, -1);
-        }
+    buttonList.add(new GuiButton(0, centerX - 100, centerY - 50, I18n.format("menu.singleplayer")));
+    buttonList.add(new GuiButton(1, centerX - 100, centerY - 28, I18n.format("menu.multiplayer")));
+    buttonList.add(serverButton = new GuiButton(2, centerX - 100, centerY - 6,
+        I18n.format("button.ingame.joinhypixel")));
+    buttonList.add(new GuiButton(3, centerX - 100, centerY + 16,
+        I18n.format("button.ingame.hyperiumsettings")));
+    buttonList
+        .add(new GuiButton(4, centerX - 100, centerY + 38, 98, 20, I18n.format("menu.options")));
+    buttonList.add(new GuiButton(5, centerX + 2, centerY + 38, 98, 20, I18n.format("menu.quit")));
+    buttonList.add(new IconButton(6, 3, 3, 16, 16, I18n.format("button.menu.cosmeticshop"),
+        new ResourceLocation("hyperium", "textures/material/shopping_bag.png")));
+    buttonList.add(new IconButton(7, 23, 3, 16, 16, I18n.format("button.menu.changebackground"),
+        new ResourceLocation("hyperium", "textures/material/gallery.png")));
+    buttonList.add(new IconButton(8, 43, 3, 16, 16, I18n.format("button.menu.accountswitch"),
+        new ResourceLocation("hyperium", "textures/material/account.png")));
+  }
 
-        if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf() != null) {
-            JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
-            int credits = response.optInt("remaining_credits");
+  /**
+   * Override drawScreen method
+   *
+   * @author Cubxity
+   */
+  @Override
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+    renderBackgroundImage();
 
-            fontRendererObj.drawStringWithShadow(mc.getSession().getUsername() + " - " +
-                    I18n.format("menu.profile.credits", credits), 3, height - (versionOffset + 10), 0xFFFF00);
-        }
+    int versionOffset = Reflector.OF_VERSION.exists() ? 20 : 10;
+    if (versionOffset == 20) {
+      fontRendererObj
+          .drawStringWithShadow("OptiFine " + Reflector.OF_VERSION.get(null).substring(9), 3,
+              height - 10, -1);
+    }
+    fontRendererObj
+        .drawStringWithShadow("Hyperium " + Metadata.getVersion(), 3, height - versionOffset, -1);
+    String creditsString = I18n.format("menu.right");
+    drawString(fontRendererObj, creditsString,
+        width - fontRendererObj.getStringWidth(creditsString) - 2, height - 20, -1);
+    creditsString = createdByTeam;
+    drawString(fontRendererObj, creditsString,
+        width - fontRendererObj.getStringWidth(creditsString) - 2, height - 10, -1);
 
-        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 95, new Color(0, 0, 0, 150).getRGB());
-        fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 96, -1);
-
-        super.drawScreen(mouseX, mouseY, partialTicks);
-
-        GuiButton serverButton = this.serverButton;
-
-        if (serverButton != null) {
-            serverButton.displayString = (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) ?
-                    I18n.format("gui.serverjoin.customizeserver") :
-                    Settings.SERVER_BUTTON_NAME;
-        }
+    if (Settings.HYPERIUM_TIPS && !tipRegistry.getTips().isEmpty()) {
+      fontRendererObj
+          .drawSplitString(ChatColor.YELLOW + I18n.format(selectedTip), width / 2 - 200 / 2,
+              height / 2 + 62, 200, -1);
     }
 
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    // yoinked from 1.12
+    if (mouseX > widthCreditsRest && mouseX < widthCreditsRest + widthCredits
+        && mouseY > height - 10 && mouseY < height && Mouse.isInsideWindow()) {
+      drawRect(widthCreditsRest, height - 1, widthCreditsRest + widthCredits, height, -1);
     }
 
-    @Override
-    public void actionPerformed(GuiButton button) {
-        switch (button.id) {
-            case 0:
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiSelectWorld(this));
-                break;
+    if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf() != null) {
+      JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
+      int credits = response.optInt("remaining_credits");
 
-            case 1:
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiMultiplayer(this));
-                break;
+      fontRendererObj.drawStringWithShadow(mc.getSession().getUsername() + " - " +
+          I18n.format("menu.profile.credits", credits), 3, height - (versionOffset + 10), 0xFFFF00);
+    }
 
-            case 2:
-                if (!(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))) {
-                    GuiMultiplayer guiMultiplayer = new GuiMultiplayer(new GuiMainMenu());
-                    guiMultiplayer.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
-                    guiMultiplayer.makeDirectConnect();
-                    ServerData data = new ServerData("customServer", Settings.SERVER_IP, false);
-                    guiMultiplayer.setIp(data);
-                    guiMultiplayer.confirmClicked(true, 0);
-                    Hyperium.INSTANCE.setFromMainMenu(true);
-                } else {
-                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new CreateServerButton(this));
-                }
-                break;
+    fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 95,
+        new Color(0, 0, 0, 150).getRGB());
+    fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 96, -1);
 
+    super.drawScreen(mouseX, mouseY, partialTicks);
 
-            case 3:
-                HyperiumMainGui.INSTANCE.setTab(0);
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(HyperiumMainGui.INSTANCE);
-                break;
+    GuiButton serverButton = this.serverButton;
 
-            case 4:
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiOptions(this, mc.gameSettings));
-                break;
+    if (serverButton != null) {
+      serverButton.displayString =
+          (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) ?
+              I18n.format("gui.serverjoin.customizeserver") :
+              Settings.SERVER_BUTTON_NAME;
+    }
+  }
 
-            case 5:
-                if (Settings.CONFIRM_QUIT) {
-                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiConfirmQuit());
-                } else {
-                    mc.shutdown();
-                }
-                break;
+  protected void keyTyped(char typedChar, int keyCode) throws IOException {
+  }
 
-            case 6:
-                HyperiumMainGui.INSTANCE.setTab(1);
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(HyperiumMainGui.INSTANCE);
-                break;
+  @Override
+  public void actionPerformed(GuiButton button) {
+    switch (button.id) {
+      case 0:
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+            .setDisplayNextTick(new GuiSelectWorld(this));
+        break;
 
-            case 7:
-                mc.displayGuiScreen(new ChangeBackgroundGui(this));
-                break;
+      case 1:
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+            .setDisplayNextTick(new GuiMultiplayer(this));
+        break;
 
-            case 8:
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new AccountGUI(this));
-                break;
+      case 2:
+        if (!(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))) {
+          GuiMultiplayer guiMultiplayer = new GuiMultiplayer(new GuiMainMenu());
+          guiMultiplayer.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
+          guiMultiplayer.makeDirectConnect();
+          ServerData data = new ServerData("customServer", Settings.SERVER_IP, false);
+          guiMultiplayer.setIp(data);
+          guiMultiplayer.confirmClicked(true, 0);
+          Hyperium.INSTANCE.setFromMainMenu(true);
+        } else {
+          Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+              .setDisplayNextTick(new CreateServerButton(this));
         }
-    }
+        break;
 
-    @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+      case 3:
+        HyperiumMainGui.INSTANCE.setTab(0);
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+            .setDisplayNextTick(HyperiumMainGui.INSTANCE);
+        break;
 
-        if (mouseX > widthCreditsRest && mouseX < widthCreditsRest + widthCredits && mouseY > height - 10 && mouseY < height) {
-            mc.displayGuiScreen(new GuiHyperiumCredits(this));
+      case 4:
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+            .setDisplayNextTick(new GuiOptions(this, mc.gameSettings));
+        break;
+
+      case 5:
+        if (Settings.CONFIRM_QUIT) {
+          Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+              .setDisplayNextTick(new GuiConfirmQuit());
+        } else {
+          mc.shutdown();
         }
-    }
+        break;
 
-    @Override
-    public void updateScreen() {
-        super.updateScreen();
-        ticksUntilNewTip++;
+      case 6:
+        HyperiumMainGui.INSTANCE.setTab(1);
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+            .setDisplayNextTick(HyperiumMainGui.INSTANCE);
+        break;
 
-        if (ticksUntilNewTip > 200) {
-            ticksUntilNewTip = 0;
-            selectedTip = tipRegistry.getTips().get(random.nextInt(tipRegistry.getTips().size()));
-        }
+      case 7:
+        mc.displayGuiScreen(new ChangeBackgroundGui(this));
+        break;
+
+      case 8:
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+            .setDisplayNextTick(new AccountGUI(this));
+        break;
     }
+  }
+
+  @Override
+  protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    super.mouseClicked(mouseX, mouseY, mouseButton);
+
+    if (mouseX > widthCreditsRest && mouseX < widthCreditsRest + widthCredits
+        && mouseY > height - 10 && mouseY < height) {
+      mc.displayGuiScreen(new GuiHyperiumCredits(this));
+    }
+  }
+
+  @Override
+  public void updateScreen() {
+    super.updateScreen();
+    ticksUntilNewTip++;
+
+    if (ticksUntilNewTip > 200) {
+      ticksUntilNewTip = 0;
+      selectedTip = tipRegistry.getTips().get(random.nextInt(tipRegistry.getTips().size()));
+    }
+  }
 }

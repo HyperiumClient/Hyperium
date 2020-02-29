@@ -23,12 +23,14 @@ import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import org.lwjgl.input.Keyboard;
 
 public class FriendsKeybind extends HyperiumBind {
-    public FriendsKeybind() {
-        super("Friends", Keyboard.KEY_L, KeyType.GUI);
-    }
 
-    @Override
-    public void onPress() {
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new HypixelFriendsGui());
-    }
+  public FriendsKeybind() {
+    super("Friends", Keyboard.KEY_L, KeyType.GUI);
+  }
+
+  @Override
+  public void onPress() {
+    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+        .setDisplayNextTick(new HypixelFriendsGui());
+  }
 }

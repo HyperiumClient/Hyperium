@@ -26,167 +26,182 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("rawtypes")
 public class Reflector {
-    static final Logger LOGGER = LogManager.getLogger();
 
-    public static final ReflectorClass<?> CONFIG = new ReflectorClass<>("Config");
-    public static final ReflectorField<String, ?> OF_VERSION = new ReflectorField<>(CONFIG, "VERSION");
+  static final Logger LOGGER = LogManager.getLogger();
+
+  public static final ReflectorClass<?> CONFIG = new ReflectorClass<>("Config");
+  public static final ReflectorField<String, ?> OF_VERSION = new ReflectorField<>(CONFIG,
+      "VERSION");
 
 
-    private static abstract class ReflectorData<T, R> {
-        private T data;
+  private static abstract class ReflectorData<T, R> {
 
-        protected abstract String describeType();
+    private T data;
 
-        protected abstract String describeValue();
+    protected abstract String describeType();
 
-        protected abstract R getRaw() throws Exception;
+    protected abstract String describeValue();
 
-        @SuppressWarnings("unchecked")
-        public void refresh() {
-            try {
-                data = (T) getRaw();
-            } catch (Exception ignored) {
-            }
-            if (data == null) LOGGER.info("{} not present: {}", describeType(), describeValue());
-        }
+    protected abstract R getRaw() throws Exception;
 
-        public boolean exists() {
-            return data != null;
-        }
-
-        public T get() {
-            return data;
-        }
+    @SuppressWarnings("unchecked")
+    public void refresh() {
+      try {
+        data = (T) getRaw();
+      } catch (Exception ignored) {
+      }
+      if (data == null) {
+        LOGGER.info("{} not present: {}", describeType(), describeValue());
+      }
     }
 
-    public static class ReflectorClass<T extends Class<?>> extends ReflectorData<T, Class<?>> {
-        final String name;
-
-        public ReflectorClass(String name) {
-            this.name = name;
-        }
-
-        @Override
-        protected String describeType() {
-            return "Class";
-        }
-
-        @Override
-        protected String describeValue() {
-            return name;
-        }
-
-        @Override
-        protected Class<?> getRaw() throws Exception {
-            return Class.forName(name);
-        }
+    public boolean exists() {
+      return data != null;
     }
 
-    public static class ReflectorField<T, O extends Class<?>> extends ReflectorData<Field, Field> {
-        private final ReflectorClass<O> owner;
-        private final String name;
+    public T get() {
+      return data;
+    }
+  }
 
-        public ReflectorField(ReflectorClass<O> owner, String name) {
-            this.owner = owner;
-            this.name = name;
-        }
+  public static class ReflectorClass<T extends Class<?>> extends ReflectorData<T, Class<?>> {
 
-        @SuppressWarnings("unchecked")
-        public T get(O owner) {
-            try {
-                return (T) get().get(owner);
-            } catch (IllegalAccessException ignored) {
-                return null;
-            }
-        }
+    final String name;
 
-        @Override
-        protected String describeType() {
-            return "Field";
-        }
-
-        @Override
-        protected String describeValue() {
-            return owner.name + "#" + name;
-        }
-
-        @Override
-        protected Field getRaw() throws Exception {
-            if (!owner.exists()) return null;
-            Field f = owner.get().getDeclaredField(name);
-            f.setAccessible(true);
-            return f;
-        }
+    public ReflectorClass(String name) {
+      this.name = name;
     }
 
-    public static class ReflectorMethod<T, O extends Class<?>> extends ReflectorData<Method, Method> {
-        private final ReflectorClass<O> owner;
-        private final String name;
-        private final ReflectorClass<?>[] parameterTypes;
-
-        public ReflectorMethod(ReflectorClass<O> owner, String name, ReflectorClass<?>[] parameterTypes) {
-            this.owner = owner;
-            this.name = name;
-            this.parameterTypes = parameterTypes;
-        }
-
-        public T invokeStatic(Object... parameters) {
-            return invoke(null, parameters);
-        }
-
-        @SuppressWarnings("unchecked")
-        public T invoke(O owner, Object... parameters) {
-            try {
-                return (T) get().invoke(owner, parameters);
-            } catch (IllegalAccessException e) {
-                return null;
-            } catch (InvocationTargetException e) {
-                Throwable target = e.getTargetException();
-                if (target instanceof RuntimeException) {
-                    throw (RuntimeException) target;
-                } else {
-                    throw new RuntimeException(target);
-                }
-            }
-        }
-
-        @Override
-        protected String describeType() {
-            return "Method";
-        }
-
-        @Override
-        protected String describeValue() {
-            return owner.name + name;
-        }
-
-        @Override
-        protected Method getRaw() throws Exception {
-            if (!owner.exists()) return null;
-            Class<?>[] convertedParameterTypes = new Class<?>[parameterTypes.length];
-            for (int i = 0; i < convertedParameterTypes.length; i++) {
-                ReflectorClass<?> c = parameterTypes[i];
-                if (!c.exists()) return null;
-                convertedParameterTypes[i] = c.get();
-            }
-            Method m = owner.get().getDeclaredMethod(name, convertedParameterTypes);
-            m.setAccessible(true);
-            return m;
-        }
+    @Override
+    protected String describeType() {
+      return "Class";
     }
 
-    static {
-        for (Field f : Reflector.class.getDeclaredFields()) {
-            if (ReflectorData.class.isAssignableFrom(f.getType())) {
-                f.setAccessible(true);
-                ReflectorData aaaa;
-                try {
-                    aaaa = (ReflectorData) f.get(null);
-                } catch (IllegalAccessException e) {
-                    continue;
-                }
-                aaaa.refresh();
-            }
-        }
+    @Override
+    protected String describeValue() {
+      return name;
     }
+
+    @Override
+    protected Class<?> getRaw() throws Exception {
+      return Class.forName(name);
+    }
+  }
+
+  public static class ReflectorField<T, O extends Class<?>> extends ReflectorData<Field, Field> {
+
+    private final ReflectorClass<O> owner;
+    private final String name;
+
+    public ReflectorField(ReflectorClass<O> owner, String name) {
+      this.owner = owner;
+      this.name = name;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T get(O owner) {
+      try {
+        return (T) get().get(owner);
+      } catch (IllegalAccessException ignored) {
+        return null;
+      }
+    }
+
+    @Override
+    protected String describeType() {
+      return "Field";
+    }
+
+    @Override
+    protected String describeValue() {
+      return owner.name + "#" + name;
+    }
+
+    @Override
+    protected Field getRaw() throws Exception {
+      if (!owner.exists()) {
+        return null;
+      }
+      Field f = owner.get().getDeclaredField(name);
+      f.setAccessible(true);
+      return f;
+    }
+  }
+
+  public static class ReflectorMethod<T, O extends Class<?>> extends ReflectorData<Method, Method> {
+
+    private final ReflectorClass<O> owner;
+    private final String name;
+    private final ReflectorClass<?>[] parameterTypes;
+
+    public ReflectorMethod(ReflectorClass<O> owner, String name,
+        ReflectorClass<?>[] parameterTypes) {
+      this.owner = owner;
+      this.name = name;
+      this.parameterTypes = parameterTypes;
+    }
+
+    public T invokeStatic(Object... parameters) {
+      return invoke(null, parameters);
+    }
+
+    @SuppressWarnings("unchecked")
+    public T invoke(O owner, Object... parameters) {
+      try {
+        return (T) get().invoke(owner, parameters);
+      } catch (IllegalAccessException e) {
+        return null;
+      } catch (InvocationTargetException e) {
+        Throwable target = e.getTargetException();
+        if (target instanceof RuntimeException) {
+          throw (RuntimeException) target;
+        } else {
+          throw new RuntimeException(target);
+        }
+      }
+    }
+
+    @Override
+    protected String describeType() {
+      return "Method";
+    }
+
+    @Override
+    protected String describeValue() {
+      return owner.name + name;
+    }
+
+    @Override
+    protected Method getRaw() throws Exception {
+      if (!owner.exists()) {
+        return null;
+      }
+      Class<?>[] convertedParameterTypes = new Class<?>[parameterTypes.length];
+      for (int i = 0; i < convertedParameterTypes.length; i++) {
+        ReflectorClass<?> c = parameterTypes[i];
+        if (!c.exists()) {
+          return null;
+        }
+        convertedParameterTypes[i] = c.get();
+      }
+      Method m = owner.get().getDeclaredMethod(name, convertedParameterTypes);
+      m.setAccessible(true);
+      return m;
+    }
+  }
+
+  static {
+    for (Field f : Reflector.class.getDeclaredFields()) {
+      if (ReflectorData.class.isAssignableFrom(f.getType())) {
+        f.setAccessible(true);
+        ReflectorData aaaa;
+        try {
+          aaaa = (ReflectorData) f.get(null);
+        } catch (IllegalAccessException e) {
+          continue;
+        }
+        aaaa.refresh();
+      }
+    }
+  }
 }

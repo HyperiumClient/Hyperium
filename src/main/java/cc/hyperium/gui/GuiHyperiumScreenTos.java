@@ -27,53 +27,55 @@ import java.awt.*;
 
 public class GuiHyperiumScreenTos extends GuiScreen {
 
-    private static boolean firstAccept;
+  private static boolean firstAccept;
 
-    public final int BUTTON_ID_ACCEPT = 0;
+  public final int BUTTON_ID_ACCEPT = 0;
 
-    @Override
-    public void initGui() {
-        super.initGui();
-        buttonList.add(new GuiButton(BUTTON_ID_ACCEPT, (width / 2) - 100, 160,
-                firstAccept ? ChatColor.GREEN + I18n.format("button.disclaimer.confirm") : I18n.format("button.disclaimer.accept")));
+  @Override
+  public void initGui() {
+    super.initGui();
+    buttonList.add(new GuiButton(BUTTON_ID_ACCEPT, (width / 2) - 100, 160,
+        firstAccept ? ChatColor.GREEN + I18n.format("button.disclaimer.confirm")
+            : I18n.format("button.disclaimer.accept")));
+  }
+
+  @Override
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    drawDefaultBackground();
+    super.drawScreen(mouseX, mouseY, partialTicks);
+
+    drawRect(0, 79, width, 148, 0x66000000);
+    drawRect(0, 80, width, 149, 0x66000000);
+
+    drawCenteredString(fontRendererObj, I18n.format("disclaimer.line1",
+        ChatColor.BOLD + I18n.format("disclaimer.line1.bold") + ChatColor.RESET),
+        width / 2, 90, Color.WHITE.getRGB());
+
+    drawCenteredString(fontRendererObj, I18n.format("disclaimer.line2"), width / 2, 100,
+        Color.WHITE.getRGB());
+
+    drawCenteredString(fontRendererObj, I18n.format("disclaimer.line3"), width / 2, 110,
+        Color.WHITE.getRGB());
+
+    drawCenteredString(fontRendererObj, I18n.format("disclaimer.line4",
+        ChatColor.GRAY + I18n.format("disclaimer.line4.policylink")
+            + ChatColor.RESET), width / 2, 120, Color.WHITE.getRGB());
+
+    drawCenteredString(fontRendererObj, I18n.format("disclaimer.line5"), width / 2, 130,
+        Color.WHITE.getRGB());
+  }
+
+  @Override
+  public void actionPerformed(GuiButton button) {
+    if (button.id == BUTTON_ID_ACCEPT) {
+      if (!firstAccept) {
+        firstAccept = true;
+        mc.displayGuiScreen(new GuiHyperiumScreenTos());
+      } else {
+        Hyperium.INSTANCE.acceptTos();
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+            .setDisplayNextTick(new GuiHyperiumScreenMainMenu());
+      }
     }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
-
-        drawRect(0, 79, width, 148, 0x66000000);
-        drawRect(0, 80, width, 149, 0x66000000);
-
-        drawCenteredString(fontRendererObj, I18n.format("disclaimer.line1",
-                ChatColor.BOLD + I18n.format("disclaimer.line1.bold") + ChatColor.RESET),
-                width / 2, 90, Color.WHITE.getRGB());
-
-        drawCenteredString(fontRendererObj, I18n.format("disclaimer.line2"), width / 2, 100,
-                Color.WHITE.getRGB());
-
-        drawCenteredString(fontRendererObj, I18n.format("disclaimer.line3"), width / 2, 110,
-                Color.WHITE.getRGB());
-
-        drawCenteredString(fontRendererObj, I18n.format("disclaimer.line4",
-                ChatColor.GRAY + I18n.format("disclaimer.line4.policylink")
-                        + ChatColor.RESET), width / 2, 120, Color.WHITE.getRGB());
-
-        drawCenteredString(fontRendererObj, I18n.format("disclaimer.line5"), width / 2, 130,
-                Color.WHITE.getRGB());
-    }
-
-    @Override
-    public void actionPerformed(GuiButton button) {
-        if (button.id == BUTTON_ID_ACCEPT) {
-            if (!firstAccept) {
-                firstAccept = true;
-                mc.displayGuiScreen(new GuiHyperiumScreenTos());
-            } else {
-                Hyperium.INSTANCE.acceptTos();
-                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumScreenMainMenu());
-            }
-        }
-    }
+  }
 }

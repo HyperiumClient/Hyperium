@@ -27,29 +27,30 @@ import java.util.List;
 
 public class CommandSidebar implements BaseCommand {
 
-    private final SidebarAddon addon;
+  private final SidebarAddon addon;
 
-    public CommandSidebar(SidebarAddon addon) {
-        this.addon = addon;
-    }
+  public CommandSidebar(SidebarAddon addon) {
+    this.addon = addon;
+  }
 
-    @Override
-    public String getName() {
-        return "sidebaraddon";
-    }
+  @Override
+  public String getName() {
+    return "sidebaraddon";
+  }
 
-    @Override
-    public String getUsage() {
-        return "/sidebaraddon";
-    }
+  @Override
+  public String getUsage() {
+    return "/sidebaraddon";
+  }
 
-    @Override
-    public void onExecute(String[] strings) {
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiScreenSettings(addon));
-    }
+  @Override
+  public void onExecute(String[] strings) {
+    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+        .setDisplayNextTick(new GuiScreenSettings(addon));
+  }
 
-    @Override
-    public List<String> getCommandAliases() {
-        return Arrays.asList("sidebarmod", "sidebar");
-    }
+  @Override
+  public List<String> getCommandAliases() {
+    return Arrays.asList("sidebarmod", "sidebar");
+  }
 }

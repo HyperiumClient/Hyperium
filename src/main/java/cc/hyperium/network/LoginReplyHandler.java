@@ -31,51 +31,57 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class LoginReplyHandler implements PacketHandler<LoginReplyPacket> {
-    public static boolean SHOW_MESSAGES;
 
-    @Override
-    public void handle(LoginReplyPacket loginReplyPacket) {
-        ServerData currentServerData = Minecraft.getMinecraft().getCurrentServerData();
-        if (currentServerData != null) {
-            NettyClient client = NettyClient.getClient();
-            if (client != null) {
-                client.write(UpdateLocationPacket.build("Other"));
+  public static boolean SHOW_MESSAGES;
+
+  @Override
+  public void handle(LoginReplyPacket loginReplyPacket) {
+    ServerData currentServerData = Minecraft.getMinecraft().getCurrentServerData();
+    if (currentServerData != null) {
+      NettyClient client = NettyClient.getClient();
+      if (client != null) {
+        client.write(UpdateLocationPacket.build("Other"));
+      }
+    }
+
+    if (loginReplyPacket.isAdmin()) {
+      Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+          .registerCommand(new BaseCommand() {
+            @Override
+            public String getName() {
+              return "hyperiumadmin";
             }
-        }
 
-        if (loginReplyPacket.isAdmin()) {
-            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new BaseCommand() {
-                @Override
-                public String getName() {
-                    return "hyperiumadmin";
+            @Override
+            public String getUsage() {
+              return "/hyperiumadmin";
+            }
+
+            @Override
+            public void onExecute(String[] args) {
+              if (args.length == 1 && args[0].equalsIgnoreCase("show_messages")) {
+                SHOW_MESSAGES = !SHOW_MESSAGES;
+              }
+              StringBuilder builder = new StringBuilder();
+              Iterator<String> iterator = Arrays.stream(args).iterator();
+              while (iterator.hasNext()) {
+                builder.append(iterator.next());
+                if (iterator.hasNext()) {
+                  builder.append(" ");
                 }
+              }
 
-                @Override
-                public String getUsage() {
-                    return "/hyperiumadmin";
-                }
+              NettyClient.getClient().dispatchCommand(builder.toString());
 
-                @Override
-                public void onExecute(String[] args) {
-                    if (args.length == 1 && args[0].equalsIgnoreCase("show_messages")) SHOW_MESSAGES = !SHOW_MESSAGES;
-                    StringBuilder builder = new StringBuilder();
-                    Iterator<String> iterator = Arrays.stream(args).iterator();
-                    while (iterator.hasNext()) {
-                        builder.append(iterator.next());
-                        if (iterator.hasNext()) builder.append(" ");
-                    }
-
-                    NettyClient.getClient().dispatchCommand(builder.toString());
-
-                }
-            });
-
-        }
+            }
+          });
 
     }
 
-    @Override
-    public PacketType accepting() {
-        return PacketType.LOGIN_REPLY;
-    }
+  }
+
+  @Override
+  public PacketType accepting() {
+    return PacketType.LOGIN_REPLY;
+  }
 }

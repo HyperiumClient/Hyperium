@@ -27,21 +27,21 @@ import kotlin.math.roundToInt
 
 @Deprecated("Soon to be removed, please refrain from using.")
 class OverlaySlider @JvmOverloads constructor(
-    label: String,
-    private val minVal: Float,
-    private val maxVal: Float,
-    var value: Float,
-    var update: Consumer<Float>,
-    var round: Boolean,
-    val enabled: Boolean = true
+        label: String,
+        private val minVal: Float,
+        private val maxVal: Float,
+        var value: Float,
+        var update: Consumer<Float>,
+        var round: Boolean,
+        val enabled: Boolean = true
 ) : OverlayLabel(label, enabled, Runnable { }) {
     private val fr = HyperiumFontRenderer("Arial", Font.PLAIN, 20)
 
     var updated = false
     override fun handleMouseInput(mouseX: Int, mouseY: Int, overlayX: Int, overlayY: Int, w: Int, h: Int) {
         if (mouseX >= overlayX + w - 105 && mouseX <= overlayX + w - 5 && mouseY >= overlayY && mouseY <= overlayY + h && Mouse.isButtonDown(
-                0
-            )
+                        0
+                )
         ) {
             val fx = mouseX - (overlayX + w - 105)
             value = fx / 100F * (maxVal - minVal) + minVal
@@ -55,13 +55,13 @@ class OverlaySlider @JvmOverloads constructor(
     }
 
     override fun render(
-        mouseX: Int,
-        mouseY: Int,
-        overlayX: Int,
-        overlayY: Int,
-        w: Int,
-        h: Int,
-        overlayH: Int
+            mouseX: Int,
+            mouseY: Int,
+            overlayX: Int,
+            overlayY: Int,
+            w: Int,
+            h: Int,
+            overlayH: Int
     ): Boolean {
         if (!super.render(mouseX, mouseY, overlayX, overlayY, w, h, overlayH))
             return false

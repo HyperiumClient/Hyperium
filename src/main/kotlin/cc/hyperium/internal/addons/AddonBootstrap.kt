@@ -79,7 +79,7 @@ object AddonBootstrap {
      * at a certain phase
      */
     private val translators = arrayListOf(
-        MixinTranslator()
+            MixinTranslator()
     )
 
     /**
@@ -103,8 +103,8 @@ object AddonBootstrap {
         }
 
         jars = modDirectory.listFiles()!!
-            .filter { it.name.toLowerCase().endsWith(".jar") }
-            .toCollection(arrayListOf())
+                .filter { it.name.toLowerCase().endsWith(".jar") }
+                .toCollection(arrayListOf())
 
     }
 

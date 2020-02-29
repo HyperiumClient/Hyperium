@@ -23,15 +23,16 @@ import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 
 public class HypixelDisplay extends DisplayItem {
-    public HypixelDisplay(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-        height = 10;
-    }
 
-    @Override
-    public void draw(int x, double y, boolean config) {
-        String string = "Hypixel: " + Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel();
-        ElementRenderer.draw(x, y, string);
-        width = config ? ElementRenderer.getFontRenderer().getStringWidth(string) : 0;
-    }
+  public HypixelDisplay(JsonHolder data, int ordinal) {
+    super(data, ordinal);
+    height = 10;
+  }
+
+  @Override
+  public void draw(int x, double y, boolean config) {
+    String string = "Hypixel: " + Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel();
+    ElementRenderer.draw(x, y, string);
+    width = config ? ElementRenderer.getFontRenderer().getStringWidth(string) : 0;
+  }
 }

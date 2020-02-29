@@ -26,67 +26,64 @@ import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 
 /**
- * Used to render the armor right in two parts. Is called in
- * {@link RenderPlayer#injectTwoPartLayerBipedArmor(LayerRenderer)} to
- * replace the normal {@link LayerBipedArmor}. Mixin would be preferred, but is
- * not possible as far as I know, since you don't know if
- * {@link LayerBipedArmor} is used for player armor rendering or other entity
- * armor rendering
+ * Used to render the armor right in two parts. Is called in {@link RenderPlayer#injectTwoPartLayerBipedArmor(LayerRenderer)}
+ * to replace the normal {@link LayerBipedArmor}. Mixin would be preferred, but is not possible as
+ * far as I know, since you don't know if {@link LayerBipedArmor} is used for player armor rendering
+ * or other entity armor rendering
  *
  * @author 9Y0
  */
 public class TwoPartLayerBipedArmor extends LayerArmorBase<ModelBiped> {
 
-    public TwoPartLayerBipedArmor(RendererLivingEntity<?> rendererIn) {
-        super(rendererIn);
-    }
+  public TwoPartLayerBipedArmor(RendererLivingEntity<?> rendererIn) {
+    super(rendererIn);
+  }
 
-    protected void initArmor() {
-        modelLeggings = new ModelBiped(0.5F);
-        modelArmor = new ModelBiped(1.0F);
-    }
+  protected void initArmor() {
+    modelLeggings = new ModelBiped(0.5F);
+    modelArmor = new ModelBiped(1.0F);
+  }
 
-    /**
-     * The only method which is edited. Shows some more model te make everything
-     * render properly.
-     *
-     * @param model     The model which gets rendered
-     * @param armorSlot The slot of the armor (1 = boots, 2 = leggings, etc..). Don't ask
-     *                  me why it doesn't start at 0.
-     * @author 9Y0
-     */
-    protected void setModelPartVisible(ModelBiped model, int armorSlot) {
-        model.setInvisible(false);
+  /**
+   * The only method which is edited. Shows some more model te make everything render properly.
+   *
+   * @param model     The model which gets rendered
+   * @param armorSlot The slot of the armor (1 = boots, 2 = leggings, etc..). Don't ask me why it
+   *                  doesn't start at 0.
+   * @author 9Y0
+   */
+  protected void setModelPartVisible(ModelBiped model, int armorSlot) {
+    model.setInvisible(false);
 
-        switch (armorSlot) {
-            case 1: {
-                model.bipedRightLeg.showModel = true;
-                model.bipedLeftLeg.showModel = true;
-                ((IModelBiped) model).getBipedRightLowerLeg().showModel = true;
-                ((IModelBiped) model).getBipedLeftLowerLeg().showModel = true;
-                break;
-            }
-            case 2: {
-                model.bipedBody.showModel = true;
-                model.bipedRightLeg.showModel = true;
-                model.bipedLeftLeg.showModel = true;
-                ((IModelBiped) model).getBipedRightLowerLeg().showModel = true;
-                ((IModelBiped) model).getBipedLeftLowerLeg().showModel = true;
-                break;
-            }
-            case 3: {
-                model.bipedBody.showModel = true;
-                model.bipedRightArm.showModel = true;
-                model.bipedLeftArm.showModel = true;
-                ((IModelBiped) model).getBipedRightForeArm().showModel = true;
-                ((IModelBiped) model).getBipedLeftForeArm().showModel = true;
-                break;
-            }
-            case 4: {
-                model.bipedHead.showModel = true;
-                model.bipedHeadwear.showModel = true;
-                break;
-            }
-        }
+    switch (armorSlot) {
+      case 1: {
+        model.bipedRightLeg.showModel = true;
+        model.bipedLeftLeg.showModel = true;
+        ((IModelBiped) model).getBipedRightLowerLeg().showModel = true;
+        ((IModelBiped) model).getBipedLeftLowerLeg().showModel = true;
+        break;
+      }
+      case 2: {
+        model.bipedBody.showModel = true;
+        model.bipedRightLeg.showModel = true;
+        model.bipedLeftLeg.showModel = true;
+        ((IModelBiped) model).getBipedRightLowerLeg().showModel = true;
+        ((IModelBiped) model).getBipedLeftLowerLeg().showModel = true;
+        break;
+      }
+      case 3: {
+        model.bipedBody.showModel = true;
+        model.bipedRightArm.showModel = true;
+        model.bipedLeftArm.showModel = true;
+        ((IModelBiped) model).getBipedRightForeArm().showModel = true;
+        ((IModelBiped) model).getBipedLeftForeArm().showModel = true;
+        break;
+      }
+      case 4: {
+        model.bipedHead.showModel = true;
+        model.bipedHeadwear.showModel = true;
+        break;
+      }
     }
+  }
 }

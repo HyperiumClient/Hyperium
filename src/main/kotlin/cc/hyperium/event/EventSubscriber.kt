@@ -31,7 +31,7 @@ class EventSubscriber(val instance: Any, val method: Method, val priority: Prior
         get() = method.name
 
     fun copy(instance: Any, method: Method, priority: Priority): EventSubscriber =
-        EventSubscriber(instance, method, priority)
+            EventSubscriber(instance, method, priority)
 
     override fun toString() = "EventSubscriber(instance=$instance, method = $method, priority = $priority"
 
@@ -59,12 +59,12 @@ class EventSubscriber(val instance: Any, val method: Method, val priority: Prior
         val instanceClassName = instance.javaClass.name.replace(".", "/")
 
         cw.visit(
-            V1_6,
-            ACC_PUBLIC or ACC_SUPER,
-            desc,
-            null,
-            "java/lang/Object",
-            arrayOf("cc/hyperium/event/EventSubscriber\$EventHandler")
+                V1_6,
+                ACC_PUBLIC or ACC_SUPER,
+                desc,
+                null,
+                "java/lang/Object",
+                arrayOf("cc/hyperium/event/EventSubscriber\$EventHandler")
         )
 
         cw.visitSource(".dynamic", null)
@@ -94,11 +94,11 @@ class EventSubscriber(val instance: Any, val method: Method, val priority: Prior
             mv.visitVarInsn(ALOAD, 1)
             mv.visitTypeInsn(CHECKCAST, eventType)
             mv.visitMethodInsn(
-                INVOKEVIRTUAL,
-                instanceClassName,
-                callback.name,
-                Type.getMethodDescriptor(callback),
-                false
+                    INVOKEVIRTUAL,
+                    instanceClassName,
+                    callback.name,
+                    Type.getMethodDescriptor(callback),
+                    false
             )
             mv.visitInsn(RETURN)
             mv.visitMaxs(2, 2)

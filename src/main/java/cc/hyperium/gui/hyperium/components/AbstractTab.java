@@ -36,121 +36,128 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractTab {
 
-    protected List<AbstractTabComponent> components = new ArrayList<>();
-    protected Map<AbstractTabComponent, Boolean> clickStates = new HashMap<>();
-    protected HyperiumMainGui gui;
-    protected String title;
-    private SimpleAnimValue scrollAnim = new SimpleAnimValue(0L, 0f, 0f);
-    private int scroll;
-    private String filter;
+  protected List<AbstractTabComponent> components = new ArrayList<>();
+  protected Map<AbstractTabComponent, Boolean> clickStates = new HashMap<>();
+  protected HyperiumMainGui gui;
+  protected String title;
+  private SimpleAnimValue scrollAnim = new SimpleAnimValue(0L, 0f, 0f);
+  private int scroll;
+  private String filter;
 
-    /**
-     * Default Constructor
-     *
-     * @param gui   - Given parent GUI
-     * @param title - Given tab title
-     */
-    public AbstractTab(HyperiumMainGui gui, String title) {
-        this.gui = gui;
-        this.title = title;
+  /**
+   * Default Constructor
+   *
+   * @param gui   - Given parent GUI
+   * @param title - Given tab title
+   */
+  public AbstractTab(HyperiumMainGui gui, String title) {
+    this.gui = gui;
+    this.title = title;
+  }
+
+  /**
+   * Render - Renders the Tab
+   *
+   * @param x      - Given X Position
+   * @param y      - Given Y Position
+   * @param width  - Given Width
+   * @param height - Given Height
+   */
+  public void render(int x, int y, int width, int height) {
+
+    ScaledResolution sr = ResolutionUtil.current();
+    int sw = sr.getScaledWidth();
+    int sh = sr.getScaledHeight();
+    int xg = width / 9;   // X grid
+
+    /* Begin new scissor state */
+    ScissorState.scissor(x, y, width, height, true);
+
+    /* Get mouse X and Y */
+    final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;           // Mouse X
+    final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1; // Mouse Y
+
+    if (scrollAnim.getValue() != scroll * 18 && scrollAnim.isFinished()) {
+      scrollAnim = new SimpleAnimValue(1000L, scrollAnim.getValue(), scroll * 18);
     }
 
-    /**
-     * Render - Renders the Tab
-     *
-     * @param x      - Given X Position
-     * @param y      - Given Y Position
-     * @param width  - Given Width
-     * @param height - Given Height
-     */
-    public void render(int x, int y, int width, int height) {
+    y += scrollAnim.getValue();
+    /* Render each tab component */
+    for (AbstractTabComponent comp : filter == null ? components
+        : components.stream().filter(c -> c.filter(filter)).collect(Collectors.toList())) {
+      comp.render(x, y, width, mx, my);
 
-        ScaledResolution sr = ResolutionUtil.current();
-        int sw = sr.getScaledWidth();
-        int sh = sr.getScaledHeight();
-        int xg = width / 9;   // X grid
-
-        /* Begin new scissor state */
-        ScissorState.scissor(x, y, width, height, true);
-
-        /* Get mouse X and Y */
-        final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;           // Mouse X
-        final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1; // Mouse Y
-
-        if (scrollAnim.getValue() != scroll * 18 && scrollAnim.isFinished()) {
-            scrollAnim = new SimpleAnimValue(1000L, scrollAnim.getValue(), scroll * 18);
+      /* If mouse is over component, set as hovered */
+      if (mx >= x && mx <= x + width && my > y && my <= y + comp.getHeight()) {
+        comp.hover = true;
+        //For slider
+        comp.mouseEvent(mx - xg, my - y /* Make the Y relevant to the component */);
+        if (Mouse.isButtonDown(0)) {
+          if (!clickStates.computeIfAbsent(comp, ignored -> false)) {
+            comp.onClick(mx, my - y /* Make the Y relevant to the component */);
+            clickStates.put(comp, true);
+          }
+        } else if (clickStates.computeIfAbsent(comp, ignored -> false)) {
+          clickStates.put(comp, false);
         }
+      } else {
+        comp.hover = false;
+      }
 
-        y += scrollAnim.getValue();
-        /* Render each tab component */
-        for (AbstractTabComponent comp : filter == null ? components : components.stream().filter(c -> c.filter(filter)).collect(Collectors.toList())) {
-            comp.render(x, y, width, mx, my);
-
-            /* If mouse is over component, set as hovered */
-            if (mx >= x && mx <= x + width && my > y && my <= y + comp.getHeight()) {
-                comp.hover = true;
-                //For slider
-                comp.mouseEvent(mx - xg, my - y /* Make the Y relevant to the component */);
-                if (Mouse.isButtonDown(0)) {
-                    if (!clickStates.computeIfAbsent(comp, ignored -> false)) {
-                        comp.onClick(mx, my - y /* Make the Y relevant to the component */);
-                        clickStates.put(comp, true);
-                    }
-                } else if (clickStates.computeIfAbsent(comp, ignored -> false))
-                    clickStates.put(comp, false);
-            } else {
-                comp.hover = false;
-            }
-
-            y += comp.getHeight();
-        }
-
-        /* End scissor state */
-        ScissorState.endScissor();
+      y += comp.getHeight();
     }
 
-    /**
-     * Get Title - Get the Title of the tab
-     *
-     * @return - Given Title
-     */
-    public String getTitle() {
-        return title;
-    }
+    /* End scissor state */
+    ScissorState.endScissor();
+  }
 
-    /**
-     * Get Filter - Get the tab filter value
-     *
-     * @return - Given tab filter
-     */
-    public String getFilter() {
-        return filter;
-    }
+  /**
+   * Get Title - Get the Title of the tab
+   *
+   * @return - Given Title
+   */
+  public String getTitle() {
+    return title;
+  }
 
-    /**
-     * Handle Mouse Input - Handle mouse events/inputs
-     */
-    public void handleMouseInput() {
-        if (Mouse.getEventDWheel() > 0) scroll++;
-        else if (Mouse.getEventDWheel() < 0) scroll--;
-        if (scroll > 0) scroll = 0;
-    }
+  /**
+   * Get Filter - Get the tab filter value
+   *
+   * @return - Given tab filter
+   */
+  public String getFilter() {
+    return filter;
+  }
 
-    /**
-     * Set Title - Set the Title of the tab
-     *
-     * @param givenTitle - Given Title Value
-     */
-    public void setTitle(String givenTitle) {
-        title = givenTitle;
+  /**
+   * Handle Mouse Input - Handle mouse events/inputs
+   */
+  public void handleMouseInput() {
+    if (Mouse.getEventDWheel() > 0) {
+      scroll++;
+    } else if (Mouse.getEventDWheel() < 0) {
+      scroll--;
     }
+    if (scroll > 0) {
+      scroll = 0;
+    }
+  }
 
-    /**
-     * Set Filter - Set the tab filter
-     *
-     * @param filter - Given Filter Value
-     */
-    public void setFilter(String filter) {
-        this.filter = filter;
-    }
+  /**
+   * Set Title - Set the Title of the tab
+   *
+   * @param givenTitle - Given Title Value
+   */
+  public void setTitle(String givenTitle) {
+    title = givenTitle;
+  }
+
+  /**
+   * Set Filter - Set the tab filter
+   *
+   * @param filter - Given Filter Value
+   */
+  public void setFilter(String filter) {
+    this.filter = filter;
+  }
 }

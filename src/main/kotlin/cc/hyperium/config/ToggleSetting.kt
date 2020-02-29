@@ -22,8 +22,8 @@ package cc.hyperium.config
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD)
 annotation class ToggleSetting(
-    val name: String,
-    val enabled: Boolean = true,
-    val category: Category = Category.GENERAL,
-    val mods: Boolean = false
+        val name: String,
+        val enabled: Boolean = true,
+        val category: Category = Category.GENERAL,
+        val mods: Boolean = false
 )

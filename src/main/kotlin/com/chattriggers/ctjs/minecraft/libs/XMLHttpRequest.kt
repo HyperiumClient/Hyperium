@@ -144,7 +144,7 @@ abstract class XMLHttpRequest {
             statusText = conn?.responseMessage
 
             val input = BufferedReader(
-                InputStreamReader(conn?.inputStream)
+                    InputStreamReader(conn?.inputStream)
             )
             var inputLine = input.readLine()
             val response = StringBuilder()

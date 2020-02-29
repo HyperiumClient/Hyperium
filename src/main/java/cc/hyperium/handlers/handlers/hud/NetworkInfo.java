@@ -30,46 +30,51 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import java.util.Collection;
 
 public class NetworkInfo {
-    private static NetworkInfo instance;
-    private ServerAddress currentServerAddress;
-    private Minecraft mc;
 
-    public NetworkInfo() {
-        mc = Minecraft.getMinecraft();
-        NetworkInfo.instance = this;
-    }
+  private static NetworkInfo instance;
+  private ServerAddress currentServerAddress;
+  private Minecraft mc;
 
-    public static NetworkInfo getInstance() {
-        return NetworkInfo.instance;
-    }
+  public NetworkInfo() {
+    mc = Minecraft.getMinecraft();
+    NetworkInfo.instance = this;
+  }
 
-    @InvokeEvent
-    public void onServerJoin(ServerJoinEvent event) {
-        currentServerAddress = ServerAddress.fromString(event.getServer());
-    }
+  public static NetworkInfo getInstance() {
+    return NetworkInfo.instance;
+  }
 
-    @InvokeEvent
-    public void onServerLeave(ServerLeaveEvent event) {
-        currentServerAddress = null;
-    }
+  @InvokeEvent
+  public void onServerJoin(ServerJoinEvent event) {
+    currentServerAddress = ServerAddress.fromString(event.getServer());
+  }
 
-    public ServerAddress getCurrentServerAddress() {
-        return currentServerAddress;
-    }
+  @InvokeEvent
+  public void onServerLeave(ServerLeaveEvent event) {
+    currentServerAddress = null;
+  }
 
-    private NetworkPlayerInfo getPlayerInfo(final String ign) {
-        Collection<NetworkPlayerInfo> map = mc.getNetHandler().getPlayerInfoMap();
-        return map.stream().filter(playerInfo -> playerInfo.getGameProfile().getName().equalsIgnoreCase(ign)).findFirst().orElse(null);
-    }
+  public ServerAddress getCurrentServerAddress() {
+    return currentServerAddress;
+  }
 
-    public int getPing(final String ign) {
-        NetworkPlayerInfo networkInfo = getPlayerInfo(ign);
-        return networkInfo == null ? -1 : networkInfo.getResponseTime();
-    }
+  private NetworkPlayerInfo getPlayerInfo(final String ign) {
+    Collection<NetworkPlayerInfo> map = mc.getNetHandler().getPlayerInfoMap();
+    return map.stream()
+        .filter(playerInfo -> playerInfo.getGameProfile().getName().equalsIgnoreCase(ign))
+        .findFirst().orElse(null);
+  }
 
-    public void printPing(final String name) {
-        NetworkPlayerInfo info = getPlayerInfo(name);
-        GeneralChatHandler.instance().sendMessage(info == null || info.getResponseTime() < 0 ? ChatColor.RED + "No info about " + name :
-            ChatColor.WHITE.toString() + ChatColor.BOLD + info.getGameProfile().getName() + ChatColor.WHITE + ": " + info.getResponseTime() + "ms");
-    }
+  public int getPing(final String ign) {
+    NetworkPlayerInfo networkInfo = getPlayerInfo(ign);
+    return networkInfo == null ? -1 : networkInfo.getResponseTime();
+  }
+
+  public void printPing(final String name) {
+    NetworkPlayerInfo info = getPlayerInfo(name);
+    GeneralChatHandler.instance().sendMessage(
+        info == null || info.getResponseTime() < 0 ? ChatColor.RED + "No info about " + name :
+            ChatColor.WHITE.toString() + ChatColor.BOLD + info.getGameProfile().getName()
+                + ChatColor.WHITE + ": " + info.getResponseTime() + "ms");
+  }
 }

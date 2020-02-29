@@ -6,37 +6,37 @@ import me.semx11.autotip.api.reply.Reply;
 
 public class LoginReply extends Reply {
 
-    private SessionKey sessionKey;
-    private long keepAliveRate;
-    private long tipWaveRate;
-    private long tipCycleRate;
+  private SessionKey sessionKey;
+  private long keepAliveRate;
+  private long tipWaveRate;
+  private long tipCycleRate;
 
-    public LoginReply() {
-    }
+  public LoginReply() {
+  }
 
-    public LoginReply(boolean success) {
-        super(success);
-    }
+  public LoginReply(boolean success) {
+    super(success);
+  }
 
-    public SessionKey getSessionKey() {
-        return sessionKey;
-    }
+  public SessionKey getSessionKey() {
+    return sessionKey;
+  }
 
-    public long getKeepAliveRate() {
-        return keepAliveRate;
-    }
+  public long getKeepAliveRate() {
+    return keepAliveRate;
+  }
 
-    public long getTipWaveRate() {
-        return tipWaveRate;
-    }
+  public long getTipWaveRate() {
+    return tipWaveRate;
+  }
 
-    public long getTipCycleRate() {
-        return tipCycleRate;
-    }
+  public long getTipCycleRate() {
+    return tipCycleRate;
+  }
 
-    @Override
-    public RequestType getRequestType() {
-        return RequestType.LOGIN;
-    }
+  @Override
+  public RequestType getRequestType() {
+    return RequestType.LOGIN;
+  }
 
 }

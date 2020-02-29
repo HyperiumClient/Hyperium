@@ -24,19 +24,19 @@ import cc.hyperium.event.Event;
  */
 public class MouseButtonEvent extends Event {
 
-    private final int value;
-    private final boolean state;
+  private final int value;
+  private final boolean state;
 
-    public MouseButtonEvent(int value, boolean state) {
-        this.value = value;
-        this.state = state;
-    }
+  public MouseButtonEvent(int value, boolean state) {
+    this.value = value;
+    this.state = state;
+  }
 
-    public int getValue() {
-        return value;
-    }
+  public int getValue() {
+    return value;
+  }
 
-    public boolean getState() {
-        return state;
-    }
+  public boolean getState() {
+    return state;
+  }
 }

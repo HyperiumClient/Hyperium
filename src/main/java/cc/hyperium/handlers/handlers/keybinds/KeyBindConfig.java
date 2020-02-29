@@ -36,69 +36,70 @@ import java.util.stream.Collectors;
 @SuppressWarnings("ResultOfMethodCallIgnored") // Suppress because we don't care
 public class KeyBindConfig {
 
-    private final KeyBindHandler handler;
-    private final File keybindFile;
-    private BetterJsonObject keyBindJson = new BetterJsonObject();
+  private final KeyBindHandler handler;
+  private final File keybindFile;
+  private BetterJsonObject keyBindJson = new BetterJsonObject();
 
-    KeyBindConfig(KeyBindHandler handler, File directory) {
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
-        this.handler = handler;
-        keybindFile = new File(directory, "keybinds.json");
+  KeyBindConfig(KeyBindHandler handler, File directory) {
+    if (!directory.exists()) {
+      directory.mkdirs();
     }
 
-    public BetterJsonObject getKeyBindJson() {
-        return keyBindJson;
+    this.handler = handler;
+    keybindFile = new File(directory, "keybinds.json");
+  }
+
+  public BetterJsonObject getKeyBindJson() {
+    return keyBindJson;
+  }
+
+  public void save() {
+    if (!exists(keybindFile)) {
+      keybindFile.getParentFile().mkdirs();
     }
 
-    public void save() {
-        if (!exists(keybindFile)) {
-            keybindFile.getParentFile().mkdirs();
-        }
-
-        try {
-            keybindFile.createNewFile();
-            for (HyperiumBind base : handler.getKeybinds().values()) {
-                keyBindJson.addProperty(base.getRealDescription(), base.getKeyCode());
-            }
-            keyBindJson.writeToFile(keybindFile);
-        } catch (IOException ex) {
-            Hyperium.LOGGER.warn("An error occured while saving the Hyperium KeyBlinds, this is not good.");
-        }
+    try {
+      keybindFile.createNewFile();
+      for (HyperiumBind base : handler.getKeybinds().values()) {
+        keyBindJson.addProperty(base.getRealDescription(), base.getKeyCode());
+      }
+      keyBindJson.writeToFile(keybindFile);
+    } catch (IOException ex) {
+      Hyperium.LOGGER
+          .warn("An error occured while saving the Hyperium KeyBlinds, this is not good.");
     }
+  }
 
-    public void load() {
-        if (exists(keybindFile)) {
-            try {
-                FileReader fileReader = new FileReader(keybindFile);
-                BufferedReader reader = new BufferedReader(fileReader);
-                keyBindJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
-                fileReader.close();
-                reader.close();
-            } catch (Exception ex) {
-                // Error occured while loading
-                save();
-                return;
-            }
+  public void load() {
+    if (exists(keybindFile)) {
+      try {
+        FileReader fileReader = new FileReader(keybindFile);
+        BufferedReader reader = new BufferedReader(fileReader);
+        keyBindJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
+        fileReader.close();
+        reader.close();
+      } catch (Exception ex) {
+        // Error occured while loading
+        save();
+        return;
+      }
 
-            for (HyperiumBind bind : handler.getKeybinds().values()) {
-                bind.setKeyCode(keyBindJson.optInt(bind.getRealDescription(), bind.getDefaultKeyCode()));
-            }
-        } else {
-            // Config file doesn't exist, yay!
-            save();
-        }
+      for (HyperiumBind bind : handler.getKeybinds().values()) {
+        bind.setKeyCode(keyBindJson.optInt(bind.getRealDescription(), bind.getDefaultKeyCode()));
+      }
+    } else {
+      // Config file doesn't exist, yay!
+      save();
     }
+  }
 
-    public void attemptKeyBindLoad(HyperiumBind bind) {
-        if (keyBindJson.has(bind.getRealDescription())) {
-            bind.setKeyCode(keyBindJson.optInt(bind.getRealDescription(), bind.getDefaultKeyCode()));
-        }
+  public void attemptKeyBindLoad(HyperiumBind bind) {
+    if (keyBindJson.has(bind.getRealDescription())) {
+      bind.setKeyCode(keyBindJson.optInt(bind.getRealDescription(), bind.getDefaultKeyCode()));
     }
+  }
 
-    private boolean exists(File file) {
-        return file != null && Files.exists(Paths.get(file.getPath()));
-    }
+  private boolean exists(File file) {
+    return file != null && Files.exists(Paths.get(file.getPath()));
+  }
 }
