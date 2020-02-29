@@ -20,24 +20,7 @@
      /** A reference to the screen object that created this. Used for navigating between screens. */
      private GuiScreen parentScreen;
      protected String screenTitle = "Controls";
-@@ -61,6 +65,7 @@
-      * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
-      */
-     protected void actionPerformed(GuiButton button) throws IOException {
-+        System.out.println(button.id);
-         if (button.id == 200) {
-             this.mc.displayGuiScreen(this.parentScreen);
-         } else if (button.id == 201) {
-@@ -70,7 +75,7 @@
- 
-             KeyBinding.resetKeyBindingArrayAndHash();
-         } else if (button.id < 100 && button instanceof GuiOptionButton) {
--            this.options.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
-+            this.options.setOptionValue(((GuiOptionButton) button).returnEnumOptions(), 1);
-             button.displayString = this.options.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
-         }
-     }
-@@ -106,6 +111,9 @@
+@@ -106,6 +110,9 @@
              if (keyCode == 1) {
                  this.options.setOptionKeyBinding(this.buttonId, 0);
              } else if (keyCode != 0) {
