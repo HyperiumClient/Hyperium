@@ -47,14 +47,21 @@ public class HyperiumBind {
     private boolean conflicted;
     protected boolean conflictExempt;
 
+    private final KeyType keyType;
+
     public HyperiumBind(String description, int key) {
-        this(description, key, "Hyperium");
+        this(description, key, "Hyperium", KeyType.DEFAULT);
     }
 
-    public HyperiumBind(String description, int key, String category) {
+    public HyperiumBind(String description, int key, KeyType keyType) {
+        this(description, key, "Hyperium", keyType);
+    }
+
+    public HyperiumBind(String description, int key, String category, KeyType keyType) {
         defaultKeyCode = key;
         this.description = description;
         this.key = key;
+        this.keyType = keyType;
     }
 
     /**
@@ -191,4 +198,19 @@ public class HyperiumBind {
             }
         }
     }
+
+    public KeyBinding toKeyBind() {
+        return new KeyBinding(description, getKeyCode(), "key.categories.hyperium" + keyType.keyCategory, defaultKeyCode);
+    }
+
+    public enum KeyType {
+        COSMETIC(".cosmetics"), GUI(".gui"), UTIL(".util"), DEFAULT("");
+
+        final String keyCategory;
+
+        KeyType(String keyCategory) {
+            this.keyCategory = keyCategory;
+        }
+    }
+
 }

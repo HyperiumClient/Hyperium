@@ -27,7 +27,7 @@ import org.lwjgl.input.Keyboard;
 public class ToggleSprintKeybind extends HyperiumBind {
 
     public ToggleSprintKeybind() {
-        super("Toggle Sprint", Keyboard.KEY_V);
+        super("Toggle Sprint", Keyboard.KEY_V, KeyType.UTIL);
     }
 
     @Override

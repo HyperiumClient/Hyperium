@@ -27,7 +27,7 @@ import org.lwjgl.input.Keyboard;
 public class RearCamKeybind extends HyperiumBind {
 
     public RearCamKeybind() {
-        super("Rear Cam", Keyboard.KEY_R);
+        super("Rear Cam", Keyboard.KEY_R, KeyType.UTIL);
     }
 
     @Override

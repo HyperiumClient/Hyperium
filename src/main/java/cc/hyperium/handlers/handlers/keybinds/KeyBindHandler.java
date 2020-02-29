@@ -78,6 +78,10 @@ public class KeyBindHandler {
             mouseBinds.put(i, -100 + i);
         }
         keyBindConfig.load();
+
+        for (HyperiumBind bind : keybinds.values()) {
+            Minecraft.getMinecraft().gameSettings.allKeys.add(bind.toKeyBind());
+        }
     }
 
     @InvokeEvent

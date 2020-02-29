@@ -1,6 +1,26 @@
 --- original/net/minecraft/client/settings/KeyBinding.java
 +++ changed/net/minecraft/client/settings/KeyBinding.java
-@@ -123,4 +123,8 @@
+@@ -1,5 +1,7 @@
+ package net.minecraft.client.settings;
+ 
++import cc.hyperium.Hyperium;
++import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+ import com.google.common.collect.Lists;
+ import com.google.common.collect.Sets;
+ import java.util.List;
+@@ -60,6 +62,11 @@
+         return keybindSet;
+     }
+ 
++    public KeyBinding(String description, int keyCode, String category, int defaultKeyCode) {
++        this(description, defaultKeyCode, category);
++        this.keyCode = keyCode;
++    }
++
+     public KeyBinding(String description, int keyCode, String category) {
+         this.keyDescription = description;
+         this.keyCode = keyCode;
+@@ -123,4 +130,8 @@
  
          return i;
      }

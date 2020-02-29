@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class ArmWaveKeybind extends HyperiumBind {
     public ArmWaveKeybind() {
-        super("Arm Wave", Keyboard.KEY_NONE);
+        super("Arm Wave", Keyboard.KEY_NONE, KeyType.COSMETIC);
     }
 
     private boolean armWaveToggled;
