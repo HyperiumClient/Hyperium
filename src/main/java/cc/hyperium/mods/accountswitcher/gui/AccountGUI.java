@@ -128,6 +128,7 @@ public class AccountGUI extends GuiScreen {
         mc.displayGuiScreen(prevGui);
         break;
     }
+  }
 
   @Override
   public void onGuiClosed() {
