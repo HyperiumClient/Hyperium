@@ -168,7 +168,6 @@ public class HyperiumHandlers {
     registerChatHandler(new GuildInviteHandler());
     Hyperium.LOGGER.info("Registering Events");
     EventBus.INSTANCE.register(this);
-    EventBus.INSTANCE.register(keybindHandler);
     Hyperium.LOGGER.info("Finished Loading Handlers");
 
     // Command Handler
