@@ -19,7 +19,7 @@ package cc.hyperium.gui.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -33,7 +33,7 @@ import java.util.List;
 
 public class GuiKeybinds extends HyperiumGui {
 
-  private List<HyperiumBind> binds = new ArrayList<>();
+  private List<HyperiumKeybind> binds = new ArrayList<>();
   private List<KeybindEntry> keybindEntries = new ArrayList<>();
   private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
   private GuiButton resetButton;
@@ -99,8 +99,8 @@ public class GuiKeybinds extends HyperiumGui {
 
     int bound = binds.size();
     for (int i = 0; i < bound; i++) {
-      HyperiumBind linkedBind = binds.get(i);
-      String label = linkedBind.getKeyDescription();
+      HyperiumKeybind linkedBind = binds.get(i);
+      String label = linkedBind.getDescription();
       KeybindButton btn = new KeybindButton(i, 0, 0, buttonWidth, buttonHeight, "default",
           linkedBind);
       KeybindEntry keybindEntry = new KeybindEntry(label, btn);

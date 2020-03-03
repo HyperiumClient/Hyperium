@@ -17,11 +17,15 @@
 
 package cc.hyperium.commands.defaults;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.gui.keybinds.GuiKeybinds;
 
 import java.util.Collections;
 import java.util.List;
+
+import cc.hyperium.gui.keybinds.GuiKeybinds;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiControls;
 
 public class CommandKeybinds implements BaseCommand {
 
@@ -42,6 +46,7 @@ public class CommandKeybinds implements BaseCommand {
 
   @Override
   public void onExecute(String[] args) {
-    new GuiKeybinds().show();
+    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiKeybinds());
   }
+
 }

@@ -18,14 +18,14 @@
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import org.lwjgl.input.Keyboard;
 
-public class TwerkDanceKeybind extends HyperiumBind {
+public class TwerkDanceKeybind extends HyperiumKeybind {
 
   public TwerkDanceKeybind() {
     super("Twerk", Keyboard.KEY_NONE, KeyType.COSMETIC);

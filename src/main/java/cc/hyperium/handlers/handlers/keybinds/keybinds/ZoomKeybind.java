@@ -17,18 +17,22 @@
 
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
-import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
-public class GuiKeybind extends HyperiumKeybind {
-
-  public GuiKeybind() {
-    super("Hyperium GUI", Keyboard.KEY_GRAVE, KeyType.GUI);
+public class ZoomKeybind extends HyperiumKeybind {
+  public ZoomKeybind() {
+    super("Zoom", Keyboard.KEY_C, KeyType.UTIL);
   }
 
   @Override
   public void onPress() {
-    HyperiumMainGui.INSTANCE.show();
+    Minecraft.getMinecraft().gameSettings.fovSetting -= 50f;
+  }
+
+  @Override
+  public void onRelease() {
+    Minecraft.getMinecraft().gameSettings.fovSetting += 50f;
   }
 }

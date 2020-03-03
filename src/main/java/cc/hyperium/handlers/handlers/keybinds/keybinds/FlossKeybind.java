@@ -21,7 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.animation.AbstractAnimationHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
@@ -32,7 +32,7 @@ import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
-public class FlossKeybind extends HyperiumBind {
+public class FlossKeybind extends HyperiumKeybind {
 
   public FlossKeybind() {
     super("Floss dance", Keyboard.KEY_NONE, KeyType.COSMETIC);

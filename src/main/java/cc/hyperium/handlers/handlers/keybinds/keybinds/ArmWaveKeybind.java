@@ -4,7 +4,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.animation.AbstractAnimationHandler;
 import cc.hyperium.handlers.handlers.animation.ArmWaveHandler;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
@@ -14,7 +14,7 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.UUID;
 
-public class ArmWaveKeybind extends HyperiumBind {
+public class ArmWaveKeybind extends HyperiumKeybind {
 
   public ArmWaveKeybind() {
     super("Arm Wave", Keyboard.KEY_NONE, KeyType.COSMETIC);

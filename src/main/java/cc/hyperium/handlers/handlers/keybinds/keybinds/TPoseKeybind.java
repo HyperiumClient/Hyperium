@@ -21,7 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.animation.AbstractAnimationHandler;
 import cc.hyperium.handlers.handlers.animation.TPoseHandler;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
@@ -31,7 +31,7 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.UUID;
 
-public class TPoseKeybind extends HyperiumBind {
+public class TPoseKeybind extends HyperiumKeybind {
 
   public TPoseKeybind() {
     super("T-Pose", Keyboard.KEY_NONE, KeyType.COSMETIC);

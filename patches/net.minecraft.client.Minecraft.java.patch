@@ -480,19 +480,20 @@
          this.systemTime = 0L;
      }
  
-@@ -2572,6 +2684,11 @@
+@@ -2572,6 +2684,12 @@
  
          if (i != 0 && !Keyboard.isRepeatEvent()) {
              if (!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L) {
 +                int key = Keyboard.getEventKey();
 +                boolean repeat = Keyboard.isRepeatEvent();
 +                boolean press = Keyboard.getEventKeyState();
++                Hyperium.INSTANCE.getHandlers().getKeybindHandler().handleKey(key, press);
 +                EventBus.INSTANCE.post(press ? new KeyPressEvent(key, repeat) : new KeyReleaseEvent(key, repeat));
 +
                  if (Keyboard.getEventKeyState()) {
                      if (i == this.gameSettings.keyBindStreamStartStop.getKeyCode()) {
                          if (this.getTwitchStream().isBroadcasting()) {
-@@ -2610,7 +2727,8 @@
+@@ -2610,7 +2728,8 @@
                      } else if (i == this.gameSettings.keyBindFullscreen.getKeyCode()) {
                          this.toggleFullscreen();
                      } else if (i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
@@ -502,7 +503,7 @@
                      }
                  } else if (i == this.gameSettings.keyBindStreamToggleMic.getKeyCode()) {
                      this.stream.muteMicrophone(false);
-@@ -2717,4 +2835,13 @@
+@@ -2717,4 +2836,13 @@
      public void setConnectedToRealms(boolean isConnected) {
          this.connectedToRealms = isConnected;
      }

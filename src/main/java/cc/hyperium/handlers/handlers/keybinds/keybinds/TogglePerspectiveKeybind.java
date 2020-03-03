@@ -19,11 +19,11 @@ package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import cc.hyperium.integrations.perspective.PerspectiveModifierHandler;
 import org.lwjgl.input.Keyboard;
 
-public class TogglePerspectiveKeybind extends HyperiumBind {
+public class TogglePerspectiveKeybind extends HyperiumKeybind {
 
   public TogglePerspectiveKeybind() {
     super("Perspective", Keyboard.KEY_P, KeyType.UTIL);
