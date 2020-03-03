@@ -487,7 +487,7 @@
 +                int key = Keyboard.getEventKey();
 +                boolean repeat = Keyboard.isRepeatEvent();
 +                boolean press = Keyboard.getEventKeyState();
-+              Hyperium.INSTANCE.getHandlers().getKeybindHandler().handleKey(key, press);
++                Hyperium.INSTANCE.getHandlers().getKeybindHandler().handleKey(key, press);
 +                EventBus.INSTANCE.post(press ? new KeyPressEvent(key, repeat) : new KeyReleaseEvent(key, repeat));
 +
                  if (Keyboard.getEventKeyState()) {

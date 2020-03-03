@@ -36,7 +36,7 @@
              if (keyCode == 1) {
                  this.options.setOptionKeyBinding(this.buttonId, 0);
              } else if (keyCode != 0) {
-+              Hyperium.INSTANCE.getHandlers().getKeybindHandler().setBind(this.buttonId.getKeyDescription(), keyCode);
++                Hyperium.INSTANCE.getHandlers().getKeybindHandler().setBind(this.buttonId.getKeyDescription(), keyCode);
                  this.options.setOptionKeyBinding(this.buttonId, keyCode);
              } else if (typedChar > 0) {
                  this.options.setOptionKeyBinding(this.buttonId, typedChar + 256);
