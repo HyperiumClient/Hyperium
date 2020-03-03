@@ -84,13 +84,12 @@ public class HyperiumKeybindHandler {
         // If it's pressed, execute onPress
         if (pressed) {
           keyBind.onPress();
-          keyBind.setPressed(true);
         }
         // Otherwise, execute onRelease
         else {
           keyBind.onRelease();
-          keyBind.setPressed(false);
         }
+        keyBind.setPressed(pressed);
       }
     }
   }
