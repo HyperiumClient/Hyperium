@@ -20,14 +20,12 @@ package cc.hyperium.handlers.handlers.keybinds;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.GameShutDownEvent;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
 import net.minecraft.client.Minecraft;
 
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.client.settings.KeyBinding;
-import org.lwjgl.input.Keyboard;
 
 public class HyperiumKeybindHandler {
 
@@ -61,9 +59,8 @@ public class HyperiumKeybindHandler {
   }
 
   public void registerBinds(HyperiumKeybind... keyBinds) {
-    for (HyperiumKeybind keyBind : keyBinds) {
+    for (HyperiumKeybind keyBind : keyBinds)
       this.keybinds.putIfAbsent(keyBind.getDescription(), keyBind);
-    }
   }
 
   public void registerKeybindings() {

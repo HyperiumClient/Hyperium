@@ -51,6 +51,7 @@ import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.AddonCheckerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -244,6 +245,9 @@ public class Hyperium {
 
       // Print every loaded addon
       collectAddons();
+
+      // Fix controls
+      KeyBinding.resetKeyBindingArrayAndHash();
 
       LOGGER
           .info("Hyperium loaded in {} seconds", (System.currentTimeMillis() - launchTime) / 1000F);
