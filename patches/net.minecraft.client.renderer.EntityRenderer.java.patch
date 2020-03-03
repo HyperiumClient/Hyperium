@@ -13,6 +13,15 @@
  import com.google.common.base.Predicate;
  import com.google.common.base.Predicates;
  import com.google.gson.JsonSyntaxException;
+@@ -110,7 +117,7 @@
+     private float bossColorModifierPrev;
+     /** Cloud fog mode */
+     private boolean cloudFog;
+-    private boolean renderHand = true;
++    public boolean renderHand = true;
+     private boolean drawBlockOutline = true;
+     /** Previous frame time in milliseconds */
+     private long prevFrameTime = Minecraft.getSystemTime();
 @@ -173,6 +180,8 @@
                  this.rainYCoords[i << 5 | j] = f / f2;
              }

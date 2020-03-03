@@ -19,6 +19,8 @@ package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.utils.BetterJsonObject;
+import net.minecraft.client.Minecraft;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -83,6 +85,8 @@ public class KeybindConfiguration {
     for (HyperiumKeybind bind : keybindHandler.getKeybinds().values()) {
       bind.setKeyCode(keyBindJson.optInt(bind.getDescription(), bind.getDefaultKeyCode()));
     }
+    // Reload the Minecraft key file, since this seems to fix it.
+    Minecraft.getMinecraft().gameSettings.loadOptions();
   }
 
   public BetterJsonObject getKeyBindJson() {

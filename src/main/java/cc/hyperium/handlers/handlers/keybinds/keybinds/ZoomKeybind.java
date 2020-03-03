@@ -29,10 +29,14 @@ public class ZoomKeybind extends HyperiumKeybind {
   @Override
   public void onPress() {
     Minecraft.getMinecraft().gameSettings.fovSetting -= 50f;
+    Minecraft.getMinecraft().entityRenderer.renderHand = false;
+    Minecraft.getMinecraft().gameSettings.smoothCamera = true;
   }
 
   @Override
   public void onRelease() {
     Minecraft.getMinecraft().gameSettings.fovSetting += 50f;
+    Minecraft.getMinecraft().entityRenderer.renderHand = true;
+    Minecraft.getMinecraft().gameSettings.smoothCamera = false;
   }
 }
