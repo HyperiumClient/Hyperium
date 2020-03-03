@@ -18,10 +18,10 @@
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.gui.GuiDances;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import org.lwjgl.input.Keyboard;
 
-public class GuiDanceKeybind extends HyperiumBind {
+public class GuiDanceKeybind extends HyperiumKeybind {
 
   public GuiDanceKeybind() {
     super("Use Dances", Keyboard.KEY_O, KeyType.GUI);

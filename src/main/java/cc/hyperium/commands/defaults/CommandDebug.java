@@ -63,7 +63,7 @@ public class CommandDebug implements BaseCommand {
   private static void tryKeybinds(StringBuilder builder) {
     try {
       builder.append("Keybinds: ").append(printer.toJson(
-          Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeyBindConfig().getKeyBindJson()
+          Hyperium.INSTANCE.getHandlers().getKeybindHandler().getConfig().getKeyBindJson()
               .getData()));
     } catch (Exception e) {
       builder.append("Keybinds: Error");

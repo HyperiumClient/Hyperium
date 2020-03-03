@@ -7,7 +7,7 @@
 +
 +import cc.hyperium.Hyperium;
 +import cc.hyperium.gui.keybinds.GuiKeybinds;
-+import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
++import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.resources.I18n;
  import net.minecraft.client.settings.GameSettings;
@@ -20,35 +20,49 @@
      /** A reference to the screen object that created this. Used for navigating between screens. */
      private GuiScreen parentScreen;
      protected String screenTitle = "Controls";
-@@ -67,6 +71,9 @@
+@@ -67,7 +71,11 @@
              for (KeyBinding keybinding : this.mc.gameSettings.keyBindings) {
                  keybinding.setKeyCode(keybinding.getKeyCodeDefault());
              }
-+            for (HyperiumBind bind : Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values()) {
++            for (HyperiumKeybind bind : Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values()) {
 +                bind.setKeyCode(bind.getDefaultKeyCode());
 +            }
  
++            Hyperium.INSTANCE.getHandlers().getKeybindHandler().refreshKeys();
              KeyBinding.resetKeyBindingArrayAndHash();
          } else if (button.id < 100 && button instanceof GuiOptionButton) {
-@@ -106,6 +113,9 @@
+             this.options.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
+@@ -106,6 +114,7 @@
              if (keyCode == 1) {
                  this.options.setOptionKeyBinding(this.buttonId, 0);
              } else if (keyCode != 0) {
-+                if (buttonId.getKeyCategory().contains("hyperium"))
-+                    Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBinding(buttonId.getKeyDescription()).setKeyCode(keyCode);
-+
++              Hyperium.INSTANCE.getHandlers().getKeybindHandler().setBind(this.buttonId.getKeyDescription(), keyCode);
                  this.options.setOptionKeyBinding(this.buttonId, keyCode);
              } else if (typedChar > 0) {
                  this.options.setOptionKeyBinding(this.buttonId, typedChar + 256);
-@@ -119,6 +129,11 @@
+@@ -119,6 +128,11 @@
          }
      }
  
 +    @Override
 +    public void onGuiClosed() {
-+        Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeyBindConfig().save();
++        Hyperium.INSTANCE.getHandlers().getKeybindHandler().getConfig().save();
 +    }
 +
      /**
       * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
       */
+@@ -135,6 +149,13 @@
+             }
+         }
+ 
++        for (HyperiumKeybind bind : Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values()) {
++            if (bind.getKeyCode() != bind.getDefaultKeyCode()) {
++                flag = false;
++                break;
++            }
++        }
++
+         this.buttonReset.enabled = !flag;
+         super.drawScreen(mouseX, mouseY, partialTicks);
+     }

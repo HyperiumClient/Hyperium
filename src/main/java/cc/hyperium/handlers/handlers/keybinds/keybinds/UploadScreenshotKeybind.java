@@ -17,13 +17,12 @@
 
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import org.lwjgl.input.Keyboard;
 
-public class UploadScreenshotKeybind extends HyperiumBind {
+public class UploadScreenshotKeybind extends HyperiumKeybind {
 
   public UploadScreenshotKeybind() {
     super("Upload Screenshot", Keyboard.KEY_RSHIFT, KeyType.UTIL);
-    conflictExempt = true;
   }
 }

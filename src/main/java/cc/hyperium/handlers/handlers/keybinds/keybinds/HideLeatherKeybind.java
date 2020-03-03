@@ -2,11 +2,11 @@ package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import cc.hyperium.utils.ChatColor;
 import org.lwjgl.input.Keyboard;
 
-public class HideLeatherKeybind extends HyperiumBind {
+public class HideLeatherKeybind extends HyperiumKeybind {
 
   public HideLeatherKeybind() {
     super("Toggle Leather Armor", Keyboard.KEY_NONE, KeyType.UTIL);

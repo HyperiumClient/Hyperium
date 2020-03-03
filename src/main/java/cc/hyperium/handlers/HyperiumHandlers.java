@@ -37,7 +37,7 @@ import cc.hyperium.handlers.handlers.fov.FovModifier;
 import cc.hyperium.handlers.handlers.hud.VanillaEnhancementsHud;
 import cc.hyperium.handlers.handlers.hypixel.HypixelConnectionMessage;
 import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
-import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybindHandler;
 import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
@@ -72,7 +72,7 @@ public class HyperiumHandlers {
   private final ResolutionUtil resolutionUtil;
   private final StatusHandler statusHandler;
   private final GuiDisplayHandler guiDisplayHandler;
-  private final KeyBindHandler keybindHandler;
+  private final HyperiumKeybindHandler keybindHandler;
   private final HyperiumCommandHandler commandHandler;
   private final HyperiumNetwork network;
   private final ScoreboardRenderer scoreboardRenderer;
@@ -117,7 +117,6 @@ public class HyperiumHandlers {
     register(configOptions = new OtherConfigOptions());
     register(generalChatHandler = new GeneralChatHandler(chatHandlers));
     register(perspectiveHandler = new PerspectiveModifierHandler());
-    register(keybindHandler = new KeyBindHandler());
     register(hypixelDetector = new HypixelDetector());
     register(flipHandler = new FlipHandler());
     register(locationHandler = new LocationHandler());
@@ -152,6 +151,7 @@ public class HyperiumHandlers {
     register(fpsLimiter = new FPSLimiter());
     register(compactChat = new CompactChat());
     register(confirmationPopup = new ConfirmationPopup());
+    register(keybindHandler = new HyperiumKeybindHandler());
     commandQueue = new CommandQueue();
     dataHandler = new HypixelAPI();
     // Chat Handlers
@@ -168,6 +168,7 @@ public class HyperiumHandlers {
     registerChatHandler(new GuildInviteHandler());
     Hyperium.LOGGER.info("Registering Events");
     EventBus.INSTANCE.register(this);
+    EventBus.INSTANCE.register(keybindHandler);
     Hyperium.LOGGER.info("Finished Loading Handlers");
 
     // Command Handler
@@ -198,6 +199,10 @@ public class HyperiumHandlers {
   private void register(Object object) {
     Hyperium.CONFIG.register(object);
     EventBus.INSTANCE.register(object);
+  }
+
+  public HyperiumKeybindHandler getKeybindHandler() {
+    return keybindHandler;
   }
 
   public HypixelGuiAugmenter getHypixelGuiAugmenter() {
@@ -274,10 +279,6 @@ public class HyperiumHandlers {
 
   public GuiDisplayHandler getGuiDisplayHandler() {
     return guiDisplayHandler;
-  }
-
-  public KeyBindHandler getKeybindHandler() {
-    return keybindHandler;
   }
 
   public TPoseHandler getTPoseHandler() {

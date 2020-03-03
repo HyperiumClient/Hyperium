@@ -19,10 +19,10 @@ package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.NameHistoryGui;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import org.lwjgl.input.Keyboard;
 
-public class NamesKeybind extends HyperiumBind {
+public class NamesKeybind extends HyperiumKeybind {
 
   public NamesKeybind() {
     super("Name History", Keyboard.KEY_H, KeyType.GUI);

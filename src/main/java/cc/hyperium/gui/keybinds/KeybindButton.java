@@ -21,7 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.interact.KeyPressEvent;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -36,10 +36,10 @@ import java.awt.*;
 public class KeybindButton extends GuiButton {
 
   private boolean listening;
-  private HyperiumBind btnBind;
+  private HyperiumKeybind btnBind;
 
   KeybindButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText,
-      HyperiumBind bind) {
+    HyperiumKeybind bind) {
     super(buttonId, x, y, widthIn, heightIn, buttonText);
     btnBind = bind;
     displayString = getName(bind.getKeyCode());
@@ -113,15 +113,19 @@ public class KeybindButton extends GuiButton {
         textColor = 16777120;
       }
 
-      if (!btnBind.isConflicted()) {
-        drawCenteredString(fontrenderer, displayString,
-            xPosition + width / 2,
-            yPosition + (height - 8) / 2, textColor);
-      } else {
+      if (btnBind.isConflicted())
         drawCenteredString(fontrenderer, ChatColor.RED + displayString,
-            xPosition + width / 2,
-            yPosition + (height - 8) / 2, Color.RED.getRGB());
-      }
+          xPosition + width / 2,
+          yPosition + (height - 8) / 2, Color.RED.getRGB());
+      else if (btnBind.getKeyCode() == 0)
+        drawCenteredString(fontrenderer, ChatColor.BOLD + "NOT SET!",
+          xPosition + width / 2,
+          yPosition + (height - 8) / 2, textColor);
+      else
+        drawCenteredString(fontrenderer, displayString,
+          xPosition + width / 2,
+          yPosition + (height - 8) / 2, textColor);
+
     }
   }
 
@@ -131,7 +135,7 @@ public class KeybindButton extends GuiButton {
   }
 
   void detectConflicts() {
-    for (HyperiumBind hyperiumBind : Hyperium.INSTANCE.getHandlers().getKeybindHandler()
+    for (HyperiumKeybind hyperiumBind : Hyperium.INSTANCE.getHandlers().getKeybindHandler()
         .getKeybinds().values()) {
       hyperiumBind.detectConflicts();
     }

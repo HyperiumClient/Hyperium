@@ -222,6 +222,13 @@ gui.settings.smoothchat=Smooth Chat
 gui.settings.chunkupdatelimit=Chunk Update Limit (EXPERIMENTAL)
 gui.settings.chunkupdatelimiting=Chunk Update Limiting (EXPERIMENTAL)
 
+#Keybind Categories
+keys.categories.hyperium=Hyperium
+keys.categories.hyperium.cosmetics=Hyperium Cosmetics
+keys.categories.hyperium.gui=Hyperium GUI
+keys.categories.hyperium.util=Hyperium Utils
+keys.categories.hyperium.test=Hyperium Test
+
 #Settings Categories
 gui.category.general=General
 gui.category.performance=Performance
