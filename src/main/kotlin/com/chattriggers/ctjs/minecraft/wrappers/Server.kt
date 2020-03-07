@@ -54,13 +54,13 @@ object Server {
         val player = Player.getPlayer()
 
         if (player == null
-                || Client.getMinecraft().isSingleplayer
-                || Client.getMinecraft().currentServerData == null
+            || Client.getMinecraft().isSingleplayer
+            || Client.getMinecraft().currentServerData == null
         ) {
             return 5L
         }
 
         return Client.getConnection().getPlayerInfo(player.uniqueID)?.responseTime?.toLong()
-                ?: Client.getMinecraft().currentServerData!!.pingToServer
+            ?: Client.getMinecraft().currentServerData!!.pingToServer
     }
 }

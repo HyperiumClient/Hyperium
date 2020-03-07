@@ -28,7 +28,7 @@ object Client {
      */
     @JvmStatic
     fun getConnection(): NetHandlerPlayClient =
-            getMinecraft().netHandler
+        getMinecraft().netHandler
 
     /**
      * Gets the Minecraft GuiNewChat object for the chat Gui
@@ -64,8 +64,8 @@ object Client {
     @JvmStatic
     fun getKeyBindFromKey(keyCode: Int): KeyBind? {
         return getMinecraft().gameSettings.keyBindings
-                .firstOrNull { it.keyCode == keyCode }
-                ?.let { KeyBind(it) }
+            .firstOrNull { it.keyCode == keyCode }
+            ?.let { KeyBind(it) }
     }
 
     /**
@@ -79,9 +79,9 @@ object Client {
     @JvmStatic
     fun getKeyBindFromKey(keyCode: Int, description: String): KeyBind {
         return getMinecraft().gameSettings.keyBindings
-                .firstOrNull { it.keyCode == keyCode }
-                ?.let { KeyBind(it) }
-                ?: KeyBind(description, keyCode)
+            .firstOrNull { it.keyCode == keyCode }
+            ?.let { KeyBind(it) }
+            ?: KeyBind(description, keyCode)
     }
 
     /**
@@ -94,8 +94,8 @@ object Client {
     @JvmStatic
     fun getKeyBindFromDescription(description: String): KeyBind? {
         return getMinecraft().gameSettings.keyBindings
-                .firstOrNull { it.keyDescription == description }
-                ?.let { KeyBind(it) }
+            .firstOrNull { it.keyDescription == description }
+            ?.let { KeyBind(it) }
     }
 
     @JvmStatic
@@ -115,7 +115,7 @@ object Client {
 
     @JvmStatic
     fun getMemoryUsage(): Int = Math.round(
-            (getTotalMemory() - getFreeMemory()) * 100 / getMaxMemory().toFloat()
+        (getTotalMemory() - getFreeMemory()) * 100 / getMaxMemory().toFloat()
     )
 
     @JvmStatic

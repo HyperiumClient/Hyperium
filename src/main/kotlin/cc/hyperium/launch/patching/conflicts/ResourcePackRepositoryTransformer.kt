@@ -1,15 +1,37 @@
 package cc.hyperium.launch.patching.conflicts
 
+import codes.som.anthony.koffee.assembleBlock
+import codes.som.anthony.koffee.insns.jvm.*
+import net.minecraft.client.resources.ResourcePackRepository
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.tree.ClassNode
+import java.io.File
 
 class ResourcePackRepositoryTransformer : ConflictTransformer {
     override fun getClassName() = "bnm"
 
     override fun transform(original: ClassNode): ClassNode {
-        for (field in original.fields) {
-            if (field.name == "repositoryEntries") {
-                field.access = Opcodes.ACC_PUBLIC
+        original.fields.find {
+            it.name == "repositoryEntries"
+        }?.apply {
+            access = Opcodes.ACC_PUBLIC
+        }
+
+        original.methods.forEach {
+            if (it.name == "deleteOldServerResourcesPacks") {
+                val (createDirectory) = assembleBlock {
+                    aload_0
+                    getfield(ResourcePackRepository::class, "dirServerResourcepacks", File::class)
+                    invokevirtual(File::class, "exists", boolean)
+                    ifne(L["1"])
+                    aload_0
+                    getfield(ResourcePackRepository::class, "dirServerResourcepacks", File::class)
+                    invokevirtual(File::class, "mkdirs", boolean)
+                    pop
+                    +L["1"]
+                }
+
+                it.instructions.insertBefore(it.instructions.first, createDirectory)
             }
         }
 

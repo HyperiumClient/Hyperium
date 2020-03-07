@@ -53,8 +53,8 @@ object Tessellator {
         GlStateManager.translate(-renderManager.viewerPosX, -renderManager.viewerPosY, -renderManager.viewerPosZ)
 
         this.worldRenderer.begin(
-                drawMode,
-                if (textured) DefaultVertexFormats.POSITION_TEX else DefaultVertexFormats.POSITION
+            drawMode,
+            if (textured) DefaultVertexFormats.POSITION_TEX else DefaultVertexFormats.POSITION
         )
         this.firstVertex = true
         this.began = true
@@ -187,15 +187,15 @@ object Tessellator {
      */
     @JvmStatic
     fun drawString(
-            text: String,
-            x: Float,
-            y: Float,
-            z: Float,
-            renderBlackBox: Boolean,
-            partialTicks: Float,
-            scale: Float,
-            color: Int,
-            increase: Boolean
+        text: String,
+        x: Float,
+        y: Float,
+        z: Float,
+        renderBlackBox: Boolean,
+        partialTicks: Float,
+        scale: Float,
+        color: Int,
+        increase: Boolean
     ) {
         var scale = scale
         val mc = Minecraft.getMinecraft()
@@ -204,11 +204,11 @@ object Tessellator {
         val fontRenderer = Renderer.getFontRenderer()
 
         val playerX =
-                (Player.getPlayer()!!.lastTickPosX + (Player.getPlayer()!!.posX - Player.getPlayer()!!.lastTickPosX) * partialTicks).toFloat()
+            (Player.getPlayer()!!.lastTickPosX + (Player.getPlayer()!!.posX - Player.getPlayer()!!.lastTickPosX) * partialTicks).toFloat()
         val playerY =
-                (Player.getPlayer()!!.lastTickPosY + (Player.getPlayer()!!.posY - Player.getPlayer()!!.lastTickPosY) * partialTicks).toFloat()
+            (Player.getPlayer()!!.lastTickPosY + (Player.getPlayer()!!.posY - Player.getPlayer()!!.lastTickPosY) * partialTicks).toFloat()
         val playerZ =
-                (Player.getPlayer()!!.lastTickPosZ + (Player.getPlayer()!!.posZ - Player.getPlayer()!!.lastTickPosZ) * partialTicks).toFloat()
+            (Player.getPlayer()!!.lastTickPosZ + (Player.getPlayer()!!.posZ - Player.getPlayer()!!.lastTickPosZ) * partialTicks).toFloat()
 
         val dx = x - playerX
         val dy = y - playerY

@@ -11,22 +11,21 @@ import org.spongepowered.asm.mixin.MixinEnvironment
 import java.io.File
 import java.io.IOException
 import java.net.MalformedURLException
-import java.util.*
 
 class HyperiumTweaker : ITweaker {
 
     private val hyperiumArguments = arrayListOf<String>()
-    private val runningOptifine = Launch.classLoader.transformers.stream().anyMatch {
-        it.javaClass.name.toLowerCase(Locale.ENGLISH).contains("optifine")
+
+    // new
+    val optifine = Launch.classLoader.transformers.any {
+        it.javaClass.name == "optifine.OptiFineForgeTweaker"
     }
 
     override fun acceptOptions(args: MutableList<String>, gameDir: File, assetsDir: File, profile: String) {
-        hyperiumArguments.addAll(
-                args + listOf(
-                        "--gameDir", gameDir.absolutePath,
-                        "--assetsDir", assetsDir.absolutePath,
-                        "--version", profile
-                )
+        hyperiumArguments += args + arrayListOf(
+            "--gameDir", gameDir.absolutePath,
+            "--assetsDir", assetsDir.absolutePath,
+            "--version", profile
         )
     }
 
@@ -57,7 +56,7 @@ class HyperiumTweaker : ITweaker {
         Hyperium.LOGGER.info("Applying transformers...")
         val environment = MixinEnvironment.getDefaultEnvironment()
 
-        if (runningOptifine) {
+        if (optifine) {
             environment.obfuscationContext = "notch"
         }
 
@@ -67,10 +66,10 @@ class HyperiumTweaker : ITweaker {
 
         try {
             classLoader.addURL(
-                    File(
-                            System.getProperty("java.home"),
-                            "lib/ext/nashorn.jar"
-                    ).toURI().toURL()
+                File(
+                    System.getProperty("java.home"),
+                    "lib/ext/nashorn.jar"
+                ).toURI().toURL()
             )
         } catch (e: MalformedURLException) {
             e.printStackTrace()
@@ -80,7 +79,7 @@ class HyperiumTweaker : ITweaker {
     }
 
     override fun getLaunchArguments(): Array<String?> {
-        return if (runningOptifine) arrayOfNulls(0)
+        return if (optifine) arrayOfNulls(0)
         else hyperiumArguments.toTypedArray()
     }
 }

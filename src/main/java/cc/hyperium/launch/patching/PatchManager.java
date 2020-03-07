@@ -19,34 +19,7 @@ package cc.hyperium.launch.patching;
 
 import cc.hyperium.launch.deobf.DeobfAdapter;
 import cc.hyperium.launch.deobf.DeobfRemapper;
-import cc.hyperium.launch.patching.conflicts.AbstractClientPlayerTransformer;
-import cc.hyperium.launch.patching.conflicts.AbstractResourcePackTransformer;
-import cc.hyperium.launch.patching.conflicts.ChunkRenderContainerTransformer;
-import cc.hyperium.launch.patching.conflicts.ConflictTransformer;
-import cc.hyperium.launch.patching.conflicts.CrashReportTransformer;
-import cc.hyperium.launch.patching.conflicts.EffectRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.EntityRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.FontRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.GameSettingsTransformer;
-import cc.hyperium.launch.patching.conflicts.GuiIngameTransformer;
-import cc.hyperium.launch.patching.conflicts.GuiMainMenuTransformer;
-import cc.hyperium.launch.patching.conflicts.GuiOverlayDebugTransformer;
-import cc.hyperium.launch.patching.conflicts.GuiVideoSettingsTransformer;
-import cc.hyperium.launch.patching.conflicts.LayerArmorBaseTransformer;
-import cc.hyperium.launch.patching.conflicts.LoadingScreenRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.ModelBoxTransformer;
-import cc.hyperium.launch.patching.conflicts.ModelRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.NoopTransformer;
-import cc.hyperium.launch.patching.conflicts.RenderChunkTransformer;
-import cc.hyperium.launch.patching.conflicts.RenderGlobalTransformer;
-import cc.hyperium.launch.patching.conflicts.RenderItemFrameTransformer;
-import cc.hyperium.launch.patching.conflicts.RenderManagerTransformer;
-import cc.hyperium.launch.patching.conflicts.RenderTransformer;
-import cc.hyperium.launch.patching.conflicts.RendererLivingEntityTransformer;
-import cc.hyperium.launch.patching.conflicts.ResourcePackRepositoryTransformer;
-import cc.hyperium.launch.patching.conflicts.TextureManagerTransformer;
-import cc.hyperium.launch.patching.conflicts.TileEntityEndPortalRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.WorldClientTransformer;
+import cc.hyperium.launch.patching.conflicts.*;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
@@ -80,10 +53,7 @@ import java.util.zip.ZipEntry;
 public class PatchManager {
 
   private static final Logger LOGGER = LogManager.getLogger();
-  private static final List<String> IGNORED_OF_CHANGES = Arrays.asList(
-      "bbr",
-      "avj"
-  );
+  private static final List<String> IGNORED_OF_CHANGES = Arrays.asList("bbr", "avj");
   private static final Map<String, ConflictTransformer> transformers = Maps.newHashMap();
   public static final PatchManager INSTANCE = new PatchManager();
   private boolean setupComplete = false;
@@ -111,8 +81,8 @@ public class PatchManager {
           ClassReader reader = new ClassReader(classData);
           ClassNode node = new ClassNode();
           reader.accept(new DeobfAdapter(node), ClassReader.EXPAND_FRAMES);
-          ClassWriter writer = new PatchDeobfClassWriter(
-              ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+          ClassWriter writer =
+              new PatchDeobfClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
           transformers.get(className.replace('.', '/')).transform(node).accept(writer);
           return writer.toByteArray();
         } else {
@@ -130,8 +100,8 @@ public class PatchManager {
           processedClasses.put(className, data);
         }
         long end = System.nanoTime();
-        LOGGER
-            .debug("Patched {} in {}ms", className, ((double) end - (double) start) / 1_000_000.0);
+        LOGGER.debug(
+            "Patched {} in {}ms", className, ((double) end - (double) start) / 1_000_000.0);
         return data;
       } catch (IOException e) {
         LOGGER.warn("Failed to patch class {}", className, e);
@@ -142,8 +112,8 @@ public class PatchManager {
 
   private static void registerTransformers(ConflictTransformer... transformers) {
     for (ConflictTransformer transformer : transformers) {
-      PatchManager.transformers
-          .put(DeobfRemapper.INSTANCE.unmap(transformer.getClassName()), transformer);
+      PatchManager.transformers.put(
+          DeobfRemapper.INSTANCE.unmap(transformer.getClassName()), transformer);
     }
   }
 
@@ -186,18 +156,20 @@ public class PatchManager {
         throw new IllegalStateException(
             "Couldn't find crab files in production. Something is very wrong.");
       } else {
-        LOGGER
-            .warn("Failed to find crabs, but client is probably in dev env so we're skipping them");
+        LOGGER.warn(
+            "Failed to find crabs, but client is probably in dev env so we're skipping them");
       }
     } else {
-      // Load all patches. There's probably some performance/memory usage balancing needed here, but at the moment it loads everything into memory
-      // and once they're used they get deleted (or at least removed from map, so gc needed to actually delete them)
+      // Load all patches. There's probably some performance/memory usage balancing needed here, but
+      // at the moment it loads everything into memory
+      // and once they're used they get deleted (or at least removed from map, so gc needed to
+      // actually delete them)
       LOGGER.info("Loading crab");
       long start = System.nanoTime();
       Pattern patchFilePattern = Pattern.compile("binpatch/client/.*.binpatch");
       LzmaInputStream decompressedInput = new LzmaInputStream(patchArchive, new Decoder());
-      JarInputStream jis = new JarInputStream(
-          decompressedInput); // the patches are inside an LZMA compressed JAR
+      JarInputStream jis =
+          new JarInputStream(decompressedInput); // the patches are inside an LZMA compressed JAR
       while (true) {
         try {
           JarEntry entry = jis.getNextJarEntry();
@@ -216,7 +188,9 @@ public class PatchManager {
         }
       }
       long end = System.nanoTime();
-      LOGGER.info("Loaded {} crabs in {} milliseconds", patches.size(),
+      LOGGER.info(
+          "Loaded {} crabs in {} milliseconds",
+          patches.size(),
           ((double) end - (double) start) / 1_000_000.0);
     }
     setupComplete = true;
@@ -253,8 +227,13 @@ public class PatchManager {
     final byte[] patchData;
     final long checksum;
 
-    Patch(String name, String sourceName, String targetName, boolean targetHasFile,
-        byte[] patchData, long checksum) {
+    Patch(
+        String name,
+        String sourceName,
+        String targetName,
+        boolean targetHasFile,
+        byte[] patchData,
+        long checksum) {
       this.name = name;
       this.sourceName = sourceName;
       this.targetName = targetName;
@@ -292,7 +271,6 @@ public class PatchManager {
         new GuiOverlayDebugTransformer(),
         new GuiIngameTransformer(),
         new AbstractResourcePackTransformer(),
-//                new ItemRendererTransformer(),
 
         // TODO: Write actual transformers for these classes
         new NoopTransformer("awi"),
@@ -305,9 +283,7 @@ public class PatchManager {
         new NoopTransformer("avh$1"),
         new NoopTransformer("avh$2"),
         new NoopTransformer("avh$a"),
-
         new NoopTransformer("avv$1"),
-
         new NoopTransformer("b$1"),
         new NoopTransformer("b$2"),
         new NoopTransformer("b$3"),
@@ -315,23 +291,18 @@ public class PatchManager {
         new NoopTransformer("b$5"),
         new NoopTransformer("b$6"),
         new NoopTransformer("b$7"),
-
         new NoopTransformer("bdb$1"),
         new NoopTransformer("bdb$2"),
         new NoopTransformer("bdb$3"),
         new NoopTransformer("bdb$4"),
-
         new NoopTransformer("bfk$1"),
         new NoopTransformer("bfk$2"),
         new NoopTransformer("bfk$3"),
         new NoopTransformer("bfk$4"),
-
         new NoopTransformer("bfn$1"),
-
         new NoopTransformer("bfr$1"),
         new NoopTransformer("bfr$2"),
         new NoopTransformer("bfr$a"),
-
         new NoopTransformer("bjh$1"),
         new NoopTransformer("bjh$2"),
         new NoopTransformer("bjh$3"),
@@ -341,13 +312,11 @@ public class PatchManager {
         new NoopTransformer("bjh$7"),
         new NoopTransformer("bjh$8"),
         new NoopTransformer("bjh$9"),
-
         new NoopTransformer("bjl$1"),
-
         new NoopTransformer("bkn$1"),
-
         new NoopTransformer("bnm$a"),
-        new NoopTransformer("bnm$1")
-    );
+        new NoopTransformer("bnm$1"),
+        new NoopTransformer("bnm$2"),
+        new NoopTransformer("bnm$3"));
   }
 }

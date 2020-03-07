@@ -13,19 +13,19 @@ import org.objectweb.asm.tree.MethodNode
  * Literally just the normal method but with ASM 5 instead of ASM 7
  */
 fun ClassAssembly.method5(
-        access: Modifiers, name: String, returnType: TypeLike, vararg parameterTypes: TypeLike,
-        signature: String? = null, exceptions: Array<Type>? = null,
-        routine: MethodAssembly.() -> Unit
+    access: Modifiers, name: String, returnType: TypeLike, vararg parameterTypes: TypeLike,
+    signature: String? = null, exceptions: Array<Type>? = null,
+    routine: MethodAssembly.() -> Unit
 ): MethodNode {
     val descriptor = Type.getMethodDescriptor(coerceType(returnType), *parameterTypes.map(::coerceType).toTypedArray())
 
     val methodNode = MethodNode(
-            ASM5,
-            access.access,
-            name,
-            descriptor,
-            signature,
-            exceptions?.map { it.internalName }?.toTypedArray()
+        ASM5,
+        access.access,
+        name,
+        descriptor,
+        signature,
+        exceptions?.map { it.internalName }?.toTypedArray()
     )
     val methodAssembly = MethodAssembly(methodNode)
     routine(methodAssembly)

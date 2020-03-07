@@ -126,11 +126,11 @@ abstract class Display {
     fun addLines(vararg lines: Any): Display {
         lines.forEach {
             this.lines.add(
-                    when (it) {
-                        is String -> createDisplayLine(it)
-                        is DisplayLine -> it
-                        else -> createDisplayLine("")
-                    }
+                when (it) {
+                    is String -> createDisplayLine(it)
+                    is DisplayLine -> it
+                    else -> createDisplayLine("")
+                }
             )
         }
         return this
@@ -199,28 +199,28 @@ abstract class Display {
     private fun drawLine(line: DisplayLine, x: Float, y: Float, maxWidth: Float) {
         when (align) {
             DisplayHandler.Align.LEFT -> line.drawLeft(
-                    x,
-                    y,
-                    maxWidth,
-                    background,
-                    backgroundColor,
-                    textColor
+                x,
+                y,
+                maxWidth,
+                background,
+                backgroundColor,
+                textColor
             )
             DisplayHandler.Align.RIGHT -> line.drawRight(
-                    x,
-                    y,
-                    maxWidth,
-                    background,
-                    backgroundColor,
-                    textColor
+                x,
+                y,
+                maxWidth,
+                background,
+                backgroundColor,
+                textColor
             )
             DisplayHandler.Align.CENTER -> line.drawCenter(
-                    x,
-                    y,
-                    maxWidth,
-                    background,
-                    backgroundColor,
-                    textColor
+                x,
+                y,
+                maxWidth,
+                background,
+                backgroundColor,
+                textColor
             )
             else -> return
         }
@@ -229,13 +229,13 @@ abstract class Display {
     internal abstract fun createDisplayLine(text: String): DisplayLine
 
     override fun toString() =
-            "Display{" +
-                    "shouldRender=$shouldRender, " +
-                    "renderX=$renderX, renderY=$renderY, " +
-                    "background=$background, backgroundColor=$backgroundColor, " +
-                    "textColor=$textColor, align=$align, order=$order, " +
-                    "minWidth=$minWidth, width=$width, height=$height, " +
-                    "lines=$lines" +
-                    "}"
+        "Display{" +
+            "shouldRender=$shouldRender, " +
+            "renderX=$renderX, renderY=$renderY, " +
+            "background=$background, backgroundColor=$backgroundColor, " +
+            "textColor=$textColor, align=$align, order=$order, " +
+            "minWidth=$minWidth, width=$width, height=$height, " +
+            "lines=$lines" +
+            "}"
 
 }

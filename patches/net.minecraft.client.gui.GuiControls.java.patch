@@ -11,15 +11,6 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.resources.I18n;
  import net.minecraft.client.settings.GameSettings;
-@@ -10,7 +14,7 @@
- 
- @SideOnly(Side.CLIENT)
- public class GuiControls extends GuiScreen {
--    private static final GameSettings.Options[] optionsArr = new GameSettings.Options[] {GameSettings.Options.INVERT_MOUSE, GameSettings.Options.SENSITIVITY, GameSettings.Options.TOUCHSCREEN};
-+    private static final GameSettings.Options[] optionsArr = new GameSettings.Options[]{GameSettings.Options.INVERT_MOUSE, GameSettings.Options.SENSITIVITY, GameSettings.Options.TOUCHSCREEN};
-     /** A reference to the screen object that created this. Used for navigating between screens. */
-     private GuiScreen parentScreen;
-     protected String screenTitle = "Controls";
 @@ -67,7 +71,11 @@
              for (KeyBinding keybinding : this.mc.gameSettings.keyBindings) {
                  keybinding.setKeyCode(keybinding.getKeyCodeDefault());

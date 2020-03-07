@@ -14,43 +14,45 @@ class LayerArmorBaseTransformer : ConflictTransformer {
     override fun getClassName() = "bkn"
 
     override fun transform(original: ClassNode): ClassNode {
-        for (method in original.methods) {
-            if (method.name == "renderLayer") {
-                val disableArmor = assembleBlock {
-                    aload(10)
-                    ifnull(L["2"])
-                    aload(10)
-                    invokevirtual(ItemStack::class, "getItem", Item::class)
-                    instanceof(ItemArmor::class)
-                    ifeq(L["2"])
-                    getstatic(Settings::class, "HIDE_LEATHER_ARMOR", boolean)
-                    ifeq(L["2"])
-                    getstatic(ItemUtil::class, "INSTANCE", ItemUtil::class)
-                    invokevirtual(ItemUtil::class, "getLeatherArmorCollection", ArrayList::class)
-                    aload(10)
-                    invokevirtual(ItemStack::class, "getItem", Item::class)
-                    invokevirtual(ArrayList::class, "contains", boolean, Object::class)
-                    ifeq(L["2"])
-                    _return
-                    +L["2"]
-                }.first
+        original.methods.forEach {
+            when (it.name) {
+                "renderLayer" -> {
+                    val (disableArmor) = assembleBlock {
+                        aload(10)
+                        ifnull(L["2"])
+                        aload(10)
+                        invokevirtual(ItemStack::class, "getItem", Item::class)
+                        instanceof(ItemArmor::class)
+                        ifeq(L["2"])
+                        getstatic(Settings::class, "HIDE_LEATHER_ARMOR", boolean)
+                        ifeq(L["2"])
+                        getstatic(ItemUtil::class, "INSTANCE", ItemUtil::class)
+                        invokevirtual(ItemUtil::class, "getLeatherArmorCollection", ArrayList::class)
+                        aload(10)
+                        invokevirtual(ItemStack::class, "getItem", Item::class)
+                        invokevirtual(ArrayList::class, "contains", boolean, Object::class)
+                        ifeq(L["2"])
+                        _return
+                        +L["2"]
+                    }
 
-                for (insn in method.instructions.iterator()) {
-                    if (insn is MethodInsnNode && insn.name == "getCurrentArmor") {
-                        method.instructions.insertBefore(insn.next?.next, disableArmor)
+                    for (insn in it.instructions.iterator()) {
+                        if (insn is MethodInsnNode && insn.name == "getCurrentArmor") {
+                            it.instructions.insertBefore(insn.next?.next, disableArmor)
+                        }
                     }
                 }
-            }
 
-            if (method.name == "renderGlint") {
-                val disableEnchantmentGlint = assembleBlock {
-                    getstatic(Settings::class, "DISABLE_ENCHANT_GLINT", boolean)
-                    ifeq(L["1"])
-                    _return
-                    +L["1"]
-                }.first
+                "renderGlint" -> {
+                    val (disableEnchantmentGlint) = assembleBlock {
+                        getstatic(Settings::class, "DISABLE_ENCHANT_GLINT", boolean)
+                        ifeq(L["1"])
+                        _return
+                        +L["1"]
+                    }
 
-                method.instructions.insertBefore(method.instructions.first, disableEnchantmentGlint)
+                    it.instructions.insertBefore(it.instructions.first, disableEnchantmentGlint)
+                }
             }
         }
 

@@ -126,7 +126,7 @@ class Message {
     fun clone(): Message = copy()
     fun copy(): Message {
         val copy = Message(messageParts)
-                .setChatLineId(chatLineId)
+            .setChatLineId(chatLineId)
         copy.recursive = recursive
         copy.formatted = formatted
         return copy
@@ -168,10 +168,10 @@ class Message {
         if (!ChatLib.isPlayer("[ACTION BAR]: " + chatMessage.formattedText)) return
 
         Client.getConnection().handleChat(
-                ChatPacket(
-                        chatMessage,
-                        2
-                )
+            ChatPacket(
+                chatMessage,
+                2
+            )
         )
     }
 

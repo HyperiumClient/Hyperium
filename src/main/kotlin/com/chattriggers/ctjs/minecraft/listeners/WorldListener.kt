@@ -32,9 +32,9 @@ object WorldListener {
         shouldTriggerWorldLoad = false
 
         CTJS.sounds
-                .stream()
-                .filter { it.isListening }
-                .forEach { it.onWorldLoad() }
+            .stream()
+            .filter { it.isListening }
+            .forEach { it.onWorldLoad() }
 
         CTJS.sounds.clear()
     }
@@ -47,9 +47,9 @@ object WorldListener {
     @InvokeEvent
     fun onSoundPlay(event: SoundPlayEvent) {
         val position = Vector3D(
-                event.sound.xPosF,
-                event.sound.yPosF,
-                event.sound.zPosF
+            event.sound.xPosF,
+            event.sound.yPosF,
+            event.sound.zPosF
         )
 
         val vol = try {
@@ -64,12 +64,12 @@ object WorldListener {
         }
 
         TriggerType.SOUND_PLAY.triggerAll(
-                event,
-                position,
-                event.sound.soundLocation.resourcePath,
-                vol,
-                pitch,
-                ""
+            event,
+            position,
+            event.sound.soundLocation.resourcePath,
+            vol,
+            pitch,
+            ""
         )
     }
 

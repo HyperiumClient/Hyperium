@@ -19,8 +19,8 @@ class DropAction(slot: Int, windowId: Int) : Action(slot, windowId) {
 
     override fun complete() {
         doClick(
-                if (holdingCtrl) 1 else 0,
-                4
+            if (holdingCtrl) 1 else 0,
+            4
         )
     }
 }

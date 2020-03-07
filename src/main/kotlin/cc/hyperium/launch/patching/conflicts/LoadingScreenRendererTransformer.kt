@@ -14,40 +14,42 @@ class LoadingScreenRendererTransformer : ConflictTransformer {
     override fun getClassName() = "avi"
 
     override fun transform(original: ClassNode): ClassNode {
-        for (method in original.methods) {
-            if (method.name == "setLoadingProgress") {
-                val renderHyperiumScreen = assembleBlock {
-                    getstatic(Settings::class, "HYPERIUM_LOADING_SCREEN", boolean)
-                    ifeq(L["4"])
-                    aload_0
-                    getfield(LoadingScreenRenderer::class, "systemTime", long)
-                    aload_0
-                    getfield(LoadingScreenRenderer::class, "framebuffer", Framebuffer::class)
-                    aload_0
-                    getfield(LoadingScreenRenderer::class, "mc", Minecraft::class)
-                    aload_0
-                    getfield(LoadingScreenRenderer::class, "scaledResolution", ScaledResolution::class)
-                    aload_0
-                    getfield(LoadingScreenRenderer::class, "currentlyDisplayedText", String::class)
-                    aload_0
-                    getfield(LoadingScreenRenderer::class, "message", String::class)
-                    iload_1
-                    invokestatic(
-                            HyperiumLoadingScreen::class,
-                            "renderHyperiumLoadingScreen",
-                            void,
-                            long,
-                            Framebuffer::class,
-                            Minecraft::class,
-                            ScaledResolution::class,
-                            String::class,
-                            String::class,
-                            int
-                    )
-                    _return
-                    +L["4"]
-                }.first
+        original.methods.find {
+            it.name == "setLoadingProgress"
+        }?.apply {
+            val (renderHyperiumScreen) = assembleBlock {
+                getstatic(Settings::class, "HYPERIUM_LOADING_SCREEN", boolean)
+                ifeq(L["4"])
+                aload_0
+                getfield(LoadingScreenRenderer::class, "systemTime", long)
+                aload_0
+                getfield(LoadingScreenRenderer::class, "framebuffer", Framebuffer::class)
+                aload_0
+                getfield(LoadingScreenRenderer::class, "mc", Minecraft::class)
+                aload_0
+                getfield(LoadingScreenRenderer::class, "scaledResolution", ScaledResolution::class)
+                aload_0
+                getfield(LoadingScreenRenderer::class, "currentlyDisplayedText", String::class)
+                aload_0
+                getfield(LoadingScreenRenderer::class, "message", String::class)
+                iload_1
+                invokestatic(
+                    HyperiumLoadingScreen::class,
+                    "renderHyperiumLoadingScreen",
+                    void,
+                    long,
+                    Framebuffer::class,
+                    Minecraft::class,
+                    ScaledResolution::class,
+                    String::class,
+                    String::class,
+                    int
+                )
+                _return
+                +L["4"]
             }
+
+            instructions.insertBefore(instructions.first, renderHyperiumScreen)
         }
 
         return original
