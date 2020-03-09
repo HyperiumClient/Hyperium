@@ -23,7 +23,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.config.GuiSlider;
 
 public class BlockOverlayColor extends GuiScreen {
-    private BlockOverlay mod;
+    private final BlockOverlay mod;
     private GuiButton buttonChroma;
     private GuiButton buttonBack;
     private GuiSlider sliderChroma;

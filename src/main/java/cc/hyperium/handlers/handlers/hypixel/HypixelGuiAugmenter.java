@@ -54,10 +54,10 @@ public class HypixelGuiAugmenter {
     private void modifyLobbyGui(GuiScreen screen) {
         if (screen == null) return;
 
-        lobbyAdds.keySet().forEach(guiButton -> {
+        for (GuiButton guiButton : lobbyAdds.keySet()) {
             screen.getButtonList().add(guiButton);
             guiButton.visible = true;
-        });
+        }
     }
 
 

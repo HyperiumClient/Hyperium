@@ -9,12 +9,12 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.renderer.ActiveRenderInfo;
  import net.minecraft.client.renderer.GLAllocation;
-@@ -23,6 +25,8 @@
-    FloatBuffer field_147528_b = GLAllocation.createDirectFloatBuffer(16);
+@@ -22,6 +24,8 @@
+     FloatBuffer field_147528_b = GLAllocation.createDirectFloatBuffer(16);
  
-    public void renderTileEntityAt(TileEntityEndPortal te, double x, double y, double z, float partialTicks, int destroyStage) {
-+      if (Settings.DISABLE_END_PORTALS) return;
+     public void renderTileEntityAt(TileEntityEndPortal te, double x, double y, double z, float partialTicks, int destroyStage) {
++        if (Settings.DISABLE_END_PORTALS) return;
 +
-       float f = (float)this.rendererDispatcher.entityX;
-       float f1 = (float)this.rendererDispatcher.entityY;
-       float f2 = (float)this.rendererDispatcher.entityZ;
+         float f = (float)this.rendererDispatcher.entityX;
+         float f1 = (float)this.rendererDispatcher.entityY;
+         float f2 = (float)this.rendererDispatcher.entityZ;

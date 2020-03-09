@@ -70,14 +70,21 @@ public class ToggleChatMainGui extends GuiScreen {
 
             final int[] position = {height / 2 - 75};
 
-            main.getToggleHandler().getToggles().values().stream().skip((pageNumber - 1) * 7).limit(7).forEach(baseType -> {
+            long limit = 7;
+            long toSkip = (pageNumber - 1) * 7;
+            for (ToggleBase baseType : main.getToggleHandler().getToggles().values()) {
+                if (toSkip > 0) {
+                    toSkip--;
+                    continue;
+                }
+                if (limit-- == 0) break;
                 GuiButton button = new GuiButton(0, width / 2 - 75, position[0], 150, 20,
                         String.format(baseType.getDisplayName(), baseType.getStatus(baseType.isEnabled())));
 
                 data.put(button, baseType);
                 buttonList.add(button);
                 position[0] += 24;
-            });
+            }
 
             GuiButton last = new GuiButton(1, width / 2 - 51, height / 2 + 90, 50, 20, "<");
             GuiButton next = new GuiButton(2, width / 2 + 1, height / 2 + 90, 50, 20, ">");
@@ -138,14 +145,20 @@ public class ToggleChatMainGui extends GuiScreen {
             return;
         }
 
-        buttonList.stream().filter(button -> button != null && data.containsKey(button)).filter(GuiButton::isMouseOver).map(data::get)
-                .filter(ToggleBase::hasDescription).forEach(toggleBase -> {
-            final int[] position = {firstPosition};
-            toggleBase.getDescription().forEach(text -> {
-                drawCenteredString(mc.fontRendererObj, ChatColor.translateAlternateColorCodes('&', text), width / 2 + 150, position[0], Color.WHITE.getRGB());
-                position[0] += 10;
-            });
-        });
+        for (GuiButton button : buttonList) {
+            if (button != null && data.containsKey(button)) {
+                if (button.isMouseOver()) {
+                    ToggleBase toggleBase = data.get(button);
+                    if (toggleBase.hasDescription()) {
+                        final int[] position = {firstPosition};
+                        for (String text : toggleBase.getDescription()) {
+                            drawCenteredString(mc.fontRendererObj, ChatColor.translateAlternateColorCodes('&', text), width / 2 + 150, position[0], Color.WHITE.getRGB());
+                            position[0] += 10;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override

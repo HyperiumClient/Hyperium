@@ -95,7 +95,7 @@ public class Hyperium {
     private boolean optifineInstalled;
 
     // Is the user in a developer environment?
-    public boolean isDevEnv;
+    private boolean isDevEnv;
 
     // Is it the users first launch?
     private boolean firstLaunch;
@@ -131,11 +131,11 @@ public class Hyperium {
     private Sk1erMod sk1erMod;
 
     // Expose the updateUtils
-    private UpdateUtils updateUtils = UpdateUtils.INSTANCE;
+    private final UpdateUtils updateUtils = UpdateUtils.INSTANCE;
 
     private long launchTime;
 
-    private ClassLoaderResourcePack resourcePack = new ClassLoaderResourcePack("hyperium");
+    private final ClassLoaderResourcePack resourcePack = new ClassLoaderResourcePack("hyperium");
 
     // Did the player join from the main menu?
     private boolean joinedfromMainMenu;
@@ -166,8 +166,12 @@ public class Hyperium {
             Multithreading.runAsync(() -> {
                 networkHandler = new NetworkHandler();
                 CONFIG.register(networkHandler);
-                this.client = new NettyClient(networkHandler);
-                UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
+                try {
+                    this.client = new NettyClient(networkHandler);
+                    UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
+                } catch (Exception e) {
+                    LOGGER.error("Failed to initialize Netty & register Login Reply.");
+                }
             });
 
             // Initialize notifications
@@ -175,7 +179,7 @@ public class Hyperium {
 
             // Get the build id
             createBuildId();
-            Hyperium.LOGGER.info("Hyperium Build ID: {}", BUILD_ID);
+            LOGGER.info("Hyperium Build ID: {}", BUILD_ID);
 
             // Check for if the user is in a developers environment
             checkForDevEnvironment();
@@ -422,7 +426,7 @@ public class Hyperium {
                     }
                 }
             } else {
-                Hyperium.LOGGER.debug("chat.txt not found, not restoring chat");
+                LOGGER.debug("chat.txt not found, not restoring chat");
             }
         });
     }

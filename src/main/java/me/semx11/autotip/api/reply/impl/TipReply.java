@@ -41,7 +41,7 @@ public class TipReply extends Reply {
         private Tip() {
         }
 
-        private Tip(String gamemode, String username) {
+        Tip(String gamemode, String username) {
             this.gamemode = gamemode;
             this.username = username;
         }

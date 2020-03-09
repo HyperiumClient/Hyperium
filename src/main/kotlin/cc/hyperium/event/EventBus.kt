@@ -2,7 +2,6 @@ package cc.hyperium.event
 
 import cc.hyperium.Hyperium
 import com.google.common.reflect.TypeToken
-import org.apache.logging.log4j.Level
 import java.util.concurrent.CopyOnWriteArrayList
 
 object EventBus {
@@ -97,8 +96,7 @@ object EventBus {
             try {
                 sub.invoke(event)
             } catch (e: Throwable) {
-                e.printStackTrace()
-                Hyperium.LOGGER.fatal("Failed to post ${event.javaClass.name}")
+                Hyperium.LOGGER.fatal("Failed to post ${event.javaClass.name}", e)
             }
         }
     }

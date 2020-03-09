@@ -71,7 +71,10 @@ public class HamsterCompanion extends AbstractCosmetic {
         WorldClient theWorld = Minecraft.getMinecraft().theWorld;
         if (theWorld == null) return;
 
-        toAdd.forEach(this::spawnHamster);
+        for (EntityPlayer entityPlayer : toAdd) {
+            spawnHamster(entityPlayer);
+        }
+
         toAdd.clear();
 
         Iterator<Map.Entry<UUID, EntityHamster>> ite = hamsters.entrySet().iterator();

@@ -19,7 +19,34 @@ package cc.hyperium.launch.patching;
 
 import cc.hyperium.launch.deobf.DeobfAdapter;
 import cc.hyperium.launch.deobf.DeobfRemapper;
-import cc.hyperium.launch.patching.conflicts.*;
+import cc.hyperium.launch.patching.conflicts.AbstractClientPlayerTransformer;
+import cc.hyperium.launch.patching.conflicts.AbstractResourcePackTransformer;
+import cc.hyperium.launch.patching.conflicts.ChunkRenderContainerTransformer;
+import cc.hyperium.launch.patching.conflicts.ConflictTransformer;
+import cc.hyperium.launch.patching.conflicts.CrashReportTransformer;
+import cc.hyperium.launch.patching.conflicts.EffectRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.EntityRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.FontRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.GameSettingsTransformer;
+import cc.hyperium.launch.patching.conflicts.GuiIngameTransformer;
+import cc.hyperium.launch.patching.conflicts.GuiMainMenuTransformer;
+import cc.hyperium.launch.patching.conflicts.GuiOverlayDebugTransformer;
+import cc.hyperium.launch.patching.conflicts.GuiVideoSettingsTransformer;
+import cc.hyperium.launch.patching.conflicts.LayerArmorBaseTransformer;
+import cc.hyperium.launch.patching.conflicts.LoadingScreenRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.ModelBoxTransformer;
+import cc.hyperium.launch.patching.conflicts.ModelRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.NoopTransformer;
+import cc.hyperium.launch.patching.conflicts.RenderChunkTransformer;
+import cc.hyperium.launch.patching.conflicts.RenderGlobalTransformer;
+import cc.hyperium.launch.patching.conflicts.RenderItemFrameTransformer;
+import cc.hyperium.launch.patching.conflicts.RenderManagerTransformer;
+import cc.hyperium.launch.patching.conflicts.RenderTransformer;
+import cc.hyperium.launch.patching.conflicts.RendererLivingEntityTransformer;
+import cc.hyperium.launch.patching.conflicts.ResourcePackRepositoryTransformer;
+import cc.hyperium.launch.patching.conflicts.TextureManagerTransformer;
+import cc.hyperium.launch.patching.conflicts.TileEntityEndPortalRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.WorldClientTransformer;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
@@ -53,7 +80,6 @@ import java.util.zip.ZipEntry;
 public class PatchManager {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final List<String> IGNORED_OF_CHANGES = Arrays.asList(
-            "bmx",
             "bbr",
             "avj"
     );
@@ -61,8 +87,8 @@ public class PatchManager {
     public static final PatchManager INSTANCE = new PatchManager();
     private boolean setupComplete = false;
     private boolean disableInputCheck = false;
-    private Map<String, Patch> patches = Maps.newConcurrentMap();
-    private Map<String, byte[]> processedClasses = Maps.newConcurrentMap();
+    private final Map<String, Patch> patches = Maps.newConcurrentMap();
+    private final Map<String, byte[]> processedClasses = Maps.newConcurrentMap();
     private final GDiffPatcher patcher = new GDiffPatcher();
 
     public byte[] patch(String className, byte[] classData, boolean cache) {
@@ -240,19 +266,20 @@ public class PatchManager {
                 new ChunkRenderContainerTransformer(),
                 new RenderChunkTransformer(),
                 new LoadingScreenRendererTransformer(),
+                new RenderTransformer(),
+                new RendererLivingEntityTransformer(),
+                new LayerArmorBaseTransformer(),
+                new GuiOverlayDebugTransformer(),
+                new GuiIngameTransformer(),
+                new AbstractResourcePackTransformer(),
+//                new ItemRendererTransformer(),
 
                 // TODO: Write actual transformers for these classes
+                new NoopTransformer("awi"),
                 new NoopTransformer("bma"),
                 new NoopTransformer("bma$1"),
-                new NoopTransformer("ne"),
-                new NoopTransformer("biv"),
-                new NoopTransformer("bjl"),
                 new NoopTransformer("bjh"),
                 new NoopTransformer("bfn"),
-                new NoopTransformer("avo"),
-                new NoopTransformer("bkn"),
-                new NoopTransformer("avv"),
-                new NoopTransformer("awi"),
 
                 // dont need actual transformers
                 new NoopTransformer("avh$1"),
@@ -299,9 +326,8 @@ public class PatchManager {
 
                 new NoopTransformer("bkn$1"),
 
-                new NoopTransformer("bnm$1"),
-
-                new NoopTransformer("ne$1")
+                new NoopTransformer("bnm$a"),
+                new NoopTransformer("bnm$1")
         );
     }
 }

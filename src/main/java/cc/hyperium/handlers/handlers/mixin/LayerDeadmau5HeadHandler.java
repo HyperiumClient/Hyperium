@@ -95,7 +95,7 @@ public class LayerDeadmau5HeadHandler {
                         g++;
                         GlStateManager.rotate(f, 0.0F, 1.0F, 0.0F);
                         GlStateManager.rotate(f1, 1.0F, 0.0F, 0.0F);
-                        GlStateManager.translate(0.375F * (float) (i * 2 - 1), 0.0F, 0.0F);
+                        GlStateManager.translate(0.375F * (float) ((i << 1) - 1), 0.0F, 0.0F);
                         GlStateManager.translate(0.0F, -0.375F, 0.0F);
                         GlStateManager.rotate(-f1, 1.0F, 0.0F, 0.0F);
                         GlStateManager.rotate(-f, 0.0F, 1.0F, 0.0F);

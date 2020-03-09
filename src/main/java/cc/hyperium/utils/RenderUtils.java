@@ -63,11 +63,7 @@ public class RenderUtils {
             float px = x + radius * MathHelper.sin((float) (i * (6.28318530718 / 50)));
             float py = y + radius * MathHelper.cos((float) (i * (6.28318530718 / 50)));
 
-            float alpha = (color >> 24 & 255) / 255.0F;
-            float red = (color >> 16 & 255) / 255.0F;
-            float green = (color >> 8 & 255) / 255.0F;
-            float blue = (color & 255) / 255.0F;
-            GL11.glColor4f(red, green, blue, alpha);
+            bindColor(color);
 
             GL11.glVertex2d(px, py);
         }

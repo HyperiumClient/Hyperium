@@ -64,7 +64,7 @@ public class HypixelAPI {
     private List<Leaderboard> LEADERBOARDS;
     private JsonHolder QUESTS;
 
-    private List<UUID> friendsForCurrentUser = new ArrayList<>();
+    private final List<UUID> friendsForCurrentUser = new ArrayList<>();
 
     public HypixelAPI() {
         Multithreading.schedule(this::updatePersonalData, 10L, 305, TimeUnit.SECONDS);
@@ -110,11 +110,11 @@ public class HypixelAPI {
 
             friendsForCurrentUser.clear();
 
-            data.getFriends().forEach(
-                friend -> friendsForCurrentUser.add(
-                    Utils.dashMeUp(new JsonHolder(friend.getAsJsonObject()).optString("uuid"))
-                )
-            );
+            for (JsonElement friend : data.getFriends()) {
+                friendsForCurrentUser.add(
+                        Utils.dashMeUp(new JsonHolder(friend.getAsJsonObject()).optString("uuid"))
+                );
+            }
         });
     }
 
@@ -255,7 +255,7 @@ public class HypixelAPI {
         PLAYER("https://api.sk1er.club/guild/player/%s"),
         NAME("https://api.sk1er.club/guild/name/");
 
-        private String url;
+        private final String url;
 
         GuildKeyType(String url) {
             this.url = url;
@@ -267,8 +267,8 @@ public class HypixelAPI {
     }
 
     public static class GuildKey {
-        private GuildKeyType type;
-        private String[] formatStrings;
+        GuildKeyType type;
+        String[] formatStrings;
 
         public GuildKey(GuildKeyType type, String... formatStrings) {
             this.type = type;

@@ -26,8 +26,8 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 
 public class GuiScreenBackground extends GuiScreenSidebar implements GuiScreenHelper {
 
-    private byte byte0;
-    private GuiScreen parent;
+    private final byte byte0;
+    private final GuiScreen parent;
     private GuiButton buttonDone;
     private GuiSlider sliderRed;
     private GuiSlider sliderGreen;

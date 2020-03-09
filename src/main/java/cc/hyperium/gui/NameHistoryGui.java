@@ -20,6 +20,7 @@ package cc.hyperium.gui;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import me.kbrewster.mojangapi.MojangAPI;
+import me.kbrewster.mojangapi.profile.Name;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
@@ -47,7 +48,7 @@ public class NameHistoryGui extends GuiScreen {
         getNames(name);
     }
 
-    private List<String> names = new ArrayList<>();
+    private final List<String> names = new ArrayList<>();
     private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
     private GuiTextField nameField;
     private int offset;
@@ -58,6 +59,9 @@ public class NameHistoryGui extends GuiScreen {
         nameField = new GuiTextField(1, mc.fontRendererObj, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
         nameField.setText(name);
         nameField.setFocused(true);
+        nameField.setMaxStringLength(16);
+
+        Keyboard.enableRepeatEvents(true);
     }
 
     @Override
@@ -113,6 +117,7 @@ public class NameHistoryGui extends GuiScreen {
     public void onGuiClosed() {
         names.clear();
         super.onGuiClosed();
+        Keyboard.enableRepeatEvents(false);
     }
 
     private void getNames(String username) {
@@ -122,11 +127,13 @@ public class NameHistoryGui extends GuiScreen {
 
             UUID uuid = MojangAPI.getUUID(username);
 
-            Multithreading.runAsync(() -> MojangAPI.getNameHistory(uuid).forEach(history -> {
-                String name = history.getName();
-                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                names.add(history.getChangedToAt() == 0 ? name : String.format("%s > %s", name, format.format(history.getChangedToAt())));
-            }));
+            Multithreading.runAsync(() -> {
+                for (Name history : MojangAPI.getNameHistory(uuid)) {
+                    String name = history.getName();
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    names.add(history.getChangedToAt() == 0 ? name : String.format("%s > %s", name, format.format(history.getChangedToAt())));
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

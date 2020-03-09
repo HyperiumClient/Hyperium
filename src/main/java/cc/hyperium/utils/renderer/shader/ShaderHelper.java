@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ShaderHelper {
 
-    private EntityRenderer parent;
+    private final EntityRenderer parent;
     public static ShaderHelper INSTANCE;
 
     public ShaderHelper(EntityRenderer parent) {

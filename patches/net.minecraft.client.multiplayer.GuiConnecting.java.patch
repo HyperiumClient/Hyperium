@@ -10,11 +10,11 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.GuiButton;
  import net.minecraft.client.gui.GuiDisconnected;
-@@ -49,6 +52,7 @@
-    }
+@@ -46,6 +49,7 @@
+     }
  
-    private void connect(final String ip, final int port) {
-+      EventBus.INSTANCE.post(new ServerJoinEvent(ip, port));
-       logger.info("Connecting to " + ip + ", " + port);
-       (new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
-          public void run() {
+     private void connect(final String ip, final int port) {
++        EventBus.INSTANCE.post(new ServerJoinEvent(ip, port));
+         logger.info("Connecting to " + ip + ", " + port);
+         (new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
+             public void run() {

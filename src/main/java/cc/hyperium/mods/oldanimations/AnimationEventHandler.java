@@ -25,11 +25,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.MovingObjectPosition;
 
 public class AnimationEventHandler {
-    private final Minecraft mc;
-
-    AnimationEventHandler() {
-        mc = Minecraft.getMinecraft();
-    }
+    private final Minecraft mc = Minecraft.getMinecraft();
 
     @InvokeEvent
     public void onRenderFirstHand(RenderEvent e) {
@@ -51,8 +47,8 @@ public class AnimationEventHandler {
 
     private void swingItem(EntityPlayerSP entityplayersp) {
         int swingAnimationEnd = entityplayersp.isPotionActive(Potion.digSpeed) ? (6 - (1 +
-                entityplayersp.getActivePotionEffect(Potion.digSpeed).getAmplifier())) : (entityplayersp.isPotionActive(Potion.digSlowdown) ? (6 + (1 +
-                entityplayersp.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2) : 6);
+                entityplayersp.getActivePotionEffect(Potion.digSpeed).getAmplifier())) : (entityplayersp.isPotionActive(Potion.digSlowdown) ? (6 + ((1 +
+                entityplayersp.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) << 1)) : 6);
         if (!entityplayersp.isSwingInProgress || entityplayersp.swingProgressInt >= swingAnimationEnd / 2 || entityplayersp.swingProgressInt < 0) {
             entityplayersp.swingProgressInt = -1;
             entityplayersp.isSwingInProgress = true;

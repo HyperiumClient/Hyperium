@@ -1,6 +1,6 @@
 --- original/net/minecraft/client/gui/GuiSlot.java
 +++ changed/net/minecraft/client/gui/GuiSlot.java
-@@ -8,10 +8,13 @@
+@@ -6,10 +6,13 @@
  import net.minecraft.client.renderer.WorldRenderer;
  import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
  import net.minecraft.util.MathHelper;
@@ -13,131 +13,123 @@
 +
  @SideOnly(Side.CLIENT)
  public abstract class GuiSlot {
-    protected final Minecraft mc;
-@@ -193,7 +196,6 @@
-       if(this.field_178041_q) {
-          this.mouseX = mouseXIn;
-          this.mouseY = mouseYIn;
--         this.drawBackground();
-          int i = this.getScrollBarX();
-          int j = i + 6;
-          this.bindAmountScrolled();
-@@ -201,15 +203,22 @@
-          GlStateManager.disableFog();
-          Tessellator tessellator = Tessellator.getInstance();
-          WorldRenderer worldrenderer = tessellator.getWorldRenderer();
--         this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
--         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
--         float f = 32.0F;
--         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
--         worldrenderer.pos((double)this.left, (double)this.bottom, 0.0D).tex((double)((float)this.left / f), (double)((float)(this.bottom + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
--         worldrenderer.pos((double)this.right, (double)this.bottom, 0.0D).tex((double)((float)this.right / f), (double)((float)(this.bottom + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
--         worldrenderer.pos((double)this.right, (double)this.top, 0.0D).tex((double)((float)this.right / f), (double)((float)(this.top + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
--         worldrenderer.pos((double)this.left, (double)this.top, 0.0D).tex((double)((float)this.left / f), (double)((float)(this.top + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
--         tessellator.draw();
-+         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-+         ScaledResolution resolution = new ScaledResolution(mc);
-+         mc.getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/1.png"));
-+         Gui.drawScaledCustomSizeModalRect(
-+                 left,
-+                 top,
-+                 left,
-+                 top,
-+                 right - left,
-+                 bottom - top,
-+                 right - left,
-+                 bottom - top,
-+                 resolution.getScaledWidth(),
-+                 resolution.getScaledHeight()
-+         );
+     protected final Minecraft mc;
+@@ -190,7 +193,6 @@
+         if (this.field_178041_q) {
+             this.mouseX = mouseXIn;
+             this.mouseY = mouseYIn;
+-            this.drawBackground();
+             int i = this.getScrollBarX();
+             int j = i + 6;
+             this.bindAmountScrolled();
+@@ -198,15 +200,22 @@
+             GlStateManager.disableFog();
+             Tessellator tessellator = Tessellator.getInstance();
+             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+-            this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
+-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+-            float f = 32.0F;
+-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+-            worldrenderer.pos((double)this.left, (double)this.bottom, 0.0D).tex((double)((float)this.left / f), (double)((float)(this.bottom + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
+-            worldrenderer.pos((double)this.right, (double)this.bottom, 0.0D).tex((double)((float)this.right / f), (double)((float)(this.bottom + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
+-            worldrenderer.pos((double)this.right, (double)this.top, 0.0D).tex((double)((float)this.right / f), (double)((float)(this.top + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
+-            worldrenderer.pos((double)this.left, (double)this.top, 0.0D).tex((double)((float)this.left / f), (double)((float)(this.top + (int)this.amountScrolled) / f)).color(32, 32, 32, 255).endVertex();
+-            tessellator.draw();
++            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
++            ScaledResolution resolution = new ScaledResolution(mc);
++            mc.getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/1.png"));
++            Gui.drawScaledCustomSizeModalRect(
++                left,
++                top,
++                left,
++                top,
++                right - left,
++                bottom - top,
++                right - left,
++                bottom - top,
++                resolution.getScaledWidth(),
++                resolution.getScaledHeight()
++            );
 +
-          int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
-          int l = this.top + 4 - (int)this.amountScrolled;
-          if(this.hasListHeader) {
-@@ -218,7 +227,6 @@
+             int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
+             int l = this.top + 4 - (int)this.amountScrolled;
  
-          this.drawSelectionBox(k, l, mouseXIn, mouseYIn);
-          GlStateManager.disableDepth();
--         int i1 = 4;
-          this.overlayBackground(0, this.top, 255, 255);
-          this.overlayBackground(this.bottom, this.height, 255, 255);
-          GlStateManager.enableBlend();
-@@ -226,18 +234,6 @@
-          GlStateManager.disableAlpha();
-          GlStateManager.shadeModel(7425);
-          GlStateManager.disableTexture2D();
--         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
--         worldrenderer.pos((double)this.left, (double)(this.top + i1), 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 0).endVertex();
--         worldrenderer.pos((double)this.right, (double)(this.top + i1), 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 0).endVertex();
--         worldrenderer.pos((double)this.right, (double)this.top, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
--         worldrenderer.pos((double)this.left, (double)this.top, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
--         tessellator.draw();
--         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
--         worldrenderer.pos((double)this.left, (double)this.bottom, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
--         worldrenderer.pos((double)this.right, (double)this.bottom, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
--         worldrenderer.pos((double)this.right, (double)(this.bottom - i1), 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 0).endVertex();
--         worldrenderer.pos((double)this.left, (double)(this.bottom - i1), 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 0).endVertex();
--         tessellator.draw();
-          int j1 = this.func_148135_f();
-          if(j1 > 0) {
-             int k1 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
-@@ -247,24 +243,8 @@
-                l1 = this.top;
+@@ -224,18 +233,6 @@
+             GlStateManager.disableAlpha();
+             GlStateManager.shadeModel(7425);
+             GlStateManager.disableTexture2D();
+-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+-            worldrenderer.pos((double)this.left, (double)(this.top + i1), 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 0).endVertex();
+-            worldrenderer.pos((double)this.right, (double)(this.top + i1), 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 0).endVertex();
+-            worldrenderer.pos((double)this.right, (double)this.top, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+-            worldrenderer.pos((double)this.left, (double)this.top, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+-            tessellator.draw();
+-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+-            worldrenderer.pos((double)this.left, (double)this.bottom, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+-            worldrenderer.pos((double)this.right, (double)this.bottom, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+-            worldrenderer.pos((double)this.right, (double)(this.bottom - i1), 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 0).endVertex();
+-            worldrenderer.pos((double)this.left, (double)(this.bottom - i1), 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 0).endVertex();
+-            tessellator.draw();
+             int j1 = this.func_148135_f();
+ 
+             if (j1 > 0) {
+@@ -247,24 +244,8 @@
+                     l1 = this.top;
+                 }
+ 
+-                worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+-                worldrenderer.pos((double)i, (double)this.bottom, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+-                worldrenderer.pos((double)j, (double)this.bottom, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+-                worldrenderer.pos((double)j, (double)this.top, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+-                worldrenderer.pos((double)i, (double)this.top, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+-                tessellator.draw();
+-                worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+-                worldrenderer.pos((double)i, (double)(l1 + k1), 0.0D).tex(0.0D, 1.0D).color(128, 128, 128, 255).endVertex();
+-                worldrenderer.pos((double)j, (double)(l1 + k1), 0.0D).tex(1.0D, 1.0D).color(128, 128, 128, 255).endVertex();
+-                worldrenderer.pos((double)j, (double)l1, 0.0D).tex(1.0D, 0.0D).color(128, 128, 128, 255).endVertex();
+-                worldrenderer.pos((double)i, (double)l1, 0.0D).tex(0.0D, 0.0D).color(128, 128, 128, 255).endVertex();
+-                tessellator.draw();
+-                worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+-                worldrenderer.pos((double)i, (double)(l1 + k1 - 1), 0.0D).tex(0.0D, 1.0D).color(192, 192, 192, 255).endVertex();
+-                worldrenderer.pos((double)(j - 1), (double)(l1 + k1 - 1), 0.0D).tex(1.0D, 1.0D).color(192, 192, 192, 255).endVertex();
+-                worldrenderer.pos((double)(j - 1), (double)l1, 0.0D).tex(1.0D, 0.0D).color(192, 192, 192, 255).endVertex();
+-                worldrenderer.pos((double)i, (double)l1, 0.0D).tex(0.0D, 0.0D).color(192, 192, 192, 255).endVertex();
+-                tessellator.draw();
++                Gui.drawRect(i, top, j, bottom, new Color(0, 0, 0, 100).getRGB());
++                Gui.drawRect(i, l1, j, l1 + k1, new Color(255, 255, 255, 200).getRGB());
              }
  
--            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
--            worldrenderer.pos((double)i, (double)this.bottom, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
--            worldrenderer.pos((double)j, (double)this.bottom, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
--            worldrenderer.pos((double)j, (double)this.top, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
--            worldrenderer.pos((double)i, (double)this.top, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
--            tessellator.draw();
--            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
--            worldrenderer.pos((double)i, (double)(l1 + k1), 0.0D).tex(0.0D, 1.0D).color(128, 128, 128, 255).endVertex();
--            worldrenderer.pos((double)j, (double)(l1 + k1), 0.0D).tex(1.0D, 1.0D).color(128, 128, 128, 255).endVertex();
--            worldrenderer.pos((double)j, (double)l1, 0.0D).tex(1.0D, 0.0D).color(128, 128, 128, 255).endVertex();
--            worldrenderer.pos((double)i, (double)l1, 0.0D).tex(0.0D, 0.0D).color(128, 128, 128, 255).endVertex();
--            tessellator.draw();
--            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
--            worldrenderer.pos((double)i, (double)(l1 + k1 - 1), 0.0D).tex(0.0D, 1.0D).color(192, 192, 192, 255).endVertex();
--            worldrenderer.pos((double)(j - 1), (double)(l1 + k1 - 1), 0.0D).tex(1.0D, 1.0D).color(192, 192, 192, 255).endVertex();
--            worldrenderer.pos((double)(j - 1), (double)l1, 0.0D).tex(1.0D, 0.0D).color(192, 192, 192, 255).endVertex();
--            worldrenderer.pos((double)i, (double)l1, 0.0D).tex(0.0D, 0.0D).color(192, 192, 192, 255).endVertex();
--            tessellator.draw();
-+            Gui.drawRect(i, top, j, bottom, new Color(0, 0, 0, 100).getRGB());
-+            Gui.drawRect(i, l1, j, l1 + k1, new Color(255, 255, 255, 200).getRGB());
-          }
+             this.func_148142_b(mouseXIn, mouseYIn);
+@@ -420,17 +401,21 @@
+      * Overlays the background to hide scrolled items
+      */
+     protected void overlayBackground(int startY, int endY, int startAlpha, int endAlpha) {
+-        Tessellator tessellator = Tessellator.getInstance();
+-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+-        this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
+-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+-        float f = 32.0F;
+-        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+-        worldrenderer.pos((double)this.left, (double)endY, 0.0D).tex(0.0D, (double)((float)endY / 32.0F)).color(64, 64, 64, endAlpha).endVertex();
+-        worldrenderer.pos((double)(this.left + this.width), (double)endY, 0.0D).tex((double)((float)this.width / 32.0F), (double)((float)endY / 32.0F)).color(64, 64, 64, endAlpha).endVertex();
+-        worldrenderer.pos((double)(this.left + this.width), (double)startY, 0.0D).tex((double)((float)this.width / 32.0F), (double)((float)startY / 32.0F)).color(64, 64, 64, startAlpha).endVertex();
+-        worldrenderer.pos((double)this.left, (double)startY, 0.0D).tex(0.0D, (double)((float)startY / 32.0F)).color(64, 64, 64, startAlpha).endVertex();
+-        tessellator.draw();
++        GlStateManager.color(1f, 1f, 1f, 1f);
++        ScaledResolution resolution = new ScaledResolution(mc);
++        mc.getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/1.png"));
++        int height = endY - startY;
++        Gui.drawScaledCustomSizeModalRect(0,
++                                          startY,
++                                          0,
++                                          startY,
++                                          resolution.getScaledWidth(),
++                                          height,
++                                          resolution.getScaledWidth(),
++                                          height,
++                                          resolution.getScaledWidth(),
++                                          resolution.getScaledHeight()
++                                         );
+     }
  
-          this.func_148142_b(mouseXIn, mouseYIn);
-@@ -415,17 +395,21 @@
-     * Overlays the background to hide scrolled items
-     */
-    protected void overlayBackground(int startY, int endY, int startAlpha, int endAlpha) {
--      Tessellator tessellator = Tessellator.getInstance();
--      WorldRenderer worldrenderer = tessellator.getWorldRenderer();
--      this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
--      GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
--      float f = 32.0F;
--      worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
--      worldrenderer.pos((double)this.left, (double)endY, 0.0D).tex(0.0D, (double)((float)endY / 32.0F)).color(64, 64, 64, endAlpha).endVertex();
--      worldrenderer.pos((double)(this.left + this.width), (double)endY, 0.0D).tex((double)((float)this.width / 32.0F), (double)((float)endY / 32.0F)).color(64, 64, 64, endAlpha).endVertex();
--      worldrenderer.pos((double)(this.left + this.width), (double)startY, 0.0D).tex((double)((float)this.width / 32.0F), (double)((float)startY / 32.0F)).color(64, 64, 64, startAlpha).endVertex();
--      worldrenderer.pos((double)this.left, (double)startY, 0.0D).tex(0.0D, (double)((float)startY / 32.0F)).color(64, 64, 64, startAlpha).endVertex();
--      tessellator.draw();
-+      GlStateManager.color(1f, 1f, 1f, 1f);
-+      ScaledResolution resolution = new ScaledResolution(mc);
-+      mc.getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/1.png"));
-+      int height = endY - startY;
-+      Gui.drawScaledCustomSizeModalRect(0,
-+              startY,
-+              0,
-+              startY,
-+              resolution.getScaledWidth(),
-+              height,
-+              resolution.getScaledWidth(),
-+              height,
-+              resolution.getScaledWidth(),
-+              resolution.getScaledHeight()
-+      );
-    }
- 
-    /**
+     /**

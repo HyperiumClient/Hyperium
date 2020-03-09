@@ -20,21 +20,12 @@ package cc.hyperium.event.gui;
 import cc.hyperium.event.CancellableEvent;
 import net.minecraft.client.gui.GuiScreen;
 
-/**
- * Invoked when a user clicks within a GuiScreen.
- *
- * @param mouseX x position of the mouse on click
- * @param mouseY y position of the mouse on click
- * @param button Mouse button clicked (0 = left, 1 = right, 2 = middle)
- * @param gui    GUI that detected the click
- */
 public class GuiClickEvent extends CancellableEvent {
 
-    private int mouseX;
-    private int mouseY;
-    private int button;
-
-    private GuiScreen gui;
+    private final int mouseX;
+    private final int mouseY;
+    private final int button;
+    private final GuiScreen gui;
 
     /**
      * Invoked when a user clicks within a GuiScreen.

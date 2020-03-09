@@ -24,8 +24,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+@SuppressWarnings("rawtypes")
 public class Reflector {
-    private static final Logger LOGGER = LogManager.getLogger();
+    static final Logger LOGGER = LogManager.getLogger();
 
     public static final ReflectorClass<?> CONFIG = new ReflectorClass<>("Config");
     public static final ReflectorField<String, ?> OF_VERSION = new ReflectorField<>(CONFIG, "VERSION");
@@ -59,7 +60,7 @@ public class Reflector {
     }
 
     public static class ReflectorClass<T extends Class<?>> extends ReflectorData<T, Class<?>> {
-        private final String name;
+        final String name;
 
         public ReflectorClass(String name) {
             this.name = name;

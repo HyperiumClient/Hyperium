@@ -21,10 +21,10 @@ import cc.hyperium.event.Event;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiDrawScreenEvent extends Event {
-    private GuiScreen screen;
-    private int mouseX;
-    private int mouseY;
-    private float partialTicks;
+    private final GuiScreen screen;
+    private final int mouseX;
+    private final int mouseY;
+    private final float partialTicks;
 
     public GuiDrawScreenEvent(GuiScreen screen, int mouseX, int mouseY, float partialTicks) {
 

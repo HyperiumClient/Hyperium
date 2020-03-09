@@ -24,12 +24,10 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.timechanger.commands.*;
-import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 
 public class TimeChanger extends AbstractMod {
 
-    private final Metadata metadata = new Metadata(this, "timechanger", "1.0", "fyu");
     private final Minecraft mc = Minecraft.getMinecraft();
 
     @ConfigOpt
@@ -37,10 +35,6 @@ public class TimeChanger extends AbstractMod {
 
     @ConfigOpt
     private TimeType timeType = TimeType.VANILLA;
-
-    public TimeChanger() {
-        metadata.setDisplayName(ChatColor.BLUE + "TimeChanger");
-    }
 
     @Override
     public AbstractMod init() {
@@ -58,7 +52,7 @@ public class TimeChanger extends AbstractMod {
 
     @Override
     public Metadata getModMetadata() {
-        return metadata;
+        return new Metadata(this, "timechanger", "1.0", "fyu");
     }
 
     public TimeType getTimeType() {

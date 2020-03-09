@@ -20,7 +20,5 @@ package cc.hyperium.event
  * Core event class
  */
 open class Event {
-    fun post() {
-        EventBus.post(this)
-    }
+    fun post() = EventBus.post(this)
 }

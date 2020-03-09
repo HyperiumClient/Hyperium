@@ -35,8 +35,8 @@ public abstract class LevelheadDisplay {
     final List<UUID> existedMoreThan5Seconds = new ArrayList<>();
     final HashMap<UUID, Integer> timeCheck = new HashMap<>();
 
-    private DisplayPosition position;
-    private DisplayConfig config;
+    private final DisplayPosition position;
+    private final DisplayConfig config;
 
     public LevelheadDisplay(DisplayPosition position, DisplayConfig config) {
         this.position = position;

@@ -220,7 +220,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
     }
 
     private synchronized void refreshData() {
-        lastUpdate = System.currentTimeMillis() * 2;
+        lastUpdate = System.currentTimeMillis() << 1;
         Multithreading.runAsync(() -> {
             data = PurchaseApi.getInstance().get("https://api.hyperium.cc/users");
             lastUpdate = System.currentTimeMillis();

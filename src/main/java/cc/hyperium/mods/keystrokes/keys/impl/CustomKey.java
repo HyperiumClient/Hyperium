@@ -36,7 +36,7 @@ public class CustomKey extends AbstractKey {
     private boolean wasPressed;
     private long lastPress;
     private int type;
-    private GuiBlock hitbox;
+    private final GuiBlock hitbox;
 
     public CustomKey(KeystrokesMod mod, int key, int type) {
         super(mod, 0, 0);

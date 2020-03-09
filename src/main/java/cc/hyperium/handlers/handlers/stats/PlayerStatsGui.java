@@ -23,10 +23,33 @@ import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
-import cc.hyperium.handlers.handlers.stats.fields.*;
+import cc.hyperium.handlers.handlers.stats.fields.ArcadeStats;
+import cc.hyperium.handlers.handlers.stats.fields.ArenaStats;
+import cc.hyperium.handlers.handlers.stats.fields.BedWarsStats;
+import cc.hyperium.handlers.handlers.stats.fields.BlitzStats;
+import cc.hyperium.handlers.handlers.stats.fields.BuildBattleStats;
+import cc.hyperium.handlers.handlers.stats.fields.CVCStats;
+import cc.hyperium.handlers.handlers.stats.fields.CrazyWallsStats;
+import cc.hyperium.handlers.handlers.stats.fields.DuelsStats;
+import cc.hyperium.handlers.handlers.stats.fields.GeneralStats;
+import cc.hyperium.handlers.handlers.stats.fields.MegaWallsStats;
+import cc.hyperium.handlers.handlers.stats.fields.MurderMysteryStats;
+import cc.hyperium.handlers.handlers.stats.fields.PaintballStats;
+import cc.hyperium.handlers.handlers.stats.fields.QuakecraftStats;
+import cc.hyperium.handlers.handlers.stats.fields.SkyClashStats;
+import cc.hyperium.handlers.handlers.stats.fields.SkyWarsStats;
+import cc.hyperium.handlers.handlers.stats.fields.SmashHeroesStats;
+import cc.hyperium.handlers.handlers.stats.fields.SpeedUHCStats;
+import cc.hyperium.handlers.handlers.stats.fields.TKRStats;
+import cc.hyperium.handlers.handlers.stats.fields.TNTGamesStats;
+import cc.hyperium.handlers.handlers.stats.fields.UHCStats;
+import cc.hyperium.handlers.handlers.stats.fields.VampireZStats;
+import cc.hyperium.handlers.handlers.stats.fields.WallsStats;
+import cc.hyperium.handlers.handlers.stats.fields.WarlordsStats;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.GlStateModifier;
+import cc.hyperium.utils.HyperiumDesktop;
 import cc.hyperium.utils.RenderUtils;
 import club.sk1er.website.api.requests.HypixelApiGuild;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
@@ -34,7 +57,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.resources.I18n;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -137,29 +159,23 @@ public class PlayerStatsGui extends HyperiumGui {
         }
 
         if (flag2 && mouseButton == 0) {
-            location.keySet().stream().filter(abstractHypixelStats -> location.get(abstractHypixelStats).isMouseOver(mouseX, mouseY))
-                .forEach(abstractHypixelStats -> {
+            for (AbstractHypixelStats abstractHypixelStats : location.keySet()) {
+                if (location.get(abstractHypixelStats).isMouseOver(mouseX, mouseY)) {
                     focused = abstractHypixelStats;
                     hovered = null;
                     offset = 0;
-                });
+                }
+            }
         }
     }
 
     @Override
     protected void pack() {
         reg("VIEW_ON_BEST_WEBSITE", new GuiButton(nextId(), 1, 1, "View on Sk1er.club"), button -> {
-            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-            if (desktop != null) {
-                try {
-                    URI uri = new URL("https://sk1er.club/stats/" + player.getName()).toURI();
-                    if(desktop.isSupported(Desktop.Action.BROWSE))
-                        desktop.browse(uri);
-                    else
-                        GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
-                } catch (Exception e) {
-                    Hyperium.LOGGER.error("Could not open link", e);
-                }
+            try {
+                HyperiumDesktop.INSTANCE.browse(new URI("https://sk1er.club/stats/" + player.getName()));
+            } catch (Exception e) {
+                Hyperium.LOGGER.error("Could not open link", e);
             }
         }, button -> {
         });
@@ -168,10 +184,12 @@ public class PlayerStatsGui extends HyperiumGui {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         if (!texturesImage.isEmpty()) {
-            texturesImage.forEach((s, value) -> {
+            for (Map.Entry<AbstractHypixelStats, BufferedImage> entry : texturesImage.entrySet()) {
+                AbstractHypixelStats s = entry.getKey();
+                BufferedImage value = entry.getValue();
                 if (!logos.containsKey(s))
                     logos.put(s, new DynamicTexture(value));
-            });
+            }
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -186,7 +204,7 @@ public class PlayerStatsGui extends HyperiumGui {
 
         boolean isInGuild = guild.isLoaded() && guild.isValid();
         drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 30, 2, -1,
-            true, true);
+                true, true);
         if (focused == null) {
             final int blockWidth = 64 + 32;
             int blocksPerLine = (int) (current.getScaledWidth() / (1.2D * blockWidth));
@@ -228,7 +246,7 @@ public class PlayerStatsGui extends HyperiumGui {
                     GlStateManager.translate(x1, y2, 0);
                     GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
                     GlStateManager.scale(.2, .2, .2);
-                    drawTexturedModalRect(0, 0, 0, 0, 128 * 2, 128 * 2);
+                    drawTexturedModalRect(0, 0, 0, 0, 128 << 1, 128 << 1);
                     GlStateManager.popMatrix();
 
                     GlStateManager.pushMatrix();
@@ -251,7 +269,7 @@ public class PlayerStatsGui extends HyperiumGui {
                 GuiBlock block = location.get(hovered);
                 int xOffset = 0;
                 int yRenderOffset = 16;
-                int rightSide = block.getRight() + (width + yRenderOffset) * 2;
+                int rightSide = block.getRight() + ((width + yRenderOffset) << 1);
 
                 if (rightSide > current.getScaledWidth()) {
                     xOffset = rightSide - current.getScaledWidth();
@@ -263,12 +281,12 @@ public class PlayerStatsGui extends HyperiumGui {
                 int top = block.getTop();
                 int printY = 0;
 
-                if (top + height * 2 > current.getScaledHeight()) {
-                    top = current.getScaledHeight() - height * 2 - 50;
+                if (top + (height << 1) > current.getScaledHeight()) {
+                    top = current.getScaledHeight() - (height << 1) - 50;
                 }
 
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
-                    new Color(0, 0, 0, 220).getRGB());
+                        new Color(0, 0, 0, 220).getRGB());
 
                 for (StatsDisplayItem statsDisplayItem : preview) {
                     statsDisplayItem.draw((int) (left / scale), (int) ((top) / scale) + printY);
@@ -285,7 +303,7 @@ public class PlayerStatsGui extends HyperiumGui {
             GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
             GlStateManager.translate((current.getScaledWidth() >> 1) - 24, 80, 0);
             GlStateManager.scale(.2, .2, .2);
-            drawTexturedModalRect(0, 0, 0, 0, 128 * 2, 128 * 2);
+            drawTexturedModalRect(0, 0, 0, 0, 128 << 1, 128 << 1);
             GlStateManager.popMatrix();
 
             GlStateManager.pushMatrix();

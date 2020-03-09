@@ -55,7 +55,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
             AnimationFrame frame = new AnimationFrame(frame(time));
             frame.name = h.optInt("time") + "";
 
-            h.getKeys().forEach(s -> {
+            for (String s : h.getKeys()) {
                 visibility.put(s, true);
 
                 if (!s.equalsIgnoreCase("time")) {
@@ -84,7 +84,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
                         e.printStackTrace();
                     }
                 }
-            });
+            }
 
             frames.add(frame);
         }

@@ -12,12 +12,21 @@ import org.objectweb.asm.tree.MethodNode
  * We want to use ASM5 as that's what Launchwrapper uses.
  * Literally just the normal method but with ASM 5 instead of ASM 7
  */
-fun ClassAssembly.method5(access: Modifiers, name: String, returnType: TypeLike, vararg parameterTypes: TypeLike,
-           signature: String? = null, exceptions: Array<Type>? = null,
-           routine: MethodAssembly.() -> Unit): MethodNode {
+fun ClassAssembly.method5(
+    access: Modifiers, name: String, returnType: TypeLike, vararg parameterTypes: TypeLike,
+    signature: String? = null, exceptions: Array<Type>? = null,
+    routine: MethodAssembly.() -> Unit
+): MethodNode {
     val descriptor = Type.getMethodDescriptor(coerceType(returnType), *parameterTypes.map(::coerceType).toTypedArray())
 
-    val methodNode = MethodNode(ASM5, access.access, name, descriptor, signature, exceptions?.map { it.internalName }?.toTypedArray())
+    val methodNode = MethodNode(
+        ASM5,
+        access.access,
+        name,
+        descriptor,
+        signature,
+        exceptions?.map { it.internalName }?.toTypedArray()
+    )
     val methodAssembly = MethodAssembly(methodNode)
     routine(methodAssembly)
 

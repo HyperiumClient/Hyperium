@@ -74,8 +74,13 @@ public class MemoryHelper {
                 }
             }
 
-            removes.forEach(this::deleteSkin);
-//            locations.forEach(this::deleteSkin);
+            for (ResourceLocation remove : removes) {
+                deleteSkin(remove);
+            }
+
+            for (ResourceLocation location : locations) {
+                deleteSkin(location);
+            }
 
             int size = locations.size();
             locations.clear();

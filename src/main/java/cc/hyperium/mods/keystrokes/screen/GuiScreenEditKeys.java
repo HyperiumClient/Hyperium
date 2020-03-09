@@ -157,11 +157,13 @@ public class GuiScreenEditKeys extends GuiScreen {
 
         if (!hovered) selected = null;
 
-        getKeys().stream().filter(wrapper -> wrapper.getKey().getHitbox().multiply(mod.getSettings().getScale()).isMouseOver(mouseX, mouseY)).forEach(wrapper -> {
-            selected = wrapper;
-            lastMouseX = mouseX;
-            lastMouseY = mouseY;
-        });
+        for (CustomKeyWrapper wrapper : getKeys()) {
+            if (wrapper.getKey().getHitbox().multiply(mod.getSettings().getScale()).isMouseOver(mouseX, mouseY)) {
+                selected = wrapper;
+                lastMouseX = mouseX;
+                lastMouseY = mouseY;
+            }
+        }
     }
 
     @Override

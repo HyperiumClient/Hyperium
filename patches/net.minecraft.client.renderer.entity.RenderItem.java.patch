@@ -14,189 +14,169 @@
  import java.util.List;
  import java.util.concurrent.Callable;
  import net.minecraft.block.Block;
-@@ -76,9 +84,17 @@
-       this.registerItems();
-    }
+@@ -76,6 +84,14 @@
+         this.registerItems();
+     }
  
-+   private final int MAX_EFFECTS = 25;
-+   private Cache<Integer, Integer> colorCache = Caffeine.newBuilder()
-+           .maximumSize(MAX_EFFECTS)
-+           .executor(Multithreading.POOL)
-+           .build();
-+   private boolean wasJustRenderedAsPotion = false; // used to stop pots from rendering twice
-+   private boolean isInv = false; // can't pass arguments between 2 @Injects so we have to do this
++    private final int MAX_EFFECTS = 25;
++    private Cache<Integer, Integer> colorCache = Caffeine.newBuilder()
++            .maximumSize(MAX_EFFECTS)
++            .executor(Multithreading.POOL)
++            .build();
++    private boolean wasJustRenderedAsPotion = false; // used to stop pots from rendering twice
++    private boolean isInv = false; // can't pass arguments between 2 @Injects so we have to do this
 +
-    /**
-     * False when the renderer is rendering the item's effects into a GUI
--    *  
-+    *
-     * @param isNot If the renderer is not rendering the effects in a GUI
-     */
-    public void isNotRenderingEffectsInGUI(boolean isNot) {
-@@ -135,20 +151,42 @@
-             GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-             GlStateManager.enableRescaleNormal();
+     /**
+      * False when the renderer is rendering the item's effects into a GUI
+      *  
+@@ -136,9 +152,21 @@
+                 GlStateManager.translate(-0.5F, -0.5F, -0.5F);
+                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                 GlStateManager.enableRescaleNormal();
 +
-+            if (!isInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull) {
-+               GlStateManager.scale(Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR);
-+            }
++                if (!isInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull) {
++                    GlStateManager.scale(Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR);
++                }
 +
-             TileEntityItemStackRenderer.instance.renderByItem(stack);
-          } else {
-             GlStateManager.translate(-0.5F, -0.5F, -0.5F);
+                 TileEntityItemStackRenderer.instance.renderByItem(stack);
+             } else {
+                 GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 +
-+            wasJustRenderedAsPotion = renderShinyPot(stack, model, isInv);
-+            if (!isInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull) {
-+               GlStateManager.scale(Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR);
-+            }
++                wasJustRenderedAsPotion = renderShinyPot(stack, model, isInv);
 +
-             this.renderModel(model, stack);
-             if(stack.hasEffect()) {
-                this.renderEffect(model);
++                if (!isInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull) {
++                    GlStateManager.scale(Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR);
++                }
++
+                 this.renderModel(model, stack);
+ 
+                 if (stack.hasEffect()) {
+@@ -146,11 +174,22 @@
+                 }
              }
-          }
  
-+         if (!isInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull) {
-+            GlStateManager.scale(Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR);
-+         }
++            if (!isInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull) {
++                GlStateManager.scale(Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR, Settings.HEAD_SCALE_FACTOR);
++            }
 +
-          GlStateManager.popMatrix();
-       }
-    }
+             GlStateManager.popMatrix();
+         }
+     }
  
-    private void renderEffect(IBakedModel model) {
-+      if (wasJustRenderedAsPotion) {
-+         return;
-+      }
-+      if(!model.getParticleTexture().getIconName().contains("potion_overlay") && Settings.DISABLE_ENCHANT_GLINT)
-+         return;
-+      wasJustRenderedAsPotion = false; // cancel() != return so this still gets executed
+     private void renderEffect(IBakedModel model) {
++        if (wasJustRenderedAsPotion) {
++            return;
++        }
++        if (!model.getParticleTexture().getIconName().contains("potion_overlay") && Settings.DISABLE_ENCHANT_GLINT)
++            return;
++        wasJustRenderedAsPotion = false; // cancel() != return so this still gets executed
 +
-       GlStateManager.depthMask(false);
-       GlStateManager.depthFunc(514);
-       GlStateManager.disableLighting();
-@@ -158,16 +196,16 @@
-       GlStateManager.pushMatrix();
-       GlStateManager.scale(8.0F, 8.0F, 8.0F);
-       float f = (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
--      GlStateManager.translate(f, 0.0F, 0.0F);
-+      GlStateManager.translate(f, 0.0F, 0.0F);//rgbint // 256 // 256 % 256, rgbint // 256 % 256, rgbint % 256
-       GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
--      this.renderModel(model, -8372020);
-+      this.renderModel(model, Colors.enabled ? Colors.onepoint8glintcolorI : -8372020);
-       GlStateManager.popMatrix();
-       GlStateManager.pushMatrix();
-       GlStateManager.scale(8.0F, 8.0F, 8.0F);
-       float f1 = (float)(Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
-       GlStateManager.translate(-f1, 0.0F, 0.0F);
-       GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
--      this.renderModel(model, -8372020);
-+      this.renderModel(model, Colors.enabled ? Colors.onepoint8glintcolorI : -8372020);
-       GlStateManager.popMatrix();
-       GlStateManager.matrixMode(5888);
-       GlStateManager.blendFunc(770, 771);
-@@ -289,7 +327,7 @@
+         GlStateManager.depthMask(false);
+         GlStateManager.depthFunc(514);
+         GlStateManager.disableLighting();
+@@ -160,16 +199,16 @@
+         GlStateManager.pushMatrix();
+         GlStateManager.scale(8.0F, 8.0F, 8.0F);
+         float f = (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
+-        GlStateManager.translate(f, 0.0F, 0.0F);
++        GlStateManager.translate(f, 0.0F, 0.0F);//rgbint // 256 // 256 % 256, rgbint // 256 % 256, rgbint % 256
+         GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
+-        this.renderModel(model, -8372020);
++        this.renderModel(model, Colors.enabled ? Colors.onepoint8glintcolorI : -8372020);
+         GlStateManager.popMatrix();
+         GlStateManager.pushMatrix();
+         GlStateManager.scale(8.0F, 8.0F, 8.0F);
+         float f1 = (float)(Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
+         GlStateManager.translate(-f1, 0.0F, 0.0F);
+         GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
+-        this.renderModel(model, -8372020);
++        this.renderModel(model, Colors.enabled ? Colors.onepoint8glintcolorI : -8372020);
+         GlStateManager.popMatrix();
+         GlStateManager.matrixMode(5888);
+         GlStateManager.blendFunc(770, 771);
+@@ -318,7 +357,9 @@
+         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+         this.setupGuiTransform(x, y, ibakedmodel.isGui3d());
+         ibakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GUI);
++        isInv = true;
+         this.renderItem(stack, ibakedmodel);
++        isInv = false;
+         GlStateManager.disableAlpha();
+         GlStateManager.disableRescaleNormal();
+         GlStateManager.disableLighting();
+@@ -405,9 +446,10 @@
+                 GlStateManager.enableDepth();
+             }
  
-    /**
-     * Return true if only one scale is negative
--    *  
-+    *
-     * @param itemTranformVec The ItemTransformVec3f instance
-     */
-    private boolean isThereOneNegativeScale(ItemTransformVec3f itemTranformVec) {
-@@ -309,7 +347,9 @@
-       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-       this.setupGuiTransform(x, y, ibakedmodel.isGui3d());
-       ibakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GUI);
-+      isInv = true;
-       this.renderItem(stack, ibakedmodel);
-+      isInv = false;
-       GlStateManager.disableAlpha();
-       GlStateManager.disableRescaleNormal();
-       GlStateManager.disableLighting();
-@@ -395,9 +435,10 @@
-             GlStateManager.enableDepth();
-          }
- 
--         if(stack.isItemDamaged()) {
--            int j = (int)Math.round(13.0D - (double)stack.getItemDamage() * 13.0D / (double)stack.getMaxDamage());
--            int i = (int)Math.round(255.0D - (double)stack.getItemDamage() * 255.0D / (double)stack.getMaxDamage());
-+         if(stack.getItem().showDurabilityBar(stack)) {
-+            double health = stack.getItem().getDurabilityForDisplay(stack);
-+            int j = (int)Math.round(13.0D - health * 13.0D);
-+            int i = (int)Math.round(255.0D - health * 255.0D);
-             GlStateManager.disableLighting();
-             GlStateManager.disableDepth();
-             GlStateManager.disableTexture2D();
-@@ -420,7 +461,7 @@
- 
-    /**
-     * Draw with the WorldRenderer
--    *  
-+    *
-     * @param renderer The WorldRenderer's instance
-     * @param x X position where the render begin
-     * @param y Y position where the render begin
-@@ -980,4 +1021,61 @@
-    public void onResourceManagerReload(IResourceManager resourceManager) {
-       this.itemModelMesher.rebuildCache();
-    }
+-            if (stack.isItemDamaged()) {
+-                int j = (int)Math.round(13.0D - (double)stack.getItemDamage() * 13.0D / (double)stack.getMaxDamage());
+-                int i = (int)Math.round(255.0D - (double)stack.getItemDamage() * 255.0D / (double)stack.getMaxDamage());
++            if (stack.getItem().showDurabilityBar(stack)) {
++                double health = stack.getItem().getDurabilityForDisplay(stack);
++                int j = (int)Math.round(13.0D - health * 13.0D);
++                int i = (int)Math.round(255.0D - health * 255.0D);
+                 GlStateManager.disableLighting();
+                 GlStateManager.disableDepth();
+                 GlStateManager.disableTexture2D();
+@@ -989,4 +1031,61 @@
+     public void onResourceManagerReload(IResourceManager resourceManager) {
+         this.itemModelMesher.rebuildCache();
+     }
 +
-+   public boolean renderShinyPot(ItemStack stack, IBakedModel model, boolean isInv) {
-+      boolean renderedAsPotion = false;
-+      if (Settings.SHINY_POTS && isInv && stack.getItem() != null && stack.getItem() instanceof ItemPotion) {
-+         int glintColor = getPotionColor(stack);
-+         renderPot(model, glintColor);
-+         renderedAsPotion = true;
-+      }
-+      return renderedAsPotion;
-+   }
++    public boolean renderShinyPot(ItemStack stack, IBakedModel model, boolean isInv) {
++        boolean renderedAsPotion = false;
 +
++        if (Settings.SHINY_POTS && isInv && stack.getItem() != null && stack.getItem() instanceof ItemPotion) {
++            int glintColor = getPotionColor(stack);
++            renderPot(model, glintColor);
++            renderedAsPotion = true;
++        }
++        return renderedAsPotion;
++    }
 +
-+   private int getPotionColor(ItemStack item) {
-+      if (Settings.SHINY_POTS_MATCH_COLOR) {
-+         int potionId = item.getMetadata();
++    private int getPotionColor(ItemStack item) {
++        if (Settings.SHINY_POTS_MATCH_COLOR) {
++            int potionId = item.getMetadata();
 +
-+         Integer cached = colorCache.getIfPresent(potionId);
++            Integer cached = colorCache.getIfPresent(potionId);
 +
-+         if (cached != null) {
-+            return cached;
-+         } else {
-+            int color = Items.potionitem.getColorFromItemStack(item, 0) | 0xFF000000;
-+            colorCache.put(potionId, color);
-+            return color;
-+         }
-+      } else {
-+         return Colors.onepoint8glintcolorI;
-+      }
-+   }
++            if (cached != null) {
++                return cached;
++            } else {
++                int color = Items.potionitem.getColorFromItemStack(item, 0) | 0xFF000000;
++                colorCache.put(potionId, color);
++                return color;
++            }
++        } else {
++            return Colors.onepoint8glintcolorI;
++        }
++    }
 +
-+   private void renderPot(IBakedModel model, int color) {
-+      GlStateManager.depthMask(false);
-+      GlStateManager.disableLighting();
-+      GlStateManager.blendFunc(GL11.GL_SRC_COLOR, 1);
-+      Minecraft.getMinecraft().getTextureManager().bindTexture(RES_ITEM_GLINT);
-+      GlStateManager.matrixMode(GL11.GL_TEXTURE);
-+      GlStateManager.pushMatrix();
-+      GlStateManager.scale(8.0F, 8.0F, 8.0F);
-+      float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
-+      GlStateManager.translate(f, 0.0F, 0.0F);
-+      GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
-+      renderModel(model, color);
-+      GlStateManager.popMatrix();
-+      GlStateManager.pushMatrix();
-+      GlStateManager.scale(8.0F, 8.0F, 8.0F);
-+      float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
-+      GlStateManager.translate(-f1, 0.0F, 0.0F);
-+      GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
-+      renderModel(model, color);
-+      GlStateManager.popMatrix();
-+      GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-+      GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-+      GlStateManager.enableLighting();
-+      GlStateManager.depthMask(true);
++    private void renderPot(IBakedModel model, int color) {
++        GlStateManager.depthMask(false);
++        GlStateManager.disableLighting();
++        GlStateManager.blendFunc(GL11.GL_SRC_COLOR, 1);
++        Minecraft.getMinecraft().getTextureManager().bindTexture(RES_ITEM_GLINT);
++        GlStateManager.matrixMode(GL11.GL_TEXTURE);
++        GlStateManager.pushMatrix();
++        GlStateManager.scale(8.0F, 8.0F, 8.0F);
++        float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
++        GlStateManager.translate(f, 0.0F, 0.0F);
++        GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
++        renderModel(model, color);
++        GlStateManager.popMatrix();
++        GlStateManager.pushMatrix();
++        GlStateManager.scale(8.0F, 8.0F, 8.0F);
++        float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
++        GlStateManager.translate(-f1, 0.0F, 0.0F);
++        GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
++        renderModel(model, color);
++        GlStateManager.popMatrix();
++        GlStateManager.matrixMode(GL11.GL_MODELVIEW);
++        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
++        GlStateManager.enableLighting();
++        GlStateManager.depthMask(true);
 +
-+      Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-+   }
++        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
++    }
  }

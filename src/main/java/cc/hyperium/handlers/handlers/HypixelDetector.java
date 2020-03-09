@@ -26,18 +26,16 @@ import cc.hyperium.event.network.server.ServerLeaveEvent;
 import cc.hyperium.event.network.server.SingleplayerJoinEvent;
 import cc.hyperium.event.network.server.hypixel.JoinHypixelEvent;
 import cc.hyperium.event.network.server.hypixel.JoinHypixelEvent.ServerVerificationMethod;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.utils.HyperiumDesktop;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 import java.net.URI;
-import java.net.URL;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -57,6 +55,7 @@ public class HypixelDetector {
         return instance;
     }
 
+    @SuppressWarnings("BusyWait")
     @InvokeEvent
     public void serverJoinEvent(ServerJoinEvent event) {
         hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
@@ -96,17 +95,10 @@ public class HypixelDetector {
         if (Settings.HYPIXEL_ZOO) {
             Hyperium.INSTANCE.getNotification().display("Welcome to the Hypixel Zoo.", "Click to visit https://hypixel.net/", 5f,
                     null, () -> {
-                        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-                        if (desktop != null) {
-                            try {
-                                URI uri = new URL("https://hypixel.net").toURI();
-                                if(desktop.isSupported(Desktop.Action.BROWSE))
-                                    desktop.browse(uri);
-                                else
-                                    GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
-                            } catch (Exception e) {
-                                Hyperium.LOGGER.error("Could not open link", e);
-                            }
+                        try {
+                            HyperiumDesktop.INSTANCE.browse(new URI("https://hypixel.net"));
+                        } catch (Exception e) {
+                            Hyperium.LOGGER.error("Could not open link", e);
                         }
                     }, new Color(200, 150, 50));
 

@@ -35,7 +35,7 @@ Hyperium is an open-source and community-driven Minecraft 1.8.9 client that aims
 - [ToggleChat](https://2pi.pw/mods/togglechat) by 2pi
 
 ### Beta Test the Client ###  
-You can easily beta test the client for free, all you have to do is join [the Discord](https://discord.gg/sk1er) and do `$rank beta testing` in the [`#commands`](https://discordapp.com/channels/411619823445999637/411620555960352787) channel. You can then access betas in [`#beta-announcements`](https://discordapp.com/channels/411619823445999637/595634170336641045)
+You can easily beta test the client for free, all you have to do is join [the Discord](https://discord.gg/sk1er) and do `$rank beta testing` in the [`#commands`](https://discordapp.com/channels/411619823445999637/411620555960352787) channel. You can then access betas in [`#beta-releases`](https://discordapp.com/channels/411619823445999637/595634170336641045)
 
 ### FAQ ###  
 Q: Please help, I can't build Hyperium!
@@ -79,19 +79,11 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 
 #### Step 3 - Decompiling
 - Open the Gradle tab on the right hand side of IntelliJ, if it's not there, click 'View', 'Tool Windows', then 'Gradle'.
-- In the Gradle tab, expand `Tasks`, `mcgradle`, and run `setup`.
+- In the Gradle tab, expand `Tasks`, `mcgradle`, and run `setupDevWorkspace`.
 
 #### Step 4 - Creating a profile
-- Open the run configuration in the top right of IntelliJ, next to the green 'Run' button, click 'Edit Configurations'.
-- Click the plus button in the top left, select 'Application', name it to 'Minecraft Client', set 'Main Class' to `tk.amplifiable.mcgradle.Start`
-- Expand "Application", select 'Minecraft Client', change 'Use classpath of module' to 'Hyperium.generated.main'.
-- Click the plus above the hammer saying 'Build', select 'Run Gradle Task', click the Folder icon, select 'Hyperium',
-and type 'genProperties', select the one that comes up, click 'Ok', then press the up arrow beside the pencil icon.
-- Make sure genProperties task is above the 'Build' task.
-- In 'Program Arguments', add `--tweakClass cc.hyperium.launch.HyperiumTweaker`.
-- Append `\run` to the end of the working directory.
-- Press 'Apply' then 'Ok'.
-- Once you've finished all of that, click the green 'Run' button beside the application.
+- Open the Gradle tab on the right hand side of IntelliJ, if it's not there, click 'View', 'Tool Windows', then 'Gradle'.
+- In the Gradle tab, expand `Tasks`, `mcgradle`, and run `genRunConfigs`.
 
 #### Notes
 ##### Logging into Minecraft
@@ -104,6 +96,16 @@ and type 'genProperties', select the one that comes up, click 'Ok', then press t
 ##### Pulling Changes
 - If you've made any changes to Minecraft, make sure you run `generatePatches` as mentioned in 'Changing Minecraft source code'
 - When you pull anything, make sure you rerun the `setup` task as mentioned in 'Step 3 - Decompiling'.
+
+##### Setting up hot reload with Intellij
+- Download the DCEVM jar installer from https://github.com/dcevm/dcevm/releases/.
+- Run the jar as administrator by opening up a terminal as admin, and change your working directory to the folder where you downloaded the file.
+- Type `java -jar <jar name>` and replace `<jar name>` with the file name that you downloaded.
+- When the installer opens up, choose your java installation directory and click, `Install DCEVM as altjvm`.
+- After it finishes installing, open up Intellij and go to your run configuration.
+- Add `-XXaltjvm=dcevm` to your VM options.
+- Make sure the JRE matches the java version that you installed DCEVM on. then click Apply and Ok.
+- Run the client in debug mode, and to reload any changes, press `CTRL + SHIFT + F9`.
 
 ### Addon Development ###
 To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!

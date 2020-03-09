@@ -27,7 +27,7 @@ import java.awt.*;
 
 public class GlintColorizer extends AbstractMod {
 
-    private Colors colors = new Colors();
+    private final Colors colors = new Colors();
 
     @Override
     public AbstractMod init() {

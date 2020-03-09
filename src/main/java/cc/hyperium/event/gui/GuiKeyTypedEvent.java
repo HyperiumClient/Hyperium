@@ -17,13 +17,14 @@
 
 package cc.hyperium.event.gui;
 
+import cc.hyperium.event.Event;
 import net.minecraft.client.gui.GuiScreen;
 
-public class GuiKeyTypedEvent {
+public class GuiKeyTypedEvent extends Event {
 
-    private GuiScreen screen;
-    private char typedChar;
-    private int keyCode;
+    private final GuiScreen screen;
+    private final char typedChar;
+    private final int keyCode;
 
     public GuiKeyTypedEvent(GuiScreen screen, char typedChar, int keyCode) {
         this.screen = screen;

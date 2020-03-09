@@ -17,12 +17,11 @@
 
 package cc.hyperium.utils.statistics;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
-import cc.hyperium.event.network.chat.ChatEvent;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.network.server.hypixel.HypixelGetCoinsEvent;
 import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.network.chat.ChatEvent;
+import cc.hyperium.event.network.server.hypixel.HypixelGetCoinsEvent;
 import cc.hyperium.event.network.server.hypixel.HypixelGetXPEvent;
 
 import java.text.DateFormat;

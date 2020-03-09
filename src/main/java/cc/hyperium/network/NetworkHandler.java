@@ -42,7 +42,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
     @ConfigOpt
     public boolean log;
     private boolean post;
-    private List<String> verboseLogs = new ArrayList<>();
+    private final List<String> verboseLogs = new ArrayList<>();
 
     public boolean isLog() {
         return log;

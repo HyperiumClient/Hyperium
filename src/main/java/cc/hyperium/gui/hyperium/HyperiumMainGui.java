@@ -55,19 +55,19 @@ public class HyperiumMainGui extends HyperiumGui {
     public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
     private static int tabIndex; // save tab position
     public boolean show;
-    private HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
-    private HashMap<Field, List<Consumer<Object>>> callbacks = new HashMap<>();
-    private List<Object> settingsObjects = new ArrayList<>();
-    private HyperiumFontRenderer smol;
-    private HyperiumFontRenderer font;
-    private HyperiumFontRenderer title;
-    private HyperiumFontRenderer title2;
-    private List<AbstractTab> tabs;
+    private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
+    private final HashMap<Field, List<Consumer<Object>>> callbacks = new HashMap<>();
+    private final List<Object> settingsObjects = new ArrayList<>();
+    private final HyperiumFontRenderer smol;
+    private final HyperiumFontRenderer font;
+    private final HyperiumFontRenderer title;
+    private final HyperiumFontRenderer title2;
+    private final List<AbstractTab> tabs;
     private AbstractTab currentTab;
-    private List<RGBFieldSet> rgbFields = new ArrayList<>();
-    private Alert currentAlert;
+    private final List<RGBFieldSet> rgbFields = new ArrayList<>();
+    Alert currentAlert;
     private MaterialTextField searchField;
-    private Queue<Alert> alerts = new ArrayDeque<>();
+    private final Queue<Alert> alerts = new ArrayDeque<>();
 
     private HyperiumMainGui() {
         smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F);
@@ -84,9 +84,17 @@ public class HyperiumMainGui extends HyperiumGui {
         SettingsHandler settingsHandler = Hyperium.INSTANCE.getHandlers().getSettingsHandler();
         settingsObjects.addAll(settingsHandler.getSettingsObjects());
         HashMap<Field, List<Consumer<Object>>> call1 = settingsHandler.getcallbacks();
-        call1.forEach((key, value) -> callbacks.computeIfAbsent(key, tmp -> new ArrayList<>()).addAll(value));
+        for (Map.Entry<Field, List<Consumer<Object>>> entry : call1.entrySet()) {
+            Field k = entry.getKey();
+            List<Consumer<Object>> v = entry.getValue();
+            callbacks.computeIfAbsent(k, tmp -> new ArrayList<>()).addAll(v);
+        }
         HashMap<Field, Supplier<String[]>> customStates = settingsHandler.getCustomStates();
-        customStates.forEach((key, value) -> this.customStates.put(key, value));
+        for (Map.Entry<Field, Supplier<String[]>> entry : customStates.entrySet()) {
+            Field key = entry.getKey();
+            Supplier<String[]> value = entry.getValue();
+            this.customStates.put(key, value);
+        }
 
         try {
             rgbFields.add(new RGBFieldSet(
@@ -151,8 +159,8 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         /* Render Header */
-        drawRect(xg, yg, xg * 10, yg * 2, new Color(0, 0, 0, (int) Settings.SETTINGS_ALPHA).getRGB());
-        drawRect(xg, yg * 2, xg * 10, yg * 9, new Color(0, 0, 0, (int) (Settings.SETTINGS_ALPHA / 2)).getRGB());
+        drawRect(xg, yg, xg * 10, yg << 1, new Color(0, 0, 0, (int) Settings.SETTINGS_ALPHA).getRGB());
+        drawRect(xg, yg << 1, xg * 10, yg * 9, new Color(0, 0, 0, (int) (Settings.SETTINGS_ALPHA / 2)).getRGB());
         searchField.render(mouseX, mouseY);
         GlStateModifier.INSTANCE.reset();
 
@@ -161,7 +169,7 @@ public class HyperiumMainGui extends HyperiumGui {
 
         /* Render Body */
         currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());
-        currentTab.render(xg, yg * 2, xg * 9, yg * 7);
+        currentTab.render(xg, yg << 1, xg * 9, yg * 7);
 
         /* Render Footer */
         smol.drawString(Metadata.getVersion(), width - smol.getWidth(Metadata.getVersion()) - 1,
@@ -268,9 +276,9 @@ public class HyperiumMainGui extends HyperiumGui {
      * Important alerts and announcements from Hyperium team
      */
     public static class Alert {
-        private ResourceLocation icon;
-        private Runnable action;
-        private String title;
+        private final ResourceLocation icon;
+        private final Runnable action;
+        private final String title;
         private int step;
 
         public Alert(ResourceLocation icon, Runnable action, String title) {

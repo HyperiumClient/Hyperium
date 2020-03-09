@@ -82,7 +82,7 @@ class RenderGlobalTransformer : ConflictTransformer {
                     invokevirtual(Hyperium::class, "getHandlers", HyperiumHandlers::class)
                     invokevirtual(HyperiumHandlers::class, "getConfigOptions", OtherConfigOptions::class)
                     iconst_0
-                    getfield(OtherConfigOptions::class, "isCancelBox", boolean)
+                    putfield(OtherConfigOptions::class, "isCancelBox", boolean)
                     _return
                     +L["1"]
                 }.first
@@ -95,7 +95,7 @@ class RenderGlobalTransformer : ConflictTransformer {
                     aload_0
                     getfield(RenderGlobal::class, "mc", Minecraft::class)
                     getfield(Minecraft::class, "gameSettings", GameSettings::class)
-                    getfield(GameSettings::class, "particleSettings", int)
+                    getfield(GameSettings::class, "particleSetting", int)
                     iconst_3
                     if_icmpne(L["0"])
                     _return

@@ -37,7 +37,7 @@ public class GuiSidebar extends Gui {
         TWO("Background 2"),
         THREE("Text 1"),
         FOUR("Text 2");
-        private String name;
+        private final String name;
 
         ChromaType(String name) {
             this.name = name;
@@ -52,7 +52,7 @@ public class GuiSidebar extends Gui {
         }
     }
 
-    private FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+    private final FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
     private int sidebarX;
     private int sidebarY;
     private int sidebarWidth;

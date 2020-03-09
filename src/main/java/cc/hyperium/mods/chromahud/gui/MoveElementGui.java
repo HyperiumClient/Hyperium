@@ -66,10 +66,10 @@ class MoveElementGui extends GuiScreen {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        buttonList.forEach(guiButton -> {
+        for (GuiButton guiButton : buttonList) {
             Consumer<GuiButton> guiButtonConsumer = updates.get(guiButton);
             if (guiButtonConsumer != null) guiButtonConsumer.accept(guiButton);
-        });
+        }
     }
 
     @Override

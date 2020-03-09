@@ -28,14 +28,14 @@ public class GuiScreenColor extends GuiScreen implements IScreen {
 
     private final KeystrokesMod mod; // OOP
 
-    private final IScrollable red;
-    private final IScrollable green;
-    private final IScrollable blue;
-    private final IScrollable pressedRed;
-    private final IScrollable pressedGreen;
-    private final IScrollable pressedBlue;
+    final IScrollable red;
+    final IScrollable green;
+    final IScrollable blue;
+    final IScrollable pressedRed;
+    final IScrollable pressedGreen;
+    final IScrollable pressedBlue;
 
-    private boolean updated = false; // Have the values been changed?
+    boolean updated = false; // Have the values been changed?
 
     GuiScreenColor(KeystrokesMod mod, IScrollable red, IScrollable green, IScrollable blue, IScrollable pressedRed, IScrollable pressedGreen, IScrollable pressedBlue) {
         this.mod = mod;

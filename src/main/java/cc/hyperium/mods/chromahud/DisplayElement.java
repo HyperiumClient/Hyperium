@@ -34,7 +34,7 @@ import java.util.List;
 public class DisplayElement extends Dimension {
     private final JsonHolder data;
     private double xloc, yloc;
-    private List<DisplayItem> displayItems;
+    private final List<DisplayItem> displayItems;
     private double scale;
     private int color;
     private boolean shadow;

@@ -38,7 +38,7 @@ public class ConfirmationPopup {
 
     private final Queue<Confirmation> confirmations = new LinkedList<>();
     private Confirmation currentConfirmation;
-    private String acceptFrom = "";
+    String acceptFrom = "";
 
     @InvokeEvent
     public void onFriend(HypixelFriendRequestEvent e) {
@@ -54,7 +54,8 @@ public class ConfirmationPopup {
     public void onParty(HypixelPartyInviteEvent e) {
         if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
             displayConfirmation("Party request from " + e.getFrom(), accept -> {
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
+                if (accept)
+                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
                 currentConfirmation.framesLeft = 0;
             });
         }
@@ -64,7 +65,8 @@ public class ConfirmationPopup {
     public void onTradeRequest(SkyblockTradeRequestEvent event) {
         if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
             displayConfirmation("Trade request from " + event.getUsername(), accept -> {
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/trade " + event.getUsername());
+                if (accept)
+                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/trade " + event.getUsername());
                 currentConfirmation.framesLeft = 0;
             });
         }
@@ -74,7 +76,8 @@ public class ConfirmationPopup {
     public void onDuelRequest(HypixelDuelRequestEvent event) {
         if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
             displayConfirmation(event.getGame() + " Duel request from " + event.getUsername(), accept -> {
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/duel accept " + event.getUsername());
+                if (accept)
+                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/duel accept " + event.getUsername());
                 currentConfirmation.framesLeft = 0;
             });
         }
@@ -84,7 +87,8 @@ public class ConfirmationPopup {
     public void onGuildInvite(HypixelGuildInviteEvent event) {
         if (Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
             displayConfirmation("Guild invite for " + event.getGuild(), accept -> {
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/guild accept " + event.getFrom());
+                if (accept)
+                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/guild accept " + event.getFrom());
                 currentConfirmation.framesLeft = 0;
             });
         }
@@ -119,10 +123,10 @@ public class ConfirmationPopup {
 
     public class Confirmation {
         private final String text;
-        private final Consumer<Boolean> callback;
+        final Consumer<Boolean> callback;
         private final long upperThreshold;
         private final long lowerThreshold;
-        private long framesLeft;
+        long framesLeft;
         private float percentComplete;
         private long systemTime;
 

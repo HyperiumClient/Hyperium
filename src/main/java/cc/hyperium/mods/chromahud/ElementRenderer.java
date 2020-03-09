@@ -219,13 +219,13 @@ public class ElementRenderer {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         List<DisplayElement> elementList = mod.getDisplayElements();
-        elementList.forEach(element -> {
+        for (DisplayElement element : elementList) {
             startDrawing(element);
             try {
                 element.draw();
             } catch (Exception ignored) {
             }
             endDrawing(element);
-        });
+        }
     }
 }

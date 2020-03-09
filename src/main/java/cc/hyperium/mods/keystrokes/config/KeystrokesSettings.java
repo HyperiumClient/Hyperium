@@ -68,7 +68,7 @@ public class KeystrokesSettings {
     private int keyBackgroundGreen;
     private int keyBackgroundBlue;
     private boolean arrowKeys;
-    private List<CustomKeyWrapper> configWrappers = new ArrayList<>();
+    private final List<CustomKeyWrapper> configWrappers = new ArrayList<>();
 
     public KeystrokesSettings(KeystrokesMod mod, File directory) {
         if (!directory.exists()) directory.mkdirs();

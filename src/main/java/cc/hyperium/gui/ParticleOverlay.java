@@ -148,7 +148,11 @@ public class ParticleOverlay {
     @InvokeEvent
     public void tick(TickEvent event) {
         if (!purchased()) return;
-        if (System.currentTimeMillis() - last < 1000) particles.forEach(Particle::update);
+        if (System.currentTimeMillis() - last < 1000) {
+            for (Particle particle : particles) {
+                particle.update();
+            }
+        }
     }
 
     public Mode getMode() {

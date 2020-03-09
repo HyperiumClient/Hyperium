@@ -43,7 +43,7 @@ import java.awt.*;
 
 public class AboveHeadRenderer {
 
-    private Levelhead levelhead;
+    private final Levelhead levelhead;
 
     public AboveHeadRenderer(Levelhead levelhead) {
         this.levelhead = levelhead;
@@ -74,7 +74,7 @@ public class AboveHeadRenderer {
                     continue;
                 }
 
-                if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) < 64 * 64) {
+                if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) < 64 << 6) {
                     double offset = 0.3;
                     Scoreboard scoreboard = player.getWorldScoreboard();
                     ScoreObjective objective = scoreboard.getObjectiveInDisplaySlot(2);

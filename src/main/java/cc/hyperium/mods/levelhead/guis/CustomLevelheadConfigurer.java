@@ -40,7 +40,7 @@ public class CustomLevelheadConfigurer extends GuiScreen {
     private GuiTextField header;
     private GuiTextField level;
     private LevelheadJsonHolder levelheadPropose = new LevelheadJsonHolder();
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
 
     @Override
     public void initGui() {

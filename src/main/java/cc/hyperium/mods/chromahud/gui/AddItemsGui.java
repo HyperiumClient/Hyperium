@@ -56,16 +56,20 @@ public class AddItemsGui extends GuiScreen {
         this.mod = mod;
         this.element = element;
         //Make all parsers so we can access them
-        ChromaHUDApi.getInstance().getParsers().forEach(chromaHUDParser -> {
-            chromaHUDParser.getNames().keySet().stream().map(s -> chromaHUDParser.parse(s, 0, new JsonHolder().put("type", s))).forEach(item -> {
+        for (ChromaHUDParser chromaHUDParser : ChromaHUDApi.getInstance().getParsers()) {
+            for (String s : chromaHUDParser.getNames().keySet()) {
+                DisplayItem item = chromaHUDParser.parse(s, 0, new JsonHolder().put("type", s));
                 DisplayElement blank = DisplayElement.blank();
                 blank.getDisplayItems().add(item);
                 blank.adjustOrdinal();
                 all.add(blank);
-            });
-        });
+            }
+        }
 
-        all.forEach(DisplayElement::drawForConfig);
+        for (DisplayElement displayElement : all) {
+            displayElement.drawForConfig();
+        }
+
         target = DisplayElement.blank();
         target.setColor(Color.GREEN.getRGB());
         mouseLock = Mouse.isButtonDown(0);
@@ -88,7 +92,7 @@ public class AddItemsGui extends GuiScreen {
             offset = 0;
         });
 
-        reg(new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Scroll Down"), button -> offset -= 50);
+        reg(new GuiButton(nextId(), 2, 23 + (21 << 1), 100, 20, "Scroll Down"), button -> offset -= 50);
         reg(new GuiButton(nextId(), 2, 23 + 21, 100, 20, "Scroll Up"), button -> offset += 50);
 
         reg(new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), button ->
@@ -112,10 +116,10 @@ public class AddItemsGui extends GuiScreen {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        buttonList.forEach(guiButton -> {
+        for (GuiButton guiButton : buttonList) {
             Consumer<GuiButton> guiButtonConsumer = updates.get(guiButton);
             if (guiButtonConsumer != null) guiButtonConsumer.accept(guiButton);
-        });
+        }
     }
 
     @Override

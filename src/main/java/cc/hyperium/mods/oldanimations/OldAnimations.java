@@ -19,17 +19,8 @@ package cc.hyperium.mods.oldanimations;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.AbstractMod;
-import cc.hyperium.utils.ChatColor;
 
 public class OldAnimations extends AbstractMod {
-
-    private final Metadata metadata;
-
-    public OldAnimations() {
-        Metadata data = new Metadata(this, "OldAnimations", "1.0", "Amplifiable");
-        data.setDisplayName(ChatColor.AQUA + "OldAnimations");
-        metadata = data;
-    }
 
     @Override
     public AbstractMod init() {
@@ -39,6 +30,6 @@ public class OldAnimations extends AbstractMod {
 
     @Override
     public Metadata getModMetadata() {
-        return metadata;
+        return new Metadata(this, "OldAnimations", "1.0", "Amplifiable");
     }
 }

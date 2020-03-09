@@ -115,7 +115,7 @@ public class HypixelFriendsGui extends HyperiumGui {
 
         });
 
-        reg("REMOVE", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + 21 * 2, 150, 20, "Remove (Hold down)"), guiButton -> {
+        reg("REMOVE", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + (21 << 1), 150, 20, "Remove (Hold down)"), guiButton -> {
 
         }, guiButton -> {
             if (guiButton.isMouseOver() && Mouse.isButtonDown(0) && guiButton.enabled) {
@@ -219,7 +219,7 @@ public class HypixelFriendsGui extends HyperiumGui {
 
 
         //Some long name
-        final int bottomRenderBound = ResolutionUtil.current().getScaledHeight() / 9 * 8;
+        final int bottomRenderBound = ResolutionUtil.current().getScaledHeight() / 9 << 3;
 
         if (selectedItem != null) {
             GuiBlock box = selectedItem.getBox();

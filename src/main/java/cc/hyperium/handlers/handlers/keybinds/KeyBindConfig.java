@@ -60,7 +60,9 @@ public class KeyBindConfig {
 
         try {
             keybindFile.createNewFile();
-            handler.getKeybinds().values().forEach(base -> keyBindJson.addProperty(base.getRealDescription(), base.getKeyCode()));
+            for (HyperiumBind base : handler.getKeybinds().values()) {
+                keyBindJson.addProperty(base.getRealDescription(), base.getKeyCode());
+            }
             keyBindJson.writeToFile(keybindFile);
         } catch (IOException ex) {
             Hyperium.LOGGER.warn("An error occured while saving the Hyperium KeyBlinds, this is not good.");
@@ -81,7 +83,9 @@ public class KeyBindConfig {
                 return;
             }
 
-            handler.getKeybinds().values().forEach(bind -> bind.setKeyCode(keyBindJson.optInt(bind.getRealDescription(), bind.getDefaultKeyCode())));
+            for (HyperiumBind bind : handler.getKeybinds().values()) {
+                bind.setKeyCode(keyBindJson.optInt(bind.getRealDescription(), bind.getDefaultKeyCode()));
+            }
         } else {
             // Config file doesn't exist, yay!
             save();

@@ -14,25 +14,25 @@
  import net.minecraft.block.state.IBlockState;
 +import net.minecraft.client.entity.EntityPlayerSP;
  import net.minecraft.enchantment.EnchantmentHelper;
- import net.minecraft.entity.Entity;
- import net.minecraft.entity.EntityTracker;
-@@ -808,6 +811,8 @@
-     * Called when the mob's health reaches 0.
-     */
-    public void onDeath(DamageSource cause) {
-+      EventBus.INSTANCE.post(new LivingDeathEvent(this, cause));
+ import net.minecraft.entity.ai.attributes.AttributeModifier;
+ import net.minecraft.entity.ai.attributes.BaseAttributeMap;
+@@ -817,6 +820,8 @@
+      * Called when the mob's health reaches 0.
+      */
+     public void onDeath(DamageSource cause) {
++        EventBus.INSTANCE.post(new LivingDeathEvent(this, cause));
 +
-       Entity entity = cause.getEntity();
-       EntityLivingBase entitylivingbase = this.getAttackingEntity();
-       if(this.scoreValue >= 0 && entitylivingbase != null) {
-@@ -1741,6 +1746,10 @@
-     * interpolated look vector
-     */
-    public Vec3 getLook(float partialTicks) {
-+      if (this instanceof EntityPlayerSP) {
-+         return super.getLook(partialTicks);
-+      }
+         Entity entity = cause.getEntity();
+         EntityLivingBase entitylivingbase = this.getAttackingEntity();
+ 
+@@ -1783,6 +1788,10 @@
+      * interpolated look vector
+      */
+     public Vec3 getLook(float partialTicks) {
++        if (this instanceof EntityPlayerSP) {
++            return super.getLook(partialTicks);
++        }
 +
-       if(partialTicks == 1.0F) {
-          return this.getVectorForRotation(this.rotationPitch, this.rotationYawHead);
-       } else {
+         if (partialTicks == 1.0F) {
+             return this.getVectorForRotation(this.rotationPitch, this.rotationYawHead);
+         } else {

@@ -1,11 +1,11 @@
 --- original/net/minecraft/client/multiplayer/WorldClient.java
 +++ changed/net/minecraft/client/multiplayer/WorldClient.java
-@@ -265,7 +265,7 @@
-       boolean flag = this.mc.playerController.getCurrentGameType() == WorldSettings.GameType.CREATIVE && itemstack != null && Block.getBlockFromItem(itemstack.getItem()) == Blocks.barrier;
-       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+@@ -270,7 +270,7 @@
+         boolean flag = this.mc.playerController.getCurrentGameType() == WorldSettings.GameType.CREATIVE && itemstack != null && Block.getBlockFromItem(itemstack.getItem()) == Blocks.barrier;
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
--      for(int j = 0; j < 1000; ++j) {
-+      for(int j = 0; j < 500; ++j) {
-          int k = posX + this.rand.nextInt(i) - this.rand.nextInt(i);
-          int l = posY + this.rand.nextInt(i) - this.rand.nextInt(i);
-          int i1 = posZ + this.rand.nextInt(i) - this.rand.nextInt(i);
+-        for (int j = 0; j < 1000; ++j) {
++        for (int j = 0; j < 500; ++j) {
+             int k = posX + this.rand.nextInt(i) - this.rand.nextInt(i);
+             int l = posY + this.rand.nextInt(i) - this.rand.nextInt(i);
+             int i1 = posZ + this.rand.nextInt(i) - this.rand.nextInt(i);

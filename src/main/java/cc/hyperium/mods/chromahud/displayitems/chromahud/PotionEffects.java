@@ -72,7 +72,7 @@ public class PotionEffects extends DisplayItem {
                 if (potion.hasStatusIcon()) {
                     int potionStatusIconIndex = potion.getStatusIconIndex();
                     drawTexturedModalRect(!ElementRenderer.getCurrent().isRightSided() ? (int) (x / scale) - 20 :
-                            (int) (x / scale), (int) ((y + row * 16)) - 4, potionStatusIconIndex % 8 * 18,
+                            (int) (x / scale), (int) ((y + (row << 4))) - 4, potionStatusIconIndex % 8 * 18,
                         198 + potionStatusIconIndex / 8 * 18, 18, 18);
                 }
             }
@@ -94,12 +94,12 @@ public class PotionEffects extends DisplayItem {
             String s = Potion.getDurationString(potioneffect);
             String text = s1 + " - " + s;
             tmp.add(text);
-            ElementRenderer.draw((int) (x / scale), ((y + row * 16)), text);
+            ElementRenderer.draw((int) (x / scale), ((y + (row << 4))), text);
             row++;
         }
 
         width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;
-        height = row * 16;
+        height = row << 4;
     }
 
     public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {

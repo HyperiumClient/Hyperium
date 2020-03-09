@@ -51,36 +51,35 @@ public class TwoPartLayerBipedArmor extends LayerArmorBase<ModelBiped> {
      * render properly.
      *
      * @param model     The model which gets rendered
-     * @param armorSlot The slot of the armor (1 = boots, 2 = leggins, etc..). Don't ask
+     * @param armorSlot The slot of the armor (1 = boots, 2 = leggings, etc..). Don't ask
      *                  me why it doesn't start at 0.
      * @author 9Y0
      */
     protected void setModelPartVisible(ModelBiped model, int armorSlot) {
         model.setInvisible(false);
-        IModelBiped modelBiped = (IModelBiped) model;
 
         switch (armorSlot) {
             case 1: {
                 model.bipedRightLeg.showModel = true;
                 model.bipedLeftLeg.showModel = true;
-                modelBiped.getBipedRightLowerLeg().showModel = true;
-                modelBiped.getBipedLeftLowerLeg().showModel = true;
+                ((IModelBiped) model).getBipedRightLowerLeg().showModel = true;
+                ((IModelBiped) model).getBipedLeftLowerLeg().showModel = true;
                 break;
             }
             case 2: {
                 model.bipedBody.showModel = true;
                 model.bipedRightLeg.showModel = true;
                 model.bipedLeftLeg.showModel = true;
-                modelBiped.getBipedRightLowerLeg().showModel = true;
-                modelBiped.getBipedLeftLowerLeg().showModel = true;
+                ((IModelBiped) model).getBipedRightLowerLeg().showModel = true;
+                ((IModelBiped) model).getBipedLeftLowerLeg().showModel = true;
                 break;
             }
             case 3: {
                 model.bipedBody.showModel = true;
                 model.bipedRightArm.showModel = true;
                 model.bipedLeftArm.showModel = true;
-                modelBiped.getBipedRightForeArm().showModel = true;
-                modelBiped.getBipedLeftForeArm().showModel = true;
+                ((IModelBiped) model).getBipedRightForeArm().showModel = true;
+                ((IModelBiped) model).getBipedLeftForeArm().showModel = true;
                 break;
             }
             case 4: {

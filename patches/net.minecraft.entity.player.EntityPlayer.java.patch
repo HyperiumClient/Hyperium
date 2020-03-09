@@ -13,142 +13,150 @@
  import com.google.common.base.Charsets;
  import com.google.common.collect.Lists;
  import com.mojang.authlib.GameProfile;
-@@ -157,6 +164,8 @@
-       this.setLocationAndAngles((double)blockpos.getX() + 0.5D, (double)(blockpos.getY() + 1), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
-       this.unused180 = 180.0F;
-       this.fireResistance = 20;
+@@ -150,6 +157,8 @@
+         this.setLocationAndAngles((double)blockpos.getX() + 0.5D, (double)(blockpos.getY() + 1), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
+         this.unused180 = 180.0F;
+         this.fireResistance = 20;
 +
-+      setDisplayName(getName());
-    }
++        setDisplayName(getName());
+     }
  
-    protected void applyEntityAttributes() {
-@@ -484,6 +493,13 @@
-       super.updateEntityActionState();
-       this.updateArmSwingProgress();
-       this.rotationYawHead = this.rotationYaw;
+     protected void applyEntityAttributes() {
+@@ -485,6 +494,14 @@
+         super.updateEntityActionState();
+         this.updateArmSwingProgress();
+         this.rotationYawHead = this.rotationYaw;
 +
-+      if (last != isSwingInProgress) {
-+         last = isSwingInProgress;
-+         if (isSwingInProgress) {
-+            EventBus.INSTANCE.post(new PlayerSwingEvent(getUniqueID(), getPositionVector(), getLookVec(), getPosition()));
-+         }
-+      }
-    }
- 
-    /**
-@@ -582,6 +598,8 @@
-     * Called when the mob's health reaches 0.
-     */
-    public void onDeath(DamageSource cause) {
-+      EventBus.INSTANCE.post(new LivingDeathEvent(this, cause));
++        if (last != isSwingInProgress) {
++            last = isSwingInProgress;
 +
-       super.onDeath(cause);
-       this.setSize(0.2F, 0.2F);
-       this.setPosition(this.posX, this.posY, this.posZ);
-@@ -714,6 +732,7 @@
-             this.triggerAchievement(StatList.dropStat);
-          }
- 
-+         new ItemTossEvent(this, entityitem).post();
-          return entityitem;
-       }
-    }
-@@ -1049,6 +1068,8 @@
-     * called on it. Args: targetEntity
-     */
-    public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
-+      EventBus.INSTANCE.post(new PlayerAttackEntityEvent(getUniqueID(), targetEntity));
-+
-       if(targetEntity.canAttackWithItem()) {
-          if(!targetEntity.hitByEntity(this)) {
-             float f = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
-@@ -1848,28 +1869,67 @@
-       return this.getWorldScoreboard().getPlayersTeam(this.getName());
-    }
- 
-+   private boolean last;
-+   private float currentHeight = 1.62F;
-+   private long lastChangeTime = System.currentTimeMillis();
-+   private IChatComponent cachedName;
-+   private String displayName;
-+
-    /**
-     * Get the formatted ChatComponent that will be used for the sender's username in chat
-     */
-    public IChatComponent getDisplayName() {
--      IChatComponent ichatcomponent = new ChatComponentText(ScorePlayerTeam.formatPlayerName(this.getTeam(), this.getName()));
--      ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + this.getName() + " "));
--      ichatcomponent.getChatStyle().setChatHoverEvent(this.getHoverEvent());
--      ichatcomponent.getChatStyle().setInsertion(this.getName());
--      return ichatcomponent;
-+      if (cachedName == null || System.currentTimeMillis() - lastChangeTime > 50L) {
-+         IChatComponent ichatcomponent = new ChatComponentText(ScorePlayerTeam.formatPlayerName(getTeam(), displayName));
-+         ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + getName() + " "));
-+         //Unneeded for client
-+         if (Minecraft.getMinecraft().isIntegratedServerRunning()) {
-+            ichatcomponent.getChatStyle().setChatHoverEvent(getHoverEvent());
-+         }
-+
-+         ichatcomponent.getChatStyle().setInsertion(getName());
-+         cachedName = ichatcomponent;
-+      }
-+
-+      return cachedName;
-    }
- 
-    public float getEyeHeight() {
--      float f = 1.62F;
--      if(this.isPlayerSleeping()) {
--         f = 0.2F;
--      }
-+      if (Settings.OLD_SNEAKING) {
-+         int timeDelay = 1000 / 60;
-+         if (isSneaking()) {
-+            float sneakingHeight = 1.54F;
-+            if (currentHeight > sneakingHeight) {
-+               long time = System.currentTimeMillis();
-+               long timeSinceLastChange = time - lastChangeTime;
-+               if (timeSinceLastChange > timeDelay) {
-+                  currentHeight -= 0.012F;
-+                  lastChangeTime = time;
-+               }
++            if (isSwingInProgress) {
++                EventBus.INSTANCE.post(new PlayerSwingEvent(getUniqueID(), getPositionVector(), getLookVec(), getPosition()));
 +            }
-+         } else {
-+            float standingHeight = 1.62F;
-+            if (currentHeight < standingHeight && currentHeight > 0.2F) {
-+               long time = System.currentTimeMillis();
-+               long timeSinceLastChange = time - lastChangeTime;
-+               if (timeSinceLastChange > timeDelay) {
-+                  currentHeight += 0.012F;
-+                  lastChangeTime = time;
-+               }
++        }
+     }
+ 
+     /**
+@@ -588,6 +605,8 @@
+      * Called when the mob's health reaches 0.
+      */
+     public void onDeath(DamageSource cause) {
++        EventBus.INSTANCE.post(new LivingDeathEvent(this, cause));
++
+         super.onDeath(cause);
+         this.setSize(0.2F, 0.2F);
+         this.setPosition(this.posX, this.posY, this.posZ);
+@@ -727,6 +746,7 @@
+                 this.triggerAchievement(StatList.dropStat);
+             }
+ 
++            new ItemTossEvent(this, entityitem).post();
+             return entityitem;
+         }
+     }
+@@ -1071,6 +1091,8 @@
+      * it. Args: targetEntity
+      */
+     public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
++        EventBus.INSTANCE.post(new PlayerAttackEntityEvent(getUniqueID(), targetEntity));
++
+         if (targetEntity.canAttackWithItem()) {
+             if (!targetEntity.hitByEntity(this)) {
+                 float f = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+@@ -1887,29 +1909,74 @@
+         return this.getWorldScoreboard().getPlayersTeam(this.getName());
+     }
+ 
++    private boolean last;
++    private float currentHeight = 1.62F;
++    private long lastChangeTime = System.currentTimeMillis();
++    private IChatComponent cachedName;
++    private String displayName;
++
+     /**
+      * Get the formatted ChatComponent that will be used for the sender's username in chat
+      */
+     public IChatComponent getDisplayName() {
+-        IChatComponent ichatcomponent = new ChatComponentText(ScorePlayerTeam.formatPlayerName(this.getTeam(), this.getName()));
+-        ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + this.getName() + " "));
+-        ichatcomponent.getChatStyle().setChatHoverEvent(this.getHoverEvent());
+-        ichatcomponent.getChatStyle().setInsertion(this.getName());
+-        return ichatcomponent;
++        if (cachedName == null || System.currentTimeMillis() - lastChangeTime > 50L) {
++            IChatComponent ichatcomponent = new ChatComponentText(ScorePlayerTeam.formatPlayerName(getTeam(), displayName));
++            ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + getName() + " "));
++            //Unneeded for client
++
++            if (Minecraft.getMinecraft().isIntegratedServerRunning()) {
++                ichatcomponent.getChatStyle().setChatHoverEvent(getHoverEvent());
++            }
++
++            ichatcomponent.getChatStyle().setInsertion(getName());
++            cachedName = ichatcomponent;
++        }
++
++        return cachedName;
+     }
+ 
+     public float getEyeHeight() {
+-        float f = 1.62F;
++        if (Settings.OLD_SNEAKING) {
++            int timeDelay = 1000 / 60;
+ 
+-        if (this.isPlayerSleeping()) {
+-            f = 0.2F;
+-        }
++            if (isSneaking()) {
++                float sneakingHeight = 1.54F;
+ 
+-        if (this.isSneaking()) {
+-            f -= 0.08F;
+-        }
++                if (currentHeight > sneakingHeight) {
++                    long time = System.currentTimeMillis();
++                    long timeSinceLastChange = time - lastChangeTime;
+ 
+-        return f;
++                    if (timeSinceLastChange > timeDelay) {
++                        currentHeight -= 0.012F;
++                        lastChangeTime = time;
++                    }
++                }
 +            } else {
-+               currentHeight = 1.62F;
-+            }
-+         }
- 
--      if(this.isSneaking()) {
--         f -= 0.08F;
--      }
-+         if (isPlayerSleeping()) currentHeight = 0.2F;
- 
--      return f;
-+         return currentHeight;
-+      } else {
-+         float f = 1.62F;
-+         if (isPlayerSleeping()) f = 0.2F;
-+         if (isSneaking()) f -= 0.08F;
-+         return f;
-+      }
-    }
- 
-    public void setAbsorptionAmount(float amount) {
-@@ -2012,4 +2072,8 @@
-       OTHER_PROBLEM,
-       NOT_SAFE;
-    }
++                float standingHeight = 1.62F;
 +
-+   public void setDisplayName(String name) {
-+      displayName = name;
-+   }
++                if (currentHeight < standingHeight && currentHeight > 0.2F) {
++                    long time = System.currentTimeMillis();
++                    long timeSinceLastChange = time - lastChangeTime;
++
++                    if (timeSinceLastChange > timeDelay) {
++                        currentHeight += 0.012F;
++                        lastChangeTime = time;
++                    }
++                } else {
++                    currentHeight = 1.62F;
++                }
++            }
++
++            if (isPlayerSleeping()) currentHeight = 0.2F;
++
++            return currentHeight;
++        } else {
++            float f = 1.62F;
++
++            if (isPlayerSleeping()) f = 0.2F;
++            if (isSneaking()) f -= 0.08F;
++            return f;
++        }
+     }
+ 
+     public void setAbsorptionAmount(float amount) {
+@@ -2055,4 +2122,8 @@
+         OTHER_PROBLEM,
+         NOT_SAFE;
+     }
++
++    public void setDisplayName(String name) {
++        displayName = name;
++    }
  }

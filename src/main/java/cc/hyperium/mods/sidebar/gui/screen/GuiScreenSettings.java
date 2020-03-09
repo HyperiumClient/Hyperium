@@ -24,7 +24,7 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 
 public class GuiScreenSettings extends GuiScreenSidebar implements GuiScreenHelper {
 
-    private byte byte0;
+    private final byte byte0;
     private GuiSlider sliderScale;
 
     public GuiScreenSettings(SidebarAddon addon) {

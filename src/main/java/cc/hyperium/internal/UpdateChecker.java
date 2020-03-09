@@ -5,17 +5,12 @@ import cc.hyperium.Metadata;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.network.server.ServerJoinEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
-import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.HyperiumDesktop;
 import cc.hyperium.utils.UpdateUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
 
 import java.awt.*;
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 public class UpdateChecker {
 
@@ -49,13 +44,9 @@ public class UpdateChecker {
                         10f,
                         null, () -> {
                             try {
-                                Desktop.getDesktop().browse(new URI("https://hyperium.cc/downloads"));
-                            } catch (IOException | URISyntaxException e) {
-                                IChatComponent urlComponent = new
-                                        ChatComponentText(ChatColor.RED + "[Hyperium] " +
-                                        ChatColor.GRAY + "Click to be sent to update Hyperium");
-                                urlComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://hyperium.cc/downloads"));
-                                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(urlComponent);
+                                HyperiumDesktop.INSTANCE.browse(new URI("https://hyperium.cc/downloads"));
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                         }, new Color(200, 150, 50));
                 asked = true;

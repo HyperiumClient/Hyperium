@@ -25,20 +25,15 @@ import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.components.ButtonComponent;
 import cc.hyperium.gui.hyperium.components.CollapsibleTabComponent;
 import cc.hyperium.gui.hyperium.components.LabelComponent;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.utils.HyperiumDesktop;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
-import net.minecraft.client.resources.I18n;
 
-import java.awt.*;
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
@@ -59,8 +54,8 @@ public class ShopTab extends AbstractTab {
             PurchaseApi.getInstance().refreshSelf();
             personData = PurchaseApi.getInstance().getSelf().getResponse();
             cosmeticCallback = PurchaseApi.getInstance()
-                .get("https://api.hyperium.cc/cosmetics/" + Objects.requireNonNull(UUIDUtil
-                    .getClientUUID()).toString().replace("-", ""));
+                    .get("https://api.hyperium.cc/cosmetics/" + Objects.requireNonNull(UUIDUtil
+                            .getClientUUID()).toString().replace("-", ""));
             components.clear();
             addComponents();
         });
@@ -68,64 +63,50 @@ public class ShopTab extends AbstractTab {
 
     private void addComponents() {
         CollapsibleTabComponent infoTab = new CollapsibleTabComponent(this, new ArrayList<>(),
-            "Info");
+                "Info");
         infoTab.setCollapsed(false);
 
         infoTab.addChild(new LabelComponent(this, new ArrayList<>(),
-            "Total Credits: " + personData.optInt("total_credits")));
+                "Total Credits: " + personData.optInt("total_credits")));
         infoTab.addChild(new LabelComponent(this, new ArrayList<>(),
-            "Remaining Credits: " + personData.optInt("remaining_credits")));
+                "Remaining Credits: " + personData.optInt("remaining_credits")));
         infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Capes",
-            () -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new CapesGui())));
+                () -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new CapesGui())));
         infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Particles",
-            () -> new ParticleGui().show()));
+                () -> new ParticleGui().show()));
         infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Open in browser",
-            () -> {
-                Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-                if (desktop != null) {
+                () -> {
                     try {
-                        URI uri = new URL("https://hyperium.sk1er.club").toURI();
-                        if(desktop.isSupported(Desktop.Action.BROWSE))
-                            desktop.browse(uri);
-                        else
-                            GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
+                        HyperiumDesktop.INSTANCE.browse(new URI("https://hyperium.sk1er.club"));
                     } catch (Exception e) {
                         Hyperium.LOGGER.error("Could not open link", e);
                     }
-                }
-            }));
+                }));
         infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Purchase credits",
-            () -> {
-                Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-                if (desktop != null) {
+                () -> {
                     try {
-                        URI uri = new URL("https://purchase.sk1er.club/category/1125808").toURI();
-                        if(desktop.isSupported(Desktop.Action.BROWSE))
-                            desktop.browse(uri);
-                        else
-                            GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
+                        HyperiumDesktop.INSTANCE.browse(new URI("https://purchase.sk1er.club/category/1125808"));
                     } catch (Exception e) {
                         Hyperium.LOGGER.error("Could not open link", e);
                     }
-                }
-            }));
+                }));
         infoTab
-            .addChild(new ButtonComponent(this, new ArrayList<>(), "Refresh", this::refreshData));
+                .addChild(new ButtonComponent(this, new ArrayList<>(), "Refresh", this::refreshData));
 
         CollapsibleTabComponent purchaseTab = new CollapsibleTabComponent(this, Arrays.asList("Purchase", "Shop"), "Purchase");
 
-        cosmeticCallback.getKeys().forEach(key -> {
+        for (String key : cosmeticCallback.getKeys()) {
             JsonHolder cosmetic = cosmeticCallback.optJSONObject(key);
             if (cosmetic.optBoolean("cape") || key.toLowerCase(Locale.ENGLISH).startsWith("particle") || cosmetic
-                .optString("name").toLowerCase(Locale.ENGLISH).endsWith("animation")) {
-                return;
+                    .optString("name").toLowerCase(Locale.ENGLISH).endsWith("animation")) {
+                continue;
             }
 
             CollapsibleTabComponent purchase = new CollapsibleTabComponent(this, new ArrayList<>(), cosmetic.optString("name"));
             purchase.addChild(new LabelComponent(this, new ArrayList<>(), cosmetic.optString("name") + " (" + cosmetic.optInt("cost") + " credits)"));
             purchase.addChild(new LabelComponent(this, new ArrayList<>(), cosmetic.optString("description")));
             purchase.addChild(new ButtonComponent(this, new ArrayList<>(),
-                cosmetic.optBoolean("purchased") ? "PURCHASED" : "PURCHASE", () -> {
+                    cosmetic.optBoolean("purchased") ? "PURCHASED" : "PURCHASE", () -> {
                 if (cosmetic.optBoolean("purchased")) {
                     Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("You have already purchased " + cosmetic.optString("name") + ".");
                     return;
@@ -139,11 +120,11 @@ public class ShopTab extends AbstractTab {
             }));
 
             purchaseTab.addChild(purchase);
-        });
+        }
 
         components.addAll(Arrays.asList(
-            infoTab,
-            purchaseTab
+                infoTab,
+                purchaseTab
         ));
     }
 }

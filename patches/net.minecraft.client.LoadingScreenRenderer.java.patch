@@ -5,18 +5,18 @@
  
 +import cc.hyperium.config.Settings;
 +import cc.hyperium.gui.loading.HyperiumLoadingScreen;
- import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.Gui;
  import net.minecraft.client.gui.ScaledResolution;
-@@ -96,6 +98,11 @@
-     * Updates the progress bar on the loading screen to the specified amount. Args: loadProgress
-     */
-    public void setLoadingProgress(int progress) {
-+      if (Settings.HYPERIUM_LOADING_SCREEN) {
-+         HyperiumLoadingScreen.renderHyperiumLoadingScreen(systemTime, framebuffer, mc, scaledResolution, currentlyDisplayedText, message, progress);
-+         return;
-+      }
+ import net.minecraft.client.renderer.GlStateManager;
+@@ -97,6 +99,11 @@
+      * Updates the progress bar on the loading screen to the specified amount. Args: loadProgress
+      */
+     public void setLoadingProgress(int progress) {
++        if (Settings.HYPERIUM_LOADING_SCREEN) {
++            HyperiumLoadingScreen.renderHyperiumLoadingScreen(systemTime, framebuffer, mc, scaledResolution, currentlyDisplayedText, message, progress);
++            return;
++        }
 +
-       if(!this.mc.running) {
-          if(!this.loadingSuccess) {
-             throw new MinecraftError();
+         if (!this.mc.running) {
+             if (!this.loadingSuccess) {
+                 throw new MinecraftError();

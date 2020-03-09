@@ -22,17 +22,17 @@ import cc.hyperium.utils.JsonHolder;
 
 public class PurchaseSettings {
 
-    private boolean buttDisabled;
-    private boolean wingsDisabled;
-    private String wingsType;
-    private double wingsScale;
-    private boolean wingsColor;
-    private int wingsRed;
-    private int wingsGreen;
-    private int wingsBlue;
-    private boolean dragonHeadDisabled;
-    private EnumPurchaseType currentHatType;
-    private EnumPurchaseType companion;
+    private final boolean buttDisabled;
+    private final boolean wingsDisabled;
+    private final String wingsType;
+    private final double wingsScale;
+    private final boolean wingsColor;
+    private final int wingsRed;
+    private final int wingsGreen;
+    private final int wingsBlue;
+    private final boolean dragonHeadDisabled;
+    private final EnumPurchaseType currentHatType;
+    private final EnumPurchaseType companion;
 
     public PurchaseSettings(JsonHolder source) {
         buttDisabled = source.optJSONObject("butt").optBoolean("disabled");

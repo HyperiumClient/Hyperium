@@ -21,7 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.network.PurchaseLoadEvent;
-import cc.hyperium.event.world.SpawnpointChangeEvent;
+import cc.hyperium.event.world.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.packages.EarsCosmetic;
@@ -40,7 +40,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
@@ -74,7 +77,7 @@ public class PurchaseApi {
     }
 
     @InvokeEvent
-    public void worldSwitch(SpawnpointChangeEvent event) {
+    public void worldSwitch(WorldChangeEvent event) {
         Multithreading.runAsync(() -> {
             synchronized (instance) {
                 UUID id = UUIDUtil.getClientUUID();
@@ -145,6 +148,7 @@ public class PurchaseApi {
         purchaseClasses.put(type, ex);
     }
 
+    @SuppressWarnings("rawtypes")
     public AbstractHyperiumPurchase parse(EnumPurchaseType type, JsonHolder data) {
         Class<? extends AbstractHyperiumPurchase> c = purchaseClasses.get(type);
         if (c == null) return null;

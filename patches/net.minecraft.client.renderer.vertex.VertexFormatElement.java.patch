@@ -15,80 +15,81 @@
 +
  @SideOnly(Side.CLIENT)
  public class VertexFormatElement {
-    private static final Logger LOGGER = LogManager.getLogger();
-@@ -129,5 +134,75 @@
-       public String getDisplayName() {
-          return this.displayName;
-       }
+     private static final Logger LOGGER = LogManager.getLogger();
+@@ -129,5 +134,76 @@
+         public String getDisplayName() {
+             return this.displayName;
+         }
 +
-+      public void preDraw(VertexFormat format, int element, int stride, ByteBuffer buffer) {
-+         VertexFormatElement attr = format.getElement(element);
-+         int count = attr.getElementCount();
-+         int constant = attr.getType().getGlConstant();
-+         buffer.position(format.getOffset(element));
++        public void preDraw(VertexFormat format, int element, int stride, ByteBuffer buffer) {
++            VertexFormatElement attr = format.getElement(element);
++            int count = attr.getElementCount();
++            int constant = attr.getType().getGlConstant();
++            buffer.position(format.getOffset(element));
 +
-+         switch (this) {
++            switch (this) {
 +            case POSITION:
-+               GL11.glVertexPointer(count, constant, stride, buffer);
-+               GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
-+               break;
++                GL11.glVertexPointer(count, constant, stride, buffer);
++                GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
++                break;
 +
 +            case NORMAL:
-+               if (count != 3) throw new IllegalArgumentException("Normal attribute should have the size 3: " + attr);
-+               GL11.glNormalPointer(constant, stride, buffer);
-+               GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
-+               break;
++
++                if (count != 3) throw new IllegalArgumentException("Normal attribute should have the size 3: " + attr);
++                GL11.glNormalPointer(constant, stride, buffer);
++                GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
++                break;
 +
 +            case COLOR:
-+               GL11.glColorPointer(count, constant, stride, buffer);
-+               GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
-+               break;
++                GL11.glColorPointer(count, constant, stride, buffer);
++                GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
++                break;
 +
 +            case UV:
-+               OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + attr.getIndex());
-+               GL11.glTexCoordPointer(count, constant, stride, buffer);
-+               GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
-+               OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
-+               break;
++                OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + attr.getIndex());
++                GL11.glTexCoordPointer(count, constant, stride, buffer);
++                GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
++                OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
++                break;
 +
 +            case PADDING:
-+               break;
++                break;
 +
 +            default:
-+               VertexFormatElement.LOGGER.error("Unimplemented vanilla attribute upload: {}", displayName);
-+               break;
-+         }
-+      }
++                VertexFormatElement.LOGGER.error("Unimplemented vanilla attribute upload: {}", displayName);
++                break;
++            }
++        }
 +
-+      public void postDraw(VertexFormat format, int element, int stride, ByteBuffer buffer) {
-+         VertexFormatElement attr = format.getElement(element);
-+         switch (this) {
++        public void postDraw(VertexFormat format, int element, int stride, ByteBuffer buffer) {
++            VertexFormatElement attr = format.getElement(element);
++            switch (this) {
 +            case POSITION:
-+               GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
-+               break;
++                GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
++                break;
 +
 +            case NORMAL:
-+               GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
-+               break;
++                GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
++                break;
 +
 +            case COLOR:
-+               GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
-+               GlStateManager.resetColor();
-+               break;
++                GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
++                GlStateManager.resetColor();
++                break;
 +
 +            case UV:
-+               OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + attr.getIndex());
-+               GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
-+               OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
-+               break;
++                OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit + attr.getIndex());
++                GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
++                OpenGlHelper.setClientActiveTexture(OpenGlHelper.defaultTexUnit);
++                break;
 +
 +            case PADDING:
-+               break;
++                break;
 +
 +            default:
-+               VertexFormatElement.LOGGER.error("Unimplemented vanilla attribute upload: {}", displayName);
-+               break;
-+         }
-+      }
-    }
++                VertexFormatElement.LOGGER.error("Unimplemented vanilla attribute upload: {}", displayName);
++                break;
++            }
++        }
+     }
  }

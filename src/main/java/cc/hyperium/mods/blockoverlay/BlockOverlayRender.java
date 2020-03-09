@@ -17,11 +17,8 @@
 
 package cc.hyperium.mods.blockoverlay;
 
-import cc.hyperium.event.render.DrawBlockHighlightEvent;
 import cc.hyperium.event.InvokeEvent;
-
-import java.awt.Color;
-
+import cc.hyperium.event.render.DrawBlockHighlightEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -33,8 +30,18 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
+
 public class BlockOverlayRender {
-    private BlockOverlay mod;
+    private final BlockOverlay mod;
+
+    private final List<Block> blocksList = Arrays.asList(
+            Blocks.air, Blocks.barrier, // invis
+            Blocks.water, Blocks.flowing_water, // water
+            Blocks.lava, Blocks.flowing_lava // lava
+    );
 
     public BlockOverlayRender(BlockOverlay mod) {
         this.mod = mod;
@@ -52,6 +59,7 @@ public class BlockOverlayRender {
         GL11.glLineWidth(1.0F);
     }
 
+    @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     private void drawOverlay(float partialTicks) {
         if (BlockOverlay.mc.objectMouseOver == null || BlockOverlay.mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
             return;
@@ -63,7 +71,7 @@ public class BlockOverlayRender {
         }
 
         Block block = BlockOverlay.mc.thePlayer.worldObj.getBlockState(position.getBlockPos()).getBlock();
-        if (block == null || block == Blocks.air || block == Blocks.barrier || block == Blocks.water || block == Blocks.flowing_water || block == Blocks.lava || block == Blocks.flowing_lava) {
+        if (block == null || blocksList.contains(block)) {
             return;
         }
 
@@ -81,11 +89,12 @@ public class BlockOverlayRender {
 
         if (mod.getSettings().getOverlayMode() == BlockOverlayMode.OUTLINE) {
             if (mod.getSettings().isChroma()) {
+                // todo chroma broke aagghhh
                 float time = System.currentTimeMillis() % (10000L / mod.getSettings().getChromaSpeed()) / (10000.0f / mod.getSettings().getChromaSpeed());
                 Color color = Color.getHSBColor(time, 1.0f, 1.0f);
-                GL11.glColor4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, mod.getSettings().getOverlayAlpha());
+                GlStateManager.color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, mod.getSettings().getOverlayAlpha());
             } else {
-                GL11.glColor4f(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(), mod.getSettings().getOverlayBlue(), mod.getSettings().getOverlayAlpha());
+                GlStateManager.color(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(), mod.getSettings().getOverlayBlue(), mod.getSettings().getOverlayAlpha());
             }
 
             if (lineWidth != 0.0f) RenderGlobal.drawSelectionBoundingBox(box);
@@ -95,19 +104,19 @@ public class BlockOverlayRender {
             Color color = Color.getHSBColor(time, 1.0f, 1.0f);
 
             if (lineWidth != 0.0f) {
-                GL11.glColor4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1.0f);
+                GlStateManager.color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1.0f);
                 RenderGlobal.drawSelectionBoundingBox(box);
             }
 
-            GL11.glColor4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, mod.getSettings().getOverlayAlpha());
+            GlStateManager.color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, mod.getSettings().getOverlayAlpha());
             drawFilledBoundingBox(box);
         } else {
             if (lineWidth != 0.0f) {
-                GL11.glColor4f(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(), mod.getSettings().getOverlayBlue(), 1.0f);
+                GlStateManager.color(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(), mod.getSettings().getOverlayBlue(), 1.0f);
                 RenderGlobal.drawSelectionBoundingBox(box);
             }
 
-            GL11.glColor4f(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(), mod.getSettings().getOverlayBlue(), mod.getSettings().getOverlayAlpha());
+            GlStateManager.color(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(), mod.getSettings().getOverlayBlue(), mod.getSettings().getOverlayAlpha());
             drawFilledBoundingBox(box);
         }
 

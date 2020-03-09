@@ -34,7 +34,7 @@ import java.util.UUID;
 
 public class LevelheadChatRenderer {
 
-    private Levelhead levelhead;
+    private final Levelhead levelhead;
 
     public LevelheadChatRenderer(Levelhead levelhead) {
         this.levelhead = levelhead;

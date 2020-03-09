@@ -26,14 +26,9 @@ import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 
 public class KeystrokesMod extends AbstractMod {
 
-    /**
-     * The mods metadata
-     */
     private final Metadata metaData;
-
     private KeystrokesSettings config;
     private KeystrokesRenderer renderer;
-
     public String VERSION = "7.0";
 
     /**
@@ -64,6 +59,9 @@ public class KeystrokesMod extends AbstractMod {
         return this;
     }
 
+    /**
+     * The mods metadata
+     */
     @Override
     public Metadata getModMetadata() {
         return metaData;

@@ -77,7 +77,7 @@ public class EditItemsGui extends GuiScreen {
             }
         });
 
-        reg(new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Move Down"), button -> {
+        reg(new GuiButton(nextId(), 2, 23 + (21 << 1), 100, 20, "Move Down"), button -> {
             if (modifying != null) {
                 if (modifying.getOrdinal() < element.getDisplayItems().size() - 1) {
                     Collections.swap(element.getDisplayItems(), modifying.getOrdinal(), modifying.getOrdinal() + 1);
@@ -185,9 +185,17 @@ public class EditItemsGui extends GuiScreen {
 
             modifying = item1;
             if (modifying != null) {
-                ChromaHUDApi.getInstance().getTextConfigs(modifying.getType()).forEach((config) -> config.getLoad().accept(config.getTextField(), modifying));
-                ChromaHUDApi.getInstance().getButtonConfigs(modifying.getType()).forEach((button) -> button.getLoad().accept(button.getButton(), modifying));
-                ChromaHUDApi.getInstance().getStringConfigs(modifying.getType()).forEach((button) -> button.getLoad().accept(modifying));
+                for (TextConfig config : ChromaHUDApi.getInstance().getTextConfigs(modifying.getType())) {
+                    config.getLoad().accept(config.getTextField(), modifying);
+                }
+
+                for (ButtonConfig buttonConfig : ChromaHUDApi.getInstance().getButtonConfigs(modifying.getType())) {
+                    buttonConfig.getLoad().accept(buttonConfig.getButton(), modifying);
+                }
+
+                for (StringConfig button : ChromaHUDApi.getInstance().getStringConfigs(modifying.getType())) {
+                    button.getLoad().accept(modifying);
+                }
             }
         }
     }
@@ -238,7 +246,7 @@ public class EditItemsGui extends GuiScreen {
         if (modifying != null) {
             List<ButtonConfig> configs = ChromaHUDApi.getInstance().getButtonConfigs(modifying.getType());
             xPosition = 3;
-            yPosition = 5 + 21 * 4;
+            yPosition = 5 + (21 << 2);
 
             if (configs != null && !configs.isEmpty()) {
                 for (ButtonConfig config : configs) {

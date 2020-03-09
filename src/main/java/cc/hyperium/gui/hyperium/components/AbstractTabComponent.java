@@ -83,7 +83,9 @@ public abstract class AbstractTabComponent {
     }
 
     protected void stateChange(Object o) {
-        stateChanges.forEach(tmp -> tmp.accept(o));
+        for (Consumer<Object> tmp : stateChanges) {
+            tmp.accept(o);
+        }
     }
 
     public void mouseEvent(int x, int y) {

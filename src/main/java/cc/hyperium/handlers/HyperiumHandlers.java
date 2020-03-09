@@ -19,6 +19,7 @@ package cc.hyperium.handlers;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.HyperiumCommandHandler;
+import cc.hyperium.debug.HyperiumDebug;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
@@ -56,44 +57,45 @@ import java.util.List;
  */
 public class HyperiumHandlers {
 
-    private LocationHandler locationHandler;
-    private HypixelDetector hypixelDetector;
-    private CommandQueue commandQueue;
-    private List<HyperiumChatHandler> chatHandlers;
-    private GeneralChatHandler generalChatHandler;
-    private HypixelAPI dataHandler;
-    private ResolutionUtil resolutionUtil;
-    private StatusHandler statusHandler;
-    private GuiDisplayHandler guiDisplayHandler;
-    private KeyBindHandler keybindHandler;
-    private HyperiumCommandHandler commandHandler;
-    private HyperiumNetwork network;
-    private ScoreboardRenderer scoreboardRenderer;
-    private OtherConfigOptions configOptions;
-    private DabHandler dabHandler;
-    private FlossDanceHandler flossDanceHandler;
-    private ParticleAuraHandler particleAuraHandler;
-    private VanillaEnhancementsHud vanillaEnhancementsHud;
-    private QuestTrackingChatHandler questTracking;
-    private FlipHandler flipHandler;
-    private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
-    private PerspectiveModifierHandler perspectiveHandler;
-    private TPoseHandler tPoseHandler;
-    private ArmWaveHandler armWaveHandler;
-    private HypixelGuiAugmenter hypixelGuiAugmenter;
-    private TwerkDance twerkDance;
-    private StatsHandler statsHandler;
-    private BroadcastEvents broadcastEvents;
-    private SettingsHandler settingsHandler;
-    private BlurHandler blurHandler;
-    private ThankWatchdog thankWatchdog;
-    private MemoryHelper memoryHelper;
-    private MinigameListener minigameListener;
-    private UpdateChecker updateChecker;
-    private MouseListener mouseListener;
-    private FovModifier fovModifier;
-    private CloudHandler cloudHandler;
-    private HypixelConnectionMessage hypixelConnectionMessage;
+    private final LocationHandler locationHandler;
+    private final HypixelDetector hypixelDetector;
+    private final CommandQueue commandQueue;
+    private final List<HyperiumChatHandler> chatHandlers;
+    private final GeneralChatHandler generalChatHandler;
+    private final HypixelAPI dataHandler;
+    private final ResolutionUtil resolutionUtil;
+    private final StatusHandler statusHandler;
+    private final GuiDisplayHandler guiDisplayHandler;
+    private final KeyBindHandler keybindHandler;
+    private final HyperiumCommandHandler commandHandler;
+    private final HyperiumNetwork network;
+    private final ScoreboardRenderer scoreboardRenderer;
+    private final OtherConfigOptions configOptions;
+    private final DabHandler dabHandler;
+    private final FlossDanceHandler flossDanceHandler;
+    private final ParticleAuraHandler particleAuraHandler;
+    private final VanillaEnhancementsHud vanillaEnhancementsHud;
+    private final QuestTrackingChatHandler questTracking;
+    private final FlipHandler flipHandler;
+    private final LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
+    private final PerspectiveModifierHandler perspectiveHandler;
+    private final TPoseHandler tPoseHandler;
+    private final ArmWaveHandler armWaveHandler;
+    private final HypixelGuiAugmenter hypixelGuiAugmenter;
+    private final TwerkDance twerkDance;
+    private final StatsHandler statsHandler;
+    private final BroadcastEvents broadcastEvents;
+    private final SettingsHandler settingsHandler;
+    private final BlurHandler blurHandler;
+    private final ThankWatchdog thankWatchdog;
+    private final MemoryHelper memoryHelper;
+    private final MinigameListener minigameListener;
+    private final UpdateChecker updateChecker;
+    private final MouseListener mouseListener;
+    private final FovModifier fovModifier;
+    private final CloudHandler cloudHandler;
+    private final HypixelConnectionMessage hypixelConnectionMessage;
+    private final HyperiumDebug hyperiumDebug;
 
     public HyperiumHandlers() {
         Hyperium.LOGGER.info("Loading handlers");
@@ -131,6 +133,7 @@ public class HyperiumHandlers {
         register(fovModifier = new FovModifier());
         register(cloudHandler = new CloudHandler());
         register(hypixelConnectionMessage = new HypixelConnectionMessage());
+        register(hyperiumDebug = new HyperiumDebug());
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
         // Chat Handlers
@@ -293,5 +296,8 @@ public class HyperiumHandlers {
     }
     public HypixelConnectionMessage getHypixelConnectionMessage() {
         return hypixelConnectionMessage;
+    }
+    public HyperiumDebug getHyperiumDebug() {
+        return hyperiumDebug;
     }
 }

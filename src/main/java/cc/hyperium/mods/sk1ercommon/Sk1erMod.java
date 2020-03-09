@@ -39,8 +39,8 @@ public class Sk1erMod {
         Dabbing intensifies
      */
     private static Sk1erMod instance;
-    private String modid;
-    private String version;
+    private final String modid;
+    private final String version;
     private String apiKey = "";
     private JsonHolder en = new JsonHolder();
     private GenKeyCallback callback = object -> {

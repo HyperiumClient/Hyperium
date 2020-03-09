@@ -68,7 +68,7 @@ public class CloudRenderer implements IResourceManagerReloadListener {
         float scale = getScale();
         float CULL_DIST = 2 * scale;
         float bCol = fancy ? 0.7F : 1.0F;
-        float sectEnd = ceilToScale((renderDistance * 2) * 16);
+        float sectEnd = ceilToScale((renderDistance << 1) << 4);
         float sectStart = -sectEnd;
         float sectStep = ceilToScale(sectEnd * 2 / TOP_SECTIONS);
         float sectPx = PX_SIZE / scale;

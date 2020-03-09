@@ -18,30 +18,44 @@
 package cc.hyperium.mods.levelhead.guis;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.levelhead.Levelhead;
-import cc.hyperium.mods.levelhead.display.*;
+import cc.hyperium.mods.levelhead.display.AboveHeadDisplay;
+import cc.hyperium.mods.levelhead.display.ChatDisplay;
+import cc.hyperium.mods.levelhead.display.DisplayConfig;
+import cc.hyperium.mods.levelhead.display.LevelheadDisplay;
+import cc.hyperium.mods.levelhead.display.TabDisplay;
 import cc.hyperium.mods.levelhead.purchases.LevelheadPurchaseStates;
 import cc.hyperium.mods.levelhead.renderer.LevelheadChatRenderer;
 import cc.hyperium.mods.levelhead.util.LevelheadJsonHolder;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.HyperiumDesktop;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.GuiYesNo;
+import net.minecraft.client.gui.GuiYesNoCallback;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.util.*;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fml.client.config.GuiSlider;
 import org.lwjgl.input.Mouse;
 
@@ -49,11 +63,12 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.*;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 import static cc.hyperium.utils.ChatColor.*;
@@ -63,15 +78,15 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
     private static final String COLOR_CHAR = "\u00a7";
     private final String colors = "0123456789abcdef";
     private int currentID = 2;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<Integer, Runnable> ids = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final HashMap<Integer, Runnable> ids = new HashMap<>();
     private LevelheadDisplay currentlyBeingEdited;
     private boolean bigChange = false;
     private boolean isCustom = false;
     private GuiTextField textField;
     private boolean purchasingStats = false;
     private int offset = 0;
-    private UUID uuid = Minecraft.getMinecraft().getSession().getProfile().getId();
+    private final UUID uuid = Minecraft.getMinecraft().getSession().getProfile().getId();
 
     @Override
     public void initGui() {
@@ -217,32 +232,18 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                     if (isCustom) {
                         Minecraft.getMinecraft().displayGuiScreen(new CustomLevelheadConfigurer());
                     } else {
-                        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-                        if (desktop != null) {
-                            URI uri = new URL("https://sk1er.club/customlevelhead").toURI();
-                            if (desktop.isSupported(Desktop.Action.BROWSE))
-                                desktop.browse(uri);
-                            else
-                                GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
-                        }
+                        HyperiumDesktop.INSTANCE.browse(new URI("https://sk1er.club/customlevelhead"));
                     }
-                } catch (IOException | URISyntaxException e) {
+                } catch (Exception e) {
                     Hyperium.LOGGER.error("Could not open link", e);
                 }
             });
 
             reg(new GuiButton(++currentID, 1, 23, 150, 20, YELLOW + "Purchase Levelhead Credits"), button -> {
-                Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-                if (desktop != null) {
-                    try {
-                        URI uri = new URL("https://purchase.sk1er.club/category/1050972").toURI();
-                        if (desktop.isSupported(Desktop.Action.BROWSE))
-                            desktop.browse(uri);
-                        else
-                            GeneralChatHandler.instance().sendMessage(I18n.format("message.browseerror", uri));
-                    } catch (Exception e) {
-                        Hyperium.LOGGER.error("Could not open link", e);
-                    }
+                try {
+                    HyperiumDesktop.INSTANCE.browse(new URI("https://purchase.sk1er.club/category/1050972"));
+                } catch (Exception e) {
+                    Hyperium.LOGGER.error("Could not open link", e);
                 }
             });
         }
@@ -345,7 +346,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
 
         reg(new GuiButton(++currentID, width / 3 - 100, height - 137, 200, 20, YELLOW + "Purchase Additional Above Head Layer"), button ->
                 attemptPurchase("head"));
-        reg(new GuiButton(++currentID, width - editWidth * 2 - 3, 29, editWidth, 20, YELLOW + "Editing Layer: " +
+        reg(new GuiButton(++currentID, width - (editWidth << 1) - 3, 29, editWidth, 20, YELLOW + "Editing Layer: " +
                         AQUA + (aboveHead.indexOf(currentlyBeingEdited) + 1)),
                 button -> {
                     int i = aboveHead.indexOf(currentlyBeingEdited);
@@ -359,12 +360,12 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                     textField.setText(currentlyBeingEdited.getConfig().getCustomHeader());
                 });
 
-        reg(new GuiButton(++currentID, width - editWidth * 2 - 3, 50, editWidth, 20, YELLOW + "Show On Self: "
+        reg(new GuiButton(++currentID, width - (editWidth << 1) - 3, 50, editWidth, 20, YELLOW + "Show On Self: "
                 + AQUA + (currentlyBeingEdited.getConfig().isShowSelf() ? "YES" : "NO")), button ->
                 currentlyBeingEdited.getConfig().setShowSelf(!currentlyBeingEdited.getConfig().isShowSelf()));
 
         int colorConfigStart = 93 + 2;
-        reg(new GuiButton(++currentID, width - editWidth * 2 - 2, colorConfigStart, editWidth, 20, YELLOW + "Header Mode: " +
+        reg(new GuiButton(++currentID, width - (editWidth << 1) - 2, colorConfigStart, editWidth, 20, YELLOW + "Header Mode: " +
                 AQUA + getMode(true)), button -> {
             if (config.isHeaderRgb()) {
                 config.setHeaderRgb(false);
@@ -381,26 +382,26 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         });
 
         if (config.isHeaderRgb()) {
-            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 22, editWidth, 20, YELLOW + "Header Red: "
+            regSlider(new GuiSlider(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 22, editWidth, 20, YELLOW + "Header Red: "
                     + AQUA, "", 0,
                     255, config.getHeaderRed(), false, true, slider -> {
                 config.setHeaderRed(slider.getValueInt());
                 updatePeopleToValues();
             }));
-            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 44, editWidth, 20, YELLOW + "Header Green: "
+            regSlider(new GuiSlider(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 44, editWidth, 20, YELLOW + "Header Green: "
                     + AQUA, "", 0,
                     255, config.getHeaderGreen(), false, true, slider -> {
                 config.setHeaderGreen(slider.getValueInt());
                 updatePeopleToValues();
             }));
-            regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 66, editWidth, 20, YELLOW + "Header Blue: "
+            regSlider(new GuiSlider(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 66, editWidth, 20, YELLOW + "Header Blue: "
                     + AQUA, "", 0,
                     255, config.getHeaderBlue(), false, true, slider -> {
                 config.setHeaderBlue(slider.getValueInt());
                 updatePeopleToValues();
             }));
         } else if (!config.isHeaderChroma()) {
-            reg(new GuiButton(++currentID, width - editWidth * 2 - 2, colorConfigStart + 22, editWidth, 20, config.getHeaderColor() +
+            reg(new GuiButton(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 22, editWidth, 20, config.getHeaderColor() +
                     "Rotate Header Color"), button -> {
                 int primaryId = colors.indexOf(removeColorChar(config.getHeaderColor()));
 
@@ -445,7 +446,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                     incrementColor(config, false));
         }
 
-        regSlider(new GuiSlider(++currentID, width - editWidth * 2 - 2, colorConfigStart + 88, editWidth, 20, YELLOW + "Vertical Offset: " +
+        regSlider(new GuiSlider(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 88, editWidth, 20, YELLOW + "Vertical Offset: " +
                 AQUA, "", -50,
                 100, instance.getDisplayManager().getMasterConfig().getOffset() * 100D, false, true, slider ->
                 instance.getDisplayManager().getMasterConfig().setOffset(slider.getValue() / 100D)));
@@ -458,7 +459,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         }));
 
         if (isCustom) {
-            reg(new GuiButton(++currentID, width - editWidth * 2 - 2, colorConfigStart + 88 + 22, editWidth * 2 + 1, 20,
+            reg(new GuiButton(++currentID, width - (editWidth << 1) - 2, colorConfigStart + 88 + 22, (editWidth << 1) + 1, 20,
                             YELLOW + "Export Colors to Custom Levelhead"),
                     guiButton -> {
                         final LevelheadJsonHolder object;
@@ -644,7 +645,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         }
 
         zLevel += 100.0F;
-        drawTexturedModalRect(x - 11, y, i * 10, 176 + j * 8, 10, 8);
+        drawTexturedModalRect(x - 11, y, i * 10, 176 + (j << 3), 10, 8);
         zLevel -= 100.0F;
     }
 

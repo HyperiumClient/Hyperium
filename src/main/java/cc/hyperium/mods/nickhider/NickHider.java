@@ -28,6 +28,7 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -52,9 +53,9 @@ public class NickHider extends AbstractMod {
     public static NickHider instance;
     private final Pattern newNick = Pattern.compile("We've generated a random username for you: \\s*(?<nick>\\S+)");
     private final List<Nick> nicks = new ArrayList<>();
-    private HashMap<String, String> cache = new HashMap<>();
-    private Set<String> usedNicks = new HashSet<>();
-    private List<String> namesDatabase = new ArrayList<>();
+    private final HashMap<String, String> cache = new HashMap<>();
+    private final Set<String> usedNicks = new HashSet<>();
+    private final List<String> namesDatabase = new ArrayList<>();
     private File configFile;
     private NickHiderConfig nickHiderConfig;
     private boolean forceDown;
@@ -143,7 +144,8 @@ public class NickHider extends AbstractMod {
             NetHandlerPlayClient sendQueue = player.sendQueue;
             if (sendQueue == null) return;
 
-            sendQueue.getPlayerInfoMap().stream().map(NetworkPlayerInfo::getGameProfile).forEach(gameProfile -> {
+            for (NetworkPlayerInfo networkPlayerInfo : sendQueue.getPlayerInfoMap()) {
+                GameProfile gameProfile = networkPlayerInfo.getGameProfile();
                 if (gameProfile.getId() != null && gameProfile.getId().equals(Minecraft.getMinecraft().getSession().getProfile().getId())) {
                     if (!gameProfile.getName().equalsIgnoreCase(Minecraft.getMinecraft().getSession().getProfile().getName())) {
                         remap(gameProfile.getName(), override == null ? Minecraft.getMinecraft().getSession().getProfile().getName() : override);
@@ -151,7 +153,7 @@ public class NickHider extends AbstractMod {
                 } else if (nickHiderConfig.isHideOtherNames()) {
                     remap(gameProfile.getName(), getPseudo(gameProfile.getName()));
                 }
-            });
+            }
         }
     }
 

@@ -19,6 +19,7 @@ package cc.hyperium.mods.togglechat.config;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
+import cc.hyperium.mods.togglechat.toggles.ToggleBase;
 import cc.hyperium.utils.BetterJsonObject;
 
 import java.io.BufferedReader;
@@ -57,9 +58,10 @@ public class ToggleChatConfig {
                 saveToggles();
             }
 
-            theMod.getToggleHandler().getToggles().values().forEach(base ->
-                    base.setEnabled(toggleJson.has("show" + base.getName().replace(" ",
-                            "_")) && toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean()));
+            for (ToggleBase base : theMod.getToggleHandler().getToggles().values()) {
+                base.setEnabled(toggleJson.has("show" + base.getName().replace(" ",
+                        "_")) && toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean());
+            }
         } else {
             saveToggles();
         }
@@ -72,7 +74,9 @@ public class ToggleChatConfig {
             }
 
             toggleFile.createNewFile();
-            theMod.getToggleHandler().getToggles().values().forEach(base -> toggleJson.addProperty("show" + base.getName().replace(" ", "_"), base.isEnabled()));
+            for (ToggleBase base : theMod.getToggleHandler().getToggles().values()) {
+                toggleJson.addProperty("show" + base.getName().replace(" ", "_"), base.isEnabled());
+            }
             toggleJson.writeToFile(toggleFile);
         } catch (Exception ex) {
             log("Could not save toggles.");

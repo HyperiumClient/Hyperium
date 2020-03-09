@@ -33,6 +33,7 @@ object AddonMinecraftBootstrap {
     @JvmStatic
     val LOADED_ADDONS = arrayListOf<IAddon>()
         @JvmName("getLoadedAddons") get
+
     @JvmStatic
     val ADDON_ERRORS = arrayListOf<Throwable>()
         @JvmName("getAddonLoadErrors") get
@@ -82,7 +83,8 @@ object AddonMinecraftBootstrap {
                         val dependencyManifest = toLoadMap[dependency]
                         if (dependencyManifest == null) {
                             toLoadMap.remove(manifest.name)
-                            Hyperium.LOGGER.error("Can't load addon ${manifest.name}. Its dependency, $dependency, isn't available.")
+                            Hyperium.LOGGER
+                                .error("Can't load addon ${manifest.name}. Its dependency, $dependency, isn't available.")
                             MISSING_DEPENDENCIES_MAP.computeIfAbsent(manifest) { arrayListOf() }.add(dependency)
                             continue@loadBeforeLoop
                         }
@@ -92,7 +94,8 @@ object AddonMinecraftBootstrap {
                             iterator.remove()
                             toLoadMap.remove(manifest.name)
                             done = false
-                            Hyperium.LOGGER.error("Can't load addon ${manifest.name} because it and ${dependencyManifest.name} depend on each other.")
+                            Hyperium.LOGGER
+                                .error("Can't load addon ${manifest.name} because it and ${dependencyManifest.name} depend on each other.")
                             DEPENDENCIES_LOOP_MAP.computeIfAbsent(manifest) { arrayListOf() }.add(dependencyManifest)
                             continue@loadBeforeLoop
                         }
@@ -105,7 +108,7 @@ object AddonMinecraftBootstrap {
             val inEdges = toLoad.map { it to hashSetOf<AddonManifest>() }.toMap().toMutableMap()
             val outEdges = toLoad.map { it to hashSetOf<AddonManifest>() }.toMap().toMutableMap()
 
-            toLoad.forEach { manifest ->
+            for (manifest in toLoad) {
                 manifest.dependencies.forEach {
                     val dependency = toLoadMap[it]
                     if (dependency != null) {
@@ -116,7 +119,7 @@ object AddonMinecraftBootstrap {
             }
 
             val toSort = hashSetOf<AddonManifest>()
-            toLoad.forEach {
+            for (it in toLoad) {
                 if (inEdges[it]?.size == 0) {
                     toSort.add(it)
                 }
@@ -158,12 +161,12 @@ object AddonMinecraftBootstrap {
                 return
             }
 
-            val dontLoad: ArrayList<AddonManifest> = arrayListOf()
+            val dontLoad = arrayListOf<AddonManifest>()
 
             dontLoad.addAll(toLoad.filter {
                 it.versionCode != VERSION_CODE
             }.also {
-                it.forEach { addon ->
+                for (addon in it) {
                     val output =
                         if (addon.versionCode != null) "Addon ${addon.name}'s version code (${addon.versionCode}) doesnt match our version code! $VERSION_CODE"
                         else "Addon ${addon.name}'s version code is null. Please include a \'\"versionCode\": \"$VERSION_CODE\"\"\' in your addon.json file."
@@ -172,7 +175,7 @@ object AddonMinecraftBootstrap {
                 }
             })
 
-            toLoad.forEach { addon ->
+            for (addon in toLoad) {
                 try {
                     if (addon.overlay != null) {
                         OverlayChecker.checkOverlayField(addon.overlay)
@@ -184,12 +187,12 @@ object AddonMinecraftBootstrap {
                 }
             }
 
-            dontLoad.forEach { addon ->
+            for (addon in dontLoad) {
                 toLoad.remove(addon)
             }
 
             val loaded = arrayListOf<IAddon>() // sorry Kevin but I want to put all errors in an arraylist
-            toLoad.forEach { addon ->
+            for (addon in toLoad) {
                 try {
                     val o = Class.forName(addon.mainClass).newInstance()
                     if (o is IAddon) {
@@ -204,7 +207,9 @@ object AddonMinecraftBootstrap {
             }
 
             LOADED_ADDONS.addAll(loaded)
-            LOADED_ADDONS.forEach { it.onLoad() }
+            for (it in LOADED_ADDONS) {
+                it.onLoad()
+            }
             AddonBootstrap.phase = AddonBootstrap.Phase.DEFAULT
         } catch (e: Exception) {
         }

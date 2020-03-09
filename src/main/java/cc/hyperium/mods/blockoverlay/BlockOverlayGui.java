@@ -23,7 +23,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.client.config.GuiSlider;
 
 public class BlockOverlayGui extends GuiScreen {
-    private BlockOverlay mod;
+    private final BlockOverlay mod;
     private GuiButton buttonMode;
     private GuiButton buttonColor;
     private GuiSlider sliderWidth;

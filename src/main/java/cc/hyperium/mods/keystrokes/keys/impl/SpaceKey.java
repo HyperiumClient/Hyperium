@@ -32,12 +32,9 @@ import java.awt.*;
 public class SpaceKey extends AbstractKey {
 
     private final KeyBinding key;
-
     private boolean wasPressed = true;
-
     private long lastPress;
-
-    private String name;
+    private final String name;
 
     public SpaceKey(KeystrokesMod mod, KeyBinding key, int xOffset, int yOffset, String name) {
         super(mod, xOffset, yOffset);

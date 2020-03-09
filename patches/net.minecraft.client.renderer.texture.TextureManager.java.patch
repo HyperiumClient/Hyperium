@@ -1,6 +1,6 @@
 --- original/net/minecraft/client/renderer/texture/TextureManager.java
 +++ changed/net/minecraft/client/renderer/texture/TextureManager.java
-@@ -3,10 +3,13 @@
+@@ -3,6 +3,7 @@
  import com.google.common.collect.Lists;
  import com.google.common.collect.Maps;
  import java.io.IOException;
@@ -8,119 +8,49 @@
  import java.util.List;
  import java.util.Map;
  import java.util.Map.Entry;
- import java.util.concurrent.Callable;
+@@ -26,6 +27,8 @@
+     private final Map<String, Integer> mapTextureCounters = Maps.<String, Integer>newHashMap();
+     private IResourceManager theResourceManager;
+ 
++    private HashMap<String, ITextureObject> textures = Maps.newHashMap();
 +
-+import net.minecraft.client.Minecraft;
- import net.minecraft.client.renderer.texture.DynamicTexture;
- import net.minecraft.client.renderer.texture.ITextureObject;
- import net.minecraft.client.renderer.texture.ITickable;
-@@ -32,6 +35,8 @@
-    private final Map<String, Integer> mapTextureCounters = Maps.<String, Integer>newHashMap();
-    private IResourceManager theResourceManager;
+     public TextureManager(IResourceManager resourceManager) {
+         this.theResourceManager = resourceManager;
+     }
+@@ -44,6 +47,7 @@
+     public boolean loadTickableTexture(ResourceLocation textureLocation, ITickableTextureObject textureObj) {
+         if (this.loadTexture(textureLocation, textureObj)) {
+             this.listTickables.add(textureObj);
++            textures.put(textureLocation.toString(), textureObj);
+             return true;
+         } else {
+             return false;
+@@ -53,6 +57,10 @@
+     public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj) {
+         boolean flag = true;
  
-+   private HashMap<String, ITextureObject> textures = Maps.newHashMap();
++        ITextureObject textureCopy = textures.get(textureLocation.toString());
 +
-    public TextureManager(IResourceManager resourceManager) {
-       this.theResourceManager = resourceManager;
-    }
-@@ -47,39 +52,39 @@
-    }
- 
-    public boolean loadTickableTexture(ResourceLocation textureLocation, ITickableTextureObject textureObj) {
--      if(this.loadTexture(textureLocation, textureObj)) {
--         this.listTickables.add(textureObj);
-+      if (loadTexture(textureLocation, textureObj)) {
-+         listTickables.add(textureObj);
-+         textures.put(textureLocation.toString(), textureObj);
-          return true;
-       } else {
-          return false;
-       }
-    }
- 
--   public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj) {
--      boolean flag = true;
-+   public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObject) {
-+      boolean loaded = true;
- 
-+      ITextureObject textureCopy = textures.get(textureLocation.toString());
-+      if (textureCopy != null) textureObject = textureCopy;
++        if (textureCopy != null) textureObj = textureCopy;
 +
-       try {
--         ((ITextureObject)textureObj).loadTexture(this.theResourceManager);
--      } catch (IOException ioexception) {
--         logger.warn((String)("Failed to load texture: " + textureLocation), (Throwable)ioexception);
--         textureObj = TextureUtil.missingTexture;
--         this.mapTextureObjects.put(textureLocation, (ITextureObject)textureObj);
--         flag = false;
--      } catch (Throwable throwable) {
--         final ITextureObject p_110579_2_f = textureObj;
--         CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Registering texture");
--         CrashReportCategory crashreportcategory = crashreport.makeCategory("Resource location being registered");
--         crashreportcategory.addCrashSection("Resource location", textureLocation);
--         crashreportcategory.addCrashSectionCallable("Texture object class", new Callable<String>() {
--            public String call() throws Exception {
--               return p_110579_2_f.getClass().getName();
--            }
--         });
--         throw new ReportedException(crashreport);
-+         textureObject.loadTexture(Minecraft.getMinecraft().getResourceManager());
-+      } catch (IOException e) {
-+         logger.warn("Failed to load texture {}", textureLocation, e);
-+         textureObject = TextureUtil.missingTexture;
-+         mapTextureObjects.put(textureLocation, textureObject);
-+         loaded = false;
-+      } catch (Throwable e) {
-+         ITextureObject object = textureObject;
-+         CrashReport report = CrashReport.makeCrashReport(e, "Registering texture");
-+         CrashReportCategory category = report.makeCategory("Resource location being registered");
-+         category.addCrashSection("Resource location", textureLocation);
-+         category.addCrashSectionCallable("Texture object class", () -> object.getClass().getName());
-+         throw new ReportedException(report);
-       }
+         try {
+             ((ITextureObject)textureObj).loadTexture(this.theResourceManager);
+         } catch (IOException ioexception) {
+@@ -92,6 +100,7 @@
  
--      this.mapTextureObjects.put(textureLocation, (ITextureObject)textureObj);
--      return flag;
-+      mapTextureObjects.put(textureLocation, textureObject);
-+      return loaded;
-    }
- 
-    public ITextureObject getTexture(ResourceLocation textureLocation) {
-@@ -87,17 +92,17 @@
-    }
- 
-    public ResourceLocation getDynamicTextureLocation(String name, DynamicTexture texture) {
--      Integer integer = (Integer)this.mapTextureCounters.get(name);
--      if(integer == null) {
--         integer = Integer.valueOf(1);
--      } else {
--         integer = Integer.valueOf(integer.intValue() + 1);
--      }
-+      Integer integer = mapTextureCounters.get(name);
- 
--      this.mapTextureCounters.put(name, integer);
--      ResourceLocation resourcelocation = new ResourceLocation(String.format("dynamic/%s_%d", new Object[]{name, integer}));
--      this.loadTexture(resourcelocation, texture);
--      return resourcelocation;
-+      if (integer == null) integer = 1;
-+      else integer = integer + 1;
+         this.mapTextureCounters.put(name, integer);
+         ResourceLocation resourcelocation = new ResourceLocation(String.format("dynamic/%s_%d", new Object[] {name, integer}));
++        textures.put(resourcelocation.toString(), texture);
+         this.loadTexture(resourcelocation, texture);
+         return resourcelocation;
+     }
+@@ -115,4 +124,9 @@
+             this.loadTexture((ResourceLocation)entry.getKey(), (ITextureObject)entry.getValue());
+         }
+     }
 +
-+      mapTextureCounters.put(name, integer);
-+      String format = String.format("dynamic/%s_%d", name, integer);
-+      ResourceLocation resourceLocation = new ResourceLocation(format);
-+      textures.put(resourceLocation.toString(), texture);
-+      loadTexture(resourceLocation, texture);
-+      return resourceLocation;
-    }
- 
-    public void tick() {
-@@ -121,4 +126,9 @@
-       }
- 
-    }
-+
-+   // Hyperium: Add getter for texture object map
-+   public Map<ResourceLocation, ITextureObject> getMapTextureObjects() {
-+      return mapTextureObjects;
-+   }
++    // Hyperium: Add getter for texture object map
++    public Map<ResourceLocation, ITextureObject> getMapTextureObjects() {
++        return mapTextureObjects;
++    }
  }

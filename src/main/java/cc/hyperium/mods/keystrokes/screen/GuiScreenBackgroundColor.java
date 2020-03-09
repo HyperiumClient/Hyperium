@@ -11,10 +11,10 @@ import java.io.IOException;
 public class GuiScreenBackgroundColor extends GuiScreen implements IScreen {
 
     private final KeystrokesMod mod;
-    private final IScrollable red;
-    private final IScrollable green;
-    private final IScrollable blue;
-    private boolean updated;
+    final IScrollable red;
+    final IScrollable green;
+    final IScrollable blue;
+    boolean updated;
 
     GuiScreenBackgroundColor(KeystrokesMod mod, IScrollable red, IScrollable green, IScrollable blue) {
         this.mod = mod;
