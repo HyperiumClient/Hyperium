@@ -282,5 +282,20 @@ public class ChromaHUD extends AbstractMod {
             guiButton.displayString = "Lifetime Coins";
           }
         }));
+
+
+      ChromaHUDApi.getInstance().registerTextConfig("SPEED",
+              new TextConfig(
+                      (guiTextField, displayItem) -> ((SpeedMeter) displayItem).setFormat(guiTextField.getText()),
+                      textTextField,
+                      (guiTextField, displayItem) -> guiTextField.setText(((SpeedMeter) displayItem).getFormat())));
+      ChromaHUDApi.getInstance().registerButtonConfig("SPEED",
+              new ButtonConfig((guiButton, displayItem) -> ((SpeedMeter) displayItem).cycleMode(),
+                      new GuiButton(0, 0, 0, "Cycle mode"),
+                      (guiButton, displayItem) -> ((SpeedMeter) displayItem).setMode(null)));
+      ChromaHUDApi.getInstance().registerButtonConfig("SPEED",
+              new ButtonConfig((guiButton, displayItem) -> ((SpeedMeter) displayItem).cycleSpeedUnit(),
+                      new GuiButton(2, 0, 0, "Cycle speed unit"),
+                      (guiButton, displayItem) -> ((SpeedMeter) displayItem).setSpeedUnit(null)));
   }
 }
