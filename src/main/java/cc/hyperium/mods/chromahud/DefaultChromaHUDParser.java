@@ -20,17 +20,7 @@ package cc.hyperium.mods.chromahud;
 import cc.hyperium.mods.chromahud.api.ChromaHUDDescription;
 import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.chromahud.displayitems.chromahud.ArmourHud;
-import cc.hyperium.mods.chromahud.displayitems.chromahud.ArrowCount;
-import cc.hyperium.mods.chromahud.displayitems.chromahud.CCounter;
-import cc.hyperium.mods.chromahud.displayitems.chromahud.CordsDisplay;
-import cc.hyperium.mods.chromahud.displayitems.chromahud.CpsDisplay;
-import cc.hyperium.mods.chromahud.displayitems.chromahud.DirectionHUD;
-import cc.hyperium.mods.chromahud.displayitems.chromahud.FPS;
-import cc.hyperium.mods.chromahud.displayitems.chromahud.PingDisplay;
-import cc.hyperium.mods.chromahud.displayitems.chromahud.PotionEffects;
-import cc.hyperium.mods.chromahud.displayitems.chromahud.TextItem;
-import cc.hyperium.mods.chromahud.displayitems.chromahud.TimeHud;
+import cc.hyperium.mods.chromahud.displayitems.chromahud.*;
 import cc.hyperium.utils.JsonHolder;
 
 import java.util.HashMap;
@@ -52,6 +42,7 @@ public class DefaultChromaHUDParser implements ChromaHUDParser {
     names.put("ARROW_COUNT", "Arrow Count");
     names.put("TIME", "Time");
     names.put("C_COUNTER", "C Counter");
+    names.put("SPEED", "Speed");
   }
 
   @Override
@@ -79,6 +70,8 @@ public class DefaultChromaHUDParser implements ChromaHUDParser {
         return new CCounter(item, ord);
       case "TIME":
         return new TimeHud(item, ord);
+      case "SPEED":
+        return new SpeedMeter(item, ord);
     }
 
     return null;
