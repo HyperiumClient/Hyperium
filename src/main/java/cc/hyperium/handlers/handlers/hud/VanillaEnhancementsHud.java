@@ -18,7 +18,6 @@
 package cc.hyperium.handlers.handlers.hud;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.gui.GuiDrawScreenEvent;
 import cc.hyperium.event.render.RenderHUDEvent;
@@ -28,6 +27,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,24 +39,17 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldSettings;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class VanillaEnhancementsHud {
-
 
   /*
   Most of code adapted from Orange Marshall's Vanilla Enhancements
    */
-  private Minecraft mc = Minecraft.getMinecraft();
-
-  public VanillaEnhancementsHud() {
-    EventBus.INSTANCE.register(new NetworkInfo());
-  }
+  private final Minecraft mc = Minecraft.getMinecraft();
 
   @InvokeEvent
   public void renderItemCount(RenderHUDEvent event) {
@@ -67,9 +60,11 @@ public class VanillaEnhancementsHud {
         if (count > 1 || (holdingBow && count > 0)) {
           int offset =
               mc.playerController.getCurrentGameType() == WorldSettings.GameType.CREATIVE ? 10 : 0;
-          mc.fontRendererObj.drawString(String.valueOf(count),
-              event.getResolution().getScaledWidth() - mc.fontRendererObj
-                  .getStringWidth(String.valueOf(count)) >> 1,
+          mc.fontRendererObj.drawString(
+              String.valueOf(count),
+              event.getResolution().getScaledWidth()
+                      - mc.fontRendererObj.getStringWidth(String.valueOf(count))
+                  >> 1,
               event.getResolution().getScaledHeight() - 46 - offset,
               -1,
               true);
@@ -84,10 +79,11 @@ public class VanillaEnhancementsHud {
       ItemStack heldItemStack = mc.thePlayer.inventory.getCurrentItem();
       if (heldItemStack != null) {
         String toDraw =
-            heldItemStack.getItem() instanceof ItemPotion ? getPotionEffectString(heldItemStack)
+            heldItemStack.getItem() instanceof ItemPotion
+                ? getPotionEffectString(heldItemStack)
                 : getEnchantmentString(heldItemStack);
-        GL11.glPushMatrix();
-        GL11.glScalef(0.5f, 0.5f, 0.5f);
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(0.5f, 0.5f, 0.5f);
         ScaledResolution res = ResolutionUtil.current();
         int y = res.getScaledHeight() - 59;
         y += (mc.playerController.shouldDrawHUD() ? -2 : 14);
@@ -95,8 +91,8 @@ public class VanillaEnhancementsHud {
         y <<= 1;
         int x = res.getScaledWidth() - (mc.fontRendererObj.getStringWidth(toDraw) >> 1);
         mc.fontRendererObj.drawString(toDraw, x, y, 13421772);
-        GL11.glScalef(2.0f, 2.0f, 2.0f);
-        GL11.glPopMatrix();
+        GlStateManager.scale(2.0f, 2.0f, 2.0f);
+        GlStateManager.popMatrix();
       }
     }
   }
@@ -106,8 +102,8 @@ public class VanillaEnhancementsHud {
     if (Settings.DAMAGE_ABOVE_HOTBAR) {
       ItemStack heldItemStack = mc.thePlayer.inventory.getCurrentItem();
       if (heldItemStack != null) {
-        GL11.glPushMatrix();
-        GL11.glScalef(0.5f, 0.5f, 0.5f);
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(0.5f, 0.5f, 0.5f);
         ScaledResolution res = ResolutionUtil.current();
         String attackDamage = getAttackDamageString(heldItemStack);
         int y = res.getScaledHeight() - 59;
@@ -117,16 +113,17 @@ public class VanillaEnhancementsHud {
         y += mc.fontRendererObj.FONT_HEIGHT;
         int x = res.getScaledWidth() - (mc.fontRendererObj.getStringWidth(attackDamage) >> 1);
         mc.fontRendererObj.drawString(attackDamage, x, y, 13421772);
-        GL11.glScalef(2.0f, 2.0f, 2.0f);
-        GL11.glPopMatrix();
+        GlStateManager.scale(2.0f, 2.0f, 2.0f);
+        GlStateManager.popMatrix();
       }
     }
   }
 
   @InvokeEvent
   public void onRenderArmor(GuiDrawScreenEvent e) {
-    if ((Settings.ARMOR_PROT_POTENTIONAL || Settings.ARMOR_PROJ_POTENTIONAL) && (
-        e.getScreen() instanceof GuiInventory || e.getScreen() instanceof GuiContainerCreative)) {
+    if ((Settings.ARMOR_PROT_POTENTIONAL || Settings.ARMOR_PROJ_POTENTIONAL)
+        && (e.getScreen() instanceof GuiInventory
+            || e.getScreen() instanceof GuiContainerCreative)) {
       ScaledResolution res = new ScaledResolution(mc);
       String message = getArmorString();
       mc.currentScreen.drawString(mc.fontRendererObj, message, 10, res.getScaledHeight() - 16, -1);
@@ -146,10 +143,14 @@ public class VanillaEnhancementsHud {
     }
   }
 
-  private String getAttackDamageString(ItemStack stack) {
-    return stack.getTooltip(mc.thePlayer, true).stream().filter(entry ->
-        entry.endsWith("Attack Damage")).findFirst()
-        .map(entry -> entry.split(" ", 2)[0].substring(2)).orElse("");
+  private String getAttackDamageString(final ItemStack stack) {
+    for (final String entry : stack.getTooltip(this.mc.thePlayer, true)) {
+      if (entry.endsWith("Attack Damage")) {
+        return entry.split(" ", 2)[0].substring(2);
+      }
+    }
+
+    return "";
   }
 
   private String getPotionEffectString(ItemStack heldItemStack) {
@@ -179,25 +180,35 @@ public class VanillaEnhancementsHud {
   private String getEnchantmentString(ItemStack heldItemStack) {
     String enchantBuilder;
     Map<Integer, Integer> en = EnchantmentHelper.getEnchantments(heldItemStack);
-    enchantBuilder = en.entrySet().stream()
-        .map(entry -> ChatColor.BOLD.toString() + Maps.ENCHANTMENT_SHORT_NAME.get(entry.getKey()) +
-            " " + entry.getValue() + " ").collect(Collectors.joining());
+    StringBuilder sb = new StringBuilder();
+
+    for (Map.Entry<Integer, Integer> entry : en.entrySet()) {
+      String s =
+          ChatColor.BOLD.toString()
+              + Maps.ENCHANTMENT_SHORT_NAME.get(entry.getKey())
+              + " "
+              + entry.getValue()
+              + " ";
+      sb.append(s);
+    }
+
+    enchantBuilder = sb.toString();
     return enchantBuilder.trim();
   }
 
   private String getArmorString() {
     double ap = roundDecimals(getArmorPotentional(false));
     double app = roundDecimals(getArmorPotentional(true));
-    return Settings.ARMOR_PROT_POTENTIONAL || Settings.ARMOR_PROJ_POTENTIONAL ?
-        Settings.ARMOR_PROT_POTENTIONAL ?
-            ap + "%" : app + "%" : ap == app ? ap + "%" : ap + "% | " + app + "%";
-
+    return Settings.ARMOR_PROT_POTENTIONAL || Settings.ARMOR_PROJ_POTENTIONAL
+        ? Settings.ARMOR_PROT_POTENTIONAL ? ap + "%" : app + "%"
+        : ap == app ? ap + "%" : ap + "% | " + app + "%";
   }
 
   private double roundDecimals(double num) {
     if (num == 0.0) {
       return num;
     }
+
     num = (int) (num * Math.pow(10.0, 2));
     num /= Math.pow(10.0, 2);
     return num;
@@ -259,8 +270,11 @@ public class VanillaEnhancementsHud {
   }
 
   private String getKeyString(int key) {
-    return (key < 0) ? ("M" + (key + 101)) : ((key < 256) ? Keyboard.getKeyName(key)
-        : String.format("%c", (char) (key - 256)).toUpperCase(Locale.ENGLISH));
+    return (key < 0)
+        ? ("M" + (key + 101))
+        : ((key < 256)
+            ? Keyboard.getKeyName(key)
+            : String.format("%c", (char) (key - 256)).toUpperCase(Locale.ENGLISH));
   }
 
   private int[] getHotbarKeys() {

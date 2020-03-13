@@ -147,8 +147,8 @@ object Scoreboard {
          * @return the display name
          */
         fun getName(): String = ScorePlayerTeam.formatPlayerName(
-                World.getWorld()!!.scoreboard.getPlayersTeam(score.playerName),
-                score.playerName
+            World.getWorld()!!.scoreboard.getPlayersTeam(score.playerName),
+            score.playerName
         )
 
         override fun toString(): String = getName()

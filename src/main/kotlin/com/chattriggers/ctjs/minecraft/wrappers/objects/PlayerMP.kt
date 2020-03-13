@@ -53,19 +53,19 @@ class PlayerMP(val player: EntityPlayer) : Entity(player) {
 
     private fun getPlayerName(networkPlayerInfoIn: NetworkPlayerInfo): String {
         return networkPlayerInfoIn.displayName?.formattedText
-                ?: ScorePlayerTeam.formatPlayerName(
-                        networkPlayerInfoIn.playerTeam,
-                        networkPlayerInfoIn.gameProfile.name
-                )
+            ?: ScorePlayerTeam.formatPlayerName(
+                networkPlayerInfoIn.playerTeam,
+                networkPlayerInfoIn.gameProfile.name
+            )
     }
 
     private fun getPlayerInfo(): NetworkPlayerInfo = Client.getConnection().getPlayerInfo(player.uniqueID)
 
     override fun toString(): String {
         return "PlayerMP{name:" + getName() +
-                ",ping:" + getPing() +
-                ",entity:" + super.toString() +
-                "}"
+            ",ping:" + getPing() +
+            ",entity:" + super.toString() +
+            "}"
     }
 
     override fun getName(): String = player.name

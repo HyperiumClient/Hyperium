@@ -97,8 +97,12 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
             var yHolder = y ?: this.y
             this.lines.forEach {
                 Renderer.getFontRenderer()
-                        .drawString(it, getXAlign(it, x
-                                ?: this.x), yHolder / this.scale, this.color, this.shadow)
+                    .drawString(
+                        it, getXAlign(
+                            it, x
+                                ?: this.x
+                        ), yHolder / this.scale, this.color, this.shadow
+                    )
                 yHolder += this.scale * 9
                 maxLinesHolder--
                 if (maxLinesHolder == 0)
@@ -106,11 +110,11 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
             }
         } else {
             Renderer.getFontRenderer().drawString(
-                    this.string,
-                    getXAlign(this.string, x ?: this.x),
-                    (y ?: this.y) / this.scale,
-                    this.color,
-                    this.shadow
+                this.string,
+                getXAlign(this.string, x ?: this.x),
+                (y ?: this.y) / this.scale,
+                this.color,
+                this.shadow
             )
         }
         GlStateManager.disableBlend()
@@ -119,8 +123,8 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
 
     private fun updateFormatting() {
         string =
-                if (formatted) ChatLib.addColor(string)
-                else ChatLib.replaceFormatting(string)
+            if (formatted) ChatLib.addColor(string)
+            else ChatLib.replaceFormatting(string)
     }
 
     private fun getXAlign(string: String, x: Float): Float {
@@ -133,10 +137,10 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
     }
 
     override fun toString() =
-            "Text{" +
-                    "string=$string, x=$x, y=$y, " +
-                    "lines=$lines, color=$color, scale=$scale" +
-                    "formatted=$formatted, shadow=$shadow, align=$align, " +
-                    "width=$width, maxLines=$maxLines" +
-                    "}"
+        "Text{" +
+            "string=$string, x=$x, y=$y, " +
+            "lines=$lines, color=$color, scale=$scale" +
+            "formatted=$formatted, shadow=$shadow, align=$align, " +
+            "width=$width, maxLines=$maxLines" +
+            "}"
 }

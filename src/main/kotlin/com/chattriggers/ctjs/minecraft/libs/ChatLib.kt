@@ -177,10 +177,10 @@ object ChatLib {
         }
 
         return stringBuilder.deleteCharAt(
-                if (left) 0 else stringBuilder.length - 1
+            if (left) 0 else stringBuilder.length - 1
         ).toString().replace(
-                removeFormatting(text),
-                text
+            removeFormatting(text),
+            text
         )
     }
 
@@ -203,11 +203,11 @@ object ChatLib {
         val pattern = Pattern.compile(regexp["source"] as String, flags)
 
         editChat(
-                {
-                    val matcher = pattern.matcher(it.getChatMessage().unformattedText)
-                    if (global) matcher.find() else matcher.matches()
-                },
-                *replacements
+            {
+                val matcher = pattern.matcher(it.getChatMessage().unformattedText)
+                if (global) matcher.find() else matcher.matches()
+            },
+            *replacements
         )
     }
 
@@ -220,10 +220,10 @@ object ChatLib {
     @JvmStatic
     fun editChat(toReplace: String, vararg replacements: Message) {
         editChat(
-                {
-                    removeFormatting(it.getChatMessage().unformattedText) == toReplace
-                },
-                *replacements
+            {
+                removeFormatting(it.getChatMessage().unformattedText) == toReplace
+            },
+            *replacements
         )
     }
 
@@ -236,13 +236,13 @@ object ChatLib {
     @JvmStatic
     fun editChat(toReplace: Message, vararg replacements: Message) {
         editChat(
-                {
-                    toReplace.getChatMessage().formattedText == it.getChatMessage().formattedText.replaceFirst(
-                            "\\u00a7r".toRegex(),
-                            ""
-                    )
-                },
-                *replacements
+            {
+                toReplace.getChatMessage().formattedText == it.getChatMessage().formattedText.replaceFirst(
+                    "\\u00a7r".toRegex(),
+                    ""
+                )
+            },
+            *replacements
         )
     }
 
@@ -255,10 +255,10 @@ object ChatLib {
     @JvmStatic
     fun editChat(chatLineId: Int, vararg replacements: Message) {
         editChat(
-                { message ->
-                    message.getChatLineId() == chatLineId
-                },
-                *replacements
+            { message ->
+                message.getChatLineId() == chatLineId
+            },
+            *replacements
         )
     }
 
@@ -283,9 +283,9 @@ object ChatLib {
     }
 
     private fun editChatLineList(
-            lineList: MutableList<ChatLine>,
-            toReplace: (Message) -> Boolean,
-            vararg replacements: Message
+        lineList: MutableList<ChatLine>,
+        toReplace: (Message) -> Boolean,
+        vararg replacements: Message
     ) {
         val chatLineIterator = lineList.listIterator()
 
@@ -293,7 +293,7 @@ object ChatLib {
             val chatLine = chatLineIterator.next()
 
             val result = toReplace(
-                    Message(chatLine.chatComponent).setChatLineId(chatLine.chatLineID)
+                Message(chatLine.chatComponent).setChatLineId(chatLine.chatLineID)
             )
 
             if (!result) {
@@ -351,7 +351,7 @@ object ChatLib {
      */
     @JvmStatic
     fun addColor(message: String?): String =
-            message.toString().replace("(?:(?<!\\\\))&(?![^0-9a-fklmnor]|$)".toRegex(), "\u00a7")
+        message.toString().replace("(?:(?<!\\\\))&(?![^0-9a-fklmnor]|$)".toRegex(), "\u00a7")
 
     // helper method to make sure player exists before putting something in chat
     fun isPlayer(out: String): Boolean {

@@ -19,8 +19,6 @@ package cc.hyperium.config;
 
 import cc.hyperium.Hyperium;
 
-import java.awt.*;
-
 import static cc.hyperium.config.Category.*;
 
 /*
@@ -546,6 +544,10 @@ public class Settings {
   @ConfigOpt
   @ToggleSetting(name = "gui.settings.chunkupdatelimiting", category = PERFORMANCE)
   public static boolean CHUNK_UPDATE_LIMITING;
+
+  @ConfigOpt
+  @ToggleSetting(name = "gui.settings.disablearrowentities", category = PERFORMANCE)
+  public static boolean DISABLE_ARROW_ENTITIES;
 
   public static void register() {
     Hyperium.CONFIG.register(INSTANCE);

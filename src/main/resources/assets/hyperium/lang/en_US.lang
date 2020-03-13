@@ -182,6 +182,7 @@ gui.settings.thankwatchdog=Thank Watchdog
 gui.settings.fpslimiteramount=FPS Limit
 gui.settings.disablelightning=Disable Lightning Bolts
 gui.settings.disablearmorstands=Disable Armorstands
+gui.settings.disablearrowentities=Disable Arrow Entities
 gui.settings.disableitemframes=Disable Item Frames
 gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit

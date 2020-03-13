@@ -19,11 +19,11 @@ abstract class Action(var slot: Int, var windowId: Int) {
 
     protected fun doClick(button: Int, mode: Int) {
         Client.getMinecraft().playerController.windowClick(
-                windowId,
-                slot,
-                button,
-                mode,
-                Player.getPlayer()
+            windowId,
+            slot,
+            button,
+            mode,
+            Player.getPlayer()
         )
     }
 
@@ -40,12 +40,12 @@ abstract class Action(var slot: Int, var windowId: Int) {
          */
         @JvmStatic
         fun of(inventory: Inventory, slot: Int, typeString: String) =
-                when (Type.valueOf(typeString.toUpperCase())) {
-                    Type.CLICK -> ClickAction(slot, inventory.getWindowId())
-                    Type.DRAG -> DragAction(slot, inventory.getWindowId())
-                    Type.KEY -> KeyAction(slot, inventory.getWindowId())
-                    Type.DROP -> DropAction(slot, inventory.getWindowId())
-                }
+            when (Type.valueOf(typeString.toUpperCase())) {
+                Type.CLICK -> ClickAction(slot, inventory.getWindowId())
+                Type.DRAG -> DragAction(slot, inventory.getWindowId())
+                Type.KEY -> KeyAction(slot, inventory.getWindowId())
+                Type.DROP -> DropAction(slot, inventory.getWindowId())
+            }
     }
 
     enum class Type {

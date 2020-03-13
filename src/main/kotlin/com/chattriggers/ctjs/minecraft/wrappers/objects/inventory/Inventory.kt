@@ -65,7 +65,7 @@ class Inventory {
      */
     fun isItemValidForSlot(slot: Int, item: Item): Boolean {
         return inventory == null
-                || inventory.isItemValidForSlot(slot, item.itemStack)
+            || inventory.isItemValidForSlot(slot, item.itemStack)
     }
 
     /**
@@ -110,9 +110,9 @@ class Inventory {
      */
     fun click(slot: Int, shift: Boolean) = apply {
         ClickAction(slot, getWindowId())
-                .setClickString("LEFT")
-                .setHoldingShift(shift)
-                .complete()
+            .setClickString("LEFT")
+            .setHoldingShift(shift)
+            .complete()
     }
 
     /**
@@ -124,8 +124,8 @@ class Inventory {
      */
     fun drop(slot: Int, ctrl: Boolean) = apply {
         DropAction(slot, getWindowId())
-                .setHoldingCtrl(ctrl)
-                .complete()
+            .setHoldingCtrl(ctrl)
+            .complete()
     }
 
     /**
@@ -138,15 +138,15 @@ class Inventory {
     fun drag(type: String, vararg slots: Int) = apply {
         DragAction(-999, getWindowId()).run {
             setStage(DragAction.Stage.BEGIN)
-                    .setClickType(DragAction.ClickType.valueOf(type.toUpperCase()))
-                    .complete()
+                .setClickType(DragAction.ClickType.valueOf(type.toUpperCase()))
+                .complete()
 
             setStage(DragAction.Stage.SLOT)
             slots.forEach { setSlot(it).complete() }
 
             setStage(DragAction.Stage.END)
-                    .setSlot(-999)
-                    .complete()
+                .setSlot(-999)
+                .complete()
         }
     }
 
@@ -158,7 +158,7 @@ class Inventory {
     fun getName(): String = inventory?.name ?: "container"
 
     fun getClassName(): String = inventory?.javaClass?.simpleName
-            ?: container!!.javaClass.simpleName
+        ?: container!!.javaClass.simpleName
 
     override fun toString(): String = "Inventory{${getClassName()}}"
 }

@@ -89,8 +89,8 @@ class TextComponent {
 
     private fun reInstance() {
         chatComponentText = BaseTextComponent(
-                if (formatted) ChatLib.addColor(text)
-                else text
+            if (formatted) ChatLib.addColor(text)
+            else text
         )
 
         reInstanceClick()
@@ -101,25 +101,25 @@ class TextComponent {
         if (clickAction == null || clickValue == null) return
 
         chatComponentText.getStyling()
-                .chatClickEvent =
-                TextClickEvent(
-                        ClickEventAction.getValueByCanonicalName(clickAction),
-                        if (formatted) ChatLib.addColor(clickValue)
-                        else clickValue
-                )
+            .chatClickEvent =
+            TextClickEvent(
+                ClickEventAction.getValueByCanonicalName(clickAction),
+                if (formatted) ChatLib.addColor(clickValue)
+                else clickValue
+            )
     }
 
     private fun reInstanceHover() {
         if (hoverAction == null || hoverValue == null) return
 
         chatComponentText.getStyling()
-                .chatHoverEvent =
-                TextHoverEvent(
-                        HoverEventAction.getValueByCanonicalName(hoverAction),
-                        BaseTextComponent(
-                                if (formatted) ChatLib.addColor(hoverValue)
-                                else hoverValue
-                        )
+            .chatHoverEvent =
+            TextHoverEvent(
+                HoverEventAction.getValueByCanonicalName(hoverAction),
+                BaseTextComponent(
+                    if (formatted) ChatLib.addColor(hoverValue)
+                    else hoverValue
                 )
+            )
     }
 }

@@ -17,8 +17,8 @@
 
 package cc.hyperium.commands.defaults;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.handlers.handlers.hud.NetworkInfo;
 import cc.hyperium.handlers.handlers.hud.TabCompletionUtil;
 import net.minecraft.client.Minecraft;
 
@@ -40,12 +40,12 @@ public class CommandPing implements BaseCommand {
   public void onExecute(String[] args) {
     String name =
         (args.length == 1) ? args[0] : Minecraft.getMinecraft().getSession().getUsername();
-    NetworkInfo.getInstance().printPing(name);
+    Hyperium.INSTANCE.getHandlers().getNetworkInfo().printPing(name);
   }
 
   @Override
   public List<String> onTabComplete(String[] args) {
-    return TabCompletionUtil
-        .getListOfStringsMatchingLastWord(args, TabCompletionUtil.getTabUsernames());
+    return TabCompletionUtil.getListOfStringsMatchingLastWord(
+        args, TabCompletionUtil.getTabUsernames());
   }
 }

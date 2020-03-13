@@ -24,28 +24,28 @@ class RenderChunkTransformer : ConflictTransformer {
                 null
         ).visitEnd()
 
-        for (method in original.methods) {
-            if (method.name == "setPosition") {
-                val animateChunk = assembleBlock {
-                    aload_0
-                    getfield(RenderChunk::class, "handler", AnimationHandler::class)
-                    ifnonnull(L["1"])
-                    aload_0
-                    getstatic(Hyperium::class, "INSTANCE", Hyperium::class)
-                    invokevirtual(Hyperium::class, "getModIntegration", HyperiumModIntegration::class)
-                    invokevirtual(HyperiumModIntegration::class, "getChunkAnimator", ChunkAnimator::class)
-                    invokevirtual(ChunkAnimator::class, "getAnimationHandler", AnimationHandler::class)
-                    putfield(RenderChunk::class, "handler", AnimationHandler::class)
-                    +L["1"]
-                    aload_0
-                    getfield(RenderChunk::class, "handler", AnimationHandler::class)
-                    aload_0
-                    aload_1
-                    invokevirtual(AnimationHandler::class, "setPosition", void, RenderChunk::class, BlockPos::class)
-                }.first
-
-                method.instructions.insertBefore(method.instructions.first, animateChunk)
+        original.methods.find {
+            it.name == "setPosition"
+        }?.apply {
+            val (animateChunk) = assembleBlock {
+                aload_0
+                getfield(RenderChunk::class, "handler", AnimationHandler::class)
+                ifnonnull(L["1"])
+                aload_0
+                getstatic(Hyperium::class, "INSTANCE", Hyperium::class)
+                invokevirtual(Hyperium::class, "getModIntegration", HyperiumModIntegration::class)
+                invokevirtual(HyperiumModIntegration::class, "getChunkAnimator", ChunkAnimator::class)
+                invokevirtual(ChunkAnimator::class, "getAnimationHandler", AnimationHandler::class)
+                putfield(RenderChunk::class, "handler", AnimationHandler::class)
+                +L["1"]
+                aload_0
+                getfield(RenderChunk::class, "handler", AnimationHandler::class)
+                aload_0
+                aload_1
+                invokevirtual(AnimationHandler::class, "setPosition", void, RenderChunk::class, BlockPos::class)
             }
+
+            instructions.insertBefore(instructions.first, animateChunk)
         }
 
         return original

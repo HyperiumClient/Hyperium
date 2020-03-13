@@ -5,11 +5,11 @@ import org.lwjgl.util.vector.Vector2f
 
 @External
 class Rectangle(
-        private var color: Int,
-        private var x: Float,
-        private var y: Float,
-        private var width: Float,
-        private var height: Float
+    private var color: Int,
+    private var x: Float,
+    private var y: Float,
+    private var width: Float,
+    private var height: Float
 ) {
 
     private var shadow = Shadow(this)
@@ -75,44 +75,44 @@ class Rectangle(
     }
 
     private class Shadow(
-            val rect: Rectangle,
-            var on: Boolean = false,
-            var color: Int = 0x50000000,
-            var offset: Vector2f = Vector2f(5f, 5f)
+        val rect: Rectangle,
+        var on: Boolean = false,
+        var color: Int = 0x50000000,
+        var offset: Vector2f = Vector2f(5f, 5f)
     ) {
         fun draw() {
             if (!on) return
             Renderer.drawRect(
-                    color,
-                    rect.x + offset.x,
-                    rect.y + rect.height,
-                    rect.width,
-                    offset.y
+                color,
+                rect.x + offset.x,
+                rect.y + rect.height,
+                rect.width,
+                offset.y
             )
             Renderer.drawRect(
-                    color,
-                    rect.x + rect.width,
-                    rect.y + offset.y,
-                    offset.x,
-                    rect.height - offset.y
+                color,
+                rect.x + rect.width,
+                rect.y + offset.y,
+                offset.x,
+                rect.height - offset.y
             )
         }
     }
 
     private class Outline(
-            val rect: Rectangle,
-            var on: Boolean = false,
-            var color: Int = 0xff000000.toInt(),
-            var thickness: Float = 5f
+        val rect: Rectangle,
+        var on: Boolean = false,
+        var color: Int = 0xff000000.toInt(),
+        var thickness: Float = 5f
     ) {
         fun draw() {
             if (!on) return
             Renderer.drawRect(
-                    color,
-                    rect.x - thickness,
-                    rect.y - thickness,
-                    rect.width + thickness * 2,
-                    rect.height + thickness * 2
+                color,
+                rect.x - thickness,
+                rect.y - thickness,
+                rect.width + thickness * 2,
+                rect.height + thickness * 2
             )
         }
     }

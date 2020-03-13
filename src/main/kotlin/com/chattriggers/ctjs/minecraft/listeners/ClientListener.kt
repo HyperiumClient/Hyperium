@@ -59,10 +59,10 @@ object ClientListener {
             if (Mouse.isButtonDown(button) == mouseState[button]) continue
 
             TriggerType.CLICKED.triggerAll(
-                    Client.getMouseX(),
-                    Client.getMouseY(),
-                    button,
-                    Mouse.isButtonDown(button)
+                Client.getMouseX(),
+                Client.getMouseY(),
+                button,
+                Mouse.isButtonDown(button)
             )
 
             mouseState[button] = Mouse.isButtonDown(button)
@@ -80,11 +80,11 @@ object ClientListener {
             return
 
         TriggerType.DRAGGED.triggerAll(
-                Client.getMouseX() - (draggedState[button]?.x ?: 0f),
-                Client.getMouseY() - (draggedState[button]?.y ?: 0f),
-                Client.getMouseX(),
-                Client.getMouseY(),
-                button
+            Client.getMouseX() - (draggedState[button]?.x ?: 0f),
+            Client.getMouseY() - (draggedState[button]?.y ?: 0f),
+            Client.getMouseX(),
+            Client.getMouseY(),
+            button
         )
 
         // update dragged
@@ -116,9 +116,9 @@ object ClientListener {
         if (event.target.blockPos == null) return
 
         val position = Vector3D(
-                event.target.blockPos.x.toFloat(),
-                event.target.blockPos.y.toFloat(),
-                event.target.blockPos.z.toFloat()
+            event.target.blockPos.x.toFloat(),
+            event.target.blockPos.y.toFloat(),
+            event.target.blockPos.z.toFloat()
         )
 
         TriggerType.BLOCK_HIGHLIGHT.triggerAll(event, position)
@@ -133,21 +133,21 @@ object ClientListener {
         val item = event.item
 
         val position = Vector3D(
-                item.posX.toFloat(),
-                item.posY.toFloat(),
-                item.posZ.toFloat()
+            item.posX.toFloat(),
+            item.posY.toFloat(),
+            item.posZ.toFloat()
         )
         val motion = Vector3D(
-                item.motionX.toFloat(),
-                item.motionY.toFloat(),
-                item.motionZ.toFloat()
+            item.motionX.toFloat(),
+            item.motionY.toFloat(),
+            item.motionZ.toFloat()
         )
 
         TriggerType.PICKUP_ITEM.triggerAll(
-                Item(item.entityItem),
-                PlayerMP(player),
-                position,
-                motion
+            Item(item.entityItem),
+            PlayerMP(player),
+            position,
+            motion
         )
     }
 
@@ -159,29 +159,29 @@ object ClientListener {
         val entityItem = event.item
 
         val position = Vector3D(
-                entityItem.posX.toFloat(),
-                entityItem.posY.toFloat(),
-                entityItem.posZ.toFloat()
+            entityItem.posX.toFloat(),
+            entityItem.posY.toFloat(),
+            entityItem.posZ.toFloat()
         )
         val motion = Vector3D(
-                entityItem.motionX.toFloat(),
-                entityItem.motionY.toFloat(),
-                entityItem.motionZ.toFloat()
+            entityItem.motionX.toFloat(),
+            entityItem.motionY.toFloat(),
+            entityItem.motionZ.toFloat()
         )
 
         TriggerType.DROP_ITEM.triggerAll(
-                Item(entityItem.entityItem),
-                PlayerMP(player),
-                position,
-                motion
+            Item(entityItem.entityItem),
+            PlayerMP(player),
+            position,
+            motion
         )
     }
 
     @InvokeEvent
     fun onItemTooltip(e: ItemTooltipEvent) {
         TriggerType.TOOLTIP.triggerAll(
-                e.toolTip,
-                Item(e.item)
+            e.toolTip,
+            Item(e.item)
         )
     }
 }
