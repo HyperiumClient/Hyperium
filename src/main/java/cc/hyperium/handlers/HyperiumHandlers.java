@@ -34,6 +34,7 @@ import cc.hyperium.handlers.handlers.chat.*;
 import cc.hyperium.handlers.handlers.cloud.CloudHandler;
 import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.handlers.handlers.fov.FovModifier;
+import cc.hyperium.handlers.handlers.hud.NetworkInfo;
 import cc.hyperium.handlers.handlers.hud.VanillaEnhancementsHud;
 import cc.hyperium.handlers.handlers.hypixel.HypixelConnectionMessage;
 import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
@@ -108,6 +109,7 @@ public class HyperiumHandlers {
   private final FPSLimiter fpsLimiter;
   private final CompactChat compactChat;
   private final ConfirmationPopup confirmationPopup;
+  private final NetworkInfo networkInfo;
 
   public HyperiumHandlers() {
     Hyperium.LOGGER.info("Loading handlers");
@@ -152,6 +154,7 @@ public class HyperiumHandlers {
     register(compactChat = new CompactChat());
     register(confirmationPopup = new ConfirmationPopup());
     register(keybindHandler = new HyperiumKeybindHandler());
+    register(networkInfo = new NetworkInfo());
     commandQueue = new CommandQueue();
     dataHandler = new HypixelAPI();
     // Chat Handlers
@@ -382,5 +385,9 @@ public class HyperiumHandlers {
 
   public ConfirmationPopup getConfirmationPopup() {
     return confirmationPopup;
+  }
+
+  public NetworkInfo getNetworkInfo() {
+    return networkInfo;
   }
 }

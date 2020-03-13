@@ -17,7 +17,6 @@
 
 package cc.hyperium.handlers.handlers.hud;
 
-
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.network.server.ServerJoinEvent;
 import cc.hyperium.event.network.server.ServerLeaveEvent;
@@ -31,18 +30,8 @@ import java.util.Collection;
 
 public class NetworkInfo {
 
-  private static NetworkInfo instance;
   private ServerAddress currentServerAddress;
-  private Minecraft mc;
-
-  public NetworkInfo() {
-    mc = Minecraft.getMinecraft();
-    NetworkInfo.instance = this;
-  }
-
-  public static NetworkInfo getInstance() {
-    return NetworkInfo.instance;
-  }
+  private Minecraft mc = Minecraft.getMinecraft();
 
   @InvokeEvent
   public void onServerJoin(ServerJoinEvent event) {
@@ -60,9 +49,13 @@ public class NetworkInfo {
 
   private NetworkPlayerInfo getPlayerInfo(final String ign) {
     Collection<NetworkPlayerInfo> map = mc.getNetHandler().getPlayerInfoMap();
-    return map.stream()
-        .filter(playerInfo -> playerInfo.getGameProfile().getName().equalsIgnoreCase(ign))
-        .findFirst().orElse(null);
+    for (NetworkPlayerInfo playerInfo : map) {
+      if (playerInfo.getGameProfile().getName().equalsIgnoreCase(ign)) {
+        return playerInfo;
+      }
+    }
+
+    return null;
   }
 
   public int getPing(final String ign) {
@@ -72,9 +65,16 @@ public class NetworkInfo {
 
   public void printPing(final String name) {
     NetworkPlayerInfo info = getPlayerInfo(name);
-    GeneralChatHandler.instance().sendMessage(
-        info == null || info.getResponseTime() < 0 ? ChatColor.RED + "No info about " + name :
-            ChatColor.WHITE.toString() + ChatColor.BOLD + info.getGameProfile().getName()
-                + ChatColor.WHITE + ": " + info.getResponseTime() + "ms");
+    GeneralChatHandler.instance()
+        .sendMessage(
+            info == null || info.getResponseTime() < 0
+                ? ChatColor.RED + "No info about " + name
+                : ChatColor.WHITE.toString()
+                    + ChatColor.BOLD
+                    + info.getGameProfile().getName()
+                    + ChatColor.WHITE
+                    + ": "
+                    + info.getResponseTime()
+                    + "ms");
   }
 }
