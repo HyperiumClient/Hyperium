@@ -12,35 +12,15 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.resources.I18n;
  import net.minecraft.client.settings.GameSettings;
-@@ -27,21 +32,21 @@
-         int i = 0;
-         String s = null;
- 
--        for (KeyBinding keybinding : akeybinding) {
--            String s1 = keybinding.getKeyCategory();
-+        for (KeyBinding key : akeybinding) {
-+            String category = key.getKeyCategory();
- 
--            if (!s1.equals(s)) {
--                s = s1;
--                this.listEntries[i++] = new GuiKeyBindingList.CategoryEntry(s1);
-+            if (!category.equals(s)) {
-+                s = category;
-+                this.listEntries[i++] = new GuiKeyBindingList.CategoryEntry(category);
+@@ -35,7 +40,7 @@
+                 this.listEntries[i++] = new GuiKeyBindingList.CategoryEntry(s1);
              }
  
 -            int j = mcIn.fontRendererObj.getStringWidth(I18n.format(keybinding.getKeyDescription(), new Object[0]));
-+            int j = mc.fontRendererObj.getStringWidth(I18n.format(key.getKeyDescription(), new Object[0]));
++            int j = mc.fontRendererObj.getStringWidth(I18n.format(keybinding.getKeyDescription(), new Object[0]));
  
              if (j > this.maxListLabelWidth) {
                  this.maxListLabelWidth = j;
-             }
- 
--            this.listEntries[i++] = new GuiKeyBindingList.KeyEntry(keybinding);
-+            this.listEntries[i++] = new GuiKeyBindingList.KeyEntry(key);
-         }
-     }
- 
 @@ -133,6 +138,13 @@
                          break;
                      }
