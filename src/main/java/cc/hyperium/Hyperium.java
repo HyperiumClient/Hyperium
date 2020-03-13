@@ -246,9 +246,6 @@ public class Hyperium {
       // Print every loaded addon
       collectAddons();
 
-      // Fix controls
-      KeyBinding.resetKeyBindingArrayAndHash();
-
       LOGGER
           .info("Hyperium loaded in {} seconds", (System.currentTimeMillis() - launchTime) / 1000F);
     } catch (Throwable t) {
