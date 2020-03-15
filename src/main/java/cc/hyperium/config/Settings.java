@@ -549,6 +549,10 @@ public class Settings {
   @ToggleSetting(name = "gui.settings.disablearrowentities", category = PERFORMANCE)
   public static boolean DISABLE_ARROW_ENTITIES;
 
+  @ConfigOpt
+  @ToggleSetting(name = "gui.settings.doubleplantfix", category = QOL)
+  public static boolean DOUBLE_PLANT_FIX;
+
   public static void register() {
     Hyperium.CONFIG.register(INSTANCE);
   }
