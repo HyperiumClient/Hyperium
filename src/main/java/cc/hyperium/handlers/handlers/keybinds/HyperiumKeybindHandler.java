@@ -67,7 +67,6 @@ public class HyperiumKeybindHandler {
   public void registerKeybindings() {
     for (HyperiumKeybind bind : keybinds.values()) {
       // Add the key to the `allKeys` map, so that it shows in GuiControl, and to the keyBindings list.
-      Minecraft.getMinecraft().gameSettings.allKeys.add(bind.toKeyBind());
       Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils.add(Minecraft.getMinecraft().gameSettings.keyBindings, bind.toKeyBind());
     }
   }
@@ -133,14 +132,4 @@ public class HyperiumKeybindHandler {
     }
   }
 
-  public void refreshKeys() {
-    for (HyperiumKeybind bind : keybinds.values()) {
-      KeyBinding keyBinding = bind.toKeyBind();
-      for (KeyBinding allKey : Minecraft.getMinecraft().gameSettings.allKeys) {
-        if (allKey.getKeyDescription().equalsIgnoreCase(keyBinding.getKeyDescription())) {
-          allKey.setKeyCode(keyBinding.getKeyCode());
-        }
-      }
-    }
-  }
 }
