@@ -9,6 +9,7 @@ import cc.hyperium.event.render.RenderWorldEvent
 import cc.hyperium.handlers.HyperiumHandlers
 import cc.hyperium.handlers.handlers.OtherConfigOptions
 import cc.hyperium.hooks.EntityRendererHook
+import cc.hyperium.integrations.perspective.PerspectiveModifierHandler
 import cc.hyperium.utils.renderer.shader.ShaderHelper
 import codes.som.anthony.koffee.assembleBlock
 import codes.som.anthony.koffee.insns.jvm.*
@@ -27,10 +28,10 @@ class EntityRendererTransformer : ConflictTransformer {
     override fun getClassName() = "bfk"
 
     override fun transform(original: ClassNode): ClassNode {
-        original.fields.find {
-            it.name == "renderHand"
-        }?.apply {
-            access = Opcodes.ACC_PUBLIC
+        original.fields.filter {
+            it.name == "renderHand" || it.name == "thirdPersonDistance" || it.name == "thirdPersonDistanceTemp" || it.name == "cloudFog"
+        }.forEach {
+            it.access = Opcodes.ACC_PUBLIC
         }
 
         original.methods.forEach {
@@ -153,7 +154,12 @@ class EntityRendererTransformer : ConflictTransformer {
 
                 // todo
                 "orientCamera" -> {
-
+                    it.instructions = assembleBlock {
+                        aload_0
+                        fload_1
+                        invokestatic(EntityRendererHook::class, "orientCameraHook", void, EntityRenderer::class, float)
+                        _return
+                    }.first
                 }
             }
         }
