@@ -1,0 +1,36 @@
+--- original/net/minecraft/client/renderer/GlStateManager.java
++++ changed/net/minecraft/client/renderer/GlStateManager.java
+@@ -21,12 +21,12 @@
+     private static GlStateManager.ClearState clearState = new GlStateManager.ClearState();
+     private static GlStateManager.StencilState stencilState = new GlStateManager.StencilState();
+     private static GlStateManager.BooleanState normalizeState = new GlStateManager.BooleanState(2977);
+-    private static int activeTextureUnit = 0;
+-    private static GlStateManager.TextureState[] textureState = new GlStateManager.TextureState[8];
++    public static int activeTextureUnit = 0;
++    public static GlStateManager.TextureState[] textureState = new GlStateManager.TextureState[8];
+     private static int activeShadeModel = 7425;
+     private static GlStateManager.BooleanState rescaleNormalState = new GlStateManager.BooleanState(32826);
+     private static GlStateManager.ColorMask colorMaskState = new GlStateManager.ColorMask();
+-    private static GlStateManager.Color colorState = new GlStateManager.Color();
++    public static GlStateManager.Color colorState = new GlStateManager.Color();
+ 
+     public static void pushAttrib() {
+         GL11.glPushAttrib(8256);
+@@ -498,7 +498,7 @@
+         }
+ 
+     @SideOnly(Side.CLIENT)
+-    static class Color {
++    public static class Color {
+             public float red = 1.0F;
+             public float green = 1.0F;
+             public float blue = 1.0F;
+@@ -676,7 +676,7 @@
+         }
+ 
+     @SideOnly(Side.CLIENT)
+-    static class TextureState {
++    public static class TextureState {
+             public GlStateManager.BooleanState texture2DState;
+             public int textureName;
+ 
