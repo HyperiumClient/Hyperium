@@ -44,7 +44,15 @@
          this.loadTexture(resourcelocation, texture);
          return resourcelocation;
      }
-@@ -115,4 +124,9 @@
+@@ -106,6 +115,7 @@
+         ITextureObject itextureobject = this.getTexture(textureLocation);
+ 
+         if (itextureobject != null) {
++            mapTextureObjects.remove(textureLocation);
+             TextureUtil.deleteTexture(itextureobject.getGlTextureId());
+         }
+     }
+@@ -115,4 +125,9 @@
              this.loadTexture((ResourceLocation)entry.getKey(), (ITextureObject)entry.getValue());
          }
      }

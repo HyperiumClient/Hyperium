@@ -255,7 +255,7 @@ public class PatchManager {
         new ModelRendererTransformer(),
         new FontRendererTransformer(),
         new EffectRendererTransformer(),
-        // new GuiMainMenuTransformer(),
+//         new GuiMainMenuTransformer(),
         new NoopTransformer("aya"),
         new GlStateManagerTransformer(),
         new GlStateManagerTransformer.GlStateSubclassTransformer("e"), // color
@@ -322,7 +322,7 @@ public class PatchManager {
         new NoopTransformer("bnm$1"),
         new NoopTransformer("bnm$2"),
         new NoopTransformer("bnm$3"),
-            new NoopTransformer("bfl$1"));
+        new NoopTransformer("bfl$1"));
     for (char c = 'a'; c <= 'z'; c++) {
       if (c != 'e' && c != 'r') {
         registerTransformers(new NoopTransformer("bfl$" + c));
