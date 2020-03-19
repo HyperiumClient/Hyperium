@@ -8,16 +8,20 @@
  import java.util.List;
  import java.util.Map;
  import java.util.Map.Entry;
-@@ -26,6 +27,8 @@
+@@ -21,10 +22,11 @@
+ @SideOnly(Side.CLIENT)
+ public class TextureManager implements ITickable, IResourceManagerReloadListener {
+     private static final Logger logger = LogManager.getLogger();
+-    private final Map<ResourceLocation, ITextureObject> mapTextureObjects = Maps.<ResourceLocation, ITextureObject>newHashMap();
++    public final Map<ResourceLocation, ITextureObject> mapTextureObjects = Maps.<ResourceLocation, ITextureObject>newHashMap();
+     private final List<ITickable> listTickables = Lists.<ITickable>newArrayList();
      private final Map<String, Integer> mapTextureCounters = Maps.<String, Integer>newHashMap();
      private IResourceManager theResourceManager;
++    private final HashMap<String, ITextureObject> textures = new HashMap<>();
  
-+    private HashMap<String, ITextureObject> textures = Maps.newHashMap();
-+
      public TextureManager(IResourceManager resourceManager) {
          this.theResourceManager = resourceManager;
-     }
-@@ -44,6 +47,7 @@
+@@ -44,6 +46,7 @@
      public boolean loadTickableTexture(ResourceLocation textureLocation, ITickableTextureObject textureObj) {
          if (this.loadTexture(textureLocation, textureObj)) {
              this.listTickables.add(textureObj);
@@ -25,18 +29,16 @@
              return true;
          } else {
              return false;
-@@ -53,6 +57,10 @@
+@@ -53,6 +56,8 @@
      public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj) {
          boolean flag = true;
  
 +        ITextureObject textureCopy = textures.get(textureLocation.toString());
-+
 +        if (textureCopy != null) textureObj = textureCopy;
-+
          try {
              ((ITextureObject)textureObj).loadTexture(this.theResourceManager);
          } catch (IOException ioexception) {
-@@ -92,6 +100,7 @@
+@@ -92,6 +97,7 @@
  
          this.mapTextureCounters.put(name, integer);
          ResourceLocation resourcelocation = new ResourceLocation(String.format("dynamic/%s_%d", new Object[] {name, integer}));
@@ -44,21 +46,3 @@
          this.loadTexture(resourcelocation, texture);
          return resourcelocation;
      }
-@@ -106,6 +115,7 @@
-         ITextureObject itextureobject = this.getTexture(textureLocation);
- 
-         if (itextureobject != null) {
-+            mapTextureObjects.remove(textureLocation);
-             TextureUtil.deleteTexture(itextureobject.getGlTextureId());
-         }
-     }
-@@ -115,4 +125,9 @@
-             this.loadTexture((ResourceLocation)entry.getKey(), (ITextureObject)entry.getValue());
-         }
-     }
-+
-+    // Hyperium: Add getter for texture object map
-+    public Map<ResourceLocation, ITextureObject> getMapTextureObjects() {
-+        return mapTextureObjects;
-+    }
- }
