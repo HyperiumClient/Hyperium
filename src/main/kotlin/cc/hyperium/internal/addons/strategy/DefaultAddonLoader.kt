@@ -42,9 +42,7 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
      */
     @Throws(Exception::class)
     override fun load(file: File?): AddonManifest? {
-        if (file == null) {
-            throw AddonLoadException("Could not load file; parameter issued was null.")
-        }
+        file ?: throw AddonLoadException("Couldn't load file; parameter issued was null.")
 
         val jar = JarFile(file)
         if (jar.getJarEntry("pack.mcmeta") != null) {
@@ -52,14 +50,14 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
         }
 
         val manifest = AddonManifestParser(jar).getAddonManifest()
-        if (AddonBootstrap.pendingManifests.stream().anyMatch {
-                    it.name.equals(
-                            manifest.name
-                    )
-                }) {
-            file.delete()
-            return null
+
+        for (pendingManifest in AddonBootstrap.pendingManifests) {
+            if (pendingManifest.name == manifest.name) {
+                file.delete()
+                return null
+            }
         }
+
         val uri = file.toURI()
         Launch.classLoader.addURL(uri.toURL())
 

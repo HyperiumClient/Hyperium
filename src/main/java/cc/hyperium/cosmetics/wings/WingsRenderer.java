@@ -35,10 +35,10 @@ import org.lwjgl.opengl.GL11;
 
 public class WingsRenderer extends ModelBase {
 
-  private Minecraft mc;
-  private ModelRenderer wing;
-  private ModelRenderer wingTip;
-  private WingsCosmetic wingsCosmetic;
+  private final Minecraft mc;
+  private final ModelRenderer wing;
+  private final ModelRenderer wingTip;
+  private final WingsCosmetic wingsCosmetic;
 
   public WingsRenderer(WingsCosmetic cosmetic) {
     wingsCosmetic = cosmetic;
@@ -143,7 +143,7 @@ public class WingsRenderer extends ModelBase {
     mc.getTextureManager().bindTexture(location);
 
     for (int j = 0; j < 2; j++) {
-      GL11.glEnable(GL11.GL_CULL_FACE);
+      GlStateManager.enableCull();
       float f11 = System.currentTimeMillis() % 1000L / 1000.0f * 3.1415927f * 2.0F;
       wing.rotateAngleX = (float) Math.toRadians(-80.0) - (float) Math.cos(f11) * 0.2F;
       wing.rotateAngleY = (float) Math.toRadians(20.0) + (float) Math.sin(f11) * 0.4F;
@@ -156,12 +156,12 @@ public class WingsRenderer extends ModelBase {
       GlStateManager.color(1.0F, 1.0F, 1.0F);
       GlStateManager.scale(-1.0F, 1.0F, 1.0F);
       if (j == 0) {
-        GL11.glCullFace(GL11.GL_FRONT);
+        GlStateManager.cullFace(GL11.GL_FRONT);
       }
     }
 
-    GL11.glCullFace(GL11.GL_BACK);
-    GL11.glDisable(GL11.GL_CULL_FACE);
+    GlStateManager.cullFace(GL11.GL_BACK);
+    GlStateManager.disableCull();
     GlStateManager.popMatrix();
   }
 }
