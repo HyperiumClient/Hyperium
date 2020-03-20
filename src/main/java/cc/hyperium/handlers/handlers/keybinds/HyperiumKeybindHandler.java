@@ -69,7 +69,7 @@ public class HyperiumKeybindHandler {
   public void registerKeybindings() {
     for (HyperiumKeybind bind : keybinds.values()) {
       // We should not register any keybinds more than just once
-      if (bind.registered) {
+      if (!bind.registered) {
         // Add the key to the `allKeys` map, so that it shows in GuiControl, and to the keyBindings list.
         Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils.add(Minecraft.getMinecraft().gameSettings.keyBindings, bind.toKeyBind());
         bind.registered = true;
