@@ -47,7 +47,7 @@ class HyperiumTweaker : ITweaker {
         }
 
         try {
-            val clazz = Class.forName("cc.hyperium.ClassLoaderHelper", false, classLoader)
+            val clazz = Class.forName("cc.hyperium.internal.ClassLoaderHelper", false, classLoader)
             val m = clazz.getMethod("injectIntoClassLoader", Boolean::class.java)
             m.invoke(null, optifine)
         } catch (e: Exception) {
