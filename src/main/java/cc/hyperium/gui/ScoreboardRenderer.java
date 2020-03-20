@@ -23,6 +23,7 @@ import cc.hyperium.event.render.RenderScoreboardEvent;
 import cc.hyperium.utils.RenderUtils;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -54,8 +55,13 @@ public class ScoreboardRenderer {
     if (!renderEvent.isCancelled()) {
       Scoreboard scoreboard = objective.getScoreboard();
       Collection<Score> collection = scoreboard.getSortedScores(objective);
-      List<Score> list = collection.stream().filter(p_apply_1_ -> p_apply_1_.getPlayerName() != null
-          && !p_apply_1_.getPlayerName().startsWith("#")).collect(Collectors.toList());
+      List<Score> list = new ArrayList<>();
+      for (Score score : collection) {
+        if (score.getPlayerName() != null
+            && !score.getPlayerName().startsWith("#")) {
+          list.add(score);
+        }
+      }
 
       collection =
           list.size() > 15 ? Lists.newArrayList(Iterables.skip(list, collection.size() - 15))

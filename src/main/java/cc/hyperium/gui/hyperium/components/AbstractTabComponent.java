@@ -17,15 +17,12 @@
 
 package cc.hyperium.gui.hyperium.components;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 
 /*
  * Created by Cubxity on 27/08/2018
@@ -35,9 +32,9 @@ public abstract class AbstractTabComponent {
   public boolean hover;
   protected List<String> tags = new ArrayList<>();
   protected AbstractTab tab;
-  private boolean fc; // search query cache
-  private String sc = "";  // filter cache
-  private List<Consumer<Object>> stateChanges = new ArrayList<>();
+  private boolean filterCache; // search query cache
+  private String searchCache = "";  // filter cache
+  private final List<Consumer<Object>> stateChanges = new ArrayList<>();
   private boolean enabled = true;
 
   /**
@@ -61,11 +58,27 @@ public abstract class AbstractTabComponent {
     GlStateManager.popMatrix();
   }
 
-  public boolean filter(String s) {
-    String fs = s.toLowerCase(Locale.ENGLISH);
-    boolean a = (s.equals(sc) ? fc : (fc = tags.stream().anyMatch(t -> t.contains(fs))));
-    sc = s;
-    return a;
+  public boolean filter(String string) {
+    String filteredString = string.toLowerCase(Locale.ENGLISH);
+    boolean access;
+
+    if (string.equals(searchCache)) {
+      access = filterCache;
+    } else {
+      boolean cache = false;
+
+      for (String tag : tags) {
+        if (tag.contains(filteredString)) {
+          cache = true;
+          break;
+        }
+      }
+
+      access = filterCache = cache;
+    }
+
+    searchCache = string;
+    return access;
   }
 
   public void onClick(int x, int y) {

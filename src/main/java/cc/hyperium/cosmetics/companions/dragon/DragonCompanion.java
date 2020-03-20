@@ -43,7 +43,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class DragonCompanion extends AbstractCosmetic {
 
   private float scale;
-  private HashMap<EntityPlayer, CustomDragon> dragonHashMap = new HashMap<>();
+  private final HashMap<EntityPlayer, CustomDragon> dragonHashMap = new HashMap<>();
 
   public DragonCompanion() {
     super(false, EnumPurchaseType.DRAGON_COMPANION);

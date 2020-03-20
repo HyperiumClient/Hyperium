@@ -23,11 +23,11 @@ import net.minecraft.entity.Entity;
 
 public class ModelHatLego extends ModelBase {
 
-  private ModelRenderer brickBase;
-  private ModelRenderer topLeftBrick;
-  private ModelRenderer bottomLeftBrick;
-  private ModelRenderer bottomRightBrick;
-  private ModelRenderer topRightBrick;
+  private final ModelRenderer brickBase;
+  private final ModelRenderer topLeftBrick;
+  private final ModelRenderer bottomLeftBrick;
+  private final ModelRenderer bottomRightBrick;
+  private final ModelRenderer topRightBrick;
 
   public ModelHatLego() {
     textureWidth = 64;

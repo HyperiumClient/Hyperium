@@ -131,7 +131,12 @@ public class HyperiumPurchase {
   }
 
   public AbstractHyperiumPurchase getPurchase(EnumPurchaseType type) {
-    return purchases.stream().filter(purchase -> purchase.getType() == type).findFirst()
-        .orElse(null);
+    for (AbstractHyperiumPurchase purchase : purchases) {
+      if (purchase.getType() == type) {
+        return purchase;
+      }
+    }
+
+    return null;
   }
 }

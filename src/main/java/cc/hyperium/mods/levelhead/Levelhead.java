@@ -261,9 +261,11 @@ public class Levelhead extends AbstractMod {
 
   public HashMap<String, String> allowedTypes() {
     List<String> keys = types.getKeys();
-    HashMap<String, String> data = keys.stream().collect(Collectors
-        .toMap(key -> key, key -> types.optJsonObject(key).optString("name"), (a, b) -> b,
-            HashMap::new));
+    HashMap<String, String> data = new HashMap<>();
+    for (String key : keys) {
+      data.put(key, types.optJsonObject(key).optString("name"));
+    }
+
     LevelheadJsonHolder stats = paidData.optJsonObject("stats");
     for (String s : stats.getKeys()) {
       if (purchaseStatus.optBoolean(s)) {

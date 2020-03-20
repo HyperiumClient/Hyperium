@@ -247,8 +247,12 @@ public class AddItemsGui extends GuiScreen {
   }
 
   private DisplayElement find(String key) {
-    return all.stream().filter(
-        displayElement -> displayElement.getDisplayItems().get(0).getType().equalsIgnoreCase(key))
-        .findFirst().orElse(null);
+    for (DisplayElement displayElement : all) {
+      if (displayElement.getDisplayItems().get(0).getType().equalsIgnoreCase(key)) {
+        return displayElement;
+      }
+    }
+
+    return null;
   }
 }

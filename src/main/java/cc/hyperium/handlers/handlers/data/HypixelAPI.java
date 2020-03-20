@@ -145,9 +145,13 @@ public class HypixelAPI {
           Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/leaderboards")
       );
 
-      return holder.getKeys().stream().map(
-          key -> new Leaderboard(key, holder.optString(key))
-      ).collect(Collectors.toList());
+      List<Leaderboard> list = new ArrayList<>();
+      for (String key : holder.getKeys()) {
+        Leaderboard leaderboard = new Leaderboard(key, holder.optString(key));
+        list.add(leaderboard);
+      }
+
+      return list;
     }, Multithreading.POOL).whenComplete((leaderboards, error) -> {
       if (error != null) {
         LEADERBOARDS = leaderboards;
@@ -191,8 +195,11 @@ public class HypixelAPI {
   public String getFrontendNameOfQuest(String backendName) {
     JsonHolder quests = QUESTS.optJSONObject("quests");
 
-    List<JsonArray> arrays = quests.getKeys().stream().map(quests::optJSONArray)
-        .collect(Collectors.toList());
+    List<JsonArray> arrays = new ArrayList<>();
+    for (String s : quests.getKeys()) {
+      JsonArray jsonElements = quests.optJSONArray(s);
+      arrays.add(jsonElements);
+    }
 
     for (JsonArray array : arrays) {
       for (JsonElement element : array) {

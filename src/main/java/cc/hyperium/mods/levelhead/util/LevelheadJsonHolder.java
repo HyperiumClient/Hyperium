@@ -19,8 +19,10 @@ package cc.hyperium.mods.levelhead.util;
 
 import com.google.gson.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -193,7 +195,12 @@ public class LevelheadJsonHolder {
   }
 
   public List<String> getKeys() {
-    return object.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList());
+    List<String> list = new ArrayList<>();
+    for (Entry<String, JsonElement> stringJsonElementEntry : object.entrySet()) {
+      String key = stringJsonElementEntry.getKey();
+      list.add(key);
+    }
+    return list;
 
   }
 

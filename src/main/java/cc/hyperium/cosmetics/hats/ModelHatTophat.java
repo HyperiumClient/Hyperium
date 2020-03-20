@@ -23,8 +23,8 @@ import net.minecraft.entity.Entity;
 
 public class ModelHatTophat extends ModelBase {
 
-  private ModelRenderer bottomLayer;
-  private ModelRenderer topLayer;
+  private final ModelRenderer bottomLayer;
+  private final ModelRenderer topLayer;
 
   public ModelHatTophat() {
     textureWidth = 64;

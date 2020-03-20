@@ -206,18 +206,24 @@ public class Autotip {
 
   @SuppressWarnings("unchecked")
   public <T extends Event> T getEvent(Class<T> clazz) {
-    return (T) events.stream()
-        .filter(event -> event.getClass().equals(clazz))
-        .findFirst()
-        .orElse(null);
+    for (Event event : events) {
+      if (event.getClass().equals(clazz)) {
+        return (T) event;
+      }
+    }
+
+    return null;
   }
 
   @SuppressWarnings("unchecked")
   public <T extends CommandAbstract> T getCommand(Class<T> clazz) {
-    return (T) commands.stream()
-        .filter(command -> command.getClass().equals(clazz))
-        .findFirst()
-        .orElse(null);
+    for (CommandAbstract command : commands) {
+      if (command.getClass().equals(clazz)) {
+        return (T) command;
+      }
+    }
+
+    return null;
   }
 
   private void registerEvents(Event... events) {

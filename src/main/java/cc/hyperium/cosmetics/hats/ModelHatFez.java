@@ -23,11 +23,11 @@ import net.minecraft.entity.Entity;
 
 public class ModelHatFez extends ModelBase {
 
-  private ModelRenderer baseLayer;
-  private ModelRenderer topLayer;
-  private ModelRenderer stringLayer;
-  private ModelRenderer danglingStringLayer;
-  private ModelRenderer otherDanglingStringLayer;
+  private final ModelRenderer baseLayer;
+  private final ModelRenderer topLayer;
+  private final ModelRenderer stringLayer;
+  private final ModelRenderer danglingStringLayer;
+  private final ModelRenderer otherDanglingStringLayer;
 
   public ModelHatFez() {
     textureWidth = 64;

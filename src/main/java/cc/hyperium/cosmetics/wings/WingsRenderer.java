@@ -142,20 +142,20 @@ public class WingsRenderer extends ModelBase {
 
     mc.getTextureManager().bindTexture(location);
 
-    for (int j = 0; j < 2; j++) {
+    for (int parts = 0; parts < 2; parts++) {
       GlStateManager.enableCull();
-      float f11 = System.currentTimeMillis() % 1000L / 1000.0f * 3.1415927f * 2.0F;
-      wing.rotateAngleX = (float) Math.toRadians(-80.0) - (float) Math.cos(f11) * 0.2F;
-      wing.rotateAngleY = (float) Math.toRadians(20.0) + (float) Math.sin(f11) * 0.4F;
+      float time = System.currentTimeMillis() % 1000L / 1000.0f * 3.1415927f * 2.0F;
+      wing.rotateAngleX = (float) Math.toRadians(-80.0) - (float) Math.cos(time) * 0.2F;
+      wing.rotateAngleY = (float) Math.toRadians(20.0) + (float) Math.sin(time) * 0.4F;
       wing.rotateAngleZ = (float) Math.toRadians(20.0);
-      wingTip.rotateAngleZ = -(float) (Math.sin(f11 + 2.0F) + 0.5) * 0.75F;
+      wingTip.rotateAngleZ = -(float) (Math.sin(time + 2.0F) + 0.5) * 0.75F;
       GlStateManager.color(packageIfReady.getCachedSettings().getWingsRed(),
           packageIfReady.getCachedSettings().getWingsGreen(),
           packageIfReady.getCachedSettings().getWingsBlue());
       wing.render(0.0625F);
       GlStateManager.color(1.0F, 1.0F, 1.0F);
       GlStateManager.scale(-1.0F, 1.0F, 1.0F);
-      if (j == 0) {
+      if (parts == 0) {
         GlStateManager.cullFace(GL11.GL_FRONT);
       }
     }

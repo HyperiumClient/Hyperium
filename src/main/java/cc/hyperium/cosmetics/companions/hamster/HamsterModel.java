@@ -29,37 +29,37 @@ public class HamsterModel extends ModelBase {
   /**
    * main box for the hamster head
    */
-  private ModelRenderer hamsterHeadMain;
+  private final ModelRenderer hamsterHeadMain;
 
   /**
    * The hamster body
    */
-  private ModelRenderer hamsterBody;
+  private final ModelRenderer hamsterBody;
 
   /**
    * Hamster's first leg
    */
-  private ModelRenderer hamsterLeg1;
+  private final ModelRenderer hamsterLeg1;
 
   /**
    * Hamster's second leg
    */
-  private ModelRenderer hamsterLeg2;
+  private final ModelRenderer hamsterLeg2;
 
   /**
    * Hamster's third leg
    */
-  private ModelRenderer hamsterLeg3;
+  private final ModelRenderer hamsterLeg3;
 
   /**
    * Hamster's fourth leg
    */
-  private ModelRenderer hamsterLeg4;
+  private final ModelRenderer hamsterLeg4;
 
   /**
    * The hamster's mane
    */
-  private ModelRenderer hamsterMane;
+  private final ModelRenderer hamsterMane;
 
   public HamsterModel() {
     float f = 0.0F;

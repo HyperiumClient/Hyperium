@@ -40,7 +40,15 @@
  import net.minecraft.block.material.Material;
  import net.minecraft.client.audio.MusicTicker;
  import net.minecraft.client.audio.SoundHandler;
-@@ -91,6 +118,7 @@
+@@ -79,6 +106,7 @@
+ import net.minecraft.client.renderer.texture.TextureManager;
+ import net.minecraft.client.renderer.texture.TextureMap;
+ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
++import net.minecraft.client.resources.AbstractResourcePack;
+ import net.minecraft.client.resources.DefaultResourcePack;
+ import net.minecraft.client.resources.FoliageColorReloadListener;
+ import net.minecraft.client.resources.GrassColorReloadListener;
+@@ -91,6 +119,7 @@
  import net.minecraft.client.resources.ResourcePackRepository;
  import net.minecraft.client.resources.SimpleReloadableResourceManager;
  import net.minecraft.client.resources.SkinManager;
@@ -48,7 +56,7 @@
  import net.minecraft.client.resources.data.AnimationMetadataSection;
  import net.minecraft.client.resources.data.AnimationMetadataSectionSerializer;
  import net.minecraft.client.resources.data.FontMetadataSection;
-@@ -159,6 +187,7 @@
+@@ -159,6 +188,7 @@
  import net.minecraft.util.Session;
  import net.minecraft.util.Timer;
  import net.minecraft.util.Util;
@@ -56,7 +64,7 @@
  import net.minecraft.world.EnumDifficulty;
  import net.minecraft.world.WorldProviderEnd;
  import net.minecraft.world.WorldProviderHell;
-@@ -226,7 +255,7 @@
+@@ -226,7 +256,7 @@
      private Entity renderViewEntity;
      public Entity pointedEntity;
      public EffectRenderer effectRenderer;
@@ -65,7 +73,7 @@
      private boolean isGamePaused;
      /** The font renderer used for displaying and measuring text */
      public FontRenderer fontRendererObj;
-@@ -286,7 +315,7 @@
+@@ -286,7 +316,7 @@
      /** Keeps track of how long the debug crash keycombo (F3+C) has been pressed for, in order to crash after 10 seconds. */
      private long debugCrashKeyPressTime = -1L;
      private IReloadableResourceManager mcResourceManager;
@@ -74,7 +82,7 @@
      private final List<IResourcePack> defaultResourcePacks = Lists.<IResourcePack>newArrayList();
      private final DefaultResourcePack mcDefaultResourcePack;
      private ResourcePackRepository mcResourcePackRepository;
-@@ -408,8 +437,25 @@
+@@ -408,8 +438,29 @@
       * Starts the game: initializes the canvas, the title, the settings, etcetera.
       */
      private void startGame() throws LWJGLException, IOException {
@@ -83,8 +91,12 @@
 +        EventBus.INSTANCE.register(Hyperium.INSTANCE);
 +
 +        defaultResourcePacks.add(mcDefaultResourcePack);
-+        AddonBootstrap.getAddonResourcePacks().stream().map(file -> file == null ? new AddonWorkspaceResourcePack() :
-+                new FileResourcePack(file)).forEach(defaultResourcePacks::add);
++        for (File file : AddonBootstrap.getAddonResourcePacks()) {
++            AbstractResourcePack abstractResourcePack =
++                file == null ? new AddonWorkspaceResourcePack() :
++                    new FileResourcePack(file);
++            defaultResourcePacks.add(abstractResourcePack);
++        }
 +
 +        AddonMinecraftBootstrap.init();
 +        CTJS.loadIntoJVM();
@@ -101,7 +113,7 @@
          this.startTimerHackThread();
  
          if (this.gameSettings.overrideHeight > 0 && this.gameSettings.overrideWidth > 0) {
-@@ -420,7 +466,13 @@
+@@ -420,7 +471,13 @@
          logger.info("LWJGL Version: " + Sys.getVersion());
          this.setWindowIcon();
          this.setInitialDisplayMode();
@@ -115,7 +127,7 @@
          OpenGlHelper.initializeTextures();
          this.framebufferMc = new Framebuffer(this.displayWidth, this.displayHeight, true);
          this.framebufferMc.setFramebufferColor(0.0F, 0.0F, 0.0F, 0.0F);
-@@ -524,6 +576,9 @@
+@@ -524,6 +581,9 @@
          }
  
          this.renderGlobal.makeEntityOutlineShader();
@@ -125,7 +137,7 @@
      }
  
      private void registerMetadataSerializers() {
-@@ -567,35 +622,37 @@
+@@ -567,35 +627,37 @@
      }
  
      private void setInitialDisplayMode() throws LWJGLException {
@@ -186,7 +198,7 @@
              }
          }
      }
-@@ -648,7 +705,12 @@
+@@ -648,7 +710,12 @@
       */
      public void displayCrashReport(CrashReport crashReportIn) {
          File file1 = new File(getMinecraft().mcDataDir, "crash-reports");
@@ -200,7 +212,7 @@
          Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
  
          if (crashReportIn.getFile() != null) {
-@@ -755,51 +817,7 @@
+@@ -755,51 +822,7 @@
      }
  
      private void drawSplashScreen(TextureManager textureManagerInstance) throws LWJGLException {
@@ -253,7 +265,7 @@
      }
  
      /**
-@@ -844,14 +862,27 @@
+@@ -844,14 +867,27 @@
          }
  
          if (guiScreenIn == null && this.theWorld == null) {
@@ -285,7 +297,7 @@
          }
  
          this.currentScreen = (GuiScreen)guiScreenIn;
-@@ -867,6 +898,10 @@
+@@ -867,6 +903,10 @@
              this.mcSoundHandler.resumeSounds();
              this.setIngameFocus();
          }
@@ -296,7 +308,7 @@
      }
  
      /**
-@@ -916,6 +951,20 @@
+@@ -916,6 +956,20 @@
       * Called repeatedly from run()
       */
      private void runGameLoop() throws IOException {
@@ -317,7 +329,7 @@
          long i = System.nanoTime();
          this.mcProfiler.startSection("root");
  
-@@ -965,6 +1014,10 @@
+@@ -965,6 +1019,10 @@
  
          this.mcProfiler.endSection();
  
@@ -328,7 +340,7 @@
          if (!this.skipRenderWorld) {
              this.mcProfiler.endStartSection("gameRenderer");
              this.entityRenderer.updateCameraAndRender(this.timer.renderPartialTicks, i);
-@@ -1062,6 +1115,10 @@
+@@ -1062,6 +1120,10 @@
      }
  
      public int getLimitFramerate() {
@@ -339,7 +351,7 @@
          return this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
      }
  
-@@ -1091,6 +1148,7 @@
+@@ -1091,6 +1153,7 @@
       * Update debugProfilerName in response to number keys in debug screen
       */
      private void updateDebugProfilerName(int keyCount) {
@@ -347,7 +359,7 @@
          List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
  
          if (list != null && !list.isEmpty()) {
-@@ -1222,6 +1280,7 @@
+@@ -1222,6 +1285,7 @@
       * Called when the window is closing. Sets 'running' to false which allows the game loop to exit cleanly.
       */
      public void shutdown() {
@@ -355,7 +367,7 @@
          this.running = false;
      }
  
-@@ -1314,6 +1373,8 @@
+@@ -1314,6 +1378,8 @@
                  }
              }
          }
@@ -364,7 +376,7 @@
      }
  
      /**
-@@ -1344,6 +1405,11 @@
+@@ -1344,6 +1410,11 @@
                      if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
                          int i = itemstack != null ? itemstack.stackSize : 0;
  
@@ -376,7 +388,7 @@
                          if (this.playerController.onPlayerRightClick(this.thePlayer, this.theWorld, itemstack, blockpos, this.objectMouseOver.sideHit, this.objectMouseOver.hitVec)) {
                              flag = false;
                              this.thePlayer.swingItem();
-@@ -1364,12 +1430,18 @@
+@@ -1364,12 +1435,18 @@
  
              if (flag) {
                  ItemStack itemstack1 = this.thePlayer.inventory.getCurrentItem();
@@ -395,7 +407,7 @@
      }
  
      /**
-@@ -1414,6 +1486,25 @@
+@@ -1414,6 +1491,25 @@
  
              Display.setFullscreen(this.fullscreen);
              Display.setVSyncEnabled(this.gameSettings.enableVsync);
@@ -421,7 +433,7 @@
              this.updateDisplay();
          } catch (Exception exception) {
              logger.error((String)"Couldn\'t toggle fullscreen", (Throwable)exception);
-@@ -1528,6 +1619,9 @@
+@@ -1528,6 +1624,9 @@
  
              while (Mouse.next()) {
                  int i = Mouse.getEventButton();
@@ -431,7 +443,7 @@
                  KeyBinding.setKeyBindState(i - 100, Mouse.getEventButtonState());
  
                  if (Mouse.getEventButtonState()) {
-@@ -1857,12 +1951,18 @@
+@@ -1857,12 +1956,18 @@
  
          this.mcProfiler.endSection();
          this.systemTime = getSystemTime();
@@ -450,7 +462,7 @@
          this.loadWorld((WorldClient)null);
          System.gc();
          ISaveHandler isavehandler = this.saveLoader.getSaveLoader(folderName, false);
-@@ -1912,7 +2012,15 @@
+@@ -1912,7 +2017,15 @@
          NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
          networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, this, (GuiScreen)null));
          networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
@@ -467,7 +479,7 @@
          this.myNetworkManager = networkmanager;
      }
  
-@@ -1920,6 +2028,9 @@
+@@ -1920,6 +2033,9 @@
       * unloads the current world first
       */
      public void loadWorld(WorldClient worldClientIn) {
@@ -477,7 +489,7 @@
          this.loadWorld(worldClientIn, "");
      }
  
-@@ -1986,13 +2097,16 @@
+@@ -1986,13 +2102,16 @@
              this.thePlayer = null;
          }
  
@@ -495,7 +507,7 @@
          int i = 0;
          String s = null;
  
-@@ -2572,6 +2686,12 @@
+@@ -2572,6 +2691,12 @@
  
          if (i != 0 && !Keyboard.isRepeatEvent()) {
              if (!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L) {
@@ -508,7 +520,7 @@
                  if (Keyboard.getEventKeyState()) {
                      if (i == this.gameSettings.keyBindStreamStartStop.getKeyCode()) {
                          if (this.getTwitchStream().isBroadcasting()) {
-@@ -2610,7 +2730,8 @@
+@@ -2610,7 +2735,8 @@
                      } else if (i == this.gameSettings.keyBindFullscreen.getKeyCode()) {
                          this.toggleFullscreen();
                      } else if (i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
@@ -518,7 +530,7 @@
                      }
                  } else if (i == this.gameSettings.keyBindStreamToggleMic.getKeyCode()) {
                      this.stream.muteMicrophone(false);
-@@ -2717,4 +2838,13 @@
+@@ -2717,4 +2843,13 @@
      public void setConnectedToRealms(boolean isConnected) {
          this.connectedToRealms = isConnected;
      }
