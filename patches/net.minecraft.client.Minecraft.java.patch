@@ -443,7 +443,16 @@
                  KeyBinding.setKeyBindState(i - 100, Mouse.getEventButtonState());
  
                  if (Mouse.getEventButtonState()) {
-@@ -1857,12 +1956,18 @@
+@@ -1777,6 +1876,8 @@
+             }
+ 
+             this.sendClickBlockToController(this.currentScreen == null && this.gameSettings.keyBindAttack.isKeyDown() && this.inGameHasFocus);
++
++            Hyperium.INSTANCE.getHandlers().getKeybindHandler().onHold();
+         }
+ 
+         if (this.theWorld != null) {
+@@ -1857,12 +1958,18 @@
  
          this.mcProfiler.endSection();
          this.systemTime = getSystemTime();
@@ -462,7 +471,7 @@
          this.loadWorld((WorldClient)null);
          System.gc();
          ISaveHandler isavehandler = this.saveLoader.getSaveLoader(folderName, false);
-@@ -1912,7 +2017,15 @@
+@@ -1912,7 +2019,15 @@
          NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
          networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, this, (GuiScreen)null));
          networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
@@ -479,7 +488,7 @@
          this.myNetworkManager = networkmanager;
      }
  
-@@ -1920,6 +2033,9 @@
+@@ -1920,6 +2035,9 @@
       * unloads the current world first
       */
      public void loadWorld(WorldClient worldClientIn) {
@@ -489,7 +498,7 @@
          this.loadWorld(worldClientIn, "");
      }
  
-@@ -1986,13 +2102,16 @@
+@@ -1986,13 +2104,16 @@
              this.thePlayer = null;
          }
  
@@ -507,7 +516,7 @@
          int i = 0;
          String s = null;
  
-@@ -2572,6 +2691,12 @@
+@@ -2572,6 +2693,12 @@
  
          if (i != 0 && !Keyboard.isRepeatEvent()) {
              if (!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L) {
@@ -520,7 +529,7 @@
                  if (Keyboard.getEventKeyState()) {
                      if (i == this.gameSettings.keyBindStreamStartStop.getKeyCode()) {
                          if (this.getTwitchStream().isBroadcasting()) {
-@@ -2610,7 +2735,8 @@
+@@ -2610,7 +2737,8 @@
                      } else if (i == this.gameSettings.keyBindFullscreen.getKeyCode()) {
                          this.toggleFullscreen();
                      } else if (i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
@@ -530,7 +539,7 @@
                      }
                  } else if (i == this.gameSettings.keyBindStreamToggleMic.getKeyCode()) {
                      this.stream.muteMicrophone(false);
-@@ -2717,4 +2843,13 @@
+@@ -2717,4 +2845,13 @@
      public void setConnectedToRealms(boolean isConnected) {
          this.connectedToRealms = isConnected;
      }

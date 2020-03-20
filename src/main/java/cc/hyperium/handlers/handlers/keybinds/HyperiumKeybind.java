@@ -45,6 +45,11 @@ public class HyperiumKeybind {
     pressed = false;
   }
 
+  /**
+   * Called every tick when a key is down, not just when it's pressed like onPress
+   */
+  public void onHold() {}
+
   public String getDescription() {
     return description;
   }
