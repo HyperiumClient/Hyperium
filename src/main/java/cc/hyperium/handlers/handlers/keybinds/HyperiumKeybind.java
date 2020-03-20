@@ -25,6 +25,7 @@ public class HyperiumKeybind {
   private String description, category;
   private int keyCode, defaultKeyCode;
   private boolean conflicted, pressed;
+  public boolean registered = false;
 
   public HyperiumKeybind(String description, int defaultKeyCode, KeyType category) {
     this(description, defaultKeyCode, category.keyCategory);
