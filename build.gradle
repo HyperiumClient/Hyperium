@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'club.ampthedev.mcgradle:MCGradle:2.0.8'
+        classpath 'club.ampthedev.mcgradle:MCGradle:2.0.10'
     }
 }
 
