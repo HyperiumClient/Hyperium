@@ -22,39 +22,39 @@ import net.minecraft.client.gui.GuiScreen;
 
 public class GuiClickEvent extends CancellableEvent {
 
-    private final int mouseX;
-    private final int mouseY;
-    private final int button;
-    private final GuiScreen gui;
+  private final int mouseX;
+  private final int mouseY;
+  private final int button;
+  private final GuiScreen gui;
 
-    /**
-     * Invoked when a user clicks within a GuiScreen.
-     *
-     * @param mouseX x position of the mouse on click
-     * @param mouseY y position of the mouse on click
-     * @param button Mouse button clicked (0 = left, 1 = right, 2 = middle)
-     * @param gui    GUI that detected the click
-     */
-    public GuiClickEvent(int mouseX, int mouseY, int button, GuiScreen gui) {
-        this.mouseX = mouseX;
-        this.mouseY = mouseY;
-        this.button = button;
-        this.gui = gui;
-    }
+  /**
+   * Invoked when a user clicks within a GuiScreen.
+   *
+   * @param mouseX x position of the mouse on click
+   * @param mouseY y position of the mouse on click
+   * @param button Mouse button clicked (0 = left, 1 = right, 2 = middle)
+   * @param gui    GUI that detected the click
+   */
+  public GuiClickEvent(int mouseX, int mouseY, int button, GuiScreen gui) {
+    this.mouseX = mouseX;
+    this.mouseY = mouseY;
+    this.button = button;
+    this.gui = gui;
+  }
 
-    public int getMouseX() {
-        return mouseX;
-    }
+  public int getMouseX() {
+    return mouseX;
+  }
 
-    public int getMouseY() {
-        return mouseY;
-    }
+  public int getMouseY() {
+    return mouseY;
+  }
 
-    public int getButton() {
-        return button;
-    }
+  public int getButton() {
+    return button;
+  }
 
-    public GuiScreen getGui() {
-        return gui;
-    }
+  public GuiScreen getGui() {
+    return gui;
+  }
 }

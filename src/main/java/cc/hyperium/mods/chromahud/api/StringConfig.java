@@ -21,37 +21,37 @@ import java.util.function.Consumer;
 
 public class StringConfig {
 
-    private final Consumer<DisplayItem> load;
-    private final Consumer<DisplayItem> draw;
-    private String string;
+  private final Consumer<DisplayItem> load;
+  private final Consumer<DisplayItem> draw;
+  private String string;
 
-    public StringConfig(String string, Consumer<DisplayItem> load, Consumer<DisplayItem> draw) {
-        this.string = string;
-        this.load = load;
-        this.draw = draw;
-    }
+  public StringConfig(String string, Consumer<DisplayItem> load, Consumer<DisplayItem> draw) {
+    this.string = string;
+    this.load = load;
+    this.draw = draw;
+  }
 
-    public StringConfig(String string) {
-        this.string = string;
-        load = (displayItem) -> {
-        };
-        draw = (displayItem) -> {
-        };
-    }
+  public StringConfig(String string) {
+    this.string = string;
+    load = (displayItem) -> {
+    };
+    draw = (displayItem) -> {
+    };
+  }
 
-    public Consumer<DisplayItem> getLoad() {
-        return load;
-    }
+  public Consumer<DisplayItem> getLoad() {
+    return load;
+  }
 
-    public Consumer<DisplayItem> getDraw() {
-        return draw;
-    }
+  public Consumer<DisplayItem> getDraw() {
+    return draw;
+  }
 
-    public String getString() {
-        return string;
-    }
+  public String getString() {
+    return string;
+  }
 
-    public void setString(String string) {
-        this.string = string;
-    }
+  public void setString(String string) {
+    this.string = string;
+  }
 }

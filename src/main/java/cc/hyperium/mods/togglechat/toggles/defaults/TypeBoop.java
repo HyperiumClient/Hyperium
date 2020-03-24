@@ -24,40 +24,41 @@ import java.util.regex.Pattern;
 
 public class TypeBoop extends ToggleBase {
 
-    private boolean enabled = true;
-    private final Pattern boopPattern = Pattern.compile("From (?<rank>\\[.+] )?(?<player>\\S{1,16}): Boop!");
+  private boolean enabled = true;
+  private final Pattern boopPattern = Pattern
+      .compile("From (?<rank>\\[.+] )?(?<player>\\S{1,16}): Boop!");
 
 
-    @Override
-    public String getName() {
-        return "Boop";
-    }
+  @Override
+  public String getName() {
+    return "Boop";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return boopPattern.matcher(message).matches();
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return boopPattern.matcher(message).matches();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles all incoming",
-                "boops",
-                "",
-                "No more annoying boops",
-                "disturbing your amazing game!",
-                "&dFrom &7Player&r: &d&lBoop!",
-                ""
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles all incoming",
+        "boops",
+        "",
+        "No more annoying boops",
+        "disturbing your amazing game!",
+        "&dFrom &7Player&r: &d&lBoop!",
+        ""
+    );
+  }
 }

@@ -27,17 +27,17 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class HypixelFriendRequestEvent extends Event {
 
-    @NotNull
-    private final String from;
+  @NotNull
+  private final String from;
 
-    public HypixelFriendRequestEvent(@NotNull String from) {
-        Preconditions.checkNotNull(from, "from");
+  public HypixelFriendRequestEvent(@NotNull String from) {
+    Preconditions.checkNotNull(from, "from");
 
-        this.from = from;
-    }
+    this.from = from;
+  }
 
-    @NotNull
-    public final String getFrom() {
-        return from;
-    }
+  @NotNull
+  public final String getFrom() {
+    return from;
+  }
 }

@@ -28,31 +28,33 @@ import java.util.regex.Pattern;
 
 public class FriendRequestChatHandler extends HyperiumChatHandler {
 
-    @Override
-    public boolean chatReceived(IChatComponent component, String text) {
-        Matcher matcher1 = Pattern.compile("You removed ((?<rank>\\[.+] )?(?<player>\\w+)) from your friends list!").matcher(text);
-        if (matcher1.find()) {
-            String rank = "";
+  @Override
+  public boolean chatReceived(IChatComponent component, String text) {
+    Matcher matcher1 = Pattern
+        .compile("You removed ((?<rank>\\[.+] )?(?<player>\\w+)) from your friends list!")
+        .matcher(text);
+    if (matcher1.find()) {
+      String rank = "";
 
-            try {
-                rank = matcher1.group("rank");
-            } catch (Exception ignored) {
-            }
+      try {
+        rank = matcher1.group("rank");
+      } catch (Exception ignored) {
+      }
 
-            String player = matcher1.group("player");
-            EventBus.INSTANCE.post(new FriendRemoveEvent(rank + player, player));
-        }
-
-        if (!text.toLowerCase(Locale.ENGLISH).contains("friend request")) {
-            return false;
-        }
-
-        Matcher matcher = regexPatterns.get(ChatRegexType.FRIEND_REQUEST).matcher(text);
-
-        if (matcher.find()) {
-            EventBus.INSTANCE.post(new HypixelFriendRequestEvent(matcher.group("player")));
-        }
-
-        return false;
+      String player = matcher1.group("player");
+      EventBus.INSTANCE.post(new FriendRemoveEvent(rank + player, player));
     }
+
+    if (!text.toLowerCase(Locale.ENGLISH).contains("friend request")) {
+      return false;
+    }
+
+    Matcher matcher = regexPatterns.get(ChatRegexType.FRIEND_REQUEST).matcher(text);
+
+    if (matcher.find()) {
+      EventBus.INSTANCE.post(new HypixelFriendRequestEvent(matcher.group("player")));
+    }
+
+    return false;
+  }
 }

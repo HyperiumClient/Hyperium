@@ -26,86 +26,87 @@ import java.util.regex.Pattern;
 
 public class TypeGlobal extends ToggleBase {
 
-    private final ToggleBaseHandler base;
+  private final ToggleBaseHandler base;
 
-    private final Pattern chatPattern = Pattern.compile("(?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+  private final Pattern chatPattern = Pattern
+      .compile("(?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    public TypeGlobal(ToggleBaseHandler handler) {
-        base = handler;
+  public TypeGlobal(ToggleBaseHandler handler) {
+    base = handler;
+  }
+
+  @Override
+  public String getName() {
+    return "Global";
+  }
+
+  @Override
+  public String getDisplayName() {
+    return "Global Chat: %s";
+  }
+
+  @Override
+  public boolean shouldToggle(String message) {
+    // A system to prevent accidentally toggling UHC or bedwars chat
+    if (base.getToggle("special") != null) {
+      ToggleBase base = this.base.getToggle("special");
+
+      if (base.isEnabled() && base.shouldToggle(message)) {
+        return false;
+      }
     }
 
-    @Override
-    public String getName() {
-        return "Global";
+    Matcher matcher = chatPattern.matcher(message);
+
+    return matcher.matches() && isNotOtherChat(matcher);
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Turns all general player",
+        "chat on or off",
+        "",
+        "These are the formats",
+        "&7Player: Hi",
+        "&a[VIP] Player&r: Hi",
+        "&a[VIP&6+&a] Player&r: Hi",
+        "&b[MVP] Player&r: Hi",
+        "&b[MVP&c+&b] Player&r: Hi",
+        "",
+        "Useful to prevent spam",
+        "or any unwanted chat",
+        "messages"
+    );
+  }
+
+  private boolean isNotOtherChat(Matcher input) {
+    String rank;
+
+    try {
+      rank = input.group("rank");
+    } catch (Exception ex) {
+      return true;
     }
 
-    @Override
-    public String getDisplayName() {
-        return "Global Chat: %s";
+    switch (rank) {
+      case "[TEAM] ":
+      case "[SHOUT] ":
+      case "[SPECTATOR] ":
+        return false;
     }
-
-    @Override
-    public boolean shouldToggle(String message) {
-        // A system to prevent accidentally toggling UHC or bedwars chat
-        if (base.getToggle("special") != null) {
-            ToggleBase base = this.base.getToggle("special");
-
-            if (base.isEnabled() && base.shouldToggle(message)) {
-                return false;
-            }
-        }
-
-        Matcher matcher = chatPattern.matcher(message);
-
-        return matcher.matches() && isNotOtherChat(matcher);
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Turns all general player",
-                "chat on or off",
-                "",
-                "These are the formats",
-                "&7Player: Hi",
-                "&a[VIP] Player&r: Hi",
-                "&a[VIP&6+&a] Player&r: Hi",
-                "&b[MVP] Player&r: Hi",
-                "&b[MVP&c+&b] Player&r: Hi",
-                "",
-                "Useful to prevent spam",
-                "or any unwanted chat",
-                "messages"
-        );
-    }
-
-    private boolean isNotOtherChat(Matcher input) {
-        String rank;
-
-        try {
-            rank = input.group("rank");
-        } catch (Exception ex) {
-            return true;
-        }
-
-        switch (rank) {
-            case "[TEAM] ":
-            case "[SHOUT] ":
-            case "[SPECTATOR] ":
-                return false;
-        }
-        return true;
-    }
+    return true;
+  }
 }

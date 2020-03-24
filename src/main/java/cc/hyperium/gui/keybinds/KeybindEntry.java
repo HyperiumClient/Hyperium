@@ -23,34 +23,38 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
 public class KeybindEntry {
-    private String label;
-    private KeybindButton keybindButton;
-    private boolean visible = true;
 
-    public KeybindEntry(String label, KeybindButton keybindButton) {
-        this.label = label;
-        this.keybindButton = keybindButton;
-    }
+  private String label;
+  private KeybindButton keybindButton;
+  private boolean visible = true;
 
-    public void renderBind(int x, int y, FontRenderer fontRenderer, Minecraft mc, int mouseX, int mouseY) {
-        if (!visible) visible = true;
-        fontRenderer.drawString(label, x, y, Color.WHITE.getRGB());
-        keybindButton.drawDynamicButton(mc, mouseX, mouseY, x + 150, y);
-    }
+  public KeybindEntry(String label, KeybindButton keybindButton) {
+    this.label = label;
+    this.keybindButton = keybindButton;
+  }
 
-    public String getLabel() {
-        return label;
+  public void renderBind(int x, int y, FontRenderer fontRenderer, Minecraft mc, int mouseX,
+      int mouseY) {
+    if (!visible) {
+      visible = true;
     }
+    fontRenderer.drawString(label, x, y, Color.WHITE.getRGB());
+    keybindButton.drawDynamicButton(mc, mouseX, mouseY, x + 150, y);
+  }
 
-    public KeybindButton getKeybindButton() {
-        return keybindButton;
-    }
+  public String getLabel() {
+    return label;
+  }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
+  public KeybindButton getKeybindButton() {
+    return keybindButton;
+  }
 
-    public boolean isVisible() {
-        return visible;
-    }
+  public void setVisible(boolean visible) {
+    this.visible = visible;
+  }
+
+  public boolean isVisible() {
+    return visible;
+  }
 }

@@ -27,13 +27,15 @@ import java.nio.charset.StandardCharsets;
 public class TwerkDance extends AnimatedDance {
 
 
-    //THE EPITOME OF PAIN. FOR YOUR OWN GOOD, DO NOT ATTEMPT
-    public JsonHolder getData() {
-        try {
-            return new JsonHolder(IOUtils.toString(new URL("https://static.sk1er.club/hyperium/twerk.json"), StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new JsonHolder();
+  //THE EPITOME OF PAIN. FOR YOUR OWN GOOD, DO NOT ATTEMPT
+  public JsonHolder getData() {
+    try {
+      return new JsonHolder(IOUtils
+          .toString(new URL("https://static.sk1er.club/hyperium/twerk.json"),
+              StandardCharsets.UTF_8));
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    return new JsonHolder();
+  }
 }

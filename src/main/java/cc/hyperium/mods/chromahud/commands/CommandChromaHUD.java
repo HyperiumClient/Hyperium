@@ -26,24 +26,24 @@ import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
  */
 public class CommandChromaHUD implements BaseCommand {
 
-    private final ChromaHUD mod;
+  private final ChromaHUD mod;
 
-    public CommandChromaHUD(ChromaHUD modIn) {
-        mod = modIn;
-    }
+  public CommandChromaHUD(ChromaHUD modIn) {
+    mod = modIn;
+  }
 
-    @Override
-    public String getName() {
-        return "chromahud";
-    }
+  @Override
+  public String getName() {
+    return "chromahud";
+  }
 
-    @Override
-    public String getUsage() {
-        return "chromahud";
-    }
+  @Override
+  public String getUsage() {
+    return "chromahud";
+  }
 
-    @Override
-    public void onExecute(String[] args) {
-        new GeneralConfigGui(mod).display();
-    }
+  @Override
+  public void onExecute(String[] args) {
+    new GeneralConfigGui(mod).display();
+  }
 }

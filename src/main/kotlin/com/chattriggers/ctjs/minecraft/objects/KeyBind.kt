@@ -1,7 +1,7 @@
 package com.chattriggers.ctjs.minecraft.objects
 
 import cc.hyperium.Hyperium
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.utils.kotlin.External
 import net.minecraft.client.settings.KeyBinding
@@ -10,7 +10,7 @@ import java.util.*
 
 @External
 class KeyBind {
-    private var keyBinding: HyperiumBind
+    private var keyBinding: HyperiumKeybind
     private var isCustom: Boolean = false
     private var isFirstDown: Boolean = false
     private var canResetDown: Boolean = false
@@ -31,7 +31,7 @@ class KeyBind {
             }
         }
 
-        keyBinding = object : HyperiumBind(description, keyCode, "ChatTriggers") {
+        keyBinding = object : HyperiumKeybind(description, keyCode, KeyType.CT) {
             override fun onPress() {
                 super.onPress()
 
@@ -48,14 +48,14 @@ class KeyBind {
                 canResetDown = true
             }
         }
-        Hyperium.INSTANCE.handlers.keybindHandler.registerKeyBinding(keyBinding)
+        Hyperium.INSTANCE.handlers.keybindHandler.registerBinds(keyBinding)
 
         keyBinds.add(this)
         isCustom = true
     }
 
     constructor(keyBinding: KeyBinding) {
-        this.keyBinding = HyperiumBind(keyBinding.keyDescription, keyBinding.keyCode, keyBinding.keyCategory)
+        this.keyBinding = HyperiumKeybind(keyBinding.keyDescription, keyBinding.keyCode, HyperiumKeybind.KeyType.CT)
         isCustom = false
     }
 

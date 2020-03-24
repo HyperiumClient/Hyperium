@@ -24,22 +24,24 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 
 public class GuiSliderScale extends GuiSlider {
 
-    private final KeystrokesSettings settings;
-    private final GuiScreenKeystrokes keystrokesGui;
+  private final KeystrokesSettings settings;
+  private final GuiScreenKeystrokes keystrokesGui;
 
-    public GuiSliderScale(KeystrokesMod mod, int id, int xPos, int yPos, int width, int height, GuiScreenKeystrokes keystrokes) {
-        super(id, xPos, yPos, width, height, "Scale: ", "%", 50, 150, mod.getSettings().getScale() * 100.0D, false, true);
+  public GuiSliderScale(KeystrokesMod mod, int id, int xPos, int yPos, int width, int height,
+      GuiScreenKeystrokes keystrokes) {
+    super(id, xPos, yPos, width, height, "Scale: ", "%", 50, 150,
+        mod.getSettings().getScale() * 100.0D, false, true);
 
-        settings = mod.getSettings();
-        keystrokesGui = keystrokes;
-    }
+    settings = mod.getSettings();
+    keystrokesGui = keystrokes;
+  }
 
-    @Override
-    public void updateSlider() {
-        super.updateSlider();
-        settings.setX(0);
-        settings.setY(0);
-        settings.setScale((float) (getValue() / 100.0D));
-        keystrokesGui.setUpdated();
-    }
+  @Override
+  public void updateSlider() {
+    super.updateSlider();
+    settings.setX(0);
+    settings.setY(0);
+    settings.setScale((float) (getValue() / 100.0D));
+    keystrokesGui.setUpdated();
+  }
 }

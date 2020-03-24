@@ -17,102 +17,117 @@
 
 package cc.hyperium.gui.hyperium.components;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 
 /*
  * Created by Cubxity on 27/08/2018
  */
 public abstract class AbstractTabComponent {
 
-    public boolean hover;
-    protected List<String> tags = new ArrayList<>();
-    protected AbstractTab tab;
-    private boolean fc; // search query cache
-    private String sc = "";  // filter cache
-    private List<Consumer<Object>> stateChanges = new ArrayList<>();
-    private boolean enabled = true;
+  public boolean hover;
+  protected List<String> tags = new ArrayList<>();
+  protected AbstractTab tab;
+  private boolean filterCache; // search query cache
+  private String searchCache = "";  // filter cache
+  private final List<Consumer<Object>> stateChanges = new ArrayList<>();
+  private boolean enabled = true;
 
-    /**
-     * @param tab  the tab that this component will be added on
-     * @param tags tags that are used for search function
-     */
-    public AbstractTabComponent(AbstractTab tab, List<String> tags) {
-        this.tab = tab;
-        tag(tags); // prevent unsupported operation on AbstractList
+  /**
+   * @param tab  the tab that this component will be added on
+   * @param tags tags that are used for search function
+   */
+  public AbstractTabComponent(AbstractTab tab, List<String> tags) {
+    this.tab = tab;
+    tag(tags); // prevent unsupported operation on AbstractList
+  }
+
+  public int getHeight() {
+    return (tab.getFilter() != null && !filter(tab.getFilter())) ? 0 : 18;
+  }
+
+  public void render(int x, int y, int width, int mouseX, int mouseY) {
+    GlStateManager.pushMatrix();
+    if (hover) {
+      Gui.drawRect(x, y, x + width, y + 18, 0xa0000000);
     }
+    GlStateManager.popMatrix();
+  }
 
-    public int getHeight() {
-        return (tab.getFilter() != null && !filter(tab.getFilter())) ? 0 : 18;
-    }
+  public boolean filter(String string) {
+    String filteredString = string.toLowerCase(Locale.ENGLISH);
+    boolean access;
 
-    public void render(int x, int y, int width, int mouseX, int mouseY) {
-        GlStateManager.pushMatrix();
-        if (hover) Gui.drawRect(x, y, x + width, y + 18, 0xa0000000);
-        GlStateManager.popMatrix();
-    }
+    if (string.equals(searchCache)) {
+      access = filterCache;
+    } else {
+      boolean cache = false;
 
-    public boolean filter(String s) {
-        String fs = s.toLowerCase(Locale.ENGLISH);
-        boolean a = (s.equals(sc) ? fc : (fc = tags.stream().anyMatch(t -> t.contains(fs))));
-        sc = s;
-        return a;
-    }
-
-    public void onClick(int x, int y) {
-
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public void registerStateChange(Consumer<Object> objectConsumer) {
-        stateChanges.add(objectConsumer);
-    }
-
-    protected void stateChange(Object o) {
-        for (Consumer<Object> tmp : stateChanges) {
-            tmp.accept(o);
+      for (String tag : tags) {
+        if (tag.contains(filteredString)) {
+          cache = true;
+          break;
         }
+      }
+
+      access = filterCache = cache;
     }
 
-    public void mouseEvent(int x, int y) {
+    searchCache = string;
+    return access;
+  }
 
+  public void onClick(int x, int y) {
+
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  public void registerStateChange(Consumer<Object> objectConsumer) {
+    stateChanges.add(objectConsumer);
+  }
+
+  protected void stateChange(Object o) {
+    for (Consumer<Object> tmp : stateChanges) {
+      tmp.accept(o);
+    }
+  }
+
+  public void mouseEvent(int x, int y) {
+
+  }
+
+  public AbstractTabComponent tag(String... ts) {
+    List<String> list = new ArrayList<>();
+
+    for (String s : ts) {
+      String toLowerCase = s.toLowerCase(Locale.ENGLISH);
+      list.add(toLowerCase);
     }
 
-    public AbstractTabComponent tag(String... ts) {
-        List<String> list = new ArrayList<>();
+    tags.addAll(list);
+    return this;
+  }
 
-        for (String s : ts) {
-            String toLowerCase = s.toLowerCase(Locale.ENGLISH);
-            list.add(toLowerCase);
-        }
+  public AbstractTabComponent tag(List<String> ts) {
+    List<String> list = new ArrayList<>();
 
-        tags.addAll(list);
-        return this;
+    for (String s : ts) {
+      String toLowerCase = s.toLowerCase(Locale.ENGLISH);
+      list.add(toLowerCase);
     }
 
-    public AbstractTabComponent tag(List<String> ts) {
-        List<String> list = new ArrayList<>();
-
-        for (String s : ts) {
-            String toLowerCase = s.toLowerCase(Locale.ENGLISH);
-            list.add(toLowerCase);
-        }
-
-        tags.addAll(list);
-        return this;
-    }
+    tags.addAll(list);
+    return this;
+  }
 }

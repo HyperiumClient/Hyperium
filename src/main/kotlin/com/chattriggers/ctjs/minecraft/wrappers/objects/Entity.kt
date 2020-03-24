@@ -142,10 +142,10 @@ open class Entity(val entity: MCEntity) {
 
     override fun toString(): String {
         return ("Entity{"
-                + getName()
-                + ",x:" + getX()
-                + ",y:" + getY()
-                + ",z:" + getZ()
-                + "}")
+            + getName()
+            + ",x:" + getX()
+            + ",y:" + getY()
+            + ",z:" + getZ()
+            + "}")
     }
 }

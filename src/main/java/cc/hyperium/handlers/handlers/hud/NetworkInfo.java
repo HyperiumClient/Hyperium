@@ -17,7 +17,6 @@
 
 package cc.hyperium.handlers.handlers.hud;
 
-
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.network.server.ServerJoinEvent;
 import cc.hyperium.event.network.server.ServerLeaveEvent;
@@ -30,46 +29,52 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import java.util.Collection;
 
 public class NetworkInfo {
-    private static NetworkInfo instance;
-    private ServerAddress currentServerAddress;
-    private Minecraft mc;
 
-    public NetworkInfo() {
-        mc = Minecraft.getMinecraft();
-        NetworkInfo.instance = this;
+  private ServerAddress currentServerAddress;
+  private Minecraft mc = Minecraft.getMinecraft();
+
+  @InvokeEvent
+  public void onServerJoin(ServerJoinEvent event) {
+    currentServerAddress = ServerAddress.fromString(event.getServer());
+  }
+
+  @InvokeEvent
+  public void onServerLeave(ServerLeaveEvent event) {
+    currentServerAddress = null;
+  }
+
+  public ServerAddress getCurrentServerAddress() {
+    return currentServerAddress;
+  }
+
+  private NetworkPlayerInfo getPlayerInfo(final String ign) {
+    Collection<NetworkPlayerInfo> map = mc.getNetHandler().getPlayerInfoMap();
+    for (NetworkPlayerInfo playerInfo : map) {
+      if (playerInfo.getGameProfile().getName().equalsIgnoreCase(ign)) {
+        return playerInfo;
+      }
     }
 
-    public static NetworkInfo getInstance() {
-        return NetworkInfo.instance;
-    }
+    return null;
+  }
 
-    @InvokeEvent
-    public void onServerJoin(ServerJoinEvent event) {
-        currentServerAddress = ServerAddress.fromString(event.getServer());
-    }
+  public int getPing(final String ign) {
+    NetworkPlayerInfo networkInfo = getPlayerInfo(ign);
+    return networkInfo == null ? -1 : networkInfo.getResponseTime();
+  }
 
-    @InvokeEvent
-    public void onServerLeave(ServerLeaveEvent event) {
-        currentServerAddress = null;
-    }
-
-    public ServerAddress getCurrentServerAddress() {
-        return currentServerAddress;
-    }
-
-    private NetworkPlayerInfo getPlayerInfo(final String ign) {
-        Collection<NetworkPlayerInfo> map = mc.getNetHandler().getPlayerInfoMap();
-        return map.stream().filter(playerInfo -> playerInfo.getGameProfile().getName().equalsIgnoreCase(ign)).findFirst().orElse(null);
-    }
-
-    public int getPing(final String ign) {
-        NetworkPlayerInfo networkInfo = getPlayerInfo(ign);
-        return networkInfo == null ? -1 : networkInfo.getResponseTime();
-    }
-
-    public void printPing(final String name) {
-        NetworkPlayerInfo info = getPlayerInfo(name);
-        GeneralChatHandler.instance().sendMessage(info == null || info.getResponseTime() < 0 ? ChatColor.RED + "No info about " + name :
-            ChatColor.WHITE.toString() + ChatColor.BOLD + info.getGameProfile().getName() + ChatColor.WHITE + ": " + info.getResponseTime() + "ms");
-    }
+  public void printPing(final String name) {
+    NetworkPlayerInfo info = getPlayerInfo(name);
+    GeneralChatHandler.instance()
+        .sendMessage(
+            info == null || info.getResponseTime() < 0
+                ? ChatColor.RED + "No info about " + name
+                : ChatColor.WHITE.toString()
+                    + ChatColor.BOLD
+                    + info.getGameProfile().getName()
+                    + ChatColor.WHITE
+                    + ": "
+                    + info.getResponseTime()
+                    + "ms");
+  }
 }

@@ -32,259 +32,262 @@ import java.util.List;
  * Created by Mitchell Katz on 5/25/2017.
  */
 public class DisplayElement extends Dimension {
-    private final JsonHolder data;
-    private double xloc, yloc;
-    private final List<DisplayItem> displayItems;
-    private double scale;
-    private int color;
-    private boolean shadow;
-    private boolean highlighted;
-    private boolean rightSided;
-    // Used for rainbow rendering
-    private boolean selected;
-    private boolean chroma;
-    private boolean rgb;
-    private boolean color_pallet;
-    private boolean static_chroma;
 
-    DisplayElement(JsonHolder object) {
-        data = object;
-        xloc = object.optDouble("x");
-        yloc = object.optDouble("y");
-        scale = object.optDouble("scale");
-        List<DisplayItem> items = new ArrayList<>();
-        JsonArray itemss = object.optJSONArray("items");
-        int ord = 0;
+  private final JsonHolder data;
+  private double xloc, yloc;
+  private final List<DisplayItem> displayItems;
+  private double scale;
+  private int color;
+  private boolean shadow;
+  private boolean highlighted;
+  private boolean rightSided;
+  // Used for rainbow rendering
+  private boolean selected;
+  private boolean chroma;
+  private boolean rgb;
+  private boolean color_pallet;
+  private boolean static_chroma;
 
-        for (int i1 = 0; i1 < itemss.size(); i1++) {
-            JsonHolder item = new JsonHolder(itemss.get(i1).getAsJsonObject());
-            DisplayItem type = ChromaHUDApi.getInstance().parse(item.optString("type"), ord, item);
-            if (type != null) {
-                items.add(type);
-                ord++;
-            }
-        }
+  DisplayElement(JsonHolder object) {
+    data = object;
+    xloc = object.optDouble("x");
+    yloc = object.optDouble("y");
+    scale = object.optDouble("scale");
+    List<DisplayItem> items = new ArrayList<>();
+    JsonArray itemss = object.optJSONArray("items");
+    int ord = 0;
 
-        displayItems = items;
-        shadow = object.optBoolean("shadow");
-        highlighted = object.optBoolean("highlighted");
-        color = data.optInt("color");
-        chroma = data.optBoolean("chroma");
-        rightSided = data.optBoolean("right_side");
-        rgb = data.optBoolean("rgb");
-        color_pallet = data.optBoolean("color_pallet");
-        static_chroma = data.optBoolean("static_chroma");
-        recalculateColor();
+    for (int i1 = 0; i1 < itemss.size(); i1++) {
+      JsonHolder item = new JsonHolder(itemss.get(i1).getAsJsonObject());
+      DisplayItem type = ChromaHUDApi.getInstance().parse(item.optString("type"), ord, item);
+      if (type != null) {
+        items.add(type);
+        ord++;
+      }
     }
 
-    public static DisplayElement blank() {
-        return new DisplayElement(new JsonHolder().put("x", .5).put("y", .5).put("scale", 1).put("color", Color.WHITE.getRGB()).put("color_pallet", true));
+    displayItems = items;
+    shadow = object.optBoolean("shadow");
+    highlighted = object.optBoolean("highlighted");
+    color = data.optInt("color");
+    chroma = data.optBoolean("chroma");
+    rightSided = data.optBoolean("right_side");
+    rgb = data.optBoolean("rgb");
+    color_pallet = data.optBoolean("color_pallet");
+    static_chroma = data.optBoolean("static_chroma");
+    recalculateColor();
+  }
+
+  public static DisplayElement blank() {
+    return new DisplayElement(new JsonHolder().put("x", .5).put("y", .5).put("scale", 1)
+        .put("color", Color.WHITE.getRGB()).put("color_pallet", true));
+  }
+
+  public boolean isRightSided() {
+    return rightSided;
+  }
+
+  public void setRightSided(boolean newState) {
+    rightSided = newState;
+    data.put("right_side", newState);
+  }
+
+  @Override
+  public String toString() {
+    return "DisplayElement{" +
+        "xloc=" + xloc +
+        ", yloc=" + yloc +
+        ", displayItems=" + displayItems +
+        ", scale=" + scale +
+        ", color=" + color +
+        '}';
+  }
+
+  public boolean isChroma() {
+    return chroma;
+  }
+
+  public void setChroma(boolean chroma) {
+    this.chroma = chroma;
+    data.put("chroma", chroma);
+  }
+
+  public void recalculateColor() {
+    if (chroma) {
+      color = 0;
+    } else if (rgb) {
+      color = new Color(data.optInt("red"), data.optInt("green"), data.optInt("blue")).getRGB();
+    }
+  }
+
+  public void draw() {
+    ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
+    int x = (int) (xloc * resolution.getScaledWidth_double());
+    double y = (int) (yloc * resolution.getScaledHeight_double());
+
+    for (DisplayItem iDisplayItem : displayItems) {
+      try {
+        iDisplayItem.draw(x, y, false);
+        y += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
 
-    public boolean isRightSided() {
-        return rightSided;
-    }
+  }
 
-    public void setRightSided(boolean newState) {
-        rightSided = newState;
-        data.put("right_side", newState);
-    }
+  public int getColor() {
+    return color;
+  }
 
-    @Override
-    public String toString() {
-        return "DisplayElement{" +
-            "xloc=" + xloc +
-            ", yloc=" + yloc +
-            ", displayItems=" + displayItems +
-            ", scale=" + scale +
-            ", color=" + color +
-            '}';
-    }
+  public void setColor(int color) {
+    this.color = color;
+    data.put("color", color);
+  }
 
-    public boolean isChroma() {
-        return chroma;
-    }
+  public double getXloc() {
+    return xloc;
+  }
 
-    public void setChroma(boolean chroma) {
-        this.chroma = chroma;
-        data.put("chroma", chroma);
-    }
+  public void setXloc(double xloc) {
+    data.put("x", xloc);
+    this.xloc = xloc;
+  }
 
-    public void recalculateColor() {
-        if (chroma) {
-            color = 0;
-        } else if (rgb) {
-            color = new Color(data.optInt("red"), data.optInt("green"), data.optInt("blue")).getRGB();
-        }
-    }
+  public void removeDisplayItem(int ordinal) {
+    displayItems.remove(ordinal);
+    adjustOrdinal();
+  }
 
-    public void draw() {
-        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
-        int x = (int) (xloc * resolution.getScaledWidth_double());
-        double y = (int) (yloc * resolution.getScaledHeight_double());
+  public double getYloc() {
+    return yloc;
+  }
 
-        for (DisplayItem iDisplayItem : displayItems) {
-            try {
-                iDisplayItem.draw(x, y, false);
-                y += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+  public void setYloc(double yloc) {
+    data.put("y", yloc);
+    this.yloc = yloc;
+  }
 
-    }
+  public List<DisplayItem> getDisplayItems() {
+    return displayItems;
+  }
 
-    public int getColor() {
-        return color;
-    }
+  public double getScale() {
+    return scale;
+  }
 
-    public void setColor(int color) {
-        this.color = color;
-        data.put("color", color);
-    }
+  public void setScale(double scale) {
+    data.put("scale", scale);
+    this.scale = scale;
+  }
 
-    public double getXloc() {
-        return xloc;
-    }
+  public Dimension getDimensions() {
+    return this;
+  }
 
-    public void setXloc(double xloc) {
-        data.put("x", xloc);
-        this.xloc = xloc;
-    }
+  public void drawForConfig() {
+    recalculateColor();
+    width = 0;
+    height = 0;
+    ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
+    double addy = 0;
+    int x = (int) (xloc * resolution.getScaledWidth_double());
+    double y = (int) (yloc * resolution.getScaledHeight_double());
 
-    public void removeDisplayItem(int ordinal) {
-        displayItems.remove(ordinal);
-        adjustOrdinal();
-    }
-
-    public double getYloc() {
-        return yloc;
-    }
-
-    public void setYloc(double yloc) {
-        data.put("y", yloc);
-        this.yloc = yloc;
-    }
-
-    public List<DisplayItem> getDisplayItems() {
-        return displayItems;
-    }
-
-    public double getScale() {
-        return scale;
-    }
-
-    public void setScale(double scale) {
-        data.put("scale", scale);
-        this.scale = scale;
-    }
-
-    public Dimension getDimensions() {
-        return this;
-    }
-
-    public void drawForConfig() {
-        recalculateColor();
-        width = 0;
-        height = 0;
-        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
-        double addy = 0;
-        int x = (int) (xloc * resolution.getScaledWidth_double());
-        double y = (int) (yloc * resolution.getScaledHeight_double());
-
-        for (DisplayItem iDisplayItem : displayItems) {
-            iDisplayItem.draw(x, y, true);
-            y += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
-            addy += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
-            width = (int) Math.max(iDisplayItem.getWidth() * ElementRenderer.getCurrentScale(), width);
-
-        }
-        height = addy;
+    for (DisplayItem iDisplayItem : displayItems) {
+      iDisplayItem.draw(x, y, true);
+      y += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
+      addy += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
+      width = (int) Math.max(iDisplayItem.getWidth() * ElementRenderer.getCurrentScale(), width);
 
     }
+    height = addy;
 
-    public void renderEditView() {
-        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
-        int x = (int) (.8 * resolution.getScaledWidth_double());
-        if (rightSided) {
-            x += getDimensions().getWidth();
-            if (x > resolution.getScaledWidth())
-                x = resolution.getScaledWidth();
-        } else {
-            if (x + getDimensions().getWidth() > resolution.getScaledWidth()) {
-                x = (int) (resolution.getScaledWidth() - getDimensions().getWidth());
-            }
-        }
+  }
 
-        double y = (int) (.2 * resolution.getScaledHeight_double());
-
-        for (DisplayItem iDisplayItem : displayItems) {
-            iDisplayItem.draw(x, y, false);
-            y += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
-        }
+  public void renderEditView() {
+    ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
+    int x = (int) (.8 * resolution.getScaledWidth_double());
+    if (rightSided) {
+      x += getDimensions().getWidth();
+      if (x > resolution.getScaledWidth()) {
+        x = resolution.getScaledWidth();
+      }
+    } else {
+      if (x + getDimensions().getWidth() > resolution.getScaledWidth()) {
+        x = (int) (resolution.getScaledWidth() - getDimensions().getWidth());
+      }
     }
 
-    public void adjustOrdinal() {
-        int bound = displayItems.size();
-        for (int ord = 0; ord < bound; ord++) {
-            displayItems.get(ord).setOrdinal(ord);
-        }
-    }
+    double y = (int) (.2 * resolution.getScaledHeight_double());
 
-    public void setRgb(boolean state) {
-        rgb = state;
-        data.put("rgb", state);
+    for (DisplayItem iDisplayItem : displayItems) {
+      iDisplayItem.draw(x, y, false);
+      y += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
     }
+  }
 
-    public boolean isRGB() {
-        return rgb;
+  public void adjustOrdinal() {
+    int bound = displayItems.size();
+    for (int ord = 0; ord < bound; ord++) {
+      displayItems.get(ord).setOrdinal(ord);
     }
+  }
 
-    public boolean isColorPallet() {
-        return color_pallet;
-    }
+  public void setRgb(boolean state) {
+    rgb = state;
+    data.put("rgb", state);
+  }
 
-    public void setColorPallet(boolean state) {
-        color_pallet = state;
-        data.put("color_pallet", state);
-    }
+  public boolean isRGB() {
+    return rgb;
+  }
 
-    public boolean isStaticChroma() {
-        return static_chroma;
-    }
+  public boolean isColorPallet() {
+    return color_pallet;
+  }
 
-    public void setStaticChroma(boolean state) {
-        static_chroma = state;
-        data.put("static_chroma", state);
-    }
+  public void setColorPallet(boolean state) {
+    color_pallet = state;
+    data.put("color_pallet", state);
+  }
 
-    public boolean isShadow() {
-        return shadow;
-    }
+  public boolean isStaticChroma() {
+    return static_chroma;
+  }
 
-    public void setShadow(boolean shadow) {
-        data.put("shadow", shadow);
-        this.shadow = shadow;
-    }
+  public void setStaticChroma(boolean state) {
+    static_chroma = state;
+    data.put("static_chroma", state);
+  }
 
-    public boolean isHighlighted() {
-        return highlighted;
-    }
+  public boolean isShadow() {
+    return shadow;
+  }
 
-    public void setHighlighted(boolean highlighted) {
-        data.put("highlighted", highlighted);
-        this.highlighted = highlighted;
-    }
+  public void setShadow(boolean shadow) {
+    data.put("shadow", shadow);
+    this.shadow = shadow;
+  }
 
-    public JsonHolder getData() {
-        return data;
-    }
+  public boolean isHighlighted() {
+    return highlighted;
+  }
 
-    public boolean isSelected() {
-        return selected;
-    }
+  public void setHighlighted(boolean highlighted) {
+    data.put("highlighted", highlighted);
+    this.highlighted = highlighted;
+  }
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
+  public JsonHolder getData() {
+    return data;
+  }
+
+  public boolean isSelected() {
+    return selected;
+  }
+
+  public void setSelected(boolean selected) {
+    this.selected = selected;
+  }
 }

@@ -22,44 +22,46 @@ import cc.hyperium.config.Category;
 import java.lang.reflect.Field;
 
 public class RGBFieldSet {
-    private Field red;
-    private Field green;
-    private Field blue;
-    private Category category;
-    private boolean mods;
-    private Object parentObj;
 
-    public Object getParentObj() {
-        return parentObj;
-    }
+  private Field red;
+  private Field green;
+  private Field blue;
+  private Category category;
+  private boolean mods;
+  private Object parentObj;
 
-    public RGBFieldSet(Field red, Field green, Field blue, Category category, boolean mods, Object parentObj) {
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        this.category = category;
-        this.mods = mods;
-        this.parentObj = parentObj;
+  public Object getParentObj() {
+    return parentObj;
+  }
 
-    }
+  public RGBFieldSet(Field red, Field green, Field blue, Category category, boolean mods,
+      Object parentObj) {
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
+    this.category = category;
+    this.mods = mods;
+    this.parentObj = parentObj;
 
-    public boolean isMods() {
-        return mods;
-    }
+  }
 
-    public Category getCategory() {
-        return category;
-    }
+  public boolean isMods() {
+    return mods;
+  }
 
-    public Field getRed() {
-        return red;
-    }
+  public Category getCategory() {
+    return category;
+  }
 
-    public Field getGreen() {
-        return green;
-    }
+  public Field getRed() {
+    return red;
+  }
 
-    public Field getBlue() {
-        return blue;
-    }
+  public Field getGreen() {
+    return green;
+  }
+
+  public Field getBlue() {
+    return blue;
+  }
 }

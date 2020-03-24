@@ -36,56 +36,62 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class HyperiumCapeHandler {
 
-    public static final Queue<ResourceLocation> LOCATION_CACHE = new ConcurrentLinkedQueue<>();
+  public static final Queue<ResourceLocation> LOCATION_CACHE = new ConcurrentLinkedQueue<>();
 
-    ResourceLocation location;
-    boolean ready;
+  ResourceLocation location;
+  boolean ready;
 
-    public HyperiumCapeHandler(GameProfile profile) {
-        Multithreading.runAsync(() -> {
-            HyperiumPurchase purchase = PurchaseApi.getInstance().getPackageSync(profile.getId());
-            JsonHolder holder = purchase.getPurchaseSettings().optJSONObject("cape");
-            String type = holder.optString("type");
-            String url = null;
+  public HyperiumCapeHandler(GameProfile profile) {
+    Multithreading.runAsync(() -> {
+      HyperiumPurchase purchase = PurchaseApi.getInstance().getPackageSync(profile.getId());
+      JsonHolder holder = purchase.getPurchaseSettings().optJSONObject("cape");
+      String type = holder.optString("type");
+      String url = null;
 
-            if (type.equals("CUSTOM_IMAGE")) {
-                url = holder.optString("url");
-            } else if (StaffUtils.isBooster(profile.getId())) {
-                url = "https://github.com/HyperiumClient/Hyperium-Repo/blob/master/files/booster_cape.png?raw=true";
-            } else if (!type.isEmpty() && !type.equals("default")) {
-                JsonHolder atlasHolder = PurchaseApi.getInstance().getCapeAtlas().optJSONObject(type);
-                url = atlasHolder.optString("url");
-                if (url.isEmpty()) return;
+      if (type.equals("CUSTOM_IMAGE")) {
+        url = holder.optString("url");
+      } else if (StaffUtils.isBooster(profile.getId())) {
+        url = "https://github.com/HyperiumClient/Hyperium-Repo/blob/master/files/booster_cape.png?raw=true";
+      } else if (!type.isEmpty() && !type.equals("default")) {
+        JsonHolder atlasHolder = PurchaseApi.getInstance().getCapeAtlas().optJSONObject(type);
+        url = atlasHolder.optString("url");
+        if (url.isEmpty()) {
+          return;
+        }
+      }
+
+      ResourceLocation resourceLocation = new ResourceLocation(
+          String.format("hyperium/capes/%s.png", profile.getId()));
+
+      TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+      ThreadDownloadImageData threadDownloadImageData = new ThreadDownloadImageData(null, url, null,
+          new IImageBuffer() {
+            @Override
+            public BufferedImage parseUserSkin(BufferedImage image) {
+              return HyperiumCapeUtils.parseCape(image);
             }
 
-            ResourceLocation resourceLocation = new ResourceLocation(String.format("hyperium/capes/%s.png", profile.getId()));
-
-            TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
-            ThreadDownloadImageData threadDownloadImageData = new ThreadDownloadImageData(null, url, null, new IImageBuffer() {
-                @Override
-                public BufferedImage parseUserSkin(BufferedImage image) {
-                    return HyperiumCapeUtils.parseCape(image);
-                }
-
-                @Override
-                public void skinAvailable() {
-                    LOCATION_CACHE.add(location = resourceLocation);
-                    ready = true;
-                }
-            });
-
-            try {
-                textureManager.loadTexture(resourceLocation, threadDownloadImageData);
-            } catch (Exception e) {
-                e.printStackTrace();
+            @Override
+            public void skinAvailable() {
+              LOCATION_CACHE.add(location = resourceLocation);
+              ready = true;
             }
-        });
-    }
+          });
 
-    @SuppressWarnings("unused")
-    public ResourceLocation getLocationCape() {
-        if (ready) return location;
-        return null;
+      try {
+        textureManager.loadTexture(resourceLocation, threadDownloadImageData);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    });
+  }
+
+  @SuppressWarnings("unused")
+  public ResourceLocation getLocationCape() {
+    if (ready) {
+      return location;
     }
+    return null;
+  }
 
 }

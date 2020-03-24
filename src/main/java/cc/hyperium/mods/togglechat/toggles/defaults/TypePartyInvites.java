@@ -24,48 +24,54 @@ import java.util.regex.Pattern;
 
 public class TypePartyInvites extends ToggleBase {
 
-    private final Pattern expiredPattern = Pattern.compile("The party invite (?<where>\\S{1,4}) (?<rank>\\[.+] )?(?<player>\\S{1,16}) has expired.");
-    private final Pattern invitePattern = Pattern.compile("(?<rank>\\[.+] )?(?<player>\\S{1,16}) has invited you to join (?<meme>\\[.+] )?(?<meme2>\\S{1,16}) party!");
-    private final Pattern otherInvitePattern = Pattern.compile("(?<inviteerank>\\[.+] )?(?<invitee>\\S{1,16}) invited (?<rank>\\[.+] )?(?<player>\\S{1,16}) to the party! They have 60 seconds to accept.");
+  private final Pattern expiredPattern = Pattern.compile(
+      "The party invite (?<where>\\S{1,4}) (?<rank>\\[.+] )?(?<player>\\S{1,16}) has expired.");
+  private final Pattern invitePattern = Pattern.compile(
+      "(?<rank>\\[.+] )?(?<player>\\S{1,16}) has invited you to join (?<meme>\\[.+] )?(?<meme2>\\S{1,16}) party!");
+  private final Pattern otherInvitePattern = Pattern.compile(
+      "(?<inviteerank>\\[.+] )?(?<invitee>\\S{1,16}) invited (?<rank>\\[.+] )?(?<player>\\S{1,16}) to the party! They have 60 seconds to accept.");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    private boolean wasLastMessageToggled;
+  private boolean wasLastMessageToggled;
 
-    @Override
-    public String getName() {
-        return "Party invites";
+  @Override
+  public String getName() {
+    return "Party invites";
+  }
+
+  @Override
+  public boolean shouldToggle(String message) {
+    // noinspection SimplifiableIfStatement
+    if (wasLastMessageToggled && containsIgnoreCase(message,
+        "Click here to join! You have 60 seconds to accept.")) {
+      return true;
     }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        // noinspection SimplifiableIfStatement
-        if (wasLastMessageToggled && containsIgnoreCase(message, "Click here to join! You have 60 seconds to accept.")) {
-            return true;
-        }
+    return wasLastMessageToggled =
+        expiredPattern.matcher(message).matches() || invitePattern.matcher(message).matches()
+            || otherInvitePattern.matcher(message).matches();
+  }
 
-        return wasLastMessageToggled = expiredPattern.matcher(message).matches() || invitePattern.matcher(message).matches() || otherInvitePattern.matcher(message).matches();
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles the ability to see",
-                "party invites from",
-                "other players.",
-                "",
-                "This goes well with",
-                "separators toggled"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles the ability to see",
+        "party invites from",
+        "other players.",
+        "",
+        "This goes well with",
+        "separators toggled"
+    );
+  }
 }

@@ -21,15 +21,15 @@ import cc.hyperium.mods.sidebar.gui.GuiSidebar;
 
 public class Configuration {
 
-    public static boolean enabled = true;
-    public static int offsetX;
-    public static int offsetY;
-    public static float scale = 1.0f;
-    public static boolean redNumbers = true;
-    public static boolean shadow;
-    public static int rgb;
-    public static int alpha = 50;
-    public static boolean chromaEnabled;
-    public static int chromaSpeed = 2;
-    public static GuiSidebar.ChromaType chromaType = GuiSidebar.ChromaType.ONE;
+  public static boolean enabled = true;
+  public static int offsetX;
+  public static int offsetY;
+  public static float scale = 1.0f;
+  public static boolean redNumbers = true;
+  public static boolean shadow;
+  public static int rgb;
+  public static int alpha = 50;
+  public static boolean chromaEnabled;
+  public static int chromaSpeed = 2;
+  public static GuiSidebar.ChromaType chromaType = GuiSidebar.ChromaType.ONE;
 }

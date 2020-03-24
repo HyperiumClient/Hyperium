@@ -25,21 +25,22 @@ import cc.hyperium.mods.AbstractMod;
 
 public class SoundHandler extends AbstractMod {
 
-    @Override
-    public AbstractMod init() {
-        EventBus.INSTANCE.register(this);
-        return this;
-    }
+  @Override
+  public AbstractMod init() {
+    EventBus.INSTANCE.register(this);
+    return this;
+  }
 
-    @InvokeEvent
-    public void playSound(SoundPlayEvent event) {
-        if (event.getSound().getSoundLocation().getResourcePath().equals("portal.portal") && Settings.PORTAL_SOUNDS) {
-            event.setCancelled(true);
-        }
+  @InvokeEvent
+  public void playSound(SoundPlayEvent event) {
+    if (event.getSound().getSoundLocation().getResourcePath().equals("portal.portal")
+        && Settings.PORTAL_SOUNDS) {
+      event.setCancelled(true);
     }
+  }
 
-    @Override
-    public Metadata getModMetadata() {
-        return new Metadata(this, "Portal Muter", "1.0", "asbyth");
-    }
+  @Override
+  public Metadata getModMetadata() {
+    return new Metadata(this, "Portal Muter", "1.0", "asbyth");
+  }
 }

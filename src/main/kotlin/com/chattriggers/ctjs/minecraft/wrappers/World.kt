@@ -75,7 +75,8 @@ object World {
     fun isRaining(): Boolean = getWorld()?.worldInfo?.isRaining ?: false
 
     @JvmStatic
-    fun getRainingStrength(): Float = (getWorld() as? net.minecraft.world.World)?.rainingStrength ?: -1f
+    fun getRainingStrength(): Float = (getWorld() as? net.minecraft.world.World)?.rainingStrength
+        ?: -1f
 
     @JvmStatic
     fun getTime(): Long = getWorld()?.worldTime ?: -1L

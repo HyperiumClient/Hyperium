@@ -17,153 +17,36 @@
 
 package cc.hyperium.utils;
 
-import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.renderer.GlStateManager;
-
-import java.lang.reflect.Field;
 
 public class GlStateModifier implements IGlStateModifier {
 
-    // Create an instance to be used in other classes
-    public static final IGlStateModifier INSTANCE = new GlStateModifier();
+  // Create an instance to be used in other classes
+  public static final IGlStateModifier INSTANCE = new GlStateModifier();
 
-    // Array of fields and such that are retrieved through Reflection
-    private Object[] theArray;
+  /**
+   * Get textureName through reflection to allow for accessibility
+   *
+   * @param id Texture ic
+   */
+  public void setTexture(int id) {
+    GlStateManager.TextureState o = GlStateManager.textureState[GlStateManager.activeTextureUnit];
+    o.textureName = id;
+  }
 
-    // textureName in GlStateManager
-    private Field textureNamefield;
+  /**
+   * Reset the color
+   */
+  @Override
+  public void resetColor() {
+    GlStateManager.colorState.red = -1;
+  }
 
-    // redColor in GlStateManager
-    private Field redColorField;
-
-    // colorState in GlStateManager
-    private Object colorStateObject;
-
-    // activeTextureUnit in GlStateManager
-    private Field activeTextureUnitField;
-
-    /**
-     * Get textureName through reflection to allow for accessibility
-     *
-     * @param id Texture ic
-     */
-    public void setTexture(int id) {
-        if (theArray == null) {
-            try {
-                theArray = (Object[]) ReflectionUtil.findField(GlStateManager.class, "textureState", "field_179174_p", "p").get(null);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        if (textureNamefield == null) {
-            Class<?> aClass = ReflectionUtil.findClazz("net.minecraft.client.renderer.GlStateManager$TextureState", "bfl$r");
-            try {
-                textureNamefield = aClass.getDeclaredField("textureName");
-            } catch (NoSuchFieldException e) {
-                try {
-                    textureNamefield = aClass.getDeclaredField("field_179059_b");
-                } catch (NoSuchFieldException e1) {
-                    try {
-                        textureNamefield = aClass.getDeclaredField("b");
-                    } catch (NoSuchFieldException e2) {
-                        e2.printStackTrace();
-                        // At this point there is no hope.
-                    }
-                }
-            }
-
-            if (textureNamefield != null) {
-                textureNamefield.setAccessible(true);
-            }
-        }
-
-        int activeTextureUnit = -1;
-        if (activeTextureUnitField == null) {
-            activeTextureUnitField = ReflectionUtil.findField(GlStateManager.class, "activeTextureUnit", "field_179162_o", "o");
-        }
-        try {
-            if (activeTextureUnitField != null)
-                activeTextureUnit = ((int) activeTextureUnitField.get(null));
-        } catch (ReflectionUtil.UnableToAccessFieldException | IllegalAccessException ignored) {
-        }
-
-        if (theArray == null || textureNamefield == null || activeTextureUnit == -1) {
-            return;
-        }
-        Object o = theArray[activeTextureUnit];
-
-        try {
-            textureNamefield.set(o, id);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * Reset the color
-     */
-    @Override
-    public void resetColor() {
-        if (colorStateObject == null) {
-            Class<?> aClass = ReflectionUtil.findClazz("net.minecraft.client.renderer.GlStateManager", "bfl");
-            Field tmp = null;
-            try {
-                tmp = aClass.getDeclaredField("colorState");
-            } catch (NoSuchFieldException e) {
-                try {
-                    tmp = aClass.getDeclaredField("field_179170_t");
-                } catch (NoSuchFieldException e1) {
-                    try {
-                        tmp = aClass.getDeclaredField("t");
-                    } catch (NoSuchFieldException e2) {
-                        e2.printStackTrace();
-                    }
-                }
-            }
-            if (tmp != null) {
-                tmp.setAccessible(true);
-                try {
-                    colorStateObject = tmp.get(null);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        if (redColorField == null) {
-            Class<?> aClass = ReflectionUtil.findClazz("net.minecraft.client.renderer.GlStateManager$Color", "bfl$e");
-            try {
-                redColorField = aClass.getDeclaredField("red");
-            } catch (NoSuchFieldException e) {
-                try {
-                    redColorField = aClass.getDeclaredField("field_179195_a");
-                } catch (NoSuchFieldException e1) {
-                    try {
-                        redColorField = aClass.getDeclaredField("a");
-                    } catch (NoSuchFieldException e2) {
-                        e2.printStackTrace();
-                    }
-                }
-            }
-            if (redColorField != null)
-                redColorField.setAccessible(true);
-        }
-        if (colorStateObject == null || redColorField == null) {
-            return;
-        }
-        try {
-            redColorField.set(colorStateObject, -1);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Reset the texture
-     */
-    public void reset() {
-        setTexture(-1);
-    }
+  /**
+   * Reset the texture
+   */
+  public void reset() {
+    setTexture(-1);
+  }
 
 }

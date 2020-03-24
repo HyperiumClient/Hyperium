@@ -24,43 +24,44 @@ import java.util.regex.Pattern;
 
 public class TypeShout extends ToggleBase {
 
-    private final Pattern shoutPattern = Pattern.compile("\\[SHOUT] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+  private final Pattern shoutPattern = Pattern
+      .compile("\\[SHOUT] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Shout";
-    }
+  @Override
+  public String getName() {
+    return "Shout";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return shoutPattern.matcher(message).matches();
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return shoutPattern.matcher(message).matches();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles all shout",
-                "chat messages",
-                "",
-                "Message format",
-                "&6[SHOUT] &7Player&r: Hello",
-                "&6[SHOUT] &a[VIP] Player&r: Hello",
-                "&6[SHOUT] &b[MVP] Player&r: Hello",
-                "",
-                "Good for large minigames",
-                "such as Mega Skywars"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles all shout",
+        "chat messages",
+        "",
+        "Message format",
+        "&6[SHOUT] &7Player&r: Hello",
+        "&6[SHOUT] &a[VIP] Player&r: Hello",
+        "&6[SHOUT] &b[MVP] Player&r: Hello",
+        "",
+        "Good for large minigames",
+        "such as Mega Skywars"
+    );
+  }
 }

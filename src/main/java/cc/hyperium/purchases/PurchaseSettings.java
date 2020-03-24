@@ -22,66 +22,73 @@ import cc.hyperium.utils.JsonHolder;
 
 public class PurchaseSettings {
 
-    private final boolean buttDisabled;
-    private final boolean wingsDisabled;
-    private final String wingsType;
-    private final double wingsScale;
-    private final boolean wingsColor;
-    private final int wingsRed;
-    private final int wingsGreen;
-    private final int wingsBlue;
-    private final boolean dragonHeadDisabled;
-    private final EnumPurchaseType currentHatType;
-    private final EnumPurchaseType companion;
+  private final boolean buttDisabled;
+  private final boolean wingsDisabled;
+  private final String wingsType;
+  private final double wingsScale;
+  private final boolean wingsColor;
+  private final int wingsRed;
+  private final int wingsGreen;
+  private final int wingsBlue;
+  private final boolean dragonHeadDisabled;
+  private final EnumPurchaseType currentHatType;
+  private final EnumPurchaseType companion;
 
-    public PurchaseSettings(JsonHolder source) {
-        buttDisabled = source.optJSONObject("butt").optBoolean("disabled");
-        wingsDisabled = source.optJSONObject("wings").optBoolean("disabled");
-        wingsType = source.optJSONObject("wings").optString("type");
-        wingsScale = source.optJSONObject("wings").optDouble("scale", Settings.WINGS_SCALE);
-        wingsColor = source.optJSONObject("wings").optBoolean("wings_color", true);
-        wingsRed = source.optJSONObject("wings").optInt("color_red", Settings.WINGS_RED);
-        wingsGreen = source.optJSONObject("wings").optInt("color_green", Settings.WINGS_GREEN);
-        wingsBlue = source.optJSONObject("wings").optInt("color_blue", Settings.WINGS_BLUE);
-        dragonHeadDisabled = source.optJSONObject("dragon").optBoolean("disabled");
-        currentHatType = EnumPurchaseType.parse(source.optJSONObject("hat").optString("current_type"));
-        companion = EnumPurchaseType.parse(source.optJSONObject("companion").optString("type"));
-    }
+  public PurchaseSettings(JsonHolder source) {
+    buttDisabled = source.optJSONObject("butt").optBoolean("disabled");
+    wingsDisabled = source.optJSONObject("wings").optBoolean("disabled");
+    wingsType = source.optJSONObject("wings").optString("type");
+    wingsScale = source.optJSONObject("wings").optDouble("scale", Settings.WINGS_SCALE);
+    wingsColor = source.optJSONObject("wings").optBoolean("wings_color", true);
+    wingsRed = source.optJSONObject("wings").optInt("color_red", Settings.WINGS_RED);
+    wingsGreen = source.optJSONObject("wings").optInt("color_green", Settings.WINGS_GREEN);
+    wingsBlue = source.optJSONObject("wings").optInt("color_blue", Settings.WINGS_BLUE);
+    dragonHeadDisabled = source.optJSONObject("dragon").optBoolean("disabled");
+    currentHatType = EnumPurchaseType.parse(source.optJSONObject("hat").optString("current_type"));
+    companion = EnumPurchaseType.parse(source.optJSONObject("companion").optString("type"));
+  }
 
-    public boolean isDragonHeadDisabled() {
-        return dragonHeadDisabled;
-    }
+  public boolean isDragonHeadDisabled() {
+    return dragonHeadDisabled;
+  }
 
-    public double getWingsScale() {
-        return wingsScale;
-    }
-    public String getWingsType() {
-        return wingsType;
-    }
-    public boolean isWingsDisabled() {
-        return wingsDisabled;
-    }
-    public boolean isWingsColor() {
-        return wingsColor;
-    }
-    public int getWingsRed() {
-        return wingsRed;
-    }
-    public int getWingsGreen() {
-        return wingsGreen;
-    }
-    public int getWingsBlue() {
-        return wingsBlue;
-    }
+  public double getWingsScale() {
+    return wingsScale;
+  }
 
-    public boolean isButtDisabled() {
-        return buttDisabled;
-    }
+  public String getWingsType() {
+    return wingsType;
+  }
 
-    public EnumPurchaseType getCurrentHatType() {
-        return currentHatType;
-    }
-    public EnumPurchaseType getCurrentCompanion() {
-        return companion;
-    }
+  public boolean isWingsDisabled() {
+    return wingsDisabled;
+  }
+
+  public boolean isWingsColor() {
+    return wingsColor;
+  }
+
+  public int getWingsRed() {
+    return wingsRed;
+  }
+
+  public int getWingsGreen() {
+    return wingsGreen;
+  }
+
+  public int getWingsBlue() {
+    return wingsBlue;
+  }
+
+  public boolean isButtDisabled() {
+    return buttDisabled;
+  }
+
+  public EnumPurchaseType getCurrentHatType() {
+    return currentHatType;
+  }
+
+  public EnumPurchaseType getCurrentCompanion() {
+    return companion;
+  }
 }

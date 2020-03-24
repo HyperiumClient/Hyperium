@@ -22,7 +22,8 @@ import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.utils.JsonHolder;
 
 public class WingCosmetic extends AbstractHyperiumPurchase {
-    public WingCosmetic(EnumPurchaseType type, JsonHolder data) {
-        super(type, data);
-    }
+
+  public WingCosmetic(EnumPurchaseType type, JsonHolder data) {
+    super(type, data);
+  }
 }

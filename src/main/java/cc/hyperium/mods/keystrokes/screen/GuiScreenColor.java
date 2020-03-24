@@ -26,112 +26,122 @@ import java.io.IOException;
 
 public class GuiScreenColor extends GuiScreen implements IScreen {
 
-    private final KeystrokesMod mod; // OOP
+  private final KeystrokesMod mod; // OOP
 
-    final IScrollable red;
-    final IScrollable green;
-    final IScrollable blue;
-    final IScrollable pressedRed;
-    final IScrollable pressedGreen;
-    final IScrollable pressedBlue;
+  final IScrollable red;
+  final IScrollable green;
+  final IScrollable blue;
+  final IScrollable pressedRed;
+  final IScrollable pressedGreen;
+  final IScrollable pressedBlue;
 
-    boolean updated = false; // Have the values been changed?
+  boolean updated = false; // Have the values been changed?
 
-    GuiScreenColor(KeystrokesMod mod, IScrollable red, IScrollable green, IScrollable blue, IScrollable pressedRed, IScrollable pressedGreen, IScrollable pressedBlue) {
-        this.mod = mod;
+  GuiScreenColor(KeystrokesMod mod, IScrollable red, IScrollable green, IScrollable blue,
+      IScrollable pressedRed, IScrollable pressedGreen, IScrollable pressedBlue) {
+    this.mod = mod;
 
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        this.pressedRed = pressedRed;
-        this.pressedGreen = pressedGreen;
-        this.pressedBlue = pressedBlue;
-    }
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
+    this.pressedRed = pressedRed;
+    this.pressedGreen = pressedGreen;
+    this.pressedBlue = pressedBlue;
+  }
 
-    @Override
-    public void initGui() {
-        buttonList.add(new GuiSlider(0, width / 2 - 150, calculateHeight(3), 150, 20, "Red: ", "",
-                0, 255, red.getAmount(), false, true) {
-            @Override
-            public void updateSlider() {
-                super.updateSlider();
-                red.onScroll(getValue(), getValueInt());
-                updated = true;
-            }
+  @Override
+  public void initGui() {
+    buttonList.add(new GuiSlider(0, width / 2 - 150, calculateHeight(3), 150, 20, "Red: ", "",
+        0, 255, red.getAmount(), false, true) {
+      @Override
+      public void updateSlider() {
+        super.updateSlider();
+        red.onScroll(getValue(), getValueInt());
+        updated = true;
+      }
+    });
+    buttonList.add(new GuiSlider(1, width / 2 - 150, calculateHeight(4), 150, 20, "Green: ", "",
+        0, 255, green.getAmount(), false, true) {
+      @Override
+      public void updateSlider() {
+        super.updateSlider();
+        green.onScroll(getValue(), getValueInt());
+        updated = true;
+      }
+    });
+    buttonList.add(new GuiSlider(2, width / 2 - 150, calculateHeight(5), 150, 20, "Blue: ", "",
+        0, 255, blue.getAmount(), false, true) {
+      @Override
+      public void updateSlider() {
+        super.updateSlider();
+        blue.onScroll(getValue(), getValueInt());
+        updated = true;
+      }
+    });
+    buttonList.add(new GuiSlider(3, width / 2 + 5, calculateHeight(3), 150, 20, "Pressed Red: ", "",
+        0, 255, pressedRed.getAmount(), false, true) {
+      @Override
+      public void updateSlider() {
+        super.updateSlider();
+        pressedRed.onScroll(getValue(), getValueInt());
+        updated = true;
+      }
+    });
+    buttonList
+        .add(new GuiSlider(4, width / 2 + 5, calculateHeight(4), 150, 20, "Pressed Green: ", "",
+            0, 255, pressedGreen.getAmount(), false, true) {
+          @Override
+          public void updateSlider() {
+            super.updateSlider();
+            pressedGreen.onScroll(getValue(), getValueInt());
+            updated = true;
+          }
         });
-        buttonList.add(new GuiSlider(1, width / 2 - 150, calculateHeight(4), 150, 20, "Green: ", "",
-                0, 255, green.getAmount(), false, true) {
-            @Override
-            public void updateSlider() {
-                super.updateSlider();
-                green.onScroll(getValue(), getValueInt());
-                updated = true;
-            }
+    buttonList
+        .add(new GuiSlider(5, width / 2 + 5, calculateHeight(5), 150, 20, "Pressed Blue: ", "",
+            0, 255, pressedBlue.getAmount(), false, true) {
+          @Override
+          public void updateSlider() {
+            super.updateSlider();
+            pressedBlue.onScroll(getValue(), getValueInt());
+            updated = true;
+          }
         });
-        buttonList.add(new GuiSlider(2, width / 2 - 150, calculateHeight(5), 150, 20, "Blue: ", "",
-                0, 255, blue.getAmount(), false, true) {
-            @Override
-            public void updateSlider() {
-                super.updateSlider();
-                blue.onScroll(getValue(), getValueInt());
-                updated = true;
-            }
-        });
-        buttonList.add(new GuiSlider(3, width / 2 + 5, calculateHeight(3), 150, 20, "Pressed Red: ", "",
-                0, 255, pressedRed.getAmount(), false, true) {
-            @Override
-            public void updateSlider() {
-                super.updateSlider();
-                pressedRed.onScroll(getValue(), getValueInt());
-                updated = true;
-            }
-        });
-        buttonList.add(new GuiSlider(4, width / 2 + 5, calculateHeight(4), 150, 20, "Pressed Green: ", "",
-                0, 255, pressedGreen.getAmount(), false, true) {
-            @Override
-            public void updateSlider() {
-                super.updateSlider();
-                pressedGreen.onScroll(getValue(), getValueInt());
-                updated = true;
-            }
-        });
-        buttonList.add(new GuiSlider(5, width / 2 + 5, calculateHeight(5), 150, 20, "Pressed Blue: ", "",
-                0, 255, pressedBlue.getAmount(), false, true) {
-            @Override
-            public void updateSlider() {
-                super.updateSlider();
-                pressedBlue.onScroll(getValue(), getValueInt());
-                updated = true;
-            }
-        });
-        buttonList.add(new GuiButton(6, 5, height - 25, 100, 20, "Back"));
-    }
+    buttonList.add(new GuiButton(6, 5, height - 25, 100, 20, "Back"));
+  }
 
-    @Override
-    protected void actionPerformed(GuiButton button) {
-        if (button.id == 6) mc.displayGuiScreen(new GuiScreenKeystrokes(mod));
+  @Override
+  protected void actionPerformed(GuiButton button) {
+    if (button.id == 6) {
+      mc.displayGuiScreen(new GuiScreenKeystrokes(mod));
     }
+  }
 
-    @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        if (keyCode == 1) mc.displayGuiScreen(new GuiScreenKeystrokes(mod));
-        else super.keyTyped(typedChar, keyCode);
+  @Override
+  protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    if (keyCode == 1) {
+      mc.displayGuiScreen(new GuiScreenKeystrokes(mod));
+    } else {
+      super.keyTyped(typedChar, keyCode);
     }
+  }
 
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawDefaultBackground();
-        mod.getRenderer().renderKeystrokes();
-        super.drawScreen(mouseX, mouseY, partialTicks);
-    }
+  @Override
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    drawDefaultBackground();
+    mod.getRenderer().renderKeystrokes();
+    super.drawScreen(mouseX, mouseY, partialTicks);
+  }
 
-    @Override
-    public void onGuiClosed() {
-        if (updated) mod.getSettings().save();
+  @Override
+  public void onGuiClosed() {
+    if (updated) {
+      mod.getSettings().save();
     }
+  }
 
-    @Override
-    public boolean doesGuiPauseGame() {
-        return false;
-    }
+  @Override
+  public boolean doesGuiPauseGame() {
+    return false;
+  }
 }

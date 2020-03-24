@@ -26,7 +26,7 @@ import cc.hyperium.utils.JsonHolder;
  */
 public class ParticleBackgroundCosmetic extends AbstractHyperiumPurchase {
 
-    public ParticleBackgroundCosmetic(EnumPurchaseType type, JsonHolder data) {
-        super(type, data);
-    }
+  public ParticleBackgroundCosmetic(EnumPurchaseType type, JsonHolder data) {
+    super(type, data);
+  }
 }

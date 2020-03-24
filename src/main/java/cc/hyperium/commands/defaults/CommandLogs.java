@@ -33,47 +33,50 @@ import java.net.URI;
 
 public class CommandLogs implements BaseCommand {
 
-    @Override
-    public String getName() {
-        return "logs";
+  @Override
+  public String getName() {
+    return "logs";
+  }
+
+  @Override
+  public String getUsage() {
+    return "Usage: /logs";
+  }
+
+  @Override
+  public void onExecute(String[] args) {
+    StringBuilder message = new StringBuilder();
+    try {
+      FileReader in = new FileReader(
+          new File(Minecraft.getMinecraft().mcDataDir, "logs" + File.separator + "latest.log"));
+      BufferedReader reader = new BufferedReader(in);
+      String line;
+
+      while ((line = reader.readLine()) != null) {
+        message.append(line).append("\n");
+      }
+
+      reader.close();
+      in.close();
+    } catch (IOException e) {
+      GeneralChatHandler.instance().sendMessage("Error whilst reading log.");
+      e.printStackTrace();
+      return;
     }
 
-    @Override
-    public String getUsage() {
-        return "Usage: /logs";
+    message = new StringBuilder(
+        message.toString().replaceAll(System.getProperty("user.name"), "{USERNAME}"));
+
+    Toolkit.getDefaultToolkit().getSystemClipboard()
+        .setContents(new StringSelection(message.toString()), null);
+    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(
+        "Data copied to clipboard. Please paste in hasteb.in (This has been opened), save and send in Discord"
+    );
+
+    try {
+      HyperiumDesktop.INSTANCE.browse(new URI("https://hasteb.in"));
+    } catch (Exception e) {
+      Hyperium.LOGGER.error("Could not open link", e);
     }
-
-    @Override
-    public void onExecute(String[] args) {
-        StringBuilder message = new StringBuilder();
-        try {
-            FileReader in = new FileReader(new File(Minecraft.getMinecraft().mcDataDir, "logs" + File.separator + "latest.log"));
-            BufferedReader reader = new BufferedReader(in);
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                message.append(line).append("\n");
-            }
-
-            reader.close();
-            in.close();
-        } catch (IOException e) {
-            GeneralChatHandler.instance().sendMessage("Error whilst reading log.");
-            e.printStackTrace();
-            return;
-        }
-
-        message = new StringBuilder(message.toString().replaceAll(System.getProperty("user.name"), "{USERNAME}"));
-
-        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(message.toString()), null);
-        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(
-                "Data copied to clipboard. Please paste in hasteb.in (This has been opened), save and send in Discord"
-        );
-
-        try {
-            HyperiumDesktop.INSTANCE.browse(new URI("https://hasteb.in"));
-        } catch (Exception e) {
-            Hyperium.LOGGER.error("Could not open link", e);
-        }
-    }
+  }
 }

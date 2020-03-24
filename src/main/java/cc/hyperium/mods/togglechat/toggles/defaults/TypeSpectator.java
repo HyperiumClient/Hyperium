@@ -27,44 +27,45 @@ import java.util.regex.Pattern;
  */
 public class TypeSpectator extends ToggleBase {
 
-    private final Pattern spectatorPattern = Pattern.compile("\\[SPECTATOR] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+  private final Pattern spectatorPattern = Pattern
+      .compile("\\[SPECTATOR] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Spectator";
-    }
+  @Override
+  public String getName() {
+    return "Spectator";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return spectatorPattern.matcher(message).matches();
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return spectatorPattern.matcher(message).matches();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles all spectator",
-                "chat messages",
-                "",
-                "Message format",
-                "&7[SPECTATOR] &7Player&r: Hi",
-                "&7[SPECTATOR] &a[VIP] Player&r: Hi",
-                "&7[SPECTATOR] &b[MVP] Player&r: Hi",
-                "",
-                "Useful to ignore",
-                "post-game chat",
-                "messages"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles all spectator",
+        "chat messages",
+        "",
+        "Message format",
+        "&7[SPECTATOR] &7Player&r: Hi",
+        "&7[SPECTATOR] &a[VIP] Player&r: Hi",
+        "&7[SPECTATOR] &b[MVP] Player&r: Hi",
+        "",
+        "Useful to ignore",
+        "post-game chat",
+        "messages"
+    );
+  }
 }

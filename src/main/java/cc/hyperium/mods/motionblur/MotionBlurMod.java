@@ -38,59 +38,64 @@ import java.util.Map;
 
 public class MotionBlurMod extends AbstractMod {
 
-    private final Minecraft mc = Minecraft.getMinecraft();
-    private final Map<String, FallbackResourceManager> domainResourceManagers = ((SimpleReloadableResourceManager) mc.getResourceManager()).domainResourceManagers;
-    private Field cachedFastRender;
-    private int ticks;
+  private final Minecraft mc = Minecraft.getMinecraft();
+  private final Map<String, FallbackResourceManager> domainResourceManagers = ((SimpleReloadableResourceManager) mc
+      .getResourceManager()).domainResourceManagers;
+  private Field cachedFastRender;
+  private int ticks;
 
-    @Override
-    public AbstractMod init() {
-        try {
-            cachedFastRender = GameSettings.class.getDeclaredField("ofFastRender");
-        } catch (Exception ignored) {
-        }
-
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new MotionBlurCommand());
-        EventBus.INSTANCE.register(this);
-        return this;
+  @Override
+  public AbstractMod init() {
+    try {
+      cachedFastRender = GameSettings.class.getDeclaredField("ofFastRender");
+    } catch (Exception ignored) {
     }
 
-    @Override
-    public Metadata getModMetadata() {
-        return new Metadata(this, "Motion Blur Mod", "2.0", "Sk1er LLC");
+    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        .registerCommand(new MotionBlurCommand());
+    EventBus.INSTANCE.register(this);
+    return this;
+  }
+
+  @Override
+  public Metadata getModMetadata() {
+    return new Metadata(this, "Motion Blur Mod", "2.0", "Sk1er LLC");
+  }
+
+  @InvokeEvent
+  public void onClientTick(TickEvent event) {
+    if (domainResourceManagers != null) {
+      if (!domainResourceManagers.containsKey("motionblur")) {
+        domainResourceManagers
+            .put("motionblur", new MotionBlurResourceManager(mc.metadataSerializer_));
+      }
     }
 
-    @InvokeEvent
-    public void onClientTick(TickEvent event) {
-        if (domainResourceManagers != null) {
-            if (!domainResourceManagers.containsKey("motionblur")) {
-                domainResourceManagers.put("motionblur", new MotionBlurResourceManager(mc.metadataSerializer_));
-            }
+    ++ticks;
+    if (ticks % 5000 == 0) {
+      if (isFastRenderEnabled() && Settings.MOTION_BLUR_ENABLED) {
+        if (mc.thePlayer != null && mc.theWorld != null) {
+          Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+              .sendMessage("Motion Blur is not compatible with OptiFine's Fast Render.");
         }
-
-        ++ticks;
-        if (ticks % 5000 == 0) {
-            if (isFastRenderEnabled() && Settings.MOTION_BLUR_ENABLED) {
-                if (mc.thePlayer != null && mc.theWorld != null) {
-                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Motion Blur is not compatible with OptiFine's Fast Render.");
-                }
-            }
-        }
+      }
     }
+  }
 
-    @InvokeEvent
-    public void onKey(KeyPressEvent event) {
-        if (mc.thePlayer != null && Settings.MOTION_BLUR_ENABLED && Keyboard.isKeyDown(mc.gameSettings.keyBindTogglePerspective.getKeyCode())) {
-            mc.entityRenderer.loadShader(new ResourceLocation("motionblur", "motionblur"));
-            mc.entityRenderer.getShaderGroup().createBindFramebuffers(mc.displayWidth, mc.displayHeight);
-        }
+  @InvokeEvent
+  public void onKey(KeyPressEvent event) {
+    if (mc.thePlayer != null && Settings.MOTION_BLUR_ENABLED && Keyboard
+        .isKeyDown(mc.gameSettings.keyBindTogglePerspective.getKeyCode())) {
+      mc.entityRenderer.loadShader(new ResourceLocation("motionblur", "motionblur"));
+      mc.entityRenderer.getShaderGroup().createBindFramebuffers(mc.displayWidth, mc.displayHeight);
     }
+  }
 
-    public boolean isFastRenderEnabled() {
-        try {
-            return cachedFastRender.getBoolean(mc.gameSettings);
-        } catch (Exception ignored) {
-            return false;
-        }
+  public boolean isFastRenderEnabled() {
+    try {
+      return cachedFastRender.getBoolean(mc.gameSettings);
+    } catch (Exception ignored) {
+      return false;
     }
+  }
 }

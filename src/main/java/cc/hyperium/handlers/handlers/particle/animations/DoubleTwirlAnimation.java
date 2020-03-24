@@ -31,17 +31,17 @@ import java.util.List;
 public class DoubleTwirlAnimation extends AbstractAnimation {
 
 
-    @Override
-    public List<Vec3> render(EntityPlayer player, double x, double y, double z) {
-        double l = (System.currentTimeMillis() % 1000) / 1000D;
-        l *= Math.PI;
-        List<Vec3> list = new ArrayList<>();
-        y += 1.5;
-        Vec3 vec3 = new Vec3(x, y, z);
-        list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
-        l += Math.PI;
-        list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
-        return list;
-    }
+  @Override
+  public List<Vec3> render(EntityPlayer player, double x, double y, double z) {
+    double l = (System.currentTimeMillis() % 1000) / 1000D;
+    l *= Math.PI;
+    List<Vec3> list = new ArrayList<>();
+    y += 1.5;
+    Vec3 vec3 = new Vec3(x, y, z);
+    list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
+    l += Math.PI;
+    list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
+    return list;
+  }
 
 }

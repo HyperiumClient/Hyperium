@@ -26,30 +26,30 @@ import cc.hyperium.mods.AbstractMod;
 
 public class ChunkAnimator extends AbstractMod {
 
-    private final Metadata meta;
-    private final AnimationHandler animationHandler = new AnimationHandler();
-    private final ChunkAnimatorConfig config;
+  private final Metadata meta;
+  private final AnimationHandler animationHandler = new AnimationHandler();
+  private final ChunkAnimatorConfig config;
 
-    public ChunkAnimator() {
-        meta = new Metadata(this, "ChunkAnimator", "1.1", "Lumien");
-        Hyperium.CONFIG.register(config = new ChunkAnimatorConfig());
-    }
+  public ChunkAnimator() {
+    meta = new Metadata(this, "ChunkAnimator", "1.1", "Lumien");
+    Hyperium.CONFIG.register(config = new ChunkAnimatorConfig());
+  }
 
-    @Override
-    public AbstractMod init() {
-        return this;
-    }
+  @Override
+  public AbstractMod init() {
+    return this;
+  }
 
-    @Override
-    public Metadata getModMetadata() {
-        return meta;
-    }
+  @Override
+  public Metadata getModMetadata() {
+    return meta;
+  }
 
-    public AnimationHandler getAnimationHandler() {
-        return animationHandler;
-    }
+  public AnimationHandler getAnimationHandler() {
+    return animationHandler;
+  }
 
-    public ChunkAnimatorConfig getConfig() {
-        return config;
-    }
+  public ChunkAnimatorConfig getConfig() {
+    return config;
+  }
 }

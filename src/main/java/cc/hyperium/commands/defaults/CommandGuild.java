@@ -29,61 +29,66 @@ import java.util.List;
 
 public class CommandGuild implements BaseCommand {
 
-    @Override
-    public String getName() {
-        return "hguild";
+  @Override
+  public String getName() {
+    return "hguild";
+  }
+
+  @Override
+  public String getUsage() {
+    return "/hguild <player,name> <player,name>";
+  }
+
+  @Override
+  public List<String> onTabComplete(String[] args) {
+    if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+      return new ArrayList<>();
     }
 
-    @Override
-    public String getUsage() {
-        return "/hguild <player,name> <player,name>";
-    }
+    List<String> first = Arrays.asList("name", "player");
 
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
-            return new ArrayList<>();
+    List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
+    List<String> complete = new ArrayList<>();
 
-        List<String> first = Arrays.asList("name", "player");
-
-        List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
-        List<String> complete = new ArrayList<>();
-
-        try {
-            for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().getKeys()) {
-                String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().optJSONObject(s).optString("name");
-                if (!name.isEmpty()) tabUsernames.add(name);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    try {
+      for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser()
+          .get().getData().getKeys()) {
+        String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser()
+            .get().getData().optJSONObject(s).optString("name");
+        if (!name.isEmpty()) {
+          tabUsernames.add(name);
         }
-
-        complete.addAll(first);
-        complete.addAll(tabUsernames);
-        return TabCompletionUtil.getListOfStringsMatchingLastWord(args, complete);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
-    @Override
-    public void onExecute(String[] args) {
-        if (args.length <= 1) {
-            GeneralChatHandler.instance().sendMessage(getUsage());
+    complete.addAll(first);
+    complete.addAll(tabUsernames);
+    return TabCompletionUtil.getListOfStringsMatchingLastWord(args, complete);
+  }
+
+  @Override
+  public void onExecute(String[] args) {
+    if (args.length <= 1) {
+      GeneralChatHandler.instance().sendMessage(getUsage());
+    } else {
+      if (args.length == 2 && args[0].equalsIgnoreCase("player")) {
+        Hyperium.INSTANCE.getHandlers().getStatsHandler().loadGuildByPlayer(args[1]);
+      } else {
+        if (args[0].equalsIgnoreCase("name")) {
+          StringBuilder builder = new StringBuilder();
+          int bound = args.length;
+          for (int i = 1; i < bound; i++) {
+            String s = args[i];
+            builder.append(s);
+          }
+
+          Hyperium.INSTANCE.getHandlers().getStatsHandler().loadGuildByName(builder.toString());
         } else {
-            if (args.length == 2 && args[0].equalsIgnoreCase("player")) {
-                Hyperium.INSTANCE.getHandlers().getStatsHandler().loadGuildByPlayer(args[1]);
-            } else {
-                if (args[0].equalsIgnoreCase("name")) {
-                    StringBuilder builder = new StringBuilder();
-                    int bound = args.length;
-                    for (int i = 1; i < bound; i++) {
-                        String s = args[i];
-                        builder.append(s);
-                    }
-
-                    Hyperium.INSTANCE.getHandlers().getStatsHandler().loadGuildByName(builder.toString());
-                } else {
-                    GeneralChatHandler.instance().sendMessage(getUsage());
-                }
-            }
+          GeneralChatHandler.instance().sendMessage(getUsage());
         }
+      }
     }
+  }
 }

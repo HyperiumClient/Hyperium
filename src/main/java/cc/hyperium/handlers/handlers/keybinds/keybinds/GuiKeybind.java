@@ -18,16 +18,17 @@
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import org.lwjgl.input.Keyboard;
 
-public class GuiKeybind extends HyperiumBind {
-    public GuiKeybind() {
-        super("Hyperium GUI", Keyboard.KEY_GRAVE);
-    }
+public class GuiKeybind extends HyperiumKeybind {
 
-    @Override
-    public void onPress() {
-        HyperiumMainGui.INSTANCE.show();
-    }
+  public GuiKeybind() {
+    super("Hyperium GUI", Keyboard.KEY_GRAVE, KeyType.GUI);
+  }
+
+  @Override
+  public void onPress() {
+    HyperiumMainGui.INSTANCE.show();
+  }
 }

@@ -65,7 +65,7 @@ class Inventory {
      */
     fun isItemValidForSlot(slot: Int, item: Item): Boolean {
         return inventory == null
-                || inventory.isItemValidForSlot(slot, item.itemStack)
+            || inventory.isItemValidForSlot(slot, item.itemStack)
     }
 
     /**
@@ -157,7 +157,8 @@ class Inventory {
      */
     fun getName(): String = inventory?.name ?: "container"
 
-    fun getClassName(): String = inventory?.javaClass?.simpleName ?: container!!.javaClass.simpleName
+    fun getClassName(): String = inventory?.javaClass?.simpleName
+        ?: container!!.javaClass.simpleName
 
     override fun toString(): String = "Inventory{${getClassName()}}"
 }

@@ -6,18 +6,18 @@ import java.util.List;
 
 public class TipRegistry {
 
-    public static final TipRegistry INSTANCE = new TipRegistry();
-    private List<String> hyperiumTipArray = new ArrayList<>();
+  public static final TipRegistry INSTANCE = new TipRegistry();
+  private List<String> hyperiumTipArray = new ArrayList<>();
 
-    public void registerTip(String tip) {
-        hyperiumTipArray.add(tip);
-    }
+  public void registerTip(String tip) {
+    hyperiumTipArray.add(tip);
+  }
 
-    public void registerTips(String... tips) {
-        hyperiumTipArray.addAll(Arrays.asList(tips));
-    }
+  public void registerTips(String... tips) {
+    hyperiumTipArray.addAll(Arrays.asList(tips));
+  }
 
-    public List<String> getTips() {
-        return hyperiumTipArray;
-    }
+  public List<String> getTips() {
+    return hyperiumTipArray;
+  }
 }

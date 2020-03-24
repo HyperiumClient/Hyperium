@@ -32,48 +32,52 @@ import java.util.List;
 import java.util.Locale;
 
 public class BlitzStats extends AbstractHypixelStats {
-    @Override
-    public String getImage() {
-        return "SG-64";
-    }
 
-    @Override
-    public String getName() {
-        return GameType.SURVIVAL_GAMES.getName();
-    }
+  @Override
+  public String getImage() {
+    return "SG-64";
+  }
 
-    @Override
-    public GameType getGameType() {
-        return GameType.SURVIVAL_GAMES;
-    }
+  @Override
+  public String getName() {
+    return GameType.SURVIVAL_GAMES.getName();
+  }
 
-    @Override
-    public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
-        ArrayList<StatsDisplayItem> items = new ArrayList<>();
-        JsonHolder stats = player.getStats(GameType.SURVIVAL_GAMES);
-        items.add(new DisplayLine(bold("Coins: ", stats.optInt("coins")), Color.WHITE.getRGB()));
-        items.add(new DisplayLine(bold("Kills: ", stats.optInt("kills")), Color.WHITE.getRGB()));
-        items.add(new DisplayLine(bold("Deaths: ", stats.optInt("deaths")), Color.WHITE.getRGB()));
-        items.add(new DisplayLine(bold("Wins: ", stats.optInt("wins")), Color.WHITE.getRGB()));
-        items.add(new DisplayLine(bold("K/D: ", WebsiteUtils.buildRatio(stats.optInt("kills"), stats.optInt("deaths"))), Color.WHITE.getRGB()));
-        return items;
-    }
+  @Override
+  public GameType getGameType() {
+    return GameType.SURVIVAL_GAMES;
+  }
 
-    @Override
-    public List<StatsDisplayItem> getDeepStats(HypixelApiPlayer player) {
-        List<StatsDisplayItem> preview = getPreview(player);
-        preview.add(new DisplayLine(""));
-        List<String[]> lines = new ArrayList<>();
-        lines.add(new String[]{"Kit", "Level"});
-        JsonHolder blitz = player.getStats(GameType.SURVIVAL_GAMES);
-        for (String st : WebsiteUtils.blitz_kits) {
-            String tmp1 = !st.contains("Hype") ?
-                    st.replace(" ", "").toLowerCase(Locale.ENGLISH) :
-                    st.toLowerCase(Locale.ENGLISH);
-            if (blitz.has(tmp1))
-                lines.add(new String[]{st, WebsiteUtils.numeral(blitz.optInt(tmp1) + 1)});
-        }
-        preview.add(new DisplayTable(lines));
-        return preview;
+  @Override
+  public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
+    ArrayList<StatsDisplayItem> items = new ArrayList<>();
+    JsonHolder stats = player.getStats(GameType.SURVIVAL_GAMES);
+    items.add(new DisplayLine(bold("Coins: ", stats.optInt("coins")), Color.WHITE.getRGB()));
+    items.add(new DisplayLine(bold("Kills: ", stats.optInt("kills")), Color.WHITE.getRGB()));
+    items.add(new DisplayLine(bold("Deaths: ", stats.optInt("deaths")), Color.WHITE.getRGB()));
+    items.add(new DisplayLine(bold("Wins: ", stats.optInt("wins")), Color.WHITE.getRGB()));
+    items.add(new DisplayLine(
+        bold("K/D: ", WebsiteUtils.buildRatio(stats.optInt("kills"), stats.optInt("deaths"))),
+        Color.WHITE.getRGB()));
+    return items;
+  }
+
+  @Override
+  public List<StatsDisplayItem> getDeepStats(HypixelApiPlayer player) {
+    List<StatsDisplayItem> preview = getPreview(player);
+    preview.add(new DisplayLine(""));
+    List<String[]> lines = new ArrayList<>();
+    lines.add(new String[]{"Kit", "Level"});
+    JsonHolder blitz = player.getStats(GameType.SURVIVAL_GAMES);
+    for (String st : WebsiteUtils.blitz_kits) {
+      String tmp1 = !st.contains("Hype") ?
+          st.replace(" ", "").toLowerCase(Locale.ENGLISH) :
+          st.toLowerCase(Locale.ENGLISH);
+      if (blitz.has(tmp1)) {
+        lines.add(new String[]{st, WebsiteUtils.numeral(blitz.optInt(tmp1) + 1)});
+      }
     }
+    preview.add(new DisplayTable(lines));
+    return preview;
+  }
 }

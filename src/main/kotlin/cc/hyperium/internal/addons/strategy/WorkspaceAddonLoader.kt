@@ -39,7 +39,8 @@ class WorkspaceAddonLoader : AddonLoaderStrategy() {
      */
     @Throws(Exception::class)
     override fun load(file: File?): AddonManifest? {
-        val resource = javaClass.classLoader.getResource("addon.json") ?: return null // not in workspace
+        val resource = javaClass.classLoader.getResource("addon.json")
+                ?: return null // not in workspace
         if (javaClass.classLoader.getResource("pack.mcmeta") != null) {
             AddonBootstrap.addonResourcePacks.add(file)
         }

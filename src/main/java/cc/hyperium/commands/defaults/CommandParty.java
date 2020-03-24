@@ -28,59 +28,65 @@ import java.util.List;
 
 public class CommandParty implements BaseCommand {
 
-    @Override
-    public String getName() {
-        return "party";
+  @Override
+  public String getName() {
+    return "party";
+  }
+
+  @Override
+  public String getUsage() {
+    return "/party <command>";
+  }
+
+  @Override
+  public List<String> getCommandAliases() {
+    return Arrays.asList("p");
+  }
+
+  @Override
+  public void onExecute(String[] args) {
+    StringBuilder sb = new StringBuilder();
+    for (String arg : args) {
+      String s = " " + arg;
+      sb.append(s);
+    }
+    Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party" + sb.toString());
+  }
+
+  @Override
+  public boolean tabOnly() {
+    return true;
+  }
+
+  @Override
+  public List<String> onTabComplete(String[] args) {
+    if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+      return new ArrayList<>();
     }
 
-    @Override
-    public String getUsage() {
-        return "/party <command>";
-    }
-
-    @Override
-    public List<String> getCommandAliases(){
-        return Arrays.asList("p");
-    }
-
-    @Override
-    public void onExecute(String[] args) {
-        StringBuilder sb = new StringBuilder();
-        for (String arg : args) {
-            String s = " " + arg;
-            sb.append(s);
-        }
-        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party" + sb.toString());
-    }
-
-    @Override
-    public boolean tabOnly() {
-        return true;
-    }
-
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
-            return new ArrayList<>();
-
-        List<String> first = Arrays.asList("invite", "leave", "promote", "home", "remove", "warp", "accept", "disband",
+    List<String> first = Arrays
+        .asList("invite", "leave", "promote", "home", "remove", "warp", "accept", "disband",
             "settings", "mute", "poll", "challenge", "kickoffline", "private");
 
-        List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
-        List<String> complete = new ArrayList<>();
+    List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
+    List<String> complete = new ArrayList<>();
 
-        try {
-            for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().getKeys()) {
-                String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().optJSONObject(s).optString("name");
-                if (!name.isEmpty()) tabUsernames.add(name);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    try {
+      for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser()
+          .get().getData().getKeys()) {
+        String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser()
+            .get().getData().optJSONObject(s).optString("name");
+        if (!name.isEmpty()) {
+          tabUsernames.add(name);
         }
-
-        complete.addAll(first);
-        complete.addAll(tabUsernames);
-        tabUsernames.remove(Minecraft.getMinecraft().getSession().getUsername());
-        return TabCompletionUtil.getListOfStringsMatchingLastWord(args, complete);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+
+    complete.addAll(first);
+    complete.addAll(tabUsernames);
+    tabUsernames.remove(Minecraft.getMinecraft().getSession().getUsername());
+    return TabCompletionUtil.getListOfStringsMatchingLastWord(args, complete);
+  }
 }

@@ -13,31 +13,31 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 public class SettingsRequest implements Request<SettingsReply> {
 
-    private final Version version;
+  private final Version version;
 
-    private SettingsRequest(Autotip autotip) {
-        version = autotip.getVersion();
-    }
+  private SettingsRequest(Autotip autotip) {
+    version = autotip.getVersion();
+  }
 
-    public static SettingsRequest of(Autotip autotip) {
-        return new SettingsRequest(autotip);
-    }
+  public static SettingsRequest of(Autotip autotip) {
+    return new SettingsRequest(autotip);
+  }
 
-    @Override
-    public SettingsReply execute() {
-        HttpUriRequest request = GetBuilder.of(this)
-                .addParameter("v", version.get())
-                .build();
+  @Override
+  public SettingsReply execute() {
+    HttpUriRequest request = GetBuilder.of(this)
+        .addParameter("v", version.get())
+        .build();
 
-        Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());
-        return optional
-                .map(reply -> (SettingsReply) reply)
-                .orElseGet(() -> new SettingsReply(false));
-    }
+    Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());
+    return optional
+        .map(reply -> (SettingsReply) reply)
+        .orElseGet(() -> new SettingsReply(false));
+  }
 
-    @Override
-    public RequestType getType() {
-        return RequestType.SETTINGS;
-    }
+  @Override
+  public RequestType getType() {
+    return RequestType.SETTINGS;
+  }
 
 }

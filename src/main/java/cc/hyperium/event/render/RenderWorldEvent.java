@@ -22,19 +22,19 @@ import net.minecraft.client.renderer.RenderGlobal;
 
 public final class RenderWorldEvent extends Event {
 
-    private final RenderGlobal context;
-    private final float partialTicks;
+  private final RenderGlobal context;
+  private final float partialTicks;
 
-    public RenderWorldEvent(RenderGlobal context, float partialTicks) {
-        this.context = context;
-        this.partialTicks = partialTicks;
-    }
+  public RenderWorldEvent(RenderGlobal context, float partialTicks) {
+    this.context = context;
+    this.partialTicks = partialTicks;
+  }
 
-    public RenderGlobal getContext() {
-        return context;
-    }
+  public RenderGlobal getContext() {
+    return context;
+  }
 
-    public final float getPartialTicks() {
-        return partialTicks;
-    }
+  public final float getPartialTicks() {
+    return partialTicks;
+  }
 }

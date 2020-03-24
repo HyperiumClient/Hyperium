@@ -1,0 +1,45 @@
+--- original/net/minecraft/client/gui/GuiKeyBindingList.java
++++ changed/net/minecraft/client/gui/GuiKeyBindingList.java
+@@ -1,6 +1,11 @@
+ package net.minecraft.client.gui;
+ 
+ import java.util.Arrays;
++import java.util.Collections;
++import java.util.List;
++
++import cc.hyperium.Hyperium;
++import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.resources.I18n;
+ import net.minecraft.client.settings.GameSettings;
+@@ -35,7 +40,7 @@
+                 this.listEntries[i++] = new GuiKeyBindingList.CategoryEntry(s1);
+             }
+ 
+-            int j = mcIn.fontRendererObj.getStringWidth(I18n.format(keybinding.getKeyDescription(), new Object[0]));
++            int j = mc.fontRendererObj.getStringWidth(I18n.format(keybinding.getKeyDescription(), new Object[0]));
+ 
+             if (j > this.maxListLabelWidth) {
+                 this.maxListLabelWidth = j;
+@@ -133,6 +138,13 @@
+                         break;
+                     }
+                 }
++                for (HyperiumKeybind bind : Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values()) {
++                  if (bind.getDescription().equalsIgnoreCase(this.keyDesc)) continue;
++                    if (bind.getKeyCode() == this.keybinding.getKeyCode()) {
++                        flag1 = true;
++                        break;
++                    }
++                }
+             }
+ 
+             if (flag) {
+@@ -152,6 +164,7 @@
+                 GuiKeyBindingList.this.field_148191_k.buttonId = this.keybinding;
+                 return true;
+             } else if (this.btnReset.mousePressed(GuiKeyBindingList.this.mc, p_148278_2_, p_148278_3_)) {
++                Hyperium.INSTANCE.getHandlers().getKeybindHandler().setBind(this.keyDesc, -1);
+                 GuiKeyBindingList.this.mc.gameSettings.setOptionKeyBinding(this.keybinding, this.keybinding.getKeyCodeDefault());
+                 KeyBinding.resetKeyBindingArrayAndHash();
+                 return true;

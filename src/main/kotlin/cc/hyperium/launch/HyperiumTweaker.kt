@@ -1,32 +1,28 @@
 package cc.hyperium.launch
 
 import cc.hyperium.Hyperium
-import cc.hyperium.internal.addons.AddonBootstrap.init
 import cc.hyperium.launch.patching.PatchManager
 import net.minecraft.launchwrapper.ITweaker
 import net.minecraft.launchwrapper.Launch
 import net.minecraft.launchwrapper.LaunchClassLoader
-import org.spongepowered.asm.launch.MixinBootstrap
-import org.spongepowered.asm.mixin.MixinEnvironment
 import java.io.File
 import java.io.IOException
 import java.net.MalformedURLException
-import java.util.*
 
 class HyperiumTweaker : ITweaker {
 
     private val hyperiumArguments = arrayListOf<String>()
-    private val runningOptifine = Launch.classLoader.transformers.stream().anyMatch {
-        it.javaClass.name.toLowerCase(Locale.ENGLISH).contains("optifine")
+
+    // new
+    val optifine = Launch.classLoader.transformers.any {
+        it.javaClass.name == "optifine.OptiFineForgeTweaker"
     }
 
     override fun acceptOptions(args: MutableList<String>, gameDir: File, assetsDir: File, profile: String) {
-        hyperiumArguments.addAll(
-            args + listOf(
-                "--gameDir", gameDir.absolutePath,
-                "--assetsDir", assetsDir.absolutePath,
-                "--version", profile
-            )
+        hyperiumArguments += args + arrayListOf(
+            "--gameDir", gameDir.absolutePath,
+            "--assetsDir", assetsDir.absolutePath,
+            "--version", profile
         )
     }
 
@@ -50,19 +46,12 @@ class HyperiumTweaker : ITweaker {
         } catch (ignored: IOException) {
         }
 
-        Hyperium.LOGGER.info("Loading Addons...")
-        Hyperium.LOGGER.info("Initialising Bootstraps...")
-        MixinBootstrap.init()
-        init()
-        Hyperium.LOGGER.info("Applying transformers...")
-        val environment = MixinEnvironment.getDefaultEnvironment()
-
-        if (runningOptifine) {
-            environment.obfuscationContext = "notch"
-        }
-
-        if (environment.obfuscationContext == null) {
-            environment.obfuscationContext = "notch"
+        try {
+            val clazz = Class.forName("cc.hyperium.internal.ClassLoaderHelper", false, classLoader)
+            val m = clazz.getMethod("injectIntoClassLoader", Boolean::class.java)
+            m.invoke(null, optifine)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
         try {
@@ -75,12 +64,10 @@ class HyperiumTweaker : ITweaker {
         } catch (e: MalformedURLException) {
             e.printStackTrace()
         }
-
-        environment.side = MixinEnvironment.Side.CLIENT
     }
 
     override fun getLaunchArguments(): Array<String?> {
-        return if (runningOptifine) arrayOfNulls(0)
+        return if (optifine) arrayOfNulls(0)
         else hyperiumArguments.toTypedArray()
     }
 }

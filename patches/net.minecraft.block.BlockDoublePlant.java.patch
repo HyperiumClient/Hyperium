@@ -1,0 +1,31 @@
+--- original/net/minecraft/block/BlockDoublePlant.java
++++ changed/net/minecraft/block/BlockDoublePlant.java
+@@ -1,7 +1,10 @@
+ package net.minecraft.block;
+ 
++import java.util.HashMap;
+ import java.util.List;
+ import java.util.Random;
++
++import cc.hyperium.config.Settings;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.properties.IProperty;
+ import net.minecraft.block.properties.PropertyEnum;
+@@ -229,6 +232,8 @@
+         return (meta & 8) > 0 ? this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.UPPER) : this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(VARIANT, BlockDoublePlant.EnumPlantType.byMetadata(meta & 7));
+     }
+ 
++    public static HashMap<BlockPos,EnumPlantType> variantMap = new HashMap<>();
++
+     /**
+      * Get the actual Block state of this Block at the given position. This applies properties not visible in the metadata,
+      * such as fence connections.
+@@ -239,7 +244,7 @@
+ 
+             if (iblockstate.getBlock() == this) {
+                 state = state.withProperty(VARIANT, iblockstate.getValue(VARIANT));
+-            }
++            } else if (Settings.DOUBLE_PLANT_FIX) return state.withProperty(VARIANT, variantMap.get(pos));
+         }
+ 
+         return state;

@@ -20,75 +20,77 @@ package club.sk1er.website.api.requests;
 import cc.hyperium.utils.JsonHolder;
 
 public class HypixelApiFriendObject {
-    private final JsonHolder data;
-    private final int ord;
 
-    public HypixelApiFriendObject(JsonHolder data) {
-        this.data = data;
+  private final JsonHolder data;
+  private final int ord;
 
-        switch (data.optString("rank")) {
-            case "ADMIN":
-                ord = 1;
-                break;
-            case "MODERATOR":
-                ord = 2;
-                break;
-            case "HELPER":
-                ord = 3;
-                break;
-            case "YOUTUBER":
-                ord = 4;
-                break;
-            case "MVP_PLUS_PLUS":
-                ord = 5;
-                break;
-            case "MVP_PLUS":
-                ord = 6;
-                break;
-            case "MVP":
-                ord = 7;
-                break;
-            case "VIP_PLUS":
-                ord = 8;
-                break;
-            case "VIP":
-                ord = 9;
-                break;
-            default:
-                ord = 11;
-        }
+  public HypixelApiFriendObject(JsonHolder data) {
+    this.data = data;
+
+    switch (data.optString("rank")) {
+      case "ADMIN":
+        ord = 1;
+        break;
+      case "MODERATOR":
+        ord = 2;
+        break;
+      case "HELPER":
+        ord = 3;
+        break;
+      case "YOUTUBER":
+        ord = 4;
+        break;
+      case "MVP_PLUS_PLUS":
+        ord = 5;
+        break;
+      case "MVP_PLUS":
+        ord = 6;
+        break;
+      case "MVP":
+        ord = 7;
+        break;
+      case "VIP_PLUS":
+        ord = 8;
+        break;
+      case "VIP":
+        ord = 9;
+        break;
+      default:
+        ord = 11;
     }
+  }
 
-    public String getDisplay() {
-        return data.optString("display");
-    }
+  public String getDisplay() {
+    return data.optString("display");
+  }
 
-    public String getName() {
-        return data.optString("name");
-    }
+  public String getName() {
+    return data.optString("name");
+  }
 
-    public int rankOrdinal() {
-        return ord;
-    }
+  public int rankOrdinal() {
+    return ord;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof HypixelApiFriendObject && ((HypixelApiFriendObject) obj).getUuid().equals(getUuid());
-    }
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof HypixelApiFriendObject && ((HypixelApiFriendObject) obj).getUuid()
+        .equals(getUuid());
+  }
 
-    public long getLogoff() {
-        return data.optLong("logoff");
-    }
+  public long getLogoff() {
+    return data.optLong("logoff");
+  }
 
-    public String getUuid() {
-        return data.optString("uuid");
-    }
+  public String getUuid() {
+    return data.optString("uuid");
+  }
 
-    public long getAddedOn() {
-        return data.optLong("time");
-    }
+  public long getAddedOn() {
+    return data.optLong("time");
+  }
 
-    public String getRank() {
-        return data.optString("rank");
-    }
+  public String getRank() {
+    return data.optString("rank");
+  }
 }

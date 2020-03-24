@@ -97,7 +97,12 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
             var yHolder = y ?: this.y
             this.lines.forEach {
                 Renderer.getFontRenderer()
-                    .drawString(it, getXAlign(it, x ?: this.x), yHolder / this.scale, this.color, this.shadow)
+                    .drawString(
+                        it, getXAlign(
+                            it, x
+                                ?: this.x
+                        ), yHolder / this.scale, this.color, this.shadow
+                    )
                 yHolder += this.scale * 9
                 maxLinesHolder--
                 if (maxLinesHolder == 0)
@@ -133,9 +138,9 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
 
     override fun toString() =
         "Text{" +
-                "string=$string, x=$x, y=$y, " +
-                "lines=$lines, color=$color, scale=$scale" +
-                "formatted=$formatted, shadow=$shadow, align=$align, " +
-                "width=$width, maxLines=$maxLines" +
-                "}"
+            "string=$string, x=$x, y=$y, " +
+            "lines=$lines, color=$color, scale=$scale" +
+            "formatted=$formatted, shadow=$shadow, align=$align, " +
+            "width=$width, maxLines=$maxLines" +
+            "}"
 }

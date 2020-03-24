@@ -7,22 +7,22 @@ import net.minecraft.client.gui.inventory.GuiChest;
 
 public class MouseListener {
 
-    private Class<? extends GuiScreen> lastOpenedInventory = null;
-    private long lastClosedInv = -1;
+  private Class<? extends GuiScreen> lastOpenedInventory = null;
+  private long lastClosedInv = -1;
 
-    @InvokeEvent
-    public void onGuiOpen(GuiOpenEvent event) {
-        if (event.getGui() == null && GuiChest.class.equals(lastOpenedInventory)) {
-            lastClosedInv = System.currentTimeMillis();
-            lastOpenedInventory = null;
-        }
-
-        if (event.getGui() != null) {
-            lastOpenedInventory = event.getGui().getClass();
-        }
+  @InvokeEvent
+  public void onGuiOpen(GuiOpenEvent event) {
+    if (event.getGui() == null && GuiChest.class.equals(lastOpenedInventory)) {
+      lastClosedInv = System.currentTimeMillis();
+      lastOpenedInventory = null;
     }
 
-    public boolean shouldResetMouse() {
-        return System.currentTimeMillis() - lastClosedInv > 100;
+    if (event.getGui() != null) {
+      lastOpenedInventory = event.getGui().getClass();
     }
+  }
+
+  public boolean shouldResetMouse() {
+    return System.currentTimeMillis() - lastClosedInv > 100;
+  }
 }

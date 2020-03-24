@@ -24,46 +24,48 @@ import java.util.regex.Pattern;
 
 public class TypeGuild extends ToggleBase {
 
-    private final Pattern guildPattern = Pattern.compile("Guild > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
-    private final Pattern shortGuildPattern = Pattern.compile("G > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+  private final Pattern guildPattern = Pattern
+      .compile("Guild > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+  private final Pattern shortGuildPattern = Pattern
+      .compile("G > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Guild";
-    }
+  @Override
+  public String getName() {
+    return "Guild";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return guildPattern.matcher(message).matches() || shortGuildPattern.matcher(message).matches();
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return guildPattern.matcher(message).matches() || shortGuildPattern.matcher(message).matches();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles all guild",
-                "chat messages",
-                "",
-                "&2Guild > &7Player&r: Hi",
-                "",
-                "This is a feature",
-                "which should be",
-                "offered, but isn't",
-                "",
-                "This toggle works",
-                "regardless of the",
-                "rank a player has"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles all guild",
+        "chat messages",
+        "",
+        "&2Guild > &7Player&r: Hi",
+        "",
+        "This is a feature",
+        "which should be",
+        "offered, but isn't",
+        "",
+        "This toggle works",
+        "regardless of the",
+        "rank a player has"
+    );
+  }
 }

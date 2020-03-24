@@ -22,28 +22,32 @@ import cc.hyperium.utils.StaffUtils;
 
 public class StaffSettings {
 
-    // Get the staff members color
-    private final StaffUtils.DotColour dotColour;
+  // Get the staff members color
+  private final StaffUtils.DotColour dotColour;
 
-    /**
-     * Initialize the dot color
-     *
-     * @param dotColour the staff members dot color
-     */
-    public StaffSettings(StaffUtils.DotColour dotColour) {
-        // If the dot color isn't null, assign it
-        if (dotColour != null) this.dotColour = dotColour;
-
-        // Otherwise assume the user doesn't have a custom dot color and set it to green
-        else this.dotColour = new StaffUtils.DotColour(false, ChatColor.GREEN);
+  /**
+   * Initialize the dot color
+   *
+   * @param dotColour the staff members dot color
+   */
+  public StaffSettings(StaffUtils.DotColour dotColour) {
+    // If the dot color isn't null, assign it
+    if (dotColour != null) {
+      this.dotColour = dotColour;
     }
 
-    /**
-     * Used to retrieve the dot color
-     *
-     * @return the staff members dot color
-     */
-    public StaffUtils.DotColour getDotColour() {
-        return dotColour;
+    // Otherwise assume the user doesn't have a custom dot color and set it to green
+    else {
+      this.dotColour = new StaffUtils.DotColour(false, ChatColor.GREEN);
     }
+  }
+
+  /**
+   * Used to retrieve the dot color
+   *
+   * @return the staff members dot color
+   */
+  public StaffUtils.DotColour getDotColour() {
+    return dotColour;
+  }
 }

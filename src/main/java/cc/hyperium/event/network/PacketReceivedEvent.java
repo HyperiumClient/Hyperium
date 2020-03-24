@@ -26,13 +26,13 @@ import net.minecraft.network.Packet;
  */
 public class PacketReceivedEvent extends Event {
 
-    private final Packet<INetHandler> packet;
+  private final Packet<INetHandler> packet;
 
-    public PacketReceivedEvent(Packet<INetHandler> packet) {
-        this.packet = packet;
-    }
+  public PacketReceivedEvent(Packet<INetHandler> packet) {
+    this.packet = packet;
+  }
 
-    public Packet<INetHandler> getPacket() {
-        return packet;
-    }
+  public Packet<INetHandler> getPacket() {
+    return packet;
+  }
 }

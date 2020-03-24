@@ -27,41 +27,41 @@ import cc.hyperium.mods.sidebar.gui.GuiSidebar;
 
 public class SidebarAddon extends AbstractMod {
 
-    private GuiSidebar guiSidebar;
+  private GuiSidebar guiSidebar;
 
-    /**
-     * The init method where all events and commands should
-     * be registered. Use this to load configs as well
-     *
-     * @return the {@link AbstractMod} instance of the mod
-     */
-    @Override
-    public AbstractMod init() {
-        EventBus.INSTANCE.register(this);
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandSidebar(this));
-        guiSidebar = new GuiSidebar();
-        Hyperium.CONFIG.register(guiSidebar);
-        return this;
-    }
+  /**
+   * The init method where all events and commands should be registered. Use this to load configs as
+   * well
+   *
+   * @return the {@link AbstractMod} instance of the mod
+   */
+  @Override
+  public AbstractMod init() {
+    EventBus.INSTANCE.register(this);
+    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        .registerCommand(new CommandSidebar(this));
+    guiSidebar = new GuiSidebar();
+    Hyperium.CONFIG.register(guiSidebar);
+    return this;
+  }
 
-    /**
-     * This mods metadata, which will be displayed in the
-     * configuration gui and other places
-     *
-     * @return the mods metadata
-     */
-    @Override
-    public Metadata getModMetadata() {
-        return new Metadata(this, "SidebarAddon", "1.0.1", "Amplifiable");
-    }
+  /**
+   * This mods metadata, which will be displayed in the configuration gui and other places
+   *
+   * @return the mods metadata
+   */
+  @Override
+  public Metadata getModMetadata() {
+    return new Metadata(this, "SidebarAddon", "1.0.1", "Amplifiable");
+  }
 
-    public GuiSidebar getSidebarGui() {
-        return guiSidebar;
-    }
+  public GuiSidebar getSidebarGui() {
+    return guiSidebar;
+  }
 
-    @InvokeEvent
-    public void renderScoreboard(RenderScoreboardEvent e) {
-        e.setCancelled(true);
-        guiSidebar.drawSidebar(e.getObjective(), e.getResolution());
-    }
+  @InvokeEvent
+  public void renderScoreboard(RenderScoreboardEvent e) {
+    e.setCancelled(true);
+    guiSidebar.drawSidebar(e.getObjective(), e.getResolution());
+  }
 }

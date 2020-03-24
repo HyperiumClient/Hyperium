@@ -27,27 +27,27 @@ import org.jetbrains.annotations.NotNull;
 
 public final class ItemTossEvent extends Event {
 
-    @NotNull
-    private final EntityPlayer player;
+  @NotNull
+  private final EntityPlayer player;
 
-    @NotNull
-    private final EntityItem item;
+  @NotNull
+  private final EntityItem item;
 
-    public ItemTossEvent(@NotNull EntityPlayer player, @NotNull EntityItem item) {
-        Preconditions.checkNotNull(player, "player");
-        Preconditions.checkNotNull(item, "item");
+  public ItemTossEvent(@NotNull EntityPlayer player, @NotNull EntityItem item) {
+    Preconditions.checkNotNull(player, "player");
+    Preconditions.checkNotNull(item, "item");
 
-        this.player = player;
-        this.item = item;
-    }
+    this.player = player;
+    this.item = item;
+  }
 
-    @NotNull
-    public final EntityPlayer getPlayer() {
-        return player;
-    }
+  @NotNull
+  public final EntityPlayer getPlayer() {
+    return player;
+  }
 
-    @NotNull
-    public final EntityItem getItem() {
-        return item;
-    }
+  @NotNull
+  public final EntityItem getItem() {
+    return item;
+  }
 }

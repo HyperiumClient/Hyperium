@@ -21,13 +21,14 @@ import cc.hyperium.event.Event;
 import net.minecraft.client.gui.GuiScreen;
 
 public class InitGuiEvent extends Event {
-    private final GuiScreen screen;
 
-    public InitGuiEvent(GuiScreen screen) {
-        this.screen = screen;
-    }
+  private final GuiScreen screen;
 
-    public GuiScreen getScreen() {
-        return screen;
-    }
+  public InitGuiEvent(GuiScreen screen) {
+    this.screen = screen;
+  }
+
+  public GuiScreen getScreen() {
+    return screen;
+  }
 }

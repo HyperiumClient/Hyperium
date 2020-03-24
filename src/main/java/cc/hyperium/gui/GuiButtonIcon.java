@@ -24,45 +24,48 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class GuiButtonIcon extends GuiButton {
-    private final int sprite;
-    private final ResourceLocation icon;
-    private final float scale;
-    private boolean outline;
 
-    public GuiButtonIcon(int buttonID, ResourceLocation icon, int xPos, int yPos, int sprite, float scale) {
-        super(buttonID, xPos, yPos, (int) (52 * scale), (int) (52 * scale), "");
-        this.icon = icon;
-        this.sprite = sprite;
-        this.scale = scale;
-    }
+  private final int sprite;
+  private final ResourceLocation icon;
+  private final float scale;
+  private boolean outline;
 
-    public void setOutline(boolean outline) {
-        this.outline = outline;
-    }
+  public GuiButtonIcon(int buttonID, ResourceLocation icon, int xPos, int yPos, int sprite,
+      float scale) {
+    super(buttonID, xPos, yPos, (int) (52 * scale), (int) (52 * scale), "");
+    this.icon = icon;
+    this.sprite = sprite;
+    this.scale = scale;
+  }
 
-    /**
-     * Draws this button to the screen.
-     */
-    public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        if (visible) {
-            int width = 52;
-            int height = 52;
-            mc.getTextureManager().bindTexture(icon);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.pushMatrix();
-            GlStateManager.scale(scale, scale, scale);
-            GlStateManager.enableBlend();
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-            GlStateManager.translate(xPosition / scale + this.width / scale / 2, yPosition / scale + this.height / scale / 2, 0);
-            GlStateManager.color(0, 0, 0, 1.0F);
-            float mag = 1.25F;
-            GlStateManager.scale(mag, mag, mag);
-            drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, width, height);
-            GlStateManager.scale(1.0F / mag, 1.0F / mag, 1.0F / mag);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, width, height);
-            GlStateManager.disableBlend();
-            GlStateManager.popMatrix();
-        }
+  public void setOutline(boolean outline) {
+    this.outline = outline;
+  }
+
+  /**
+   * Draws this button to the screen.
+   */
+  public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+    if (visible) {
+      int width = 52;
+      int height = 52;
+      mc.getTextureManager().bindTexture(icon);
+      GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+      GlStateManager.pushMatrix();
+      GlStateManager.scale(scale, scale, scale);
+      GlStateManager.enableBlend();
+      GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+      GlStateManager.translate(xPosition / scale + this.width / scale / 2,
+          yPosition / scale + this.height / scale / 2, 0);
+      GlStateManager.color(0, 0, 0, 1.0F);
+      float mag = 1.25F;
+      GlStateManager.scale(mag, mag, mag);
+      drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, width, height);
+      GlStateManager.scale(1.0F / mag, 1.0F / mag, 1.0F / mag);
+      GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+      drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, width, height);
+      GlStateManager.disableBlend();
+      GlStateManager.popMatrix();
     }
+  }
 }

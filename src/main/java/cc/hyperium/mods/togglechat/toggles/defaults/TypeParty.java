@@ -24,42 +24,44 @@ import java.util.regex.Pattern;
 
 public class TypeParty extends ToggleBase {
 
-    private final Pattern partyPattern = Pattern.compile("Party > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
-    private final Pattern shortPartyPattern = Pattern.compile("P > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+  private final Pattern partyPattern = Pattern
+      .compile("Party > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+  private final Pattern shortPartyPattern = Pattern
+      .compile("P > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Party";
-    }
+  @Override
+  public String getName() {
+    return "Party";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return partyPattern.matcher(message).matches() || shortPartyPattern.matcher(message).matches();
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return partyPattern.matcher(message).matches() || shortPartyPattern.matcher(message).matches();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles all party",
-                "chat messages",
-                "",
-                "Toggle format",
-                "&9Party > &7Player&r: Hello",
-                "",
-                "Fairly useful when",
-                "You're in a large party"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles all party",
+        "chat messages",
+        "",
+        "Toggle format",
+        "&9Party > &7Player&r: Hello",
+        "",
+        "Fairly useful when",
+        "You're in a large party"
+    );
+  }
 }

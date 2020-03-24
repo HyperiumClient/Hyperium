@@ -28,44 +28,49 @@ import java.io.IOException;
 
 public class GuiScreenSidebar extends GuiScreen {
 
-    protected SidebarAddon addon;
-    private boolean dragging;
-    private int lastX;
-    private int lastY;
-    GuiSidebar sidebar;
+  protected SidebarAddon addon;
+  private boolean dragging;
+  private int lastX;
+  private int lastY;
+  GuiSidebar sidebar;
 
-    GuiScreenSidebar(SidebarAddon addon) {
-        this.addon = addon;
-        sidebar = addon.getSidebarGui();
+  GuiScreenSidebar(SidebarAddon addon) {
+    this.addon = addon;
+    sidebar = addon.getSidebarGui();
+  }
+
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    super.drawScreen(mouseX, mouseY, partialTicks);
+    if (mc.thePlayer != null) {
+      ScoreObjective scoreObjective = mc.thePlayer.getWorldScoreboard()
+          .getObjectiveInDisplaySlot(1);
+      if (scoreObjective != null) {
+        sidebar.drawSidebar(scoreObjective, new ScaledResolution(mc));
+      }
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        super.drawScreen(mouseX, mouseY, partialTicks);
-        if (mc.thePlayer != null) {
-            ScoreObjective scoreObjective = mc.thePlayer.getWorldScoreboard().getObjectiveInDisplaySlot(1);
-            if (scoreObjective != null) sidebar.drawSidebar(scoreObjective, new ScaledResolution(mc));
-        }
-
-        if (dragging) {
-            sidebar.offsetX += mouseX - lastX;
-            sidebar.offsetY += mouseY - lastY;
-        }
-
-        lastX = mouseX;
-        lastY = mouseY;
+    if (dragging) {
+      sidebar.offsetX += mouseX - lastX;
+      sidebar.offsetY += mouseY - lastY;
     }
 
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
-        if (sidebar.contains(mouseX, mouseY)) dragging = true;
-    }
+    lastX = mouseX;
+    lastY = mouseY;
+  }
 
-    protected void mouseReleased(int mouseX, int mouseY, int state) {
-        super.mouseReleased(mouseX, mouseY, state);
-        dragging = false;
+  protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    super.mouseClicked(mouseX, mouseY, mouseButton);
+    if (sidebar.contains(mouseX, mouseY)) {
+      dragging = true;
     }
+  }
 
-    public void onGuiClosed() {
-        Hyperium.CONFIG.save();
-    }
+  protected void mouseReleased(int mouseX, int mouseY, int state) {
+    super.mouseReleased(mouseX, mouseY, state);
+    dragging = false;
+  }
+
+  public void onGuiClosed() {
+    Hyperium.CONFIG.save();
+  }
 }

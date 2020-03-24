@@ -25,19 +25,19 @@ import net.minecraft.client.gui.ScaledResolution;
  */
 public class RenderHUDEvent extends Event {
 
-    private final ScaledResolution resolution;
-    private final float partialTicks;
+  private final ScaledResolution resolution;
+  private final float partialTicks;
 
-    public RenderHUDEvent(ScaledResolution resolution, float partialTicks) {
-        this.resolution = resolution;
-        this.partialTicks = partialTicks;
-    }
+  public RenderHUDEvent(ScaledResolution resolution, float partialTicks) {
+    this.resolution = resolution;
+    this.partialTicks = partialTicks;
+  }
 
-    public ScaledResolution getResolution() {
-        return resolution;
-    }
+  public ScaledResolution getResolution() {
+    return resolution;
+  }
 
-    public float getPartialTicks() {
-        return partialTicks;
-    }
+  public float getPartialTicks() {
+    return partialTicks;
+  }
 }

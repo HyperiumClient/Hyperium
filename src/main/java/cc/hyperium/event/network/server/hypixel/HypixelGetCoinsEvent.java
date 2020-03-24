@@ -21,13 +21,13 @@ import cc.hyperium.event.Event;
 
 public final class HypixelGetCoinsEvent extends Event {
 
-    private final int coins;
+  private final int coins;
 
-    public HypixelGetCoinsEvent(int coins) {
-        this.coins = coins;
-    }
+  public HypixelGetCoinsEvent(int coins) {
+    this.coins = coins;
+  }
 
-    public final int getCoins() {
-        return coins;
-    }
+  public final int getCoins() {
+    return coins;
+  }
 }

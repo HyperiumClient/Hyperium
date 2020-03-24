@@ -32,24 +32,24 @@ import java.util.List;
  */
 public class CommandConfigGui implements BaseCommand {
 
-    @Override
-    public String getName() {
-        return "hyperiumconfig";
-    }
+  @Override
+  public String getName() {
+    return "hyperiumconfig";
+  }
 
-    @Override
-    public String getUsage() {
-        return ChatColor.RED + "Usage: /hyperiumconfig";
-    }
+  @Override
+  public String getUsage() {
+    return ChatColor.RED + "Usage: /hyperiumconfig";
+  }
 
-    @Override
-    public List<String> getCommandAliases() {
-        // Allow an alias for the main config gui
-        return Arrays.asList("hyperium", "config", "h");
-    }
+  @Override
+  public List<String> getCommandAliases() {
+    // Allow an alias for the main config gui
+    return Arrays.asList("hyperium", "config", "h");
+  }
 
-    @Override
-    public void onExecute(String[] args) {
-        HyperiumMainGui.INSTANCE.show();
-    }
+  @Override
+  public void onExecute(String[] args) {
+    HyperiumMainGui.INSTANCE.show();
+  }
 }

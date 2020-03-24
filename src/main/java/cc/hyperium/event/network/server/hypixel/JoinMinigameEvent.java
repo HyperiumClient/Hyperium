@@ -25,13 +25,13 @@ import cc.hyperium.event.network.server.hypixel.minigames.Minigame;
  */
 public class JoinMinigameEvent extends Event {
 
-    private final Minigame minigame;
+  private final Minigame minigame;
 
-    public JoinMinigameEvent(Minigame minigame) {
-        this.minigame = minigame;
-    }
+  public JoinMinigameEvent(Minigame minigame) {
+    this.minigame = minigame;
+  }
 
-    public Minigame getMinigame() {
-        return minigame;
-    }
+  public Minigame getMinigame() {
+    return minigame;
+  }
 }

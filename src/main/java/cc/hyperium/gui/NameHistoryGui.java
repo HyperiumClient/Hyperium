@@ -37,122 +37,132 @@ import java.util.UUID;
 
 public class NameHistoryGui extends GuiScreen {
 
-    private String name;
+  private String name;
 
-    public NameHistoryGui() {
-        this("");
+  public NameHistoryGui() {
+    this("");
+  }
+
+  public NameHistoryGui(String name) {
+    this.name = name;
+    getNames(name);
+  }
+
+  private final List<String> names = new ArrayList<>();
+  private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN,
+      16);
+  private GuiTextField nameField;
+  private int offset;
+
+  @Override
+  public void initGui() {
+    super.initGui();
+    nameField = new GuiTextField(1, mc.fontRendererObj, width / 2 - (115 / 2), height / 5 + 10, 115,
+        20);
+    nameField.setText(name);
+    nameField.setFocused(true);
+    nameField.setMaxStringLength(16);
+
+    Keyboard.enableRepeatEvents(true);
+  }
+
+  @Override
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    super.drawScreen(mouseX, mouseY, partialTicks);
+    int left = width / 5 - 1;
+    int top = height / 5 - 1;
+    int right = width - width / 5;
+    int bottom = height / 5 + 33;
+
+    //BG
+    drawRect(left, top, right, bottom + (names.size() * 10), new Color(0, 0, 0, 100).getRGB());
+
+    //TITLE BG
+    drawRect(left, top, right, bottom, new Color(0, 0, 0, 150).getRGB());
+
+    //TITLE;
+    drawCenteredString(mc.fontRendererObj, I18n.format("gui.namehistory.text"), width / 2,
+        height / 5, Color.WHITE.getRGB());
+
+    //Text Box
+    nameField.drawTextBox();
+    int defaultColour = Color.WHITE.getRGB();
+    // Check if names have been scrolled outside of bounding box.
+    // Highlight current and original names.
+    int bound = names.size();
+    for (int i = 0; i < bound; i++) {
+      float xPos = (width >> 1) - (115 >> 1);
+      float yPos = bottom + (i * 10) + offset;
+      if (yPos < (height / 5f) + 32) {
+        continue;
+      }
+      mc.fontRendererObj.drawString(names.get(i), (int) xPos, (int) yPos,
+          i == 0 ? Color.YELLOW.getRGB()
+              : i == names.size() - 1 ? Color.GREEN.getRGB() : defaultColour);
+    }
+  }
+
+  @Override
+  protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    if (keyCode == Keyboard.KEY_RETURN) {
+      names.clear();
+      getNames(nameField.getText());
     }
 
-    public NameHistoryGui(String name) {
-        this.name = name;
-        getNames(name);
-    }
+    nameField.textboxKeyTyped(typedChar, keyCode);
+    name = nameField.getText();
+    super.keyTyped(typedChar, keyCode);
+  }
 
-    private final List<String> names = new ArrayList<>();
-    private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
-    private GuiTextField nameField;
-    private int offset;
+  @Override
+  public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    nameField.mouseClicked(mouseX, mouseY, mouseButton);
+    super.mouseClicked(mouseX, mouseY, mouseButton);
+  }
 
-    @Override
-    public void initGui() {
-        super.initGui();
-        nameField = new GuiTextField(1, mc.fontRendererObj, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
-        nameField.setText(name);
-        nameField.setFocused(true);
-        nameField.setMaxStringLength(16);
+  @Override
+  public void onGuiClosed() {
+    names.clear();
+    super.onGuiClosed();
+    Keyboard.enableRepeatEvents(false);
+  }
 
-        Keyboard.enableRepeatEvents(true);
-    }
+  private void getNames(String username) {
+    offset = 0;
+    try {
+      if (username.isEmpty()) {
+        return;
+      }
 
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        super.drawScreen(mouseX, mouseY, partialTicks);
-        int left = width / 5 - 1;
-        int top = height / 5 - 1;
-        int right = width - width / 5;
-        int bottom = height / 5 + 33;
+      UUID uuid = MojangAPI.getUUID(username);
 
-        //BG
-        drawRect(left, top, right, bottom + (names.size() * 10), new Color(0, 0, 0, 100).getRGB());
-
-        //TITLE BG
-        drawRect(left, top, right, bottom, new Color(0, 0, 0, 150).getRGB());
-
-        //TITLE;
-        drawCenteredString(mc.fontRendererObj, I18n.format("gui.namehistory.text"), width / 2, height / 5, Color.WHITE.getRGB());
-
-        //Text Box
-        nameField.drawTextBox();
-        int defaultColour = Color.WHITE.getRGB();
-        // Check if names have been scrolled outside of bounding box.
-        // Highlight current and original names.
-        int bound = names.size();
-        for (int i = 0; i < bound; i++) {
-            float xPos = (width >> 1) - (115 >> 1);
-            float yPos = bottom + (i * 10) + offset;
-            if (yPos < (height / 5f) + 32) continue;
-            mc.fontRendererObj.drawString(names.get(i), (int) xPos, (int) yPos, i == 0 ? Color.YELLOW.getRGB() : i == names.size() - 1 ? Color.GREEN.getRGB() : defaultColour);
+      Multithreading.runAsync(() -> {
+        for (Name history : MojangAPI.getNameHistory(uuid)) {
+          String name = history.getName();
+          DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+          names.add(history.getChangedToAt() == 0 ? name
+              : String.format("%s > %s", name, format.format(history.getChangedToAt())));
         }
+      });
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
-    @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        if (keyCode == Keyboard.KEY_RETURN) {
-            names.clear();
-            getNames(nameField.getText());
-        }
+  @Override
+  public void handleMouseInput() throws IOException {
+    super.handleMouseInput();
+    int i = Mouse.getEventDWheel();
+    if (i < 0) {
+      // works out length of scrollable area
+      int length = height / 5 - (int) (names.size() * fontRenderer.getHeight("s"));
 
-        nameField.textboxKeyTyped(typedChar, keyCode);
-        name = nameField.getText();
-        super.keyTyped(typedChar, keyCode);
+      if (offset - length + 1 > -names.size() && length <= names.size()) {
+        // regions it cant exceed
+        offset -= 10;
+      }
+    } else if (i > 0 && offset < 0) {
+      offset += 10;
     }
-
-    @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        nameField.mouseClicked(mouseX, mouseY, mouseButton);
-        super.mouseClicked(mouseX, mouseY, mouseButton);
-    }
-
-    @Override
-    public void onGuiClosed() {
-        names.clear();
-        super.onGuiClosed();
-        Keyboard.enableRepeatEvents(false);
-    }
-
-    private void getNames(String username) {
-        offset = 0;
-        try {
-            if (username.isEmpty()) return;
-
-            UUID uuid = MojangAPI.getUUID(username);
-
-            Multithreading.runAsync(() -> {
-                for (Name history : MojangAPI.getNameHistory(uuid)) {
-                    String name = history.getName();
-                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                    names.add(history.getChangedToAt() == 0 ? name : String.format("%s > %s", name, format.format(history.getChangedToAt())));
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void handleMouseInput() throws IOException {
-        super.handleMouseInput();
-        int i = Mouse.getEventDWheel();
-        if (i < 0) {
-            // works out length of scrollable area
-            int length = height / 5 - (int) (names.size() * fontRenderer.getHeight("s"));
-
-            if (offset - length + 1 > -names.size() && length <= names.size()) {
-                // regions it cant exceed
-                offset -= 10;
-            }
-        } else if (i > 0 && offset < 0) {
-            offset += 10;
-        }
-    }
+  }
 }

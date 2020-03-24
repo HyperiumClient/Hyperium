@@ -13,17 +13,17 @@ abstract class ConfigOption {
     var hidden: Boolean = false
 
     internal var resetButton = GuiButton(
-        0,
-        Renderer.Screen.getWidth() / 2 - 100 + x + 185,
-        y - 2,
-        14, 12, ""
+            0,
+            Renderer.Screen.getWidth() / 2 - 100 + x + 185,
+            y - 2,
+            14, 12, ""
     )
 
     open fun init() {
         resetButton = GuiButton(
-            0,
-            Renderer.Screen.getWidth() / 2 - 100 + x + 185, y - 2,
-            14, 12, ""
+                0,
+                Renderer.Screen.getWidth() / 2 - 100 + x + 185, y - 2,
+                14, 12, ""
         )
     }
 
@@ -32,10 +32,10 @@ abstract class ConfigOption {
         resetButton.drawButton(Client.getMinecraft(), mouseX, mouseY)
 
         Text("\u21BA", (Renderer.Screen.getWidth() / 2 - 100 + x + 189).toFloat(), (y - 4).toFloat())
-            .setScale(2f)
-            .setColor(-0x1)
-            .setShadow(true)
-            .draw()
+                .setScale(2f)
+                .setColor(-0x1)
+                .setShadow(true)
+                .draw()
     }
 
     abstract fun mouseClicked(mouseX: Int, mouseY: Int)

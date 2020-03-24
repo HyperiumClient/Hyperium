@@ -21,6 +21,6 @@ import net.minecraft.client.model.ModelRenderer;
 
 public interface IModelBox {
 
-    void offsetTextureQuad(ModelRenderer renderer, int quadId, float xOffset, float yOffset);
+  void offsetTextureQuad(ModelRenderer renderer, int quadId, float xOffset, float yOffset);
 
 }

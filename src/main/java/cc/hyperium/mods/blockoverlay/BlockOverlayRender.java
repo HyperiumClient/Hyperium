@@ -35,165 +35,193 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BlockOverlayRender {
-    private final BlockOverlay mod;
 
-    private final List<Block> blocksList = Arrays.asList(
-            Blocks.air, Blocks.barrier, // invis
-            Blocks.water, Blocks.flowing_water, // water
-            Blocks.lava, Blocks.flowing_lava // lava
-    );
+  private final BlockOverlay mod;
 
-    public BlockOverlayRender(BlockOverlay mod) {
-        this.mod = mod;
+  private final List<Block> blocksList = Arrays.asList(
+      Blocks.air, Blocks.barrier, // invis
+      Blocks.water, Blocks.flowing_water, // water
+      Blocks.lava, Blocks.flowing_lava // lava
+  );
+
+  public BlockOverlayRender(BlockOverlay mod) {
+    this.mod = mod;
+  }
+
+  @InvokeEvent
+  public void onRenderBlockOverlay(DrawBlockHighlightEvent event) {
+    if (BlockOverlay.mc.thePlayer == null || BlockOverlay.mc.theWorld == null
+        || mod.getSettings().getOverlayMode() == BlockOverlayMode.DEFAULT) {
+      return;
+    }
+    event.setCancelled(true);
+    if (mod.getSettings().getOverlayMode() == BlockOverlayMode.NONE) {
+      return;
     }
 
-    @InvokeEvent
-    public void onRenderBlockOverlay(DrawBlockHighlightEvent event) {
-        if (BlockOverlay.mc.thePlayer == null || BlockOverlay.mc.theWorld == null || mod.getSettings().getOverlayMode() == BlockOverlayMode.DEFAULT) {
-            return;
-        }
-        event.setCancelled(true);
-        if (mod.getSettings().getOverlayMode() == BlockOverlayMode.NONE) return;
+    drawOverlay(event.getPartialTicks());
+    GL11.glLineWidth(1.0F);
+  }
 
-        drawOverlay(event.getPartialTicks());
-        GL11.glLineWidth(1.0F);
+  @SuppressWarnings("IntegerDivisionInFloatingPointContext")
+  private void drawOverlay(float partialTicks) {
+    if (BlockOverlay.mc.objectMouseOver == null || BlockOverlay.mc.objectMouseOver.typeOfHit
+        != MovingObjectPosition.MovingObjectType.BLOCK) {
+      return;
     }
 
-    @SuppressWarnings("IntegerDivisionInFloatingPointContext")
-    private void drawOverlay(float partialTicks) {
-        if (BlockOverlay.mc.objectMouseOver == null || BlockOverlay.mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
-            return;
-        }
-
-        MovingObjectPosition position = BlockOverlay.mc.thePlayer.rayTrace(6.0, partialTicks);
-        if (position == null || position.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
-            return;
-        }
-
-        Block block = BlockOverlay.mc.thePlayer.worldObj.getBlockState(position.getBlockPos()).getBlock();
-        if (block == null || blocksList.contains(block)) {
-            return;
-        }
-
-        float lineWidth = mod.getSettings().getLineWidth();
-
-        GlStateManager.pushMatrix();
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-
-        if (lineWidth != 0.0f) GL11.glLineWidth(mod.getSettings().getLineWidth());
-
-        GlStateManager.disableTexture2D();
-        GlStateManager.depthMask(false);
-        AxisAlignedBB box = block.getSelectedBoundingBox(BlockOverlay.mc.theWorld, position.getBlockPos()).expand(0.0020000000949949026D, 0.0020000000949949026D, 0.0020000000949949026D).offset(-BlockOverlay.mc.getRenderManager().viewerPosX, -BlockOverlay.mc.getRenderManager().viewerPosY, -BlockOverlay.mc.getRenderManager().viewerPosZ);
-
-        if (mod.getSettings().getOverlayMode() == BlockOverlayMode.OUTLINE) {
-            if (mod.getSettings().isChroma()) {
-                // todo chroma broke aagghhh
-                float time = System.currentTimeMillis() % (10000L / mod.getSettings().getChromaSpeed()) / (10000.0f / mod.getSettings().getChromaSpeed());
-                Color color = Color.getHSBColor(time, 1.0f, 1.0f);
-                GlStateManager.color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, mod.getSettings().getOverlayAlpha());
-            } else {
-                GlStateManager.color(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(), mod.getSettings().getOverlayBlue(), mod.getSettings().getOverlayAlpha());
-            }
-
-            if (lineWidth != 0.0f) RenderGlobal.drawSelectionBoundingBox(box);
-
-        } else if (mod.getSettings().isChroma()) {
-            float time = System.currentTimeMillis() % (10000L / mod.getSettings().getChromaSpeed()) / (10000.0f / mod.getSettings().getChromaSpeed());
-            Color color = Color.getHSBColor(time, 1.0f, 1.0f);
-
-            if (lineWidth != 0.0f) {
-                GlStateManager.color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1.0f);
-                RenderGlobal.drawSelectionBoundingBox(box);
-            }
-
-            GlStateManager.color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, mod.getSettings().getOverlayAlpha());
-            drawFilledBoundingBox(box);
-        } else {
-            if (lineWidth != 0.0f) {
-                GlStateManager.color(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(), mod.getSettings().getOverlayBlue(), 1.0f);
-                RenderGlobal.drawSelectionBoundingBox(box);
-            }
-
-            GlStateManager.color(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(), mod.getSettings().getOverlayBlue(), mod.getSettings().getOverlayAlpha());
-            drawFilledBoundingBox(box);
-        }
-
-        GlStateManager.depthMask(true);
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
+    MovingObjectPosition position = BlockOverlay.mc.thePlayer.rayTrace(6.0, partialTicks);
+    if (position == null || position.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
+      return;
     }
 
-    private void drawFilledBoundingBox(AxisAlignedBB box) {
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-
-        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-        worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
-        worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
-        worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
-        worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
-        worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
-        tessellator.draw();
-
-        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-        worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
-        worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
-        worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
-        worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
-        worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
-        worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
-        tessellator.draw();
-
-        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-        worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
-        worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
-        worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
-        worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
-        worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
-        worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
-        tessellator.draw();
-
-        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-        worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
-        worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
-        worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
-        worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
-        tessellator.draw();
-
-        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-        worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
-        worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
-        worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
-        worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
-        worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
-        tessellator.draw();
-
-        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-        worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
-        worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
-        worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
-        worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
-        worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
-        worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
-        tessellator.draw();
+    Block block = BlockOverlay.mc.thePlayer.worldObj.getBlockState(position.getBlockPos())
+        .getBlock();
+    if (block == null || blocksList.contains(block)) {
+      return;
     }
+
+    float lineWidth = mod.getSettings().getLineWidth();
+
+    GlStateManager.pushMatrix();
+    GlStateManager.enableBlend();
+    GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+
+    if (lineWidth != 0.0f) {
+      GL11.glLineWidth(mod.getSettings().getLineWidth());
+    }
+
+    GlStateManager.disableTexture2D();
+    GlStateManager.depthMask(false);
+    AxisAlignedBB box = block
+        .getSelectedBoundingBox(BlockOverlay.mc.theWorld, position.getBlockPos())
+        .expand(0.0020000000949949026D, 0.0020000000949949026D, 0.0020000000949949026D)
+        .offset(-BlockOverlay.mc.getRenderManager().viewerPosX,
+            -BlockOverlay.mc.getRenderManager().viewerPosY,
+            -BlockOverlay.mc.getRenderManager().viewerPosZ);
+
+    if (mod.getSettings().getOverlayMode() == BlockOverlayMode.OUTLINE) {
+      if (mod.getSettings().isChroma()) {
+        // todo chroma broke aagghhh
+        float time =
+            System.currentTimeMillis() % (10000L / mod.getSettings().getChromaSpeed()) / (10000.0f
+                / mod.getSettings().getChromaSpeed());
+        Color color = Color.getHSBColor(time, 1.0f, 1.0f);
+        GlStateManager
+            .color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f,
+                mod.getSettings().getOverlayAlpha());
+      } else {
+        GlStateManager.color(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(),
+            mod.getSettings().getOverlayBlue(), mod.getSettings().getOverlayAlpha());
+      }
+
+      if (lineWidth != 0.0f) {
+        RenderGlobal.drawSelectionBoundingBox(box);
+      }
+
+    } else if (mod.getSettings().isChroma()) {
+      float time =
+          System.currentTimeMillis() % (10000L / mod.getSettings().getChromaSpeed()) / (10000.0f
+              / mod.getSettings().getChromaSpeed());
+      Color color = Color.getHSBColor(time, 1.0f, 1.0f);
+
+      if (lineWidth != 0.0f) {
+        GlStateManager
+            .color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f,
+                1.0f);
+        RenderGlobal.drawSelectionBoundingBox(box);
+      }
+
+      GlStateManager
+          .color(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f,
+              mod.getSettings().getOverlayAlpha());
+      drawFilledBoundingBox(box);
+    } else {
+      if (lineWidth != 0.0f) {
+        GlStateManager.color(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(),
+            mod.getSettings().getOverlayBlue(), 1.0f);
+        RenderGlobal.drawSelectionBoundingBox(box);
+      }
+
+      GlStateManager.color(mod.getSettings().getOverlayRed(), mod.getSettings().getOverlayGreen(),
+          mod.getSettings().getOverlayBlue(), mod.getSettings().getOverlayAlpha());
+      drawFilledBoundingBox(box);
+    }
+
+    GlStateManager.depthMask(true);
+    GlStateManager.enableTexture2D();
+    GlStateManager.disableBlend();
+    GlStateManager.popMatrix();
+  }
+
+  private void drawFilledBoundingBox(AxisAlignedBB box) {
+    Tessellator tessellator = Tessellator.getInstance();
+    WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+
+    worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+    worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
+    worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
+    worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
+    worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
+    worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
+    tessellator.draw();
+
+    worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+    worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
+    worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
+    worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
+    worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
+    worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
+    worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
+    tessellator.draw();
+
+    worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+    worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
+    worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
+    worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
+    worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
+    worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
+    worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
+    tessellator.draw();
+
+    worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+    worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
+    worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
+    worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
+    worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
+    tessellator.draw();
+
+    worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+    worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
+    worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
+    worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
+    worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
+    worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
+    tessellator.draw();
+
+    worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+    worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
+    worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
+    worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
+    worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
+    worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
+    worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
+    tessellator.draw();
+  }
 }

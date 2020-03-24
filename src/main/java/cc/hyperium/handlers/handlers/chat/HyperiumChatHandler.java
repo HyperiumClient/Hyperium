@@ -29,43 +29,43 @@ import java.util.regex.Pattern;
  */
 public abstract class HyperiumChatHandler {
 
-    // Resource *should* be loaded by then so
-    static Map<ChatRegexType, Pattern> regexPatterns;
+  // Resource *should* be loaded by then so
+  static Map<ChatRegexType, Pattern> regexPatterns;
 
-    public Hyperium getHyperium() {
-        return Hyperium.INSTANCE;
-    }
+  public Hyperium getHyperium() {
+    return Hyperium.INSTANCE;
+  }
 
-    /**
-     * @param component Entire component from event
-     * @param text      Pure text for parsing
-     * @return boolean to cancel event
-     */
-    public abstract boolean chatReceived(IChatComponent component, String text);
+  /**
+   * @param component Entire component from event
+   * @param text      Pure text for parsing
+   * @return boolean to cancel event
+   */
+  public abstract boolean chatReceived(IChatComponent component, String text);
 
-    public void callback(JsonHolder data) {
+  public void callback(JsonHolder data) {
 
-    }
+  }
 
-    public enum ChatRegexType {
-        SKYWARS_RATING,
-        PRIVATE_MESSAGE_TO,
-        PRIVATE_MESSAGE_FROM,
-        FRIEND_REQUEST,
-        GUILD_CHAT,
-        PARTY_CHAT,
-        PARTY_INVITE,
-        SKYWARS_KILL,
-        BEDWARS_KILL,
-        MEGAWALLS_KILL,
-        BLITZ_KILL,
-        QUEST_COMPLETE,
-        WIN,
-        PLAYER_JOIN,
-        PLAYER_LEAVE,
-        SKYBLOCK_TRADE_REQUEST,
-        DUEL_REQUEST,
-        GUILD_INVITE
-    }
+  public enum ChatRegexType {
+    SKYWARS_RATING,
+    PRIVATE_MESSAGE_TO,
+    PRIVATE_MESSAGE_FROM,
+    FRIEND_REQUEST,
+    GUILD_CHAT,
+    PARTY_CHAT,
+    PARTY_INVITE,
+    SKYWARS_KILL,
+    BEDWARS_KILL,
+    MEGAWALLS_KILL,
+    BLITZ_KILL,
+    QUEST_COMPLETE,
+    WIN,
+    PLAYER_JOIN,
+    PLAYER_LEAVE,
+    SKYBLOCK_TRADE_REQUEST,
+    DUEL_REQUEST,
+    GUILD_INVITE
+  }
 
 }

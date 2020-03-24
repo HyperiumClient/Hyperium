@@ -9,20 +9,23 @@ import java.util.regex.Matcher;
 
 public class DuelRequestHandler extends HyperiumChatHandler {
 
-    /**
-     * @param component Entire component from event
-     * @param text      Pure text for parsing
-     * @return boolean to cancel event
-     */
-    @Override
-    public boolean chatReceived(IChatComponent component, String text) {
-        if (!text.toLowerCase(Locale.ENGLISH).contains("has invited you to")) return false;
-        Matcher matcher = regexPatterns.get(ChatRegexType.DUEL_REQUEST).matcher(text);
-
-        if (matcher.find()) {
-            EventBus.INSTANCE.post(new HypixelDuelRequestEvent(matcher.group("player"), matcher.group("gametype")));
-        }
-
-        return false;
+  /**
+   * @param component Entire component from event
+   * @param text      Pure text for parsing
+   * @return boolean to cancel event
+   */
+  @Override
+  public boolean chatReceived(IChatComponent component, String text) {
+    if (!text.toLowerCase(Locale.ENGLISH).contains("has invited you to")) {
+      return false;
     }
+    Matcher matcher = regexPatterns.get(ChatRegexType.DUEL_REQUEST).matcher(text);
+
+    if (matcher.find()) {
+      EventBus.INSTANCE
+          .post(new HypixelDuelRequestEvent(matcher.group("player"), matcher.group("gametype")));
+    }
+
+    return false;
+  }
 }

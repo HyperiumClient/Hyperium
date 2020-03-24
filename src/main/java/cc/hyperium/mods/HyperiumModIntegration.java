@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods;
 
+import cc.hyperium.mods.accountswitcher.AccountSwitcher;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.chromahud.ChromaHUD;
@@ -41,129 +42,137 @@ import me.semx11.autotip.Autotip;
  */
 public class HyperiumModIntegration {
 
-    private final KeystrokesMod keystrokesMod;
-    private final TimeChanger timeChanger;
-    private final ToggleChatMod toggleChat;
-    private final Levelhead levelhead;
-    private final ChromaHUD chromaHUD;
-    private final Autotip autotip;
-    private final AutoGG autogg;
-    private final GlintColorizer glintColorizer;
-    private final BlockOverlay blockOverlay;
-    private final MotionBlurMod motionBlur;
-    private final OldAnimations oldAnimations;
-    private final ItemPhysicMod itemPhysicMod;
-    private final ChunkAnimator chunkAnimator;
-    private final SoundHandler soundHandler;
-    private final EntityRadius entityRadius;
-    private final SidebarAddon sidebarAddon;
+  private final KeystrokesMod keystrokesMod;
+  private final TimeChanger timeChanger;
+  private final ToggleChatMod toggleChat;
+  private final Levelhead levelhead;
+  private final ChromaHUD chromaHUD;
+  private final Autotip autotip;
+  private final AutoGG autogg;
+  private final GlintColorizer glintColorizer;
+  private final BlockOverlay blockOverlay;
+  private final MotionBlurMod motionBlur;
+  private final OldAnimations oldAnimations;
+  private final ItemPhysicMod itemPhysicMod;
+  private final ChunkAnimator chunkAnimator;
+  private final SoundHandler soundHandler;
+  private final EntityRadius entityRadius;
+  private final AccountSwitcher accountSwitcher;
+  private final SidebarAddon sidebarAddon;
 
-    public HyperiumModIntegration() {
-        // ChromaHUD implementation
-        chromaHUD = ((ChromaHUD) new ChromaHUD().init());
+  public HyperiumModIntegration() {
+    // ChromaHUD implementation
+    chromaHUD = ((ChromaHUD) new ChromaHUD().init());
 
-        // LevelHead implementation
-        levelhead = ((Levelhead) new Levelhead().init());
+    // LevelHead implementation
+    levelhead = ((Levelhead) new Levelhead().init());
 
-        // ToggleChat implementation
-        toggleChat = ((ToggleChatMod) new ToggleChatMod().init());
+    // ToggleChat implementation
+    toggleChat = ((ToggleChatMod) new ToggleChatMod().init());
 
-        // TimeChanger implementation
-        timeChanger = ((TimeChanger) new TimeChanger().init());
+    // TimeChanger implementation
+    timeChanger = ((TimeChanger) new TimeChanger().init());
 
-        // KeystrokesMod implementation
-        keystrokesMod = ((KeystrokesMod) new KeystrokesMod().init());
+    // KeystrokesMod implementation
+    keystrokesMod = ((KeystrokesMod) new KeystrokesMod().init());
 
-        // Autotip implementation
-        autotip = new Autotip();
-        autotip.init();
+    // Autotip implementation
+    autotip = new Autotip();
+    autotip.init();
 
-        // AutoGG implementation
-        autogg = ((AutoGG) new AutoGG().init());
+    // AutoGG implementation
+    autogg = ((AutoGG) new AutoGG().init());
 
-        // Old Animations implementation
-        oldAnimations = ((OldAnimations) new OldAnimations().init());
+    // AccountSwitcher implementation
+    accountSwitcher = ((AccountSwitcher) new AccountSwitcher().init());
 
-        // Block Overlay implementation
-        blockOverlay = ((BlockOverlay) new BlockOverlay().init());
+    // Old Animations implementation
+    oldAnimations = ((OldAnimations) new OldAnimations().init());
 
-        //Motion Blur
-        motionBlur = ((MotionBlurMod) new MotionBlurMod().init());
+    // Block Overlay implementation
+    blockOverlay = ((BlockOverlay) new BlockOverlay().init());
 
-        // Glint Colorizer implementation
-        glintColorizer = ((GlintColorizer) new GlintColorizer().init());
+    //Motion Blur
+    motionBlur = ((MotionBlurMod) new MotionBlurMod().init());
 
-        NickHider nickHider = new NickHider();
-        nickHider.init();
+    // Glint Colorizer implementation
+    glintColorizer = ((GlintColorizer) new GlintColorizer().init());
 
-        itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
-        chunkAnimator = (ChunkAnimator) new ChunkAnimator().init();
-        soundHandler = (SoundHandler) new SoundHandler().init();
-        entityRadius = (EntityRadius) new EntityRadius().init();
-        sidebarAddon = (SidebarAddon) new SidebarAddon().init();
-    }
+    NickHider nickHider = new NickHider();
+    nickHider.init();
 
-    public KeystrokesMod getKeystrokesMod() {
-        return keystrokesMod;
-    }
+    itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
+    chunkAnimator = (ChunkAnimator) new ChunkAnimator().init();
+    soundHandler = (SoundHandler) new SoundHandler().init();
+    entityRadius = (EntityRadius) new EntityRadius().init();
+    sidebarAddon = (SidebarAddon) new SidebarAddon().init();
+  }
 
-    public TimeChanger getTimeChanger() {
-        return timeChanger;
-    }
+  public KeystrokesMod getKeystrokesMod() {
+    return keystrokesMod;
+  }
 
-    public ToggleChatMod getToggleChat() {
-        return toggleChat;
-    }
+  public TimeChanger getTimeChanger() {
+    return timeChanger;
+  }
 
-    public Levelhead getLevelhead() {
-        return levelhead;
-    }
+  public ToggleChatMod getToggleChat() {
+    return toggleChat;
+  }
 
-    public ChromaHUD getChromaHUD() {
-        return chromaHUD;
-    }
+  public Levelhead getLevelhead() {
+    return levelhead;
+  }
 
-    public Autotip getAutotip() {
-        return autotip;
-    }
+  public ChromaHUD getChromaHUD() {
+    return chromaHUD;
+  }
 
-    public AutoGG getAutoGG() {
-        return autogg;
-    }
+  public Autotip getAutotip() {
+    return autotip;
+  }
 
-    public GlintColorizer getGlintColorizer() {
-        return glintColorizer;
-    }
+  public AutoGG getAutoGG() {
+    return autogg;
+  }
 
-    public BlockOverlay getBlockOverlay() {
-        return blockOverlay;
-    }
+  public GlintColorizer getGlintColorizer() {
+    return glintColorizer;
+  }
 
-    public MotionBlurMod getMotionBlur() {
-        return motionBlur;
-    }
+  public BlockOverlay getBlockOverlay() {
+    return blockOverlay;
+  }
 
-    public OldAnimations getOldAnimations() {
-        return oldAnimations;
-    }
+  public MotionBlurMod getMotionBlur() {
+    return motionBlur;
+  }
 
-    public ItemPhysicMod getItemPhysicMod() {
-        return itemPhysicMod;
-    }
+  public OldAnimations getOldAnimations() {
+    return oldAnimations;
+  }
 
-    public ChunkAnimator getChunkAnimator() {
-        return chunkAnimator;
-    }
+  public ItemPhysicMod getItemPhysicMod() {
+    return itemPhysicMod;
+  }
 
-    public SoundHandler getSoundHandler() {
-        return soundHandler;
-    }
+  public ChunkAnimator getChunkAnimator() {
+    return chunkAnimator;
+  }
 
-    public EntityRadius getEntityRadius() {
-        return entityRadius;
-    }
+  public SoundHandler getSoundHandler() {
+    return soundHandler;
+  }
 
-    public SidebarAddon getSidebarAddon() {
-        return sidebarAddon;
-    }
+  public EntityRadius getEntityRadius() {
+    return entityRadius;
+  }
+
+  public SidebarAddon getSidebarAddon() {
+    return sidebarAddon;
+  }
+
+  public AccountSwitcher getAccountSwitcher() {
+    return accountSwitcher;
+  }
 }

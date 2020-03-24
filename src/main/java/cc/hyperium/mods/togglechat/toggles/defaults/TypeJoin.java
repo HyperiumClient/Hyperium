@@ -24,43 +24,43 @@ import java.util.regex.Pattern;
 
 public class TypeJoin extends ToggleBase {
 
-    private final Pattern joinPattern = Pattern.compile("(?<player>\\S{1,16})(\\s+)(joined\\.)");
+  private final Pattern joinPattern = Pattern.compile("(?<player>\\S{1,16})(\\s+)(joined\\.)");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Join";
-    }
+  @Override
+  public String getName() {
+    return "Join";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return joinPattern.matcher(message).matches();
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return joinPattern.matcher(message).matches();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles all join",
-                "notification messages",
-                "or anything matching",
-                "this format",
-                "",
-                "&ePlayer joined.",
-                "",
-                "This is good for",
-                "people with a large",
-                "friends list"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles all join",
+        "notification messages",
+        "or anything matching",
+        "this format",
+        "",
+        "&ePlayer joined.",
+        "",
+        "This is good for",
+        "people with a large",
+        "friends list"
+    );
+  }
 }

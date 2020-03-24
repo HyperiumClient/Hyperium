@@ -134,7 +134,7 @@ object HyperiumDesktop {
     }
 
     private fun prepareCommand(command: String, args: String, file: String) =
-        listOf(command) + args.split(" ").map { it.format(file).trim() }
+            listOf(command) + args.split(" ").map { it.format(file).trim() }
 
     private val isXdg: Boolean
         get() = System.getenv("XDG_SESSION_ID")?.isNotEmpty() == true

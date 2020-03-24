@@ -28,32 +28,32 @@ import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 
 public class DiscordPresence {
 
-    private IPCClient client = new IPCClient(412963310867054602L);
+  private final IPCClient client = new IPCClient(412963310867054602L);
 
-    public void load() {
-        if (Settings.DISCORD_RP) {
-            client.setListener(new IPCListener() {
-                @Override
-                public void onReady(IPCClient client) {
-                    EventBus.INSTANCE.register(new RPCUpdater(client));
-                }
-            });
-
-            try {
-                client.connect(DiscordBuild.ANY);
-            } catch (NoDiscordClientException | RuntimeException e) {
-                Hyperium.LOGGER.warn("No discord client found.");
-            }
+  public void load() {
+    if (Settings.DISCORD_RP) {
+      client.setListener(new IPCListener() {
+        @Override
+        public void onReady(IPCClient client) {
+          EventBus.INSTANCE.register(new RPCUpdater(client));
         }
-    }
+      });
 
-    public void shutdown() {
-        try {
-            if (client != null && client.getStatus() == PipeStatus.CONNECTED) {
-                client.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+      try {
+        client.connect(DiscordBuild.ANY);
+      } catch (NoDiscordClientException | RuntimeException e) {
+        Hyperium.LOGGER.warn("No discord client found.");
+      }
     }
+  }
+
+  public void shutdown() {
+    try {
+      if (client.getStatus() == PipeStatus.CONNECTED) {
+        client.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }

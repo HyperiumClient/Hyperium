@@ -36,32 +36,32 @@ import java.util.Objects;
  */
 public class ArrowCount extends DisplayItem {
 
-    public ArrowCount(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-        height = 16;
-        width = 16;
-    }
+  public ArrowCount(JsonHolder data, int ordinal) {
+    super(data, ordinal);
+    height = 16;
+    width = 16;
+  }
 
 
-    @Override
-    public void draw(int starX, double startY, boolean isConfig) {
-        List<ItemStack> list = new ArrayList<>();
-        list.add(new ItemStack(Item.getItemById(262), 64));
-        EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-        if (thePlayer != null) {
-            int c = 0;
-            for (ItemStack is : thePlayer.inventory.mainInventory) {
-                if (is != null) {
-                    if (is.getUnlocalizedName().equalsIgnoreCase("item.arrow")) {
-                        int stackSize = is.stackSize;
-                        c += stackSize;
-                    }
-                }
-            }
-
-            ElementRenderer.render(list, starX, startY, false, false);
-            ElementRenderer.draw(starX + 16, startY + 8, "x" + (isConfig ? 64 : c));
+  @Override
+  public void draw(int starX, double startY, boolean isConfig) {
+    List<ItemStack> list = new ArrayList<>();
+    list.add(new ItemStack(Item.getItemById(262), 64));
+    EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+    if (thePlayer != null) {
+      int c = 0;
+      for (ItemStack is : thePlayer.inventory.mainInventory) {
+        if (is != null) {
+          if (is.getUnlocalizedName().equalsIgnoreCase("item.arrow")) {
+            int stackSize = is.stackSize;
+            c += stackSize;
+          }
         }
+      }
+
+      ElementRenderer.render(list, starX, startY, false, false);
+      ElementRenderer.draw(starX + 16, startY + 8, "x" + (isConfig ? 64 : c));
     }
+  }
 
 }

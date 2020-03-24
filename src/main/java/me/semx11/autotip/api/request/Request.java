@@ -5,8 +5,8 @@ import me.semx11.autotip.api.reply.Reply;
 
 public interface Request<T extends Reply> {
 
-    T execute();
+  T execute();
 
-    RequestType getType();
+  RequestType getType();
 
 }

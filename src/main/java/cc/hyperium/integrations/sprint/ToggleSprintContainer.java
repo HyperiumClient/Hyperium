@@ -24,13 +24,13 @@ import net.minecraft.client.Minecraft;
 
 public class ToggleSprintContainer {
 
-    @ConfigOpt
-    public static boolean toggleSprintActive;
+  @ConfigOpt
+  public static boolean toggleSprintActive;
 
-    @InvokeEvent
-    public void onTick(TickEvent e) {
-        if (toggleSprintActive) {
-            Minecraft.getMinecraft().gameSettings.keyBindSprint.setPressed(true);
-        }
+  @InvokeEvent
+  public void onTick(TickEvent e) {
+    if (toggleSprintActive) {
+      Minecraft.getMinecraft().gameSettings.keyBindSprint.setPressed(true);
     }
+  }
 }

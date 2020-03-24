@@ -26,26 +26,27 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class CopyPlayerModelAnglesEvent extends Event {
 
-    @NotNull
-    private final AbstractClientPlayer entity;
-    @NotNull
-    private final IModelBiped model;
+  @NotNull
+  private final AbstractClientPlayer entity;
+  @NotNull
+  private final IModelBiped model;
 
-    public CopyPlayerModelAnglesEvent(@NotNull AbstractClientPlayer entity, @NotNull IModelBiped model) {
-        Preconditions.checkNotNull(entity, "entity");
-        Preconditions.checkNotNull(model, "model");
+  public CopyPlayerModelAnglesEvent(@NotNull AbstractClientPlayer entity,
+      @NotNull IModelBiped model) {
+    Preconditions.checkNotNull(entity, "entity");
+    Preconditions.checkNotNull(model, "model");
 
-        this.entity = entity;
-        this.model = model;
-    }
+    this.entity = entity;
+    this.model = model;
+  }
 
-    @NotNull
-    public final AbstractClientPlayer getEntity() {
-        return entity;
-    }
+  @NotNull
+  public final AbstractClientPlayer getEntity() {
+    return entity;
+  }
 
-    @NotNull
-    public final IModelBiped getModel() {
-        return model;
-    }
+  @NotNull
+  public final IModelBiped getModel() {
+    return model;
+  }
 }

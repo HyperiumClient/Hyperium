@@ -30,49 +30,50 @@ import net.minecraft.client.gui.GuiChat;
  */
 public class BlurHandler {
 
-    private boolean prevBlurOption;
+  private boolean prevBlurOption;
 
-    public BlurHandler() {
-        prevBlurOption = Settings.BLUR_GUI;
-    }
+  public BlurHandler() {
+    prevBlurOption = Settings.BLUR_GUI;
+  }
 
-    @InvokeEvent
-    public void onTick(TickEvent event) {
-        Minecraft mc = Minecraft.getMinecraft();
-        if (mc != null && mc.entityRenderer != null) {
+  @InvokeEvent
+  public void onTick(TickEvent event) {
+    Minecraft mc = Minecraft.getMinecraft();
+    if (mc != null && mc.entityRenderer != null) {
 
-            // Enable the blur if criteria is met.
-            if (!Settings.MOTION_BLUR_ENABLED &&
-                Settings.BLUR_GUI && mc.currentScreen != null &&
-                !(mc.currentScreen instanceof GuiChat) &&
-                !mc.entityRenderer.isShaderActive() && mc.theWorld != null) {
+      // Enable the blur if criteria is met.
+      if (!Settings.MOTION_BLUR_ENABLED &&
+          Settings.BLUR_GUI && mc.currentScreen != null &&
+          !(mc.currentScreen instanceof GuiChat) &&
+          !mc.entityRenderer.isShaderActive() && mc.theWorld != null) {
 
-                ShaderHelper.INSTANCE.enableBlurShader();
-            }
+        ShaderHelper.INSTANCE.enableBlurShader();
+      }
 
-            // Disable the blur if criteria is met.
-            if (!Settings.MOTION_BLUR_ENABLED &&
-                Settings.BLUR_GUI && mc.entityRenderer.isShaderActive() &&
-                mc.currentScreen == null && mc.theWorld != null) {
+      // Disable the blur if criteria is met.
+      if (!Settings.MOTION_BLUR_ENABLED &&
+          Settings.BLUR_GUI && mc.entityRenderer.isShaderActive() &&
+          mc.currentScreen == null && mc.theWorld != null) {
 
-                ShaderHelper.INSTANCE.disableBlurShader();
-            }
+        ShaderHelper.INSTANCE.disableBlurShader();
+      }
 
-            // Enable/disable when switching via the settings.
-            if (!Settings.MOTION_BLUR_ENABLED && !Settings.BLUR_GUI && prevBlurOption) {
-                // Disable GUI blur since the option was just disabled.
-                ShaderHelper.INSTANCE.disableBlurShader();
-            } else if (Settings.BLUR_GUI && !prevBlurOption) {
-                // Enable GUI blur since the option was just enabled.
-                if (!Settings.MOTION_BLUR_ENABLED) {
-                    ShaderHelper.INSTANCE.enableBlurShader();
-                } else {
-                    // Warn user.
-                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Warning: Background blur will not take effect unless motion blur is disabled.");
-                }
-            }
-
-            prevBlurOption = Settings.BLUR_GUI;
+      // Enable/disable when switching via the settings.
+      if (!Settings.MOTION_BLUR_ENABLED && !Settings.BLUR_GUI && prevBlurOption) {
+        // Disable GUI blur since the option was just disabled.
+        ShaderHelper.INSTANCE.disableBlurShader();
+      } else if (Settings.BLUR_GUI && !prevBlurOption) {
+        // Enable GUI blur since the option was just enabled.
+        if (!Settings.MOTION_BLUR_ENABLED) {
+          ShaderHelper.INSTANCE.enableBlurShader();
+        } else {
+          // Warn user.
+          Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(
+              "Warning: Background blur will not take effect unless motion blur is disabled.");
         }
+      }
+
+      prevBlurOption = Settings.BLUR_GUI;
     }
+  }
 }

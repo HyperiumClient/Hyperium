@@ -6,7 +6,7 @@
  import javax.imageio.ImageIO;
 +import cc.hyperium.Hyperium;
 +import cc.hyperium.config.Settings;
-+import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
++import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 +import cc.hyperium.utils.ChatColor;
 +import cc.hyperium.utils.mods.AsyncScreenshotSaver;
 +import net.minecraft.client.Minecraft;
@@ -85,7 +85,7 @@
 -                bufferedimage = new BufferedImage(buffer.framebufferWidth, buffer.framebufferHeight, 1);
 -                int j = buffer.framebufferTextureHeight - buffer.framebufferHeight;
 +        if (!Settings.DEFAULT_UPLOAD_SS) {
-+            HyperiumBind uploadBind = Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBinding("Upload Screenshot");
++            HyperiumKeybind uploadBind = Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBind("Upload Screenshot");
 +            int keyCode = uploadBind.getKeyCode();
 +            upload = keyCode < 0 ? Mouse.isButtonDown(keyCode + 100) : Keyboard.isKeyDown(keyCode);
 +        }

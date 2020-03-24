@@ -56,96 +56,104 @@ class GuiIngameTransformer : ConflictTransformer {
             true
         ).visitEnd()
 
-        for (method in original.methods) {
-            if (method.name == "renderGameOverlay") {
-                val profileHyperiumOverlay = assembleBlock {
-                    aload_0
-                    getfield(GuiIngame::class, "mc", Minecraft::class)
-                    getfield(Minecraft::class, "mcProfiler", Profiler::class)
-                    ldc("hyperium_overlay")
-                    invokevirtual(Profiler::class, "startSection", void, String::class)
-                    getstatic(EventBus::class, "INSTANCE", EventBus::class)
-                    new(RenderHUDEvent::class)
-                    dup
-                    new(ScaledResolution::class)
-                    dup
-                    aload_0
-                    getfield(GuiIngame::class, "mc", Minecraft::class)
-                    invokespecial(ScaledResolution::class, "<init>", void, Minecraft::class)
-                    fload_1
-                    invokespecial(RenderHUDEvent::class, "<init>", void, ScaledResolution::class, float)
-                    invokevirtual(EventBus::class, "post", void, Event::class)
-                    fconst_1
-                    fconst_1
-                    fconst_1
-                    fconst_1
-                    invokestatic(GlStateManager::class, "color", void, float, float, float, float)
-                    aload_0
-                    getfield(GuiIngame::class, "mc", Minecraft::class)
-                    getfield(Minecraft::class, "mcProfiler", Profiler::class)
-                    invokevirtual(Profiler::class, "endSection", void)
-                }.first
+        original.methods.forEach {
+            when (it.name) {
+                "renderGameOverlay" -> {
+                    val (profileHyperiumOverlay) = assembleBlock {
+                        aload_0
+                        getfield(GuiIngame::class, "mc", Minecraft::class)
+                        getfield(Minecraft::class, "mcProfiler", Profiler::class)
+                        ldc("hyperium_overlay")
+                        invokevirtual(Profiler::class, "startSection", void, String::class)
+                        getstatic(EventBus::class, "INSTANCE", EventBus::class)
+                        new(RenderHUDEvent::class)
+                        dup
+                        new(ScaledResolution::class)
+                        dup
+                        aload_0
+                        getfield(GuiIngame::class, "mc", Minecraft::class)
+                        invokespecial(ScaledResolution::class, "<init>", void, Minecraft::class)
+                        fload_1
+                        invokespecial(RenderHUDEvent::class, "<init>", void, ScaledResolution::class, float)
+                        invokevirtual(EventBus::class, "post", void, Event::class)
+                        fconst_1
+                        fconst_1
+                        fconst_1
+                        fconst_1
+                        invokestatic(GlStateManager::class, "color", void, float, float, float, float)
+                        aload_0
+                        getfield(GuiIngame::class, "mc", Minecraft::class)
+                        getfield(Minecraft::class, "mcProfiler", Profiler::class)
+                        invokevirtual(Profiler::class, "endSection", void)
+                    }
 
-                for (insn in method.instructions.iterator()) {
-                    if (insn is MethodInsnNode && insn.name == "getObjectiveInDisplaySlot" && insn.previous?.opcode == Opcodes.ICONST_0) {
-                        method.instructions.insertBefore(insn.next?.next, profileHyperiumOverlay)
+                    for (insn in it.instructions.iterator()) {
+                        if (insn is MethodInsnNode && insn.name == "getObjectiveInDisplaySlot" && insn.previous?.opcode == Opcodes.ICONST_0) {
+                            it.instructions.insertBefore(insn.next?.next, profileHyperiumOverlay)
+                        }
                     }
                 }
-            }
 
-            if (method.name == "renderSelectedItem") {
-                val postRenderSelectedItemEvent = assembleBlock {
-                    getstatic(EventBus::class, "INSTANCE", EventBus::class)
-                    new(RenderSelectedItemEvent::class)
-                    dup
-                    aload_1
-                    invokespecial(RenderSelectedItemEvent::class, "<init>", void, ScaledResolution::class)
-                    invokevirtual(EventBus::class, "post", void, Event::class)
-                    fconst_1
-                    fconst_1
-                    fconst_1
-                    fconst_1
-                    invokestatic(GlStateManager::class, "color", void, float, float, float, float)
-                }.first
+                "renderSelectedItem" -> {
+                    val (postRenderSelectedItemEvent) = assembleBlock {
+                        getstatic(EventBus::class, "INSTANCE", EventBus::class)
+                        new(RenderSelectedItemEvent::class)
+                        dup
+                        aload_1
+                        invokespecial(RenderSelectedItemEvent::class, "<init>", void, ScaledResolution::class)
+                        invokevirtual(EventBus::class, "post", void, Event::class)
+                        fconst_1
+                        fconst_1
+                        fconst_1
+                        fconst_1
+                        invokestatic(GlStateManager::class, "color", void, float, float, float, float)
+                    }
 
-                for (insn in method.instructions.iterator()) {
-                    if (insn is MethodInsnNode && insn.name == "disableBlend") {
-                        method.instructions.insertBefore(insn.next, postRenderSelectedItemEvent)
+                    for (insn in it.instructions.iterator()) {
+                        if (insn is MethodInsnNode && insn.name == "disableBlend") {
+                            it.instructions.insertBefore(insn.next, postRenderSelectedItemEvent)
+                        }
                     }
                 }
-            }
 
-            if (method.name == "renderScoreboard") {
-                method.instructions.clear()
-                method.localVariables.clear()
-                method.instructions.koffee {
-                    getstatic(GuiIngame::class, "renderScoreboard", boolean)
-                    ifne(L["1"])
-                    _return
-                    +L["1"]
-                    aload_1
-                    putstatic(ScoreboardDisplay::class, "objective", ScoreObjective::class)
-                    aload_2
-                    putstatic(ScoreboardDisplay::class, "resolution", ScaledResolution::class)
-                    getstatic(Hyperium::class, "INSTANCE", Hyperium::class)
-                    invokevirtual(Hyperium::class, "getHandlers", HyperiumHandlers::class)
-                    invokevirtual(HyperiumHandlers::class, "getScoreboardRenderer", ScoreboardRenderer::class)
-                    aload_1
-                    aload_2
-                    invokevirtual(ScoreboardRenderer::class, "render", void, ScoreObjective::class, ScaledResolution::class)
-                    _return
+                "renderScoreboard" -> {
+                    it.instructions.clear()
+                    it.localVariables.clear()
+                    it.instructions.koffee {
+                        getstatic(GuiIngame::class, "renderScoreboard", boolean)
+                        ifne(L["1"])
+                        _return
+                        +L["1"]
+                        aload_1
+                        putstatic(ScoreboardDisplay::class, "objective", ScoreObjective::class)
+                        aload_2
+                        putstatic(ScoreboardDisplay::class, "resolution", ScaledResolution::class)
+                        getstatic(Hyperium::class, "INSTANCE", Hyperium::class)
+                        invokevirtual(Hyperium::class, "getHandlers", HyperiumHandlers::class)
+                        invokevirtual(HyperiumHandlers::class, "getScoreboardRenderer", ScoreboardRenderer::class)
+                        aload_1
+                        aload_2
+                        invokevirtual(
+                            ScoreboardRenderer::class,
+                            "render",
+                            void,
+                            ScoreObjective::class,
+                            ScaledResolution::class
+                        )
+                        _return
+                    }
                 }
-            }
 
-            if (method.name == "displayTitle") {
-                val disableTitles = assembleBlock {
-                    getstatic(Settings::class, "HIDE_TITLES", boolean)
-                    ifeq(L["1"])
-                    _return
-                    +L["1"]
-                }.first
+                "displayTitle" -> {
+                    val (disableTitles) = assembleBlock {
+                        getstatic(Settings::class, "HIDE_TITLES", boolean)
+                        ifeq(L["1"])
+                        _return
+                        +L["1"]
+                    }
 
-                method.instructions.insertBefore(method.instructions.first, disableTitles)
+                    it.instructions.insertBefore(it.instructions.first, disableTitles)
+                }
             }
         }
 
