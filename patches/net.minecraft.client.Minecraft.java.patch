@@ -367,7 +367,17 @@
          this.running = false;
      }
  
-@@ -1314,6 +1378,8 @@
+@@ -1232,6 +1296,9 @@
+     public void setIngameFocus() {
+         if (Display.isActive()) {
+             if (!this.inGameHasFocus) {
++                if (!isRunningOnMac) {
++                    KeyBinding.updateKeyBindState(); // Hyperium: fixes keybinds not registering when closing a GUI
++                }
+                 this.inGameHasFocus = true;
+                 this.mouseHelper.grabMouseCursor();
+                 this.displayGuiScreen((GuiScreen)null);
+@@ -1314,6 +1381,8 @@
                  }
              }
          }
@@ -376,7 +386,7 @@
      }
  
      /**
-@@ -1344,6 +1410,11 @@
+@@ -1344,6 +1413,11 @@
                      if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
                          int i = itemstack != null ? itemstack.stackSize : 0;
  
@@ -388,7 +398,7 @@
                          if (this.playerController.onPlayerRightClick(this.thePlayer, this.theWorld, itemstack, blockpos, this.objectMouseOver.sideHit, this.objectMouseOver.hitVec)) {
                              flag = false;
                              this.thePlayer.swingItem();
-@@ -1364,12 +1435,18 @@
+@@ -1364,12 +1438,18 @@
  
              if (flag) {
                  ItemStack itemstack1 = this.thePlayer.inventory.getCurrentItem();
@@ -407,7 +417,7 @@
      }
  
      /**
-@@ -1414,6 +1491,25 @@
+@@ -1414,6 +1494,25 @@
  
              Display.setFullscreen(this.fullscreen);
              Display.setVSyncEnabled(this.gameSettings.enableVsync);
@@ -433,7 +443,7 @@
              this.updateDisplay();
          } catch (Exception exception) {
              logger.error((String)"Couldn\'t toggle fullscreen", (Throwable)exception);
-@@ -1528,6 +1624,9 @@
+@@ -1528,6 +1627,9 @@
  
              while (Mouse.next()) {
                  int i = Mouse.getEventButton();
@@ -443,7 +453,7 @@
                  KeyBinding.setKeyBindState(i - 100, Mouse.getEventButtonState());
  
                  if (Mouse.getEventButtonState()) {
-@@ -1777,6 +1876,8 @@
+@@ -1777,6 +1879,8 @@
              }
  
              this.sendClickBlockToController(this.currentScreen == null && this.gameSettings.keyBindAttack.isKeyDown() && this.inGameHasFocus);
@@ -452,7 +462,7 @@
          }
  
          if (this.theWorld != null) {
-@@ -1857,12 +1958,18 @@
+@@ -1857,12 +1961,18 @@
  
          this.mcProfiler.endSection();
          this.systemTime = getSystemTime();
@@ -471,7 +481,7 @@
          this.loadWorld((WorldClient)null);
          System.gc();
          ISaveHandler isavehandler = this.saveLoader.getSaveLoader(folderName, false);
-@@ -1912,7 +2019,15 @@
+@@ -1912,7 +2022,15 @@
          NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
          networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, this, (GuiScreen)null));
          networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
@@ -488,7 +498,7 @@
          this.myNetworkManager = networkmanager;
      }
  
-@@ -1920,6 +2035,9 @@
+@@ -1920,6 +2038,9 @@
       * unloads the current world first
       */
      public void loadWorld(WorldClient worldClientIn) {
@@ -498,7 +508,7 @@
          this.loadWorld(worldClientIn, "");
      }
  
-@@ -1986,13 +2104,16 @@
+@@ -1986,13 +2107,16 @@
              this.thePlayer = null;
          }
  
@@ -516,7 +526,7 @@
          int i = 0;
          String s = null;
  
-@@ -2572,6 +2693,12 @@
+@@ -2572,6 +2696,12 @@
  
          if (i != 0 && !Keyboard.isRepeatEvent()) {
              if (!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L) {
@@ -529,7 +539,7 @@
                  if (Keyboard.getEventKeyState()) {
                      if (i == this.gameSettings.keyBindStreamStartStop.getKeyCode()) {
                          if (this.getTwitchStream().isBroadcasting()) {
-@@ -2610,7 +2737,8 @@
+@@ -2610,7 +2740,8 @@
                      } else if (i == this.gameSettings.keyBindFullscreen.getKeyCode()) {
                          this.toggleFullscreen();
                      } else if (i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
@@ -539,7 +549,7 @@
                      }
                  } else if (i == this.gameSettings.keyBindStreamToggleMic.getKeyCode()) {
                      this.stream.muteMicrophone(false);
-@@ -2717,4 +2845,13 @@
+@@ -2717,4 +2848,13 @@
      public void setConnectedToRealms(boolean isConnected) {
          this.connectedToRealms = isConnected;
      }
