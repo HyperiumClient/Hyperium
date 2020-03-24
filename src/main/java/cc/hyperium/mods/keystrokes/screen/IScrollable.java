@@ -22,7 +22,7 @@ package cc.hyperium.mods.keystrokes.screen;
  */
 public interface IScrollable {
 
-    double getAmount();
+  double getAmount();
 
-    void onScroll(double doubleAmount, int intAmount);
+  void onScroll(double doubleAmount, int intAmount);
 }

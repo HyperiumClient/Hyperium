@@ -29,42 +29,42 @@ import java.util.List;
  */
 public abstract class DisplayItem extends Dimension {
 
-    protected final JsonHolder data;
-    private int ordinal;
+  protected final JsonHolder data;
+  private int ordinal;
 
-    public DisplayItem(JsonHolder data, int ordinal) {
-        this.data = data;
-        this.ordinal = ordinal;
-    }
+  public DisplayItem(JsonHolder data, int ordinal) {
+    this.data = data;
+    this.ordinal = ordinal;
+  }
 
-    public JsonHolder getData() {
-        save();
-        return data;
-    }
+  public JsonHolder getData() {
+    save();
+    return data;
+  }
 
-    public void save() {
+  public void save() {
 
-    }
+  }
 
-    public String name() {
-        return ChromaHUDApi.getInstance().getName(data.optString("type"));
-    }
+  public String name() {
+    return ChromaHUDApi.getInstance().getName(data.optString("type"));
+  }
 
-    public int getOrdinal() {
-        return ordinal;
-    }
+  public int getOrdinal() {
+    return ordinal;
+  }
 
-    public void setOrdinal(int ordinal) {
-        this.ordinal = ordinal;
-    }
+  public void setOrdinal(int ordinal) {
+    this.ordinal = ordinal;
+  }
 
-    public abstract void draw(int x, double y, boolean config);
+  public abstract void draw(int x, double y, boolean config);
 
-    public List<ButtonConfig> configOptions() {
-        return new ArrayList<>();
-    }
+  public List<ButtonConfig> configOptions() {
+    return new ArrayList<>();
+  }
 
-    public String getType() {
-        return data.optString("type");
-    }
+  public String getType() {
+    return data.optString("type");
+  }
 }

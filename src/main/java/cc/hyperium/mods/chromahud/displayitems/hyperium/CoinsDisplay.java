@@ -27,15 +27,15 @@ import cc.hyperium.utils.JsonHolder;
  */
 public class CoinsDisplay extends DisplayItem {
 
-    public CoinsDisplay(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-        height = 10;
-    }
+  public CoinsDisplay(JsonHolder data, int ordinal) {
+    super(data, ordinal);
+    height = 10;
+  }
 
-    @Override
-    public void draw(int x, double y, boolean config) {
-        String render = "Daily Coins: " + GeneralStatisticsTracking.dailyCoins;
-        ElementRenderer.draw(x, y, render);
-        width = config ? ElementRenderer.getFontRenderer().getStringWidth(render) : 0;
-    }
+  @Override
+  public void draw(int x, double y, boolean config) {
+    String render = "Daily Coins: " + GeneralStatisticsTracking.dailyCoins;
+    ElementRenderer.draw(x, y, render);
+    width = config ? ElementRenderer.getFontRenderer().getStringWidth(render) : 0;
+  }
 }

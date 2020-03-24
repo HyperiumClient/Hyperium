@@ -16,104 +16,108 @@ import org.apache.commons.io.FilenameUtils;
 
 public class FileUtil {
 
-    private static final DateTimeFormatter OLD_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+  private static final DateTimeFormatter OLD_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    private final Path userDir;
-    private final Path statsDir;
+  private final Path userDir;
+  private final Path statsDir;
 
-    private LocalDate firstDate;
+  private LocalDate firstDate;
 
-    public FileUtil(Autotip autotip) {
-        userDir = getRawPath("hyperium/autotip/" + autotip.getGameProfile().getId());
-        statsDir = getPath("stats");
+  public FileUtil(Autotip autotip) {
+    userDir = getRawPath("hyperium/autotip/" + autotip.getGameProfile().getId());
+    statsDir = getPath("stats");
+  }
+
+  public void createDirectories() throws IOException {
+    if (!Files.exists(statsDir)) {
+      Files.createDirectories(statsDir);
+    }
+  }
+
+  public Path getUserDir() {
+    return userDir;
+  }
+
+  public Path getStatsDir() {
+    return statsDir;
+  }
+
+  public boolean exists(String path) {
+    return Files.exists(getPath(path));
+  }
+
+  public void delete(String path) {
+    delete(getPath(path));
+  }
+
+  public void delete(File file) {
+    delete(file.toPath());
+  }
+
+  public void delete(Path path) {
+    try {
+      Files.delete(path);
+    } catch (IOException e) {
+      Autotip.LOGGER.error("Could not delete file " + path);
+    }
+  }
+
+  public File getLegacyStatsFile(LocalDate localDate) {
+    return getFile(statsDir, localDate.format(OLD_FORMAT) + ".at");
+  }
+
+  public File getStatsFile(LocalDate localDate) {
+    return getFile(statsDir, localDate.format(ISO_LOCAL_DATE) + ".at");
+  }
+
+  public LocalDate getFirstDate() {
+    if (firstDate != null) {
+      return firstDate;
     }
 
-    public void createDirectories() throws IOException {
-        if (!Files.exists(statsDir)) Files.createDirectories(statsDir);
+    try {
+      return firstDate = Files.list(statsDir)
+          .map(this::getDateFromPath)
+          .filter(Objects::nonNull)
+          .findFirst()
+          .orElseGet(LocalDate::now);
+    } catch (IOException e) {
+      Autotip.LOGGER.error("Could not list files in stats dir.");
+      return LocalDate.now();
     }
+  }
 
-    public Path getUserDir() {
-        return userDir;
+  private LocalDate getDateFromPath(Path path) {
+    String name = FilenameUtils.getBaseName(path.getFileName().toString());
+    try {
+      return LocalDate.parse(name);
+    } catch (DateTimeParseException e) {
+      return null;
     }
+  }
 
-    public Path getStatsDir() {
-        return statsDir;
-    }
+  public File getFile(String path) {
+    return getPath(path).toFile();
+  }
 
-    public boolean exists(String path) {
-        return Files.exists(getPath(path));
-    }
+  public Path getPath(String path) {
+    return getPath(userDir, path);
+  }
 
-    public void delete(String path) {
-        delete(getPath(path));
-    }
+  private File getFile(Path directory, String path) {
+    return getPath(directory, path).toFile();
+  }
 
-    public void delete(File file) {
-        delete(file.toPath());
-    }
+  private Path getPath(Path directory, String path) {
+    return directory.resolve(separator(path));
+  }
 
-    public void delete(Path path) {
-        try {
-            Files.delete(path);
-        } catch (IOException e) {
-            Autotip.LOGGER.error("Could not delete file " + path);
-        }
-    }
+  private Path getRawPath(String path) {
+    return Paths.get(separator(path));
+  }
 
-    public File getLegacyStatsFile(LocalDate localDate) {
-        return getFile(statsDir, localDate.format(OLD_FORMAT) + ".at");
-    }
-
-    public File getStatsFile(LocalDate localDate) {
-        return getFile(statsDir, localDate.format(ISO_LOCAL_DATE) + ".at");
-    }
-
-    public LocalDate getFirstDate() {
-        if (firstDate != null) return firstDate;
-
-        try {
-            return firstDate = Files.list(statsDir)
-                    .map(this::getDateFromPath)
-                    .filter(Objects::nonNull)
-                    .findFirst()
-                    .orElseGet(LocalDate::now);
-        } catch (IOException e) {
-            Autotip.LOGGER.error("Could not list files in stats dir.");
-            return LocalDate.now();
-        }
-    }
-
-    private LocalDate getDateFromPath(Path path) {
-        String name = FilenameUtils.getBaseName(path.getFileName().toString());
-        try {
-            return LocalDate.parse(name);
-        } catch (DateTimeParseException e) {
-            return null;
-        }
-    }
-
-    public File getFile(String path) {
-        return getPath(path).toFile();
-    }
-
-    public Path getPath(String path) {
-        return getPath(userDir, path);
-    }
-
-    private File getFile(Path directory, String path) {
-        return getPath(directory, path).toFile();
-    }
-
-    private Path getPath(Path directory, String path) {
-        return directory.resolve(separator(path));
-    }
-
-    private Path getRawPath(String path) {
-        return Paths.get(separator(path));
-    }
-
-    private String separator(String s) {
-        return s.replaceAll("///", File.separator);
-    }
+  private String separator(String s) {
+    return s.replaceAll("///", File.separator);
+  }
 
 }

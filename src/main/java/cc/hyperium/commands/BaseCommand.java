@@ -29,61 +29,62 @@ import java.util.List;
  */
 public interface BaseCommand {
 
-    /**
-     * Gets the name of the command
-     */
-    String getName();
+  /**
+   * Gets the name of the command
+   */
+  String getName();
 
-    /**
-     * Gets the usage string for the command.
-     */
-    String getUsage();
+  /**
+   * Gets the usage string for the command.
+   */
+  String getUsage();
 
-    /**
-     * A list of aliases to the main command
-     * this will not be used if null/empty
-     */
-    default List<String> getCommandAliases() {
-        return new ArrayList<>();
+  /**
+   * A list of aliases to the main command this will not be used if null/empty
+   */
+  default List<String> getCommandAliases() {
+    return new ArrayList<>();
+  }
+
+  /**
+   * Callback when the command is invoked
+   *
+   * @throws CommandException for errors inside the command, these errors will log directly to the
+   *                          players chat (without a prefix)
+   */
+  void onExecute(String[] args) throws CommandException;
+
+  /**
+   * Called when the player clicks tab in the chat menu, used to provide suggestions for a commands
+   * arguments
+   *
+   * @param args the arguments the player has entered
+   * @return a String List containing all viable tab completions
+   */
+  default List<String> onTabComplete(String[] args) {
+    return null;
+  }
+
+  /**
+   * Tells the command handler not to register the command, and to use {@link
+   * #onTabComplete(String[])}
+   *
+   * @return true if this command should not be executed
+   */
+  default boolean tabOnly() {
+    return false;
+  }
+
+  /**
+   * Send the player a message
+   *
+   * @param message the message being sent to a player
+   */
+  default void sendPlayerMessage(String message) {
+    if (Minecraft.getMinecraft().thePlayer != null) {
+      Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(
+          ChatColor.translateAlternateColorCodes('&', message)
+      );
     }
-
-    /**
-     * Callback when the command is invoked
-     *
-     * @throws CommandException for errors inside the command, these errors
-     *                          will log directly to the players chat (without a prefix)
-     */
-    void onExecute(String[] args) throws CommandException;
-
-    /**
-     * Called when the player clicks tab in the chat menu, used to provide suggestions for a commands arguments
-     *
-     * @param args the arguments the player has entered
-     * @return a String List containing all viable tab completions
-     */
-    default List<String> onTabComplete(String[] args) {
-        return null;
-    }
-
-    /**
-     * Tells the command handler not to register the command, and to use {@link #onTabComplete(String[])}
-     *
-     * @return true if this command should not be executed
-     */
-    default boolean tabOnly() {
-        return false;
-    }
-
-    /**
-     * Send the player a message
-     *
-     * @param message the message being sent to a player
-     */
-    default void sendPlayerMessage(String message) {
-        if (Minecraft.getMinecraft().thePlayer != null) {
-            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(
-                    ChatColor.translateAlternateColorCodes('&', message)
-            );
-        }
-    }
+  }
 }

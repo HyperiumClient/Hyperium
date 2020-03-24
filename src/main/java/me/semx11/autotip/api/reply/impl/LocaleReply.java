@@ -8,23 +8,23 @@ import me.semx11.autotip.chat.LocaleHolder;
 
 public class LocaleReply extends Reply {
 
-    private Locale lang;
-    private JsonObject locale;
+  private Locale lang;
+  private JsonObject locale;
 
-    public LocaleReply() {
-    }
+  public LocaleReply() {
+  }
 
-    public LocaleReply(boolean success) {
-        super(success);
-    }
+  public LocaleReply(boolean success) {
+    super(success);
+  }
 
-    public LocaleHolder getLocaleHolder() {
-        return new LocaleHolder(lang, locale);
-    }
+  public LocaleHolder getLocaleHolder() {
+    return new LocaleHolder(lang, locale);
+  }
 
-    @Override
-    public RequestType getRequestType() {
-        return RequestType.LOCALE;
-    }
+  @Override
+  public RequestType getRequestType() {
+    return RequestType.LOCALE;
+  }
 
 }

@@ -7,14 +7,14 @@ import me.semx11.autotip.util.Version;
 
 public class VersionAdapter implements TypeAdapter<Version> {
 
-    @Override
-    public Version deserialize(JsonElement json) {
-        return new Version(json.getAsString());
-    }
+  @Override
+  public Version deserialize(JsonElement json) {
+    return new Version(json.getAsString());
+  }
 
-    @Override
-    public JsonElement serialize(Version src) {
-        return new JsonPrimitive(src.get());
-    }
+  @Override
+  public JsonElement serialize(Version src) {
+    return new JsonPrimitive(src.get());
+  }
 
 }

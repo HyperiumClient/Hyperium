@@ -27,22 +27,23 @@ import java.util.List;
 import java.util.Set;
 
 public class MotionBlurResourceManager extends FallbackResourceManager implements IResourceManager {
-    public MotionBlurResourceManager(IMetadataSerializer frmMetadataSerializerIn) {
-        super(frmMetadataSerializerIn);
-    }
 
-    @Override
-    public Set<String> getResourceDomains() {
-        return null;
-    }
+  public MotionBlurResourceManager(IMetadataSerializer frmMetadataSerializerIn) {
+    super(frmMetadataSerializerIn);
+  }
 
-    @Override
-    public IResource getResource(ResourceLocation location) {
-        return new MotionBlurResource();
-    }
+  @Override
+  public Set<String> getResourceDomains() {
+    return null;
+  }
 
-    @Override
-    public List<IResource> getAllResources(ResourceLocation location) {
-        return null;
-    }
+  @Override
+  public IResource getResource(ResourceLocation location) {
+    return new MotionBlurResource();
+  }
+
+  @Override
+  public List<IResource> getAllResources(ResourceLocation location) {
+    return null;
+  }
 }

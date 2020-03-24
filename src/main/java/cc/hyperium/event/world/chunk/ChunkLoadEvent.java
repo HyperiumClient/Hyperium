@@ -5,13 +5,13 @@ import net.minecraft.world.chunk.Chunk;
 
 public class ChunkLoadEvent extends Event {
 
-    private final Chunk chunk;
+  private final Chunk chunk;
 
-    public ChunkLoadEvent(Chunk chunk) {
-        this.chunk = chunk;
-    }
+  public ChunkLoadEvent(Chunk chunk) {
+    this.chunk = chunk;
+  }
 
-    public Chunk getChunk() {
-        return chunk;
-    }
+  public Chunk getChunk() {
+    return chunk;
+  }
 }

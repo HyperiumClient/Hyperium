@@ -14,6 +14,7 @@ class GameSettingsTransformer : ConflictTransformer {
 
     override fun transform(original: ClassNode): ClassNode {
         original.visitField(Opcodes.ACC_PUBLIC, "needsResourceRefresh", "Z", null, null).visitEnd()
+        original.visitField(Opcodes.ACC_PUBLIC, "allKeys", "Ljava/util/List;", null, null).visitEnd()
         original.koffee {
             method5(public, "onGuiClosed", void) {
                 aload_0
@@ -33,70 +34,89 @@ class GameSettingsTransformer : ConflictTransformer {
             }
         }
 
-        for (method in original.methods) {
-            if (method.name == "<clinit>") {
-                val createNewArrayItem = assembleBlock {
-                    dup
-                    iconst_3
-                    ldc("options.particles.disabled")
-                    aastore
-                }.first
+        original.methods.forEach {
+            when (it.name) {
+                "<init>" -> {
+                    val (createAllKeys) = assembleBlock {
+                        aload_0
+                        new(ArrayList::class)
+                        dup
+                        invokespecial(ArrayList::class, "<init>", void)
+                        putfield(GameSettings::class, "allKeys", List::class)
+                    }
 
-                for (insn in method.instructions.iterator()) {
-                    val changeNode = assembleBlock {
+                    if (it.desc == "(Lnet/minecraft/client/Minecraft;Ljava/io/File;)V") {
+                        for (insn in it.instructions.iterator()) {
+
+                        }
+                    }
+                }
+
+                "<clinit>" -> {
+                    val (createNewArrayItem) = assembleBlock {
+                        dup
+                        iconst_3
+                        ldc("options.particles.disabled")
+                        aastore
+                    }
+
+                    for (insn in it.instructions.iterator()) {
+                        val (changeNode) = assembleBlock {
+                            iconst_4
+                        }
+
+                        if (insn is LdcInsnNode && insn.cst == "options.particles.minimal") {
+                            it.instructions.insertBefore(insn.next?.next, createNewArrayItem)
+                        }
+
+                        val next = insn.next?.next?.next?.next
+                        if (insn is InsnNode && insn.opcode == Opcodes.ICONST_3 && next is LdcInsnNode && next.cst == "options.particles.all") {
+                            it.instructions.insertBefore(insn, changeNode)
+                            it.instructions.remove(insn)
+                        }
+                    }
+                }
+
+                "setOptionFloatValue" -> {
+                    val (insertBoolean) = assembleBlock {
+                        aload_0
+                        iconst_1
+                        putfield(GameSettings::class, "needsResourceRefresh", boolean)
+                        _return
+                    }
+
+                    for (insn in it.instructions.iterator()) {
+                        if (insn is MethodInsnNode && insn.owner == "net/minecraft/client/Minecraft" &&
+                            insn.name == "scheduleResourcesRefresh" && insn.desc == "()Lcom/google/common/util/concurrent/ListenableFuture;"
+                        ) {
+                            it.instructions.insertBefore(insn.previous?.previous, insertBoolean)
+                        }
+                    }
+
+                    it.instructions.insert(
+                        MethodInsnNode(
+                            Opcodes.INVOKEVIRTUAL,
+                            "net/minecraft/client/renderer/texture/TextureMap",
+                            "setBlurMipmapDirect",
+                            "(ZZ)V",
+                            false
+                        ), insertBoolean
+                    )
+                }
+
+                "setOptionValue" -> {
+                    val (changeNode) = assembleBlock {
                         iconst_4
-                    }.first
-
-                    if (insn is LdcInsnNode && insn.cst == "options.particles.minimal") {
-                        method.instructions.insertBefore(insn.next?.next, createNewArrayItem)
                     }
 
-                    val next = insn.next?.next?.next?.next
-                    if (insn is InsnNode && insn.opcode == Opcodes.ICONST_3 && next is LdcInsnNode && next.cst == "options.particles.all") {
-                        method.instructions.insertBefore(insn, changeNode)
-                        method.instructions.remove(insn)
-                    }
-                }
-            }
-
-            if (method.name == "setOptionFloatValue") {
-                val insertBoolean = assembleBlock {
-                    aload_0
-                    iconst_1
-                    putfield(GameSettings::class, "needsResourceRefresh", boolean)
-                    _return
-                }.first
-
-                for (insn in method.instructions.iterator()) {
-                    if (insn is MethodInsnNode && insn.owner == "net/minecraft/client/Minecraft" &&
-                        insn.name == "scheduleResourcesRefresh" && insn.desc == "()Lcom/google/common/util/concurrent/ListenableFuture;"
-                    ) {
-                        method.instructions.insertBefore(insn.previous?.previous, insertBoolean)
-                    }
-                }
-
-                method.instructions.insert(
-                    MethodInsnNode(
-                        Opcodes.INVOKEVIRTUAL,
-                        "net/minecraft/client/renderer/texture/TextureMap",
-                        "setBlurMipmapDirect",
-                        "(ZZ)V",
-                        false
-                    ), insertBoolean
-                )
-            }
-
-            if (method.name == "setOptionValue") {
-                val changeNode = assembleBlock {
-                    iconst_4
-                }.first
-
-                for (insn in method.instructions.iterator()) {
-                    if (insn is InsnNode && insn.opcode == Opcodes.ICONST_3 &&
-                        insn.next?.next is FieldInsnNode && (insn.next?.next as FieldInsnNode).name == "particleSetting"
-                    ) {
-                        method.instructions.insertBefore(insn, changeNode)
-                        method.instructions.remove(insn)
+                    for (insn in it.instructions.iterator()) {
+                        if (insn is InsnNode && insn.opcode == Opcodes.ICONST_3 &&
+                            insn.next?.next is FieldInsnNode && (insn.next
+                                ?.next as FieldInsnNode).name == "particleSetting"
+                        ) {
+                            it.instructions.insertBefore(insn, changeNode)
+                            it.instructions.remove(insn)
+                        }
                     }
                 }
             }

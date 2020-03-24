@@ -31,64 +31,64 @@ import java.util.stream.Collectors;
 
 public class ToggleChatConfig {
 
-    private final ToggleChatMod theMod;
-    private final File toggleFile;
-    private BetterJsonObject toggleJson = new BetterJsonObject();
+  private final ToggleChatMod theMod;
+  private final File toggleFile;
+  private BetterJsonObject toggleJson = new BetterJsonObject();
 
-    public ToggleChatConfig(ToggleChatMod theMod, File directory) {
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
-        this.theMod = theMod;
-        toggleFile = new File(directory, "togglechat.json");
-
+  public ToggleChatConfig(ToggleChatMod theMod, File directory) {
+    if (!directory.exists()) {
+      directory.mkdirs();
     }
 
-    public void loadToggles() {
-        if (exists(toggleFile)) {
-            try {
-                FileReader fileReader = new FileReader(toggleFile);
-                BufferedReader reader = new BufferedReader(fileReader);
-                toggleJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
-                fileReader.close();
-                reader.close();
-            } catch (Exception ex) {
-                log("Could not read toggles properly, saving.");
-                saveToggles();
-            }
+    this.theMod = theMod;
+    toggleFile = new File(directory, "togglechat.json");
 
-            for (ToggleBase base : theMod.getToggleHandler().getToggles().values()) {
-                base.setEnabled(toggleJson.has("show" + base.getName().replace(" ",
-                        "_")) && toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean());
-            }
-        } else {
-            saveToggles();
-        }
+  }
+
+  public void loadToggles() {
+    if (exists(toggleFile)) {
+      try {
+        FileReader fileReader = new FileReader(toggleFile);
+        BufferedReader reader = new BufferedReader(fileReader);
+        toggleJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
+        fileReader.close();
+        reader.close();
+      } catch (Exception ex) {
+        log("Could not read toggles properly, saving.");
+        saveToggles();
+      }
+
+      for (ToggleBase base : theMod.getToggleHandler().getToggles().values()) {
+        base.setEnabled(toggleJson.has("show" + base.getName().replace(" ",
+            "_")) && toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean());
+      }
+    } else {
+      saveToggles();
     }
+  }
 
-    public void saveToggles() {
-        try {
-            if (!toggleFile.getParentFile().exists()) {
-                toggleFile.getParentFile().mkdirs();
-            }
+  public void saveToggles() {
+    try {
+      if (!toggleFile.getParentFile().exists()) {
+        toggleFile.getParentFile().mkdirs();
+      }
 
-            toggleFile.createNewFile();
-            for (ToggleBase base : theMod.getToggleHandler().getToggles().values()) {
-                toggleJson.addProperty("show" + base.getName().replace(" ", "_"), base.isEnabled());
-            }
-            toggleJson.writeToFile(toggleFile);
-        } catch (Exception ex) {
-            log("Could not save toggles.");
-            ex.printStackTrace();
-        }
+      toggleFile.createNewFile();
+      for (ToggleBase base : theMod.getToggleHandler().getToggles().values()) {
+        toggleJson.addProperty("show" + base.getName().replace(" ", "_"), base.isEnabled());
+      }
+      toggleJson.writeToFile(toggleFile);
+    } catch (Exception ex) {
+      log("Could not save toggles.");
+      ex.printStackTrace();
     }
+  }
 
-    private boolean exists(File file) {
-        return Files.exists(Paths.get(file.getPath()));
-    }
+  private boolean exists(File file) {
+    return Files.exists(Paths.get(file.getPath()));
+  }
 
-    private void log(String message, Object... replace) {
-        Hyperium.LOGGER.info("ToggleChat {} {}", message, replace);
-    }
+  private void log(String message, Object... replace) {
+    Hyperium.LOGGER.info("ToggleChat {} {}", message, replace);
+  }
 }

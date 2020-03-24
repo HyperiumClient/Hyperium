@@ -18,12 +18,14 @@
 package cc.hyperium.internal.addons.misc
 
 import cc.hyperium.internal.addons.AddonManifest
-import cc.hyperium.internal.addons.OverlayChecker
 import com.google.common.io.Files
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 import java.nio.charset.Charset
 import java.util.jar.JarFile
 
@@ -69,8 +71,8 @@ class AddonManifestParser {
             val parser = JsonParser()
             val json = parser.parse(contents).asJsonObject
 
-            if (!json.has("version") && !json.has("name") && !json.has("mainClass")) {
-                throw AddonLoadException("Invalid addon manifest (Must include name, verson and mainClass)")
+            if (!json.has("version") || !json.has("name") || !json.has("mainClass")) {
+                throw AddonLoadException("Invalid addon manifest (Must include name, version and mainClass)")
             }
             this.json = json
         } catch (e: Exception) {
@@ -91,13 +93,10 @@ class AddonManifestParser {
         val parser = JsonParser()
         val json = parser.parse(contents).asJsonObject
 
-        if (!json.has("version") && !json.has("name") && !json.has("mainClass")) {
+        if (!json.has("version") || !json.has("name") || !json.has("mainClass")) {
             throw AddonLoadException("Invalid addon manifest (Must include name, version and mainClass)")
         }
 
-        if (json.has("overlay")) {
-            OverlayChecker.checkOverlayField(json.get("overlay").asString)
-        }
         this.json = json
     }
 
@@ -111,23 +110,12 @@ class AddonManifestParser {
      *
      * @return addon manifest json in string
      */
-    override fun toString(): String = json!!.toString()
+    override fun toString(): String = json.toString()
 
     private fun copyInputStream(input: InputStream, output: OutputStream): Int {
-        val count = copyLarge(input, output, ByteArray(1024 * 4))
+        val count = input.copyTo(output, 1024 * 4)
         return if (count > Integer.MAX_VALUE) {
             -1
         } else count.toInt()
-    }
-
-    @Throws(IOException::class)
-    private fun copyLarge(input: InputStream, output: OutputStream, buffer: ByteArray): Long {
-        var count: Long = 0
-        var n = 0
-        while ({ n = input.read(buffer); n }() != -1) {
-            output.write(buffer, 0, n)
-            count += n.toLong()
-        }
-        return count
     }
 }

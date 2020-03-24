@@ -289,7 +289,7 @@ abstract class DisplayLine {
 
     override fun toString() =
         "DisplayLine{" +
-                "text=$text, textColor=$textColor, align=$align, " +
-                "background=$background, backgroundColor=$backgroundColor, " +
-                "}"
+            "text=$text, textColor=$textColor, align=$align, " +
+            "background=$background, backgroundColor=$backgroundColor, " +
+            "}"
 }

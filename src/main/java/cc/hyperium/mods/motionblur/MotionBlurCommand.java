@@ -25,45 +25,51 @@ import net.minecraft.util.ResourceLocation;
 
 public class MotionBlurCommand implements BaseCommand {
 
-    private final Minecraft mc = Minecraft.getMinecraft();
+  private final Minecraft mc = Minecraft.getMinecraft();
 
-    public void onExecute(String[] args) {
-        if (args.length == 0) {
-            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Usage: /motionblur <0 - 7>");
+  public void onExecute(String[] args) {
+    if (args.length == 0) {
+      Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+          .sendMessage("Usage: /motionblur <0 - 7>");
+    } else {
+      int amount = Integer.parseInt(args[0]);
+      if (amount >= 0 && amount <= 7) {
+        if (Hyperium.INSTANCE.getModIntegration().getMotionBlur().isFastRenderEnabled()) {
+          Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+              .sendMessage("Motion Blur is not compatible with OptiFine's Fast Render.");
         } else {
-            int amount = Integer.parseInt(args[0]);
-            if (amount >= 0 && amount <= 7) {
-                if (Hyperium.INSTANCE.getModIntegration().getMotionBlur().isFastRenderEnabled()) {
-                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Motion Blur is not compatible with OptiFine's Fast Render.");
-                } else {
-                    if (mc.entityRenderer.getShaderGroup() != null) {
-                        mc.entityRenderer.getShaderGroup().deleteShaderGroup();
-                    }
+          if (mc.entityRenderer.getShaderGroup() != null) {
+            mc.entityRenderer.getShaderGroup().deleteShaderGroup();
+          }
 
-                    if (amount != 0) {
-                        Settings.MOTION_BLUR_ENABLED = true;
-                        Settings.MOTION_BLUR_AMOUNT = amount;
-                        mc.entityRenderer.loadShader(new ResourceLocation("motionblur", "motionblur"));
-                        mc.entityRenderer.getShaderGroup().createBindFramebuffers(mc.displayWidth, mc.displayHeight);
-                        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Motion Blur enabled with amount " + amount + ".");
-                    } else {
-                        Settings.MOTION_BLUR_ENABLED = false;
-                        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Motion Blur disabled.");
-                    }
+          if (amount != 0) {
+            Settings.MOTION_BLUR_ENABLED = true;
+            Settings.MOTION_BLUR_AMOUNT = amount;
+            mc.entityRenderer.loadShader(new ResourceLocation("motionblur", "motionblur"));
+            mc.entityRenderer.getShaderGroup()
+                .createBindFramebuffers(mc.displayWidth, mc.displayHeight);
+            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+                .sendMessage("Motion Blur enabled with amount " + amount + ".");
+          } else {
+            Settings.MOTION_BLUR_ENABLED = false;
+            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+                .sendMessage("Motion Blur disabled.");
+          }
 
-                    Hyperium.CONFIG.save();
-                }
-            } else {
-                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Invalid blur amount, 0 - 7.");
-            }
+          Hyperium.CONFIG.save();
         }
+      } else {
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+            .sendMessage("Invalid blur amount, 0 - 7.");
+      }
     }
+  }
 
-    public String getName() {
-        return "motionblur";
-    }
+  public String getName() {
+    return "motionblur";
+  }
 
-    public String getUsage() {
-        return "/motionblur <0 - 7>";
-    }
+  public String getUsage() {
+    return "/motionblur <0 - 7>";
+  }
 }

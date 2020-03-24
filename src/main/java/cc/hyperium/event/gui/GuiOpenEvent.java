@@ -25,20 +25,20 @@ import net.minecraft.client.gui.GuiScreen;
  */
 public class GuiOpenEvent extends CancellableEvent {
 
-    private GuiScreen gui;
+  private GuiScreen gui;
 
-    /**
-     * @param gui the Gui that is being opened
-     */
-    public GuiOpenEvent(GuiScreen gui) {
-        this.gui = gui;
-    }
+  /**
+   * @param gui the Gui that is being opened
+   */
+  public GuiOpenEvent(GuiScreen gui) {
+    this.gui = gui;
+  }
 
-    public GuiScreen getGui() {
-        return gui;
-    }
+  public GuiScreen getGui() {
+    return gui;
+  }
 
-    public void setGui(GuiScreen gui) {
-        this.gui = gui;
-    }
+  public void setGui(GuiScreen gui) {
+    this.gui = gui;
+  }
 }

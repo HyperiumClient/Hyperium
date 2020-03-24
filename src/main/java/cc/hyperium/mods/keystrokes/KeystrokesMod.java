@@ -26,66 +26,67 @@ import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 
 public class KeystrokesMod extends AbstractMod {
 
-    private final Metadata metaData;
-    private KeystrokesSettings config;
-    private KeystrokesRenderer renderer;
-    public String VERSION = "7.0";
+  private final Metadata metaData;
+  private KeystrokesSettings config;
+  private KeystrokesRenderer renderer;
+  public String VERSION = "7.0";
 
-    /**
-     * Default constructor, this will load the mods metadata
-     */
-    public KeystrokesMod() {
-        metaData = new Metadata(this, "KeystrokesMod", VERSION, "Fyu, boomboompower, Sk1er, asbyth");
-    }
+  /**
+   * Default constructor, this will load the mods metadata
+   */
+  public KeystrokesMod() {
+    metaData = new Metadata(this, "KeystrokesMod", VERSION, "Fyu, boomboompower, Sk1er, asbyth");
+  }
 
-    /**
-     * Init method, loads configs and events for the KeystrokesMod
-     *
-     * @return this mods instance
-     */
-    @Override
-    public AbstractMod init() {
-        config = new KeystrokesSettings(this, Hyperium.folder);
-        config.load();
+  /**
+   * Init method, loads configs and events for the KeystrokesMod
+   *
+   * @return this mods instance
+   */
+  @Override
+  public AbstractMod init() {
+    config = new KeystrokesSettings(this, Hyperium.folder);
+    config.load();
 
-        new Sk1erMod("keystrokesmod", VERSION).checkStatus();
+    new Sk1erMod("keystrokesmod", VERSION).checkStatus();
 
-        renderer = new KeystrokesRenderer(this);
+    renderer = new KeystrokesRenderer(this);
 
-        EventBus.INSTANCE.register(renderer);
+    EventBus.INSTANCE.register(renderer);
 
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandKeystrokes(this));
+    Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        .registerCommand(new CommandKeystrokes(this));
 
-        return this;
-    }
+    return this;
+  }
 
-    /**
-     * The mods metadata
-     */
-    @Override
-    public Metadata getModMetadata() {
-        return metaData;
-    }
+  /**
+   * The mods metadata
+   */
+  @Override
+  public Metadata getModMetadata() {
+    return metaData;
+  }
 
-    /**
-     * Getter for the Keystrokes settings
-     *
-     * @return the keystrokes settings
-     */
-    public KeystrokesSettings getSettings() {
-        return config;
-    }
+  /**
+   * Getter for the Keystrokes settings
+   *
+   * @return the keystrokes settings
+   */
+  public KeystrokesSettings getSettings() {
+    return config;
+  }
 
-    /**
-     * Getter for the Keystrokes renderer
-     *
-     * @return the keystrokes renderer
-     */
-    public KeystrokesRenderer getRenderer() {
-        return renderer;
-    }
+  /**
+   * Getter for the Keystrokes renderer
+   *
+   * @return the keystrokes renderer
+   */
+  public KeystrokesRenderer getRenderer() {
+    return renderer;
+  }
 
-    public String getVersion() {
-        return VERSION;
-    }
+  public String getVersion() {
+    return VERSION;
+  }
 }

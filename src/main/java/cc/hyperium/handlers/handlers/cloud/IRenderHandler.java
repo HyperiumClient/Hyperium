@@ -5,5 +5,5 @@ import net.minecraft.client.multiplayer.WorldClient;
 
 public interface IRenderHandler {
 
-    void render(float partialTicks, WorldClient worldClient, Minecraft mc);
+  void render(float partialTicks, WorldClient worldClient, Minecraft mc);
 }

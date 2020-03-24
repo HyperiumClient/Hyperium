@@ -30,30 +30,33 @@ import java.util.List;
  */
 public class TextItem extends DisplayItem {
 
-    private String text;
+  private String text;
 
 
-    public TextItem(JsonHolder object, int ordinal) {
-        super(object, ordinal);
-        text = object.optString("text");
-        height = 10;
+  public TextItem(JsonHolder object, int ordinal) {
+    super(object, ordinal);
+    text = object.optString("text");
+    height = 10;
+  }
+
+
+  public void draw(int x, double y, boolean isConfig) {
+    List<String> list = new ArrayList<>();
+    if (text.isEmpty()) {
+      list.add("Text is empty??");
+    } else {
+      list.add(text);
     }
+    ElementRenderer.draw(x, y, ChatColor.translateAlternateColorCodes('%', text));
+    width = ElementRenderer.maxWidth(list);
+  }
 
+  public String getText() {
+    return text;
+  }
 
-    public void draw(int x, double y, boolean isConfig) {
-        List<String> list = new ArrayList<>();
-        if (text.isEmpty()) list.add("Text is empty??");
-        else list.add(text);
-        ElementRenderer.draw(x, y, ChatColor.translateAlternateColorCodes('%', text));
-        width = ElementRenderer.maxWidth(list);
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-        data.put("text", text);
-    }
+  public void setText(String text) {
+    this.text = text;
+    data.put("text", text);
+  }
 }

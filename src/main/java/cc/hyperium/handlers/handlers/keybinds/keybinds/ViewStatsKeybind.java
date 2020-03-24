@@ -18,23 +18,23 @@
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.input.Keyboard;
 
-public class ViewStatsKeybind extends HyperiumBind {
+public class ViewStatsKeybind extends HyperiumKeybind {
 
-    public ViewStatsKeybind() {
-        super("View Hypixel Stats", Keyboard.KEY_RBRACKET);
-    }
+  public ViewStatsKeybind() {
+    super("View Hypixel Stats", Keyboard.KEY_RBRACKET, KeyType.GUI);
+  }
 
-    @Override
-    public void onPress() {
-        Entity pointedEntity = Minecraft.getMinecraft().pointedEntity;
-        if (pointedEntity instanceof EntityPlayer) {
-            Hyperium.INSTANCE.getHandlers().getStatsHandler().initStatsViewer(pointedEntity.getName());
-        }
+  @Override
+  public void onPress() {
+    Entity pointedEntity = Minecraft.getMinecraft().pointedEntity;
+    if (pointedEntity instanceof EntityPlayer) {
+      Hyperium.INSTANCE.getHandlers().getStatsHandler().initStatsViewer(pointedEntity.getName());
     }
+  }
 }

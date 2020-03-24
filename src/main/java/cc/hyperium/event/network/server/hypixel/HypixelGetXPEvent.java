@@ -21,13 +21,13 @@ import cc.hyperium.event.Event;
 
 public final class HypixelGetXPEvent extends Event {
 
-    private final int xp;
+  private final int xp;
 
-    public HypixelGetXPEvent(int xp) {
-        this.xp = xp;
-    }
+  public HypixelGetXPEvent(int xp) {
+    this.xp = xp;
+  }
 
-    public final int getXp() {
-        return xp;
-    }
+  public final int getXp() {
+    return xp;
+  }
 }

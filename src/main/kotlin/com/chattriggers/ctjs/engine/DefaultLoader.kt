@@ -128,14 +128,14 @@ object DefaultLoader {
                     val newMetadataFile = File(dir, "updateMeta.json")
 
                     val connection =
-                        URL("https://www.chattriggers.com/downloads/metadata/${metadata.fileName}").openConnection()
+                            URL("https://www.chattriggers.com/downloads/metadata/${metadata.fileName}").openConnection()
                     connection.setRequestProperty("User-Agent", "Mozilla/5.0")
                     FileUtils.copyInputStreamToFile(connection.getInputStream(), newMetadataFile)
 
                     val currVersion = metadata.version
 
                     val newMetadata =
-                        Gson().fromJson(newMetadataFile.readText(), ModuleMetadata::class.java)
+                            Gson().fromJson(newMetadataFile.readText(), ModuleMetadata::class.java)
                     val newVersion = newMetadata.version
                     val name = metadata.fileName
 
@@ -153,7 +153,7 @@ object DefaultLoader {
             }
 
             modules.addAll(
-                getRequiredModules(metadata, updateCheck)
+                    getRequiredModules(metadata, updateCheck)
             )
         } catch (exception: Exception) {
             ModuleManager.generalConsole.out.println("Error loading module from $dir")
@@ -161,11 +161,11 @@ object DefaultLoader {
         }
 
         modules.add(
-            Module(
-                dir.name,
-                metadata,
-                dir
-            )
+                Module(
+                        dir.name,
+                        metadata,
+                        dir
+                )
         )
 
         return modules
@@ -214,7 +214,7 @@ object DefaultLoader {
                 }
 
                 modules.addAll(
-                    newModules
+                        newModules
                 )
             } else {
                 val newModules = importModule(it.name, false, isRequired = true)

@@ -25,30 +25,30 @@ import net.minecraft.util.ResourceLocation;
  */
 public enum Icons {
 
-    SETTINGS(new ResourceLocation("hyperium","textures/material/settings.png")),
-    EXTENSION(new ResourceLocation("hyperium","textures/material/extension.png")),
-    DOWNLOAD(new ResourceLocation("hyperium","textures/material/download.png")),
-    EXIT(new ResourceLocation("hyperium","textures/material/exit.png")),
-    CLOSE(new ResourceLocation("hyperium","textures/material/close.png")),
-    ARROW_DOWN_ALT(new ResourceLocation("hyperium","textures/material/arrow_down_alt.png")),
-    ARROW_UP_ALT(new ResourceLocation("hyperium","textures/material/arrow_up_alt.png")),
-    ARROW_LEFT(new ResourceLocation("hyperium","textures/material/arrow_left.png")),
-    ARROW_RIGHT(new ResourceLocation("hyperium","textures/material/arrow_right.png")),
-    COSMETICS(new ResourceLocation("hyperium", "textures/material/shopping_bag.png")),
-    MENU_BACKGROUND(new ResourceLocation("hyperium", "textures/material/gallery.png"));
+  SETTINGS(new ResourceLocation("hyperium", "textures/material/settings.png")),
+  EXTENSION(new ResourceLocation("hyperium", "textures/material/extension.png")),
+  DOWNLOAD(new ResourceLocation("hyperium", "textures/material/download.png")),
+  EXIT(new ResourceLocation("hyperium", "textures/material/exit.png")),
+  CLOSE(new ResourceLocation("hyperium", "textures/material/close.png")),
+  ARROW_DOWN_ALT(new ResourceLocation("hyperium", "textures/material/arrow_down_alt.png")),
+  ARROW_UP_ALT(new ResourceLocation("hyperium", "textures/material/arrow_up_alt.png")),
+  ARROW_LEFT(new ResourceLocation("hyperium", "textures/material/arrow_left.png")),
+  ARROW_RIGHT(new ResourceLocation("hyperium", "textures/material/arrow_right.png")),
+  COSMETICS(new ResourceLocation("hyperium", "textures/material/shopping_bag.png")),
+  MENU_BACKGROUND(new ResourceLocation("hyperium", "textures/material/gallery.png"));
 
-    private ResourceLocation res;
+  private ResourceLocation res;
 
-    Icons(ResourceLocation res) {
-        this.res = res;
-    }
+  Icons(ResourceLocation res) {
+    this.res = res;
+  }
 
-    public void bind() {
-        Minecraft.getMinecraft().getTextureManager().bindTexture(res);
-    }
+  public void bind() {
+    Minecraft.getMinecraft().getTextureManager().bindTexture(res);
+  }
 
-    public ResourceLocation getResource() {
-        return res;
-    }
+  public ResourceLocation getResource() {
+    return res;
+  }
 
 }

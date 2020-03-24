@@ -26,11 +26,11 @@ object ModulesGui : GuiScreen() {
         if (width > 500) width = 500f
 
         Renderer.drawRect(
-            0x50000000,
-            0f,
-            0f,
-            Renderer.Screen.getWidth().toFloat(),
-            Renderer.Screen.getHeight().toFloat()
+                0x50000000,
+                0f,
+                0f,
+                Renderer.Screen.getWidth().toFloat(),
+                Renderer.Screen.getHeight().toFloat()
         )
         Renderer.drawRect(0x50000000, middle - width / 2f, 95f, width, Renderer.Screen.getHeight() - 195f)
 
@@ -53,7 +53,7 @@ object ModulesGui : GuiScreen() {
         if (width > 500) width = 500f
 
         if (mouseX > Renderer.Screen.getWidth() / 2f + width / 2f - 25 && mouseX < Renderer.Screen.getWidth() / 2f + width / 2f
-            && mouseY > 95 && mouseY < 120
+                && mouseY > 95 && mouseY < 120
         ) {
             Player.getPlayer()?.closeScreen()
         }

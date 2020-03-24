@@ -36,48 +36,52 @@ import net.hypixel.api.GameType;
  * @author KodingKing
  */
 public class PaintballStats extends AbstractHypixelStats {
-    @Override
-    public String getImage() {
-        return "Paintball-64";
-    }
 
-    @Override
-    public String getName() {
-        return "Paintball";
-    }
+  @Override
+  public String getImage() {
+    return "Paintball-64";
+  }
 
-    @Override
-    public GameType getGameType() {
-        return GameType.PAINTBALL;
-    }
+  @Override
+  public String getName() {
+    return "Paintball";
+  }
 
-    @Override
-    public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
-        List<StatsDisplayItem> stats = new ArrayList<>();
-        JsonHolder paintball = player.getStats(GameType.PAINTBALL);
+  @Override
+  public GameType getGameType() {
+    return GameType.PAINTBALL;
+  }
 
-        stats.add(new DisplayLine(bold("Coins: ", paintball.optInt("kills"))));
-        stats.add(new DisplayLine(bold("Kills: ", paintball.optInt("kills"))));
-        stats.add(new DisplayLine(bold("Wins: ", paintball.optInt("wins"))));
-        stats.add(new DisplayLine(bold("Deaths: ", paintball.optInt("deaths"))));
+  @Override
+  public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
+    List<StatsDisplayItem> stats = new ArrayList<>();
+    JsonHolder paintball = player.getStats(GameType.PAINTBALL);
 
-        return stats;
-    }
+    stats.add(new DisplayLine(bold("Coins: ", paintball.optInt("kills"))));
+    stats.add(new DisplayLine(bold("Kills: ", paintball.optInt("kills"))));
+    stats.add(new DisplayLine(bold("Wins: ", paintball.optInt("wins"))));
+    stats.add(new DisplayLine(bold("Deaths: ", paintball.optInt("deaths"))));
 
-    @Override
-    public List<StatsDisplayItem> getDeepStats(HypixelApiPlayer player) {
-        List<StatsDisplayItem> stats = getPreview(player);
-        JsonHolder paintball = player.getStats(GameType.PAINTBALL);
-        SimpleDateFormat hhmmss = new SimpleDateFormat("HH:mm:ss");
+    return stats;
+  }
 
-        stats.add(new DisplayLine(""));
-        stats.add(new DisplayLine(bold("Shots fired: ", paintball.optInt("shots_fired"))));
-        stats.add(new DisplayLine(bold("K/D: ", WebsiteUtils.buildRatio(paintball.optInt("kills"), paintball.optInt("deaths")))));
-        stats.add(new DisplayLine(bold("Shot / kill: ", WebsiteUtils.buildRatio(paintball.optInt("shots_fired"), paintball.optInt("kills")))));
+  @Override
+  public List<StatsDisplayItem> getDeepStats(HypixelApiPlayer player) {
+    List<StatsDisplayItem> stats = getPreview(player);
+    JsonHolder paintball = player.getStats(GameType.PAINTBALL);
+    SimpleDateFormat hhmmss = new SimpleDateFormat("HH:mm:ss");
 
-        hhmmss.setTimeZone(TimeZone.getTimeZone("GMT"));
-        stats.add(new DisplayLine(bold("Time in forcefield (HH-MM-SS): ", hhmmss.format(new Date(1000 * paintball.optInt("forcefieldTime"))))));
+    stats.add(new DisplayLine(""));
+    stats.add(new DisplayLine(bold("Shots fired: ", paintball.optInt("shots_fired"))));
+    stats.add(new DisplayLine(bold("K/D: ",
+        WebsiteUtils.buildRatio(paintball.optInt("kills"), paintball.optInt("deaths")))));
+    stats.add(new DisplayLine(bold("Shot / kill: ",
+        WebsiteUtils.buildRatio(paintball.optInt("shots_fired"), paintball.optInt("kills")))));
 
-        return stats;
-    }
+    hhmmss.setTimeZone(TimeZone.getTimeZone("GMT"));
+    stats.add(new DisplayLine(bold("Time in forcefield (HH-MM-SS): ",
+        hhmmss.format(new Date(1000 * paintball.optInt("forcefieldTime"))))));
+
+    return stats;
+  }
 }

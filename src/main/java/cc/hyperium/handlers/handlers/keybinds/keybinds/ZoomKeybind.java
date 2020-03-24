@@ -15,18 +15,28 @@
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.internal.addons;
+package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
-import cc.hyperium.gui.main.HyperiumOverlay;
-import cc.hyperium.internal.addons.misc.AddonLoadException;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
+import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
 
-public class OverlayChecker {
-    public static void checkOverlayField(String value) throws AddonLoadException {
-        try {
-            Class<?> originClass = Class.forName(value);
-            assert !HyperiumOverlay.class.isInstance(originClass) : "overlay has to be an instance of HyperiumOverlay";
-        } catch (ClassNotFoundException e) {
-            throw new AddonLoadException("Overlay class doesn't exist");
-        }
-    }
+public class ZoomKeybind extends HyperiumKeybind {
+  public ZoomKeybind() {
+    super("Zoom", Keyboard.KEY_C, KeyType.UTIL);
+  }
+
+  @Override
+  public void onPress() {
+    Minecraft.getMinecraft().gameSettings.fovSetting -= 50f;
+    Minecraft.getMinecraft().entityRenderer.renderHand = false;
+    Minecraft.getMinecraft().gameSettings.smoothCamera = true;
+  }
+
+  @Override
+  public void onRelease() {
+    Minecraft.getMinecraft().gameSettings.fovSetting += 50f;
+    Minecraft.getMinecraft().entityRenderer.renderHand = true;
+    Minecraft.getMinecraft().gameSettings.smoothCamera = false;
+  }
 }

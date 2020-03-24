@@ -38,140 +38,167 @@ import java.util.List;
  */
 public class KeystrokesRenderer {
 
-    private final Minecraft mc = Minecraft.getMinecraft();
-    private final KeystrokesMod mod;
-    private final Key[] movementKeys = new Key[4];
-    private final CPSKey[] cpsKeys = new CPSKey[1];
-    private final FPSKey[] fpsKeys = new FPSKey[1];
-    private final SpaceKey[] spaceKey = new SpaceKey[1];
-    private final MouseButton[] mouseButtons = new MouseButton[2];
-    private final SpaceKey[] sneakKeys = new SpaceKey[1];
-    private final List<CustomKeyWrapper> customKeys = new ArrayList<>();
+  private final Minecraft mc = Minecraft.getMinecraft();
+  private final KeystrokesMod mod;
+  private final Key[] movementKeys = new Key[4];
+  private final CPSKey[] cpsKeys = new CPSKey[1];
+  private final FPSKey[] fpsKeys = new FPSKey[1];
+  private final SpaceKey[] spaceKey = new SpaceKey[1];
+  private final MouseButton[] mouseButtons = new MouseButton[2];
+  private final SpaceKey[] sneakKeys = new SpaceKey[1];
+  private final List<CustomKeyWrapper> customKeys = new ArrayList<>();
 
-    public KeystrokesRenderer(KeystrokesMod mod) {
-        this.mod = mod;
+  public KeystrokesRenderer(KeystrokesMod mod) {
+    this.mod = mod;
 
-        movementKeys[0] = new Key(mod, mc.gameSettings.keyBindForward, 26, 2);
-        movementKeys[1] = new Key(mod, mc.gameSettings.keyBindBack, 26, 26);
-        movementKeys[2] = new Key(mod, mc.gameSettings.keyBindLeft, 2, 26);
-        movementKeys[3] = new Key(mod, mc.gameSettings.keyBindRight, 50, 26);
+    movementKeys[0] = new Key(mod, mc.gameSettings.keyBindForward, 26, 2);
+    movementKeys[1] = new Key(mod, mc.gameSettings.keyBindBack, 26, 26);
+    movementKeys[2] = new Key(mod, mc.gameSettings.keyBindLeft, 2, 26);
+    movementKeys[3] = new Key(mod, mc.gameSettings.keyBindRight, 50, 26);
 
-        cpsKeys[0] = new CPSKey(mod, 2, 110);
+    cpsKeys[0] = new CPSKey(mod, 2, 110);
 
-        fpsKeys[0] = new FPSKey(mod, 2, 110 + 18);
+    fpsKeys[0] = new FPSKey(mod, 2, 110 + 18);
 
-        spaceKey[0] = new SpaceKey(mod, mc.gameSettings.keyBindJump, 2, 92, "SPACE");
+    spaceKey[0] = new SpaceKey(mod, mc.gameSettings.keyBindJump, 2, 92, "SPACE");
 
-        mouseButtons[0] = new MouseButton(mod, 0, 2, 50);
-        mouseButtons[1] = new MouseButton(mod, 1, 38, 50);
+    mouseButtons[0] = new MouseButton(mod, 0, 2, 50);
+    mouseButtons[1] = new MouseButton(mod, 1, 38, 50);
 
-        sneakKeys[0] = new SpaceKey(mod, mc.gameSettings.keyBindSneak, 2, 74, "Sneak");
-        customKeys.addAll(mod.getSettings().getConfigWrappers());
-    }
+    sneakKeys[0] = new SpaceKey(mod, mc.gameSettings.keyBindSneak, 2, 74, "Sneak");
+    customKeys.addAll(mod.getSettings().getConfigWrappers());
+  }
 
-    public MouseButton[] getMouseButtons() {
-        return mouseButtons;
-    }
+  public MouseButton[] getMouseButtons() {
+    return mouseButtons;
+  }
 
-    public CPSKey[] getCPSKeys() {
-        return cpsKeys;
-    }
+  public CPSKey[] getCPSKeys() {
+    return cpsKeys;
+  }
 
-    public List<CustomKeyWrapper> getCustomKeys() {
-        return customKeys;
-    }
+  public List<CustomKeyWrapper> getCustomKeys() {
+    return customKeys;
+  }
 
-    @InvokeEvent
-    public void onRenderTick(RenderHUDEvent event) {
-        if (mc.currentScreen != null) {
-            if (mc.currentScreen instanceof GuiScreenKeystrokes || mc.currentScreen instanceof GuiScreenColor) {
-                try {
-                    mc.currentScreen.handleInput();
-                } catch (IOException ignored) {
-                }
-            }
-        } else if (mc.inGameHasFocus && !mc.gameSettings.showDebugInfo) {
-            renderKeystrokes();
+  @InvokeEvent
+  public void onRenderTick(RenderHUDEvent event) {
+    if (mc.currentScreen != null) {
+      if (mc.currentScreen instanceof GuiScreenKeystrokes
+          || mc.currentScreen instanceof GuiScreenColor) {
+        try {
+          mc.currentScreen.handleInput();
+        } catch (IOException ignored) {
         }
+      }
+    } else if (mc.inGameHasFocus && !mc.gameSettings.showDebugInfo) {
+      renderKeystrokes();
     }
+  }
 
-    public void renderKeystrokes() {
-        if (mod.getSettings().isEnabled()) {
-            int x = mod.getSettings().getRenderX();
-            int y = mod.getSettings().getRenderY();
+  public void renderKeystrokes() {
+    if (mod.getSettings().isEnabled()) {
+      int x = mod.getSettings().getRenderX();
+      int y = mod.getSettings().getRenderY();
 
-            boolean showingMouseButtons = mod.getSettings().isShowingMouseButtons();
-            boolean showingSpacebar = mod.getSettings().isShowingSpacebar();
-            boolean showingCPS = mod.getSettings().isShowingCPS();
-            boolean showingCPSOnButtons = mod.getSettings().isShowingCPSOnButtons();
-            boolean showingSneak = mod.getSettings().isShowingSneak();
-            boolean showingFPS = mod.getSettings().isShowingFPS();
-            boolean showingWASD = mod.getSettings().isShowingWASD();
+      boolean showingMouseButtons = mod.getSettings().isShowingMouseButtons();
+      boolean showingSpacebar = mod.getSettings().isShowingSpacebar();
+      boolean showingCPS = mod.getSettings().isShowingCPS();
+      boolean showingCPSOnButtons = mod.getSettings().isShowingCPSOnButtons();
+      boolean showingSneak = mod.getSettings().isShowingSneak();
+      boolean showingFPS = mod.getSettings().isShowingFPS();
+      boolean showingWASD = mod.getSettings().isShowingWASD();
 
-            if (mod.getSettings().getScale() != 1.0) {
-                GlStateManager.pushMatrix();
-                GlStateManager.scale(mod.getSettings().getScale(), mod.getSettings().getScale(), 1.0);
-            }
+      if (mod.getSettings().getScale() != 1.0) {
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(mod.getSettings().getScale(), mod.getSettings().getScale(), 1.0);
+      }
 
-            if (showingMouseButtons) drawMouseButtons(x, y);
-            if (showingCPS && !showingCPSOnButtons) drawCPSKeys(x, y);
-            if (showingSneak) drawSneak(x, y);
-            if (showingSpacebar) drawSpacebar(x, y);
-            if (showingFPS) drawFPS(x, y);
-            if (showingWASD) drawMovementKeys(x, y);
+      if (showingMouseButtons) {
+        drawMouseButtons(x, y);
+      }
+      if (showingCPS && !showingCPSOnButtons) {
+        drawCPSKeys(x, y);
+      }
+      if (showingSneak) {
+        drawSneak(x, y);
+      }
+      if (showingSpacebar) {
+        drawSpacebar(x, y);
+      }
+      if (showingFPS) {
+        drawFPS(x, y);
+      }
+      if (showingWASD) {
+        drawMovementKeys(x, y);
+      }
 
-            y += 130;
+      y += 130;
 
-            if (!mod.getSettings().isShowingMouseButtons()) y -= 24;
-            if (!showingSneak) y -= 18;
-            if (!showingSpacebar) y -= 18;
-            if (!showingCPS || showingCPSOnButtons) y -= 18;
-            if (!showingFPS) y -= 18;
-            if (!showingWASD) y -= 18;
+      if (!mod.getSettings().isShowingMouseButtons()) {
+        y -= 24;
+      }
+      if (!showingSneak) {
+        y -= 18;
+      }
+      if (!showingSpacebar) {
+        y -= 18;
+      }
+      if (!showingCPS || showingCPSOnButtons) {
+        y -= 18;
+      }
+      if (!showingFPS) {
+        y -= 18;
+      }
+      if (!showingWASD) {
+        y -= 18;
+      }
 
-            for (CustomKeyWrapper key : customKeys) {
-                int xOffset = (int) key.getxOffset();
-                int yOffset = (int) key.getyOffset();
-                key.getKey().renderKey(x + xOffset, y + yOffset);
-            }
+      for (CustomKeyWrapper key : customKeys) {
+        int xOffset = (int) key.getxOffset();
+        int yOffset = (int) key.getyOffset();
+        key.getKey().renderKey(x + xOffset, y + yOffset);
+      }
 
-            if (mod.getSettings().getScale() != 1.0) GlStateManager.popMatrix();
-        }
+      if (mod.getSettings().getScale() != 1.0) {
+        GlStateManager.popMatrix();
+      }
     }
+  }
 
-    private void drawMovementKeys(int x, int y) {
-        for (Key key : movementKeys) {
-            key.renderKey(x, y);
-        }
+  private void drawMovementKeys(int x, int y) {
+    for (Key key : movementKeys) {
+      key.renderKey(x, y);
     }
+  }
 
-    private void drawCPSKeys(int x, int y) {
-        for (CPSKey key : cpsKeys) {
-            key.renderKey(x, y);
-        }
+  private void drawCPSKeys(int x, int y) {
+    for (CPSKey key : cpsKeys) {
+      key.renderKey(x, y);
     }
+  }
 
-    private void drawSneak(int x, int y) {
-        for (SpaceKey key : sneakKeys) {
-            key.renderKey(x, y);
-        }
+  private void drawSneak(int x, int y) {
+    for (SpaceKey key : sneakKeys) {
+      key.renderKey(x, y);
     }
+  }
 
-    private void drawSpacebar(int x, int y) {
-        for (SpaceKey key : spaceKey) {
-            key.renderKey(x, y);
-        }
+  private void drawSpacebar(int x, int y) {
+    for (SpaceKey key : spaceKey) {
+      key.renderKey(x, y);
     }
+  }
 
-    private void drawMouseButtons(int x, int y) {
-        for (MouseButton button : mouseButtons) {
-            button.renderKey(x, y);
-        }
+  private void drawMouseButtons(int x, int y) {
+    for (MouseButton button : mouseButtons) {
+      button.renderKey(x, y);
     }
+  }
 
-    private void drawFPS(int x, int y) {
-        for (FPSKey key : fpsKeys) {
-            key.renderKey(x, y);
-        }
+  private void drawFPS(int x, int y) {
+    for (FPSKey key : fpsKeys) {
+      key.renderKey(x, y);
     }
+  }
 }

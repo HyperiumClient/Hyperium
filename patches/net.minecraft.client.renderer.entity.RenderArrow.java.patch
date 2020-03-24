@@ -1,0 +1,17 @@
+--- original/net/minecraft/client/renderer/entity/RenderArrow.java
++++ changed/net/minecraft/client/renderer/entity/RenderArrow.java
+@@ -1,5 +1,6 @@
+ package net.minecraft.client.renderer.entity;
+ 
++import cc.hyperium.config.Settings;
+ import net.minecraft.client.renderer.GlStateManager;
+ import net.minecraft.client.renderer.Tessellator;
+ import net.minecraft.client.renderer.WorldRenderer;
+@@ -23,6 +24,7 @@
+      * Renders the desired {@code T} type Entity.
+      */
+     public void doRender(EntityArrow entity, double x, double y, double z, float entityYaw, float partialTicks) {
++        if (Settings.DISABLE_ARROW_ENTITIES) return;
+         this.bindEntityTexture(entity);
+         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+         GlStateManager.pushMatrix();

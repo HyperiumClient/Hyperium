@@ -27,22 +27,53 @@ object Renderer {
     var colorized: Int? = null
     private var retainTransforms = false
 
-    @JvmStatic val BLACK = color(0, 0, 0, 255)
-    @JvmStatic val DARK_BLUE = color(0, 0, 190, 255)
-    @JvmStatic val DARK_GREEN = color(0, 190, 0, 255)
-    @JvmStatic val DARK_AQUA = color(0, 190, 190, 255)
-    @JvmStatic val DARK_RED = color(190, 0, 0, 255)
-    @JvmStatic val DARK_PURPLE = color(190, 0, 190, 255)
-    @JvmStatic val GOLD = color(217, 163, 52, 255)
-    @JvmStatic val GRAY = color(190, 190, 190, 255)
-    @JvmStatic val DARK_GRAY = color(63, 63, 63, 255)
-    @JvmStatic val BLUE = color(63, 63, 254, 255)
-    @JvmStatic val GREEN = color(63, 254, 63, 255)
-    @JvmStatic val AQUA = color(63, 254, 254, 255)
-    @JvmStatic val RED = color(254, 63, 63, 255)
-    @JvmStatic val LIGHT_PURPLE = color(254, 63, 254, 255)
-    @JvmStatic val YELLOW = color(254, 254, 63, 255)
-    @JvmStatic val WHITE = color(255, 255, 255, 255)
+    @JvmStatic
+    val BLACK = color(0, 0, 0, 255)
+
+    @JvmStatic
+    val DARK_BLUE = color(0, 0, 190, 255)
+
+    @JvmStatic
+    val DARK_GREEN = color(0, 190, 0, 255)
+
+    @JvmStatic
+    val DARK_AQUA = color(0, 190, 190, 255)
+
+    @JvmStatic
+    val DARK_RED = color(190, 0, 0, 255)
+
+    @JvmStatic
+    val DARK_PURPLE = color(190, 0, 190, 255)
+
+    @JvmStatic
+    val GOLD = color(217, 163, 52, 255)
+
+    @JvmStatic
+    val GRAY = color(190, 190, 190, 255)
+
+    @JvmStatic
+    val DARK_GRAY = color(63, 63, 63, 255)
+
+    @JvmStatic
+    val BLUE = color(63, 63, 254, 255)
+
+    @JvmStatic
+    val GREEN = color(63, 254, 63, 255)
+
+    @JvmStatic
+    val AQUA = color(63, 254, 254, 255)
+
+    @JvmStatic
+    val RED = color(254, 63, 63, 255)
+
+    @JvmStatic
+    val LIGHT_PURPLE = color(254, 63, 254, 255)
+
+    @JvmStatic
+    val YELLOW = color(254, 254, 63, 255)
+
+    @JvmStatic
+    val WHITE = color(255, 255, 255, 255)
 
     @JvmStatic
     fun getColor(color: Int): Int {
@@ -81,9 +112,9 @@ object Renderer {
     @JvmOverloads
     fun color(red: Int, green: Int, blue: Int, alpha: Int = 255): Int {
         return (MathLib.clamp(alpha, 0, 255) * 0x1000000
-                + MathLib.clamp(red, 0, 255) * 0x10000
-                + MathLib.clamp(green, 0, 255) * 0x100
-                + MathLib.clamp(blue, 0, 255))
+            + MathLib.clamp(red, 0, 255) * 0x10000
+            + MathLib.clamp(green, 0, 255) * 0x100
+            + MathLib.clamp(blue, 0, 255))
     }
 
     @JvmStatic
@@ -354,13 +385,19 @@ object Renderer {
 
     @JvmStatic
     fun drawString(text: String, x: Float, y: Float) {
-        getFontRenderer().drawString(ChatLib.addColor(text), x, y, colorized ?: 0xffffffff.toInt(), false)
+        getFontRenderer().drawString(
+            ChatLib.addColor(text), x, y, colorized
+                ?: 0xffffffff.toInt(), false
+        )
         finishDraw()
     }
 
     @JvmStatic
     fun drawStringWithShadow(text: String, x: Float, y: Float) {
-        getFontRenderer().drawString(ChatLib.addColor(text), x, y, colorized ?: 0xffffffff.toInt(), true)
+        getFontRenderer().drawString(
+            ChatLib.addColor(text), x, y, colorized
+                ?: 0xffffffff.toInt(), true
+        )
         finishDraw()
     }
 

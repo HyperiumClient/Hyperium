@@ -230,12 +230,12 @@ abstract class Display {
 
     override fun toString() =
         "Display{" +
-                "shouldRender=$shouldRender, " +
-                "renderX=$renderX, renderY=$renderY, " +
-                "background=$background, backgroundColor=$backgroundColor, " +
-                "textColor=$textColor, align=$align, order=$order, " +
-                "minWidth=$minWidth, width=$width, height=$height, " +
-                "lines=$lines" +
-                "}"
+            "shouldRender=$shouldRender, " +
+            "renderX=$renderX, renderY=$renderY, " +
+            "background=$background, backgroundColor=$backgroundColor, " +
+            "textColor=$textColor, align=$align, order=$order, " +
+            "minWidth=$minWidth, width=$width, height=$height, " +
+            "lines=$lines" +
+            "}"
 
 }

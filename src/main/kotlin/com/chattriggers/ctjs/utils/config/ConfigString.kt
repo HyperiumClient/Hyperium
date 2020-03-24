@@ -11,7 +11,7 @@ import kotlin.properties.Delegates
 import kotlin.reflect.KMutableProperty
 
 class ConfigString
-    (private val prop: KMutableProperty<String>, name: String = "", x: Int = 0, y: Int = 0) : ConfigOption() {
+(private val prop: KMutableProperty<String>, name: String = "", x: Int = 0, y: Int = 0) : ConfigOption() {
 
     private var value: String by Delegates.observable(prop.getter.call(Config)) { _, _, new ->
         prop.setter.call(Config, new)
@@ -45,9 +45,9 @@ class ConfigString
 
         updateValidDirectory(value)
         textField = GuiTextField(
-            0, Renderer.getFontRenderer(),
-            Renderer.Screen.getWidth() / 2 - 100 + x, y + 15,
-            200, 20
+                0, Renderer.getFontRenderer(),
+                Renderer.Screen.getWidth() / 2 - 100 + x, y + 15,
+                200, 20
         )
         textField?.maxStringLength = 100
         textField?.text = isValidColor + value
@@ -61,8 +61,8 @@ class ConfigString
         val middle = Renderer.Screen.getWidth() / 2
 
         Rectangle(-0x80000000, (middle - 105 + x).toFloat(), (y - 5).toFloat(), 210f, 45f)
-            .setShadow(-0x30000000, 3f, 3f)
-            .draw()
+                .setShadow(-0x30000000, 3f, 3f)
+                .draw()
         Text(name!!, (middle - 100 + x).toFloat(), y.toFloat()).draw()
         textField!!.xPosition = middle - 100 + x
         textField!!.drawTextBox()

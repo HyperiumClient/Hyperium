@@ -32,35 +32,35 @@ import java.util.List;
  */
 public class CommandToggleChat implements BaseCommand {
 
-    /**
-     * The "mod" instance
-     */
-    private final ToggleChatMod mod;
+  /**
+   * The "mod" instance
+   */
+  private final ToggleChatMod mod;
 
-    /**
-     * Default constructor
-     */
-    public CommandToggleChat(ToggleChatMod impl) {
-        mod = impl;
-    }
+  /**
+   * Default constructor
+   */
+  public CommandToggleChat(ToggleChatMod impl) {
+    mod = impl;
+  }
 
-    @Override
-    public String getName() {
-        return "chattoggle";
-    }
+  @Override
+  public String getName() {
+    return "chattoggle";
+  }
 
-    @Override
-    public String getUsage() {
-        return ChatColor.RED + "Usage: /chattoggle";
-    }
+  @Override
+  public String getUsage() {
+    return ChatColor.RED + "Usage: /chattoggle";
+  }
 
-    @Override
-    public List<String> getCommandAliases() {
-        return Collections.singletonList("tc");
-    }
+  @Override
+  public List<String> getCommandAliases() {
+    return Collections.singletonList("tc");
+  }
 
-    @Override
-    public void onExecute(String[] args) {
-        new ToggleChatMainGui(mod, 0).display();
-    }
+  @Override
+  public void onExecute(String[] args) {
+    new ToggleChatMainGui(mod, 0).display();
+  }
 }

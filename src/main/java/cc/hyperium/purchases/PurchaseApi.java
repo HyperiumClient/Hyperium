@@ -49,158 +49,178 @@ import java.util.function.Consumer;
 
 public class PurchaseApi {
 
-    public final static String url = "https://api.hyperium.cc/purchases/";
-    private static final PurchaseApi instance = new PurchaseApi();
-    private final Map<UUID, HyperiumPurchase> purchasePlayers = new ConcurrentHashMap<>();
-    private final Map<EnumPurchaseType, Class<? extends AbstractHyperiumPurchase>> purchaseClasses = new HashMap<>();
-    private final Map<String, UUID> nameToUuid = new HashMap<>();
-    private JsonHolder capeAtlas = new JsonHolder();
+  public final static String url = "https://api.hyperium.cc/purchases/";
+  private static final PurchaseApi instance = new PurchaseApi();
+  private final Map<UUID, HyperiumPurchase> purchasePlayers = new ConcurrentHashMap<>();
+  private final Map<EnumPurchaseType, Class<? extends AbstractHyperiumPurchase>> purchaseClasses = new HashMap<>();
+  private final Map<String, UUID> nameToUuid = new HashMap<>();
+  private JsonHolder capeAtlas = new JsonHolder();
 
-    private PurchaseApi() {
-        register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
+  private PurchaseApi() {
+    register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
 
-        for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
-            purchaseClasses.putIfAbsent(enumPurchaseType, DefaultCosmetic.class);
-        }
-
-        getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> Hyperium.LOGGER.info("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
-        Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));
-        getSelf();
+    for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
+      purchaseClasses.putIfAbsent(enumPurchaseType, DefaultCosmetic.class);
     }
 
-    public static PurchaseApi getInstance() {
-        return instance;
-    }
+    getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> Hyperium.LOGGER
+        .info("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
+    Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));
+    getSelf();
+  }
 
-    public JsonHolder getCapeAtlas() {
-        return capeAtlas;
-    }
+  public static PurchaseApi getInstance() {
+    return instance;
+  }
 
-    @InvokeEvent
-    public void worldSwitch(WorldChangeEvent event) {
-        Multithreading.runAsync(() -> {
-            synchronized (instance) {
-                UUID id = UUIDUtil.getClientUUID();
-                if (id == null) return;
-                HyperiumPurchase purchase = purchasePlayers.get(id);
-                purchasePlayers.clear();
-                if (purchase != null) purchasePlayers.put(id, purchase);
-                nameToUuid.clear();
-            }
-        });
-    }
+  public JsonHolder getCapeAtlas() {
+    return capeAtlas;
+  }
 
-    public UUID nameToUUID(String name) {
-        UUID uuid = nameToUuid.get(name.toLowerCase(Locale.ENGLISH));
-        if (uuid != null) return uuid;
-        WorldClient theWorld = Minecraft.getMinecraft().theWorld;
-        if (theWorld == null) return null;
-
-        for (EntityPlayer playerEntity : theWorld.playerEntities) {
-            if (playerEntity.getName().equalsIgnoreCase(name) || EnumChatFormatting.getTextWithoutFormattingCodes(playerEntity.getName()).equalsIgnoreCase(name)) {
-                nameToUuid.put(name.toLowerCase(Locale.ENGLISH), playerEntity.getUniqueID());
-                return playerEntity.getUniqueID();
-            }
-        }
-
-        return null;
-    }
-
-    public HyperiumPurchase getPackageSync(UUID uuid) {
-        if (uuid == null)
-            return null;
-        return purchasePlayers.computeIfAbsent(uuid, uuid1 -> {
-            String s = uuid.toString().replace("-", "");
-            if (s.length() == 32 && s.charAt(12) != '4') {
-                HyperiumPurchase non_player = new HyperiumPurchase(uuid, new JsonHolder().put("non_player", true));
-                EventBus.INSTANCE.post(new PurchaseLoadEvent(uuid, non_player, false));
-                return non_player;
-            }
-
-            HyperiumPurchase hyperiumPurchase = new HyperiumPurchase(uuid, get(url + uuid.toString()));
-            EventBus.INSTANCE.post(new PurchaseLoadEvent(uuid, hyperiumPurchase, uuid.equals(UUIDUtil.getClientUUID())));
-            return hyperiumPurchase;
-        });
-    }
-
-    public HyperiumPurchase getPackageIfReady(UUID uuid) {
-        if (uuid == null) return null;
-        return purchasePlayers.get(uuid);
-    }
-
-    public void getPackageAsync(UUID uuid, Consumer<HyperiumPurchase> callback) {
-        try {
-            Multithreading.runAsync(() -> callback.accept(getPackageSync(uuid)));
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public HyperiumPurchase getSelf() {
-        return getPackageIfReady(UUIDUtil.getClientUUID());
-    }
-
-    public void ensureLoaded(UUID uuid) {
-        Multithreading.runAsync(() -> getPackageSync(uuid));
-    }
-
-    public void register(EnumPurchaseType type, Class<? extends AbstractHyperiumPurchase> ex) {
-        purchaseClasses.put(type, ex);
-    }
-
-    @SuppressWarnings("rawtypes")
-    public AbstractHyperiumPurchase parse(EnumPurchaseType type, JsonHolder data) {
-        Class<? extends AbstractHyperiumPurchase> c = purchaseClasses.get(type);
-        if (c == null) return null;
-        Class[] cArg = new Class[2];
-        cArg[0] = EnumPurchaseType.class;
-        cArg[1] = JsonHolder.class;
-
-        try {
-            Constructor<? extends AbstractHyperiumPurchase> declaredConstructor = c.getDeclaredConstructor(cArg);
-            return declaredConstructor.newInstance(type, data);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public JsonHolder get(String url) {
-        url = url.replace(" ", "%20");
-        HttpURLConnection connection = null;
-        try {
-            URL u = new URL(url);
-            connection = (HttpURLConnection) u.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setUseCaches(true);
-            connection.addRequestProperty("User-Agent", "Mozilla/4.76 Hyperium ");
-            connection.setReadTimeout(15000);
-            connection.setConnectTimeout(15000);
-            connection.setDoOutput(true);
-            InputStream is = connection.getInputStream();
-            return new JsonHolder(IOUtils.toString(is, StandardCharsets.UTF_8));
-        } catch (Exception ignored) {
-        } finally {
-            if (connection != null) connection.disconnect();
-        }
-
-        JsonObject object = new JsonObject();
-        object.addProperty("success", false);
-        object.addProperty("cause", "Exception");
-        return new JsonHolder(object);
-    }
-
-    public synchronized void refreshSelf() {
+  @InvokeEvent
+  public void worldSwitch(WorldChangeEvent event) {
+    Multithreading.runAsync(() -> {
+      synchronized (instance) {
         UUID id = UUIDUtil.getClientUUID();
-        HyperiumPurchase value = new HyperiumPurchase(id, get(url + id.toString()));
-        EventBus.INSTANCE.post(new PurchaseLoadEvent(id, value, true));
-        purchasePlayers.put(id, value);
+        if (id == null) {
+          return;
+        }
+        HyperiumPurchase purchase = purchasePlayers.get(id);
+        purchasePlayers.clear();
+        if (purchase != null) {
+          purchasePlayers.put(id, purchase);
+        }
+        nameToUuid.clear();
+      }
+    });
+  }
+
+  public UUID nameToUUID(String name) {
+    UUID uuid = nameToUuid.get(name.toLowerCase(Locale.ENGLISH));
+    if (uuid != null) {
+      return uuid;
+    }
+    WorldClient theWorld = Minecraft.getMinecraft().theWorld;
+    if (theWorld == null) {
+      return null;
     }
 
-    public void reload(UUID uuid) {
-        HyperiumPurchase value = new HyperiumPurchase(uuid, get(url + uuid.toString()));
-        EventBus.INSTANCE.post(new PurchaseLoadEvent(uuid, value, true));
-        purchasePlayers.put(uuid, value);
-        HyperiumCapeHandler.LOCATION_CACHE.clear();
+    for (EntityPlayer playerEntity : theWorld.playerEntities) {
+      if (playerEntity.getName().equalsIgnoreCase(name) || EnumChatFormatting
+          .getTextWithoutFormattingCodes(playerEntity.getName()).equalsIgnoreCase(name)) {
+        nameToUuid.put(name.toLowerCase(Locale.ENGLISH), playerEntity.getUniqueID());
+        return playerEntity.getUniqueID();
+      }
     }
+
+    return null;
+  }
+
+  public HyperiumPurchase getPackageSync(UUID uuid) {
+    if (uuid == null) {
+      return null;
+    }
+    return purchasePlayers.computeIfAbsent(uuid, uuid1 -> {
+      String s = uuid.toString().replace("-", "");
+      if (s.length() == 32 && s.charAt(12) != '4') {
+        HyperiumPurchase non_player = new HyperiumPurchase(uuid,
+            new JsonHolder().put("non_player", true));
+        EventBus.INSTANCE.post(new PurchaseLoadEvent(uuid, non_player, false));
+        return non_player;
+      }
+
+      HyperiumPurchase hyperiumPurchase = new HyperiumPurchase(uuid, get(url + uuid.toString()));
+      EventBus.INSTANCE.post(
+          new PurchaseLoadEvent(uuid, hyperiumPurchase, uuid.equals(UUIDUtil.getClientUUID())));
+      return hyperiumPurchase;
+    });
+  }
+
+  public HyperiumPurchase getPackageIfReady(UUID uuid) {
+    if (uuid == null) {
+      return null;
+    }
+    return purchasePlayers.get(uuid);
+  }
+
+  public void getPackageAsync(UUID uuid, Consumer<HyperiumPurchase> callback) {
+    try {
+      Multithreading.runAsync(() -> callback.accept(getPackageSync(uuid)));
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public HyperiumPurchase getSelf() {
+    return getPackageIfReady(UUIDUtil.getClientUUID());
+  }
+
+  public void ensureLoaded(UUID uuid) {
+    Multithreading.runAsync(() -> getPackageSync(uuid));
+  }
+
+  public void register(EnumPurchaseType type, Class<? extends AbstractHyperiumPurchase> ex) {
+    purchaseClasses.put(type, ex);
+  }
+
+  @SuppressWarnings("rawtypes")
+  public AbstractHyperiumPurchase parse(EnumPurchaseType type, JsonHolder data) {
+    Class<? extends AbstractHyperiumPurchase> c = purchaseClasses.get(type);
+    if (c == null) {
+      return null;
+    }
+    Class[] cArg = new Class[2];
+    cArg[0] = EnumPurchaseType.class;
+    cArg[1] = JsonHolder.class;
+
+    try {
+      Constructor<? extends AbstractHyperiumPurchase> declaredConstructor = c
+          .getDeclaredConstructor(cArg);
+      return declaredConstructor.newInstance(type, data);
+    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public JsonHolder get(String url) {
+    url = url.replace(" ", "%20");
+    HttpURLConnection connection = null;
+    try {
+      URL u = new URL(url);
+      connection = (HttpURLConnection) u.openConnection();
+      connection.setRequestMethod("GET");
+      connection.setUseCaches(true);
+      connection.addRequestProperty("User-Agent", "Mozilla/4.76 Hyperium ");
+      connection.setReadTimeout(15000);
+      connection.setConnectTimeout(15000);
+      connection.setDoOutput(true);
+      InputStream is = connection.getInputStream();
+      return new JsonHolder(IOUtils.toString(is, StandardCharsets.UTF_8));
+    } catch (Exception ignored) {
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+
+    JsonObject object = new JsonObject();
+    object.addProperty("success", false);
+    object.addProperty("cause", "Exception");
+    return new JsonHolder(object);
+  }
+
+  public synchronized void refreshSelf() {
+    UUID id = UUIDUtil.getClientUUID();
+    HyperiumPurchase value = new HyperiumPurchase(id, get(url + id.toString()));
+    EventBus.INSTANCE.post(new PurchaseLoadEvent(id, value, true));
+    purchasePlayers.put(id, value);
+  }
+
+  public void reload(UUID uuid) {
+    HyperiumPurchase value = new HyperiumPurchase(uuid, get(url + uuid.toString()));
+    EventBus.INSTANCE.post(new PurchaseLoadEvent(uuid, value, true));
+    purchasePlayers.put(uuid, value);
+    HyperiumCapeHandler.LOCATION_CACHE.clear();
+  }
 }

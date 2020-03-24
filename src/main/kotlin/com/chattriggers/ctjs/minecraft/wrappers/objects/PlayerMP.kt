@@ -63,9 +63,9 @@ class PlayerMP(val player: EntityPlayer) : Entity(player) {
 
     override fun toString(): String {
         return "PlayerMP{name:" + getName() +
-                ",ping:" + getPing() +
-                ",entity:" + super.toString() +
-                "}"
+            ",ping:" + getPing() +
+            ",entity:" + super.toString() +
+            "}"
     }
 
     override fun getName(): String = player.name

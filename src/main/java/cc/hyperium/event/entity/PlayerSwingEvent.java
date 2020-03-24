@@ -30,47 +30,48 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class PlayerSwingEvent extends Event {
 
-    @NotNull
-    private final UUID player;
+  @NotNull
+  private final UUID player;
 
-    @NotNull
-    private final Vec3 posVec;
+  @NotNull
+  private final Vec3 posVec;
 
-    @NotNull
-    private final Vec3 lookVec;
+  @NotNull
+  private final Vec3 lookVec;
 
-    @NotNull
-    private final BlockPos pos;
+  @NotNull
+  private final BlockPos pos;
 
-    public PlayerSwingEvent(@NotNull UUID player, @NotNull Vec3 posVec, @NotNull Vec3 lookVec, @NotNull BlockPos pos) {
-        Preconditions.checkNotNull(player, "player");
-        Preconditions.checkNotNull(posVec, "posVec");
-        Preconditions.checkNotNull(lookVec, "lookVec");
-        Preconditions.checkNotNull(pos, "pos");
+  public PlayerSwingEvent(@NotNull UUID player, @NotNull Vec3 posVec, @NotNull Vec3 lookVec,
+      @NotNull BlockPos pos) {
+    Preconditions.checkNotNull(player, "player");
+    Preconditions.checkNotNull(posVec, "posVec");
+    Preconditions.checkNotNull(lookVec, "lookVec");
+    Preconditions.checkNotNull(pos, "pos");
 
-        this.player = player;
-        this.posVec = posVec;
-        this.lookVec = lookVec;
-        this.pos = pos;
-    }
+    this.player = player;
+    this.posVec = posVec;
+    this.lookVec = lookVec;
+    this.pos = pos;
+  }
 
-    @NotNull
-    public final UUID getPlayer() {
-        return player;
-    }
+  @NotNull
+  public final UUID getPlayer() {
+    return player;
+  }
 
-    @NotNull
-    public final Vec3 getPosVec() {
-        return posVec;
-    }
+  @NotNull
+  public final Vec3 getPosVec() {
+    return posVec;
+  }
 
-    @NotNull
-    public final Vec3 getLookVec() {
-        return lookVec;
-    }
+  @NotNull
+  public final Vec3 getLookVec() {
+    return lookVec;
+  }
 
-    @NotNull
-    public final BlockPos getPos() {
-        return pos;
-    }
+  @NotNull
+  public final BlockPos getPos() {
+    return pos;
+  }
 }

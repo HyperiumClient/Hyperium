@@ -177,9 +177,9 @@ class Item {
      */
     override fun equals(other: Any?): Boolean {
         return other is Item &&
-                getID() == other.getID() &&
-                getStackSize() == other.getStackSize() &&
-                getDamage() == other.getDamage()
+            getID() == other.getID() &&
+            getStackSize() == other.getStackSize() &&
+            getDamage() == other.getDamage()
     }
 
     override fun hashCode(): Int {

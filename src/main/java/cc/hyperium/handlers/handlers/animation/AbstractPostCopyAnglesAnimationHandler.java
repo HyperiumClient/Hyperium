@@ -24,10 +24,10 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 
 public abstract class AbstractPostCopyAnglesAnimationHandler extends AbstractAnimationHandler {
 
-    @InvokeEvent
-    public void onPostCopyPlayerModelAngles(PostCopyPlayerModelAnglesEvent event) {
-        AbstractClientPlayer entity = event.getEntity();
-        IModelBiped player = event.getModel();
-        modify(entity, player, false);
-    }
+  @InvokeEvent
+  public void onPostCopyPlayerModelAngles(PostCopyPlayerModelAnglesEvent event) {
+    AbstractClientPlayer entity = event.getEntity();
+    IModelBiped player = event.getModel();
+    modify(entity, player, false);
+  }
 }

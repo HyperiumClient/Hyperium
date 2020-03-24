@@ -31,123 +31,131 @@ import java.util.stream.Collectors;
 
 public class AboveHeadDisplay extends LevelheadDisplay {
 
-    private boolean bottomValue = true;
-    private int index;
+  private boolean bottomValue = true;
+  private int index;
 
-    public AboveHeadDisplay(DisplayConfig config) {
-        super(DisplayPosition.ABOVE_HEAD, config);
-    }
+  public AboveHeadDisplay(DisplayConfig config) {
+    super(DisplayPosition.ABOVE_HEAD, config);
+  }
 
-    @Override
-    public void tick() {
-        for (EntityPlayer player : Minecraft.getMinecraft().theWorld.playerEntities) {
-            if (!existedMoreThan5Seconds.contains(player.getUniqueID())) {
-                if (!timeCheck.containsKey(player.getUniqueID())) timeCheck.put(player.getUniqueID(), 0);
-
-                int old = timeCheck.get(player.getUniqueID());
-                if (old > 100) {
-                    if (!existedMoreThan5Seconds.contains(player.getUniqueID())) {
-                        existedMoreThan5Seconds.add(player.getUniqueID());
-                    }
-                } else if (!player.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer)) {
-                    timeCheck.put(player.getUniqueID(), old + 1);
-                }
-            }
-
-            if (loadOrRender(player)) {
-                UUID uuid = player.getUniqueID();
-                if (!cache.containsKey(uuid)) Levelhead.getInstance().fetch(uuid, this, bottomValue);
-            }
-        }
-    }
-
-    @Override
-    public void checkCacheSize() {
-        int max = Math.max(150, Levelhead.getInstance().getDisplayManager().getMasterConfig().getPurgeSize());
-        if (cache.size() > max) {
-            ArrayList<UUID> safePlayers = new ArrayList<>();
-            for (EntityPlayer player : Minecraft.getMinecraft().theWorld.playerEntities) {
-                if (existedMoreThan5Seconds.contains(player.getUniqueID())) {
-                    UUID uniqueID = player.getUniqueID();
-                    safePlayers.add(uniqueID);
-                }
-            }
-
-            existedMoreThan5Seconds.clear();
-            existedMoreThan5Seconds.addAll(safePlayers);
-
-            for (UUID uuid : cache.keySet()) {
-                if (!safePlayers.contains(uuid)) {
-                    cache.remove(uuid);
-                    trueValueCache.remove(uuid);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onDelete() {
-        cache.clear();
-        trueValueCache.clear();
-        existedMoreThan5Seconds.clear();
-    }
-
-    @Override
-    public boolean loadOrRender(EntityPlayer player) {
-        for (PotionEffect effect : player.getActivePotionEffects()) {
-            if (effect.getPotionID() == 14) return false;
+  @Override
+  public void tick() {
+    for (EntityPlayer player : Minecraft.getMinecraft().theWorld.playerEntities) {
+      if (!existedMoreThan5Seconds.contains(player.getUniqueID())) {
+        if (!timeCheck.containsKey(player.getUniqueID())) {
+          timeCheck.put(player.getUniqueID(), 0);
         }
 
-        if (!renderFromTeam(player) || player.riddenByEntity != null) {
-            return false;
+        int old = timeCheck.get(player.getUniqueID());
+        if (old > 100) {
+          if (!existedMoreThan5Seconds.contains(player.getUniqueID())) {
+            existedMoreThan5Seconds.add(player.getUniqueID());
+          }
+        } else if (!player.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer)) {
+          timeCheck.put(player.getUniqueID(), old + 1);
         }
+      }
 
-        int renderDistance = Levelhead.getInstance().getDisplayManager().getMasterConfig().getRenderDistance();
-        int min = Math.min(64 << 6, renderDistance * renderDistance);
-        return !(player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min) &&
-                (!player.hasCustomName() || !player.getCustomNameTag().isEmpty()) &&
-                !player.getDisplayName().toString().isEmpty() &&
-                existedMoreThan5Seconds.contains(player.getUniqueID()) &&
-                !player.getDisplayName().getFormattedText().contains(ChatColor.COLOR_CHAR + "k") &&
-                !player.isInvisible() &&
-                !player.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) &&
-                !player.isSneaking();
-    }
-
-    private boolean renderFromTeam(EntityPlayer player) {
-        Team team = player.getTeam();
-        Team team1 = Minecraft.getMinecraft().thePlayer.getTeam();
-
-        if (team != null) {
-            Team.EnumVisible visibility = team.getNameTagVisibility();
-            switch (visibility) {
-                case NEVER:
-                    return false;
-
-                case HIDE_FOR_OTHER_TEAMS:
-                    return team1 == null || team.isSameTeam(team1);
-
-                case HIDE_FOR_OWN_TEAM:
-                    return team1 == null || !team.isSameTeam(team1);
-
-                case ALWAYS:
-                default:
-                    return true;
-            }
+      if (loadOrRender(player)) {
+        UUID uuid = player.getUniqueID();
+        if (!cache.containsKey(uuid)) {
+          Levelhead.getInstance().fetch(uuid, this, bottomValue);
         }
+      }
+    }
+  }
 
-        return true;
+  @Override
+  public void checkCacheSize() {
+    int max = Math
+        .max(150, Levelhead.getInstance().getDisplayManager().getMasterConfig().getPurgeSize());
+    if (cache.size() > max) {
+      ArrayList<UUID> safePlayers = new ArrayList<>();
+      for (EntityPlayer player : Minecraft.getMinecraft().theWorld.playerEntities) {
+        if (existedMoreThan5Seconds.contains(player.getUniqueID())) {
+          UUID uniqueID = player.getUniqueID();
+          safePlayers.add(uniqueID);
+        }
+      }
+
+      existedMoreThan5Seconds.clear();
+      existedMoreThan5Seconds.addAll(safePlayers);
+
+      for (UUID uuid : cache.keySet()) {
+        if (!safePlayers.contains(uuid)) {
+          cache.remove(uuid);
+          trueValueCache.remove(uuid);
+        }
+      }
+    }
+  }
+
+  @Override
+  public void onDelete() {
+    cache.clear();
+    trueValueCache.clear();
+    existedMoreThan5Seconds.clear();
+  }
+
+  @Override
+  public boolean loadOrRender(EntityPlayer player) {
+    for (PotionEffect effect : player.getActivePotionEffects()) {
+      if (effect.getPotionID() == 14) {
+        return false;
+      }
     }
 
-    void setBottomValue(boolean bottomValue) {
-        this.bottomValue = bottomValue;
+    if (!renderFromTeam(player) || player.riddenByEntity != null) {
+      return false;
     }
 
-    public int getIndex() {
-        return index;
+    int renderDistance = Levelhead.getInstance().getDisplayManager().getMasterConfig()
+        .getRenderDistance();
+    int min = Math.min(64 << 6, renderDistance * renderDistance);
+    return !(player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min) &&
+        (!player.hasCustomName() || !player.getCustomNameTag().isEmpty()) &&
+        !player.getDisplayName().toString().isEmpty() &&
+        existedMoreThan5Seconds.contains(player.getUniqueID()) &&
+        !player.getDisplayName().getFormattedText().contains(ChatColor.COLOR_CHAR + "k") &&
+        !player.isInvisible() &&
+        !player.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) &&
+        !player.isSneaking();
+  }
+
+  private boolean renderFromTeam(EntityPlayer player) {
+    Team team = player.getTeam();
+    Team team1 = Minecraft.getMinecraft().thePlayer.getTeam();
+
+    if (team != null) {
+      Team.EnumVisible visibility = team.getNameTagVisibility();
+      switch (visibility) {
+        case NEVER:
+          return false;
+
+        case HIDE_FOR_OTHER_TEAMS:
+          return team1 == null || team.isSameTeam(team1);
+
+        case HIDE_FOR_OWN_TEAM:
+          return team1 == null || !team.isSameTeam(team1);
+
+        case ALWAYS:
+        default:
+          return true;
+      }
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
+    return true;
+  }
+
+  void setBottomValue(boolean bottomValue) {
+    this.bottomValue = bottomValue;
+  }
+
+  public int getIndex() {
+    return index;
+  }
+
+  public void setIndex(int index) {
+    this.index = index;
+  }
 }

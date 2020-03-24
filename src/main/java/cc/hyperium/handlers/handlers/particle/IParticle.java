@@ -25,6 +25,6 @@ import net.minecraft.world.World;
  */
 public interface IParticle {
 
-    EntityFX spawn(World world, double x, double y, double z);
+  EntityFX spawn(World world, double x, double y, double z);
 
 }

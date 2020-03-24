@@ -18,48 +18,49 @@
 package cc.hyperium.handlers.handlers.animation;
 
 public class BodyPart {
-    public float rotationPointX;
-    public float rotationPointY;
-    public float rotationPointZ;
-    public float rotateAngleX;
-    public float rotateAngleY;
-    public float rotateAngleZ;
-    public float offsetX;
-    public float offsetY;
-    public float offsetZ;
-    public boolean visible = true;
 
-    public BodyPart calc(float percent, BodyPart next) {
-        BodyPart bodyPart = new BodyPart();
-        bodyPart.rotationPointX = interpolate(rotationPointX, next.rotationPointX, percent);
-        bodyPart.rotationPointY = interpolate(rotationPointY, next.rotationPointY, percent);
-        bodyPart.rotationPointZ = interpolate(rotationPointZ, next.rotationPointZ, percent);
-        bodyPart.rotateAngleX = interpolate(rotateAngleX, next.rotateAngleX, percent);
-        bodyPart.rotateAngleY = interpolate(rotateAngleY, next.rotateAngleY, percent);
-        bodyPart.rotateAngleZ = interpolate(rotateAngleZ, next.rotateAngleZ, percent);
-        bodyPart.offsetX = interpolate(offsetX, next.offsetX, percent);
-        bodyPart.offsetY = interpolate(offsetY, next.offsetY, percent);
-        bodyPart.offsetZ = interpolate(offsetZ, next.offsetZ, percent);
-        bodyPart.visible = visible;
-        return bodyPart;
-    }
+  public float rotationPointX;
+  public float rotationPointY;
+  public float rotationPointZ;
+  public float rotateAngleX;
+  public float rotateAngleY;
+  public float rotateAngleZ;
+  public float offsetX;
+  public float offsetY;
+  public float offsetZ;
+  public boolean visible = true;
 
-    @Override
-    public String toString() {
-        return "BodyPart{" +
-            "rotationPointX=" + rotationPointX +
-            ", rotationPointY=" + rotationPointY +
-            ", rotationPointZ=" + rotationPointZ +
-            ", rotateAngleX=" + rotateAngleX +
-            ", rotateAngleY=" + rotateAngleY +
-            ", rotateAngleZ=" + rotateAngleZ +
-            ", offsetX=" + offsetX +
-            ", offsetY=" + offsetY +
-            ", offsetZ=" + offsetZ +
-            '}';
-    }
+  public BodyPart calc(float percent, BodyPart next) {
+    BodyPart bodyPart = new BodyPart();
+    bodyPart.rotationPointX = interpolate(rotationPointX, next.rotationPointX, percent);
+    bodyPart.rotationPointY = interpolate(rotationPointY, next.rotationPointY, percent);
+    bodyPart.rotationPointZ = interpolate(rotationPointZ, next.rotationPointZ, percent);
+    bodyPart.rotateAngleX = interpolate(rotateAngleX, next.rotateAngleX, percent);
+    bodyPart.rotateAngleY = interpolate(rotateAngleY, next.rotateAngleY, percent);
+    bodyPart.rotateAngleZ = interpolate(rotateAngleZ, next.rotateAngleZ, percent);
+    bodyPart.offsetX = interpolate(offsetX, next.offsetX, percent);
+    bodyPart.offsetY = interpolate(offsetY, next.offsetY, percent);
+    bodyPart.offsetZ = interpolate(offsetZ, next.offsetZ, percent);
+    bodyPart.visible = visible;
+    return bodyPart;
+  }
 
-    private float interpolate(final float now, final float then, final float percent) {
-        return (now + (then - now) * percent);
-    }
+  @Override
+  public String toString() {
+    return "BodyPart{" +
+        "rotationPointX=" + rotationPointX +
+        ", rotationPointY=" + rotationPointY +
+        ", rotationPointZ=" + rotationPointZ +
+        ", rotateAngleX=" + rotateAngleX +
+        ", rotateAngleY=" + rotateAngleY +
+        ", rotateAngleZ=" + rotateAngleZ +
+        ", offsetX=" + offsetX +
+        ", offsetY=" + offsetY +
+        ", offsetZ=" + offsetZ +
+        '}';
+  }
+
+  private float interpolate(final float now, final float then, final float percent) {
+    return (now + (then - now) * percent);
+  }
 }

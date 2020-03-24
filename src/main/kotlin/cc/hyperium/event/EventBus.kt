@@ -32,9 +32,7 @@ object EventBus {
                     continue
                 }
 
-                if (method.parameters[0] == null) {
-                    throw IllegalArgumentException("Couldn't find parameter inside of ${method.name}!")
-                }
+                method.parameters[0] ?: throw IllegalArgumentException("Couldn't find parameter inside of ${method.name}")
 
                 val event = method.parameters[0].type
                 val priority = method.getAnnotation(InvokeEvent::class.java).priority

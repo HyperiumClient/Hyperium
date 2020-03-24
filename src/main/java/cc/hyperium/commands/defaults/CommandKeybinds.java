@@ -17,31 +17,36 @@
 
 package cc.hyperium.commands.defaults;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.gui.keybinds.GuiKeybinds;
 
 import java.util.Collections;
 import java.util.List;
 
+import cc.hyperium.gui.keybinds.GuiKeybinds;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiControls;
+
 public class CommandKeybinds implements BaseCommand {
 
-    @Override
-    public String getName() {
-        return "keybinds";
-    }
+  @Override
+  public String getName() {
+    return "keybinds";
+  }
 
-    @Override
-    public String getUsage() {
-        return "/keybinds";
-    }
+  @Override
+  public String getUsage() {
+    return "/keybinds";
+  }
 
-    @Override
-    public List<String> getCommandAliases() {
-        return Collections.singletonList("controls");
-    }
+  @Override
+  public List<String> getCommandAliases() {
+    return Collections.singletonList("controls");
+  }
 
-    @Override
-    public void onExecute(String[] args) {
-        new GuiKeybinds().show();
-    }
+  @Override
+  public void onExecute(String[] args) {
+    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiKeybinds());
+  }
+
 }

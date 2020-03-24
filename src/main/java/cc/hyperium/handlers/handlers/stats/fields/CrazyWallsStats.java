@@ -25,25 +25,26 @@ import net.hypixel.api.GameType;
 import java.util.List;
 
 public class CrazyWallsStats extends AbstractHypixelStats {
-    @Override
-    public String getImage() {
-        return "CrazyWalls-64";
-    }
 
-    @Override
-    public String getName() {
-        return "Crazy Walls";
-    }
+  @Override
+  public String getImage() {
+    return "CrazyWalls-64";
+  }
 
-    @Override
-    public GameType getGameType() {
-        return GameType.TRUE_COMBAT;
-    }
+  @Override
+  public String getName() {
+    return "Crazy Walls";
+  }
 
-    //I checked the api, there isn't much other useful info
-    @Override
-    public List<StatsDisplayItem> getDeepStats(HypixelApiPlayer player) {
+  @Override
+  public GameType getGameType() {
+    return GameType.TRUE_COMBAT;
+  }
 
-        return super.getPreview(player);
-    }
+  //I checked the api, there isn't much other useful info
+  @Override
+  public List<StatsDisplayItem> getDeepStats(HypixelApiPlayer player) {
+
+    return super.getPreview(player);
+  }
 }

@@ -28,68 +28,72 @@ import java.util.UUID;
 
 public class MojangAuth {
 
-    private String accessKey;
+  private String accessKey;
 
-    private boolean failed;
-    private String failedMessage;
+  private boolean failed;
+  private String failedMessage;
 
-    private boolean success;
-    private String hash;
+  private boolean success;
+  private String hash;
 
-    public void auth() {
-        UUID uuid = Minecraft.getMinecraft().getSession().getProfile().getId();
-        JsonHolder jsonHolder = new JsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/auth/begin?uuid="
-                + uuid + "&mod=LEVEL_HEAD&ver=" + Levelhead.VERSION));
-        if (!jsonHolder.optBoolean("success")) {
-            fail("Error during init: " + jsonHolder);
-            return;
-        }
-        hash = jsonHolder.optString("hash");
+  public void auth() {
+    UUID uuid = Minecraft.getMinecraft().getSession().getProfile().getId();
+    JsonHolder jsonHolder = new JsonHolder(
+        Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/auth/begin?uuid="
+            + uuid + "&mod=LEVEL_HEAD&ver=" + Levelhead.VERSION));
+    if (!jsonHolder.optBoolean("success")) {
+      fail("Error during init: " + jsonHolder);
+      return;
+    }
+    hash = jsonHolder.optString("hash");
 
-        String session = Minecraft.getMinecraft().getSession().getToken();
-        Hyperium.LOGGER.debug("Logging in with details: Server-Hash: {}, Session: {}, UUID: {}", hash, session, uuid);
+    String session = Minecraft.getMinecraft().getSession().getToken();
+    Hyperium.LOGGER
+        .debug("Logging in with details: Server-Hash: {}, Session: {}, UUID: {}", hash, session,
+            uuid);
 
-        int statusCode = LoginUtil.joinServer(session, uuid.toString().replace("-", ""), hash);
+    int statusCode = LoginUtil.joinServer(session, uuid.toString().replace("-", ""), hash);
 
-        if (statusCode != 204) {
-            fail("Error during Mojang Auth (1) " + statusCode);
-            return;
-        }
-
-        JsonHolder finalResponse = new JsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/auth/final?hash="
-                + hash + "&name=" + Minecraft.getMinecraft().getSession().getProfile().getName()));
-        Hyperium.LOGGER.debug("FINAL RESPONSE: " + finalResponse);
-        if (finalResponse.optBoolean("success")) {
-            accessKey = finalResponse.optString("access_key");
-            success = true;
-            Hyperium.LOGGER.info("Successfully authenticated with Sk1er.club Levelhead");
-        } else {
-            fail("Error during final auth. Reason: " + finalResponse.optString("cause"));
-        }
+    if (statusCode != 204) {
+      fail("Error during Mojang Auth (1) " + statusCode);
+      return;
     }
 
-    public void fail(String failedMessage) {
-        this.failedMessage = failedMessage;
-        failed = true;
+    JsonHolder finalResponse = new JsonHolder(
+        Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/auth/final?hash="
+            + hash + "&name=" + Minecraft.getMinecraft().getSession().getProfile().getName()));
+    Hyperium.LOGGER.debug("FINAL RESPONSE: " + finalResponse);
+    if (finalResponse.optBoolean("success")) {
+      accessKey = finalResponse.optString("access_key");
+      success = true;
+      Hyperium.LOGGER.info("Successfully authenticated with Sk1er.club Levelhead");
+    } else {
+      fail("Error during final auth. Reason: " + finalResponse.optString("cause"));
     }
+  }
 
-    public String getAccessKey() {
-        return accessKey;
-    }
+  public void fail(String failedMessage) {
+    this.failedMessage = failedMessage;
+    failed = true;
+  }
 
-    public boolean isFailed() {
-        return failed;
-    }
+  public String getAccessKey() {
+    return accessKey;
+  }
 
-    public String getFailedMessage() {
-        return failedMessage;
-    }
+  public boolean isFailed() {
+    return failed;
+  }
 
-    public boolean isSuccess() {
-        return success;
-    }
+  public String getFailedMessage() {
+    return failedMessage;
+  }
 
-    public String getHash() {
-        return hash;
-    }
+  public boolean isSuccess() {
+    return success;
+  }
+
+  public String getHash() {
+    return hash;
+  }
 }

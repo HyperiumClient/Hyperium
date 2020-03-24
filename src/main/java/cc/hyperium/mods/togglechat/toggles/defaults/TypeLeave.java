@@ -24,43 +24,43 @@ import java.util.regex.Pattern;
 
 public class TypeLeave extends ToggleBase {
 
-    private final Pattern leavePattern = Pattern.compile("(?<player>\\S{1,16})(\\s+)(left\\.)");
+  private final Pattern leavePattern = Pattern.compile("(?<player>\\S{1,16})(\\s+)(left\\.)");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Leave";
-    }
+  @Override
+  public String getName() {
+    return "Leave";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return leavePattern.matcher(message).matches();
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return leavePattern.matcher(message).matches();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles all leave",
-                "notification messages",
-                "or anything matching",
-                "this format",
-                "",
-                "&ePlayer left.",
-                "",
-                "This is good for",
-                "people with a large",
-                "friends list"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles all leave",
+        "notification messages",
+        "or anything matching",
+        "this format",
+        "",
+        "&ePlayer left.",
+        "",
+        "This is good for",
+        "people with a large",
+        "friends list"
+    );
+  }
 }

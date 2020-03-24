@@ -27,17 +27,17 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class RenderSelectedItemEvent extends Event {
 
-    @NotNull
-    private final ScaledResolution scaledRes;
+  @NotNull
+  private final ScaledResolution scaledRes;
 
-    public RenderSelectedItemEvent(@NotNull ScaledResolution scaledRes) {
-        Preconditions.checkNotNull(scaledRes, "scaledRes");
+  public RenderSelectedItemEvent(@NotNull ScaledResolution scaledRes) {
+    Preconditions.checkNotNull(scaledRes, "scaledRes");
 
-        this.scaledRes = scaledRes;
-    }
+    this.scaledRes = scaledRes;
+  }
 
-    @NotNull
-    public final ScaledResolution getScaledRes() {
-        return scaledRes;
-    }
+  @NotNull
+  public final ScaledResolution getScaledRes() {
+    return scaledRes;
+  }
 }

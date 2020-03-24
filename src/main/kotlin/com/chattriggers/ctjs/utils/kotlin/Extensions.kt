@@ -3,16 +3,16 @@ package com.chattriggers.ctjs.utils.kotlin
 import net.minecraft.client.renderer.Tessellator
 
 fun ITextComponent.getStyling(): TextStyle =
-    this.chatStyle!!
+        this.chatStyle!!
 
 fun TextStyle.getClick(): TextClickEvent? =
-    chatClickEvent
+        chatClickEvent
 
 fun TextStyle.getHover(): TextHoverEvent? =
-    chatHoverEvent
+        chatHoverEvent
 
 fun Tessellator.getRenderer(): WorldRenderer =
-    worldRenderer
+        worldRenderer
 
 operator fun String.times(times: Number): String {
     val stringBuilder = StringBuilder()

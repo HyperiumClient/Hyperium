@@ -24,48 +24,48 @@ import java.util.LinkedList;
 
 public class TypeColored extends ToggleBase {
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Colored team";
-    }
+  @Override
+  public String getName() {
+    return "Colored team";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return message.startsWith("[BLUE] ") ||
-                message.startsWith("[YELLOW] ") ||
-                message.startsWith("[GREEN] ") ||
-                message.startsWith("[RED] ") ||
-                message.startsWith("[WHITE] ") ||
-                message.startsWith("[PURPLE] "
-                );
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Disables colored chat",
-                "messages in multiple fields",
-                "",
-                "Toggles things like these",
-                "&e[YELLOW]",
-                "&d[PURPLE]",
-                "&a[GREEN]",
-                "&c[RED]",
-                "",
-                "This is good for fields",
-                "such as paintball"
+  @Override
+  public boolean shouldToggle(String message) {
+    return message.startsWith("[BLUE] ") ||
+        message.startsWith("[YELLOW] ") ||
+        message.startsWith("[GREEN] ") ||
+        message.startsWith("[RED] ") ||
+        message.startsWith("[WHITE] ") ||
+        message.startsWith("[PURPLE] "
         );
-    }
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Disables colored chat",
+        "messages in multiple fields",
+        "",
+        "Toggles things like these",
+        "&e[YELLOW]",
+        "&d[PURPLE]",
+        "&a[GREEN]",
+        "&c[RED]",
+        "",
+        "This is good for fields",
+        "such as paintball"
+    );
+  }
 }

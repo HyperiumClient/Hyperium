@@ -26,26 +26,26 @@ import org.jetbrains.annotations.NotNull;
 
 public final class ItemTooltipEvent extends Event {
 
-    @NotNull
-    private final ItemStack item;
-    @NotNull
-    private final List<String> toolTip;
+  @NotNull
+  private final ItemStack item;
+  @NotNull
+  private final List<String> toolTip;
 
-    public ItemTooltipEvent(@NotNull ItemStack item, @NotNull List<String> toolTip) {
-        Preconditions.checkNotNull(item, "item");
-        Preconditions.checkNotNull(toolTip, "toolTip");
+  public ItemTooltipEvent(@NotNull ItemStack item, @NotNull List<String> toolTip) {
+    Preconditions.checkNotNull(item, "item");
+    Preconditions.checkNotNull(toolTip, "toolTip");
 
-        this.item = item;
-        this.toolTip = toolTip;
-    }
+    this.item = item;
+    this.toolTip = toolTip;
+  }
 
-    @NotNull
-    public final ItemStack getItem() {
-        return item;
-    }
+  @NotNull
+  public final ItemStack getItem() {
+    return item;
+  }
 
-    @NotNull
-    public final List<String> getToolTip() {
-        return toolTip;
-    }
+  @NotNull
+  public final List<String> getToolTip() {
+    return toolTip;
+  }
 }

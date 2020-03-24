@@ -24,43 +24,44 @@ import java.util.regex.Pattern;
 
 public class TypeTeam extends ToggleBase {
 
-    private final Pattern teamPattern = Pattern.compile("\\[TEAM] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+  private final Pattern teamPattern = Pattern
+      .compile("\\[TEAM] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
-    private boolean enabled = true;
+  private boolean enabled = true;
 
-    @Override
-    public String getName() {
-        return "Team";
-    }
+  @Override
+  public String getName() {
+    return "Team";
+  }
 
-    @Override
-    public boolean shouldToggle(String message) {
-        return teamPattern.matcher(message).matches();
-    }
+  @Override
+  public boolean shouldToggle(String message) {
+    return teamPattern.matcher(message).matches();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  @Override
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    @Override
-    public LinkedList<String> getDescription() {
-        return asLinked(
-                "Toggles all",
-                "incoming team messages",
-                "",
-                "Message format:",
-                "&9[TEAM] &7Player&r: Hi",
-                "&9[TEAM] &a[VIP] Player&r: Hi",
-                "&9[TEAM] &b[MVP] Player&r: Hi",
-                "",
-                "Useful for large",
-                "team fields"
-        );
-    }
+  @Override
+  public LinkedList<String> getDescription() {
+    return asLinked(
+        "Toggles all",
+        "incoming team messages",
+        "",
+        "Message format:",
+        "&9[TEAM] &7Player&r: Hi",
+        "&9[TEAM] &a[VIP] Player&r: Hi",
+        "&9[TEAM] &b[MVP] Player&r: Hi",
+        "",
+        "Useful for large",
+        "team fields"
+    );
+  }
 }

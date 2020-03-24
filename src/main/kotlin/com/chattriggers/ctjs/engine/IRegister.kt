@@ -61,7 +61,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerActionBar(method: Any): OnChatTrigger =
-        OnChatTrigger(method, TriggerType.ACTION_BAR, getImplementationLoader())
+            OnChatTrigger(method, TriggerType.ACTION_BAR, getImplementationLoader())
 
     /**
      * Registers a trigger that runs before the world loads.<br></br>
@@ -74,7 +74,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerWorldLoad(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.WORLD_LOAD, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.WORLD_LOAD, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the world unloads.<br></br>
@@ -87,7 +87,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerWorldUnload(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.WORLD_UNLOAD, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.WORLD_UNLOAD, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before a mouse button is being pressed or released.<br></br>
@@ -105,7 +105,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerClicked(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.CLICKED, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.CLICKED, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs while a mouse button is being held down.<br></br>
@@ -124,7 +124,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerDragged(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.DRAGGED, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.DRAGGED, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before a sound is played.<br></br>
@@ -162,7 +162,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerNoteBlockPlay(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.NOTE_BLOCK_PLAY, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.NOTE_BLOCK_PLAY, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before a noteblock is changed.<br></br>
@@ -180,7 +180,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerNoteBlockChange(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.NOTE_BLOCK_CHANGE, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.NOTE_BLOCK_CHANGE, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before every game tick.<br></br>
@@ -195,7 +195,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerTick(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.TICK, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.TICK, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs in predictable intervals. (60 per second by default)<br></br>
@@ -224,7 +224,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderWorld(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.RENDER_WORLD, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.RENDER_WORLD, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the overlay is drawn.<br></br>
@@ -237,7 +237,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderOverlay(method: Any): OnRenderTrigger =
-        OnRenderTrigger(method, TriggerType.RENDER_OVERLAY, getImplementationLoader())
+            OnRenderTrigger(method, TriggerType.RENDER_OVERLAY, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the player list is being drawn.<br></br>
@@ -253,7 +253,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderPlayerList(method: Any): OnRenderTrigger =
-        OnRenderTrigger(method, TriggerType.RENDER_PLAYER_LIST, getImplementationLoader())
+            OnRenderTrigger(method, TriggerType.RENDER_PLAYER_LIST, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the crosshair is being drawn.<br></br>
@@ -269,7 +269,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderCrosshair(method: Any): OnRenderTrigger =
-        OnRenderTrigger(method, TriggerType.RENDER_CROSSHAIR, getImplementationLoader())
+            OnRenderTrigger(method, TriggerType.RENDER_CROSSHAIR, getImplementationLoader())
 
     /**
      * Registers a trigger that runs before the debug Screen is being drawn.<br></br>
@@ -285,7 +285,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderDebug(method: Any): OnRenderTrigger =
-        OnRenderTrigger(method, TriggerType.RENDER_DEBUG, getImplementationLoader())
+            OnRenderTrigger(method, TriggerType.RENDER_DEBUG, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the boss health bar is being drawn.<br></br>
@@ -301,7 +301,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderBossHealth(method: Any): OnRenderTrigger =
-        OnRenderTrigger(method, TriggerType.RENDER_BOSS_HEALTH, getImplementationLoader())
+            OnRenderTrigger(method, TriggerType.RENDER_BOSS_HEALTH, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the player's health is being drawn.<br></br>
@@ -317,7 +317,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderHealth(method: Any): OnRenderTrigger =
-        OnRenderTrigger(method, TriggerType.RENDER_HEALTH, getImplementationLoader())
+            OnRenderTrigger(method, TriggerType.RENDER_HEALTH, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the player's food is being drawn.<br></br>
@@ -333,7 +333,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderFood(method: Any): OnRenderTrigger =
-        OnRenderTrigger(method, TriggerType.RENDER_FOOD, getImplementationLoader())
+            OnRenderTrigger(method, TriggerType.RENDER_FOOD, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the player's mount's health is being drawn.<br></br>
@@ -349,7 +349,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderMountHealth(method: Any): OnRenderTrigger =
-        OnRenderTrigger(method, TriggerType.RENDER_MOUNT_HEALTH, getImplementationLoader())
+            OnRenderTrigger(method, TriggerType.RENDER_MOUNT_HEALTH, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the player's experience is being drawn.<br></br>
@@ -365,7 +365,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderExperience(method: Any): OnRenderTrigger =
-        OnRenderTrigger(method, TriggerType.RENDER_EXPERIENCE, getImplementationLoader())
+            OnRenderTrigger(method, TriggerType.RENDER_EXPERIENCE, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the player's hotbar is drawn.<br></br>
@@ -381,7 +381,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderHotbar(method: Any): OnRenderTrigger =
-        OnRenderTrigger(method, TriggerType.RENDER_HOTBAR, getImplementationLoader())
+            OnRenderTrigger(method, TriggerType.RENDER_HOTBAR, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the player's air level is drawn.<br></br>
@@ -397,7 +397,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerRenderAir(method: Any): OnRenderTrigger =
-        OnRenderTrigger(method, TriggerType.RENDER_AIR, getImplementationLoader())
+            OnRenderTrigger(method, TriggerType.RENDER_AIR, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the block highlight box is drawn.<br></br>
@@ -413,7 +413,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerDrawBlockHighlight(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.BLOCK_HIGHLIGHT, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.BLOCK_HIGHLIGHT, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs after the game loads.<br></br>
@@ -427,7 +427,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerGameLoad(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.GAME_LOAD, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.GAME_LOAD, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before the game unloads.<br></br>
@@ -441,7 +441,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerGameUnload(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.GAME_UNLOAD, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.GAME_UNLOAD, getImplementationLoader())
 
     /**
      * Registers a new command that will run the method provided.<br></br>
@@ -471,7 +471,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerGuiOpened(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.GUI_OPENED, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.GUI_OPENED, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs when a player joins the world.<br></br>
@@ -488,7 +488,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerPlayerJoined(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.PLAYER_JOIN, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.PLAYER_JOIN, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs when a player leaves the world.<br></br>
@@ -505,7 +505,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerPlayerLeft(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.PLAYER_LEAVE, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.PLAYER_LEAVE, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before an item is picked up.<br></br>
@@ -523,7 +523,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerPickupItem(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.PICKUP_ITEM, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.PICKUP_ITEM, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before an item is dropped.<br></br>
@@ -541,7 +541,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerDropItem(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.DROP_ITEM, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.DROP_ITEM, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before a screenshot is taken.<br></br>
@@ -557,7 +557,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerScreenshotTaken(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.SCREENSHOT_TAKEN, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.SCREENSHOT_TAKEN, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before a message is sent in chat.<br></br>
@@ -573,7 +573,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerMessageSent(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.MESSAGE_SENT, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.MESSAGE_SENT, getImplementationLoader())
 
     /**
      * Registers a new trigger that runs before a message is sent in chat.<br></br>
@@ -589,7 +589,7 @@ interface IRegister {
      * @return the trigger for additional modification
      */
     fun registerItemTooltip(method: Any): OnRegularTrigger =
-        OnRegularTrigger(method, TriggerType.TOOLTIP, getImplementationLoader())
+            OnRegularTrigger(method, TriggerType.TOOLTIP, getImplementationLoader())
 
     fun getImplementationLoader(): ILoader
 }

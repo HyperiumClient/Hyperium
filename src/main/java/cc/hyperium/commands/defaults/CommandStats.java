@@ -28,40 +28,44 @@ import java.util.List;
 
 public class CommandStats implements BaseCommand {
 
-    @Override
-    public String getName() {
-        return "hstats";
-    }
+  @Override
+  public String getName() {
+    return "hstats";
+  }
 
-    @Override
-    public String getUsage() {
-        return "/hstats <player>";
-    }
+  @Override
+  public String getUsage() {
+    return "/hstats <player>";
+  }
 
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
-        List<String> complete = new ArrayList<>();
+  @Override
+  public List<String> onTabComplete(String[] args) {
+    List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
+    List<String> complete = new ArrayList<>();
 
-        try {
-            for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().getKeys()) {
-                String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().optJSONObject(s).optString("name");
-                if (!name.isEmpty()) tabUsernames.add(name);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    try {
+      for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser()
+          .get().getData().getKeys()) {
+        String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser()
+            .get().getData().optJSONObject(s).optString("name");
+        if (!name.isEmpty()) {
+          tabUsernames.add(name);
         }
-
-        complete.addAll(tabUsernames);
-        return TabCompletionUtil.getListOfStringsMatchingLastWord(args, complete);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
-    @Override
-    public void onExecute(String[] args) {
-        if (args.length == 1) {
-            Hyperium.INSTANCE.getHandlers().getStatsHandler().initStatsViewer(args[0]);
-        } else {
-            GeneralChatHandler.instance().sendMessage(getUsage());
-        }
+    complete.addAll(tabUsernames);
+    return TabCompletionUtil.getListOfStringsMatchingLastWord(args, complete);
+  }
+
+  @Override
+  public void onExecute(String[] args) {
+    if (args.length == 1) {
+      Hyperium.INSTANCE.getHandlers().getStatsHandler().initStatsViewer(args[0]);
+    } else {
+      GeneralChatHandler.instance().sendMessage(getUsage());
     }
+  }
 }

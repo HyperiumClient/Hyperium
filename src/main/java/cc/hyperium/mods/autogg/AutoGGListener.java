@@ -32,50 +32,56 @@ import java.util.Locale;
  */
 public class AutoGGListener {
 
-    private final AutoGG mod;
-    private boolean invoked;
+  private final AutoGG mod;
+  private boolean invoked;
 
 
-    public AutoGGListener(AutoGG mod) {
-        this.mod = mod;
+  public AutoGGListener(AutoGG mod) {
+    this.mod = mod;
+  }
+
+  @InvokeEvent
+  public void worldSwap(WorldChangeEvent event) {
+    invoked = false;
+  }
+
+  @InvokeEvent
+  public void onChat(final ChatEvent event) {
+    if (mod.getConfig().ANTI_GG && invoked && (
+        event.getChat().getUnformattedText().toLowerCase(Locale.ENGLISH).endsWith("gg") ||
+            event.getChat().getUnformattedText().endsWith("Good Game"))) {
+      event.setCancelled(true);
     }
 
-    @InvokeEvent
-    public void worldSwap(WorldChangeEvent event) {
-        invoked = false;
+    // Make sure the mod is enabled
+    if (!mod.isHypixel() || !mod.getConfig().isToggled() || mod.isRunning() || mod.getTriggers()
+        .isEmpty()) {
+      return;
     }
 
-    @InvokeEvent
-    public void onChat(final ChatEvent event) {
-        if (mod.getConfig().ANTI_GG && invoked && (event.getChat().getUnformattedText().toLowerCase(Locale.ENGLISH).endsWith("gg") ||
-            event.getChat().getUnformattedText().endsWith("Good Game")))
-            event.setCancelled(true);
+    // Double parse to remove hypixel formatting codes
+    String unformattedMessage = ChatColor.stripColor(event.getChat().getUnformattedText());
 
-        // Make sure the mod is enabled
-        if (!mod.isHypixel() || !mod.getConfig().isToggled() || mod.isRunning() || mod.getTriggers().isEmpty()) {
-            return;
+    if (mod.getTriggers().stream().anyMatch(unformattedMessage::contains) && unformattedMessage
+        .startsWith(" ")) {
+      mod.setRunning(true);
+      invoked = true;
+      // The GGThread in an anonymous class
+      Multithreading.POOL.submit(() -> {
+        try {
+          Thread.sleep(
+              Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig().getDelay() * 1000);
+          Minecraft.getMinecraft().thePlayer.sendChatMessage(
+              "/achat " + (mod.getConfig().sayGoodGameInsteadOfGG ? (mod.getConfig().lowercase ?
+                  "good game" : "Good Game") : (mod.getConfig().lowercase ? "gg" : "GG")));
+          Thread.sleep(2000L);
+
+          // We are referring to it from a different thread, thus we need to do this
+          Hyperium.INSTANCE.getModIntegration().getAutoGG().setRunning(false);
+        } catch (Exception e) {
+          e.printStackTrace();
         }
-
-        // Double parse to remove hypixel formatting codes
-        String unformattedMessage = ChatColor.stripColor(event.getChat().getUnformattedText());
-
-        if (mod.getTriggers().stream().anyMatch(unformattedMessage::contains) && unformattedMessage.startsWith(" ")) {
-            mod.setRunning(true);
-            invoked = true;
-            // The GGThread in an anonymous class
-            Multithreading.POOL.submit(() -> {
-                try {
-                    Thread.sleep(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig().getDelay() * 1000);
-                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/achat " + (mod.getConfig().sayGoodGameInsteadOfGG ? (mod.getConfig().lowercase ?
-                        "good game" : "Good Game") : (mod.getConfig().lowercase ? "gg" : "GG")));
-                    Thread.sleep(2000L);
-
-                    // We are referring to it from a different thread, thus we need to do this
-                    Hyperium.INSTANCE.getModIntegration().getAutoGG().setRunning(false);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        }
+      });
     }
+  }
 }

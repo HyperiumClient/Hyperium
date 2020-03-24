@@ -36,255 +36,305 @@ import java.util.UUID;
 
 public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandler {
 
-    public List<AnimationFrame> frames = new ArrayList<>();
-    public boolean loaded;
-    public long duration;
-    private HashMap<UUID, Long> states = new HashMap<>();
+  public List<AnimationFrame> frames = new ArrayList<>();
+  public boolean loaded;
+  public long duration;
+  private HashMap<UUID, Long> states = new HashMap<>();
 
-    public AnimatedDance() {
-        Multithreading.runAsync(() -> generateFrames(getData()));
-    }
+  public AnimatedDance() {
+    Multithreading.runAsync(() -> generateFrames(getData()));
+  }
 
-    public void generateFrames(JsonHolder data) {
-        frames.clear();
-        HashMap<String, Boolean> visibility = new HashMap<>();
+  public void generateFrames(JsonHolder data) {
+    frames.clear();
+    HashMap<String, Boolean> visibility = new HashMap<>();
 
-        for (JsonElement element : data.optJSONArray("frames")) {
-            JsonHolder h = new JsonHolder(element.getAsJsonObject());
-            int time = h.optInt("time");
-            AnimationFrame frame = new AnimationFrame(frame(time));
-            frame.name = h.optInt("time") + "";
+    for (JsonElement element : data.optJSONArray("frames")) {
+      JsonHolder h = new JsonHolder(element.getAsJsonObject());
+      int time = h.optInt("time");
+      AnimationFrame frame = new AnimationFrame(frame(time));
+      frame.name = h.optInt("time") + "";
 
-            for (String s : h.getKeys()) {
-                visibility.put(s, true);
+      for (String s : h.getKeys()) {
+        visibility.put(s, true);
 
-                if (!s.equalsIgnoreCase("time")) {
-                    try {
-                        Field declaredField1 = frame.getClass().getDeclaredField(s);
-                        declaredField1.setAccessible(true);
-                        BodyPart bodyPart = (BodyPart) declaredField1.get(frame);
-                        JsonHolder holder1 = h.optJSONObject(s);
+        if (!s.equalsIgnoreCase("time")) {
+          try {
+            Field declaredField1 = frame.getClass().getDeclaredField(s);
+            declaredField1.setAccessible(true);
+            BodyPart bodyPart = (BodyPart) declaredField1.get(frame);
+            JsonHolder holder1 = h.optJSONObject(s);
 
-                        for (String s1 : holder1.getKeys()) {
-                            Field declaredField = bodyPart.getClass().getDeclaredField(s1);
-                            declaredField.setAccessible(true);
+            for (String s1 : holder1.getKeys()) {
+              Field declaredField = bodyPart.getClass().getDeclaredField(s1);
+              declaredField.setAccessible(true);
 
-                            if (s1.equalsIgnoreCase("visible")) {
-                                boolean visible = holder1.optBoolean("visible");
-                                visibility.put(s, visible);
-                                declaredField.setBoolean(bodyPart, visible);
-                            } else {
-                                float f = (float) holder1.optDouble(s1);
-                                declaredField.setFloat(bodyPart, f);
-                            }
-                        }
-
-                        bodyPart.getClass().getDeclaredField("visible").setBoolean(bodyPart, visibility.get(s));
-                    } catch (IllegalAccessException | NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
-                }
+              if (s1.equalsIgnoreCase("visible")) {
+                boolean visible = holder1.optBoolean("visible");
+                visibility.put(s, visible);
+                declaredField.setBoolean(bodyPart, visible);
+              } else {
+                float f = (float) holder1.optDouble(s1);
+                declaredField.setFloat(bodyPart, f);
+              }
             }
 
-            frames.add(frame);
+            bodyPart.getClass().getDeclaredField("visible").setBoolean(bodyPart, visibility.get(s));
+          } catch (IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+          }
         }
+      }
 
-        loaded = true;
-        if (frames.size() == 0) duration = 1L;
-        else duration = frames.get(Math.max(0, frames.size() - 1)).getTime();
+      frames.add(frame);
     }
 
-    public float radians(int deg) {
-        return (float) Math.toRadians(deg);
+    loaded = true;
+    if (frames.size() == 0) {
+      duration = 1L;
+    } else {
+      duration = frames.get(Math.max(0, frames.size() - 1)).getTime();
+    }
+  }
+
+  public float radians(int deg) {
+    return (float) Math.toRadians(deg);
+  }
+
+  public long frame(int frame) {
+    return frame * 1000 / 30;
+  }
+
+
+  @InvokeEvent
+  public void worldSwap(WorldChangeEvent event) {
+    states.clear();
+  }
+
+  public HashMap<UUID, Long> getStates() {
+    return states;
+  }
+
+  @Override
+  public float modifyState() {
+    return 0;
+  }
+
+  //Added so we can do legs
+  @InvokeEvent
+  public void onPostCopyPlayerModelAngles(PostCopyPlayerModelAnglesEvent event) {
+    AbstractClientPlayer entity = event.getEntity();
+    IModelBiped player = event.getModel();
+    modify(entity, player, false);
+  }
+
+  public abstract JsonHolder getData();
+
+  @Override
+  public void modifyPlayer(AbstractClientPlayer entity, IModelPlayer player, float heldPercent) {
+    if (!loaded) {
+      return;
+    }
+    Long aLong = states.get(entity.getUniqueID());
+
+    if (aLong == null || aLong == 0) {
+      resetAnimation(player);
+      get(entity.getUniqueID()).frames = 0;
+      return;
     }
 
-    public long frame(int frame) {
-        return frame * 1000 / 30;
+    long current = System.currentTimeMillis();
+    long timeSinceStart = current - aLong;
+    if (timeSinceStart > duration) {
+      states.remove(entity.getUniqueID());
     }
 
+    AnimationFrame prev = null;
+    AnimationFrame next = null;
 
-    @InvokeEvent
-    public void worldSwap(WorldChangeEvent event) {
-        states.clear();
+    for (AnimationFrame frame : frames) {
+      if (prev == null || (frame.getTime() < timeSinceStart && frame.getTime() > prev.getTime())) {
+        prev = frame;
+      }
+
+      if ((next == null && frame.getTime() > prev.getTime()) || (frame.getTime() > timeSinceStart
+          && frame.getTime() < next.getTime())) {
+        next = frame;
+      }
     }
 
-    public HashMap<UUID, Long> getStates() {
-        return states;
+    if (prev == null || next == null) {
+      return;
     }
 
-    @Override
-    public float modifyState() {
-        return 0;
-    }
-
-    //Added so we can do legs
-    @InvokeEvent
-    public void onPostCopyPlayerModelAngles(PostCopyPlayerModelAnglesEvent event) {
-        AbstractClientPlayer entity = event.getEntity();
-        IModelBiped player = event.getModel();
-        modify(entity, player, false);
-    }
-
-    public abstract JsonHolder getData();
-
-    @Override
-    public void modifyPlayer(AbstractClientPlayer entity, IModelPlayer player, float heldPercent) {
-        if (!loaded) return;
-        Long aLong = states.get(entity.getUniqueID());
-
-        if (aLong == null || aLong == 0) {
-            resetAnimation(player);
-            get(entity.getUniqueID()).frames = 0;
-            return;
-        }
-
-        long current = System.currentTimeMillis();
-        long timeSinceStart = current - aLong;
-        if (timeSinceStart > duration)
-            states.remove(entity.getUniqueID());
-
-        AnimationFrame prev = null;
-        AnimationFrame next = null;
-
-        for (AnimationFrame frame : frames) {
-            if (prev == null || (frame.getTime() < timeSinceStart && frame.getTime() > prev.getTime())) {
-                prev = frame;
-            }
-
-            if ((next == null && frame.getTime() > prev.getTime()) || (frame.getTime() > timeSinceStart && frame.getTime() < next.getTime())) {
-                next = frame;
-            }
-        }
-
-        if (prev == null || next == null) {
-            return;
-        }
-
-        float v = (timeSinceStart - prev.getTime());
-        long l = next.getTime() - prev.getTime();
-        float percent = v / (float) l;
+    float v = (timeSinceStart - prev.getTime());
+    long l = next.getTime() - prev.getTime();
+    float percent = v / (float) l;
 
 //        Right upper arm
-        adjust(player.getBipedRightUpperArmwear(), prev.getRightUpperArm().calc(percent, next.getRightUpperArm()));
-        adjust(player.getBipedRightUpperArm(), prev.getRightUpperArm().calc(percent, next.getRightUpperArm()));
+    adjust(player.getBipedRightUpperArmwear(),
+        prev.getRightUpperArm().calc(percent, next.getRightUpperArm()));
+    adjust(player.getBipedRightUpperArm(),
+        prev.getRightUpperArm().calc(percent, next.getRightUpperArm()));
 
-        //Right lower arm
-        adjust(player.getBipedRightForeArm(), prev.getRightLowerArm().calc(percent, next.getRightLowerArm()));
-        adjust(player.getBipedRightForeArmwear(), prev.getRightLowerArm().calc(percent, next.getRightLowerArm()));
+    //Right lower arm
+    adjust(player.getBipedRightForeArm(),
+        prev.getRightLowerArm().calc(percent, next.getRightLowerArm()));
+    adjust(player.getBipedRightForeArmwear(),
+        prev.getRightLowerArm().calc(percent, next.getRightLowerArm()));
 
-        //Left upper arm
-        adjust(player.getBipedLeftUpperArmwear(), prev.getLeftUpperArm().calc(percent, next.getLeftUpperArm()));
-        adjust(player.getBipedLeftUpperArm(), prev.getLeftUpperArm().calc(percent, next.getLeftUpperArm()));
+    //Left upper arm
+    adjust(player.getBipedLeftUpperArmwear(),
+        prev.getLeftUpperArm().calc(percent, next.getLeftUpperArm()));
+    adjust(player.getBipedLeftUpperArm(),
+        prev.getLeftUpperArm().calc(percent, next.getLeftUpperArm()));
 
-        //Left lower arm
-        adjust(player.getBipedLeftForeArm(), prev.getLeftLowerArm().calc(percent, next.getLeftLowerArm()));
-        adjust(player.getBipedLeftForeArmwear(), prev.getLeftLowerArm().calc(percent, next.getLeftLowerArm()));
+    //Left lower arm
+    adjust(player.getBipedLeftForeArm(),
+        prev.getLeftLowerArm().calc(percent, next.getLeftLowerArm()));
+    adjust(player.getBipedLeftForeArmwear(),
+        prev.getLeftLowerArm().calc(percent, next.getLeftLowerArm()));
 
+    //Right upper Leg
+    adjust(player.getBipedRightUpperLegwear(),
+        prev.getRightUpperLeg().calc(percent, next.getRightUpperLeg()));
+    adjust(player.getBipedRightUpperLeg(),
+        prev.getRightUpperLeg().calc(percent, next.getRightUpperLeg()));
 
-        //Right upper Leg
-        adjust(player.getBipedRightUpperLegwear(), prev.getRightUpperLeg().calc(percent, next.getRightUpperLeg()));
-        adjust(player.getBipedRightUpperLeg(), prev.getRightUpperLeg().calc(percent, next.getRightUpperLeg()));
+    //Right lower Leg
+    adjust(player.getBipedRightLowerLeg(),
+        prev.getRightLowerLeg().calc(percent, next.getRightLowerLeg()));
+    adjust(player.getBipedRightLowerLegwear(),
+        prev.getRightLowerLeg().calc(percent, next.getRightLowerLeg()));
 
-        //Right lower Leg
-        adjust(player.getBipedRightLowerLeg(), prev.getRightLowerLeg().calc(percent, next.getRightLowerLeg()));
-        adjust(player.getBipedRightLowerLegwear(), prev.getRightLowerLeg().calc(percent, next.getRightLowerLeg()));
+    //Left upper Leg
+    adjust(player.getBipedLeftUpperLegwear(),
+        prev.getLeftUpperLeg().calc(percent, next.getLeftUpperLeg()));
+    adjust(player.getBipedLeftUpperLeg(),
+        prev.getLeftUpperLeg().calc(percent, next.getLeftUpperLeg()));
 
-        //Left upper Leg
-        adjust(player.getBipedLeftUpperLegwear(), prev.getLeftUpperLeg().calc(percent, next.getLeftUpperLeg()));
-        adjust(player.getBipedLeftUpperLeg(), prev.getLeftUpperLeg().calc(percent, next.getLeftUpperLeg()));
+    //Left lower Leg
+    adjust(player.getBipedLeftLowerLeg(),
+        prev.getLeftLowerLeg().calc(percent, next.getLeftLowerLeg()));
+    adjust(player.getBipedLeftLowerLegwear(),
+        prev.getLeftLowerLeg().calc(percent, next.getLeftLowerLeg()));
 
-        //Left lower Leg
-        adjust(player.getBipedLeftLowerLeg(), prev.getLeftLowerLeg().calc(percent, next.getLeftLowerLeg()));
-        adjust(player.getBipedLeftLowerLegwear(), prev.getLeftLowerLeg().calc(percent, next.getLeftLowerLeg()));
+    //Head
+    adjust(player.getBipedHead(), prev.getHead().calc(percent, next.getHead()));
+    adjust(player.getBipedHeadwear(), prev.getHead().calc(percent, next.getHead()));
 
-        //Head
-        adjust(player.getBipedHead(), prev.getHead().calc(percent, next.getHead()));
-        adjust(player.getBipedHeadwear(), prev.getHead().calc(percent, next.getHead()));
+    //Chest
+    adjust(player.getBipedBody(), prev.getChest().calc(percent, next.getChest()));
+    adjust(player.getBipedBodywear(), prev.getChest().calc(percent, next.getChest()));
 
-        //Chest
-        adjust(player.getBipedBody(), prev.getChest().calc(percent, next.getChest()));
-        adjust(player.getBipedBodywear(), prev.getChest().calc(percent, next.getChest()));
+    adjust(player.getButt(), prev.getButt().calc(percent, next.getButt()));
+  }
 
-        adjust(player.getButt(), prev.getButt().calc(percent, next.getButt()));
+  private void adjust(ModelRenderer renderer, BodyPart part) {
+    if (part.rotationPointX != 0) {
+      renderer.rotationPointX = part.rotationPointX;
+    }
+    if (part.rotationPointY != 0) {
+      renderer.rotationPointY = part.rotationPointY;
+    }
+    if (part.rotationPointZ != 0) {
+      renderer.rotationPointZ = part.rotationPointZ;
+    }
+    if (part.rotateAngleX != 0) {
+      renderer.rotateAngleX = part.rotateAngleX;
+    }
+    if (part.rotateAngleY != 0) {
+      renderer.rotateAngleY = part.rotateAngleY;
+    }
+    if (part.rotateAngleZ != 0) {
+      renderer.rotateAngleZ = part.rotateAngleZ;
+    }
+    if (part.offsetX != 0) {
+      renderer.offsetX = part.offsetX;
+    }
+    if (part.offsetY != 0) {
+      renderer.offsetY = part.offsetY;
+    }
+    if (part.offsetZ != 0) {
+      renderer.offsetZ = part.offsetZ;
+    }
+    renderer.showModel = part.visible;
+  }
+
+  @Override
+  public void modifyPlayer(AbstractClientPlayer entity, IModelBiped player, float heldPercent) {
+    if (!loaded) {
+      return;
     }
 
-    private void adjust(ModelRenderer renderer, BodyPart part) {
-        if (part.rotationPointX != 0) renderer.rotationPointX = part.rotationPointX;
-        if (part.rotationPointY != 0) renderer.rotationPointY = part.rotationPointY;
-        if (part.rotationPointZ != 0) renderer.rotationPointZ = part.rotationPointZ;
-        if (part.rotateAngleX != 0) renderer.rotateAngleX = part.rotateAngleX;
-        if (part.rotateAngleY != 0) renderer.rotateAngleY = part.rotateAngleY;
-        if (part.rotateAngleZ != 0) renderer.rotateAngleZ = part.rotateAngleZ;
-        if (part.offsetX != 0) renderer.offsetX = part.offsetX;
-        if (part.offsetY != 0) renderer.offsetY = part.offsetY;
-        if (part.offsetZ != 0) renderer.offsetZ = part.offsetZ;
-        renderer.showModel = part.visible;
+    Long aLong = states.get(entity.getUniqueID());
+    if (aLong == null || aLong == 0) {
+      resetAnimation(player);
+      return;
     }
 
-    @Override
-    public void modifyPlayer(AbstractClientPlayer entity, IModelBiped player, float heldPercent) {
-        if (!loaded) return;
+    long current = System.currentTimeMillis();
+    long timeSinceStart = current - aLong;
 
-        Long aLong = states.get(entity.getUniqueID());
-        if (aLong == null || aLong == 0) {
-            resetAnimation(player);
-            return;
-        }
+    AnimationFrame prev = null;
+    AnimationFrame next = null;
 
-        long current = System.currentTimeMillis();
-        long timeSinceStart = current - aLong;
+    for (AnimationFrame frame : frames) {
+      if (prev == null || (frame.getTime() < timeSinceStart && frame.getTime() > prev.getTime())) {
+        prev = frame;
+      }
 
-        AnimationFrame prev = null;
-        AnimationFrame next = null;
+      if ((next == null && frame.getTime() > prev.getTime()) || (frame.getTime() > timeSinceStart
+          && frame.getTime() < next.getTime())) {
+        next = frame;
+      }
+    }
 
-        for (AnimationFrame frame : frames) {
-            if (prev == null || (frame.getTime() < timeSinceStart && frame.getTime() > prev.getTime())) {
-                prev = frame;
-            }
+    if (prev == null || next == null) {
+      return;
+    }
 
-            if ((next == null && frame.getTime() > prev.getTime()) || (frame.getTime() > timeSinceStart && frame.getTime() < next.getTime())) {
-                next = frame;
-            }
-        }
-
-        if (prev == null || next == null) {
-            return;
-        }
-
-        float v = (timeSinceStart - prev.getTime());
-        long l = next.getTime() - prev.getTime();
-        float percent = v / (float) l;
+    float v = (timeSinceStart - prev.getTime());
+    long l = next.getTime() - prev.getTime();
+    float percent = v / (float) l;
 
 //        Right upper arm
-        adjust(player.getBipedRightUpperArm(), prev.getRightUpperArm().calc(percent, next.getRightUpperArm()));
+    adjust(player.getBipedRightUpperArm(),
+        prev.getRightUpperArm().calc(percent, next.getRightUpperArm()));
 
-        //Right lower arm
-        adjust(player.getBipedRightForeArm(), prev.getRightLowerArm().calc(percent, next.getRightLowerArm()));
+    //Right lower arm
+    adjust(player.getBipedRightForeArm(),
+        prev.getRightLowerArm().calc(percent, next.getRightLowerArm()));
 
-        //Left upper arm
-        adjust(player.getBipedLeftUpperArm(), prev.getLeftUpperArm().calc(percent, next.getLeftUpperArm()));
+    //Left upper arm
+    adjust(player.getBipedLeftUpperArm(),
+        prev.getLeftUpperArm().calc(percent, next.getLeftUpperArm()));
 
-        //Left lower arm
-        adjust(player.getBipedLeftForeArm(), prev.getLeftLowerArm().calc(percent, next.getLeftLowerArm()));
+    //Left lower arm
+    adjust(player.getBipedLeftForeArm(),
+        prev.getLeftLowerArm().calc(percent, next.getLeftLowerArm()));
 
+    //Right upper Leg
+    adjust(player.getBipedRightUpperLeg(),
+        prev.getRightUpperLeg().calc(percent, next.getRightUpperLeg()));
 
-        //Right upper Leg
-        adjust(player.getBipedRightUpperLeg(), prev.getRightUpperLeg().calc(percent, next.getRightUpperLeg()));
+    //Right lower Leg
+    adjust(player.getBipedRightLowerLeg(),
+        prev.getRightLowerLeg().calc(percent, next.getRightLowerLeg()));
 
-        //Right lower Leg
-        adjust(player.getBipedRightLowerLeg(), prev.getRightLowerLeg().calc(percent, next.getRightLowerLeg()));
+    //Left upper Leg
+    adjust(player.getBipedLeftUpperLeg(),
+        prev.getLeftUpperLeg().calc(percent, next.getLeftUpperLeg()));
 
-        //Left upper Leg
-        adjust(player.getBipedLeftUpperLeg(), prev.getLeftUpperLeg().calc(percent, next.getLeftUpperLeg()));
+    //Left lower Leg
+    adjust(player.getBipedLeftLowerLeg(),
+        prev.getLeftLowerLeg().calc(percent, next.getLeftLowerLeg()));
 
-        //Left lower Leg
-        adjust(player.getBipedLeftLowerLeg(), prev.getLeftLowerLeg().calc(percent, next.getLeftLowerLeg()));
+    //Head
+    adjust(player.getBipedHead(), prev.getHead().calc(percent, next.getHead()));
+    adjust(player.getBipedHeadwear(), prev.getHead().calc(percent, next.getHead()));
 
-        //Head
-        adjust(player.getBipedHead(), prev.getHead().calc(percent, next.getHead()));
-        adjust(player.getBipedHeadwear(), prev.getHead().calc(percent, next.getHead()));
-
-        //Chest
-        adjust(player.getBipedBody(), prev.getChest().calc(percent, next.getChest()));
-    }
+    //Chest
+    adjust(player.getBipedBody(), prev.getChest().calc(percent, next.getChest()));
+  }
 }

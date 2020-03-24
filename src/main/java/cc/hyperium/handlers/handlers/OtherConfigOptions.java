@@ -22,6 +22,6 @@ package cc.hyperium.handlers.handlers;
  */
 public class OtherConfigOptions {
 
-    public boolean isCancelBox;
+  public boolean isCancelBox;
 
 }

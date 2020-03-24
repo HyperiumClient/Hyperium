@@ -21,10 +21,9 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 
 /**
- * Interface used to get the {@link ModelRenderer} parts of
- * {@link ModelBiped}. A {@link ModelBiped} object can be casted to
- * this interface. After that the methods can be called to get the
- * {@link ModelRenderer} parts.<br>
+ * Interface used to get the {@link ModelRenderer} parts of {@link ModelBiped}. A {@link ModelBiped}
+ * object can be casted to this interface. After that the methods can be called to get the {@link
+ * ModelRenderer} parts.<br>
  * <br>
  * <b>NOTE</b><br>
  * This interface is not in the mixins package. Everything in
@@ -33,33 +32,33 @@ import net.minecraft.client.model.ModelRenderer;
  */
 public interface IModelBiped {
 
-    /* Right leg wrappers */
-    ModelRenderer getBipedRightUpperLeg();
+  /* Right leg wrappers */
+  ModelRenderer getBipedRightUpperLeg();
 
-    ModelRenderer getBipedRightLowerLeg();
+  ModelRenderer getBipedRightLowerLeg();
 
-    /* Left leg wrappers */
-    ModelRenderer getBipedLeftUpperLeg();
+  /* Left leg wrappers */
+  ModelRenderer getBipedLeftUpperLeg();
 
-    ModelRenderer getBipedLeftLowerLeg();
+  ModelRenderer getBipedLeftLowerLeg();
 
-    /* Right arm wrappers */
-    ModelRenderer getBipedRightUpperArm();
+  /* Right arm wrappers */
+  ModelRenderer getBipedRightUpperArm();
 
-    ModelRenderer getBipedRightForeArm();
+  ModelRenderer getBipedRightForeArm();
 
-    /* Left arm wrappers */
-    ModelRenderer getBipedLeftUpperArm();
+  /* Left arm wrappers */
+  ModelRenderer getBipedLeftUpperArm();
 
-    ModelRenderer getBipedLeftForeArm();
+  ModelRenderer getBipedLeftForeArm();
 
-    /* Body wrappers */
-    ModelRenderer getBipedBody();
+  /* Body wrappers */
+  ModelRenderer getBipedBody();
 
-    /* Head wrappers */
-    ModelRenderer getBipedHead();
+  /* Head wrappers */
+  ModelRenderer getBipedHead();
 
-    ModelRenderer getBipedHeadwear();
+  ModelRenderer getBipedHeadwear();
 
 
 }

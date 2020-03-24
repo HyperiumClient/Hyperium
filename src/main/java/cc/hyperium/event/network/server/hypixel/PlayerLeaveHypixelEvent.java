@@ -4,13 +4,13 @@ import cc.hyperium.event.Event;
 
 public class PlayerLeaveHypixelEvent extends Event {
 
-    private final String username;
+  private final String username;
 
-    public PlayerLeaveHypixelEvent(String username) {
-        this.username = username;
-    }
+  public PlayerLeaveHypixelEvent(String username) {
+    this.username = username;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 }

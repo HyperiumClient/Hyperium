@@ -40,125 +40,127 @@ import java.util.List;
  */
 public class HyperiumCosmetics {
 
-    private final List<AbstractCosmetic> cosmeticList = new ArrayList<>();
-    private final FlipCosmetic flipCosmetic;
-    private final Deadmau5Cosmetic deadmau5Cosmetic;
-    private final WingsCosmetic wingsCosmetic;
-    private final DragonCosmetic dragonCosmetic;
-    private final ButtCosmetic buttCosmetic;
-    private DragonCompanion dragonCompanion;
-    private HamsterCompanion hamsterCompanion;
-    private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT)
-            .setModel(new ModelHatTophat(), new ResourceLocation("hyperium","textures/cosmetics/hats/tophat.png"));
+  private final List<AbstractCosmetic> cosmeticList = new ArrayList<>();
+  private final FlipCosmetic flipCosmetic;
+  private final Deadmau5Cosmetic deadmau5Cosmetic;
+  private final WingsCosmetic wingsCosmetic;
+  private final DragonCosmetic dragonCosmetic;
+  private final ButtCosmetic buttCosmetic;
+  private final DragonCompanion dragonCompanion;
+  private final HamsterCompanion hamsterCompanion;
+  private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT)
+      .setModel(new ModelHatTophat(),
+          new ResourceLocation("hyperium", "textures/cosmetics/hats/tophat.png"));
 
-    private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ)
-            .setModel(new ModelHatFez(), new ResourceLocation("hyperium","textures/cosmetics/hats/fez.png"));
+  private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ)
+      .setModel(new ModelHatFez(),
+          new ResourceLocation("hyperium", "textures/cosmetics/hats/fez.png"));
 
-    private final CosmeticHat legoCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_LEGO)
-            .setModel(new ModelHatLego(), new ResourceLocation("hyperium","textures/cosmetics/hats/lego.png"));
+  private final CosmeticHat legoCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_LEGO)
+      .setModel(new ModelHatLego(),
+          new ResourceLocation("hyperium", "textures/cosmetics/hats/lego.png"));
 
-    /**
-     * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
-     */
-    public HyperiumCosmetics() {
-        registerCosmetic(buttCosmetic = new ButtCosmetic());
-        registerCosmetic(flipCosmetic = new FlipCosmetic());
-        registerCosmetic(deadmau5Cosmetic = new Deadmau5Cosmetic());
-        registerCosmetic(wingsCosmetic = new WingsCosmetic());
-        registerCosmetic(dragonCosmetic = new DragonCosmetic());
-        registerCosmetic(dragonCompanion = new DragonCompanion());
-        registerCosmetic(hamsterCompanion = new HamsterCompanion());
-        registerCosmetic(topHatCosmetic);
-        registerCosmetic(fezCosmetic);
-        registerCosmetic(legoCosmetic);
+  /**
+   * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
+   */
+  public HyperiumCosmetics() {
+    registerCosmetic(buttCosmetic = new ButtCosmetic());
+    registerCosmetic(flipCosmetic = new FlipCosmetic());
+    registerCosmetic(deadmau5Cosmetic = new Deadmau5Cosmetic());
+    registerCosmetic(wingsCosmetic = new WingsCosmetic());
+    registerCosmetic(dragonCosmetic = new DragonCosmetic());
+    registerCosmetic(dragonCompanion = new DragonCompanion());
+    registerCosmetic(hamsterCompanion = new HamsterCompanion());
+    registerCosmetic(topHatCosmetic);
+    registerCosmetic(fezCosmetic);
+    registerCosmetic(legoCosmetic);
 
-    }
+  }
 
-    public List<AbstractCosmetic> getCosmeticList() {
-        return cosmeticList;
-    }
+  public List<AbstractCosmetic> getCosmeticList() {
+    return cosmeticList;
+  }
 
-    public DragonCompanion getDragonCompanion() {
-        return dragonCompanion;
-    }
+  public DragonCompanion getDragonCompanion() {
+    return dragonCompanion;
+  }
 
-    /**
-     * Register Cosmetic - Register a Cosmetic Class
-     *
-     * @param cosmetic - Given Cosmetic Class
-     */
-    private void registerCosmetic(AbstractCosmetic cosmetic) {
-        cosmeticList.add(cosmetic);
-        EventBus.INSTANCE.register(cosmetic);
-    }
+  /**
+   * Register Cosmetic - Register a Cosmetic Class
+   *
+   * @param cosmetic - Given Cosmetic Class
+   */
+  private void registerCosmetic(AbstractCosmetic cosmetic) {
+    cosmeticList.add(cosmetic);
+    EventBus.INSTANCE.register(cosmetic);
+  }
 
-    public HamsterCompanion getHamsterCompanion() {
-        return hamsterCompanion;
-    }
+  public HamsterCompanion getHamsterCompanion() {
+    return hamsterCompanion;
+  }
 
-    /**
-     * EnumCosmeticType - Used to distinguish cosmetics
-     * and their types
-     */
-    public enum EnumCosmeticType {
-        BUTT,
-        FLIP,
-        DEADMAU5,
-        WINGS,
-        DRAGON,
-        HAT_TOPHAT,
-        HAT_FEZ,
-        HAT_LEGO
-    }
+  /**
+   * EnumCosmeticType - Used to distinguish cosmetics and their types
+   */
+  public enum EnumCosmeticType {
+    BUTT,
+    FLIP,
+    DEADMAU5,
+    WINGS,
+    DRAGON,
+    HAT_TOPHAT,
+    HAT_FEZ,
+    HAT_LEGO
+  }
 
-    /**
-     * Get Cosmetic - Get a specific cosmetic from Enum Value
-     *
-     * @param givenType - Given Cosmetic Enum
-     * @return - Given Abstract Cosmetic Class
-     */
-    public AbstractCosmetic getCosmetic(EnumCosmeticType givenType) {
+  /**
+   * Get Cosmetic - Get a specific cosmetic from Enum Value
+   *
+   * @param givenType - Given Cosmetic Enum
+   * @return - Given Abstract Cosmetic Class
+   */
+  public AbstractCosmetic getCosmetic(EnumCosmeticType givenType) {
 
-        switch (givenType) {
+    switch (givenType) {
 
-            case BUTT:
-                return buttCosmetic;
-            case FLIP:
-                return flipCosmetic;
-            case DEADMAU5:
-                return deadmau5Cosmetic;
-            case WINGS:
-                return wingsCosmetic;
-            case DRAGON:
-                return dragonCosmetic;
-            case HAT_TOPHAT:
-                return topHatCosmetic;
-            case HAT_FEZ:
-                return fezCosmetic;
-            default:
-                return null;
-
-        }
-
-    }
-
-    public ButtCosmetic getButtCosmetic() {
+      case BUTT:
         return buttCosmetic;
-    }
-
-    public DragonCosmetic getDragonCosmetic() {
-        return dragonCosmetic;
-    }
-
-    public FlipCosmetic getFlipCosmetic() {
+      case FLIP:
         return flipCosmetic;
-    }
-
-    public Deadmau5Cosmetic getDeadmau5Cosmetic() {
+      case DEADMAU5:
         return deadmau5Cosmetic;
+      case WINGS:
+        return wingsCosmetic;
+      case DRAGON:
+        return dragonCosmetic;
+      case HAT_TOPHAT:
+        return topHatCosmetic;
+      case HAT_FEZ:
+        return fezCosmetic;
+      default:
+        return null;
+
     }
 
-    public WingsCosmetic getWingsCosmetic() {
-        return wingsCosmetic;
-    }
+  }
+
+  public ButtCosmetic getButtCosmetic() {
+    return buttCosmetic;
+  }
+
+  public DragonCosmetic getDragonCosmetic() {
+    return dragonCosmetic;
+  }
+
+  public FlipCosmetic getFlipCosmetic() {
+    return flipCosmetic;
+  }
+
+  public Deadmau5Cosmetic getDeadmau5Cosmetic() {
+    return deadmau5Cosmetic;
+  }
+
+  public WingsCosmetic getWingsCosmetic() {
+    return wingsCosmetic;
+  }
 }

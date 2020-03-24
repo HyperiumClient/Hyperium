@@ -7,15 +7,15 @@ import me.semx11.autotip.stats.StatsDaily;
 
 public class StatsDailyCreator implements InstanceCreator<StatsDaily> {
 
-    private final Autotip autotip;
+  private final Autotip autotip;
 
-    public StatsDailyCreator(Autotip autotip) {
-        this.autotip = autotip;
-    }
+  public StatsDailyCreator(Autotip autotip) {
+    this.autotip = autotip;
+  }
 
-    @Override
-    public StatsDaily createInstance(Type type) {
-        return new StatsDaily(autotip);
-    }
+  @Override
+  public StatsDaily createInstance(Type type) {
+    return new StatsDaily(autotip);
+  }
 
 }

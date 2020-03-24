@@ -12,31 +12,31 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 public class TipRequest implements Request<TipReply> {
 
-    private final SessionKey sessionKey;
+  private final SessionKey sessionKey;
 
-    private TipRequest(SessionKey sessionKey) {
-        this.sessionKey = sessionKey;
-    }
+  private TipRequest(SessionKey sessionKey) {
+    this.sessionKey = sessionKey;
+  }
 
-    public static TipRequest of(SessionKey sessionKey) {
-        return new TipRequest(sessionKey);
-    }
+  public static TipRequest of(SessionKey sessionKey) {
+    return new TipRequest(sessionKey);
+  }
 
-    @Override
-    public TipReply execute() {
-        HttpUriRequest request = GetBuilder.of(this)
-                .addParameter("key", sessionKey)
-                .build();
+  @Override
+  public TipReply execute() {
+    HttpUriRequest request = GetBuilder.of(this)
+        .addParameter("key", sessionKey)
+        .build();
 
-        Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());
-        return optional
-                .map(reply -> (TipReply) reply)
-                .orElseGet(TipReply::getDefault);
-    }
+    Optional<Reply> optional = RequestHandler.getReply(this, request.getURI());
+    return optional
+        .map(reply -> (TipReply) reply)
+        .orElseGet(TipReply::getDefault);
+  }
 
-    @Override
-    public RequestType getType() {
-        return RequestType.TIP;
-    }
+  @Override
+  public RequestType getType() {
+    return RequestType.TIP;
+  }
 
 }

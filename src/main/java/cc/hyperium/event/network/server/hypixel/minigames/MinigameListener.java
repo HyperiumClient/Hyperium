@@ -29,38 +29,39 @@ import java.util.Arrays;
 
 public class MinigameListener {
 
-    private int cooldown = 3 * 20;
-    private String currentMinigameName = "";
+  private int cooldown = 3 * 20;
+  private String currentMinigameName = "";
 
-    @InvokeEvent
-    public void onTick(TickEvent event) {
-        if (Minecraft.getMinecraft().theWorld != null && Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() &&
-            Minecraft.getMinecraft().theWorld.getScoreboard() != null) {
-            if (cooldown <= 0) {
-                cooldown = 3 * 20;
-                String minigameName = getScoreboardTitle();
-                for (Minigame m : Minigame.values()) {
-                    if (minigameName.equalsIgnoreCase(m.scoreName) &&
-                            !minigameName.equalsIgnoreCase(currentMinigameName)) {
-                        currentMinigameName = minigameName;
-                        EventBus.INSTANCE.post(new JoinMinigameEvent(m));
-                    }
-                }
-            } else {
-                cooldown--;
-            }
+  @InvokeEvent
+  public void onTick(TickEvent event) {
+    if (Minecraft.getMinecraft().theWorld != null && Hyperium.INSTANCE.getHandlers()
+        .getHypixelDetector().isHypixel() &&
+        Minecraft.getMinecraft().theWorld.getScoreboard() != null) {
+      if (cooldown <= 0) {
+        cooldown = 3 * 20;
+        String minigameName = getScoreboardTitle();
+        for (Minigame m : Minigame.values()) {
+          if (minigameName.equalsIgnoreCase(m.scoreName) &&
+              !minigameName.equalsIgnoreCase(currentMinigameName)) {
+            currentMinigameName = minigameName;
+            EventBus.INSTANCE.post(new JoinMinigameEvent(m));
+          }
         }
+      } else {
+        cooldown--;
+      }
     }
+  }
 
-    public String getScoreboardTitle() {
-        return Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null ?
-            ChatColor.stripColor(Minecraft.getMinecraft().theWorld.getScoreboard()
-                .getObjectiveInDisplaySlot(1)
-                .getDisplayName().trim()
-                .replace("\u00A7[0-9a-zA-Z]", "")) : "";
-    }
+  public String getScoreboardTitle() {
+    return Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null ?
+        ChatColor.stripColor(Minecraft.getMinecraft().theWorld.getScoreboard()
+            .getObjectiveInDisplaySlot(1)
+            .getDisplayName().trim()
+            .replace("\u00A7[0-9a-zA-Z]", "")) : "";
+  }
 
-    public String getCurrentMinigameName() {
-        return currentMinigameName;
-    }
+  public String getCurrentMinigameName() {
+    return currentMinigameName;
+  }
 }

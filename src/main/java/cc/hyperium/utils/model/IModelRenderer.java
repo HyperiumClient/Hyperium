@@ -19,5 +19,5 @@ package cc.hyperium.utils.model;
 
 public interface IModelRenderer {
 
-    void reset();
+  void reset();
 }

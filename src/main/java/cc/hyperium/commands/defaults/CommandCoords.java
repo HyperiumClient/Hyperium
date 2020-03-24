@@ -23,19 +23,21 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 
 public class CommandCoords implements BaseCommand {
-    @Override
-    public String getName() {
-        return "coords";
-    }
 
-    @Override
-    public String getUsage() {
-        return "/coords";
-    }
+  @Override
+  public String getName() {
+    return "coords";
+  }
 
-    @Override
-    public void onExecute(String[] args) {
-        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("X:" + ((int) player.posX) + " Y:" + ((int) player.posY) + " Z:" + ((int) player.posZ));
-    }
+  @Override
+  public String getUsage() {
+    return "/coords";
+  }
+
+  @Override
+  public void onExecute(String[] args) {
+    EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+    Hyperium.INSTANCE.getHandlers().getCommandQueue().queue(
+        "X:" + ((int) player.posX) + " Y:" + ((int) player.posY) + " Z:" + ((int) player.posZ));
+  }
 }

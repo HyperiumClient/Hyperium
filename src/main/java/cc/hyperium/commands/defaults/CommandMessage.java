@@ -29,55 +29,59 @@ import java.util.stream.Collectors;
 
 public class CommandMessage implements BaseCommand {
 
-    @Override
-    public String getName() {
-        return "msg";
+  @Override
+  public String getName() {
+    return "msg";
+  }
+
+  @Override
+  public List<String> getCommandAliases() {
+    return Arrays.asList("msg", "tell", "w", "message");
+  }
+
+  @Override
+  public String getUsage() {
+    return "/msg <name> <msg>";
+  }
+
+  @Override
+  public void onExecute(String[] args) {
+    StringBuilder sb = new StringBuilder();
+    for (String arg : args) {
+      String s = arg + " ";
+      sb.append(s);
     }
 
-    @Override
-    public List<String> getCommandAliases() {
-        return Arrays.asList("msg", "tell", "w", "message");
-    }
+    Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/msg " + sb.toString());
+  }
 
-    @Override
-    public String getUsage() {
-        return "/msg <name> <msg>";
-    }
+  @Override
+  public List<String> onTabComplete(String[] args) {
+    List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
+    addTabHypixel(tabUsernames);
+    tabUsernames.remove(Minecraft.getMinecraft().getSession().getUsername());
+    return TabCompletionUtil.getListOfStringsMatchingLastWord(args, tabUsernames);
+  }
 
-    @Override
-    public void onExecute(String[] args) {
-        StringBuilder sb = new StringBuilder();
-        for (String arg : args) {
-            String s = arg + " ";
-            sb.append(s);
+  @Override
+  public boolean tabOnly() {
+    return true;
+  }
+
+  static void addTabHypixel(List<String> tabUsernames) {
+    if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+      try {
+        for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser()
+            .get().getData().getKeys()) {
+          String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser()
+              .get().getData().optJSONObject(s).optString("name");
+          if (!name.isEmpty()) {
+            tabUsernames.add(name);
+          }
         }
-
-        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/msg " + sb.toString());
+      } catch (InterruptedException | ExecutionException e) {
+        e.printStackTrace();
+      }
     }
-
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
-        addTabHypixel(tabUsernames);
-        tabUsernames.remove(Minecraft.getMinecraft().getSession().getUsername());
-        return TabCompletionUtil.getListOfStringsMatchingLastWord(args, tabUsernames);
-    }
-
-    @Override
-    public boolean tabOnly() {
-        return true;
-    }
-
-    static void addTabHypixel(List<String> tabUsernames) {
-        if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
-            try {
-                for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().getKeys()) {
-                    String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().optJSONObject(s).optString("name");
-                    if (!name.isEmpty()) tabUsernames.add(name);
-                }
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+  }
 }

@@ -32,55 +32,60 @@ import java.io.File;
 import java.io.FileInputStream;
 
 public class GuiHyperiumScreen extends GuiScreen {
-    private static ResourceLocation dynamicBackgroundTexture;
-    private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
-    GuiButton serverButton;
 
-    public static void renderBackgroundImage() {
-        if (Settings.BACKGROUND.equalsIgnoreCase("CUSTOM")) {
-            boolean success = getCustomBackground();
+  private static ResourceLocation dynamicBackgroundTexture;
+  private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
+  GuiButton serverButton;
 
-            if (success) {
-                Minecraft.getMinecraft().getTextureManager().bindTexture(dynamicBackgroundTexture);
-                Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0,
-                        ResolutionUtil.current().getScaledWidth(),
-                        ResolutionUtil.current().getScaledHeight(),
-                        ResolutionUtil.current().getScaledWidth(),
-                        ResolutionUtil.current().getScaledHeight());
+  public static void renderBackgroundImage() {
+    if (Settings.BACKGROUND.equalsIgnoreCase("CUSTOM")) {
+      boolean success = getCustomBackground();
 
-                return;
-            } else {
-                Settings.BACKGROUND = "1";
-            }
-        }
-
-        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/" + Settings.BACKGROUND + ".png"));
+      if (success) {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(dynamicBackgroundTexture);
         Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0,
-                ResolutionUtil.current().getScaledWidth(),
-                ResolutionUtil.current().getScaledHeight(),
-                ResolutionUtil.current().getScaledWidth(),
-                ResolutionUtil.current().getScaledHeight());
+            ResolutionUtil.current().getScaledWidth(),
+            ResolutionUtil.current().getScaledHeight(),
+            ResolutionUtil.current().getScaledWidth(),
+            ResolutionUtil.current().getScaledHeight());
+
+        return;
+      } else {
+        Settings.BACKGROUND = "1";
+      }
     }
 
-    private static boolean getCustomBackground() {
-        if (dynamicBackgroundTexture != null) return true;
+    Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("hyperium",
+        "textures/material/backgrounds/" + Settings.BACKGROUND + ".png"));
+    Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0,
+        ResolutionUtil.current().getScaledWidth(),
+        ResolutionUtil.current().getScaledHeight(),
+        ResolutionUtil.current().getScaledWidth(),
+        ResolutionUtil.current().getScaledHeight());
+  }
 
-        if (customImage.exists()) {
-            BufferedImage bufferedImage;
-            try {
-                bufferedImage = ImageIO.read(new FileInputStream(customImage));
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-
-            if (bufferedImage != null && dynamicBackgroundTexture == null) {
-                dynamicBackgroundTexture = Minecraft.getMinecraft().getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bufferedImage));
-            }
-        } else {
-            return false;
-        }
-
-        return true;
+  private static boolean getCustomBackground() {
+    if (dynamicBackgroundTexture != null) {
+      return true;
     }
+
+    if (customImage.exists()) {
+      BufferedImage bufferedImage;
+      try {
+        bufferedImage = ImageIO.read(new FileInputStream(customImage));
+      } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+      }
+
+      if (bufferedImage != null && dynamicBackgroundTexture == null) {
+        dynamicBackgroundTexture = Minecraft.getMinecraft().getRenderManager().renderEngine
+            .getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bufferedImage));
+      }
+    } else {
+      return false;
+    }
+
+    return true;
+  }
 }

@@ -9,20 +9,22 @@ import java.util.regex.Matcher;
 
 public class HypixelLeaveChatHandler extends HyperiumChatHandler {
 
-    /**
-     * @param component Entire component from event
-     * @param text      Pure text for parsing
-     * @return boolean to cancel event
-     */
-    @Override
-    public boolean chatReceived(IChatComponent component, String text) {
-        if (!text.toLowerCase(Locale.ENGLISH).contains("left.")) return false;
-        Matcher matcher = regexPatterns.get(ChatRegexType.PLAYER_LEAVE).matcher(text);
-
-        if (matcher.find()) {
-            EventBus.INSTANCE.post(new PlayerLeaveHypixelEvent(matcher.group("player")));
-        }
-
-        return false;
+  /**
+   * @param component Entire component from event
+   * @param text      Pure text for parsing
+   * @return boolean to cancel event
+   */
+  @Override
+  public boolean chatReceived(IChatComponent component, String text) {
+    if (!text.toLowerCase(Locale.ENGLISH).contains("left.")) {
+      return false;
     }
+    Matcher matcher = regexPatterns.get(ChatRegexType.PLAYER_LEAVE).matcher(text);
+
+    if (matcher.find()) {
+      EventBus.INSTANCE.post(new PlayerLeaveHypixelEvent(matcher.group("player")));
+    }
+
+    return false;
+  }
 }

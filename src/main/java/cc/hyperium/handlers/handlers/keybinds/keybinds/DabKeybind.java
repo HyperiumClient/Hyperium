@@ -21,7 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.animation.AbstractAnimationHandler;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
@@ -31,50 +31,55 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.UUID;
 
-public class DabKeybind extends HyperiumBind {
+public class DabKeybind extends HyperiumKeybind {
 
-    public DabKeybind() {
-        super("Dab", Keyboard.KEY_NONE);
+  public DabKeybind() {
+    super("Dab", Keyboard.KEY_NONE, KeyType.COSMETIC);
+  }
+
+  @Override
+  public void onPress() {
+    DabHandler dabHandler = Hyperium.INSTANCE.getHandlers().getDabHandler();
+    UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
+    AbstractAnimationHandler.AnimationState currentState = dabHandler.get(uuid);
+
+    NettyClient client = NettyClient.getClient();
+    if (Settings.DAB_TOGGLE && currentState.isAnimating() && !wasPressed()) {
+      currentState.setToggled(false);
+      dabHandler.stopAnimation(uuid);
+
+      if (client != null) {
+        client.write(ServerCrossDataPacket
+            .build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
+      }
+
+      return;
     }
 
-    @Override
-    public void onPress() {
-        DabHandler dabHandler = Hyperium.INSTANCE.getHandlers().getDabHandler();
-        UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
-        AbstractAnimationHandler.AnimationState currentState = dabHandler.get(uuid);
-
-        NettyClient client = NettyClient.getClient();
-        if (Settings.DAB_TOGGLE && currentState.isAnimating() && !wasPressed()) {
-            currentState.setToggled(false);
-            dabHandler.stopAnimation(uuid);
-
-            if (client != null) {
-                client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
-            }
-
-            return;
-        }
-
-        if (!wasPressed()) {
-            currentState.setToggled(Settings.DAB_TOGGLE);
-            dabHandler.startAnimation(uuid);
-        }
-
-        if (client != null) {
-            client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", true)));
-        }
+    if (!wasPressed()) {
+      currentState.setToggled(Settings.DAB_TOGGLE);
+      dabHandler.startAnimation(uuid);
     }
 
-
-    @Override
-    public void onRelease() {
-        if (Settings.DAB_TOGGLE) return;
-
-        Hyperium.INSTANCE.getHandlers().getDabHandler().stopAnimation(UUIDUtil.getClientUUID());
-        NettyClient client = NettyClient.getClient();
-
-        if (client != null) {
-            client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
-        }
+    if (client != null) {
+      client.write(ServerCrossDataPacket
+          .build(new JsonHolder().put("type", "dab_update").put("dabbing", true)));
     }
+  }
+
+
+  @Override
+  public void onRelease() {
+    if (Settings.DAB_TOGGLE) {
+      return;
+    }
+
+    Hyperium.INSTANCE.getHandlers().getDabHandler().stopAnimation(UUIDUtil.getClientUUID());
+    NettyClient client = NettyClient.getClient();
+
+    if (client != null) {
+      client.write(ServerCrossDataPacket
+          .build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
+    }
+  }
 }

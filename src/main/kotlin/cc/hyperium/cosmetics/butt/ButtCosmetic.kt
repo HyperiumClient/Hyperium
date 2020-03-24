@@ -33,7 +33,8 @@ class ButtCosmetic : AbstractCosmetic(false, EnumPurchaseType.BUTT) {
             return
         }
 
-        val packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.entity.uniqueID) ?: return
+        val packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.entity.uniqueID)
+                ?: return
         (event.model as IModelPlayer).butt.showModel = !packageIfReady.cachedSettings.isButtDisabled
         (event.model as IModelPlayer).butt.offsetY = if (event.entity.isSneaking) -.45f else -.4f
         (event.model as IModelPlayer).butt.offsetZ = if (event.entity.isSneaking) .3f else 0f

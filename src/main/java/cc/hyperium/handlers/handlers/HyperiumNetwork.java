@@ -31,18 +31,18 @@ import net.minecraft.network.play.client.C17PacketCustomPayload;
 
 public class HyperiumNetwork {
 
-    @InvokeEvent
-    public void joinHypixel(ServerJoinEvent event) {
-        Multithreading.runAsync(() -> {
-            NetHandlerPlayClient netHandler = Minecraft.getMinecraft().getNetHandler();
-            if (netHandler != null) {
-                netHandler.addToSendQueue(
-                    new C17PacketCustomPayload("hyperium",
-                        new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
-                            .put("id", Metadata.getModid())
-                            .put("optifine", AddonCheckerUtil.isUsingOptifine())
-                            .put("version", Metadata.getVersion()).toString())));
-            }
-        });
-    }
+  @InvokeEvent
+  public void joinHypixel(ServerJoinEvent event) {
+    Multithreading.runAsync(() -> {
+      NetHandlerPlayClient netHandler = Minecraft.getMinecraft().getNetHandler();
+      if (netHandler != null) {
+        netHandler.addToSendQueue(
+            new C17PacketCustomPayload("hyperium",
+                new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
+                    .put("id", Metadata.getModid())
+                    .put("optifine", AddonCheckerUtil.isUsingOptifine())
+                    .put("version", Metadata.getVersion()).toString())));
+      }
+    });
+  }
 }

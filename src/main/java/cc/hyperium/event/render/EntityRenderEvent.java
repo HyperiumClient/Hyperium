@@ -24,53 +24,54 @@ import org.jetbrains.annotations.NotNull;
 
 public final class EntityRenderEvent extends CancellableEvent {
 
-    @NotNull
-    private final Entity entityIn;
-    private final float posX;
-    private final float posY;
-    private final float posZ;
-    private final float pitch;
-    private final float yaw;
-    private final float scale;
+  @NotNull
+  private final Entity entityIn;
+  private final float posX;
+  private final float posY;
+  private final float posZ;
+  private final float pitch;
+  private final float yaw;
+  private final float scale;
 
-    public EntityRenderEvent(@NotNull Entity entityIn, float posX, float posY, float posZ, float pitch, float yaw, float scale) {
-        Preconditions.checkNotNull(entityIn, "entityIn");
+  public EntityRenderEvent(@NotNull Entity entityIn, float posX, float posY, float posZ,
+      float pitch, float yaw, float scale) {
+    Preconditions.checkNotNull(entityIn, "entityIn");
 
-        this.entityIn = entityIn;
-        this.posX = posX;
-        this.posY = posY;
-        this.posZ = posZ;
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.scale = scale;
-    }
+    this.entityIn = entityIn;
+    this.posX = posX;
+    this.posY = posY;
+    this.posZ = posZ;
+    this.pitch = pitch;
+    this.yaw = yaw;
+    this.scale = scale;
+  }
 
-    @NotNull
-    public final Entity getEntityIn() {
-        return entityIn;
-    }
+  @NotNull
+  public final Entity getEntityIn() {
+    return entityIn;
+  }
 
-    public final float getPosX() {
-        return posX;
-    }
+  public final float getPosX() {
+    return posX;
+  }
 
-    public final float getPosY() {
-        return posY;
-    }
+  public final float getPosY() {
+    return posY;
+  }
 
-    public final float getPosZ() {
-        return posZ;
-    }
+  public final float getPosZ() {
+    return posZ;
+  }
 
-    public final float getPitch() {
-        return pitch;
-    }
+  public final float getPitch() {
+    return pitch;
+  }
 
-    public final float getYaw() {
-        return yaw;
-    }
+  public final float getYaw() {
+    return yaw;
+  }
 
-    public final float getScale() {
-        return scale;
-    }
+  public final float getScale() {
+    return scale;
+  }
 }

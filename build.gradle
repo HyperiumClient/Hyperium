@@ -5,14 +5,15 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'club.ampthedev.mcgradle:MCGradle:2.0.5'
+        classpath 'club.ampthedev.mcgradle:MCGradle:2.0.10'
     }
 }
 
 plugins {
     id 'club.ampthedev.versionjson'
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.61'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.70'
+    id 'maven-publish'
 }
 
 apply plugin: 'club.ampthedev.mcgradle'
@@ -61,8 +62,8 @@ if (!new File(projectDir, 'src/minecraft').exists()) {
 }
 
 dependencies {
-    library "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61"
-    library "org.jetbrains.kotlin:kotlin-reflect:1.3.61"
+    library "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.70"
+    library "org.jetbrains.kotlin:kotlin-reflect:1.3.70"
 
     library 'com.github.jagrosh:DiscordIPC:e29d6d8'
 
@@ -112,4 +113,37 @@ jar {
         }
     }
     exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+}
+
+publishing {
+    repositories {
+        maven {
+            url = "$buildDir/repository"
+        }
+    }
+
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            pom {
+                name = 'Hyperium'
+                description = 'Open Source 1.8.9 Minecraft Client'
+                url = 'https://github.com/HyperiumClient/Hyperium'
+                licenses {
+                    license {
+                        name = 'GNU LGPL-3.0'
+                        url = 'https://raw.githubusercontent.com/HyperiumClient/Hyperium/master/LICENSE'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'hyperium'
+                        name = 'asbyth'
+                        email = 'asbyth@sk1er.club'
+                    }
+                }
+            }
+        }
+    }
 }

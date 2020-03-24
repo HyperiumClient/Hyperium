@@ -25,34 +25,47 @@ import java.awt.*;
 
 public class FPSKey extends AbstractKey {
 
-    public FPSKey(KeystrokesMod mod, int xOffset, int yOffset) {
-        super(mod, xOffset, yOffset);
+  public FPSKey(KeystrokesMod mod, int xOffset, int yOffset) {
+    super(mod, xOffset, yOffset);
+  }
+
+  @Override
+  public void renderKey(int x, int y) {
+    int yOffset = this.yOffset;
+
+    if (mod.getSettings().isShowingCPSOnButtons() || !mod.getSettings().isShowingCPS()) {
+      yOffset -= 18;
+    }
+    if (!mod.getSettings().isShowingSpacebar()) {
+      yOffset -= 18;
+    }
+    if (!mod.getSettings().isShowingSneak()) {
+      yOffset -= 18;
+    }
+    if (!mod.getSettings().isShowingMouseButtons()) {
+      yOffset -= 24;
+    }
+    if (!mod.getSettings().isShowingWASD()) {
+      yOffset -= 48;
     }
 
-    @Override
-    public void renderKey(int x, int y) {
-        int yOffset = this.yOffset;
+    int textColor = getColor();
 
-        if (mod.getSettings().isShowingCPSOnButtons() || !mod.getSettings().isShowingCPS()) yOffset -= 18;
-        if (!mod.getSettings().isShowingSpacebar()) yOffset -= 18;
-        if (!mod.getSettings().isShowingSneak()) yOffset -= 18;
-        if (!mod.getSettings().isShowingMouseButtons()) yOffset -= 24;
-        if (!mod.getSettings().isShowingWASD()) yOffset -= 48;
-
-        int textColor = getColor();
-
-        if (mod.getSettings().isKeyBackgroundEnabled()) {
-            drawRect(x + xOffset, y + yOffset, x + xOffset + 70, y + yOffset + 16,
-                    new Color(mod.getSettings().getKeyBackgroundRed(), mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
-                            mod.getSettings().getKeyBackgroundOpacity()).getRGB());
-        }
-
-        String name = (Minecraft.getDebugFPS()) + " FPS";
-
-        if (mod.getSettings().isChroma()) {
-            drawChromaString(name, ((x + (xOffset + 70) / 2) - mc.fontRendererObj.getStringWidth(name) / 2), y + (yOffset + 4), 1.0F);
-        } else {
-            drawCenteredString(name, x + ((xOffset + 70) / 2), y + (yOffset + 4), textColor);
-        }
+    if (mod.getSettings().isKeyBackgroundEnabled()) {
+      drawRect(x + xOffset, y + yOffset, x + xOffset + 70, y + yOffset + 16,
+          new Color(mod.getSettings().getKeyBackgroundRed(),
+              mod.getSettings().getKeyBackgroundGreen(), mod.getSettings().getKeyBackgroundBlue(),
+              mod.getSettings().getKeyBackgroundOpacity()).getRGB());
     }
+
+    String name = (Minecraft.getDebugFPS()) + " FPS";
+
+    if (mod.getSettings().isChroma()) {
+      drawChromaString(name,
+          ((x + (xOffset + 70) / 2) - mc.fontRendererObj.getStringWidth(name) / 2),
+          y + (yOffset + 4), 1.0F);
+    } else {
+      drawCenteredString(name, x + ((xOffset + 70) / 2), y + (yOffset + 4), textColor);
+    }
+  }
 }

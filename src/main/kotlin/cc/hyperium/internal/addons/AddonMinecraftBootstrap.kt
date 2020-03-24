@@ -83,8 +83,9 @@ object AddonMinecraftBootstrap {
                         val dependencyManifest = toLoadMap[dependency]
                         if (dependencyManifest == null) {
                             toLoadMap.remove(manifest.name)
-                            Hyperium.LOGGER
-                                .error("Can't load addon ${manifest.name}. Its dependency, $dependency, isn't available.")
+                            Hyperium.LOGGER.error(
+                                    "Can't load addon ${manifest.name}. Its dependency, $dependency, isn't available."
+                            )
                             MISSING_DEPENDENCIES_MAP.computeIfAbsent(manifest) { arrayListOf() }.add(dependency)
                             continue@loadBeforeLoop
                         }
@@ -95,7 +96,7 @@ object AddonMinecraftBootstrap {
                             toLoadMap.remove(manifest.name)
                             done = false
                             Hyperium.LOGGER
-                                .error("Can't load addon ${manifest.name} because it and ${dependencyManifest.name} depend on each other.")
+                                    .error("Can't load addon ${manifest.name} because it and ${dependencyManifest.name} depend on each other.")
                             DEPENDENCIES_LOOP_MAP.computeIfAbsent(manifest) { arrayListOf() }.add(dependencyManifest)
                             continue@loadBeforeLoop
                         }
@@ -109,7 +110,7 @@ object AddonMinecraftBootstrap {
             val outEdges = toLoad.map { it to hashSetOf<AddonManifest>() }.toMap().toMutableMap()
 
             for (manifest in toLoad) {
-                manifest.dependencies.forEach {
+                for (it in manifest.dependencies) {
                     val dependency = toLoadMap[it]
                     if (dependency != null) {
                         outEdges[manifest]!!.add(dependency)
@@ -168,24 +169,12 @@ object AddonMinecraftBootstrap {
             }.also {
                 for (addon in it) {
                     val output =
-                        if (addon.versionCode != null) "Addon ${addon.name}'s version code (${addon.versionCode}) doesnt match our version code! $VERSION_CODE"
-                        else "Addon ${addon.name}'s version code is null. Please include a \'\"versionCode\": \"$VERSION_CODE\"\"\' in your addon.json file."
+                            if (addon.versionCode != null) "Addon ${addon.name}'s version code (${addon.versionCode}) doesnt match our version code! $VERSION_CODE"
+                            else "Addon ${addon.name}'s version code is null. Please include a \'\"versionCode\": \"$VERSION_CODE\"\"\' in your addon.json file."
 
                     Hyperium.LOGGER.error(output)
                 }
             })
-
-            for (addon in toLoad) {
-                try {
-                    if (addon.overlay != null) {
-                        OverlayChecker.checkOverlayField(addon.overlay)
-                    }
-                } catch (e: Throwable) {
-                    dontLoad.add(addon)
-                    e.printStackTrace()
-                    ADDON_ERRORS.add(e)
-                }
-            }
 
             for (addon in dontLoad) {
                 toLoad.remove(addon)

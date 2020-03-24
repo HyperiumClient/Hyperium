@@ -27,10 +27,10 @@ import java.util.Map;
  */
 public interface ChromaHUDParser {
 
-    DisplayItem parse(String type, int ord, JsonHolder item);
+  DisplayItem parse(String type, int ord, JsonHolder item);
 
-    Map<String, String> getNames();
+  Map<String, String> getNames();
 
-    ChromaHUDDescription description();
+  ChromaHUDDescription description();
 
 }

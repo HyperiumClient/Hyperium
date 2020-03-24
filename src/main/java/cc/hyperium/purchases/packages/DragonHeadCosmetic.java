@@ -23,7 +23,7 @@ import cc.hyperium.utils.JsonHolder;
 
 public class DragonHeadCosmetic extends AbstractHyperiumPurchase {
 
-    public DragonHeadCosmetic(EnumPurchaseType type, JsonHolder data) {
-        super(EnumPurchaseType.DRAGON_HEAD, data);
-    }
+  public DragonHeadCosmetic(EnumPurchaseType type, JsonHolder data) {
+    super(EnumPurchaseType.DRAGON_HEAD, data);
+  }
 }

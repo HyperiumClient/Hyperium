@@ -24,16 +24,16 @@ import cc.hyperium.event.CancellableEvent;
  */
 public class SendChatMessageEvent extends CancellableEvent {
 
-    private final String message;
+  private final String message;
 
-    /**
-     * @param message the message the player is sending
-     */
-    public SendChatMessageEvent(String message) {
-        this.message = message;
-    }
+  /**
+   * @param message the message the player is sending
+   */
+  public SendChatMessageEvent(String message) {
+    this.message = message;
+  }
 
-    public String getMessage() {
-        return message;
-    }
+  public String getMessage() {
+    return message;
+  }
 }

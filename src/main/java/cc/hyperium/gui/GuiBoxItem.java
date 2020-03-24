@@ -18,27 +18,28 @@
 package cc.hyperium.gui;
 
 public class GuiBoxItem<E> {
-    private final GuiBlock box;
-    private final E object;
 
-    public GuiBoxItem(GuiBlock box, E object) {
-        this.box = box;
-        this.object = object;
-    }
+  private final GuiBlock box;
+  private final E object;
 
-    @Override
-    public String toString() {
-        return "GuiBoxItem{" +
-            "box=" + box +
-            ", object=" + object +
-            '}';
-    }
+  public GuiBoxItem(GuiBlock box, E object) {
+    this.box = box;
+    this.object = object;
+  }
 
-    public GuiBlock getBox() {
-        return box;
-    }
+  @Override
+  public String toString() {
+    return "GuiBoxItem{" +
+        "box=" + box +
+        ", object=" + object +
+        '}';
+  }
 
-    public E getObject() {
-        return object;
-    }
+  public GuiBlock getBox() {
+    return box;
+  }
+
+  public E getObject() {
+    return object;
+  }
 }

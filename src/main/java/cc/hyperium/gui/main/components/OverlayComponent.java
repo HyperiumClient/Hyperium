@@ -27,46 +27,53 @@ import java.awt.*;
  */
 @Deprecated // Soon to be removed, please refrain from using.
 public abstract class OverlayComponent {
-    private static final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
 
-    String label;
-    boolean enabled;
+  private static final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
 
-    public OverlayComponent(boolean enabled) {
-        this.enabled = enabled;
+  String label;
+  boolean enabled;
+
+  public OverlayComponent(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  /**
+   * Renders this component
+   *
+   * @param mouseX   the current X position of the mouse
+   * @param mouseY   the current Y position of the mouse
+   * @param overlayX the current X of the overlay
+   * @param overlayY the current Y of the overlay
+   * @param w        the width of this item
+   * @param h        the height of this item
+   * @param overlayH the height of the overlay
+   * @return if the item got rendered
+   */
+  public boolean render(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h,
+      int overlayH) {
+    int textY = (overlayY + (h - fr.FONT_HEIGHT) / 2);
+    if (textY < (overlayH / 4) || (textY + h) > (overlayH / 4 * 3)) {
+      return false;
     }
 
-    /**
-     * Renders this component
-     *
-     * @param mouseX   the current X position of the mouse
-     * @param mouseY   the current Y position of the mouse
-     * @param overlayX the current X of the overlay
-     * @param overlayY the current Y of the overlay
-     * @param w        the width of this item
-     * @param h        the height of this item
-     * @param overlayH the height of the overlay
-     * @return if the item got rendered
-     */
-    public boolean render(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h, int overlayH) {
-        int textY = (overlayY + (h - fr.FONT_HEIGHT) / 2);
-        if (textY < (overlayH / 4) || (textY + h) > (overlayH / 4 * 3)) return false;
-
-        if (mouseX >= overlayX && mouseX <= overlayX + w && mouseY >= overlayY && mouseY <= overlayY + h) {
-            Gui.drawRect(overlayX, overlayY, overlayX + w, overlayY + h, 0x1e000000);
-        }
-
-        fr.drawString(label, overlayX + 4, (overlayY + (h - fr.FONT_HEIGHT) / 2f), enabled ? -1 : new Color(169, 169, 169).getRGB());
-        return true;
+    if (mouseX >= overlayX && mouseX <= overlayX + w && mouseY >= overlayY
+        && mouseY <= overlayY + h) {
+      Gui.drawRect(overlayX, overlayY, overlayX + w, overlayY + h, 0x1e000000);
     }
 
-    public abstract void mouseClicked(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h);
+    fr.drawString(label, overlayX + 4, (overlayY + (h - fr.FONT_HEIGHT) / 2f),
+        enabled ? -1 : new Color(169, 169, 169).getRGB());
+    return true;
+  }
 
-    public void handleMouseInput(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
+  public abstract void mouseClicked(int mouseX, int mouseY, int overlayX, int overlayY, int w,
+      int h);
 
-    }
+  public void handleMouseInput(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
 
-    public String getLabel() {
-        return label;
-    }
+  }
+
+  public String getLabel() {
+    return label;
+  }
 }

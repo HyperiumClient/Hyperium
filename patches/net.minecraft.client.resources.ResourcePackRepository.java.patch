@@ -9,3 +9,13 @@
  
      public ResourcePackRepository(File dirResourcepacksIn, File dirServerResourcepacksIn, IResourcePack rprDefaultResourcePackIn, IMetadataSerializer rprMetadataSerializerIn, GameSettings settings) {
          this.dirResourcepacks = dirResourcepacksIn;
+@@ -211,6 +211,9 @@
+      * Keep only the 10 most recent resources packs, delete the others
+      */
+     private void deleteOldServerResourcesPacks() {
++        if (!dirServerResourcepacks.exists())
++            dirServerResourcepacks.mkdirs();
++
+         List<File> list = Lists.newArrayList(FileUtils.listFiles(this.dirServerResourcepacks, TrueFileFilter.TRUE, (IOFileFilter)null));
+         Collections.sort(list, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
+         int i = 0;

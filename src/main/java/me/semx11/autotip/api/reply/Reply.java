@@ -4,24 +4,24 @@ import me.semx11.autotip.api.RequestType;
 
 public abstract class Reply {
 
-    private boolean success;
-    private String cause;
+  private boolean success;
+  private String cause;
 
-    public Reply() {
-    }
+  public Reply() {
+  }
 
-    public Reply(boolean success) {
-        this.success = success;
-    }
+  public Reply(boolean success) {
+    this.success = success;
+  }
 
-    public boolean isSuccess() {
-        return success;
-    }
+  public boolean isSuccess() {
+    return success;
+  }
 
-    public String getCause() {
-        return cause;
-    }
+  public String getCause() {
+    return cause;
+  }
 
-    public abstract RequestType getRequestType();
+  public abstract RequestType getRequestType();
 
 }

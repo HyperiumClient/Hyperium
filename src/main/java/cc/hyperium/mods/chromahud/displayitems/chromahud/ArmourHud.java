@@ -34,110 +34,117 @@ import java.util.List;
  * Created by Mitchell Katz on 5/29/2017.
  */
 public class ArmourHud extends DisplayItem {
-    private List<ItemStack> list = new ArrayList<>();
-    private boolean dur;
-    private boolean hand;
-    private boolean armourOnTop;
-    private boolean horizontal;
 
-    public ArmourHud(JsonHolder raw, int ordinal) {
-        super(raw, ordinal);
-        dur = raw.optBoolean("dur");
-        armourOnTop = raw.optBoolean("armourOnTop");
-        hand = raw.optBoolean("hand");
-        horizontal = raw.optBoolean("horizontal");
-        width = 16;
+  private List<ItemStack> list = new ArrayList<>();
+  private boolean dur;
+  private boolean hand;
+  private boolean armourOnTop;
+  private boolean horizontal;
+
+  public ArmourHud(JsonHolder raw, int ordinal) {
+    super(raw, ordinal);
+    dur = raw.optBoolean("dur");
+    armourOnTop = raw.optBoolean("armourOnTop");
+    hand = raw.optBoolean("hand");
+    horizontal = raw.optBoolean("horizontal");
+    width = 16;
+  }
+
+  @Override
+  public void save() {
+    data.put("dur", dur);
+    data.put("hand", hand);
+    data.put("armourOnTop", armourOnTop);
+    data.put("horizontal", horizontal);
+  }
+
+  @Override
+  public void draw(int starX, double startY, boolean isConfig) {
+    list.clear();
+    if (isConfig) {
+      if (armourOnTop) {
+        list.add(new ItemStack(Item.getItemById(310), 1));
+        list.add(new ItemStack(Item.getItemById(311), 1));
+        list.add(new ItemStack(Item.getItemById(312), 1));
+        list.add(new ItemStack(Item.getItemById(313), 1));
+        list.add(new ItemStack(Item.getItemById(276), 1));
+        list.add(new ItemStack(Item.getItemById(261), 1));
+        list.add(new ItemStack(Item.getItemById(262), 64));
+
+      } else {
+        list.add(new ItemStack(Item.getItemById(276), 1));
+        list.add(new ItemStack(Item.getItemById(261), 1));
+        list.add(new ItemStack(Item.getItemById(262), 64));
+        list.add(new ItemStack(Item.getItemById(310), 1));
+        list.add(new ItemStack(Item.getItemById(311), 1));
+        list.add(new ItemStack(Item.getItemById(312), 1));
+        list.add(new ItemStack(Item.getItemById(313), 1));
+      }
+    } else {
+      list = itemsToRender();
     }
 
-    @Override
-    public void save() {
-        data.put("dur", dur);
-        data.put("hand", hand);
-        data.put("armourOnTop", armourOnTop);
-        data.put("horizontal", horizontal);
+    drawArmour(starX, startY);
+
+    height = horizontal ? dur ? 32 : 18 : getArmourHeight();
+    width = horizontal ? dur ? list.size() * 18.8 : list.size() * 13.5 : 16;
+  }
+
+  private void drawArmour(int x, double y) {
+    RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+    EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+    if (thePlayer == null || renderItem == null) {
+      return;
+    }
+    ElementRenderer.render(list, x, y, dur, horizontal);
+  }
+
+  private int getArmourHeight() {
+    return list.size() * 13;
+  }
+
+  private List<ItemStack> itemsToRender() {
+    List<ItemStack> items = new ArrayList<>();
+    ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem();
+    if (hand && heldItem != null && !armourOnTop) {
+      items.add(heldItem);
+    }
+    ItemStack[] inventory = Minecraft.getMinecraft().thePlayer.inventory.armorInventory;
+
+    for (int i = 3; i >= 0; i--) {
+      if (inventory[i] != null && inventory[i].getItem() != null) {
+        items.add(inventory[i]);
+      }
     }
 
-    @Override
-    public void draw(int starX, double startY, boolean isConfig) {
-        list.clear();
-        if (isConfig) {
-            if (armourOnTop) {
-                list.add(new ItemStack(Item.getItemById(310), 1));
-                list.add(new ItemStack(Item.getItemById(311), 1));
-                list.add(new ItemStack(Item.getItemById(312), 1));
-                list.add(new ItemStack(Item.getItemById(313), 1));
-                list.add(new ItemStack(Item.getItemById(276), 1));
-                list.add(new ItemStack(Item.getItemById(261), 1));
-                list.add(new ItemStack(Item.getItemById(262), 64));
-
-            } else {
-                list.add(new ItemStack(Item.getItemById(276), 1));
-                list.add(new ItemStack(Item.getItemById(261), 1));
-                list.add(new ItemStack(Item.getItemById(262), 64));
-                list.add(new ItemStack(Item.getItemById(310), 1));
-                list.add(new ItemStack(Item.getItemById(311), 1));
-                list.add(new ItemStack(Item.getItemById(312), 1));
-                list.add(new ItemStack(Item.getItemById(313), 1));
-            }
-        } else {
-            list = itemsToRender();
-        }
-
-        drawArmour(starX, startY);
-
-        height = horizontal ? dur ? 32 : 18 : getArmourHeight();
-        width = horizontal ? dur ? list.size() * 18.8 : list.size() * 13.5 : 16;
+    if (hand && heldItem != null && armourOnTop) {
+      items.add(heldItem);
     }
-
-    private void drawArmour(int x, double y) {
-        RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-        EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-        if (thePlayer == null || renderItem == null) return;
-        ElementRenderer.render(list, x, y, dur, horizontal);
-    }
-
-    private int getArmourHeight() {
-        return list.size() * 13;
-    }
-
-    private List<ItemStack> itemsToRender() {
-        List<ItemStack> items = new ArrayList<>();
-        ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem();
-        if (hand && heldItem != null && !armourOnTop) items.add(heldItem);
-        ItemStack[] inventory = Minecraft.getMinecraft().thePlayer.inventory.armorInventory;
-
-        for (int i = 3; i >= 0; i--) {
-            if (inventory[i] != null && inventory[i].getItem() != null) {
-                items.add(inventory[i]);
-            }
-        }
-
-        if (hand && heldItem != null && armourOnTop) items.add(heldItem);
-        return items;
-    }
+    return items;
+  }
 
 
-    public void toggleDurability() {
-        dur = !dur;
-    }
+  public void toggleDurability() {
+    dur = !dur;
+  }
 
-    public void toggleHand() {
-        hand = !hand;
-    }
+  public void toggleHand() {
+    hand = !hand;
+  }
 
-    public boolean isArmourOnTop() {
-        return armourOnTop;
-    }
+  public boolean isArmourOnTop() {
+    return armourOnTop;
+  }
 
-    public boolean isHorizontal() {
-        return horizontal;
-    }
+  public boolean isHorizontal() {
+    return horizontal;
+  }
 
-    public void setHorizontal(boolean horizontal) {
-        this.horizontal = horizontal;
-    }
+  public void setHorizontal(boolean horizontal) {
+    this.horizontal = horizontal;
+  }
 
-    public void setArmourOnTop(boolean armourOnTop) {
-        this.armourOnTop = armourOnTop;
-    }
+  public void setArmourOnTop(boolean armourOnTop) {
+    this.armourOnTop = armourOnTop;
+  }
 }
