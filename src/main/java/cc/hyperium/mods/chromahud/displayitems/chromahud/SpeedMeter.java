@@ -25,8 +25,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * I can try to save you from the speeding ticket with this meter, but I don't feel like it's gonna
@@ -36,24 +34,30 @@ import java.util.List;
  */
 public class SpeedMeter extends DisplayItem {
   public static DecimalFormat defaultDecimalFormat = new DecimalFormat("#.##");
-  private static List<SpeedUnit> units = Arrays.asList(SpeedUnit.values());
-  private static List<Mode> modes = Arrays.asList(Mode.values());
 
-  private final EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+  private final Minecraft mc;
   private SpeedUnit speedUnit;
   private DecimalFormat format;
   private Mode mode;
 
   public SpeedMeter(JsonHolder object, int ordinal) {
     super(object, ordinal);
-    this.mode = Mode.valueOf(object.optString("mode", modes.get(0).name()));
-    this.speedUnit = SpeedUnit.valueOf(object.optString("unit", units.get(0).name()));
+    this.mode = Mode.valueOf(object.optString("mode", Mode.XYZ.name()));
+    this.speedUnit = SpeedUnit.valueOf(object.optString("unit", SpeedUnit.BPS.name()));
     this.format = new DecimalFormat(object.optString("format", "#.##"));
+    this.mc = Minecraft.getMinecraft();
     height = 10;
   }
 
+  @Override
+  public void save() {
+    data.put("mode", this.mode.name());
+    data.put("unit", this.speedUnit.name());
+    data.put("format", this.getFormat());
+  }
+
   public String getFormat() {
-    return format.toPattern();
+    return this.format.toPattern();
   }
 
   public void setFormat(String format) {
@@ -65,37 +69,38 @@ public class SpeedMeter extends DisplayItem {
   }
 
   public void setMode(Mode mode) {
-    this.mode = mode == null ? modes.get(0) : mode;
+    this.mode = mode == null ? Mode.XYZ : mode;
   }
 
   public void setSpeedUnit(SpeedUnit speedUnit) {
     this.speedUnit =
-        speedUnit == null ? units.get(0) : speedUnit; // if unit is null, use first unit in list
+            speedUnit == null ? SpeedUnit.BPS : speedUnit; // if unit is null, use first unit in list
   }
 
   public void cycleMode() {
-    int indexTo = modes.indexOf(this.mode) + 1;
-    this.mode = modes.get((indexTo > modes.size() - 1 ? 0 : indexTo));
+    this.mode = Mode.get(this.mode.ordinal()+1);
+    if (this.mode == null) this.mode = Mode.XYZ;
   }
 
   public void cycleSpeedUnit() {
-    int indexTo = units.indexOf(this.speedUnit) + 1;
-    this.speedUnit = units.get((indexTo > units.size() - 1 ? 0 : indexTo));
+    this.speedUnit = SpeedUnit.get(this.speedUnit.ordinal()+1);
+    if (this.speedUnit == null) this.speedUnit = SpeedUnit.BPS;
   }
 
   public void draw(int x, double y, boolean isConfig) {
+    if (this.mc.thePlayer == null) return;
     double speed =
-        convertSpeedToUnits(
-            Math.abs(getSpeedInBlocksPerTick()),
-            speedUnit); // Math#abs is to make sure the speed isn't negative
+            convertSpeedToUnits(
+                    Math.abs(getSpeedInBlocksPerTick()),
+                    speedUnit); // Math#abs is to make sure the speed isn't negative
 
     String text =
-        "Speed"
-            + (mode.equals(Mode.XYZ) ? "" : " " + mode.name())
-            + ": "
-            + format.format(speed)
-            + " "
-            + speedUnit.unit;
+            "Speed"
+                    + (mode.equals(Mode.XYZ) ? "" : " " + mode.name())
+                    + ": "
+                    + format.format(speed)
+                    + " "
+                    + speedUnit.unit;
 
     ElementRenderer.draw(x, y, ChatColor.translateAlternateColorCodes('%', text));
     width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(text);
@@ -103,6 +108,7 @@ public class SpeedMeter extends DisplayItem {
 
   private double getSpeedInBlocksPerTick() {
     double x, y, z;
+    EntityPlayerSP player = this.mc.thePlayer;
     switch (mode) {
       case X:
         return player.posX - player.prevPosX;
@@ -123,10 +129,8 @@ public class SpeedMeter extends DisplayItem {
         y = player.posY - player.prevPosY;
         z = player.posZ - player.prevPosZ;
         return Math.sqrt(x * x + y * y + z * z);
-
-      default:
-        return 0D;
     }
+    return 0D;
   }
 
   public static double convertSpeedToUnits(double originalSpeed, SpeedUnit unit) {
@@ -134,16 +138,11 @@ public class SpeedMeter extends DisplayItem {
     else return originalSpeed * 20 * unit.multiplier;
   }
 
-  public void setUnit(SpeedUnit unit) {
-    this.speedUnit = unit;
-    data.put("unit", unit.name());
-  }
-
   // Blame Wikipedia if multipliers (except BPT, BPS, MPS and KMPH) are wrong.
   public enum SpeedUnit {
-    BPT(0D, "blocks/tick"),
     BPS(1D, "blocks/s"),
     MPS(1D, "m/s"),
+    BPT(0D, "blocks/tick"),
     KMPH(3.6D, "km/h"),
     MPH(2.236936D, "mph"),
     KNOT(1.943844D, "knots"),
@@ -156,13 +155,27 @@ public class SpeedMeter extends DisplayItem {
       this.multiplier = multiplier;
       this.unit = unit;
     }
+
+    public static SpeedUnit get(int index) {
+      for (SpeedUnit unit : SpeedUnit.values()) {
+        if (unit.ordinal() == index) return unit;
+      }
+      return null;
+    }
   }
 
   public enum Mode {
+    XYZ,
+    XY,
     X,
     Y,
-    Z,
-    XY,
-    XYZ
+    Z;
+
+    public static Mode get(int index) {
+      for (Mode mode : Mode.values()) {
+        if (mode.ordinal() == index) return mode;
+      }
+      return null;
+    }
   }
 }
