@@ -223,6 +223,7 @@ gui.settings.smoothchat=Smooth Chat
 gui.settings.chunkupdatelimit=Chunk Update Limit (EXPERIMENTAL)
 gui.settings.chunkupdatelimiting=Chunk Update Limiting (EXPERIMENTAL)
 gui.settings.doubleplantfix=Double plant fix
+gui.settings.chatkeeper=Keep chat messages on F11
 
 #Keybind Categories
 keys.categories.hyperium=Hyperium
