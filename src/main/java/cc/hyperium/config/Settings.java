@@ -553,6 +553,10 @@ public class Settings {
   @ToggleSetting(name = "gui.settings.doubleplantfix", category = QOL)
   public static boolean DOUBLE_PLANT_FIX;
 
+  @ConfigOpt
+  @ToggleSetting(name = "gui.settings.chatkeeper", category = QOL)
+  public static boolean CHAT_KEEPER;
+
   public static void register() {
     Hyperium.CONFIG.register(INSTANCE);
   }
