@@ -46,8 +46,8 @@ public class HyperiumCosmetics {
   private final WingsCosmetic wingsCosmetic;
   private final DragonCosmetic dragonCosmetic;
   private final ButtCosmetic buttCosmetic;
-  private DragonCompanion dragonCompanion;
-  private HamsterCompanion hamsterCompanion;
+  private final DragonCompanion dragonCompanion;
+  private final HamsterCompanion hamsterCompanion;
   private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT)
       .setModel(new ModelHatTophat(),
           new ResourceLocation("hyperium", "textures/cosmetics/hats/tophat.png"));

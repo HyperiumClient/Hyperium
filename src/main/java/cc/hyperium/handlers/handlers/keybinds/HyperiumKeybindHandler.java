@@ -21,11 +21,14 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.GameShutDownEvent;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
+import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
+import cc.hyperium.internal.addons.IAddon;
 import net.minecraft.client.Minecraft;
 
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.client.settings.KeyBinding;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class HyperiumKeybindHandler {
 
@@ -65,8 +68,12 @@ public class HyperiumKeybindHandler {
 
   public void registerKeybindings() {
     for (HyperiumKeybind bind : keybinds.values()) {
-      // Add the key to the `allKeys` map, so that it shows in GuiControl.
-      Minecraft.getMinecraft().gameSettings.allKeys.add(bind.toKeyBind());
+      // We should not register any keybinds more than just once
+      if (!bind.registered) {
+        // Add the key to the `allKeys` map, so that it shows in GuiControl, and to the keyBindings list.
+        Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils.add(Minecraft.getMinecraft().gameSettings.keyBindings, bind.toKeyBind());
+        bind.registered = true;
+      }
     }
   }
 
@@ -91,6 +98,12 @@ public class HyperiumKeybindHandler {
         }
         keyBind.setPressed(pressed);
       }
+    }
+  }
+
+  public void onHold() {
+    for (HyperiumKeybind keyBind : keybinds.values()) {
+      if (keyBind.isPressed()) keyBind.onHold();
     }
   }
 
@@ -131,14 +144,4 @@ public class HyperiumKeybindHandler {
     }
   }
 
-  public void refreshKeys() {
-    for (HyperiumKeybind bind : keybinds.values()) {
-      KeyBinding keyBinding = bind.toKeyBind();
-      for (KeyBinding allKey : Minecraft.getMinecraft().gameSettings.allKeys) {
-        if (allKey.getKeyDescription().equalsIgnoreCase(keyBinding.getKeyDescription())) {
-          allKey.setKeyCode(keyBinding.getKeyCode());
-        }
-      }
-    }
-  }
 }

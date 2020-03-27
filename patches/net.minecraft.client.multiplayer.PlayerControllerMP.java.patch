@@ -1,0 +1,33 @@
+--- original/net/minecraft/client/multiplayer/PlayerControllerMP.java
++++ changed/net/minecraft/client/multiplayer/PlayerControllerMP.java
+@@ -1,6 +1,8 @@
+ package net.minecraft.client.multiplayer;
+ 
++import cc.hyperium.config.Settings;
+ import net.minecraft.block.Block;
++import net.minecraft.block.BlockDoublePlant;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.state.IBlockState;
+ import net.minecraft.client.Minecraft;
+@@ -10,6 +12,7 @@
+ import net.minecraft.entity.Entity;
+ import net.minecraft.entity.passive.EntityHorse;
+ import net.minecraft.entity.player.EntityPlayer;
++import net.minecraft.init.Blocks;
+ import net.minecraft.item.ItemBlock;
+ import net.minecraft.item.ItemStack;
+ import net.minecraft.item.ItemSword;
+@@ -134,8 +137,13 @@
+                 return false;
+             } else {
+                 world.playAuxSFX(2001, pos, Block.getStateId(iblockstate));
++
+                 boolean flag = world.setBlockToAir(pos);
+ 
++                if (Settings.DOUBLE_PLANT_FIX && iblockstate.getBlock().equals(Blocks.double_plant) && iblockstate.getValue(BlockDoublePlant.HALF).equals(BlockDoublePlant.EnumBlockHalf.LOWER)) {
++                    BlockDoublePlant.variantMap.put(pos.up(),iblockstate.getValue(BlockDoublePlant.VARIANT));
++                }
++
+                 if (flag) {
+                     block1.onBlockDestroyedByPlayer(world, pos, iblockstate);
+                 }

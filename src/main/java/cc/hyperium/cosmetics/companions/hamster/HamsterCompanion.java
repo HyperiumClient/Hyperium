@@ -29,6 +29,7 @@ import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
@@ -36,8 +37,8 @@ import java.util.*;
 
 public class HamsterCompanion extends AbstractCosmetic {
 
-  private List<EntityPlayer> toAdd = new ArrayList<>();
-  private Map<UUID, EntityHamster> hamsters = new HashMap<>();
+  private final List<EntityPlayer> toAdd = new ArrayList<>();
+  private final Map<UUID, EntityHamster> hamsters = new HashMap<>();
 
   public HamsterCompanion() {
     super(false, EnumPurchaseType.HAMSTER_COMPANION);
@@ -104,7 +105,13 @@ public class HamsterCompanion extends AbstractCosmetic {
   }
 
   public boolean worldHasEntityWithUUID(World world, UUID id) {
-    return world.loadedEntityList.stream().anyMatch(entity -> entity.getUniqueID().equals(id));
+    for (Entity entity : world.loadedEntityList) {
+      if (entity.getUniqueID().equals(id)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public void spawnHamster(EntityPlayer player) {

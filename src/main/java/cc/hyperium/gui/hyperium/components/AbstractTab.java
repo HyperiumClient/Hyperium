@@ -83,8 +83,7 @@ public abstract class AbstractTab {
 
     y += scrollAnim.getValue();
     /* Render each tab component */
-    for (AbstractTabComponent comp : filter == null ? components
-        : components.stream().filter(c -> c.filter(filter)).collect(Collectors.toList())) {
+    for (AbstractTabComponent comp : filter == null ? components : components.stream().filter(c -> c.filter(filter)).collect(Collectors.toList())) {
       comp.render(x, y, width, mx, my);
 
       /* If mouse is over component, set as hovered */

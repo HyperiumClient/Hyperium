@@ -14,11 +14,25 @@
  import com.google.common.base.Predicate;
  import com.google.common.base.Predicates;
  import com.google.gson.JsonSyntaxException;
-@@ -110,7 +118,7 @@
+@@ -89,9 +97,9 @@
+     private Entity pointedEntity;
+     private MouseFilter mouseFilterXAxis = new MouseFilter();
+     private MouseFilter mouseFilterYAxis = new MouseFilter();
+-    private float thirdPersonDistance = 4.0F;
++    public float thirdPersonDistance = 4.0F;
+     /** Third person distance temp */
+-    private float thirdPersonDistanceTemp = 4.0F;
++    public float thirdPersonDistanceTemp = 4.0F;
+     /** Smooth cam yaw */
+     private float smoothCamYaw;
+     /** Smooth cam pitch */
+@@ -109,8 +117,8 @@
+     private float bossColorModifier;
      private float bossColorModifierPrev;
      /** Cloud fog mode */
-     private boolean cloudFog;
+-    private boolean cloudFog;
 -    private boolean renderHand = true;
++    public boolean cloudFog;
 +    public boolean renderHand = true;
      private boolean drawBlockOutline = true;
      /** Previous frame time in milliseconds */

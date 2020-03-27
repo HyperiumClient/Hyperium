@@ -1,17 +1,18 @@
 --- original/net/minecraft/client/gui/GuiMainMenu.java
 +++ changed/net/minecraft/client/gui/GuiMainMenu.java
-@@ -1,5 +1,10 @@
+@@ -1,5 +1,11 @@
  package net.minecraft.client.gui;
  
 +import cc.hyperium.Hyperium;
 +import cc.hyperium.gui.GuiAddonError;
 +import cc.hyperium.gui.GuiHyperiumScreenMainMenu;
 +import cc.hyperium.gui.GuiHyperiumScreenTos;
++import cc.hyperium.handlers.handlers.GuiDisplayHandler;
 +import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
  import com.google.common.collect.Lists;
  import java.io.BufferedReader;
  import java.io.IOException;
-@@ -159,53 +164,9 @@
+@@ -159,53 +165,9 @@
       * resizes, the buttonList is cleared beforehand.
       */
      public void initGui() {
@@ -67,7 +68,7 @@
      }
  
      /**
-@@ -450,59 +411,11 @@
+@@ -450,59 +412,16 @@
       * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
       */
      public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -83,17 +84,24 @@
 -        this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
 -        this.mc.getTextureManager().bindTexture(minecraftTitleTextures);
 -        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
--
++        GuiDisplayHandler displayHandler = Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler();
+ 
 -        if ((double)this.updateCounter < 1.0E-4D) {
 -            this.drawTexturedModalRect(j + 0, k + 0, 0, 0, 99, 44);
 -            this.drawTexturedModalRect(j + 99, k + 0, 129, 0, 27, 44);
 -            this.drawTexturedModalRect(j + 99 + 26, k + 0, 126, 0, 3, 44);
 -            this.drawTexturedModalRect(j + 99 + 26 + 3, k + 0, 99, 0, 26, 44);
 -            this.drawTexturedModalRect(j + 155, k + 0, 0, 45, 155, 44);
--        } else {
++        if (!Hyperium.INSTANCE.isAcceptedTos() && !Hyperium.INSTANCE.isDevEnv()) {
++            Hyperium.LOGGER.info("Hasn't accepted! Redirecting them!");
++            displayHandler.setDisplayNextTick(new GuiHyperiumScreenTos());
++        } else if (!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty() || !AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty()) {
++            displayHandler.setDisplayNextTick(new GuiAddonError());
+         } else {
 -            this.drawTexturedModalRect(j + 0, k + 0, 0, 0, 155, 44);
 -            this.drawTexturedModalRect(j + 155, k + 0, 0, 45, 155, 44);
--        }
++            displayHandler.setDisplayNextTick(new GuiHyperiumScreenMainMenu());
+         }
 -
 -        GlStateManager.pushMatrix();
 -        GlStateManager.translate((float)(this.width / 2 + 90), 70.0F, 0.0F);
@@ -124,11 +132,6 @@
 -        if (this.func_183501_a()) {
 -            this.field_183503_M.drawScreen(mouseX, mouseY, partialTicks);
 -        }
-+        if (!Hyperium.INSTANCE.isAcceptedTos()) {
-+            Hyperium.LOGGER.info("Hasn't accepted! Redirecting them!");
-+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumScreenTos());
-+        } else Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty() ||
-+                    !AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty() ? new GuiAddonError() : new GuiHyperiumScreenMainMenu());
      }
  
      /**

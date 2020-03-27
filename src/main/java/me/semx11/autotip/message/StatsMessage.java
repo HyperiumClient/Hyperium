@@ -1,15 +1,13 @@
 package me.semx11.autotip.message;
 
-import me.semx11.autotip.chat.MessageOption;
-import me.semx11.autotip.gson.exclusion.Exclude;
-import me.semx11.autotip.stats.StatsDaily;
-
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import me.semx11.autotip.chat.MessageOption;
+import me.semx11.autotip.gson.exclusion.Exclude;
+import me.semx11.autotip.stats.StatsDaily;
 
 public class StatsMessage extends Message {
 
@@ -41,12 +39,20 @@ public class StatsMessage extends Message {
     if (input == null || hoverMessages == null) {
       return;
     }
-    List<String> lines = Arrays.stream(input.split("\n"))
-        .map(String::trim)
-        .collect(Collectors.toList());
-    lines.forEach(line -> hoverMessages.stream()
-        .map(message -> message.getMatcherFor(line))
-        .filter(MessageMatcher::matches)
-        .forEach(matcher -> matcher.applyStats(stats)));
+
+    List<String> lines = new ArrayList<>();
+    for (String s : input.split("\n")) {
+      String trim = s.trim();
+      lines.add(trim);
+    }
+
+    for (String line : lines) {
+      for (HoverMessage message : hoverMessages) {
+        HoverMessageMatcher matcher = message.getMatcherFor(line);
+        if (matcher.matches()) {
+          matcher.applyStats(stats);
+        }
+      }
+    }
   }
 }

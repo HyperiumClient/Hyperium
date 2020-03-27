@@ -1,9 +1,5 @@
 package me.semx11.autotip.stats;
 
-import me.semx11.autotip.Autotip;
-import me.semx11.autotip.core.MigrationManager.LegacyState;
-import me.semx11.autotip.util.FileUtil;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +8,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import me.semx11.autotip.Autotip;
+import me.semx11.autotip.config.GlobalSettings.GameAlias;
+import me.semx11.autotip.config.GlobalSettings.GameGroup;
+import me.semx11.autotip.core.MigrationManager.LegacyState;
+import me.semx11.autotip.util.FileUtil;
 
 public class StatsDaily extends Stats {
 
@@ -112,17 +113,22 @@ public class StatsDaily extends Stats {
               }));
 
       // Remove grouped stats
-      settings.getGameGroups().stream().filter(group -> gameStatistics.containsKey(group.getName()))
-          .forEach(group -> {
-            Coins coins = gameStatistics.get(group.getName());
-            group.getGames().forEach(game -> addCoins(game, coins));
-          });
+      for (GameGroup group : settings.getGameGroups()) {
+        if (gameStatistics.containsKey(group.getName())) {
+          Coins coins = gameStatistics.get(group.getName());
+          group.getGames().forEach(game -> addCoins(game, coins));
+        }
+      }
 
       // Convert aliases
-      settings.getGameAliases().forEach(alias -> alias.getAliases().stream()
-          .filter(aliasAlias -> gameStatistics.containsKey(aliasAlias))
-          .map(aliasAlias -> gameStatistics.get(aliasAlias))
-          .forEach(coins -> alias.getGames().forEach(aliasGame -> addCoins(aliasGame, coins))));
+      for (GameAlias alias : settings.getGameAliases()) {
+        for (String aliasAlias : alias.getAliases()) {
+          if (gameStatistics.containsKey(aliasAlias)) {
+            Coins coins = gameStatistics.get(aliasAlias);
+            alias.getGames().forEach(aliasGame -> addCoins(aliasGame, coins));
+          }
+        }
+      }
 
       // Deletes old file to complete migration.
       fileUtil.delete(file);

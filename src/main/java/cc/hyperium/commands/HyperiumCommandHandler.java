@@ -232,8 +232,14 @@ public class HyperiumCommandHandler {
     String s = astring[0];
 
     if (astring.length == 1) {
-      return commands.keySet().stream().filter(baseCommand ->
-          CommandBase.doesStringStartWith(s, baseCommand)).collect(Collectors.toList());
+      List<String> list = new ArrayList<>();
+      for (String baseCommand : commands.keySet()) {
+        if (CommandBase.doesStringStartWith(s, baseCommand)) {
+          list.add(baseCommand);
+        }
+      }
+
+      return list;
     } else {
       BaseCommand command = commands.get(s);
 

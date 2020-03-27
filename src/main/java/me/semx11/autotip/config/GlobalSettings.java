@@ -29,10 +29,13 @@ public class GlobalSettings {
   }
 
   public VersionInfo getVersionInfo(Version version) {
-    return versions.stream()
-        .filter(v -> v.getVersion().equals(version))
-        .findFirst()
-        .orElseGet(() -> new VersionInfo(version, Severity.OPTIONAL, "&cVersion not found."));
+    for (VersionInfo v : versions) {
+      if (v.getVersion().equals(version)) {
+        return v;
+      }
+    }
+
+    return new VersionInfo(version, Severity.OPTIONAL, "&cVersion not found.");
   }
 
   public List<VersionInfo> getHigherVersionInfo(Version lowest) {

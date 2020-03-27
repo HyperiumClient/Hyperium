@@ -21,13 +21,10 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.utils.ChatColor;
-
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import org.apache.commons.lang3.StringUtils;
@@ -39,42 +36,68 @@ public class GuiAddonError extends GuiScreen {
   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
     drawDefaultBackground();
     int textY = 20;
-    drawCenteredString(fontRendererObj,
-        ChatColor.RED.toString() + ChatColor.BOLD + "ERROR LOADING ADDONS", width / 2, textY,
+    drawCenteredString(
+        fontRendererObj,
+        ChatColor.RED.toString() + ChatColor.BOLD + "ERROR LOADING ADDONS",
+        width / 2,
+        textY,
         Color.WHITE.getRGB());
     textY += 10;
-    drawCenteredString(fontRendererObj,
-        ChatColor.RED.toString() + ChatColor.BOLD + "THE FOLLOWING ADDONS WON'T LOAD", width / 2,
-        textY, Color.WHITE.getRGB());
+    drawCenteredString(
+        fontRendererObj,
+        ChatColor.RED.toString() + ChatColor.BOLD + "THE FOLLOWING ADDONS WON'T LOAD",
+        width / 2,
+        textY,
+        Color.WHITE.getRGB());
     textY += 10;
     if (!AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty()) {
-      for (Map.Entry<AddonManifest, ArrayList<String>> entry : AddonMinecraftBootstrap
-          .getMissingDependenciesMap().entrySet()) {
+      for (Map.Entry<AddonManifest, ArrayList<String>> entry :
+          AddonMinecraftBootstrap.getMissingDependenciesMap().entrySet()) {
         textY += 10;
-        drawCenteredString(fontRendererObj,
-            ChatColor.RED + entry.getKey().getName() + " needs " + StringUtils
-                .join(entry.getValue(), ", ") + " to load.", width / 2, textY,
+        drawCenteredString(
+            fontRendererObj,
+            ChatColor.RED
+                + entry.getKey().getName()
+                + " needs "
+                + StringUtils.join(entry.getValue(), ", ")
+                + " to load.",
+            width / 2,
+            textY,
             Color.WHITE.getRGB());
       }
     }
 
     textY += 10;
     if (!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty()) {
-      for (Map.Entry<AddonManifest, ArrayList<AddonManifest>> entry : AddonMinecraftBootstrap
-          .getDependenciesLoopMap().entrySet()) {
+      for (Map.Entry<AddonManifest, ArrayList<AddonManifest>> entry :
+          AddonMinecraftBootstrap.getDependenciesLoopMap().entrySet()) {
         textY += 10;
-        drawCenteredString(fontRendererObj,
-            ChatColor.RED + entry.getKey().getName() + " can't load together with " +
-                StringUtils
-                    .join(entry.getValue().stream().map(AddonManifest::getName).collect(Collectors
-                        .toList()), ", " + "."), width / 2, textY, Color.WHITE.getRGB());
+        List<String> list = new ArrayList<>();
+        for (AddonManifest addonManifest : entry.getValue()) {
+          String name = addonManifest.getName();
+          list.add(name);
+        }
+
+        drawCenteredString(
+            fontRendererObj,
+            ChatColor.RED
+                + entry.getKey().getName()
+                + " can't load together with "
+                + StringUtils.join(list, ", " + "."),
+            width / 2,
+            textY,
+            Color.WHITE.getRGB());
       }
     }
 
     int hoverColor = new Color(0, 0, 0, 60).getRGB();
     int color = new Color(0, 0, 0, 50).getRGB();
     GuiBlock block1 = new GuiBlock(width / 2 - 100, width / 2 + 100, 200, 220);
-    Gui.drawRect(block1.getLeft(), block1.getTop(), block1.getRight(), block1.getBottom(),
+    Gui.drawRect(
+        block1.getLeft(),
+        block1.getTop(),
+        block1.getRight(),
+        block1.getBottom(),
         block1.isMouseOver(mouseX, mouseY) ? hoverColor : color);
     drawCenteredString(fontRendererObj, "Continue", width / 2, 205, Color.WHITE.getRGB());
 
@@ -82,7 +105,9 @@ public class GuiAddonError extends GuiScreen {
       // Clear the maps so this screen goes away.
       AddonMinecraftBootstrap.getDependenciesLoopMap().clear();
       AddonMinecraftBootstrap.getMissingDependenciesMap().clear();
-      Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
+      Hyperium.INSTANCE
+          .getHandlers()
+          .getGuiDisplayHandler()
           .setDisplayNextTick(new GuiHyperiumScreenMainMenu());
     }
   }

@@ -21,6 +21,12 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.event.world.WorldUnloadEvent;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.IImageBuffer;
@@ -33,16 +39,9 @@ import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 import net.minecraft.util.ResourceLocation;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 public class MemoryHelper {
 
-  private List<ResourceLocation> locations = new ArrayList<>();
+  private final List<ResourceLocation> locations = new ArrayList<>();
   private int tickCounter;
 
   private Field resourceCache;
@@ -72,8 +71,7 @@ public class MemoryHelper {
   public void worldEvent(WorldUnloadEvent event) {
     try {
       TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
-      Map<ResourceLocation, ITextureObject> mapTextureObjects = textureManager
-          .getMapTextureObjects();
+      Map<ResourceLocation, ITextureObject> mapTextureObjects = textureManager.mapTextureObjects;
       List<ResourceLocation> removes = new ArrayList<>();
 
       for (Map.Entry<ResourceLocation, ITextureObject> entry : mapTextureObjects.entrySet()) {
@@ -136,8 +134,8 @@ public class MemoryHelper {
                 }
 
                 try {
-                  Field clientPlayer = o.getClass().getSuperclass()
-                      .getDeclaredField("clientPlayer");
+                  Field clientPlayer =
+                      o.getClass().getSuperclass().getDeclaredField("clientPlayer");
                   clientPlayer.setAccessible(true);
                   Object o1 = clientPlayer.get(o);
                   if (o1 != null) {
@@ -189,7 +187,7 @@ public class MemoryHelper {
       return;
     }
     TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
-    Map<ResourceLocation, ITextureObject> mapTextureObjects = textureManager.getMapTextureObjects();
+    Map<ResourceLocation, ITextureObject> mapTextureObjects = textureManager.mapTextureObjects;
     textureManager.deleteTexture(skinLocation);
     mapTextureObjects.remove(skinLocation); // not needed with optifine but needed without it
   }

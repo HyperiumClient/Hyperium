@@ -34,10 +34,10 @@ import org.lwjgl.opengl.GL11
 import kotlin.math.abs
 
 class DragonHeadRenderer(private val dragonCosmetic: DragonCosmetic) : ModelBase() {
-    private val mc: Minecraft = Minecraft.getMinecraft()
+    private val mc = Minecraft.getMinecraft()
     private val jaw: ModelRenderer
     private val head: ModelRenderer
-    private val selectedLoc: ResourceLocation = ResourceLocation("textures/entity/enderdragon/dragon.png")
+    private val selectedLoc = ResourceLocation("textures/entity/enderdragon/dragon.png")
 
     @InvokeEvent
     fun onRenderPlayer(event: RenderPlayerEvent) {
@@ -96,8 +96,8 @@ class DragonHeadRenderer(private val dragonCosmetic: DragonCosmetic) : ModelBase
         mc.textureManager.bindTexture(selectedLoc)
         GlStateManager.scale(0.5f, 0.5f, 0.5f)
         head.render(.1f)
-        GL11.glCullFace(GL11.GL_BACK)
-        GL11.glDisable(GL11.GL_CULL_FACE)
+        GlStateManager.cullFace(GL11.GL_BACK)
+        GlStateManager.disableCull()
     }
 
     init {

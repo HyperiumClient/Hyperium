@@ -181,8 +181,14 @@ public class ChromaHUDApi {
    * @return StatsDisplayItem instance created, null if the system was unable to resolve type
    */
   public DisplayItem parse(String type, int ord, JsonHolder item) {
-    return parsers.stream().map(parser -> parser.parse(type, ord, item)).filter(Objects::nonNull)
-        .findFirst().orElse(null);
+    for (ChromaHUDParser parser : parsers) {
+      DisplayItem parse = parser.parse(type, ord, item);
+      if (parse != null) {
+        return parse;
+      }
+    }
+
+    return null;
   }
 
   /**

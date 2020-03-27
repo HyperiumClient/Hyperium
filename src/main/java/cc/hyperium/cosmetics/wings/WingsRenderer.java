@@ -35,10 +35,10 @@ import org.lwjgl.opengl.GL11;
 
 public class WingsRenderer extends ModelBase {
 
-  private Minecraft mc;
-  private ModelRenderer wing;
-  private ModelRenderer wingTip;
-  private WingsCosmetic wingsCosmetic;
+  private final Minecraft mc;
+  private final ModelRenderer wing;
+  private final ModelRenderer wingTip;
+  private final WingsCosmetic wingsCosmetic;
 
   public WingsRenderer(WingsCosmetic cosmetic) {
     wingsCosmetic = cosmetic;
@@ -142,26 +142,26 @@ public class WingsRenderer extends ModelBase {
 
     mc.getTextureManager().bindTexture(location);
 
-    for (int j = 0; j < 2; j++) {
-      GL11.glEnable(GL11.GL_CULL_FACE);
-      float f11 = System.currentTimeMillis() % 1000L / 1000.0f * 3.1415927f * 2.0F;
-      wing.rotateAngleX = (float) Math.toRadians(-80.0) - (float) Math.cos(f11) * 0.2F;
-      wing.rotateAngleY = (float) Math.toRadians(20.0) + (float) Math.sin(f11) * 0.4F;
+    for (int parts = 0; parts < 2; parts++) {
+      GlStateManager.enableCull();
+      float time = System.currentTimeMillis() % 1000L / 1000.0f * 3.1415927f * 2.0F;
+      wing.rotateAngleX = (float) Math.toRadians(-80.0) - (float) Math.cos(time) * 0.2F;
+      wing.rotateAngleY = (float) Math.toRadians(20.0) + (float) Math.sin(time) * 0.4F;
       wing.rotateAngleZ = (float) Math.toRadians(20.0);
-      wingTip.rotateAngleZ = -(float) (Math.sin(f11 + 2.0F) + 0.5) * 0.75F;
+      wingTip.rotateAngleZ = -(float) (Math.sin(time + 2.0F) + 0.5) * 0.75F;
       GlStateManager.color(packageIfReady.getCachedSettings().getWingsRed(),
           packageIfReady.getCachedSettings().getWingsGreen(),
           packageIfReady.getCachedSettings().getWingsBlue());
       wing.render(0.0625F);
       GlStateManager.color(1.0F, 1.0F, 1.0F);
       GlStateManager.scale(-1.0F, 1.0F, 1.0F);
-      if (j == 0) {
-        GL11.glCullFace(GL11.GL_FRONT);
+      if (parts == 0) {
+        GlStateManager.cullFace(GL11.GL_FRONT);
       }
     }
 
-    GL11.glCullFace(GL11.GL_BACK);
-    GL11.glDisable(GL11.GL_CULL_FACE);
+    GlStateManager.cullFace(GL11.GL_BACK);
+    GlStateManager.disableCull();
     GlStateManager.popMatrix();
   }
 }

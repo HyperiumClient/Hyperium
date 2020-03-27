@@ -107,7 +107,8 @@ public class Hyperium {
   // Hyperium's Mod Integration system
   private HyperiumModIntegration modIntegration;
 
-  // Hyperium's network system, used to send things such as emotes across servers to be displayed on other users screens
+  // Hyperium's network system, used to send things such as emotes across servers to be displayed on
+  // other users screens
   private NetworkHandler networkHandler;
 
   // Hyperium's netty system
@@ -139,9 +140,9 @@ public class Hyperium {
 
   /**
    * Initialize all local variables
-   * <p>
-   * Create / check for important things that need to be loaded before the client officially allows
-   * the player to use it.
+   *
+   * <p>Create / check for important things that need to be loaded before the client officially
+   * allows the player to use it.
    *
    * @param event Fired on startup, after screen is displayed {@link InitializationEvent}
    */
@@ -149,16 +150,17 @@ public class Hyperium {
   public void init(InitializationEvent event) {
     try {
       // Create the network handler, register it in config, then check for a LoginReply
-      Multithreading.runAsync(() -> {
-        networkHandler = new NetworkHandler();
-        CONFIG.register(networkHandler);
-        try {
-          this.client = new NettyClient(networkHandler);
-          UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
-        } catch (Exception e) {
-          LOGGER.error("Failed to initialize Netty & register Login Reply.");
-        }
-      });
+      Multithreading.runAsync(
+          () -> {
+            networkHandler = new NetworkHandler();
+            CONFIG.register(networkHandler);
+            try {
+              this.client = new NettyClient(networkHandler);
+              UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
+            } catch (Exception e) {
+              LOGGER.error("Failed to initialize Netty & register Login Reply.");
+            }
+          });
 
       // Get the build id
       createBuildId();
@@ -177,9 +179,13 @@ public class Hyperium {
       new ChargebackStopper();
 
       // Create a lock file if the user accepts the TOS
-      this.acceptedTos = new File(
-          folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-              .getPlayerID() + ".lck").exists();
+      this.acceptedTos =
+          new File(
+                  folder.getAbsolutePath()
+                      + "/accounts/"
+                      + Minecraft.getMinecraft().getSession().getPlayerID()
+                      + ".lck")
+              .exists();
 
       SplashProgress.setProgress(5, I18n.format("splashprogress.loadinghandlers"));
 
@@ -221,11 +227,15 @@ public class Hyperium {
 
       // Check if the user has accepted the TOS, if they have, check the Hyperium status
       if (acceptedTos) {
-        sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
-          if (object.has("enabled") && !object.optBoolean("enabled")) {
-            handlers.getHyperiumCommandHandler().clear();
-          }
-        });
+        sk1erMod =
+            new Sk1erMod(
+                "hyperium",
+                Metadata.getVersion(),
+                object -> {
+                  if (object.has("enabled") && !object.optBoolean("enabled")) {
+                    handlers.getHyperiumCommandHandler().clear();
+                  }
+                });
         sk1erMod.checkStatus();
       }
 
@@ -246,20 +256,15 @@ public class Hyperium {
       // Print every loaded addon
       collectAddons();
 
-      // Fix controls
-      KeyBinding.resetKeyBindingArrayAndHash();
-
-      LOGGER
-          .info("Hyperium loaded in {} seconds", (System.currentTimeMillis() - launchTime) / 1000F);
+      LOGGER.info(
+          "Hyperium loaded in {} seconds", (System.currentTimeMillis() - launchTime) / 1000F);
     } catch (Throwable t) {
       // If an issue is caught, crash the game
       Minecraft.getMinecraft().crashed(new CrashReport("Hyperium Startup Failure", t));
     }
   }
 
-  /**
-   * Register Hyperium commands
-   */
+  /** Register Hyperium commands */
   private void registerCommands() {
     HyperiumCommandHandler hyperiumCommandHandler = handlers.getHyperiumCommandHandler();
     hyperiumCommandHandler.registerCommand(new CommandBossbarGui());
@@ -286,12 +291,12 @@ public class Hyperium {
     }
   }
 
-  /**
-   * Called on {@link Minecraft#shutdown()}
-   */
+  /** Called on {@link Minecraft#shutdown()} */
   private void shutdown() {
     // Close the Netty client
-    client.close();
+    if (client != null) {
+      client.close();
+    }
 
     // Save config
     CONFIG.save();
@@ -307,9 +312,7 @@ public class Hyperium {
     LOGGER.info("Shutting down Hyperium..");
   }
 
-  /**
-   * Create the lock file
-   */
+  /** Create the lock file */
   public void acceptTos() {
     acceptedTos = true;
 
@@ -319,8 +322,12 @@ public class Hyperium {
     }
 
     try {
-      new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-          .getPlayerID() + ".lck").createNewFile();
+      new File(
+              folder.getAbsolutePath()
+                  + "/accounts/"
+                  + Minecraft.getMinecraft().getSession().getPlayerID()
+                  + ".lck")
+          .createNewFile();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -345,29 +352,27 @@ public class Hyperium {
    * containing all the staff members and boosters
    */
   private void fetchStaffMembers() {
-    Multithreading.runAsync(() -> {
-      try {
-        StaffUtils.clearCache();
-      } catch (IOException e) {
-        e.printStackTrace();
-        LOGGER.warn("[Staff] Failed to fetch staff & boosters");
-      }
-    });
+    Multithreading.runAsync(
+        () -> {
+          try {
+            StaffUtils.clearCache();
+          } catch (IOException e) {
+            e.printStackTrace();
+            LOGGER.warn("[Staff] Failed to fetch staff & boosters");
+          }
+        });
   }
 
-  /**
-   * Check the version and determine if they're on either a Beta version or the Latest version
-   */
+  /** Check the version and determine if they're on either a Beta version or the Latest version */
   private void fetchVersion() {
-    Multithreading.runAsync(() -> {
-      isLatestVersion = updateUtils.isAbsoluteLatest();
-      IS_BETA = updateUtils.isBeta();
-    });
+    Multithreading.runAsync(
+        () -> {
+          isLatestVersion = updateUtils.isAbsoluteLatest();
+          IS_BETA = updateUtils.isBeta();
+        });
   }
 
-  /**
-   * Check the build id stored in build.txt, then apply it
-   */
+  /** Check the build id stored in build.txt, then apply it */
   private void createBuildId() {
     InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
     try {
@@ -382,29 +387,32 @@ public class Hyperium {
     }
   }
 
-  /**
-   * Load the previous sessions chat file if it's found on startup
-   */
+  /** Load the previous sessions chat file if it's found on startup */
   private void loadPreviousChatFile() {
-    Multithreading.runAsync(() -> {
-      if (Settings.PERSISTENT_CHAT) {
-        File file = new File(folder, "chat.txt");
-        if (file.exists()) {
-          try {
-            FileReader fr = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fr);
-            bufferedReader.lines().forEach(
-                line -> Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line));
-            fr.close();
-            bufferedReader.close();
-          } catch (Exception e) {
-            e.printStackTrace();
+    Multithreading.runAsync(
+        () -> {
+          if (Settings.PERSISTENT_CHAT) {
+            File file = new File(folder, "chat.txt");
+            if (file.exists()) {
+              try {
+                FileReader fr = new FileReader(file);
+                BufferedReader bufferedReader = new BufferedReader(fr);
+                String line;
+
+                while ((line = bufferedReader.readLine()) != null) {
+                  Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
+                }
+
+                fr.close();
+                bufferedReader.close();
+              } catch (Exception e) {
+                e.printStackTrace();
+              }
+            }
+          } else {
+            LOGGER.debug("chat.txt not found, not restoring chat");
           }
-        }
-      } else {
-        LOGGER.debug("chat.txt not found, not restoring chat");
-      }
-    });
+        });
   }
 
   /**
@@ -429,9 +437,7 @@ public class Hyperium {
     }
   }
 
-  /**
-   * Collect all the addons currently loaded for debug purposes
-   */
+  /** Collect all the addons currently loaded for debug purposes */
   private void collectAddons() {
     // check if the array is empty
     if (!AddonMinecraftBootstrap.getLoadedAddons().isEmpty()) {
