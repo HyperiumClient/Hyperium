@@ -1,6 +1,13 @@
 --- original/net/minecraft/client/renderer/entity/RenderFish.java
 +++ changed/net/minecraft/client/renderer/entity/RenderFish.java
-@@ -11,6 +11,7 @@
+@@ -1,5 +1,6 @@
+ package net.minecraft.client.renderer.entity;
+ 
++import cc.hyperium.config.Settings;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.renderer.GlStateManager;
+ import net.minecraft.client.renderer.Tessellator;
+@@ -11,6 +12,7 @@
  import net.minecraft.util.Vec3;
  import net.minecraftforge.fml.relauncher.Side;
  import net.minecraftforge.fml.relauncher.SideOnly;
@@ -8,7 +15,7 @@
  
  @SideOnly(Side.CLIENT)
  public class RenderFish extends Render<EntityFishHook> {
-@@ -24,6 +25,7 @@
+@@ -24,6 +26,7 @@
       * Renders the desired {@code T} type Entity.
       */
      public void doRender(EntityFishHook entity, double x, double y, double z, float entityYaw, float partialTicks) {
@@ -16,3 +23,20 @@
          GlStateManager.pushMatrix();
          GlStateManager.translate((float)x, (float)y, (float)z);
          GlStateManager.enableRescaleNormal();
+@@ -54,7 +57,7 @@
+         if (entity.angler != null) {
+             float f7 = entity.angler.getSwingProgress(partialTicks);
+             float f8 = MathHelper.sin(MathHelper.sqrt_float(f7) * (float)Math.PI);
+-            Vec3 vec3 = new Vec3(-0.36D, 0.03D, 0.35D);
++            Vec3 vec3 = Settings.OLD_ROD ? new Vec3(-0.5D, 0.03D, 0.8D) : new Vec3(-0.36D, 0.03D, 0.35D);
+             vec3 = vec3.rotatePitch(-(entity.angler.prevRotationPitch + (entity.angler.rotationPitch - entity.angler.prevRotationPitch) * partialTicks) * (float)Math.PI / 180.0F);
+             vec3 = vec3.rotateYaw(-(entity.angler.prevRotationYaw + (entity.angler.rotationYaw - entity.angler.prevRotationYaw) * partialTicks) * (float)Math.PI / 180.0F);
+             vec3 = vec3.rotateYaw(f8 * 0.5F);
+@@ -91,7 +94,6 @@
+                 float f10 = (float)l / 16.0F;
+                 worldrenderer.pos(x + d9 * (double)f10, y + d11 * (double)(f10 * f10 + f10) * 0.5D + 0.25D, z + d12 * (double)f10).color(0, 0, 0, 255).endVertex();
+             }
+-
+             tessellator.draw();
+             GlStateManager.enableLighting();
+             GlStateManager.enableTexture2D();
