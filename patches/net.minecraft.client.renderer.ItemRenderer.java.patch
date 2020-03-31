@@ -15,7 +15,7 @@
  import net.minecraft.util.BlockPos;
  import net.minecraft.util.EnumWorldBlockLayer;
  import net.minecraft.util.MathHelper;
-@@ -270,6 +272,24 @@
+@@ -270,6 +272,23 @@
       * Performs transformations prior to the rendering of a held item in first person.
       */
      private void transformFirstPersonItem(float equipProgress, float swingProgress) {
@@ -25,8 +25,7 @@
 +            GlStateManager.translate(0.0f, 0.05f, 0.04f);
 +        }
 +
-+        if (Settings.OLD_ROD && mc != null && mc.thePlayer != null && mc.thePlayer.getCurrentEquippedItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() !=
-+                null && Item.getIdFromItem(mc.thePlayer.getCurrentEquippedItem().getItem()) == 346) {
++        if (Settings.OLD_ROD && itemToRender != null && Item.getIdFromItem(itemToRender.getItem()) == 346) {
 +            GlStateManager.translate(0.08f, -0.027f, -0.33f);
 +            GlStateManager.scale(0.93f, 1.0f, 1.0f);
 +        }
@@ -40,7 +39,7 @@
          GlStateManager.translate(0.56F, -0.52F, -0.71999997F);
          GlStateManager.translate(0.0F, equipProgress * -0.6F, 0.0F);
          GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
-@@ -324,47 +344,63 @@
+@@ -324,47 +343,63 @@
       * Renders the active item in the player's hand when in first person mode. Args: partialTickTime
       */
      public void renderItemInFirstPerson(float partialTicks) {
@@ -138,7 +137,7 @@
          }
  
          GlStateManager.popMatrix();
-@@ -484,6 +520,8 @@
+@@ -484,6 +519,8 @@
       * @param partialTicks Partial ticks
       */
      private void renderFireInFirstPerson(float partialTicks) {
@@ -147,7 +146,7 @@
          Tessellator tessellator = Tessellator.getInstance();
          WorldRenderer worldrenderer = tessellator.getWorldRenderer();
          GlStateManager.color(1.0F, 1.0F, 1.0F, 0.9F);
-@@ -521,6 +559,8 @@
+@@ -521,6 +558,8 @@
          GlStateManager.disableBlend();
          GlStateManager.depthMask(true);
          GlStateManager.depthFunc(515);
