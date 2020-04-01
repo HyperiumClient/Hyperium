@@ -41,6 +41,7 @@ import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumKeybindHandler;
 import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
+import cc.hyperium.handlers.handlers.server.ProtocolChecker;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
 import cc.hyperium.integrations.perspective.PerspectiveModifierHandler;
 import cc.hyperium.integrations.sprint.ToggleSprintContainer;
@@ -110,6 +111,7 @@ public class HyperiumHandlers {
   private final CompactChat compactChat;
   private final ConfirmationPopup confirmationPopup;
   private final NetworkInfo networkInfo;
+  private final ProtocolChecker protocolChecker;
 
   public HyperiumHandlers() {
     Hyperium.LOGGER.info("Loading handlers");
@@ -155,6 +157,7 @@ public class HyperiumHandlers {
     register(confirmationPopup = new ConfirmationPopup());
     register(keybindHandler = new HyperiumKeybindHandler());
     register(networkInfo = new NetworkInfo());
+    register(protocolChecker = new ProtocolChecker());
     commandQueue = new CommandQueue();
     dataHandler = new HypixelAPI();
     // Chat Handlers

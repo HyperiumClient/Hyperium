@@ -32,11 +32,3 @@
              vec3 = vec3.rotatePitch(-(entity.angler.prevRotationPitch + (entity.angler.rotationPitch - entity.angler.prevRotationPitch) * partialTicks) * (float)Math.PI / 180.0F);
              vec3 = vec3.rotateYaw(-(entity.angler.prevRotationYaw + (entity.angler.rotationYaw - entity.angler.prevRotationYaw) * partialTicks) * (float)Math.PI / 180.0F);
              vec3 = vec3.rotateYaw(f8 * 0.5F);
-@@ -91,7 +94,6 @@
-                 float f10 = (float)l / 16.0F;
-                 worldrenderer.pos(x + d9 * (double)f10, y + d11 * (double)(f10 * f10 + f10) * 0.5D + 0.25D, z + d12 * (double)f10).color(0, 0, 0, 255).endVertex();
-             }
-
-             tessellator.draw();
-             GlStateManager.enableLighting();
-             GlStateManager.enableTexture2D();

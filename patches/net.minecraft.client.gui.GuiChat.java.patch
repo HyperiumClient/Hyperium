@@ -1,17 +1,16 @@
 --- original/net/minecraft/client/gui/GuiChat.java
 +++ changed/net/minecraft/client/gui/GuiChat.java
-@@ -1,5 +1,10 @@
+@@ -1,5 +1,9 @@
  package net.minecraft.client.gui;
  
 +import cc.hyperium.Hyperium;
 +import cc.hyperium.config.Settings;
-+import cc.hyperium.handlers.handlers.HypixelDetector;
 +import cc.hyperium.mods.nickhider.NickHider;
 +import cc.hyperium.utils.ChatColor;
  import com.google.common.collect.Lists;
  import java.io.IOException;
  import java.util.List;
-@@ -31,7 +36,7 @@
+@@ -31,10 +35,12 @@
      private int autocompleteIndex;
      private List<String> foundPlayerNames = Lists.<String>newArrayList();
      /** Chat entry field */
@@ -20,7 +19,12 @@
      /** is the text that appears when you press the chat key and the input box appears pre-filled */
      private String defaultInputFieldText = "";
  
-@@ -49,11 +54,14 @@
++    public static int maxStringLength = 100;
++
+     public GuiChat() {
+     }
+ 
+@@ -49,11 +55,14 @@
      public void initGui() {
          Keyboard.enableRepeatEvents(true);
          this.sentHistoryCursor = this.mc.ingameGUI.getChatGUI().getSentMessages().size();
@@ -28,7 +32,7 @@
 +        String oldMsg = Settings.CHAT_KEEPER && wasInitBefore ? this.inputField.getText() : "";
          this.inputField = new GuiTextField(0, this.fontRendererObj, 4, this.height - 12, this.width - 4, 12);
 -        this.inputField.setMaxStringLength(100);
-+        inputField.setMaxStringLength(HypixelDetector.getInstance().isHypixel() ? 256 : 100);
++        inputField.setMaxStringLength(maxStringLength);
 +        if (!wasInitBefore) this.inputField.setText(this.defaultInputFieldText);
 +        else this.inputField.setText(oldMsg);
          this.inputField.setEnableBackgroundDrawing(false);
@@ -37,7 +41,7 @@
          this.inputField.setCanLoseFocus(false);
      }
  
-@@ -198,7 +206,7 @@
+@@ -198,7 +207,7 @@
              this.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(new ChatComponentText(stringbuilder.toString()), 1);
          }
  
@@ -46,7 +50,7 @@
      }
  
      private void sendAutocompleteRequest(String p_146405_1_, String p_146405_2_) {
-@@ -209,6 +217,7 @@
+@@ -209,6 +218,7 @@
                  blockpos = this.mc.objectMouseOver.getBlockPos();
              }
  
@@ -54,7 +58,7 @@
              this.mc.thePlayer.sendQueue.addToSendQueue(new C14PacketTabComplete(p_146405_1_, blockpos));
              this.waitingOnAutocomplete = true;
          }
-@@ -254,6 +263,9 @@
+@@ -254,6 +264,9 @@
      }
  
      public void onAutocompleteResponse(String[] p_146406_1_) {
@@ -64,7 +68,7 @@
          if (this.waitingOnAutocomplete) {
              this.playerNamesFound = false;
              this.foundPlayerNames.clear();
-@@ -267,9 +279,9 @@
+@@ -267,9 +280,9 @@
              String s1 = this.inputField.getText().substring(this.inputField.func_146197_a(-1, this.inputField.getCursorPosition(), false));
              String s2 = StringUtils.getCommonPrefix(p_146406_1_);
  
@@ -76,7 +80,7 @@
              } else if (this.foundPlayerNames.size() > 0) {
                  this.playerNamesFound = true;
                  this.autocompletePlayerNames();
-@@ -283,4 +295,8 @@
+@@ -283,4 +296,8 @@
      public boolean doesGuiPauseGame() {
          return false;
      }
