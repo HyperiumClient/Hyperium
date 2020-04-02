@@ -46,3 +46,9 @@
          this.loadTexture(resourcelocation, texture);
          return resourcelocation;
      }
+@@ -115,4 +121,5 @@
+             this.loadTexture((ResourceLocation)entry.getKey(), (ITextureObject)entry.getValue());
+         }
+     }
++
+ }

@@ -29,8 +29,8 @@ class ThreadDownloadImageDataTransformer : ConflictTransformer {
                 invokestatic(
                     ThreadDownloadImageDataHook::class,
                     "loadMultithreadedTexture",
-                    ThreadDownloadImageData::class,
-                    void
+                    void,
+                    ThreadDownloadImageData::class
                 )
             }
         }
