@@ -23,7 +23,7 @@ class CrashReportTransformer : ConflictTransformer {
         }?.apply {
             val (populateHyperium) = assembleBlock {
                 aload_0
-                invokestatic(CrashReportHook::class, "populateEnvironment", CrashReport::class, void)
+                invokestatic(CrashReportHook::class, "populateEnvironment", void, CrashReport::class)
             }
 
             instructions.insertBefore(instructions.first, populateHyperium)
