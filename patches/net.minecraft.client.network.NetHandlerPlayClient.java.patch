@@ -30,6 +30,15 @@
  import java.util.Collection;
  import java.util.List;
  import java.util.Map;
+@@ -271,7 +288,7 @@
+         this.gameController.gameSettings.difficulty = packetIn.getDifficulty();
+         this.gameController.loadWorld(this.clientWorldController);
+         this.gameController.thePlayer.dimension = packetIn.getDimension();
+-        this.gameController.displayGuiScreen(new GuiDownloadTerrain(this));
++        this.gameController.displayGuiScreen(null);
+         this.gameController.thePlayer.setEntityId(packetIn.getEntityId());
+         this.currentServerMaxPlayers = packetIn.getMaxPlayers();
+         this.gameController.thePlayer.setReducedDebug(packetIn.isReducedDebugInfo());
 @@ -726,10 +743,19 @@
      public void handleChat(S02PacketChat packetIn) {
          PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
@@ -106,6 +115,15 @@
      public void handleSpawnPosition(S05PacketSpawnPosition packetIn) {
          PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
          this.gameController.thePlayer.setSpawnPoint(packetIn.getSpawnPos(), true);
+@@ -897,7 +954,7 @@
+             this.clientWorldController.setWorldScoreboard(scoreboard);
+             this.gameController.loadWorld(this.clientWorldController);
+             this.gameController.thePlayer.dimension = packetIn.getDimensionID();
+-            this.gameController.displayGuiScreen(new GuiDownloadTerrain(this));
++            this.gameController.displayGuiScreen(null);
+         }
+ 
+         this.gameController.setDimensionAndSpawnPlayer(packetIn.getDimensionID());
 @@ -1396,16 +1453,25 @@
  
          if (this.gameController.currentScreen instanceof GuiChat) {
