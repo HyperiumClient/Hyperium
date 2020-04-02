@@ -72,19 +72,7 @@
          }
      }
  
-@@ -404,7 +417,10 @@
- 
-     protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
-         for (LayerRenderer<T> layerrenderer : this.layerRenderers) {
--            boolean flag = this.setBrightness(entitylivingbaseIn, partialTicks, layerrenderer.shouldCombineTextures());
-+            boolean combineTextures = layerrenderer.shouldCombineTextures();
-+
-+            if (Settings.OLD_ARMOUR) combineTextures = true;
-+            boolean flag = setBrightness(entitylivingbaseIn, partialTicks, combineTextures);
-             layerrenderer.doRenderLayer(entitylivingbaseIn, p_177093_2_, p_177093_3_, partialTicks, p_177093_5_, p_177093_6_, p_177093_7_, p_177093_8_);
- 
-             if (flag) {
-@@ -441,10 +457,11 @@
+@@ -441,10 +454,11 @@
                  float f1 = 0.02666667F;
                  GlStateManager.alphaFunc(516, 0.1F);
  
@@ -98,7 +86,7 @@
                      GL11.glNormal3f(0.0F, 1.0F, 0.0F);
                      GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                      GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-@@ -479,9 +496,10 @@
+@@ -479,9 +493,10 @@
      }
  
      protected boolean canRenderName(T entity) {
@@ -110,7 +98,7 @@
              Team team = entity.getTeam();
              Team team1 = entityplayersp.getTeam();
  
-@@ -518,4 +536,9 @@
+@@ -518,4 +533,9 @@
  
          textureBrightness.updateDynamicTexture();
      }

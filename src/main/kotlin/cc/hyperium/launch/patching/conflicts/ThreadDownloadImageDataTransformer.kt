@@ -1,9 +1,9 @@
 package cc.hyperium.launch.patching.conflicts
 
 import cc.hyperium.hooks.ThreadDownloadImageDataHook
-import codes.som.anthony.koffee.assembleBlock
 import codes.som.anthony.koffee.insns.jvm.aload_0
 import codes.som.anthony.koffee.insns.jvm.invokestatic
+import codes.som.anthony.koffee.koffee
 import net.minecraft.client.renderer.ThreadDownloadImageData
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.tree.ClassNode
@@ -24,7 +24,7 @@ class ThreadDownloadImageDataTransformer : ConflictTransformer {
             instructions.clear()
             tryCatchBlocks.clear()
             localVariables.clear()
-            val (multithread) = assembleBlock {
+            instructions.koffee {
                 aload_0
                 invokestatic(
                     ThreadDownloadImageDataHook::class,
@@ -33,8 +33,6 @@ class ThreadDownloadImageDataTransformer : ConflictTransformer {
                     void
                 )
             }
-
-            instructions.insert(multithread)
         }
 
         return original

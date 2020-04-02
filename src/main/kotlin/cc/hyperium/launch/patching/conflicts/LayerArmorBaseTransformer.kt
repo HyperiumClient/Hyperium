@@ -4,6 +4,7 @@ import cc.hyperium.config.Settings
 import cc.hyperium.utils.ItemUtil
 import codes.som.anthony.koffee.assembleBlock
 import codes.som.anthony.koffee.insns.jvm.*
+import codes.som.anthony.koffee.koffee
 import net.minecraft.item.Item
 import net.minecraft.item.ItemArmor
 import net.minecraft.item.ItemStack
@@ -16,6 +17,14 @@ class LayerArmorBaseTransformer : ConflictTransformer {
     override fun transform(original: ClassNode): ClassNode {
         original.methods.forEach {
             when (it.name) {
+                "shouldCombineTextures" -> {
+                    it.instructions.clear()
+                    it.instructions.koffee {
+                        getstatic(Settings::class, "OLD_ARMOUR", boolean)
+                        ireturn
+                    }
+                }
+
                 "renderLayer" -> {
                     val (disableArmor) = assembleBlock {
                         aload(10)
