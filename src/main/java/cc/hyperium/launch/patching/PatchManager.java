@@ -19,22 +19,39 @@ package cc.hyperium.launch.patching;
 
 import cc.hyperium.launch.deobf.DeobfAdapter;
 import cc.hyperium.launch.deobf.DeobfRemapper;
-import cc.hyperium.launch.patching.conflicts.*;
+import cc.hyperium.launch.patching.conflicts.AbstractClientPlayerTransformer;
+import cc.hyperium.launch.patching.conflicts.AbstractResourcePackTransformer;
+import cc.hyperium.launch.patching.conflicts.ChunkRenderContainerTransformer;
+import cc.hyperium.launch.patching.conflicts.ConflictTransformer;
+import cc.hyperium.launch.patching.conflicts.CrashReportTransformer;
+import cc.hyperium.launch.patching.conflicts.EffectRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.EntityRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.FontRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.GameSettingsTransformer;
+import cc.hyperium.launch.patching.conflicts.GlStateManagerTransformer;
+import cc.hyperium.launch.patching.conflicts.GuiIngameTransformer;
+import cc.hyperium.launch.patching.conflicts.GuiOverlayDebugTransformer;
+import cc.hyperium.launch.patching.conflicts.GuiVideoSettingsTransformer;
+import cc.hyperium.launch.patching.conflicts.LayerArmorBaseTransformer;
+import cc.hyperium.launch.patching.conflicts.LoadingScreenRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.ModelBoxTransformer;
+import cc.hyperium.launch.patching.conflicts.ModelRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.NoopTransformer;
+import cc.hyperium.launch.patching.conflicts.RenderChunkTransformer;
+import cc.hyperium.launch.patching.conflicts.RenderGlobalTransformer;
+import cc.hyperium.launch.patching.conflicts.RenderItemFrameTransformer;
+import cc.hyperium.launch.patching.conflicts.RenderManagerTransformer;
+import cc.hyperium.launch.patching.conflicts.RenderTransformer;
+import cc.hyperium.launch.patching.conflicts.RendererLivingEntityTransformer;
+import cc.hyperium.launch.patching.conflicts.ResourcePackRepositoryTransformer;
+import cc.hyperium.launch.patching.conflicts.TextureManagerTransformer;
+import cc.hyperium.launch.patching.conflicts.ThreadDownloadImageDataTransformer;
+import cc.hyperium.launch.patching.conflicts.TileEntityEndPortalRendererTransformer;
+import cc.hyperium.launch.patching.conflicts.WorldClientTransformer;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.nothome.delta.GDiffPatcher;
-import lzma.sdk.lzma.Decoder;
-import lzma.streams.LzmaInputStream;
-import net.minecraft.launchwrapper.LaunchClassLoader;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.tree.ClassNode;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,6 +65,16 @@ import java.util.jar.JarInputStream;
 import java.util.regex.Pattern;
 import java.util.zip.Adler32;
 import java.util.zip.ZipEntry;
+import lzma.sdk.lzma.Decoder;
+import lzma.streams.LzmaInputStream;
+import net.minecraft.launchwrapper.LaunchClassLoader;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PatchManager {
@@ -275,11 +302,10 @@ public class PatchManager {
         new GuiOverlayDebugTransformer(),
         new GuiIngameTransformer(),
         new AbstractResourcePackTransformer(),
+        new ThreadDownloadImageDataTransformer(),
 
         // TODO: Write actual transformers for these classes
         new NoopTransformer("awi"),
-        new NoopTransformer("bma"),
-        new NoopTransformer("bma$1"),
         new NoopTransformer("bjh"),
         new NoopTransformer("bfn"),
 
@@ -322,6 +348,7 @@ public class PatchManager {
         new NoopTransformer("bnm$1"),
         new NoopTransformer("bnm$2"),
         new NoopTransformer("bnm$3"),
+        new NoopTransformer("bma$1"),
         new NoopTransformer("bfl$1"));
     for (char c = 'a'; c <= 'z'; c++) {
       if (c != 'e' && c != 'r') {

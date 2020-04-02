@@ -1,4 +1,4 @@
-package cc.hyperium.utils.thread;
+package cc.hyperium.hooks;
 
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import java.awt.image.BufferedImage;
