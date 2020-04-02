@@ -78,8 +78,6 @@ dependencies {
         exclude module: "gson"
     }
 
-    library 'com.github.Cubxity:DeobfStack:1.2'
-
     library 'org.ow2.asm:asm:5.0.3'
 
     library('net.minecraft:launchwrapper:1.12') { // still need this for addons

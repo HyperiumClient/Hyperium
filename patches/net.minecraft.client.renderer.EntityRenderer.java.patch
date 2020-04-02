@@ -171,7 +171,7 @@
          }
  
 +        mc.mcProfiler.startSection("hyperium_render_last");
-+        new RenderWorldEvent(mc.renderGlobal, partialTicks).post();
++        EventBus.INSTANCE.post(new RenderWorldEvent(mc.renderGlobal, partialTicks));
 +        mc.mcProfiler.endSection();
          this.mc.mcProfiler.endStartSection("hand");
  

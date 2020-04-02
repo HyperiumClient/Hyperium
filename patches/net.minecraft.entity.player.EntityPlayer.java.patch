@@ -13,16 +13,28 @@
  import com.google.common.base.Charsets;
  import com.google.common.collect.Lists;
  import com.mojang.authlib.GameProfile;
-@@ -150,6 +157,8 @@
+@@ -140,6 +147,12 @@
+     /** An instance of a fishing rod's hook. If this isn't null, the icon image of the fishing rod is slightly different */
+     public EntityFishHook fishEntity;
+ 
++    private boolean last;
++    private float currentHeight = 1.62F;
++    private long lastChangeTime = System.currentTimeMillis();
++    private IChatComponent cachedName;
++    private String displayName;
++
+     public EntityPlayer(World worldIn, GameProfile gameProfileIn) {
+         super(worldIn);
+         this.entityUniqueID = getUUID(gameProfileIn);
+@@ -150,6 +163,7 @@
          this.setLocationAndAngles((double)blockpos.getX() + 0.5D, (double)(blockpos.getY() + 1), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
          this.unused180 = 180.0F;
          this.fireResistance = 20;
-+
 +        setDisplayName(getName());
      }
  
      protected void applyEntityAttributes() {
-@@ -485,6 +494,14 @@
+@@ -485,6 +499,14 @@
          super.updateEntityActionState();
          this.updateArmSwingProgress();
          this.rotationYawHead = this.rotationYaw;
@@ -37,7 +49,7 @@
      }
  
      /**
-@@ -588,6 +605,8 @@
+@@ -588,6 +610,8 @@
       * Called when the mob's health reaches 0.
       */
      public void onDeath(DamageSource cause) {
@@ -46,34 +58,23 @@
          super.onDeath(cause);
          this.setSize(0.2F, 0.2F);
          this.setPosition(this.posX, this.posY, this.posZ);
-@@ -727,6 +746,7 @@
+@@ -727,6 +751,7 @@
                  this.triggerAchievement(StatList.dropStat);
              }
  
-+            new ItemTossEvent(this, entityitem).post();
++            EventBus.INSTANCE.post(new ItemTossEvent(this, entityitem));
              return entityitem;
          }
      }
-@@ -1071,6 +1091,8 @@
+@@ -1071,6 +1096,7 @@
       * it. Args: targetEntity
       */
      public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
 +        EventBus.INSTANCE.post(new PlayerAttackEntityEvent(getUniqueID(), targetEntity));
-+
          if (targetEntity.canAttackWithItem()) {
              if (!targetEntity.hitByEntity(this)) {
                  float f = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
-@@ -1887,29 +1909,74 @@
-         return this.getWorldScoreboard().getPlayersTeam(this.getName());
-     }
- 
-+    private boolean last;
-+    private float currentHeight = 1.62F;
-+    private long lastChangeTime = System.currentTimeMillis();
-+    private IChatComponent cachedName;
-+    private String displayName;
-+
-     /**
+@@ -1891,25 +1917,64 @@
       * Get the formatted ChatComponent that will be used for the sender's username in chat
       */
      public IChatComponent getDisplayName() {
@@ -101,7 +102,7 @@
      public float getEyeHeight() {
 -        float f = 1.62F;
 +        if (Settings.OLD_SNEAKING) {
-+            int timeDelay = 1000 / 60;
++            int timeDelay = 1000 / 100;
  
 -        if (this.isPlayerSleeping()) {
 -            f = 0.2F;
@@ -151,7 +152,7 @@
      }
  
      public void setAbsorptionAmount(float amount) {
-@@ -2055,4 +2122,8 @@
+@@ -2055,4 +2120,8 @@
          OTHER_PROBLEM,
          NOT_SAFE;
      }

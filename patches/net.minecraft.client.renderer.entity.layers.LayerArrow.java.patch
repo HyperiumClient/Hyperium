@@ -1,0 +1,18 @@
+--- original/net/minecraft/client/renderer/entity/layers/LayerArrow.java
++++ changed/net/minecraft/client/renderer/entity/layers/LayerArrow.java
+@@ -27,7 +27,6 @@
+         if (i > 0) {
+             Entity entity = new EntityArrow(entitylivingbaseIn.worldObj, entitylivingbaseIn.posX, entitylivingbaseIn.posY, entitylivingbaseIn.posZ);
+             Random random = new Random((long)entitylivingbaseIn.getEntityId());
+-            RenderHelper.disableStandardItemLighting();
+ 
+             for (int j = 0; j < i; ++j) {
+                 GlStateManager.pushMatrix();
+@@ -57,7 +56,6 @@
+                 GlStateManager.popMatrix();
+             }
+ 
+-            RenderHelper.enableStandardItemLighting();
+         }
+     }
+ 

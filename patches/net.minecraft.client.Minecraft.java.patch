@@ -498,22 +498,24 @@
          this.myNetworkManager = networkmanager;
      }
  
-@@ -1920,6 +2038,9 @@
+@@ -1920,6 +2038,11 @@
       * unloads the current world first
       */
      public void loadWorld(WorldClient worldClientIn) {
-+        if (Minecraft.getMinecraft().theWorld != null) new WorldUnloadEvent().post();
++        if (Minecraft.getMinecraft().theWorld != null) {
++            EventBus.INSTANCE.post(new WorldUnloadEvent());
++        }
 +        EventBus.INSTANCE.post(new WorldChangeEvent());
 +
          this.loadWorld(worldClientIn, "");
      }
  
-@@ -1986,13 +2107,16 @@
+@@ -1986,13 +2109,16 @@
              this.thePlayer = null;
          }
  
 -        System.gc();
-+        new WorldLoadEvent().post();
++        EventBus.INSTANCE.post(new WorldLoadEvent());
 +
 +        if (!Settings.FAST_WORLD_LOADING) return;
          this.systemTime = 0L;
@@ -526,7 +528,7 @@
          int i = 0;
          String s = null;
  
-@@ -2572,6 +2696,12 @@
+@@ -2572,6 +2698,12 @@
  
          if (i != 0 && !Keyboard.isRepeatEvent()) {
              if (!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L) {
@@ -539,7 +541,7 @@
                  if (Keyboard.getEventKeyState()) {
                      if (i == this.gameSettings.keyBindStreamStartStop.getKeyCode()) {
                          if (this.getTwitchStream().isBroadcasting()) {
-@@ -2610,7 +2740,8 @@
+@@ -2610,7 +2742,8 @@
                      } else if (i == this.gameSettings.keyBindFullscreen.getKeyCode()) {
                          this.toggleFullscreen();
                      } else if (i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
@@ -549,7 +551,7 @@
                      }
                  } else if (i == this.gameSettings.keyBindStreamToggleMic.getKeyCode()) {
                      this.stream.muteMicrophone(false);
-@@ -2717,4 +2848,13 @@
+@@ -2717,4 +2850,13 @@
      public void setConnectedToRealms(boolean isConnected) {
          this.connectedToRealms = isConnected;
      }

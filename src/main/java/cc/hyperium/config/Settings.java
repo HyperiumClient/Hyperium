@@ -530,10 +530,6 @@ public class Settings {
   public static boolean CLEANER_MENUS;
 
   @ConfigOpt
-  @ToggleSetting(name = "gui.settings.fasttab", category = PERFORMANCE)
-  public static boolean FAST_TAB;
-
-  @ConfigOpt
   @ToggleSetting(name = "gui.settings.smoothchat", category = QOL)
   public static boolean SMOOTH_CHAT;
 
@@ -555,7 +551,27 @@ public class Settings {
 
   @ConfigOpt
   @ToggleSetting(name = "gui.settings.chatkeeper", category = QOL)
-  public static boolean CHAT_KEEPER;
+  public static boolean CHAT_KEEPER = true;
+
+  @ConfigOpt
+  @ToggleSetting(name = "gui.settings.crosshairperspective", category = QOL)
+  public static boolean CROSSHAIR_PERSPECTIVE;
+
+  @ConfigOpt
+  @ToggleSetting(name = "gui.settings.fixchatposition", category = QOL)
+  public static boolean CHAT_POSITION_TWEAK;
+
+  @ConfigOpt
+  @ToggleSetting(name = "gui.settings.tabheight", category = QOL)
+  public static boolean TAB_HEIGHT = true;
+
+  @ConfigOpt
+  @SliderSetting(name = "gui.settings.tabopacity", category = QOL, min = 0, max = 100, isInt = true)
+  public static int TAB_OPACITY = 100;
+
+  @ConfigOpt
+  @ToggleSetting(name = "gui.settings.customtabopacity", category = QOL)
+  public static boolean CUSTOM_TAB_OPACITY;
 
   public static void register() {
     Hyperium.CONFIG.register(INSTANCE);

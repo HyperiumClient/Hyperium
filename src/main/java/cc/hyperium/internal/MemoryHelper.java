@@ -78,7 +78,7 @@ public class MemoryHelper {
         ResourceLocation key = entry.getKey();
         ITextureObject iTextureObject = entry.getValue();
         if (iTextureObject instanceof ThreadDownloadImageData) {
-          IImageBuffer imageBuffer = ((ThreadDownloadImageData) iTextureObject).getImageBuffer();
+          IImageBuffer imageBuffer = ((ThreadDownloadImageData) iTextureObject).imageBuffer;
 
           if (imageBuffer == null) {
             continue;

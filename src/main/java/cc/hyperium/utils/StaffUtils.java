@@ -46,9 +46,9 @@ public class StaffUtils {
     // prioritize staff color
     if (STAFF_CACHE.containsKey(uuid)) {
       return STAFF_CACHE.get(uuid).getDotColour();
+    } else {
+      return BOOSTER_CACHE.get(uuid).getDotColour();
     }
-
-    return BOOSTER_CACHE.get(uuid).getDotColour();
   }
 
   private static HashMap<UUID, StaffSettings> getStaff() throws IOException {

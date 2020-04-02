@@ -19,7 +19,7 @@
  @SideOnly(Side.CLIENT)
  public class GuiNewChat extends Gui {
      private static final Logger logger = LogManager.getLogger();
-@@ -23,12 +29,42 @@
+@@ -23,12 +29,46 @@
      private final List<ChatLine> drawnChatLines = Lists.<ChatLine>newArrayList();
      private int scrollPos;
      private boolean isScrolled;
@@ -45,6 +45,10 @@
 +    }
  
      public void drawChat(int updateCounter) {
++        if (Settings.CHAT_POSITION_TWEAK) {
++            GlStateManager.pushMatrix();
++            GlStateManager.translate(0, -12, 0);
++        }
 +        // hyperium
 +        if (Settings.SMOOTH_CHAT) {
 +            if (prevMillis == -1) {
@@ -62,7 +66,7 @@
          if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN) {
              int i = this.getLineCount();
              boolean flag = false;
-@@ -71,10 +107,26 @@
+@@ -71,10 +111,26 @@
                              if (l1 > 3) {
                                  int i2 = 0;
                                  int j2 = -i1 * 9;
@@ -91,7 +95,16 @@
                                  GlStateManager.disableAlpha();
                                  GlStateManager.disableBlend();
                              }
-@@ -113,6 +165,14 @@
+@@ -101,6 +157,8 @@
+                 GlStateManager.popMatrix();
+             }
+         }
++
++        GlStateManager.popMatrix();
+     }
+ 
+     /**
+@@ -113,6 +171,14 @@
      }
  
      public void printChatMessage(IChatComponent chatComponent) {
@@ -106,7 +119,7 @@
          this.printChatMessageWithOptionalDeletion(chatComponent, 0);
      }
  
-@@ -120,6 +180,9 @@
+@@ -120,6 +186,9 @@
       * prints the ChatComponent to Chat. If the ID is not 0, deletes an existing Chat Line of that ID from the GUI
       */
      public void printChatMessageWithOptionalDeletion(IChatComponent chatComponent, int chatLineId) {
@@ -116,7 +129,7 @@
          this.setChatLine(chatComponent, chatLineId, this.mc.ingameGUI.getUpdateCounter(), false);
          logger.info("[CHAT] " + chatComponent.getUnformattedText());
      }
-@@ -132,6 +195,7 @@
+@@ -132,6 +201,7 @@
          int i = MathHelper.floor_float((float)this.getChatWidth() / this.getChatScale());
          List<IChatComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, this.mc.fontRendererObj, false, false);
          boolean flag = this.getChatOpen();
@@ -124,12 +137,12 @@
  
          for (IChatComponent ichatcomponent : list) {
              if (flag && this.scrollPos > 0) {
-@@ -142,14 +206,14 @@
+@@ -142,14 +212,14 @@
              this.drawnChatLines.add(0, new ChatLine(updateCounter, ichatcomponent, chatLineId));
          }
  
 -        while (this.drawnChatLines.size() > 100) {
-+        while (this.drawnChatLines.size() > 500) { // Hyperium - change to 500
++        while (this.drawnChatLines.size() > 10000) { // Hyperium - change to 10000
              this.drawnChatLines.remove(this.drawnChatLines.size() - 1);
          }
  
@@ -137,11 +150,21 @@
              this.chatLines.add(0, new ChatLine(updateCounter, chatComponent, chatLineId));
  
 -            while (this.chatLines.size() > 100) {
-+            while (this.chatLines.size() > 500) { // Hyperium - change to 500
++            while (this.chatLines.size() > 10000) { // Hyperium - change to 10000
                  this.chatLines.remove(this.chatLines.size() - 1);
              }
          }
-@@ -321,4 +385,13 @@
+@@ -222,6 +292,9 @@
+             float f = this.getChatScale();
+             int j = mouseX / i - 3;
+             int k = mouseY / i - 27;
++            if (Settings.CHAT_POSITION_TWEAK) {
++                k -= 12;
++            }
+             j = MathHelper.floor_float((float)j / f);
+             k = MathHelper.floor_float((float)k / f);
+ 
+@@ -321,4 +394,13 @@
      public int getLineCount() {
          return this.getChatHeight() / 9;
      }

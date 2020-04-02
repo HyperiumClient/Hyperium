@@ -224,6 +224,11 @@ gui.settings.chunkupdatelimit=Chunk Update Limit (EXPERIMENTAL)
 gui.settings.chunkupdatelimiting=Chunk Update Limiting (EXPERIMENTAL)
 gui.settings.doubleplantfix=Double plant fix
 gui.settings.chatkeeper=Keep chat messages on F11
+gui.settings.crosshairperspective=Remove Crosshair in Third Person
+gui.settings.fixchatposition=1.12 Chat Position
+gui.settings.tabheight=Move Tab down when Bossbar is active
+gui.settings.tabopacity=Tab Opacity
+gui.settings.customtabopacity=Custom Tab Opacity
 
 #Keybind Categories
 keys.categories.hyperium=Hyperium
