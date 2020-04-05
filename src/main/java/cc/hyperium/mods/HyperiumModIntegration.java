@@ -31,6 +31,7 @@ import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.myposition.MyPosition;
 import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.oldanimations.OldAnimations;
+import cc.hyperium.mods.rodcolor.rodcolor.RodColor;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import me.semx11.autotip.Autotip;
@@ -56,6 +57,7 @@ public class HyperiumModIntegration {
     private final ChunkAnimator chunkAnimator;
     private final SoundHandler soundHandler;
     private final MyPosition myPosition;
+    private final RodColor rodColor;
     private final EntityRadius entityRadius;
 
     public HyperiumModIntegration() {
@@ -101,6 +103,7 @@ public class HyperiumModIntegration {
         soundHandler = (SoundHandler) new SoundHandler().init();
         myPosition = (MyPosition) new MyPosition().init();
         entityRadius = (EntityRadius) new EntityRadius().init();
+        rodColor = ((RodColor) new RodColor().init());
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -165,5 +168,9 @@ public class HyperiumModIntegration {
 
     public EntityRadius getEntityRadius() {
         return entityRadius;
+    }
+
+    public RodColor getRodColor() {
+        return rodColor;
     }
 }
