@@ -442,6 +442,30 @@ public class Settings {
     public static double AUTO_MY_POSITION_DELAY = 2;
 
     @ConfigOpt
+    @SliderSetting(name = "gui.settings.rodcolor.width", min = 1, max = 30, category = ROD_COLOR, mods = true)
+    public static double ROD_COLOR_ROPE_WIDTH = 1;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.rodcolor.red", min = 1, max = 255, category = ROD_COLOR, mods = true)
+    public static double ROD_COLOR_RED;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.rodcolor.green", min = 1, max = 255, category = ROD_COLOR, mods = true)
+    public static double ROD_COLOR_GREEN;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.rodcolor.blue", min = 1, max = 255, category = ROD_COLOR, mods = true)
+    public static double ROD_COLOR_BLUE;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.rodcolor.alpha", min = 1, max = 255, category = ROD_COLOR, mods = true)
+    public static double ROD_COLOR_ALPHA;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.rodcolor.chroma", category = ROD_COLOR, mods = true)
+    public static boolean ROD_COLOR_CHROMA;
+
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.bossbarmod.bossbarall", category = BOSSBARMOD, mods = true)
     public static boolean BOSSBAR_ALL = true;
 

@@ -43,6 +43,7 @@ public enum Category {
     ITEM_PHYSIC("gui.subcategory.itemphysics"),
     CHUNK_ANIMATOR("gui.subcategory.chunkanimator"),
     AUTOMYPOSITION("gui.subcategory.automypos"),
+    ROD_COLOR("gui.subcategory.rodcolor"),
     POPUP_EVENTS("gui.subcategory.popupevents"),
     BOSSBARMOD("gui.subcategory.bossbarmod"),
     ENTITYRADIUS("gui.subcategory.entityradius"),
