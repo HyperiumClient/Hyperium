@@ -5,7 +5,7 @@
  
 +import cc.hyperium.event.EventBus;
 +import cc.hyperium.event.entity.FovUpdateEvent;
-+import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
++import cc.hyperium.handlers.handlers.cape.HyperiumCapeHandler;
 +import cc.hyperium.mods.nickhider.NickHider;
 +import cc.hyperium.mods.nickhider.config.NickHiderConfig;
  import com.mojang.authlib.GameProfile;
@@ -15,7 +15,7 @@
  public abstract class AbstractClientPlayer extends EntityPlayer {
      private NetworkPlayerInfo playerInfo;
  
-+    private HyperiumCapeHandler hook;
++    private final HyperiumCapeHandler hook;
 +
      public AbstractClientPlayer(World worldIn, GameProfile playerProfile) {
          super(worldIn, playerProfile);

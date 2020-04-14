@@ -20,7 +20,8 @@ class AbstractResourcePackTransformer : ConflictTransformer {
         }?.apply {
             instructions.clear()
             localVariables.clear()
-            instructions.koffee {
+            tryCatchBlocks.clear()
+            koffee {
                 aload_0
                 ldc("pack.png")
                 invokevirtual(AbstractResourcePack::class, "getInputStreamByName", InputStream::class, String::class)

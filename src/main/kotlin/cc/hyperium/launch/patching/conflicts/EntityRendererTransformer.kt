@@ -53,6 +53,7 @@ class EntityRendererTransformer : ConflictTransformer {
                 "orientCamera" -> {
                     it.instructions.clear()
                     it.localVariables.clear()
+                    it.tryCatchBlocks.clear()
                     it.koffee {
                         aload_0
                         fload_1

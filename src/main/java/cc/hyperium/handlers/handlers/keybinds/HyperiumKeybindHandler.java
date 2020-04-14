@@ -21,28 +21,23 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.GameShutDownEvent;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
-import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
-import cc.hyperium.internal.addons.IAddon;
 import net.minecraft.client.Minecraft;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.client.settings.KeyBinding;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class HyperiumKeybindHandler {
 
-  private Map<String, HyperiumKeybind> keybinds = new HashMap<>();
-  private KeybindConfiguration config;
+  private final Map<String, HyperiumKeybind> keybinds = new HashMap<>();
+  private final KeybindConfiguration config;
 
   public HyperiumKeybindHandler() {
     // Register all the keybinds, regardless of the environment.
-    registerBinds(new ArmWaveKeybind(), new DabKeybind(), new FlipKeybind(),
-      new FlossKeybind(), new FriendsKeybind(), new GuiDanceKeybind(),
+    registerBinds(new FlipKeybind(), new FriendsKeybind(),
       new GuiKeybind(), new HideLeatherKeybind(), new NamesKeybind(),
       new RearCamKeybind(), new TogglePerspectiveKeybind(), new ToggleSprintKeybind(),
-      new TPoseKeybind(), new TwerkDanceKeybind(), new UploadScreenshotKeybind(),
-      new ViewStatsKeybind());
+      new UploadScreenshotKeybind(), new ViewStatsKeybind());
 
     // Register the debug key if this is a developer environment.
     if (Hyperium.INSTANCE.isDevEnv())

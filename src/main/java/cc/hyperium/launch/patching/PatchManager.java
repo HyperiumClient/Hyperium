@@ -19,35 +19,7 @@ package cc.hyperium.launch.patching;
 
 import cc.hyperium.launch.deobf.DeobfAdapter;
 import cc.hyperium.launch.deobf.DeobfRemapper;
-import cc.hyperium.launch.patching.conflicts.AbstractClientPlayerTransformer;
-import cc.hyperium.launch.patching.conflicts.AbstractResourcePackTransformer;
-import cc.hyperium.launch.patching.conflicts.ChunkRenderContainerTransformer;
-import cc.hyperium.launch.patching.conflicts.ConflictTransformer;
-import cc.hyperium.launch.patching.conflicts.CrashReportTransformer;
-import cc.hyperium.launch.patching.conflicts.EffectRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.FontRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.GameSettingsTransformer;
-import cc.hyperium.launch.patching.conflicts.GlStateManagerTransformer;
-import cc.hyperium.launch.patching.conflicts.GuiIngameTransformer;
-import cc.hyperium.launch.patching.conflicts.GuiMainMenuTransformer;
-import cc.hyperium.launch.patching.conflicts.GuiOverlayDebugTransformer;
-import cc.hyperium.launch.patching.conflicts.GuiVideoSettingsTransformer;
-import cc.hyperium.launch.patching.conflicts.LayerArmorBaseTransformer;
-import cc.hyperium.launch.patching.conflicts.LoadingScreenRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.ModelBoxTransformer;
-import cc.hyperium.launch.patching.conflicts.ModelRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.NoopTransformer;
-import cc.hyperium.launch.patching.conflicts.RenderChunkTransformer;
-import cc.hyperium.launch.patching.conflicts.RenderGlobalTransformer;
-import cc.hyperium.launch.patching.conflicts.RenderItemFrameTransformer;
-import cc.hyperium.launch.patching.conflicts.RenderManagerTransformer;
-import cc.hyperium.launch.patching.conflicts.RenderTransformer;
-import cc.hyperium.launch.patching.conflicts.RendererLivingEntityTransformer;
-import cc.hyperium.launch.patching.conflicts.ResourcePackRepositoryTransformer;
-import cc.hyperium.launch.patching.conflicts.TextureManagerTransformer;
-import cc.hyperium.launch.patching.conflicts.ThreadDownloadImageDataTransformer;
-import cc.hyperium.launch.patching.conflicts.TileEntityEndPortalRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.WorldClientTransformer;
+import cc.hyperium.launch.patching.conflicts.*;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
@@ -276,10 +248,8 @@ public class PatchManager {
         new WorldClientTransformer(),
         new AbstractClientPlayerTransformer(),
         new CrashReportTransformer(),
-        new ModelBoxTransformer(),
         new RenderManagerTransformer(),
         new RenderItemFrameTransformer(),
-        new ModelRendererTransformer(),
         new FontRendererTransformer(),
         new EffectRendererTransformer(),
         new GuiMainMenuTransformer(),
@@ -300,9 +270,11 @@ public class PatchManager {
         new RendererLivingEntityTransformer(),
         new LayerArmorBaseTransformer(),
         new GuiOverlayDebugTransformer(),
-        new GuiIngameTransformer(),
+        //new GuiIngameTransformer(),
+        new NoopTransformer("avo"),
         new AbstractResourcePackTransformer(),
         new ThreadDownloadImageDataTransformer(),
+        new ScreenShotHelperTransformer(),
 
         // TODO: Write actual transformers for these classes
         new NoopTransformer("awi"),

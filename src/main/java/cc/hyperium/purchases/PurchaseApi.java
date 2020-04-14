@@ -22,7 +22,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.network.PurchaseLoadEvent;
 import cc.hyperium.event.world.WorldChangeEvent;
-import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
+import cc.hyperium.handlers.handlers.cape.HyperiumCapeHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.packages.EarsCosmetic;
 import cc.hyperium.utils.JsonHolder;

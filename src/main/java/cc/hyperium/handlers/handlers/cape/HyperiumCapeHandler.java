@@ -15,7 +15,7 @@
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.handlers.handlers.animation.cape;
+package cc.hyperium.handlers.handlers.cape;
 
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.HyperiumPurchase;

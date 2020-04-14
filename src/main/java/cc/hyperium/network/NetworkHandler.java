@@ -35,7 +35,10 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.IChatComponent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 
 public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler {
 
@@ -93,35 +96,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
   @Override
   public void handleCrossClientData(UUID uuid, JsonHolder jsonHolder) {
     String type = jsonHolder.optString("type");
-    if (type.equalsIgnoreCase("twerk_dance")) {
-      Hyperium.INSTANCE.getHandlers().getTwerkDance().startAnimation(uuid);
-      Hyperium.INSTANCE.getHandlers().getTwerkDance().getStates()
-          .put(uuid, System.currentTimeMillis());
-    } else if (type.equalsIgnoreCase("tpose_update")) {
-      if (jsonHolder.optBoolean("posing")) {
-        Hyperium.INSTANCE.getHandlers().getTPoseHandler().get(uuid).ensureAnimationFor(60);
-      } else {
-        Hyperium.INSTANCE.getHandlers().getTPoseHandler().stopAnimation(uuid);
-      }
-    } else if (type.equalsIgnoreCase("dab_update")) {
-      if (jsonHolder.optBoolean("dabbing")) {
-        Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).ensureAnimationFor(60);
-      } else {
-        Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).stopAnimation();
-      }
-    } else if (type.equalsIgnoreCase("armwave_update")) {
-      if (jsonHolder.optBoolean("wavingwarm")) {
-        Hyperium.INSTANCE.getHandlers().getArmWaveHandler().get(uuid).ensureAnimationFor(60);
-      } else {
-        Hyperium.INSTANCE.getHandlers().getArmWaveHandler().get(uuid).stopAnimation();
-      }
-    } else if (type.equalsIgnoreCase("floss_update")) {
-      if (jsonHolder.optBoolean("flossing")) {
-        Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().get(uuid).ensureAnimationFor(60);
-      } else {
-        Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().get(uuid).stopAnimation();
-      }
-    } else if (type.equalsIgnoreCase("flip_update")) {
+    if (type.equalsIgnoreCase("flip_update")) {
       boolean flipped = jsonHolder.optBoolean("flipped");
       if (flipped) {
         Hyperium.INSTANCE.getHandlers().getFlipHandler().state(uuid, 1);

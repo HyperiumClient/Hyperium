@@ -3,7 +3,7 @@ package cc.hyperium.launch.patching.conflicts
 import cc.hyperium.event.Event
 import cc.hyperium.event.EventBus
 import cc.hyperium.event.entity.FovUpdateEvent
-import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler
+import cc.hyperium.handlers.handlers.cape.HyperiumCapeHandler
 import cc.hyperium.mods.nickhider.NickHider
 import cc.hyperium.mods.nickhider.config.NickHiderConfig
 import codes.som.anthony.koffee.assembleBlock
@@ -24,11 +24,11 @@ class AbstractClientPlayerTransformer : ConflictTransformer {
 
     override fun transform(original: ClassNode): ClassNode {
         original.visitField(
-                Opcodes.ACC_PRIVATE,
-                "hook",
-                "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;",
-                null,
-                null
+            Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL,
+            "hook",
+            "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;",
+            null,
+            null
         ).visitEnd()
 
         original.methods.forEach {
@@ -85,7 +85,12 @@ class AbstractClientPlayerTransformer : ConflictTransformer {
                             +L["7"]
                             aload_0
                             invokevirtual(AbstractClientPlayer::class, "getUniqueID", UUID::class)
-                            invokestatic(DefaultPlayerSkin::class, "getDefaultSkin", ResourceLocation::class, UUID::class)
+                            invokestatic(
+                                DefaultPlayerSkin::class,
+                                "getDefaultSkin",
+                                ResourceLocation::class,
+                                UUID::class
+                            )
                             +L["8"]
                             areturn
                             +L["5"]
@@ -104,7 +109,12 @@ class AbstractClientPlayerTransformer : ConflictTransformer {
                             +L["10"]
                             aload_0
                             invokevirtual(AbstractClientPlayer::class, "getUniqueID", UUID::class)
-                            invokestatic(DefaultPlayerSkin::class, "getDefaultSkin", ResourceLocation::class, UUID::class)
+                            invokestatic(
+                                DefaultPlayerSkin::class,
+                                "getDefaultSkin",
+                                ResourceLocation::class,
+                                UUID::class
+                            )
                             +L["11"]
                             areturn
                             +L["2"]
@@ -212,26 +222,27 @@ class AbstractClientPlayerTransformer : ConflictTransformer {
                 }
 
                 "getFovModifier" -> {
-                    val (setNewReturn) = assembleBlock {
-                        new(FovUpdateEvent::class)
-                        dup
-                        aload_0
-                        fload_1
-                        invokespecial(FovUpdateEvent::class, "<init>", void, EntityPlayer::class, float)
-                        astore_3
-                        getstatic(EventBus::class, "INSTANCE", EventBus::class)
-                        aload_3
-                        invokevirtual(EventBus::class, "post", void, Event::class)
-                        aload_3
-                        invokevirtual(FovUpdateEvent::class, "getNewFov", float)
-                        freturn
-                    }
-
-                    for (insn in it.instructions.iterator()) {
-                        if (insn.opcode == Opcodes.FRETURN) {
-                            it.instructions.insertBefore(insn, setNewReturn)
-                        }
-                    }
+                    // noop
+//                    val (setNewReturn) = assembleBlock {
+//                        new(FovUpdateEvent::class)
+//                        dup
+//                        aload_0
+//                        fload_1
+//                        invokespecial(FovUpdateEvent::class, "<init>", void, EntityPlayer::class, float)
+//                        astore_3
+//                        getstatic(EventBus::class, "INSTANCE", EventBus::class)
+//                        aload_3
+//                        invokevirtual(EventBus::class, "post", void, Event::class)
+//                        aload_3
+//                        invokevirtual(FovUpdateEvent::class, "getNewFov", float)
+//                    }
+//
+//                    for (insn in it.instructions.iterator()) {
+//                        if (insn.opcode == Opcodes.FRETURN) {
+//                            it.instructions.insertBefore(insn, setNewReturn)
+//                            it.instructions.remove(insn.next)
+//                        }
+//                    }
                 }
             }
         }

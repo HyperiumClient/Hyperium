@@ -24,7 +24,7 @@ class ThreadDownloadImageDataTransformer : ConflictTransformer {
             instructions.clear()
             tryCatchBlocks.clear()
             localVariables.clear()
-            instructions.koffee {
+            koffee {
                 aload_0
                 invokestatic(
                     ThreadDownloadImageDataHook::class,

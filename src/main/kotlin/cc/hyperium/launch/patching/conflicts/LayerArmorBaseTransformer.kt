@@ -19,6 +19,8 @@ class LayerArmorBaseTransformer : ConflictTransformer {
             when (it.name) {
                 "shouldCombineTextures" -> {
                     it.instructions.clear()
+                    it.localVariables.clear()
+                    it.tryCatchBlocks.clear()
                     it.instructions.koffee {
                         getstatic(Settings::class, "OLD_ARMOUR", boolean)
                         ireturn

@@ -29,7 +29,6 @@ import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.ScoreboardRenderer;
 import cc.hyperium.handlers.handlers.*;
-import cc.hyperium.handlers.handlers.animation.*;
 import cc.hyperium.handlers.handlers.chat.*;
 import cc.hyperium.handlers.handlers.cloud.CloudHandler;
 import cc.hyperium.handlers.handlers.data.HypixelAPI;
@@ -79,18 +78,13 @@ public class HyperiumHandlers {
   private final HyperiumNetwork network;
   private final ScoreboardRenderer scoreboardRenderer;
   private final OtherConfigOptions configOptions;
-  private final DabHandler dabHandler;
-  private final FlossDanceHandler flossDanceHandler;
   private final ParticleAuraHandler particleAuraHandler;
   private final VanillaEnhancementsHud vanillaEnhancementsHud;
   private final QuestTrackingChatHandler questTracking;
   private final FlipHandler flipHandler;
   private final LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
   private final PerspectiveModifierHandler perspectiveHandler;
-  private final TPoseHandler tPoseHandler;
-  private final ArmWaveHandler armWaveHandler;
   private final HypixelGuiAugmenter hypixelGuiAugmenter;
-  private final TwerkDance twerkDance;
   private final StatsHandler statsHandler;
   private final BroadcastEvents broadcastEvents;
   private final SettingsHandler settingsHandler;
@@ -129,14 +123,9 @@ public class HyperiumHandlers {
     register(resolutionUtil = new ResolutionUtil());
     register(guiDisplayHandler = new GuiDisplayHandler());
     register(scoreboardRenderer = new ScoreboardRenderer());
-    register(dabHandler = new DabHandler());
-    register(twerkDance = new TwerkDance());
     register(particleAuraHandler = new ParticleAuraHandler());
     register(hypixelGuiAugmenter = new HypixelGuiAugmenter());
     register(statusHandler = new StatusHandler());
-    register(flossDanceHandler = new FlossDanceHandler());
-    register(tPoseHandler = new TPoseHandler());
-    register(armWaveHandler = new ArmWaveHandler());
     register(statsHandler = new StatsHandler());
     register(broadcastEvents = new BroadcastEvents());
     register(blurHandler = new BlurHandler());
@@ -246,10 +235,6 @@ public class HyperiumHandlers {
     return layerDeadmau5HeadHandler;
   }
 
-  public TwerkDance getTwerkDance() {
-    return twerkDance;
-  }
-
   public BroadcastEvents getBroadcastEvents() {
     return broadcastEvents;
   }
@@ -286,10 +271,6 @@ public class HyperiumHandlers {
     return guiDisplayHandler;
   }
 
-  public TPoseHandler getTPoseHandler() {
-    return tPoseHandler;
-  }
-
   public HyperiumCommandHandler getHyperiumCommandHandler() {
     return commandHandler;
   }
@@ -304,14 +285,6 @@ public class HyperiumHandlers {
 
   public QuestTrackingChatHandler getQuestTracking() {
     return questTracking;
-  }
-
-  public DabHandler getDabHandler() {
-    return dabHandler;
-  }
-
-  public FlossDanceHandler getFlossDanceHandler() {
-    return flossDanceHandler;
   }
 
   public StatusHandler getStatusHandler() {
@@ -348,10 +321,6 @@ public class HyperiumHandlers {
 
   public FovModifier getFovModifier() {
     return fovModifier;
-  }
-
-  public ArmWaveHandler getArmWaveHandler() {
-    return armWaveHandler;
   }
 
   public CloudHandler getCloudHandler() {

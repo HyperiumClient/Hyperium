@@ -15,6 +15,9 @@ class GuiMainMenuTransformer : ConflictTransformer {
         original.methods.forEach {
             when (it.name) {
                 "initGui" -> {
+                    it.instructions.clear()
+                    it.localVariables.clear()
+                    it.tryCatchBlocks.clear()
                     it.instructions.koffee {
                         aload_0
                         invokestatic(GuiMainMenuHook::class, "initGui", void, GuiMainMenu::class)
@@ -23,6 +26,9 @@ class GuiMainMenuTransformer : ConflictTransformer {
                 }
 
                 "drawScreen" -> {
+                    it.instructions.clear()
+                    it.localVariables.clear()
+                    it.tryCatchBlocks.clear()
                     it.instructions.koffee {
                         invokestatic(GuiMainMenuHook::class, "drawScreen", void)
                         _return
