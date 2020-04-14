@@ -148,6 +148,10 @@ public class Hyperium {
    */
   @InvokeEvent(priority = Priority.HIGH)
   public void init(InitializationEvent event) {
+    for (int i = 0; i < 18; ++i) {
+
+    }
+
     try {
       // Create the network handler, register it in config, then check for a LoginReply
       Multithreading.runAsync(

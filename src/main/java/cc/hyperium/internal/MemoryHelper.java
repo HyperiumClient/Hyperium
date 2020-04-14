@@ -22,8 +22,6 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.event.world.WorldUnloadEvent;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -107,11 +105,7 @@ public class MemoryHelper {
 
       RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
       try {
-        Method getSkinMap = renderManager.getClass().getMethod("getSkinMap");
-        Object invoke = getSkinMap.invoke(renderManager);
-        Map<String, RenderPlayer> skinMap = (Map<String, RenderPlayer>) invoke;
-
-        for (RenderPlayer value : skinMap.values()) {
+        for (RenderPlayer value : renderManager.skinMap.values()) {
           ModelPlayer mainModel = value.getMainModel();
 
           Class<?> superClass = mainModel.getClass().getSuperclass();
@@ -150,7 +144,7 @@ public class MemoryHelper {
             }
           }
         }
-      } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+      } catch (Exception e) {
         e.printStackTrace();
       }
 

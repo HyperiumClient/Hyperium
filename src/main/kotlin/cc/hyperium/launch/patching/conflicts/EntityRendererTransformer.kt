@@ -9,10 +9,10 @@ import cc.hyperium.event.render.RenderWorldEvent
 import cc.hyperium.handlers.HyperiumHandlers
 import cc.hyperium.handlers.handlers.OtherConfigOptions
 import cc.hyperium.hooks.EntityRendererHook
-import cc.hyperium.integrations.perspective.PerspectiveModifierHandler
 import cc.hyperium.utils.renderer.shader.ShaderHelper
 import codes.som.anthony.koffee.assembleBlock
 import codes.som.anthony.koffee.insns.jvm.*
+import codes.som.anthony.koffee.koffee
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.EntityRenderer
 import net.minecraft.client.renderer.RenderGlobal
@@ -37,7 +37,7 @@ class EntityRendererTransformer : ConflictTransformer {
         original.methods.forEach {
             when (it.name) {
                 "<init>" -> {
-                    val (initializeShaderHelper) = assembleBlock {
+                    val (createShaderHelper) = assembleBlock {
                         new(ShaderHelper::class)
                         dup
                         aload_0
@@ -45,21 +45,30 @@ class EntityRendererTransformer : ConflictTransformer {
                         pop
                     }
 
-                    it.instructions.insertBefore(it.instructions.last.previous, initializeShaderHelper)
+                    it.instructions.insertBefore(it.instructions.last.previous, createShaderHelper)
                 }
 
-                "loadShader" -> {
-                    it.access = Opcodes.ACC_PUBLIC
+                "loadShader" -> it.access = Opcodes.ACC_PUBLIC
+
+                "orientCamera" -> {
+                    it.instructions.clear()
+                    it.localVariables.clear()
+                    it.koffee {
+                        aload_0
+                        fload_1
+                        invokestatic(EntityRendererHook::class, "orientCameraHook", void, EntityRenderer::class, float)
+                        _return
+                    }
                 }
 
                 "updateCameraAndRender" -> {
-                    val (modifyRotation) = assembleBlock {
+                    val (updateRendererHook) = assembleBlock {
                         aload_0
                         getfield(EntityRenderer::class, "mc", Minecraft::class)
                         invokestatic(EntityRendererHook::class, "updateRendererHook", void, Minecraft::class)
                     }
 
-                    val (postRenderEvent) = assembleBlock {
+                    val (renderEventPost) = assembleBlock {
                         getstatic(EventBus::class, "INSTANCE", EventBus::class)
                         new(RenderEvent::class)
                         dup
@@ -70,18 +79,16 @@ class EntityRendererTransformer : ConflictTransformer {
                     for (insn in it.instructions.iterator()) {
                         if (insn is LdcInsnNode) {
                             if (insn.cst == "mouse") {
-                                it.instructions.insertBefore(insn.previous?.previous?.previous, modifyRotation)
-                            }
-
-                            if (insn.cst == "gui") {
-                                it.instructions.insertBefore(insn.next, postRenderEvent)
+                                it.instructions.insertBefore(insn.previous?.previous?.previous, updateRendererHook)
+                            } else if (insn.cst == "gui") {
+                                it.instructions.insertBefore(insn.next?.next, renderEventPost)
                             }
                         }
                     }
                 }
 
                 "renderWorldPass" -> {
-                    val (postDrawBlockHighlightEvent) = assembleBlock {
+                    val (createDrawBlockHighlightEvent) = assembleBlock {
                         new(DrawBlockHighlightEvent::class)
                         dup
                         aload_0
@@ -92,14 +99,7 @@ class EntityRendererTransformer : ConflictTransformer {
                         getfield(EntityRenderer::class, "mc", Minecraft::class)
                         getfield(Minecraft::class, "objectMouseOver", MovingObjectPosition::class)
                         fload_2
-                        invokespecial(
-                            DrawBlockHighlightEvent::class,
-                            "<init>",
-                            void,
-                            EntityPlayer::class,
-                            MovingObjectPosition::class,
-                            float
-                        )
+                        invokespecial(DrawBlockHighlightEvent::class, "<init>", void, EntityPlayer::class, MovingObjectPosition::class, float)
                         astore(17)
                         getstatic(EventBus::class, "INSTANCE", EventBus::class)
                         aload(17)
@@ -115,12 +115,13 @@ class EntityRendererTransformer : ConflictTransformer {
                         +L["78"]
                     }
 
-                    val (postRenderWorldEvent) = assembleBlock {
+                    val (createRenderWorldEvent) = assembleBlock {
                         aload_0
                         getfield(EntityRenderer::class, "mc", Minecraft::class)
                         getfield(Minecraft::class, "mcProfiler", Profiler::class)
                         ldc("hyperium_render_last")
                         invokevirtual(Profiler::class, "startSection", void, String::class)
+                        getstatic(EventBus::class, "INSTANCE", EventBus::class)
                         new(RenderWorldEvent::class)
                         dup
                         aload_0
@@ -128,7 +129,7 @@ class EntityRendererTransformer : ConflictTransformer {
                         getfield(Minecraft::class, "renderGlobal", RenderGlobal::class)
                         fload_2
                         invokespecial(RenderWorldEvent::class, "<init>", void, RenderGlobal::class, float)
-                        invokevirtual(RenderWorldEvent::class, "post", void)
+                        invokevirtual(EventBus::class, "post", void, Event::class)
                         aload_0
                         getfield(EntityRenderer::class, "mc", Minecraft::class)
                         getfield(Minecraft::class, "mcProfiler", Profiler::class)
@@ -138,28 +139,14 @@ class EntityRendererTransformer : ConflictTransformer {
                     for (insn in it.instructions.iterator()) {
                         if (insn is LdcInsnNode) {
                             if (insn.cst == "outline") {
-                                it.instructions.insertBefore(
-                                    insn.previous?.previous?.previous,
-                                    postDrawBlockHighlightEvent
-                                )
-                                // two of them, so don't break
+                                it.instructions.insertBefore(insn.previous?.previous?.previous, createDrawBlockHighlightEvent)
                             }
 
                             if (insn.cst == "hand") {
-                                it.instructions.insertBefore(insn.previous?.previous?.previous, postRenderWorldEvent)
+                                it.instructions.insertBefore(insn.previous?.previous?.previous, createRenderWorldEvent)
                             }
                         }
                     }
-                }
-
-                // todo
-                "orientCamera" -> {
-                    it.instructions = assembleBlock {
-                        aload_0
-                        fload_1
-                        invokestatic(EntityRendererHook::class, "orientCameraHook", void, EntityRenderer::class, float)
-                        _return
-                    }.first
                 }
             }
         }

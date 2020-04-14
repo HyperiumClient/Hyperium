@@ -101,9 +101,9 @@ public class DragonCompanion extends AbstractCosmetic {
     entityDragon.posY = current.y / scale;
     entityDragon.posZ = current.z / scale;
 
-    GlStateManager.translate(-renderManager.getPosX(),
-        -renderManager.getPosY(),
-        -renderManager.getPosZ());
+    GlStateManager.translate(-renderManager.renderPosX,
+        -renderManager.renderPosY,
+        -renderManager.renderPosZ);
 
     GlStateManager.translate(d0 * scale, d1 * scale, d2 * scale);
     GlStateManager.scale(scale, scale, scale);

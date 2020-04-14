@@ -33,13 +33,13 @@
          if (!iblockaccess.extendedLevelsInChunkCache()) {
              ++renderChunksUpdated;
 +
-+            if (Settings.CHUNK_UPDATE_LIMITING && renderChunksUpdated > Settings.CHUNK_UPDATE_LIMIT) {
++            /*if (Settings.CHUNK_UPDATE_LIMITING && renderChunksUpdated > Settings.CHUNK_UPDATE_LIMIT) {
 +                try {
 +                    Thread.sleep((long) (Settings.CHUNK_UPDATE_LIMIT * 10));
 +                } catch (Exception e) {
 +                    Hyperium.LOGGER.error("Caught en error while batching chunk updates.", e);
 +                }
-+            }
++            }*/
 +
              boolean[] aboolean = new boolean[EnumWorldBlockLayer.values().length];
              BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();

@@ -11,17 +11,17 @@ class RenderItemFrameTransformer : ConflictTransformer {
     override fun getClassName() = "bjg"
 
     override fun transform(original: ClassNode): ClassNode {
-        for (method in original.methods) {
-            if (method.name == "doRender") {
-                val returnMethod = assembleBlock {
-                    getstatic(Settings::class, "DISABLE_ITEMFRAMES", boolean)
-                    ifeq(L["1"])
-                    _return
-                    +L["1"]
-                }.first
+        original.methods.find {
+            it.name == "doRender"
+        }?.apply {
+            val returnMethod = assembleBlock {
+                getstatic(Settings::class, "DISABLE_ITEMFRAMES", boolean)
+                ifeq(L["1"])
+                _return
+                +L["1"]
+            }.first
 
-                method.instructions.insertBefore(method.instructions.first, returnMethod)
-            }
+            instructions.insertBefore(instructions.first, returnMethod)
         }
 
         return original

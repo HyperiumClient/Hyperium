@@ -33,8 +33,7 @@ public class NoteParticle implements IParticle {
 
   @Override
   public EntityFX spawn(World world, double x, double y, double z) {
-    Map<Integer, IParticleFactory> particleMap = Minecraft.getMinecraft().effectRenderer
-        .getParticleMap();
+    Map<Integer, IParticleFactory> particleMap = Minecraft.getMinecraft().effectRenderer.particleTypes;
     IParticleFactory iParticleFactory = particleMap.get(EnumParticleTypes.NOTE.getParticleID());
     return iParticleFactory
         .getEntityFX(EnumParticleTypes.NOTE.getParticleID(), world, x, y, z, 0.0F, -0.1F, 0.0F, 0);

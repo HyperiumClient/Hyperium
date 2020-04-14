@@ -12,33 +12,21 @@ class RenderTransformer : ConflictTransformer {
 
     // todo: renderLivingLabel
     override fun transform(original: ClassNode): ClassNode {
-        for (method in original.methods) {
-            if (method.name == "renderName") {
-                val list = assembleBlock {
-                    sipush(4096)
-                    bipush(64)
-                    invokestatic(Math::class, "min", int, int, int)
-                }.first
-
-                for (insn in method.instructions.iterator()) {
-                    if (insn is IntInsnNode) {
-                        method.instructions.insertBefore(insn, list)
-                        method.instructions.remove(insn)
+        original.methods.forEach {
+            when (it.name) {
+                "renderName",
+                "renderOffsetLivingLabel" -> {
+                    val (list) = assembleBlock {
+                        sipush(4096)
+                        bipush(64)
+                        invokestatic(Math::class, "min", int, int, int)
                     }
-                }
-            }
 
-            if (method.name == "renderOffsetLivingLabel") {
-                val list = assembleBlock {
-                    sipush(4096)
-                    bipush(64)
-                    invokestatic(Math::class, "min", int, int, int)
-                }.first
-
-                for (insn in method.instructions.iterator()) {
-                    if (insn is IntInsnNode) {
-                        method.instructions.insertBefore(insn, list)
-                        method.instructions.remove(insn)
+                    for (insn in it.instructions.iterator()) {
+                        if (insn is IntInsnNode) {
+                            it.instructions.insertBefore(insn, list)
+                            it.instructions.remove(insn)
+                        }
                     }
                 }
             }

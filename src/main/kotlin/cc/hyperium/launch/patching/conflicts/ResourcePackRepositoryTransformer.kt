@@ -17,22 +17,22 @@ class ResourcePackRepositoryTransformer : ConflictTransformer {
             access = Opcodes.ACC_PUBLIC
         }
 
-        original.methods.forEach {
-            if (it.name == "deleteOldServerResourcesPacks") {
-                val (createDirectory) = assembleBlock {
-                    aload_0
-                    getfield(ResourcePackRepository::class, "dirServerResourcepacks", File::class)
-                    invokevirtual(File::class, "exists", boolean)
-                    ifne(L["1"])
-                    aload_0
-                    getfield(ResourcePackRepository::class, "dirServerResourcepacks", File::class)
-                    invokevirtual(File::class, "mkdirs", boolean)
-                    pop
-                    +L["1"]
-                }
-
-                it.instructions.insertBefore(it.instructions.first, createDirectory)
+        original.methods.find {
+            it.name == "deleteOldServerResourcesPacks"
+        }?.apply {
+            val (createDirectory) = assembleBlock {
+                aload_0
+                getfield(ResourcePackRepository::class, "dirServerResourcepacks", File::class)
+                invokevirtual(File::class, "exists", boolean)
+                ifne(L["1"])
+                aload_0
+                getfield(ResourcePackRepository::class, "dirServerResourcepacks", File::class)
+                invokevirtual(File::class, "mkdirs", boolean)
+                pop
+                +L["1"]
             }
+
+            instructions.insertBefore(instructions.first, createDirectory)
         }
 
         return original

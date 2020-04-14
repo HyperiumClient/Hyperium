@@ -14,7 +14,6 @@ class GameSettingsTransformer : ConflictTransformer {
 
     override fun transform(original: ClassNode): ClassNode {
         original.visitField(Opcodes.ACC_PUBLIC, "needsResourceRefresh", "Z", null, null).visitEnd()
-        original.visitField(Opcodes.ACC_PUBLIC, "allKeys", "Ljava/util/List;", null, null).visitEnd()
         original.koffee {
             method5(public, "onGuiClosed", void) {
                 aload_0
@@ -36,22 +35,6 @@ class GameSettingsTransformer : ConflictTransformer {
 
         original.methods.forEach {
             when (it.name) {
-                "<init>" -> {
-                    val (createAllKeys) = assembleBlock {
-                        aload_0
-                        new(ArrayList::class)
-                        dup
-                        invokespecial(ArrayList::class, "<init>", void)
-                        putfield(GameSettings::class, "allKeys", List::class)
-                    }
-
-                    if (it.desc == "(Lnet/minecraft/client/Minecraft;Ljava/io/File;)V") {
-                        for (insn in it.instructions.iterator()) {
-
-                        }
-                    }
-                }
-
                 "<clinit>" -> {
                     val (createNewArrayItem) = assembleBlock {
                         dup

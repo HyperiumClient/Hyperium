@@ -25,11 +25,11 @@ import cc.hyperium.launch.patching.conflicts.ChunkRenderContainerTransformer;
 import cc.hyperium.launch.patching.conflicts.ConflictTransformer;
 import cc.hyperium.launch.patching.conflicts.CrashReportTransformer;
 import cc.hyperium.launch.patching.conflicts.EffectRendererTransformer;
-import cc.hyperium.launch.patching.conflicts.EntityRendererTransformer;
 import cc.hyperium.launch.patching.conflicts.FontRendererTransformer;
 import cc.hyperium.launch.patching.conflicts.GameSettingsTransformer;
 import cc.hyperium.launch.patching.conflicts.GlStateManagerTransformer;
 import cc.hyperium.launch.patching.conflicts.GuiIngameTransformer;
+import cc.hyperium.launch.patching.conflicts.GuiMainMenuTransformer;
 import cc.hyperium.launch.patching.conflicts.GuiOverlayDebugTransformer;
 import cc.hyperium.launch.patching.conflicts.GuiVideoSettingsTransformer;
 import cc.hyperium.launch.patching.conflicts.LayerArmorBaseTransformer;
@@ -282,15 +282,15 @@ public class PatchManager {
         new ModelRendererTransformer(),
         new FontRendererTransformer(),
         new EffectRendererTransformer(),
-//         new GuiMainMenuTransformer(),
-        new NoopTransformer("aya"),
+        new GuiMainMenuTransformer(),
         new GlStateManagerTransformer(),
         new GlStateManagerTransformer.GlStateSubclassTransformer("e"), // color
         new GlStateManagerTransformer.GlStateSubclassTransformer("r"), // texture
         new TextureManagerTransformer(),
         new GuiVideoSettingsTransformer(),
         new TileEntityEndPortalRendererTransformer(),
-        new EntityRendererTransformer(),
+        //new EntityRendererTransformer(),
+        new NoopTransformer("bfk"),
         new ResourcePackRepositoryTransformer(),
         new RenderGlobalTransformer(),
         new ChunkRenderContainerTransformer(),

@@ -1,11 +1,11 @@
 --- original/net/minecraft/client/particle/EffectRenderer.java
 +++ changed/net/minecraft/client/particle/EffectRenderer.java
-@@ -405,4 +405,8 @@
+@@ -39,7 +39,7 @@
+     private TextureManager renderer;
+     /** RNG. */
+     private Random rand = new Random();
+-    private Map<Integer, IParticleFactory> particleTypes = Maps.<Integer, IParticleFactory>newHashMap();
++    public Map<Integer, IParticleFactory> particleTypes = Maps.<Integer, IParticleFactory>newHashMap();
  
-         return "" + i;
-     }
-+
-+    public Map<Integer, IParticleFactory> getParticleMap() {
-+        return particleTypes;
-+    }
- }
+     public EffectRenderer(World worldIn, TextureManager rendererIn) {
+         this.worldObj = worldIn;

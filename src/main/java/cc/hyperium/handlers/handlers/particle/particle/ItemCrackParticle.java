@@ -33,8 +33,7 @@ public class ItemCrackParticle implements IParticle {
 
   @Override
   public EntityFX spawn(World world, double x, double y, double z) {
-    Map<Integer, IParticleFactory> particleMap = Minecraft.getMinecraft().effectRenderer
-        .getParticleMap();
+    Map<Integer, IParticleFactory> particleMap = Minecraft.getMinecraft().effectRenderer.particleTypes;
     IParticleFactory iParticleFactory = particleMap
         .get(EnumParticleTypes.ITEM_CRACK.getParticleID());
     return iParticleFactory

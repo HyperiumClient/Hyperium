@@ -8,6 +8,24 @@
  import com.google.common.collect.Maps;
  import java.util.Map;
  import net.minecraft.block.Block;
+@@ -106,13 +108,13 @@
+ @SideOnly(Side.CLIENT)
+ public class RenderManager {
+     private Map < Class <? extends Entity > , Render <? extends Entity >> entityRenderMap = Maps. < Class <? extends Entity > , Render <? extends Entity >> newHashMap();
+-    private Map<String, RenderPlayer> skinMap = Maps.<String, RenderPlayer>newHashMap();
++    public Map<String, RenderPlayer> skinMap = Maps.<String, RenderPlayer>newHashMap();
+     private RenderPlayer playerRenderer;
+     /** Renders fonts */
+     private FontRenderer textRenderer;
+-    private double renderPosX;
+-    private double renderPosY;
+-    private double renderPosZ;
++    public double renderPosX;
++    public double renderPosY;
++    public double renderPosZ;
+     public TextureManager renderEngine;
+     /** Reference to the World object. */
+     public World worldObj;
 @@ -195,6 +197,8 @@
          this.playerRenderer = new RenderPlayer(this);
          this.skinMap.put("default", this.playerRenderer);
@@ -17,24 +35,3 @@
      }
  
      public void setRenderPosition(double renderPosXIn, double renderPosYIn, double renderPosZIn) {
-@@ -440,4 +444,20 @@
-     public void setRenderOutlines(boolean renderOutlinesIn) {
-         this.renderOutlines = renderOutlinesIn;
-     }
-+
-+    public double getPosX() {
-+        return renderPosX;
-+    }
-+
-+    public double getPosY() {
-+        return renderPosY;
-+    }
-+
-+    public double getPosZ() {
-+        return renderPosZ;
-+    }
-+
-+    public Map<String, RenderPlayer> getSkinMap() {
-+        return skinMap;
-+    }
- }

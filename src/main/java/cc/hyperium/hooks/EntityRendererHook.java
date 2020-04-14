@@ -72,7 +72,7 @@ public class EntityRendererHook {
         Block block = iblockstate.getBlock();
 
         if (block == Blocks.bed) {
-          int j = ((EnumFacing)iblockstate.getValue(BlockBed.FACING)).getHorizontalIndex();
+          int j = iblockstate.getValue(BlockBed.FACING).getHorizontalIndex();
           GlStateManager.rotate((float)(j * 90), 0.0F, 1.0F, 0.0F);
         }
 
@@ -80,7 +80,7 @@ public class EntityRendererHook {
         GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, -1.0F, 0.0F, 0.0F);
       }
     } else if (Minecraft.getMinecraft().gameSettings.thirdPersonView > 0) {
-      double d3 = (double)(renderer.thirdPersonDistanceTemp + (renderer.thirdPersonDistance - renderer.thirdPersonDistanceTemp) * partialTicks);
+      double d3 = renderer.thirdPersonDistanceTemp + (renderer.thirdPersonDistance - renderer.thirdPersonDistanceTemp) * partialTicks;
 
       if (Minecraft.getMinecraft().gameSettings.debugCamEnable) {
         GlStateManager.translate(0.0F, 0.0F, (float)(-d3));

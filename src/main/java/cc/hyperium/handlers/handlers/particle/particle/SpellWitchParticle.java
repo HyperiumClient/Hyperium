@@ -33,8 +33,7 @@ public class SpellWitchParticle implements IParticle {
 
   @Override
   public EntityFX spawn(World world, double x, double y, double z) {
-    Map<Integer, IParticleFactory> particleMap = Minecraft.getMinecraft().effectRenderer
-        .getParticleMap();
+    Map<Integer, IParticleFactory> particleMap = Minecraft.getMinecraft().effectRenderer.particleTypes;
     IParticleFactory iParticleFactory = particleMap
         .get(EnumParticleTypes.SPELL_WITCH.getParticleID());
     return iParticleFactory

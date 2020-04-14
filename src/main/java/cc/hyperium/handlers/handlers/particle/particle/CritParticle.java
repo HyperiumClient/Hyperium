@@ -33,8 +33,7 @@ public class CritParticle implements IParticle {
 
   @Override
   public EntityFX spawn(World world, double x, double y, double z) {
-    Map<Integer, IParticleFactory> particleMap = Minecraft.getMinecraft().effectRenderer
-        .getParticleMap();
+    Map<Integer, IParticleFactory> particleMap = Minecraft.getMinecraft().effectRenderer.particleTypes;
     IParticleFactory iParticleFactory = particleMap.get(EnumParticleTypes.CRIT.getParticleID());
     return iParticleFactory
         .getEntityFX(EnumParticleTypes.CRIT.getParticleID(), world, x, y, z, 0.0F, -0.1F, 0.0F, 0);
