@@ -26,6 +26,7 @@ import static cc.hyperium.config.Category.*;
  */
 public class Settings {
 
+  @SuppressWarnings("InstantiationOfUtilityClass")
   public static final Settings INSTANCE = new Settings();
 
   @ConfigOpt
@@ -142,15 +143,6 @@ public class Settings {
   public static boolean SHOW_COSMETICS_EVERYWHERE = true;
 
   @ConfigOpt
-  public static boolean DAB_TOGGLE;
-
-  @ConfigOpt
-  public static boolean TPOSE_TOGGLE;
-
-  @ConfigOpt
-  public static boolean FLOSS_TOGGLE;
-
-  @ConfigOpt
   @ToggleSetting(name = "gui.settings.17blockhitting", category = ANIMATIONS, mods = true)
   public static boolean OLD_BLOCKHIT = true;
 
@@ -204,10 +196,6 @@ public class Settings {
   @ConfigOpt
   @SelectorSetting(name = "gui.settings.fliptype", category = COSMETICS, items = {})
   public static String FLIP_TYPE_STRING = "FLIP";
-
-  @ConfigOpt
-  @ToggleSetting(name = "gui.settings.tposetogglemode", category = COSMETICS)
-  public static boolean TPOSE_TOGGLE_MODE = true;
 
   @ConfigOpt
   @SelectorSetting(name = "gui.settings.background", category = MISC, items =
@@ -303,10 +291,6 @@ public class Settings {
   @ConfigOpt
   @SliderSetting(name = "gui.settings.wingsscale", min = 50, max = 200, category = COSMETICS)
   public static double WINGS_SCALE = 100D;
-
-  @ToggleSetting(name = "gui.settings.disable_dances", category = COSMETICS)
-  @ConfigOpt
-  public static boolean DISABLE_DANCES;
 
   @ConfigOpt
   @ToggleSetting(name = "gui.settings.fastworldswitching", category = PERFORMANCE)
@@ -503,13 +487,6 @@ public class Settings {
   public static int WINGS_BLUE = 255;
 
   @ConfigOpt
-  public static boolean ARM_WAVE_TOGGLE;
-
-  @ConfigOpt
-  @ToggleSetting(name = "gui.settings.armwavetogglemode", category = COSMETICS)
-  public static boolean ARM_WAVE_TOGGLE_MODE;
-
-  @ConfigOpt
   @ToggleSetting(name = "gui.settings.tabheads", category = PERFORMANCE)
   public static boolean TAB_HEADS = true;
 
@@ -532,14 +509,6 @@ public class Settings {
   @ConfigOpt
   @ToggleSetting(name = "gui.settings.smoothchat", category = QOL)
   public static boolean SMOOTH_CHAT;
-
-  @ConfigOpt
-  @SliderSetting(name = "gui.settings.chunkupdatelimit", category = PERFORMANCE, min = 5, max = 1000)
-  public static double CHUNK_UPDATE_LIMIT = 1000;
-
-  @ConfigOpt
-  @ToggleSetting(name = "gui.settings.chunkupdatelimiting", category = PERFORMANCE)
-  public static boolean CHUNK_UPDATE_LIMITING;
 
   @ConfigOpt
   @ToggleSetting(name = "gui.settings.disablearrowentities", category = PERFORMANCE)

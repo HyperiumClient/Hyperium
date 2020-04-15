@@ -1,6 +1,8 @@
 package cc.hyperium.hooks;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.render.DrawBlockHighlightEvent;
 import cc.hyperium.integrations.perspective.PerspectiveModifierHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -11,6 +13,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
 import org.lwjgl.opengl.Display;
@@ -166,5 +169,13 @@ public class EntityRendererHook {
     d1 = entity.prevPosY + (entity.posY - entity.prevPosY) * (double)partialTicks + (double)f;
     d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double)partialTicks;
     renderer.cloudFog = Minecraft.getMinecraft().renderGlobal.hasCloudFog(d0, d1, d2, partialTicks);
+  }
+
+  public static void postDrawBlock(Minecraft mc, float partialTicks) {
+    DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) mc.getRenderViewEntity()), mc.objectMouseOver, partialTicks);
+    EventBus.INSTANCE.post(drawBlockHighlightEvent);
+    if (drawBlockHighlightEvent.isCancelled()) {
+      Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = true;
+    }
   }
 }

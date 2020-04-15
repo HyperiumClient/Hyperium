@@ -1,13 +1,9 @@
 package cc.hyperium.launch.patching.conflicts
 
-import cc.hyperium.Hyperium
 import cc.hyperium.event.Event
 import cc.hyperium.event.EventBus
-import cc.hyperium.event.render.DrawBlockHighlightEvent
 import cc.hyperium.event.render.RenderEvent
 import cc.hyperium.event.render.RenderWorldEvent
-import cc.hyperium.handlers.HyperiumHandlers
-import cc.hyperium.handlers.handlers.OtherConfigOptions
 import cc.hyperium.hooks.EntityRendererHook
 import cc.hyperium.utils.renderer.shader.ShaderHelper
 import codes.som.anthony.koffee.assembleBlock
@@ -16,10 +12,7 @@ import codes.som.anthony.koffee.koffee
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.EntityRenderer
 import net.minecraft.client.renderer.RenderGlobal
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.profiler.Profiler
-import net.minecraft.util.MovingObjectPosition
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.LdcInsnNode
@@ -89,33 +82,6 @@ class EntityRendererTransformer : ConflictTransformer {
                 }
 
                 "renderWorldPass" -> {
-                    val (createDrawBlockHighlightEvent) = assembleBlock {
-                        new(DrawBlockHighlightEvent::class)
-                        dup
-                        aload_0
-                        getfield(EntityRenderer::class, "mc", Minecraft::class)
-                        invokevirtual(Minecraft::class, "getRenderViewEntity", Entity::class)
-                        checkcast(EntityPlayer::class)
-                        aload_0
-                        getfield(EntityRenderer::class, "mc", Minecraft::class)
-                        getfield(Minecraft::class, "objectMouseOver", MovingObjectPosition::class)
-                        fload_2
-                        invokespecial(DrawBlockHighlightEvent::class, "<init>", void, EntityPlayer::class, MovingObjectPosition::class, float)
-                        astore(17)
-                        getstatic(EventBus::class, "INSTANCE", EventBus::class)
-                        aload(17)
-                        invokevirtual(EventBus::class, "post", void, Event::class)
-                        aload(17)
-                        invokevirtual(DrawBlockHighlightEvent::class, "isCancelled", boolean)
-                        ifeq(L["78"])
-                        getstatic(Hyperium::class, "INSTANCE", Hyperium::class)
-                        invokevirtual(Hyperium::class, "getHandlers", HyperiumHandlers::class)
-                        invokevirtual(HyperiumHandlers::class, "getConfigOptions", OtherConfigOptions::class)
-                        iconst_1
-                        putfield(OtherConfigOptions::class, "isCancelBox", boolean)
-                        +L["78"]
-                    }
-
                     val (createRenderWorldEvent) = assembleBlock {
                         aload_0
                         getfield(EntityRenderer::class, "mc", Minecraft::class)
@@ -139,12 +105,18 @@ class EntityRendererTransformer : ConflictTransformer {
 
                     for (insn in it.instructions.iterator()) {
                         if (insn is LdcInsnNode) {
+                            val previous = insn.previous?.previous?.previous
                             if (insn.cst == "outline") {
-                                it.instructions.insertBefore(insn.previous?.previous?.previous, createDrawBlockHighlightEvent)
-                            }
+                                val (createDrawBlockHighlightEvent) = assembleBlock {
+                                    aload_0
+                                    getfield(EntityRenderer::class, "mc", Minecraft::class)
+                                    fload_2
+                                    invokestatic(EntityRendererHook::class, "postDrawBlock", void, Minecraft::class, float)
+                                }
 
-                            if (insn.cst == "hand") {
-                                it.instructions.insertBefore(insn.previous?.previous?.previous, createRenderWorldEvent)
+                                it.instructions.insertBefore(previous, createDrawBlockHighlightEvent)
+                            } else if (insn.cst == "hand") {
+                                it.instructions.insertBefore(previous, createRenderWorldEvent)
                             }
                         }
                     }

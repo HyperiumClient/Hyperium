@@ -142,31 +142,23 @@
  
                  if (!this.mc.gameSettings.hideGUI || this.mc.currentScreen != null) {
                      GlStateManager.alphaFunc(516, 0.1F);
-@@ -1183,6 +1219,11 @@
+@@ -1183,6 +1219,7 @@
              if (this.mc.objectMouseOver != null && entity.isInsideOfMaterial(Material.water) && flag) {
                  EntityPlayer entityplayer = (EntityPlayer)entity;
                  GlStateManager.disableAlpha();
-+                DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) mc.getRenderViewEntity()), mc.objectMouseOver, partialTicks);
-+                EventBus.INSTANCE.post(drawBlockHighlightEvent);
-+                if (drawBlockHighlightEvent.isCancelled()) {
-+                    Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = true;
-+                }
++                EntityRendererHook.postDrawBlock(mc, partialTicks);
                  this.mc.mcProfiler.endStartSection("outline");
                  renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, partialTicks);
                  GlStateManager.enableAlpha();
-@@ -1195,6 +1236,11 @@
+@@ -1195,6 +1232,7 @@
          if (flag && this.mc.objectMouseOver != null && !entity.isInsideOfMaterial(Material.water)) {
              EntityPlayer entityplayer1 = (EntityPlayer)entity;
              GlStateManager.disableAlpha();
-+            DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) mc.getRenderViewEntity()), mc.objectMouseOver, partialTicks);
-+            EventBus.INSTANCE.post(drawBlockHighlightEvent);
-+            if (drawBlockHighlightEvent.isCancelled()) {
-+                Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = true;
-+            }
++            EntityRendererHook.postDrawBlock(mc, partialTicks);
              this.mc.mcProfiler.endStartSection("outline");
              renderglobal.drawSelectionBox(entityplayer1, this.mc.objectMouseOver, 0, partialTicks);
              GlStateManager.enableAlpha();
-@@ -1247,6 +1293,9 @@
+@@ -1247,6 +1285,9 @@
              this.renderCloudsCheck(renderglobal, partialTicks, pass);
          }
  
