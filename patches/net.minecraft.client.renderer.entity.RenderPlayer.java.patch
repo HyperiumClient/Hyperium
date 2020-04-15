@@ -1,30 +1,26 @@
 --- original/net/minecraft/client/renderer/entity/RenderPlayer.java
 +++ changed/net/minecraft/client/renderer/entity/RenderPlayer.java
-@@ -1,5 +1,13 @@
+@@ -1,5 +1,10 @@
  package net.minecraft.client.renderer.entity;
  
 +import cc.hyperium.config.Settings;
 +import cc.hyperium.event.EventBus;
 +import cc.hyperium.event.render.RenderNameTagEvent;
 +import cc.hyperium.event.render.RenderPlayerEvent;
-+import cc.hyperium.utils.renderer.TwoPartLayerBipedArmor;
-+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-+import net.minecraft.entity.EntityLivingBase;
 +import net.minecraft.client.Minecraft;
  import net.minecraft.client.entity.AbstractClientPlayer;
  import net.minecraft.client.entity.EntityPlayerSP;
  import net.minecraft.client.model.ModelPlayer;
-@@ -32,7 +40,8 @@
+@@ -32,7 +37,7 @@
      public RenderPlayer(RenderManager renderManager, boolean useSmallArms) {
          super(renderManager, new ModelPlayer(0.0F, useSmallArms), 0.5F);
          this.smallArms = useSmallArms;
 -        this.addLayer(new LayerBipedArmor(this));
 +        LayerBipedArmor var3 = new LayerBipedArmor(this);
-+        this.addLayer(injectTwoPartLayerBipedArmor(var3));
          this.addLayer(new LayerHeldItem(this));
          this.addLayer(new LayerArrow(this));
          this.addLayer(new LayerDeadmau5Head(this));
-@@ -48,13 +57,17 @@
+@@ -48,13 +53,17 @@
       * Renders the desired {@code T} type Entity.
       */
      public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks) {
@@ -43,7 +39,7 @@
              this.setModelVisibilities(entity);
              super.doRender(entity, x, d0, z, entityYaw, partialTicks);
          }
-@@ -125,8 +138,14 @@
+@@ -125,8 +134,14 @@
  
              if (scoreobjective != null) {
                  Score score = scoreboard.getValueFromObjective(entityIn.getName(), scoreobjective);
@@ -60,7 +56,7 @@
              }
          }
  
-@@ -139,7 +158,7 @@
+@@ -139,7 +154,7 @@
          ModelPlayer modelplayer = this.getMainModel();
          this.setModelVisibilities(clientPlayer);
          modelplayer.swingProgress = 0.0F;
@@ -69,12 +65,3 @@
          modelplayer.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, clientPlayer);
          modelplayer.renderRightArm();
      }
-@@ -175,4 +194,8 @@
-             super.rotateCorpse(bat, p_77043_2_, p_77043_3_, partialTicks);
-         }
-     }
-+
-+    public <V extends EntityLivingBase, U extends LayerRenderer<V>> U injectTwoPartLayerBipedArmor(U original) {
-+        return (U) new TwoPartLayerBipedArmor(this);
-+    }
- }

@@ -5,7 +5,7 @@ import cc.hyperium.event.EventBus
 import cc.hyperium.event.render.RenderEvent
 import cc.hyperium.event.render.RenderWorldEvent
 import cc.hyperium.hooks.EntityRendererHook
-import cc.hyperium.utils.renderer.shader.ShaderHelper
+import cc.hyperium.utils.shader.ShaderHelper
 import codes.som.anthony.koffee.assembleBlock
 import codes.som.anthony.koffee.insns.jvm.*
 import codes.som.anthony.koffee.koffee

@@ -21,7 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
-import cc.hyperium.utils.renderer.shader.ShaderHelper;
+import cc.hyperium.utils.shader.ShaderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 

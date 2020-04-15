@@ -58,6 +58,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
   private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Raleway", 64.0F);
 
+  private boolean joinedServer;
+
   public GuiHyperiumScreenMainMenu() {
     if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
       GuiHyperiumScreenMainMenu.FIRST_START = false;
@@ -177,9 +179,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     }
   }
 
-  protected void keyTyped(char typedChar, int keyCode) throws IOException {
-  }
-
   @Override
   public void actionPerformed(GuiButton button) {
     switch (button.id) {
@@ -195,13 +194,18 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
       case 2:
         if (!(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))) {
-          GuiMultiplayer guiMultiplayer = new GuiMultiplayer(new GuiMainMenu());
-          guiMultiplayer.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
-          guiMultiplayer.makeDirectConnect();
-          ServerData data = new ServerData("customServer", Settings.SERVER_IP, false);
-          guiMultiplayer.setIp(data);
-          guiMultiplayer.confirmClicked(true, 0);
-          Hyperium.INSTANCE.setFromMainMenu(true);
+          if (joinedServer) {
+            break;
+          } else {
+            GuiMultiplayer guiMultiplayer = new GuiMultiplayer(new GuiMainMenu());
+            guiMultiplayer.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
+            guiMultiplayer.makeDirectConnect();
+            ServerData data = new ServerData("customServer", Settings.SERVER_IP, false);
+            guiMultiplayer.setIp(data);
+            guiMultiplayer.confirmClicked(true, 0);
+            Hyperium.INSTANCE.setFromMainMenu(true);
+            joinedServer = true;
+          }
         } else {
           Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
               .setDisplayNextTick(new CreateServerButton(this));

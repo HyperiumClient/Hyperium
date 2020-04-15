@@ -1,4 +1,4 @@
-package cc.hyperium.utils.renderer.shader;
+package cc.hyperium.utils.shader;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
