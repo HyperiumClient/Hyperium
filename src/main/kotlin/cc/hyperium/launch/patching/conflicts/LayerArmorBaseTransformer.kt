@@ -8,8 +8,9 @@ import codes.som.anthony.koffee.koffee
 import net.minecraft.item.Item
 import net.minecraft.item.ItemArmor
 import net.minecraft.item.ItemStack
+import org.objectweb.asm.Opcodes
 import org.objectweb.asm.tree.ClassNode
-import org.objectweb.asm.tree.MethodInsnNode
+import org.objectweb.asm.tree.TypeInsnNode
 
 class LayerArmorBaseTransformer : ConflictTransformer {
     override fun getClassName() = "bkn"
@@ -48,8 +49,9 @@ class LayerArmorBaseTransformer : ConflictTransformer {
                     }
 
                     for (insn in it.instructions.iterator()) {
-                        if (insn is MethodInsnNode && insn.name == "getCurrentArmor") {
-                            it.instructions.insertBefore(insn.next?.next, disableArmor)
+                        if (insn is TypeInsnNode && insn.opcode == Opcodes.INSTANCEOF) {
+                            it.instructions.insertBefore(insn.previous?.previous?.previous?.previous, disableArmor)
+                            break
                         }
                     }
                 }

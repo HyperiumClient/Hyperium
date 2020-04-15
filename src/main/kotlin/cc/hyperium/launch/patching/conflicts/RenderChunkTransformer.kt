@@ -14,7 +14,6 @@ import org.objectweb.asm.tree.ClassNode
 class RenderChunkTransformer : ConflictTransformer {
     override fun getClassName() = "bht"
 
-    // todo: chunk sleeper (rebuildChunk)
     override fun transform(original: ClassNode): ClassNode {
         original.visitField(
                 Opcodes.ACC_PRIVATE,

@@ -30,8 +30,8 @@ public class GlStateModifier implements IGlStateModifier {
    * @param id Texture ic
    */
   public void setTexture(int id) {
-//    GlStateManager.TextureState o = GlStateManager.textureState[GlStateManager.activeTextureUnit];
-//    o.textureName = id;
+    GlStateManager.TextureState o = GlStateManager.textureState[GlStateManager.activeTextureUnit];
+    o.textureName = id;
   }
 
   /**
@@ -39,14 +39,13 @@ public class GlStateModifier implements IGlStateModifier {
    */
   @Override
   public void resetColor() {
-//    GlStateManager.colorState.red = -1;
+    GlStateManager.colorState.red = -1;
   }
 
   /**
    * Reset the texture
    */
   public void reset() {
-//    setTexture(-1);
+    setTexture(-1);
   }
-
 }

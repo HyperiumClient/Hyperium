@@ -24,6 +24,5 @@ class GlStateManagerTransformer : ConflictTransformer {
             original.access = Opcodes.ACC_PUBLIC or Opcodes.ACC_STATIC
             return original
         }
-
     }
 }

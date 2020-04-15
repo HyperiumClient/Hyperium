@@ -1,6 +1,7 @@
 package cc.hyperium.launch.patching.conflicts
 
 import cc.hyperium.hooks.ThreadDownloadImageDataHook
+import codes.som.anthony.koffee.insns.jvm._return
 import codes.som.anthony.koffee.insns.jvm.aload_0
 import codes.som.anthony.koffee.insns.jvm.invokestatic
 import codes.som.anthony.koffee.koffee
@@ -12,18 +13,18 @@ class ThreadDownloadImageDataTransformer : ConflictTransformer {
     override fun getClassName() = "bma"
 
     override fun transform(original: ClassNode): ClassNode {
-        original.fields.find {
-            it.name == "cacheFile" || it.name == "imageBuffer" || it.name == "imageUrl"
-        }?.apply {
-            access = Opcodes.ACC_PUBLIC
+        original.fields.filter {
+            it.name == "cacheFile" || it.name == "imageUrl" || it.name == "imageBuffer"
+        }.forEach {
+            it.access = Opcodes.ACC_PUBLIC or Opcodes.ACC_FINAL
         }
 
         original.methods.find {
             it.name == "loadTextureFromServer"
         }?.apply {
             instructions.clear()
-            tryCatchBlocks.clear()
             localVariables.clear()
+            tryCatchBlocks.clear()
             koffee {
                 aload_0
                 invokestatic(
@@ -32,6 +33,7 @@ class ThreadDownloadImageDataTransformer : ConflictTransformer {
                     void,
                     ThreadDownloadImageData::class
                 )
+                _return
             }
         }
 
