@@ -5,7 +5,7 @@ import cc.hyperium.Hyperium;
 public class AddonCheckerUtil {
 
   public static boolean isUsingOptifine() {
-    return isUsingAddon("optifine.OptiFineTweaker");
+    return isUsingAddon("optifine.OptiFineForgeTweaker");
   }
 
   public static boolean isUsingQuickplay() {
