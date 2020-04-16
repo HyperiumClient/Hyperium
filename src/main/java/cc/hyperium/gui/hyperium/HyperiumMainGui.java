@@ -58,10 +58,10 @@ public class HyperiumMainGui extends HyperiumGui {
   private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
   private final HashMap<Field, List<Consumer<Object>>> callbacks = new HashMap<>();
   private final List<Object> settingsObjects = new ArrayList<>();
-  private final HyperiumFontRenderer smol;
-  private final HyperiumFontRenderer font;
-  private final HyperiumFontRenderer title;
-  private final HyperiumFontRenderer title2;
+  private final HyperiumFontRenderer smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0f);
+  private final HyperiumFontRenderer font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0f);
+  private final HyperiumFontRenderer title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0f);
+  private final HyperiumFontRenderer title2 = new HyperiumFontRenderer("roboto medium", 24.0f);
   private final List<AbstractTab> tabs;
   private AbstractTab currentTab;
   private final List<RGBFieldSet> rgbFields = new ArrayList<>();
@@ -70,10 +70,6 @@ public class HyperiumMainGui extends HyperiumGui {
   private final Queue<Alert> alerts = new ArrayDeque<>();
 
   private HyperiumMainGui() {
-    smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F);
-    font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F);
-    title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F);
-    title2 = new HyperiumFontRenderer("roboto medium", 24.0F);
     settingsObjects.add(Settings.INSTANCE);
     settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
     settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig());

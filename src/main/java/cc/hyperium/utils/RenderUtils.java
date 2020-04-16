@@ -17,14 +17,11 @@
 
 package cc.hyperium.utils;
 
+import java.awt.Color;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
-
-import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
 
 public class RenderUtils {
 
@@ -61,8 +58,8 @@ public class RenderUtils {
     GL11.glBegin(GL11.GL_TRIANGLE_FAN);
 
     for (int i = 0; i < 50; i++) {
-      float px = x + radius * MathHelper.sin((float) (i * (6.28318530718 / 50)));
-      float py = y + radius * MathHelper.cos((float) (i * (6.28318530718 / 50)));
+      float px = x + radius * MathHelper.sin((float) (i * 0.12566370614));
+      float py = y + radius * MathHelper.cos((float) (i * 0.12566370614));
 
       bindColor(color);
 
@@ -105,12 +102,11 @@ public class RenderUtils {
     drawSmoothRect(left, top, right, bottom, 4, color);
   }
 
-  public static void drawSmoothRect(int left, int top, int right, int bottom, int circleSize,
-      int color) {
+  public static void drawSmoothRect(int left, int top, int right, int bottom, int circleSize, int color) {
     left += circleSize;
     right -= circleSize;
-    Gui.drawRect(left, top, right, bottom, color);
     int i = circleSize - 1;
+    Gui.drawRect(left, top, right, bottom, color);
     Gui.drawRect(left - circleSize, top + i, left, bottom - i, color);
     Gui.drawRect(right, top + i, right + circleSize, bottom - i, color);
 

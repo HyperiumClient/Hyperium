@@ -339,17 +339,19 @@
          if (!this.skipRenderWorld) {
              this.mcProfiler.endStartSection("gameRenderer");
              this.entityRenderer.updateCameraAndRender(this.timer.renderPartialTicks, i);
-@@ -1062,6 +1120,10 @@
+@@ -1062,7 +1120,11 @@
      }
  
      public int getLimitFramerate() {
+-        return this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
 +        if (Hyperium.INSTANCE.getHandlers().getFpsLimiter().shouldLimitFramerate()) {
 +            return Hyperium.INSTANCE.getHandlers().getFpsLimiter().getFpsLimit();
 +        }
 +
-         return this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
++        return this.theWorld == null && this.currentScreen != null ? 60 : this.gameSettings.limitFramerate;
      }
  
+     public boolean isFramerateLimitBelowMax() {
 @@ -1091,6 +1153,7 @@
       * Update debugProfilerName in response to number keys in debug screen
       */
@@ -509,14 +511,16 @@
          this.loadWorld(worldClientIn, "");
      }
  
-@@ -1986,13 +2109,16 @@
+@@ -1986,13 +2109,18 @@
              this.thePlayer = null;
          }
  
 -        System.gc();
 +        EventBus.INSTANCE.post(new WorldLoadEvent());
 +
-+        if (!Settings.FAST_WORLD_LOADING) return;
++        if (!Settings.FAST_WORLD_LOADING) {
++            System.gc();
++        }
          this.systemTime = 0L;
      }
  
@@ -527,7 +531,7 @@
          int i = 0;
          String s = null;
  
-@@ -2572,6 +2698,12 @@
+@@ -2572,6 +2700,12 @@
  
          if (i != 0 && !Keyboard.isRepeatEvent()) {
              if (!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L) {
@@ -540,7 +544,7 @@
                  if (Keyboard.getEventKeyState()) {
                      if (i == this.gameSettings.keyBindStreamStartStop.getKeyCode()) {
                          if (this.getTwitchStream().isBroadcasting()) {
-@@ -2610,7 +2742,8 @@
+@@ -2610,7 +2744,8 @@
                      } else if (i == this.gameSettings.keyBindFullscreen.getKeyCode()) {
                          this.toggleFullscreen();
                      } else if (i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
@@ -550,7 +554,7 @@
                      }
                  } else if (i == this.gameSettings.keyBindStreamToggleMic.getKeyCode()) {
                      this.stream.muteMicrophone(false);
-@@ -2717,4 +2850,13 @@
+@@ -2717,4 +2852,13 @@
      public void setConnectedToRealms(boolean isConnected) {
          this.connectedToRealms = isConnected;
      }
