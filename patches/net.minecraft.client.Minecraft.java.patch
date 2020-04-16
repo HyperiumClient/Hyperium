@@ -86,7 +86,6 @@
       * Starts the game: initializes the canvas, the title, the settings, etcetera.
       */
      private void startGame() throws LWJGLException, IOException {
--        this.gameSettings = new GameSettings(this, this.mcDataDir);
 +        Hyperium.INSTANCE.setLaunchTime(System.currentTimeMillis());
 +        EventBus.INSTANCE.register(Hyperium.INSTANCE);
 +
@@ -104,7 +103,7 @@
 +
 +        SplashProgress.setProgress(1, "Starting Game...");
 +
-+        this.gameSettings = new GameSettings(this, Hyperium.folder);
+         this.gameSettings = new GameSettings(this, this.mcDataDir);
 +
 +        SplashProgress.setProgress(2, "Loading Resources...");
 +

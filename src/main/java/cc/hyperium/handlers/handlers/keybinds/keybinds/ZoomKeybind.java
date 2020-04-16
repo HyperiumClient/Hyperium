@@ -26,17 +26,21 @@ public class ZoomKeybind extends HyperiumKeybind {
     super("Zoom", Keyboard.KEY_C, KeyType.UTIL);
   }
 
+  private final Minecraft mc = Minecraft.getMinecraft();
+  private float previousFov;
+
   @Override
   public void onPress() {
-    Minecraft.getMinecraft().gameSettings.fovSetting -= 50f;
-    Minecraft.getMinecraft().entityRenderer.renderHand = false;
-    Minecraft.getMinecraft().gameSettings.smoothCamera = true;
+    previousFov = mc.gameSettings.fovSetting;
+    mc.gameSettings.fovSetting = 17.5f;
+    mc.entityRenderer.renderHand = false;
+    mc.gameSettings.smoothCamera = true;
   }
 
   @Override
   public void onRelease() {
-    Minecraft.getMinecraft().gameSettings.fovSetting += 50f;
-    Minecraft.getMinecraft().entityRenderer.renderHand = true;
-    Minecraft.getMinecraft().gameSettings.smoothCamera = false;
+    mc.gameSettings.fovSetting = previousFov;
+    mc.entityRenderer.renderHand = true;
+    mc.gameSettings.smoothCamera = false;
   }
 }

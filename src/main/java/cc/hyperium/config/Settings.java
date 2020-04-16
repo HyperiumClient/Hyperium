@@ -527,14 +527,6 @@ public class Settings {
   public static boolean CROSSHAIR_PERSPECTIVE;
 
   @ConfigOpt
-  @ToggleSetting(name = "gui.settings.fixchatposition", category = QOL)
-  public static boolean CHAT_POSITION_TWEAK;
-
-  @ConfigOpt
-  @ToggleSetting(name = "gui.settings.tabheight", category = QOL)
-  public static boolean TAB_HEIGHT = true;
-
-  @ConfigOpt
   @SliderSetting(name = "gui.settings.tabopacity", category = QOL, min = 0, max = 100, isInt = true)
   public static int TAB_OPACITY = 100;
 

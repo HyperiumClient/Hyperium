@@ -11,18 +11,7 @@
  import com.google.common.collect.ComparisonChain;
  import com.google.common.collect.Ordering;
  import com.mojang.authlib.GameProfile;
-@@ -61,6 +66,10 @@
-      * Renders the playerlist, its background, headers and footers.
-      */
-     public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn) {
-+        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0 && Settings.TAB_HEIGHT) {
-+            GlStateManager.pushMatrix();
-+            GlStateManager.translate(0, 12, 0);
-+        }
-         NetHandlerPlayClient nethandlerplayclient = this.mc.thePlayer.sendQueue;
-         List<NetworkPlayerInfo> list = field_175252_a.<NetworkPlayerInfo>sortedCopy(nethandlerplayclient.getPlayerInfoMap());
-         int i = 0;
-@@ -68,6 +77,13 @@
+@@ -68,6 +73,13 @@
  
          for (NetworkPlayerInfo networkplayerinfo : list) {
              int k = this.mc.fontRendererObj.getStringWidth(this.getPlayerName(networkplayerinfo));
@@ -36,7 +25,7 @@
              i = Math.max(i, k);
  
              if (scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
-@@ -77,6 +93,9 @@
+@@ -77,6 +89,9 @@
          }
  
          list = list.subList(0, Math.min(list.size(), 80));
@@ -46,33 +35,7 @@
          int l3 = list.size();
          int i4 = l3;
  
-@@ -122,7 +141,7 @@
-         }
- 
-         if (list1 != null) {
--            drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
-+            drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * this.mc.fontRendererObj.FONT_HEIGHT, GuiPlayerTabOverlayHook.getNewColor(-2147483648));
- 
-             for (String s3 : list1) {
-                 int i2 = this.mc.fontRendererObj.getStringWidth(s3);
-@@ -133,14 +152,14 @@
-             ++k1;
-         }
- 
--        drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
-+        drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, GuiPlayerTabOverlayHook.getNewColor(-2147483648));
- 
-         for (int k4 = 0; k4 < l3; ++k4) {
-             int l4 = k4 / i4;
-             int i5 = k4 % i4;
-             int j2 = j1 + l4 * i1 + l4 * 5;
-             int k2 = k1 + i5 * 9;
--            drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
-+            drawRect(j2, k2, j2 + i1, k2 + 8, GuiPlayerTabOverlayHook.getNewColor(553648127));
-             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-             GlStateManager.enableAlpha();
-             GlStateManager.enableBlend();
-@@ -151,7 +170,7 @@
+@@ -151,7 +166,7 @@
                  String s1 = this.getPlayerName(networkplayerinfo1);
                  GameProfile gameprofile = networkplayerinfo1.getGameProfile();
  
@@ -81,7 +44,7 @@
                      EntityPlayer entityplayer = this.mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
                      boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && (gameprofile.getName().equals("Dinnerbone") || gameprofile.getName().equals("Grumm"));
                      this.mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
-@@ -168,6 +187,9 @@
+@@ -168,6 +183,9 @@
                      j2 += 9;
                  }
  
@@ -91,21 +54,7 @@
                  if (networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
                      s1 = EnumChatFormatting.ITALIC + s1;
                      this.mc.fontRendererObj.drawStringWithShadow(s1, (float)j2, (float)k2, -1862270977);
-@@ -190,17 +212,55 @@
- 
-         if (list2 != null) {
-             k1 = k1 + i4 * 9 + 1;
--            drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list2.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
- 
-+            drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list2.size() * this.mc.fontRendererObj.FONT_HEIGHT, GuiPlayerTabOverlayHook.getNewColor(-2147483648));
-             for (String s4 : list2) {
-                 int j5 = this.mc.fontRendererObj.getStringWidth(s4);
-                 this.mc.fontRendererObj.drawStringWithShadow(s4, (float)(width / 2 - j5 / 2), (float)k1, -1);
-                 k1 += this.mc.fontRendererObj.FONT_HEIGHT;
-             }
-         }
-+
-+        GlStateManager.popMatrix();
+@@ -201,6 +219,42 @@
      }
  
      protected void drawPing(int p_175245_1_, int p_175245_2_, int p_175245_3_, NetworkPlayerInfo networkPlayerInfoIn) {
@@ -148,7 +97,7 @@
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.mc.getTextureManager().bindTexture(icons);
          int i = 0;
-@@ -221,7 +281,7 @@
+@@ -221,7 +275,7 @@
          }
  
          this.zLevel += 100.0F;
@@ -157,7 +106,7 @@
          this.zLevel -= 100.0F;
      }
  
-@@ -305,6 +365,7 @@
+@@ -305,6 +359,7 @@
      }
  
      public void setHeader(IChatComponent headerIn) {

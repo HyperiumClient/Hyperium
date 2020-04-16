@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 
 public class CloudHandler {
 
-  private CloudRenderer cloudRenderer = new CloudRenderer();
+  private final CloudRenderer cloudRenderer = new CloudRenderer();
 
   @InvokeEvent
   public void checkSettings(TickEvent event) {

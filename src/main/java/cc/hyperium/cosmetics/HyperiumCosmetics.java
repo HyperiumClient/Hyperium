@@ -17,7 +17,6 @@
 
 package cc.hyperium.cosmetics;
 
-import cc.hyperium.cosmetics.butt.ButtCosmetic;
 import cc.hyperium.cosmetics.companions.dragon.DragonCompanion;
 import cc.hyperium.cosmetics.companions.hamster.HamsterCompanion;
 import cc.hyperium.cosmetics.deadmau5.Deadmau5Cosmetic;
@@ -45,7 +44,6 @@ public class HyperiumCosmetics {
   private final Deadmau5Cosmetic deadmau5Cosmetic;
   private final WingsCosmetic wingsCosmetic;
   private final DragonCosmetic dragonCosmetic;
-  private final ButtCosmetic buttCosmetic;
   private final DragonCompanion dragonCompanion;
   private final HamsterCompanion hamsterCompanion;
   private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT)
@@ -64,7 +62,6 @@ public class HyperiumCosmetics {
    * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
    */
   public HyperiumCosmetics() {
-    registerCosmetic(buttCosmetic = new ButtCosmetic());
     registerCosmetic(flipCosmetic = new FlipCosmetic());
     registerCosmetic(deadmau5Cosmetic = new Deadmau5Cosmetic());
     registerCosmetic(wingsCosmetic = new WingsCosmetic());
@@ -120,11 +117,7 @@ public class HyperiumCosmetics {
    * @return - Given Abstract Cosmetic Class
    */
   public AbstractCosmetic getCosmetic(EnumCosmeticType givenType) {
-
     switch (givenType) {
-
-      case BUTT:
-        return buttCosmetic;
       case FLIP:
         return flipCosmetic;
       case DEADMAU5:
@@ -139,13 +132,7 @@ public class HyperiumCosmetics {
         return fezCosmetic;
       default:
         return null;
-
     }
-
-  }
-
-  public ButtCosmetic getButtCosmetic() {
-    return buttCosmetic;
   }
 
   public DragonCosmetic getDragonCosmetic() {

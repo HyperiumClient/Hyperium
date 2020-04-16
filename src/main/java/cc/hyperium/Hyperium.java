@@ -18,7 +18,25 @@
 package cc.hyperium;
 
 import cc.hyperium.commands.HyperiumCommandHandler;
-import cc.hyperium.commands.defaults.*;
+import cc.hyperium.commands.defaults.CloudWireframeCommand;
+import cc.hyperium.commands.defaults.CommandBossbarGui;
+import cc.hyperium.commands.defaults.CommandChangeFov;
+import cc.hyperium.commands.defaults.CommandClearChat;
+import cc.hyperium.commands.defaults.CommandConfigGui;
+import cc.hyperium.commands.defaults.CommandCoords;
+import cc.hyperium.commands.defaults.CommandDebug;
+import cc.hyperium.commands.defaults.CommandDisableCommand;
+import cc.hyperium.commands.defaults.CommandFetchStaff;
+import cc.hyperium.commands.defaults.CommandGarbageCollect;
+import cc.hyperium.commands.defaults.CommandGuild;
+import cc.hyperium.commands.defaults.CommandKeybinds;
+import cc.hyperium.commands.defaults.CommandLogs;
+import cc.hyperium.commands.defaults.CommandMessage;
+import cc.hyperium.commands.defaults.CommandNameHistory;
+import cc.hyperium.commands.defaults.CommandParticleAuras;
+import cc.hyperium.commands.defaults.CommandParty;
+import cc.hyperium.commands.defaults.CommandPing;
+import cc.hyperium.commands.defaults.CommandStats;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
@@ -49,16 +67,21 @@ import cc.hyperium.resources.ClassLoaderResourcePack;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.AddonCheckerUtil;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
-
-import java.io.*;
-import java.util.List;
 
 public class Hyperium {
 
