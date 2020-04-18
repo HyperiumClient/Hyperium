@@ -21,15 +21,17 @@
  
              KeyBinding.resetKeyBindingArrayAndHash();
          } else if (button.id < 100 && button instanceof GuiOptionButton) {
-@@ -106,6 +113,7 @@
+@@ -105,7 +112,9 @@
+         if (this.buttonId != null) {
              if (keyCode == 1) {
                  this.options.setOptionKeyBinding(this.buttonId, 0);
++                Hyperium.INSTANCE.getHandlers().getKeyBindHandler().setBind(this.buttonId.getKeyDescription(), 0);
              } else if (keyCode != 0) {
 +                Hyperium.INSTANCE.getHandlers().getKeybindHandler().setBind(this.buttonId.getKeyDescription(), keyCode);
                  this.options.setOptionKeyBinding(this.buttonId, keyCode);
              } else if (typedChar > 0) {
                  this.options.setOptionKeyBinding(this.buttonId, typedChar + 256);
-@@ -119,6 +127,11 @@
+@@ -119,6 +128,11 @@
          }
      }
  
@@ -41,7 +43,7 @@
      /**
       * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
       */
-@@ -135,6 +148,13 @@
+@@ -135,6 +149,13 @@
              }
          }
  
