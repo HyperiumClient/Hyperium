@@ -54,6 +54,8 @@ public class HyperiumKeybindHandler {
     // Register all the keybinds in GameSettings after the config has been loaded
     // so that the user can have their keycodes.
     registerKeybindings();
+
+    Minecraft.getMinecraft().gameSettings.loadOptions();
   }
 
   public void registerBinds(HyperiumKeybind... keyBinds) {
