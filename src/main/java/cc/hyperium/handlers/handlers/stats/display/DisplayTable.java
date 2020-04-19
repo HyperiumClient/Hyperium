@@ -28,7 +28,7 @@ import java.util.List;
 
 public class DisplayTable extends StatsDisplayItem {
 
-  private String[][] rows;
+  private final String[][] rows;
   private int[] rowSpacing;
 
   public DisplayTable(String[]... rows) {

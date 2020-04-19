@@ -24,9 +24,9 @@ import java.awt.Color;
 
 public class DisplayLine extends StatsDisplayItem {
 
-  private String value;
-  private int color;
-  private int scale;
+  private final String value;
+  private final int color;
+  private final int scale;
 
   public DisplayLine(String value) {
     this(value, Color.WHITE.getRGB());

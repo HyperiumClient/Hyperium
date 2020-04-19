@@ -48,10 +48,6 @@ public class MojangAuth {
     hash = jsonHolder.optString("hash");
 
     String session = Minecraft.getMinecraft().getSession().getToken();
-    Hyperium.LOGGER
-        .debug("Logging in with details: Server-Hash: {}, Session: {}, UUID: {}", hash, session,
-            uuid);
-
     int statusCode = LoginUtil.joinServer(session, uuid.toString().replace("-", ""), hash);
 
     if (statusCode != 204) {
@@ -62,7 +58,6 @@ public class MojangAuth {
     JsonHolder finalResponse = new JsonHolder(
         Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/auth/final?hash="
             + hash + "&name=" + Minecraft.getMinecraft().getSession().getProfile().getName()));
-    Hyperium.LOGGER.debug("FINAL RESPONSE: " + finalResponse);
     if (finalResponse.optBoolean("success")) {
       accessKey = finalResponse.optString("access_key");
       success = true;

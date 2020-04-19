@@ -21,14 +21,12 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.minecraft.client.Minecraft;
-import org.apache.commons.io.IOUtils;
-
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
+import net.minecraft.client.Minecraft;
+import org.apache.commons.io.IOUtils;
 
 /**
  * Created by Mitchell Katz on 6/8/2017.
@@ -96,7 +94,6 @@ public class Sk1erMod {
   }
 
   public String rawWithAgent(String url) {
-    Hyperium.LOGGER.info("[Sk1erMod] Fetching " + url);
     if (!Hyperium.INSTANCE.isAcceptedTos()) {
       return new JsonHolder().put("success", false).put("cause", "TOS_NOT_ACCEPTED").toString();
     }
@@ -109,19 +106,15 @@ public class Sk1erMod {
       connection = (HttpURLConnection) u.openConnection();
       connection.setRequestMethod("GET");
       connection.setUseCaches(true);
-      connection.addRequestProperty("User-Agent",
-          "Mozilla/4.76 (" + modid + " V" + version + ") via Hyperium ");
+      connection.addRequestProperty("User-Agent", "Mozilla/4.76 (" + modid + " V" + version + ") via Hyperium ");
       connection.setReadTimeout(15000);
       connection.setConnectTimeout(15000);
       connection.setDoOutput(true);
-      InputStream is = connection.getInputStream();
-      return IOUtils.toString(is, StandardCharsets.UTF_8);
+      return IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      if (connection != null) {
-        connection.disconnect();
-      }
+      IOUtils.close(connection);
     }
 
     JsonObject object = new JsonObject();

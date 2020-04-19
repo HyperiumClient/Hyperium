@@ -181,13 +181,13 @@ public class Hyperium {
               this.client = new NettyClient(networkHandler);
               UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
             } catch (Exception e) {
-              LOGGER.error("Failed to initialize Netty & register Login Reply.");
+              LOGGER.error("Failed to initialize Netty & register Login Reply.", e);
             }
           });
 
       // Get the build id
       createBuildId();
-      LOGGER.info("Hyperium Build ID: {}", BUILD_ID);
+      LOGGER.info(isDevEnv ? "User is in a development environment, build id is -1." : "Hyperium Build ID: {}", BUILD_ID);
 
       // Check for if the user is in a developers environment
       checkForDevEnvironment();

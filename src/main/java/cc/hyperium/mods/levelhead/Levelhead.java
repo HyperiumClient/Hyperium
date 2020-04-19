@@ -108,7 +108,9 @@ public class Levelhead extends AbstractMod {
     Multithreading.runAsync(() -> {
       auth.auth();
       if (auth.isFailed()) {
-        Hyperium.LOGGER.warn("Failed to authenticate with Levelhead: {}", auth.getFailedMessage());
+        if (!auth.getFailedMessage().contains("TOS")) {
+          Hyperium.LOGGER.warn("Failed to authenticate with Levelhead: {}", auth.getFailedMessage());
+        }
       }
     });
 
