@@ -21,10 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.client.TickEvent;
 import cc.hyperium.event.world.WorldUnloadEvent;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import cc.hyperium.utils.mods.AddonCheckerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.IImageBuffer;
@@ -36,6 +33,11 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 import net.minecraft.util.ResourceLocation;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MemoryHelper {
 
@@ -180,9 +182,13 @@ public class MemoryHelper {
     if (skinLocation == null) {
       return;
     }
+
     TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
     Map<ResourceLocation, ITextureObject> mapTextureObjects = textureManager.mapTextureObjects;
     textureManager.deleteTexture(skinLocation);
-    mapTextureObjects.remove(skinLocation); // not needed with optifine but needed without it
+
+    if (!AddonCheckerUtil.isUsingOptifine()) {
+      mapTextureObjects.remove(skinLocation); // not needed with optifine but needed without it
+    }
   }
 }

@@ -1,0 +1,10 @@
+--- original/net/minecraft/world/pathfinder/NodeProcessor.java
++++ changed/net/minecraft/world/pathfinder/NodeProcessor.java
+@@ -27,6 +27,7 @@
+      * net.minecraft.world.pathfinder.WalkNodeProcessor#avoidsWater avoidsWater}
+      */
+     public void postProcess() {
++        blockaccess = null;
+     }
+ 
+     /**
