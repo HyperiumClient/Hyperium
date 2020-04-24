@@ -16,8 +16,11 @@ plugins {
     id 'maven-publish'
 }
 
+def kotlinVersion = '1.3.72'
+
 apply plugin: 'club.ampthedev.mcgradle'
 
+//noinspection GroovyUnusedAssignment
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava.options.encoding = 'UTF-8'
 
@@ -28,9 +31,8 @@ mcgradle {
     args += ['--tweakClass', 'cc.hyperium.launch.HyperiumTweaker']
 }
 
-mcgradle.hyperiumVersion = project.version
-
 group 'cc.hyperium'
+mcgradle.hyperiumVersion = project.version
 
 configurations {
     embed
@@ -39,20 +41,9 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://jitpack.io'
-    }
-    maven {
-        url 'https://libraries.minecraft.net'
-    }
-    maven {
-        url 'https://repo.spongepowered.org/maven'
-    }
-}
-
-configurations {
-    embed
-    compile.extendsFrom embed
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://libraries.minecraft.net' }
+    maven { url 'https://repo.spongepowered.org/maven' }
 }
 
 // Jitpack compatibility
@@ -62,8 +53,8 @@ if (!new File(projectDir, 'src/minecraft').exists()) {
 }
 
 dependencies {
-    library "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72"
-    library "org.jetbrains.kotlin:kotlin-reflect:1.3.72"
+    library "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    library "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
     library 'com.github.jagrosh:DiscordIPC:e29d6d8'
 

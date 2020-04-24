@@ -64,6 +64,15 @@
  import net.minecraft.world.EnumDifficulty;
  import net.minecraft.world.WorldProviderEnd;
  import net.minecraft.world.WorldProviderHell;
+@@ -206,7 +236,7 @@
+     private static Minecraft theMinecraft;
+     public PlayerControllerMP playerController;
+     private boolean fullscreen;
+-    private boolean enableGLErrorChecking = true;
++    private boolean enableGLErrorChecking = false;
+     private boolean hasCrashed;
+     /** Instance of CrashReport. */
+     private CrashReport crashReporter;
 @@ -226,7 +256,7 @@
      private Entity renderViewEntity;
      public Entity pointedEntity;
@@ -126,17 +135,16 @@
          OpenGlHelper.initializeTextures();
          this.framebufferMc = new Framebuffer(this.displayWidth, this.displayHeight, true);
          this.framebufferMc.setFramebufferColor(0.0F, 0.0F, 0.0F, 0.0F);
-@@ -524,6 +581,9 @@
+@@ -524,6 +581,8 @@
          }
  
          this.renderGlobal.makeEntityOutlineShader();
 +
-+        enableGLErrorChecking = Hyperium.INSTANCE.isDevEnv();
 +        EventBus.INSTANCE.post(new InitializationEvent());
      }
  
      private void registerMetadataSerializers() {
-@@ -567,35 +627,37 @@
+@@ -567,35 +626,37 @@
      }
  
      private void setInitialDisplayMode() throws LWJGLException {
@@ -197,7 +205,7 @@
              }
          }
      }
-@@ -648,7 +710,12 @@
+@@ -648,7 +709,12 @@
       */
      public void displayCrashReport(CrashReport crashReportIn) {
          File file1 = new File(getMinecraft().mcDataDir, "crash-reports");
@@ -211,7 +219,7 @@
          Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
  
          if (crashReportIn.getFile() != null) {
-@@ -755,51 +822,7 @@
+@@ -755,51 +821,7 @@
      }
  
      private void drawSplashScreen(TextureManager textureManagerInstance) throws LWJGLException {
@@ -264,7 +272,7 @@
      }
  
      /**
-@@ -844,14 +867,27 @@
+@@ -844,14 +866,27 @@
          }
  
          if (guiScreenIn == null && this.theWorld == null) {
@@ -296,7 +304,7 @@
          }
  
          this.currentScreen = (GuiScreen)guiScreenIn;
-@@ -867,6 +903,10 @@
+@@ -867,6 +902,10 @@
              this.mcSoundHandler.resumeSounds();
              this.setIngameFocus();
          }
@@ -307,7 +315,7 @@
      }
  
      /**
-@@ -916,6 +956,20 @@
+@@ -916,6 +955,20 @@
       * Called repeatedly from run()
       */
      private void runGameLoop() throws IOException {
@@ -328,7 +336,7 @@
          long i = System.nanoTime();
          this.mcProfiler.startSection("root");
  
-@@ -965,6 +1019,10 @@
+@@ -965,6 +1018,10 @@
  
          this.mcProfiler.endSection();
  
@@ -339,7 +347,7 @@
          if (!this.skipRenderWorld) {
              this.mcProfiler.endStartSection("gameRenderer");
              this.entityRenderer.updateCameraAndRender(this.timer.renderPartialTicks, i);
-@@ -1062,7 +1120,11 @@
+@@ -1062,7 +1119,11 @@
      }
  
      public int getLimitFramerate() {
@@ -352,7 +360,7 @@
      }
  
      public boolean isFramerateLimitBelowMax() {
-@@ -1091,6 +1153,7 @@
+@@ -1091,6 +1152,7 @@
       * Update debugProfilerName in response to number keys in debug screen
       */
      private void updateDebugProfilerName(int keyCount) {
@@ -360,7 +368,7 @@
          List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
  
          if (list != null && !list.isEmpty()) {
-@@ -1222,6 +1285,7 @@
+@@ -1222,6 +1284,7 @@
       * Called when the window is closing. Sets 'running' to false which allows the game loop to exit cleanly.
       */
      public void shutdown() {
@@ -368,7 +376,7 @@
          this.running = false;
      }
  
-@@ -1232,6 +1296,9 @@
+@@ -1232,6 +1295,9 @@
      public void setIngameFocus() {
          if (Display.isActive()) {
              if (!this.inGameHasFocus) {
@@ -378,7 +386,7 @@
                  this.inGameHasFocus = true;
                  this.mouseHelper.grabMouseCursor();
                  this.displayGuiScreen((GuiScreen)null);
-@@ -1314,6 +1381,8 @@
+@@ -1314,6 +1380,8 @@
                  }
              }
          }
@@ -387,7 +395,7 @@
      }
  
      /**
-@@ -1344,6 +1413,11 @@
+@@ -1344,6 +1412,11 @@
                      if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
                          int i = itemstack != null ? itemstack.stackSize : 0;
  
@@ -399,7 +407,7 @@
                          if (this.playerController.onPlayerRightClick(this.thePlayer, this.theWorld, itemstack, blockpos, this.objectMouseOver.sideHit, this.objectMouseOver.hitVec)) {
                              flag = false;
                              this.thePlayer.swingItem();
-@@ -1364,12 +1438,18 @@
+@@ -1364,12 +1437,18 @@
  
              if (flag) {
                  ItemStack itemstack1 = this.thePlayer.inventory.getCurrentItem();
@@ -418,7 +426,7 @@
      }
  
      /**
-@@ -1414,6 +1494,25 @@
+@@ -1414,6 +1493,25 @@
  
              Display.setFullscreen(this.fullscreen);
              Display.setVSyncEnabled(this.gameSettings.enableVsync);
@@ -444,7 +452,7 @@
              this.updateDisplay();
          } catch (Exception exception) {
              logger.error((String)"Couldn\'t toggle fullscreen", (Throwable)exception);
-@@ -1528,6 +1627,9 @@
+@@ -1528,6 +1626,9 @@
  
              while (Mouse.next()) {
                  int i = Mouse.getEventButton();
@@ -454,7 +462,7 @@
                  KeyBinding.setKeyBindState(i - 100, Mouse.getEventButtonState());
  
                  if (Mouse.getEventButtonState()) {
-@@ -1777,6 +1879,8 @@
+@@ -1777,6 +1878,8 @@
              }
  
              this.sendClickBlockToController(this.currentScreen == null && this.gameSettings.keyBindAttack.isKeyDown() && this.inGameHasFocus);
@@ -463,7 +471,7 @@
          }
  
          if (this.theWorld != null) {
-@@ -1857,12 +1961,18 @@
+@@ -1857,12 +1960,18 @@
  
          this.mcProfiler.endSection();
          this.systemTime = getSystemTime();
@@ -482,7 +490,7 @@
          this.loadWorld((WorldClient)null);
          System.gc();
          ISaveHandler isavehandler = this.saveLoader.getSaveLoader(folderName, false);
-@@ -1912,7 +2022,15 @@
+@@ -1912,7 +2021,15 @@
          NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
          networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, this, (GuiScreen)null));
          networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
@@ -499,7 +507,7 @@
          this.myNetworkManager = networkmanager;
      }
  
-@@ -1920,6 +2038,11 @@
+@@ -1920,6 +2037,11 @@
       * unloads the current world first
       */
      public void loadWorld(WorldClient worldClientIn) {
@@ -511,7 +519,7 @@
          this.loadWorld(worldClientIn, "");
      }
  
-@@ -1986,13 +2109,18 @@
+@@ -1986,13 +2108,18 @@
              this.thePlayer = null;
          }
  
@@ -531,7 +539,7 @@
          int i = 0;
          String s = null;
  
-@@ -2572,6 +2700,12 @@
+@@ -2572,6 +2699,12 @@
  
          if (i != 0 && !Keyboard.isRepeatEvent()) {
              if (!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L) {
@@ -544,7 +552,7 @@
                  if (Keyboard.getEventKeyState()) {
                      if (i == this.gameSettings.keyBindStreamStartStop.getKeyCode()) {
                          if (this.getTwitchStream().isBroadcasting()) {
-@@ -2610,7 +2744,8 @@
+@@ -2610,7 +2743,8 @@
                      } else if (i == this.gameSettings.keyBindFullscreen.getKeyCode()) {
                          this.toggleFullscreen();
                      } else if (i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
@@ -554,7 +562,7 @@
                      }
                  } else if (i == this.gameSettings.keyBindStreamToggleMic.getKeyCode()) {
                      this.stream.muteMicrophone(false);
-@@ -2717,4 +2852,13 @@
+@@ -2717,4 +2851,13 @@
      public void setConnectedToRealms(boolean isConnected) {
          this.connectedToRealms = isConnected;
      }

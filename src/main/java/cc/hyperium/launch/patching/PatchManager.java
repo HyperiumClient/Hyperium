@@ -265,16 +265,17 @@ public class PatchManager {
         new TileEntityEndPortalRendererTransformer(),
         new ResourcePackRepositoryTransformer(),
         new TextureManagerTransformer(),
-        new GlStateManagerTransformer(),
-        new GlStateManagerTransformer.GlStateSubclassTransformer("e"), // color
-        new GlStateManagerTransformer.GlStateSubclassTransformer("r"), // texture
-        new NoopTransformer("bet"),
-        new NoopTransformer("bfr"),
+        new AbstractClientPlayerTransformer(),
+        new RenderGlobalTransformer(),
+        new NoopTransformer("bfl"),
+        new NoopTransformer("bfl$e"),
+        new NoopTransformer("bfl$r"),
         new NoopTransformer("biv"),
         new NoopTransformer("bjl"),
         new NoopTransformer("avo"),
-//        new AbstractClientPlayerTransformer(),
-//        new RenderGlobalTransformer(),
+//        new GlStateManagerTransformer(),
+//        new GlStateManagerTransformer.GlStateSubclassTransformer("e"), // color
+//        new GlStateManagerTransformer.GlStateSubclassTransformer("r"), // texture
 //        new RenderTransformer(),
 //        new RendererLivingEntityTransformer(),
 //        new GuiIngameTransformer(),

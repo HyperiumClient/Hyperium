@@ -1,17 +1,16 @@
 --- original/net/minecraft/client/entity/AbstractClientPlayer.java
 +++ changed/net/minecraft/client/entity/AbstractClientPlayer.java
-@@ -1,5 +1,10 @@
+@@ -1,5 +1,9 @@
  package net.minecraft.client.entity;
  
-+import cc.hyperium.event.EventBus;
-+import cc.hyperium.event.entity.FovUpdateEvent;
 +import cc.hyperium.handlers.handlers.cape.HyperiumCapeHandler;
++import cc.hyperium.hooks.AbstractClientPlayerHook;
 +import cc.hyperium.mods.nickhider.NickHider;
 +import cc.hyperium.mods.nickhider.config.NickHiderConfig;
  import com.mojang.authlib.GameProfile;
  import java.io.File;
  import net.minecraft.client.Minecraft;
-@@ -24,8 +29,12 @@
+@@ -24,8 +28,12 @@
  public abstract class AbstractClientPlayer extends EntityPlayer {
      private NetworkPlayerInfo playerInfo;
  
@@ -24,7 +23,7 @@
      }
  
      /**
-@@ -43,7 +52,7 @@
+@@ -43,7 +51,7 @@
          return this.getPlayerInfo() != null;
      }
  
@@ -33,7 +32,7 @@
          if (this.playerInfo == null) {
              this.playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(this.getUniqueID());
          }
-@@ -63,11 +72,39 @@
+@@ -63,11 +71,39 @@
       * Returns true if the player instance has an associated skin.
       */
      public ResourceLocation getLocationSkin() {
@@ -73,7 +72,7 @@
          NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
          return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
      }
-@@ -92,6 +129,19 @@
+@@ -92,37 +128,24 @@
      }
  
      public String getSkinType() {
@@ -93,14 +92,35 @@
          NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
          return networkplayerinfo == null ? DefaultPlayerSkin.getSkinType(this.getUniqueID()) : networkplayerinfo.getSkinType();
      }
-@@ -123,6 +173,9 @@
-             f *= 1.0F - f1 * 0.15F;
-         }
  
+     public float getFovModifier() {
+-        float f = 1.0F;
+-
+-        if (this.capabilities.isFlying) {
+-            f *= 1.1F;
+-        }
+-
+-        IAttributeInstance iattributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+-        f = (float)((double)f * ((iattributeinstance.getAttributeValue() / (double)this.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
+-
+-        if (this.capabilities.getWalkSpeed() == 0.0F || Float.isNaN(f) || Float.isInfinite(f)) {
+-            f = 1.0F;
+-        }
+-
+-        if (this.isUsingItem() && this.getItemInUse().getItem() == Items.bow) {
+-            int i = this.getItemInUseDuration();
+-            float f1 = (float)i / 20.0F;
+-
+-            if (f1 > 1.0F) {
+-                f1 = 1.0F;
+-            } else {
+-                f1 = f1 * f1;
+-            }
+-
+-            f *= 1.0F - f1 * 0.15F;
+-        }
+-
 -        return f;
-+        // Hyperium
-+        FovUpdateEvent event = new FovUpdateEvent(this, f);
-+        EventBus.INSTANCE.post(event);
-+        return event.getNewFov();
++        return AbstractClientPlayerHook.getFovModifierHook(this);
      }
  }

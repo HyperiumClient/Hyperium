@@ -65,7 +65,7 @@ class RenderGlobalTransformer : ConflictTransformer {
                         if (insn is LdcInsnNode) {
                             if (insn.cst == -3.0F && insn.next is LdcInsnNode) {
                                 insn.cst = -1.0F
-                            } else {
+                            } else if (insn.cst == -3.0f && insn.next !is LdcInsnNode) {
                                 insn.cst = -10.0F
                             }
                         }
@@ -110,15 +110,15 @@ class RenderGlobalTransformer : ConflictTransformer {
                     val (cancelParticleRendering) = assembleBlock {
                         iload(16)
                         iconst_3
-                        if_icmpne(L["4"])
+                        if_icmpne(L["400"])
                         aconst_null
                         areturn
-                        +L["4"]
+                        +L["400"]
                     }
 
                     for (insn in it.instructions.iterator()) {
                         if (insn is FieldInsnNode && insn.name == "particleSetting") {
-                            it.instructions.insertBefore(insn.next.next, cancelParticleRendering)
+                            it.instructions.insertBefore(insn.next?.next, cancelParticleRendering)
                         }
                     }
                 }

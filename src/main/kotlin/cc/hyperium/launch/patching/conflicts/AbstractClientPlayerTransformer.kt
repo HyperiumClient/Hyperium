@@ -1,19 +1,17 @@
 package cc.hyperium.launch.patching.conflicts
 
-import cc.hyperium.event.Event
-import cc.hyperium.event.EventBus
-import cc.hyperium.event.entity.FovUpdateEvent
 import cc.hyperium.handlers.handlers.cape.HyperiumCapeHandler
+import cc.hyperium.hooks.AbstractClientPlayerHook
 import cc.hyperium.mods.nickhider.NickHider
 import cc.hyperium.mods.nickhider.config.NickHiderConfig
 import codes.som.anthony.koffee.assembleBlock
 import codes.som.anthony.koffee.insns.jvm.*
+import codes.som.anthony.koffee.koffee
 import com.mojang.authlib.GameProfile
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.resources.DefaultPlayerSkin
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ResourceLocation
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.tree.ClassNode
@@ -43,7 +41,7 @@ class AbstractClientPlayerTransformer : ConflictTransformer {
                         putfield(AbstractClientPlayer::class, "hook", HyperiumCapeHandler::class)
                     }
 
-                    it.instructions.insertBefore(it.instructions.first, createHyperiumCapeHandler)
+                    it.instructions.insertBefore(it.instructions.last.previous, createHyperiumCapeHandler)
                 }
 
                 "getPlayerInfo" -> it.access = Opcodes.ACC_PUBLIC
@@ -222,27 +220,13 @@ class AbstractClientPlayerTransformer : ConflictTransformer {
                 }
 
                 "getFovModifier" -> {
-                    // noop
-//                    val (setNewReturn) = assembleBlock {
-//                        new(FovUpdateEvent::class)
-//                        dup
-//                        aload_0
-//                        fload_1
-//                        invokespecial(FovUpdateEvent::class, "<init>", void, EntityPlayer::class, float)
-//                        astore_3
-//                        getstatic(EventBus::class, "INSTANCE", EventBus::class)
-//                        aload_3
-//                        invokevirtual(EventBus::class, "post", void, Event::class)
-//                        aload_3
-//                        invokevirtual(FovUpdateEvent::class, "getNewFov", float)
-//                    }
-//
-//                    for (insn in it.instructions.iterator()) {
-//                        if (insn.opcode == Opcodes.FRETURN) {
-//                            it.instructions.insertBefore(insn, setNewReturn)
-//                            it.instructions.remove(insn.next)
-//                        }
-//                    }
+                    it.instructions.clear()
+                    it.localVariables.clear()
+                    it.koffee {
+                        aload_0
+                        invokestatic(AbstractClientPlayerHook::class, "getFovModifierHook", float, AbstractClientPlayer::class)
+                        freturn
+                    }
                 }
             }
         }
