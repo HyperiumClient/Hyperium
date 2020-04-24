@@ -1,6 +1,13 @@
 --- original/net/minecraft/client/gui/GuiSlot.java
 +++ changed/net/minecraft/client/gui/GuiSlot.java
-@@ -6,10 +6,13 @@
+@@ -1,15 +1,20 @@
+ package net.minecraft.client.gui;
+ 
++import cc.hyperium.config.Settings;
++import cc.hyperium.hooks.GuiSlotHook;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.renderer.GlStateManager;
+ import net.minecraft.client.renderer.Tessellator;
  import net.minecraft.client.renderer.WorldRenderer;
  import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
  import net.minecraft.util.MathHelper;
@@ -14,7 +21,7 @@
  @SideOnly(Side.CLIENT)
  public abstract class GuiSlot {
      protected final Minecraft mc;
-@@ -190,7 +193,6 @@
+@@ -190,7 +195,6 @@
          if (this.field_178041_q) {
              this.mouseX = mouseXIn;
              this.mouseY = mouseYIn;
@@ -22,7 +29,7 @@
              int i = this.getScrollBarX();
              int j = i + 6;
              this.bindAmountScrolled();
-@@ -198,15 +200,22 @@
+@@ -198,15 +202,22 @@
              GlStateManager.disableFog();
              Tessellator tessellator = Tessellator.getInstance();
              WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -37,7 +44,7 @@
 -            tessellator.draw();
 +            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 +            ScaledResolution resolution = new ScaledResolution(mc);
-+            mc.getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/1.png"));
++            mc.getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/" + Settings.BACKGROUND + ".png"));
 +            Gui.drawScaledCustomSizeModalRect(
 +                left,
 +                top,
@@ -54,7 +61,7 @@
              int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
              int l = this.top + 4 - (int)this.amountScrolled;
  
-@@ -224,18 +233,6 @@
+@@ -224,18 +235,6 @@
              GlStateManager.disableAlpha();
              GlStateManager.shadeModel(7425);
              GlStateManager.disableTexture2D();
@@ -73,7 +80,7 @@
              int j1 = this.func_148135_f();
  
              if (j1 > 0) {
-@@ -247,24 +244,8 @@
+@@ -247,24 +246,8 @@
                      l1 = this.top;
                  }
  
@@ -100,7 +107,7 @@
              }
  
              this.func_148142_b(mouseXIn, mouseYIn);
-@@ -420,17 +401,21 @@
+@@ -420,17 +403,7 @@
       * Overlays the background to hide scrolled items
       */
      protected void overlayBackground(int startY, int endY, int startAlpha, int endAlpha) {
@@ -115,21 +122,7 @@
 -        worldrenderer.pos((double)(this.left + this.width), (double)startY, 0.0D).tex((double)((float)this.width / 32.0F), (double)((float)startY / 32.0F)).color(64, 64, 64, startAlpha).endVertex();
 -        worldrenderer.pos((double)this.left, (double)startY, 0.0D).tex(0.0D, (double)((float)startY / 32.0F)).color(64, 64, 64, startAlpha).endVertex();
 -        tessellator.draw();
-+        GlStateManager.color(1f, 1f, 1f, 1f);
-+        ScaledResolution resolution = new ScaledResolution(mc);
-+        mc.getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/1.png"));
-+        int height = endY - startY;
-+        Gui.drawScaledCustomSizeModalRect(0,
-+                                          startY,
-+                                          0,
-+                                          startY,
-+                                          resolution.getScaledWidth(),
-+                                          height,
-+                                          resolution.getScaledWidth(),
-+                                          height,
-+                                          resolution.getScaledWidth(),
-+                                          resolution.getScaledHeight()
-+                                         );
++        GuiSlotHook.overlayBackground(startY, endY);
      }
  
      /**

@@ -42,6 +42,7 @@ import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
 import cc.hyperium.handlers.handlers.server.ProtocolChecker;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
+import cc.hyperium.integrations.patcher.EntityCulling;
 import cc.hyperium.integrations.perspective.PerspectiveModifierHandler;
 import cc.hyperium.integrations.sprint.ToggleSprintContainer;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
@@ -106,6 +107,7 @@ public class HyperiumHandlers {
   private final ConfirmationPopup confirmationPopup;
   private final NetworkInfo networkInfo;
   private final ProtocolChecker protocolChecker;
+  private final EntityCulling entityCulling;
 
   public HyperiumHandlers() {
     Hyperium.LOGGER.info("Loading handlers");
@@ -147,6 +149,7 @@ public class HyperiumHandlers {
     register(keybindHandler = new HyperiumKeybindHandler());
     register(networkInfo = new NetworkInfo());
     register(protocolChecker = new ProtocolChecker());
+    register(entityCulling = new EntityCulling());
     commandQueue = new CommandQueue();
     dataHandler = new HypixelAPI();
     // Chat Handlers
@@ -361,5 +364,9 @@ public class HyperiumHandlers {
 
   public NetworkInfo getNetworkInfo() {
     return networkInfo;
+  }
+
+  public EntityCulling getEntityCulling() {
+    return entityCulling;
   }
 }

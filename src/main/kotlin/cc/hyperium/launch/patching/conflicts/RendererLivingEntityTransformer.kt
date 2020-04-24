@@ -19,6 +19,7 @@ class RendererLivingEntityTransformer : ConflictTransformer {
             when (it.name) {
                 "addLayer" -> it.access = Opcodes.ACC_PUBLIC
 
+                // todo: update to use generic
                 "doRender" -> {
                     val (disableArmorstands) = assembleBlock {
                         getstatic(Settings::class, "DISABLE_ARMORSTANDS", boolean)

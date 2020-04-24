@@ -19,13 +19,18 @@ package cc.hyperium.event.render;
 
 import cc.hyperium.event.CancellableEvent;
 import com.google.common.base.Preconditions;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import org.jetbrains.annotations.NotNull;
 
-public final class EntityRenderEvent extends CancellableEvent {
+public final class EntityRenderEvent<T extends EntityLivingBase> extends CancellableEvent {
 
   @NotNull
-  private final Entity entityIn;
+  private final EntityLivingBase entityIn;
+  private final RenderManager renderManager;
+  private final RendererLivingEntity<T> renderer;
   private final float posX;
   private final float posY;
   private final float posZ;
@@ -33,11 +38,13 @@ public final class EntityRenderEvent extends CancellableEvent {
   private final float yaw;
   private final float scale;
 
-  public EntityRenderEvent(@NotNull Entity entityIn, float posX, float posY, float posZ,
+  public EntityRenderEvent(@NotNull EntityLivingBase entityIn, RendererLivingEntity<T> renderer, RenderManager renderManager, float posX, float posY, float posZ,
       float pitch, float yaw, float scale) {
     Preconditions.checkNotNull(entityIn, "entityIn");
 
     this.entityIn = entityIn;
+    this.renderer = renderer;
+    this.renderManager = renderManager;
     this.posX = posX;
     this.posY = posY;
     this.posZ = posZ;
@@ -47,8 +54,12 @@ public final class EntityRenderEvent extends CancellableEvent {
   }
 
   @NotNull
-  public final Entity getEntityIn() {
+  public final EntityLivingBase getEntityIn() {
     return entityIn;
+  }
+
+  public RendererLivingEntity<T> getRenderer() {
+    return renderer;
   }
 
   public final float getPosX() {
@@ -73,5 +84,9 @@ public final class EntityRenderEvent extends CancellableEvent {
 
   public final float getScale() {
     return scale;
+  }
+
+  public RenderManager getRenderManager() {
+    return renderManager;
   }
 }

@@ -267,6 +267,7 @@ public class PatchManager {
         new TextureManagerTransformer(),
         new AbstractClientPlayerTransformer(),
         new RenderGlobalTransformer(),
+        new GuiSlotTransformer(),
         new NoopTransformer("bfl"),
         new NoopTransformer("bfl$e"),
         new NoopTransformer("bfl$r"),
@@ -281,7 +282,6 @@ public class PatchManager {
 //        new GuiIngameTransformer(),
 
         // TODO: Write actual transformers for these classes
-        new NoopTransformer("awi"),
         new NoopTransformer("bjh"),
         new NoopTransformer("bfn"),
 

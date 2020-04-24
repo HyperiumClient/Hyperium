@@ -534,6 +534,14 @@ public class Settings {
   @ToggleSetting(name = "gui.settings.customtabopacity", category = QOL)
   public static boolean CUSTOM_TAB_OPACITY;
 
+  @ConfigOpt
+  @ToggleSetting(name = "gui.settings.entityculling", category = PERFORMANCE)
+  public static boolean ENTITY_CULLING = true;
+
+  @ConfigOpt
+  @ToggleSetting(name = "gui.settings.dontcullnametags", category = PERFORMANCE)
+  public static boolean DONT_CULL_NAMETAGS;
+
   public static void register() {
     Hyperium.CONFIG.register(INSTANCE);
   }

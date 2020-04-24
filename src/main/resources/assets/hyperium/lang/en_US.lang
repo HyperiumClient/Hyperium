@@ -229,6 +229,8 @@ gui.settings.fixchatposition=1.12 Chat Position
 gui.settings.tabheight=Move Tab down when Bossbar is active
 gui.settings.tabopacity=Tab Opacity
 gui.settings.customtabopacity=Custom Tab Opacity
+gui.settings.entityculling=Entity Culling
+gui.settings.dontcullnametags=Don't Cull Nametags
 
 #Keybind Categories
 keys.categories.hyperium=Hyperium
