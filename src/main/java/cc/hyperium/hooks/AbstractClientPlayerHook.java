@@ -10,34 +10,38 @@ import net.minecraft.init.Items;
 public class AbstractClientPlayerHook {
 
   public static float getFovModifierHook(AbstractClientPlayer player) {
-    float f = 1.0F;
+    float currentFov = 1.0F;
 
     if (player.capabilities.isFlying) {
-      f *= 1.1F;
+      currentFov *= 1.1F;
     }
 
-    IAttributeInstance iattributeinstance = player.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-    f = (float)((double)f * ((iattributeinstance.getAttributeValue() / (double)player.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
+    IAttributeInstance attributes = player
+        .getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+    currentFov = (float) ((double) currentFov * (
+        (attributes.getAttributeValue() / (double) player.capabilities.getWalkSpeed() + 1.0D)
+            / 2.0D));
 
-    if (player.capabilities.getWalkSpeed() == 0.0F || Float.isNaN(f) || Float.isInfinite(f)) {
-      f = 1.0F;
+    if (player.capabilities.getWalkSpeed() == 0.0F || Float.isNaN(currentFov) || Float
+        .isInfinite(currentFov)) {
+      currentFov = 1.0F;
     }
 
     if (player.isUsingItem() && player.getItemInUse().getItem() == Items.bow) {
-      int i = player.getItemInUseDuration();
-      float f1 = (float)i / 20.0F;
+      int itemUseDuration = player.getItemInUseDuration();
+      float tickDuration = (float) itemUseDuration / 20.0F;
 
-      if (f1 > 1.0F) {
-        f1 = 1.0F;
+      if (tickDuration > 1.0F) {
+        tickDuration = 1.0F;
       } else {
-        f1 = f1 * f1;
+        tickDuration = tickDuration * tickDuration;
       }
 
-      f *= 1.0F - f1 * 0.15F;
+      currentFov *= 1.0F - tickDuration * 0.15F;
     }
 
     // Hyperium
-    FovUpdateEvent event = new FovUpdateEvent(player, f);
+    FovUpdateEvent event = new FovUpdateEvent(player, currentFov);
     EventBus.INSTANCE.post(event);
     return event.getNewFov();
   }

@@ -24,7 +24,7 @@ class AbstractClientPlayerTransformer : ConflictTransformer {
         original.visitField(
             Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL,
             "hook",
-            "Lcc/hyperium/handlers/handlers/animation/cape/HyperiumCapeHandler;",
+            "Lcc/hyperium/handlers/handlers/cape/HyperiumCapeHandler;",
             null,
             null
         ).visitEnd()
