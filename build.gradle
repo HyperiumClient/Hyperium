@@ -57,7 +57,7 @@ apply plugin: 'java'
 sourceCompatibility = targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
-version = "1.2.2"
+version = "1.2.3"
 group = "cc.hyperium"
 archivesBaseName = "Hyperium"
 
