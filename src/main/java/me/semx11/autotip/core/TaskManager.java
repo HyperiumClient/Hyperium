@@ -13,7 +13,7 @@ public class TaskManager {
     private final ExecutorService executor;
     private final ScheduledExecutorService scheduler;
 
-    private final Map<TaskType, Future> tasks;
+    private final Map<TaskType, Future<?>> tasks;
 
     public TaskManager() {
         executor = Executors.newCachedThreadPool(getFactory("AutotipThread"));
@@ -51,7 +51,7 @@ public class TaskManager {
 
     public void addRepeatingTask(TaskType type, Runnable command, long delay, long period) {
         if (tasks.containsKey(type)) return;
-        ScheduledFuture future = scheduler.scheduleAtFixedRate(command, delay, period, SECONDS);
+        ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(command, delay, period, SECONDS);
         tasks.put(type, future);
         catchFutureException(type, future);
     }
@@ -63,7 +63,7 @@ public class TaskManager {
         }
     }
 
-    private void catchFutureException(TaskType type, Future future) {
+    private void catchFutureException(TaskType type, Future<?> future) {
         executor.execute(() -> {
             try {
                 future.get();

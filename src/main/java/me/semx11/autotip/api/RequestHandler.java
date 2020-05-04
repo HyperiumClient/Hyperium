@@ -54,7 +54,7 @@ public class RequestHandler {
             return Optional.ofNullable(reply);
         } catch (IOException | JsonParseException e) {
             ErrorReport.reportException(e);
-            Autotip.LOGGER.info(request.getType() + " JSON: " + json);
+            Autotip.LOGGER.debug(request.getType() + " JSON: " + json);
             return Optional.empty();
         } finally {
             if (conn != null) conn.disconnect();

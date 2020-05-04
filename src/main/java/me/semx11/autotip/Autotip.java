@@ -50,7 +50,7 @@ public class Autotip {
 
     static final String MOD_ID = "autotip";
     static final String NAME = "Autotip";
-    static final String VERSION = "3.0";
+    static final String VERSION = "3.0.1";
     static final String ACCEPTED_VERSIONS = "[1.8, 1.12.2]";
 
     public static IChatComponent tabHeader;
@@ -148,7 +148,11 @@ public class Autotip {
 
         messageUtil = new MessageUtil(this);
         registerEvents(new EventClientTick(this));
+        taskManager = new TaskManager();
+        taskManager.schedule(this::setup, 0);
+    }
 
+    private void setup() {
         try {
             fileUtil = new FileUtil(this);
             gson = new GsonBuilder()
@@ -162,7 +166,6 @@ public class Autotip {
             reloadGlobalSettings();
             reloadLocale();
 
-            taskManager = new TaskManager();
             sessionManager = new SessionManager(this);
             statsManager = new StatsManager(this);
             migrationManager = new MigrationManager(this);
@@ -192,7 +195,9 @@ public class Autotip {
 
     public void reloadGlobalSettings() {
         SettingsReply reply = SettingsRequest.of(this).execute();
-        assert reply.isSuccess() : "Connection error while fetching global settings";
+        if (!reply.isSuccess()) {
+            throw new AssertionError("Connection error while fetching global settings");
+        }
         globalSettings = reply.getSettings();
     }
 
@@ -206,18 +211,24 @@ public class Autotip {
 
     @SuppressWarnings("unchecked")
     public <T extends Event> T getEvent(Class<T> clazz) {
-        return (T) events.stream()
-            .filter(event -> event.getClass().equals(clazz))
-            .findFirst()
-            .orElse(null);
+        for (Event event : events) {
+            if (event.getClass().equals(clazz)) {
+                return (T) event;
+            }
+        }
+
+        return null;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends CommandAbstract> T getCommand(Class<T> clazz) {
-        return (T) commands.stream()
-            .filter(command -> command.getClass().equals(clazz))
-            .findFirst()
-            .orElse(null);
+        for (CommandAbstract command : commands) {
+            if (command.getClass().equals(clazz)) {
+                return (T) command;
+            }
+        }
+
+        return null;
     }
 
     private void registerEvents(Event... events) {
@@ -228,9 +239,9 @@ public class Autotip {
     }
 
     private void registerCommands(CommandAbstract... commands) {
-        Arrays.stream(commands).forEach(command -> {
+        for (CommandAbstract command : commands) {
             Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(command);
             this.commands.add(command);
-        });
+        }
     }
 }
