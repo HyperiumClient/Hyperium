@@ -39,7 +39,7 @@
      public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
 +        if (Settings.DISABLE_ARMORSTANDS && entity instanceof EntityArmorStand) return;
 +
-+        final EntityRenderEvent event = new EntityRenderEvent(entity, (float) x, (float) y, (float) z, entity.rotationPitch, entityYaw, 1.0F);
++        final EntityRenderEvent<T> event = new EntityRenderEvent<>(entity, this, renderManager, (float) x, (float) y, (float) z, entity.rotationPitch, entityYaw, 1.0F);
 +        EventBus.INSTANCE.post(event);
 +
 +        if (event.isCancelled()) {

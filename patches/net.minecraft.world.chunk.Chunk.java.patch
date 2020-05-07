@@ -18,6 +18,15 @@
  import net.minecraft.crash.CrashReport;
  import net.minecraft.crash.CrashReportCategory;
  import net.minecraft.entity.Entity;
+@@ -576,7 +581,7 @@
+ 
+                     if (j1 > 0) {
+                         if (j >= i1) {
+-                            this.relightBlock(i, j + 1, k);
++                            this.relightBlock(i, j, k);
+                         }
+                     } else if (j == i1 - 1) {
+                         this.relightBlock(i, j, k);
 @@ -619,6 +624,8 @@
      }
  

@@ -94,6 +94,7 @@ public class GuiScreenSettings extends GuiScreenSidebar implements GuiScreenHelp
         sidebar.scale = 1.0f;
         sidebar.color = 0;
         sidebar.alpha = 50;
+        sidebar.redNumbers = true;
         sidebar.chromaEnabled = false;
         sidebar.chromaSpeed = 2;
         sliderScale.setValue(100.0);

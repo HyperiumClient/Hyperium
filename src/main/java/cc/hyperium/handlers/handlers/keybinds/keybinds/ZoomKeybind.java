@@ -32,7 +32,7 @@ public class ZoomKeybind extends HyperiumKeybind {
   @Override
   public void onPress() {
     previousFov = mc.gameSettings.fovSetting;
-    mc.gameSettings.fovSetting = 17.5f;
+    mc.gameSettings.fovSetting /= 4.0f;
     mc.entityRenderer.renderHand = false;
     mc.gameSettings.smoothCamera = true;
   }

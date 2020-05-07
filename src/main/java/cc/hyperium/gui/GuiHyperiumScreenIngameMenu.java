@@ -22,21 +22,25 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.network.server.ServerLeaveEvent;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
-import cc.hyperium.mods.accountswitcher.AccountSwitcher;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiMultiplayer;
+import net.minecraft.client.gui.GuiOptions;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiShareToLan;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-
-import java.io.IOException;
-import java.text.DecimalFormat;
 
 public class GuiHyperiumScreenIngameMenu extends GuiScreen {
 

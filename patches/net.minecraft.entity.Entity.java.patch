@@ -8,6 +8,15 @@
  import net.minecraft.command.CommandResultStats;
  import net.minecraft.command.ICommandSender;
  import net.minecraft.crash.CrashReport;
+@@ -1004,7 +1005,7 @@
+     @SideOnly(Side.CLIENT)
+     public int getBrightnessForRender(float partialTicks) {
+         BlockPos blockpos = new BlockPos(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ);
+-        return this.worldObj.isBlockLoaded(blockpos) ? this.worldObj.getCombinedLight(blockpos, 0) : 0;
++        return this.worldObj.getCombinedLight(blockpos, 0);
+     }
+ 
+     /**
 @@ -2145,14 +2146,25 @@
          return true;
      }

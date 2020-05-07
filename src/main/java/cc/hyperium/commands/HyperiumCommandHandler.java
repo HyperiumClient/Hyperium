@@ -23,13 +23,25 @@ import cc.hyperium.event.network.chat.SendChatMessageEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.mods.AddonCheckerUtil;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.command.CommandBase;
-
-import java.io.*;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * This is our custom client-side command implementation, it handles most of the command logic and
@@ -310,15 +322,14 @@ public class HyperiumCommandHandler {
         return;
       }
 
-      FileWriter fileWriter = new FileWriter(disabledCommandFile);
-      BufferedWriter writer = new BufferedWriter(fileWriter);
+      BufferedWriter writer = new BufferedWriter(new FileWriter(disabledCommandFile));
 
       for (String s : disabledCommands) {
         writer.write(s + System.lineSeparator());
       }
 
       writer.close();
-      fileWriter.close();
+      writer.flush();
     } catch (IOException ignored) {
     }
   }
