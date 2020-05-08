@@ -158,6 +158,7 @@ public class ImgurUploader implements Runnable {
       rd.close();
     } catch (Exception e) {
       GeneralChatHandler.instance().sendMessage("Error occurred while uploading.");
+      e.printStackTrace();
     } finally {
       if (conn != null) {
         conn.disconnect();
