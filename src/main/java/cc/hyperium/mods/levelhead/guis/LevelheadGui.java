@@ -883,7 +883,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
 
       GuiYesNo gui = new GuiYesNo(this, "Purchase " + finalName, "Description:" +
           " " + description + ". This item may be purchased " + (single ? "one time" : "many times")
-          + ". Type: Display" + (display ? "Display" : "Extra Stat"),
+          + ". Type: " + (display ? "Display" : "Extra Stat"),
           "Purchase for "
               + cost + " credits", "Cancel", key.hashCode());
       Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(gui);
