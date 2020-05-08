@@ -38,8 +38,8 @@ import java.util.stream.Collectors;
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class KeybindConfiguration {
 
-  private HyperiumKeybindHandler keybindHandler;
-  private File keybindFile;
+  private final HyperiumKeybindHandler keybindHandler;
+  private final File keybindFile;
   private BetterJsonObject keyBindJson = new BetterJsonObject();
 
   public KeybindConfiguration(HyperiumKeybindHandler keybindHandler) {
@@ -60,8 +60,7 @@ public class KeybindConfiguration {
       }
       keyBindJson.writeToFile(keybindFile);
     } catch (IOException ex) {
-      Hyperium.LOGGER.warn(
-        "An error occurred while saving the Hyperium KeyBinds, uh oh...");
+      Hyperium.LOGGER.warn("An error occurred while saving the Hyperium Keybinds, uh oh...", ex);
     }
   }
 
@@ -71,12 +70,8 @@ public class KeybindConfiguration {
       return;
     }
 
-    try {
-      FileReader fr = new FileReader(keybindFile);
-      BufferedReader br = new BufferedReader(fr);
+    try (BufferedReader br = new BufferedReader(new FileReader(keybindFile))) {
       keyBindJson = new BetterJsonObject(br.lines().collect(Collectors.joining()));
-      fr.close();
-      br.close();
     } catch (Exception ex) {
       save();
       return;
@@ -85,6 +80,7 @@ public class KeybindConfiguration {
     for (HyperiumKeybind bind : keybindHandler.getKeybinds().values()) {
       bind.setKeyCode(keyBindJson.optInt(bind.getDescription(), bind.getDefaultKeyCode()));
     }
+
     // Reload the Minecraft key file, since this seems to fix it.
     Minecraft.getMinecraft().gameSettings.loadOptions();
   }

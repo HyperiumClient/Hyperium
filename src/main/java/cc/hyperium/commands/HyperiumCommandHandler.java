@@ -280,7 +280,7 @@ public class HyperiumCommandHandler {
   public void loadDisabledCommands() {
     File disabledCommandFile = new File(Hyperium.folder, "disabledcommands.txt");
 
-    try {
+    try (BufferedReader reader = new BufferedReader(new FileReader(disabledCommandFile))) {
       if (!disabledCommandFile.getParentFile().exists() && !disabledCommandFile.getParentFile()
           .mkdirs()) {
         return;
@@ -291,13 +291,7 @@ public class HyperiumCommandHandler {
         return;
       }
 
-      FileReader fileReader = new FileReader(disabledCommandFile);
-      BufferedReader reader = new BufferedReader(fileReader);
-
       disabledCommands.addAll(reader.lines().collect(Collectors.toList()));
-
-      reader.close();
-      fileReader.close();
     } catch (IOException ignored) {
     }
 
@@ -312,7 +306,7 @@ public class HyperiumCommandHandler {
   public void saveDisabledCommands() {
     File disabledCommandFile = new File(Hyperium.folder, "disabledcommands.txt");
 
-    try {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(disabledCommandFile))) {
       if (!disabledCommandFile.getParentFile().exists() && !disabledCommandFile.getParentFile()
           .mkdirs()) {
         return;
@@ -322,14 +316,9 @@ public class HyperiumCommandHandler {
         return;
       }
 
-      BufferedWriter writer = new BufferedWriter(new FileWriter(disabledCommandFile));
-
       for (String s : disabledCommands) {
         writer.write(s + System.lineSeparator());
       }
-
-      writer.close();
-      writer.flush();
     } catch (IOException ignored) {
     }
   }

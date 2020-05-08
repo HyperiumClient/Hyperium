@@ -29,7 +29,7 @@
              int i = this.getScrollBarX();
              int j = i + 6;
              this.bindAmountScrolled();
-@@ -198,15 +202,22 @@
+@@ -198,15 +202,28 @@
              GlStateManager.disableFog();
              Tessellator tessellator = Tessellator.getInstance();
              WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -44,7 +44,13 @@
 -            tessellator.draw();
 +            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 +            ScaledResolution resolution = new ScaledResolution(mc);
-+            mc.getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/" + Settings.BACKGROUND + ".png"));
++            String background = Settings.BACKGROUND;
++
++            if (background.equals("CUSTOM")) {
++                background = "1";
++            }
++
++            mc.getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/" + background + ".png"));
 +            Gui.drawScaledCustomSizeModalRect(
 +                left,
 +                top,
@@ -61,7 +67,7 @@
              int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
              int l = this.top + 4 - (int)this.amountScrolled;
  
-@@ -224,18 +235,6 @@
+@@ -224,18 +241,6 @@
              GlStateManager.disableAlpha();
              GlStateManager.shadeModel(7425);
              GlStateManager.disableTexture2D();
@@ -80,7 +86,7 @@
              int j1 = this.func_148135_f();
  
              if (j1 > 0) {
-@@ -247,24 +246,8 @@
+@@ -247,24 +252,8 @@
                      l1 = this.top;
                  }
  
@@ -107,7 +113,7 @@
              }
  
              this.func_148142_b(mouseXIn, mouseYIn);
-@@ -420,17 +403,7 @@
+@@ -420,17 +409,7 @@
       * Overlays the background to hide scrolled items
       */
      protected void overlayBackground(int startY, int endY, int startAlpha, int endAlpha) {

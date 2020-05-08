@@ -41,17 +41,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Autotip {
 
   public static final Logger LOGGER = LogManager.getLogger("Autotip");
 
-  static final String MOD_ID = "autotip";
-  static final String NAME = "Autotip";
-  static final String VERSION = "3.0";
-  static final String ACCEPTED_VERSIONS = "[1.8, 1.12.2]";
+  static final String VERSION = "3.0.1";
 
   public static IChatComponent tabHeader;
 
@@ -148,7 +144,11 @@ public class Autotip {
 
     messageUtil = new MessageUtil(this);
     registerEvents(new EventClientTick(this));
+    taskManager = new TaskManager();
+    taskManager.schedule(this::setup, 0);
+  }
 
+  private void setup() {
     try {
       fileUtil = new FileUtil(this);
       gson = new GsonBuilder()
@@ -162,7 +162,6 @@ public class Autotip {
       reloadGlobalSettings();
       reloadLocale();
 
-      taskManager = new TaskManager();
       sessionManager = new SessionManager(this);
       statsManager = new StatsManager(this);
       migrationManager = new MigrationManager(this);
@@ -192,7 +191,9 @@ public class Autotip {
 
   public void reloadGlobalSettings() {
     SettingsReply reply = SettingsRequest.of(this).execute();
-    assert reply.isSuccess() : "Connection error while fetching global settings";
+    if (!reply.isSuccess()) {
+      throw new IllegalStateException("Connection error while fetching global settings");
+    }
     globalSettings = reply.getSettings();
   }
 

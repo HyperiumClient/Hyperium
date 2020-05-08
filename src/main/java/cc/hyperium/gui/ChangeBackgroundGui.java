@@ -1,6 +1,9 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
+import java.net.HttpURLConnection;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -66,11 +69,10 @@ public class ChangeBackgroundGui extends GuiScreen {
       if (mc.isFullScreen()) {
         mc.toggleFullscreen();
       }
-    }
-
-    if (keyCode == Keyboard.KEY_RETURN) {
+    } else if (keyCode == Keyboard.KEY_RETURN) {
       handleDownload();
     }
+
     super.keyTyped(typedChar, keyCode);
   }
 
@@ -103,9 +105,11 @@ public class ChangeBackgroundGui extends GuiScreen {
   private void handleResetBackground() {
     statusText = I18n.format("gui.changebackground.working");
     File file = new File(mc.mcDataDir, "customImage.png");
+
     if (file.exists()) {
       file.delete();
     }
+
     Settings.BACKGROUND = "1";
     statusText = I18n.format("gui.changebackground.done");
     mc.displayGuiScreen(prevGui);
@@ -123,17 +127,13 @@ public class ChangeBackgroundGui extends GuiScreen {
 
       if (!fileName.isEmpty()) {
         statusText = I18n.format("gui.changebackground.working");
-        InputStream inputStream;
-        OutputStream outputStream;
 
-        try {
-          inputStream = new FileInputStream(fileName);
-          outputStream = new FileOutputStream(new File(mc.mcDataDir, "customImage.png"));
+        try (InputStream inputStream = new FileInputStream(fileName);
+            OutputStream outputStream = new FileOutputStream(
+            new File(mc.mcDataDir, "customImage.png"))) {
           IOUtils.copy(inputStream, outputStream);
           Settings.BACKGROUND = "CUSTOM";
           statusText = I18n.format("gui.changebackground.done");
-          inputStream.close();
-          outputStream.close();
           mc.displayGuiScreen(prevGui);
         } catch (FileNotFoundException e) {
           statusText = "Invalid path";
@@ -164,15 +164,14 @@ public class ChangeBackgroundGui extends GuiScreen {
     }
 
     URL url;
-    URLConnection connection;
-    DataInputStream dataInputStream;
-    FileOutputStream fileOutputStream;
+    HttpURLConnection connection = null;
+    DataInputStream dataInputStream = null;
     byte[] fileData;
 
-    try {
+    try (FileOutputStream fileOutputStream = new FileOutputStream(new File(mc.mcDataDir, "customImage.png"));) {
       statusText = I18n.format("gui.changebackground.working");
       url = new URL(downloadUrlField.getText());
-      connection = url.openConnection();
+      connection = (HttpURLConnection) url.openConnection();
       connection.addRequestProperty("User-Agent",
           "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
       dataInputStream = new DataInputStream(connection.getInputStream());
@@ -182,8 +181,6 @@ public class ChangeBackgroundGui extends GuiScreen {
         fileData[q] = dataInputStream.readByte();
       }
 
-      dataInputStream.close();
-      fileOutputStream = new FileOutputStream(new File(mc.mcDataDir, "customImage.png"));
       fileOutputStream.write(fileData);
       fileOutputStream.close();
       Settings.BACKGROUND = "CUSTOM";
@@ -191,7 +188,19 @@ public class ChangeBackgroundGui extends GuiScreen {
       mc.displayGuiScreen(prevGui);
     } catch (Exception e) {
       statusText = I18n.format("gui.changebackground.downloaderror");
-      e.printStackTrace();
+      Hyperium.LOGGER.error("Failed downloading image for custom backgrounds.", e);
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+
+      try {
+        if (dataInputStream != null) {
+          dataInputStream.close();
+        }
+      } catch (Exception e) {
+        Hyperium.LOGGER.error("Failed closing DataInputStream when downloading image for custom backgrounds.", e);
+      }
     }
   }
 

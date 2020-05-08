@@ -14,7 +14,13 @@ public class GuiSlotHook {
   public static void overlayBackground(int startY, int endY) {
     GlStateManager.color(1f, 1f, 1f, 1f);
     ScaledResolution resolution = new ScaledResolution(mc);
-    mc.getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/" + Settings.BACKGROUND + ".png"));
+    String background = Settings.BACKGROUND;
+
+    if (background.equals("CUSTOM")) {
+      background = "1";
+    }
+
+    mc.getTextureManager().bindTexture(new ResourceLocation("hyperium", "textures/material/backgrounds/" + background + ".png"));
     int height = endY - startY;
     Gui.drawScaledCustomSizeModalRect(0,
         startY,

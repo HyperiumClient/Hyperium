@@ -19,7 +19,6 @@ package cc.hyperium.mods.blockoverlay;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.utils.BetterJsonObject;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -47,9 +46,8 @@ public class BlockOverlaySettings {
   }
 
   public void load() {
-    try {
+    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile))) {
       if (configFile.getParentFile().exists() && configFile.exists()) {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile));
         String stringBuilder = bufferedReader.lines().collect(Collectors.joining(""));
         BetterJsonObject json = new BetterJsonObject(stringBuilder);
         String overlayMode = json.optString("overlayMode");
@@ -69,8 +67,6 @@ public class BlockOverlaySettings {
         overlayBlue = (float) json.optDouble("overlayBlue");
         overlayAlpha = (float) json.optDouble("overlayAlpha");
         chromaSpeed = json.optInt("chromaSpeed");
-
-        bufferedReader.close();
       }
     } catch (Exception exception) {
       Hyperium.LOGGER.error("Error occurred while loading BlockOverlay configuration!");

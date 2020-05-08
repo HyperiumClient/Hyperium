@@ -260,7 +260,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
           button -> {
             try {
               HyperiumDesktop.INSTANCE
-                  .browse(new URI("https://purchase.sk1er.club/category/1050972"));
+                  .browse(new URI("https://store.sk1er.club/category/1050972"));
             } catch (Exception e) {
               Hyperium.LOGGER.error("Could not open link", e);
             }
@@ -848,7 +848,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
               + " credits but you only have "
               + remainingLevelheadCredits);
       Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(
-          "You can purchase more Levelhead credits here: https://purchase.sk1er.club/category/1050972");
+          "You can purchase more Levelhead credits here: https://store.sk1er.club/category/1050972");
       return;
     }
 
@@ -883,7 +883,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
 
       GuiYesNo gui = new GuiYesNo(this, "Purchase " + finalName, "Description:" +
           " " + description + ". This item may be purchased " + (single ? "one time" : "many times")
-          + ". Type: " + (display ? "Display" : "Extra Stat"),
+          + ". Type: Display" + (display ? "Display" : "Extra Stat"),
           "Purchase for "
               + cost + " credits", "Cancel", key.hashCode());
       Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(gui);

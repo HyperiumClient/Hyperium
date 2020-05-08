@@ -71,7 +71,7 @@ public class ChromaHUD extends AbstractMod {
 
   public void setup() {
     JsonHolder data = new JsonHolder();
-    try {
+    try (BufferedReader br = new BufferedReader(new FileReader(suggestedConfigurationFile))) {
       if (!suggestedConfigurationFile.exists()) {
         if (!suggestedConfigurationFile.getParentFile().exists()) {
           suggestedConfigurationFile.getParentFile().mkdirs();
@@ -80,11 +80,7 @@ public class ChromaHUD extends AbstractMod {
         saveState();
       }
 
-      FileReader fr = new FileReader(suggestedConfigurationFile);
-      BufferedReader br = new BufferedReader(fr);
       data = new JsonHolder(br.lines().collect(Collectors.joining()));
-      fr.close();
-      br.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -283,19 +279,20 @@ public class ChromaHUD extends AbstractMod {
           }
         }));
 
-
-      ChromaHUDApi.getInstance().registerTextConfig("SPEED",
-              new TextConfig(
-                      (guiTextField, displayItem) -> ((SpeedMeter) displayItem).setFormat(guiTextField.getText()),
-                      textTextField,
-                      (guiTextField, displayItem) -> guiTextField.setText(((SpeedMeter) displayItem).getFormat())));
-      ChromaHUDApi.getInstance().registerButtonConfig("SPEED",
-              new ButtonConfig((guiButton, displayItem) -> ((SpeedMeter) displayItem).cycleMode(),
-                      new GuiButton(0, 0, 0, "Cycle mode"),
-                      (guiButton, displayItem) -> ((SpeedMeter) displayItem).setMode(null)));
-      ChromaHUDApi.getInstance().registerButtonConfig("SPEED",
-              new ButtonConfig((guiButton, displayItem) -> ((SpeedMeter) displayItem).cycleSpeedUnit(),
-                      new GuiButton(2, 0, 0, "Cycle speed unit"),
-                      (guiButton, displayItem) -> ((SpeedMeter) displayItem).setSpeedUnit(null)));
+    ChromaHUDApi.getInstance().registerTextConfig("SPEED",
+        new TextConfig(
+            (guiTextField, displayItem) -> ((SpeedMeter) displayItem)
+                .setFormat(guiTextField.getText()),
+            textTextField,
+            (guiTextField, displayItem) -> guiTextField
+                .setText(((SpeedMeter) displayItem).getFormat())));
+    ChromaHUDApi.getInstance().registerButtonConfig("SPEED",
+        new ButtonConfig((guiButton, displayItem) -> ((SpeedMeter) displayItem).cycleMode(),
+            new GuiButton(0, 0, 0, "Cycle mode"),
+            (guiButton, displayItem) -> ((SpeedMeter) displayItem).setMode(null)));
+    ChromaHUDApi.getInstance().registerButtonConfig("SPEED",
+        new ButtonConfig((guiButton, displayItem) -> ((SpeedMeter) displayItem).cycleSpeedUnit(),
+            new GuiButton(2, 0, 0, "Cycle speed unit"),
+            (guiButton, displayItem) -> ((SpeedMeter) displayItem).setSpeedUnit(null)));
   }
 }

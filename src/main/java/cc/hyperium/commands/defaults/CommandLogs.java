@@ -21,15 +21,14 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.utils.HyperiumDesktop;
-import net.minecraft.client.Minecraft;
-
-import java.awt.*;
+import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
+import net.minecraft.client.Minecraft;
 
 public class CommandLogs implements BaseCommand {
 
@@ -46,18 +45,14 @@ public class CommandLogs implements BaseCommand {
   @Override
   public void onExecute(String[] args) {
     StringBuilder message = new StringBuilder();
-    try {
-      FileReader in = new FileReader(
-          new File(Minecraft.getMinecraft().mcDataDir, "logs" + File.separator + "latest.log"));
-      BufferedReader reader = new BufferedReader(in);
+    try (FileReader in = new FileReader(
+        new File(Minecraft.getMinecraft().mcDataDir, "logs" + File.separator + "latest.log"));
+        BufferedReader reader = new BufferedReader(in)) {
       String line;
 
       while ((line = reader.readLine()) != null) {
         message.append(line).append("\n");
       }
-
-      reader.close();
-      in.close();
     } catch (IOException e) {
       GeneralChatHandler.instance().sendMessage("Error whilst reading log.");
       e.printStackTrace();

@@ -163,9 +163,11 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
           I18n.format("menu.profile.credits", credits), 3, height - (versionOffset + 10), 0xFFFF00);
     }
 
+    GlStateManager.enableTexture2D();
     fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 95,
         new Color(0, 0, 0, 150).getRGB());
     fontRenderer.drawCenteredString(Metadata.getModid(), width / 2F, (height >> 1) - 96, -1);
+    GlStateManager.disableTexture2D();
 
     super.drawScreen(mouseX, mouseY, partialTicks);
 

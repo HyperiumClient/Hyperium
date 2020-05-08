@@ -397,13 +397,11 @@ public class Hyperium {
 
   /** Check the build id stored in build.txt, then apply it */
   private void createBuildId() {
-    InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
-    try {
+    try (InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt")) {
       if (resourceAsStream != null) {
-        BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
-        BUILD_ID = Integer.parseInt(br.readLine());
-        br.close();
-        resourceAsStream.close();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream))) {
+          BUILD_ID = Integer.parseInt(br.readLine());
+        }
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -417,17 +415,13 @@ public class Hyperium {
           if (Settings.PERSISTENT_CHAT) {
             File file = new File(folder, "chat.txt");
             if (file.exists()) {
-              try {
-                FileReader fr = new FileReader(file);
-                BufferedReader bufferedReader = new BufferedReader(fr);
+              try (FileReader fr = new FileReader(file);
+                  BufferedReader bufferedReader = new BufferedReader(fr)) {
                 String line;
 
                 while ((line = bufferedReader.readLine()) != null) {
                   Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
                 }
-
-                fr.close();
-                bufferedReader.close();
               } catch (Exception e) {
                 e.printStackTrace();
               }
@@ -445,15 +439,13 @@ public class Hyperium {
   private void createPreviousChatFile() {
     if (Settings.PERSISTENT_CHAT) {
       File file = new File(folder, "chat.txt");
-      try {
+
+      try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
         file.createNewFile();
-        FileWriter fileWriter = new FileWriter(file);
-        BufferedWriter bw = new BufferedWriter(fileWriter);
+
         for (String s : Minecraft.getMinecraft().ingameGUI.getChatGUI().getSentMessages()) {
           bw.write(s + "\n");
         }
-        bw.close();
-        fileWriter.close();
       } catch (IOException e) {
         e.printStackTrace();
       }

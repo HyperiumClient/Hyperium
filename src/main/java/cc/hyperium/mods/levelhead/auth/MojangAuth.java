@@ -50,7 +50,7 @@ public class MojangAuth {
     String session = Minecraft.getMinecraft().getSession().getToken();
     int statusCode = LoginUtil.joinServer(session, uuid.toString().replace("-", ""), hash);
 
-    if (statusCode != 204) {
+    if (statusCode / 100 != 2) {
       fail("Error during Mojang Auth (1) " + statusCode);
       return;
     }

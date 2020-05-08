@@ -87,7 +87,7 @@ public class ShopTab extends AbstractTab {
         () -> {
           try {
             HyperiumDesktop.INSTANCE
-                .browse(new URI("https://purchase.sk1er.club/category/1125808"));
+                .browse(new URI("https://store.sk1er.club/category/1125808"));
           } catch (Exception e) {
             Hyperium.LOGGER.error("Could not open link", e);
           }

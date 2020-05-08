@@ -21,8 +21,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +43,9 @@ public class DefaultConfig {
 
   public DefaultConfig(File configFile) {
     file = configFile;
-    try {
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
       if (configFile.exists()) {
-        FileReader fr = new FileReader(file);
-        BufferedReader br = new BufferedReader(fr);
         config = new JsonParser().parse(br.lines().collect(Collectors.joining())).getAsJsonObject();
-        fr.close();
-        br.close();
       } else {
         config = new JsonObject();
         saveFile();
@@ -57,13 +56,9 @@ public class DefaultConfig {
   }
 
   private void saveFile() {
-    try {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
       file.createNewFile();
-      FileWriter fw = new FileWriter(file);
-      BufferedWriter bw = new BufferedWriter(fw);
       bw.write(gson.toJson(config));
-      bw.close();
-      fw.close();
     } catch (Exception ignored) {
     }
   }

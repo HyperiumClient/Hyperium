@@ -28,16 +28,7 @@ import cc.hyperium.utils.HyperiumDesktop;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.RenderUtils;
 import cc.hyperium.utils.UUIDUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiYesNo;
-import net.minecraft.client.gui.GuiYesNoCallback;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,6 +39,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.imageio.ImageIO;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiYesNo;
+import net.minecraft.client.gui.GuiYesNoCallback;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 
 public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
@@ -70,6 +69,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
         Multithreading.runAsync(() -> {
           JsonHolder jsonHolder = capeAtlas.optJSONObject(s);
           HttpURLConnection connection = null;
+          InputStream is = null;
           try {
             URL url = new URL(jsonHolder.optString("url"));
             connection = (HttpURLConnection) url.openConnection();
@@ -79,15 +79,22 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
             connection.setReadTimeout(15000);
             connection.setConnectTimeout(15000);
             connection.setDoOutput(true);
-            InputStream is = connection.getInputStream();
+            is = connection.getInputStream();
             BufferedImage img = ImageIO.read(ImageIO.createImageInputStream(is));
             texturesImage.put(s, img);
-            is.close();
           } catch (IOException e) {
-            e.printStackTrace();
+            Hyperium.LOGGER.error("Failed downloading cape textures for the capes GUI.", e);
           } finally {
             if (connection != null) {
               connection.disconnect();
+            }
+
+            try {
+              if (is != null) {
+                is.close();
+              }
+            } catch (Exception e) {
+              Hyperium.LOGGER.error("Failed closing InputStream downloading cape textures for the capes GUI.", e);
             }
           }
         });
@@ -219,7 +226,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
       actions.put(block1, () -> {
         try {
-          HyperiumDesktop.INSTANCE.browse(new URI("https://purchase.sk1er.club/category/1125808"));
+          HyperiumDesktop.INSTANCE.browse(new URI("https://store.sk1er.club/category/1125808"));
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -390,6 +397,11 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
   @Override
   public void onGuiClosed() {
+    textures.clear();
+    texturesImage.clear();
+    ids.clear();
+    intMap.clear();
+
     super.onGuiClosed();
   }
 }

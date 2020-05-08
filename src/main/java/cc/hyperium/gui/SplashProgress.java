@@ -103,8 +103,6 @@ public class SplashProgress {
     GlStateManager.matrixMode(GL11.GL_MODELVIEW);
     GlStateManager.loadIdentity();
     GlStateManager.translate(0.0F, 0.0F, -2000.0F);
-    GlStateManager.disableLighting();
-    GlStateManager.disableFog();
     GlStateManager.disableDepth();
     GlStateManager.enableTexture2D();
 
@@ -133,8 +131,7 @@ public class SplashProgress {
         scaledresolution.getScaledHeight() * scaleFactor);
 
     // Update the texture to enable alpha drawing
-    GlStateManager.enableAlpha();
-    GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
+    GlStateManager.disableTexture2D();
 
     // Update the users screen
     Minecraft.getMinecraft().updateDisplay();

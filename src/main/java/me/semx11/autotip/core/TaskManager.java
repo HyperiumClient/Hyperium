@@ -10,16 +10,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class TaskManager {
 
-  private final ExecutorService executor;
-  private final ScheduledExecutorService scheduler;
-
-  private final Map<TaskType, Future> tasks;
-
-  public TaskManager() {
-    executor = Executors.newCachedThreadPool(getFactory("AutotipThread"));
-    scheduler = Executors.newScheduledThreadPool(3, getFactory("AutotipScheduler"));
-    tasks = new ConcurrentHashMap<>();
-  }
+  private final ExecutorService executor = Executors.newCachedThreadPool(getFactory("AutotipThread"));
+  private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(3, getFactory("AutotipScheduler"));
+  private final Map<TaskType, Future<?>> tasks = new ConcurrentHashMap<>();
 
   public ExecutorService getExecutor() {
     return executor;
@@ -55,7 +48,7 @@ public class TaskManager {
     if (tasks.containsKey(type)) {
       return;
     }
-    ScheduledFuture future = scheduler.scheduleAtFixedRate(command, delay, period, SECONDS);
+    ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(command, delay, period, SECONDS);
     tasks.put(type, future);
     catchFutureException(type, future);
   }
@@ -67,7 +60,7 @@ public class TaskManager {
     }
   }
 
-  private void catchFutureException(TaskType type, Future future) {
+  private void catchFutureException(TaskType type, Future<?> future) {
     executor.execute(() -> {
       try {
         future.get();

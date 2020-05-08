@@ -34,7 +34,7 @@ import java.io.FileInputStream;
 public class GuiHyperiumScreen extends GuiScreen {
 
   private static ResourceLocation dynamicBackgroundTexture;
-  private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
+  private static final File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
   GuiButton serverButton;
 
   public static void renderBackgroundImage() {

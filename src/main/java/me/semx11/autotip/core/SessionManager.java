@@ -19,7 +19,6 @@ import me.semx11.autotip.event.impl.EventClientConnection;
 import me.semx11.autotip.stats.StatsRange;
 import me.semx11.autotip.util.ErrorReport;
 import me.semx11.autotip.util.HashUtil;
-import me.semx11.autotip.util.VersionInfo;
 import net.minecraft.util.Session;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
@@ -29,7 +28,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -84,26 +82,6 @@ public class SessionManager {
     return nextTipWave;
   }
 
-  public void checkVersions() {
-    List<VersionInfo> versions = autotip.getGlobalSettings()
-        .getHigherVersionInfo(autotip.getVersion());
-    if (versions.size() > 0) {
-      messageUtil.separator();
-      messageUtil.getKeyHelper("update")
-          .withKey("message", context -> context.getBuilder()
-              .setUrl(context.getKey("url"))
-              .setHover(context.getKey("hover"))
-              .send())
-          .sendKey("changelogHeader");
-      versions.forEach(info -> {
-        messageUtil.sendKey("update.version", info.getVersion(),
-            info.getSeverity().toColoredString());
-        info.getChangelog().forEach(s -> messageUtil.sendKey("update.logEntry", s));
-      });
-      messageUtil.separator();
-    }
-  }
-
   public void login() {
     Session session = autotip.getMinecraft().getSession();
     GameProfile profile = session.getProfile();
@@ -112,7 +90,7 @@ public class SessionManager {
     String serverHash = HashUtil.hash(uuid + HashUtil.getNextSalt());
 
     int statusCode = authenticate(session.getToken(), uuid, serverHash);
-    if (statusCode != 204) {
+    if (statusCode / 100 != 2) {
       messageUtil.send("&cError {} during authentication: Session servers down?", statusCode);
       return;
     }
