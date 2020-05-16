@@ -539,7 +539,12 @@
          int i = 0;
          String s = null;
  
-@@ -2572,6 +2699,12 @@
+@@ -2568,10 +2695,16 @@
+     }
+ 
+     public void dispatchKeypresses() {
+-        int i = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() : Keyboard.getEventKey();
++        int i = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
  
          if (i != 0 && !Keyboard.isRepeatEvent()) {
              if (!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L) {
