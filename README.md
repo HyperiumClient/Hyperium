@@ -101,6 +101,8 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 - When you pull anything, make sure you rerun the `setup` task as mentioned in 'Step 3 - Decompiling'.
 
 ##### Setting up hot reload with Intellij
+<!-- so nobody ever has to go through my pain again -sirnapkin -->
+**This requires JDKu181 or lower!**
 - Download the DCEVM jar installer from https://github.com/dcevm/dcevm/releases/.
 - Run the jar as administrator by opening up a terminal as admin, and change your working directory to the folder where you downloaded the file.
 - Type `java -jar <jar name>` and replace `<jar name>` with the file name that you downloaded.
@@ -108,7 +110,7 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 - After it finishes installing, open up Intellij and go to your run configuration.
 - Add `-XXaltjvm=dcevm` to your VM options.
 - Make sure the JRE matches the java version that you installed DCEVM on. then click Apply and Ok.
-- Run the client in debug mode, and to reload any changes, press `CTRL + SHIFT + F9`.
+- Run the client in debug mode, and to reload any changes, press `CTRL + SHIFT + F9` if using the default keymap. If using another keymap, run Build -> Rebuild Project in the Main Menu to hot reload.
 
 ### Addon Development ###
 To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
