@@ -18,12 +18,23 @@
 package cc.hyperium.launch.patching;
 
 import cc.hyperium.launch.deobf.DeobfAdapter;
-import cc.hyperium.launch.deobf.DeobfRemapper;
+import cc.hyperium.launch.deobf.DeobfTransformer;
 import cc.hyperium.launch.patching.conflicts.*;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.nothome.delta.GDiffPatcher;
+import lzma.sdk.lzma.Decoder;
+import lzma.streams.LzmaInputStream;
+import net.minecraft.launchwrapper.LaunchClassLoader;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,16 +48,6 @@ import java.util.jar.JarInputStream;
 import java.util.regex.Pattern;
 import java.util.zip.Adler32;
 import java.util.zip.ZipEntry;
-import lzma.sdk.lzma.Decoder;
-import lzma.streams.LzmaInputStream;
-import net.minecraft.launchwrapper.LaunchClassLoader;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.tree.ClassNode;
 
 @SuppressWarnings("UnstableApiUsage")
 public class PatchManager {
@@ -76,16 +77,15 @@ public class PatchManager {
         if (IGNORED_OF_CHANGES.contains(className)) {
           classData = getVanillaClassData(className, classData);
         } else if (transformers.containsKey(className)) {
-          System.out.println("crab");
           ClassReader reader = new ClassReader(classData);
           ClassNode node = new ClassNode();
-          reader.accept(new DeobfAdapter(node), ClassReader.EXPAND_FRAMES);
+          reader.accept(new DeobfAdapter(node, DeobfTransformer.REMAPPER), ClassReader.EXPAND_FRAMES);
           ClassWriter writer =
               new PatchDeobfClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
           transformers.get(className.replace('.', '/')).transform(node).accept(writer);
           return writer.toByteArray();
         } else {
-          throw new IllegalStateException("crab - " + className);
+          throw new IllegalStateException("Failed to patch class: " + className);
         }
       }
     }
@@ -111,8 +111,7 @@ public class PatchManager {
 
   private static void registerTransformers(ConflictTransformer... transformers) {
     for (ConflictTransformer transformer : transformers) {
-      PatchManager.transformers.put(
-          DeobfRemapper.INSTANCE.unmap(transformer.getClassName()), transformer);
+      PatchManager.transformers.put(DeobfTransformer.unmap(transformer.getClassName()), transformer);
     }
   }
 
@@ -153,17 +152,17 @@ public class PatchManager {
       // probably in dev env, but check just in case
       if (classLoader.getClassBytes("net.minecraft.client.Minecraft") == null) {
         throw new IllegalStateException(
-            "Couldn't find crab files in production. Something is very wrong.");
+            "Couldn't find patch files in production. Something is very wrong.");
       } else {
         LOGGER.warn(
-            "Failed to find crabs, but client is probably in dev env so we're skipping them");
+            "Failed to find patches, but client is probably in dev env so we're skipping them");
       }
     } else {
       // Load all patches. There's probably some performance/memory usage balancing needed here, but
       // at the moment it loads everything into memory
       // and once they're used they get deleted (or at least removed from map, so gc needed to
       // actually delete them)
-      LOGGER.info("Loading crab");
+      LOGGER.info("Loading patch");
       long start = System.nanoTime();
       Pattern patchFilePattern = Pattern.compile("binpatch/client/.*.binpatch");
       LzmaInputStream decompressedInput = new LzmaInputStream(patchArchive, new Decoder());
@@ -183,12 +182,12 @@ public class PatchManager {
             jis.closeEntry();
           }
         } catch (IOException ex) {
-          LOGGER.warn("Failed to load a crab", ex);
+          LOGGER.warn("Failed to load a patch", ex);
         }
       }
       long end = System.nanoTime();
       LOGGER.info(
-          "Loaded {} crabs in {} milliseconds",
+          "Loaded {} patches in {} milliseconds",
           patches.size(),
           ((double) end - (double) start) / 1_000_000.0);
     }

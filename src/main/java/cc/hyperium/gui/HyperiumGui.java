@@ -42,7 +42,7 @@ import java.util.function.Consumer;
 public abstract class HyperiumGui extends GuiScreen {
 
   public static ResourceLocation background = new ResourceLocation("hyperium",
-      "textures/material/backgrounds/" + Settings.BACKGROUND + ".png");
+          "textures/material/backgrounds/" + Settings.BACKGROUND + ".png");
   private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
   private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
   private final Map<String, GuiButton> nameMap = new HashMap<>();
@@ -64,7 +64,7 @@ public abstract class HyperiumGui extends GuiScreen {
 
   public static float easeOut(float current, float goal, float jump, float speed) {
     return Math.floor(Math.abs(goal - current) / jump) > 0 ? current + (goal - current) / speed
-        : goal;
+            : goal;
   }
 
   /**
@@ -87,14 +87,14 @@ public abstract class HyperiumGui extends GuiScreen {
       throw new IllegalArgumentException("String width cannot be less than or equal to 0.");
     } else if (str == null || str.length() <= 0) {
       throw new IllegalArgumentException(
-          "String cannot be null and cannot have a length less than or equal to 0.");
+              "String cannot be null and cannot have a length less than or equal to 0.");
     } else {
       if (font == null) {
         if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().fontRendererObj != null) {
           font = Minecraft.getMinecraft().fontRendererObj;
         } else {
           throw new IllegalStateException(
-              "Param \"font\" is null and default font renderer could not be used!");
+                  "Param \"font\" is null and default font renderer could not be used!");
         }
       }
 
@@ -160,7 +160,7 @@ public abstract class HyperiumGui extends GuiScreen {
     GlStateManager.enableBlend();
     GlStateManager.disableAlpha();
     GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE,
-        GL11.GL_ZERO);
+            GL11.GL_ZERO);
     GlStateManager.shadeModel(GL11.GL_SMOOTH);
     Tessellator tessellator = Tessellator.getInstance();
     WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -199,8 +199,8 @@ public abstract class HyperiumGui extends GuiScreen {
       return;
     }
     if (lastResolution.getScaledWidth() != current.getScaledWidth()
-        || lastResolution.getScaledHeight() != current.getScaledHeight()
-        || lastResolution.getScaleFactor() != current.getScaleFactor()) {
+            || lastResolution.getScaledHeight() != current.getScaledHeight()
+            || lastResolution.getScaleFactor() != current.getScaleFactor()) {
       rePack();
     }
 
@@ -227,9 +227,9 @@ public abstract class HyperiumGui extends GuiScreen {
   protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
     super.mouseClicked(mouseX, mouseY, mouseButton);
     mouseX = (int) (mouseX * ((float) Minecraft.getMinecraft().gameSettings.guiScale)
-        / (float) guiScale);
+            / (float) guiScale);
     mouseY = (int) (mouseY * ((float) Minecraft.getMinecraft().gameSettings.guiScale)
-        / (float) guiScale);
+            / (float) guiScale);
 
     for (Map.Entry<GuiBlock, Runnable> entry : actions.entrySet()) {
       if (entry.getKey().isMouseOver(mouseX, mouseY)) {
@@ -243,9 +243,9 @@ public abstract class HyperiumGui extends GuiScreen {
   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
     actions.clear();
     Gui.drawRect(0, 0,
-        ResolutionUtil.current().getScaledWidth() * ResolutionUtil.current().getScaleFactor(),
-        ResolutionUtil.current().getScaledHeight() * ResolutionUtil.current().getScaleFactor(),
-        new Color(0, 0, 0, alpha).getRGB());
+            ResolutionUtil.current().getScaledWidth() * ResolutionUtil.current().getScaleFactor(),
+            ResolutionUtil.current().getScaledHeight() * ResolutionUtil.current().getScaleFactor(),
+            new Color(0, 0, 0, alpha).getRGB());
     super.drawScreen(mouseX, mouseY, partialTicks);
   }
 
@@ -278,7 +278,7 @@ public abstract class HyperiumGui extends GuiScreen {
   }
 
   protected void reg(String name, GuiButton button, Consumer<GuiButton> consumer,
-      Consumer<GuiButton> tick) {
+                     Consumer<GuiButton> tick) {
     buttonList.add(button);
     clicks.put(button, consumer);
     updates.put(button, tick);
@@ -288,13 +288,13 @@ public abstract class HyperiumGui extends GuiScreen {
   protected abstract void pack();
 
   protected void drawScaledText(String text, int trueX, int trueY, double scaleFac, int color,
-      boolean shadow, boolean centered) {
+                                boolean shadow, boolean centered) {
     GlStateManager.pushMatrix();
     GlStateManager.scale(scaleFac, scaleFac, scaleFac);
     fontRendererObj.drawString(text,
-        (float) (((double) trueX) / scaleFac) - (centered ? fontRendererObj.getStringWidth(text)
-            / 2f : 0),
-        (float) (((double) trueY) / scaleFac), color, shadow);
+            (float) (((double) trueX) / scaleFac) - (centered ? fontRendererObj.getStringWidth(text)
+                    / 2f : 0),
+            (float) (((double) trueY) / scaleFac), color, shadow);
     GlStateManager.scale(1 / scaleFac, 1 / scaleFac, 1 / scaleFac);
     GlStateManager.popMatrix();
   }
@@ -303,4 +303,3 @@ public abstract class HyperiumGui extends GuiScreen {
     return C.BOLD + first + C.GRAY + second;
   }
 }
-// 🦀
