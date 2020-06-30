@@ -1,8 +1,7 @@
 package cc.hyperium.launch.patching;
 
-import cc.hyperium.launch.deobf.DeobfRemapper;
+import cc.hyperium.launch.deobf.DeobfTransformer;
 import net.minecraft.launchwrapper.Launch;
-import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
 public class PatchDeobfClassWriter extends ClassWriter {
@@ -11,18 +10,14 @@ public class PatchDeobfClassWriter extends ClassWriter {
     super(flags);
   }
 
-  public PatchDeobfClassWriter(ClassReader classReader, int flags) {
-    super(classReader, flags);
-  }
-
   @Override
   protected String getCommonSuperClass(String type1, String type2) {
     Class<?> c, d;
     try {
       c = Class
-          .forName(DeobfRemapper.INSTANCE.map(type1).replace('/', '.'), false, Launch.classLoader);
+          .forName(DeobfTransformer.REMAPPER.map(type1).replace('/', '.'), false, Launch.classLoader);
       d = Class
-          .forName(DeobfRemapper.INSTANCE.map(type2).replace('/', '.'), false, Launch.classLoader);
+          .forName(DeobfTransformer.REMAPPER.map(type2).replace('/', '.'), false, Launch.classLoader);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

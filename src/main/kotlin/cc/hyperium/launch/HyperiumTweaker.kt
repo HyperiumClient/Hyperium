@@ -9,6 +9,7 @@ import java.io.File
 import java.io.IOException
 import java.net.MalformedURLException
 
+@Suppress("unused")
 class HyperiumTweaker : ITweaker {
 
     private val hyperiumArguments = arrayListOf<String>()
@@ -29,6 +30,9 @@ class HyperiumTweaker : ITweaker {
     override fun getLaunchTarget() = "net.minecraft.client.main.Main"
 
     override fun injectIntoClassLoader(classLoader: LaunchClassLoader) {
+        val inDevEnv = classLoader.getClassBytes("club.ampthedev.mcgradle.Properties") != null
+        val isObfuscated = classLoader.getClassBytes("net.minecraft.client.Minecraft") == null
+
         Hyperium.LOGGER.info("Initialising patcher...")
         try {
             PatchManager.INSTANCE.setup(classLoader, false)
@@ -38,12 +42,9 @@ class HyperiumTweaker : ITweaker {
         }
 
         classLoader.registerTransformer("cc.hyperium.launch.patching.PatchTransformer")
-        try {
-            if (Launch.classLoader.getClassBytes("ave") != null) {
-                // we are in obfuscated environment. nobody wants obfuscation. begone
-                classLoader.registerTransformer("cc.hyperium.launch.deobf.DeobfTransformer")
-            }
-        } catch (ignored: IOException) {
+        if (isObfuscated) {
+            // we are in obfuscated environment. nobody wants obfuscation. begone
+            classLoader.registerTransformer("cc.hyperium.launch.deobf.DeobfTransformer")
         }
 
         try {

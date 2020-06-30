@@ -1,11 +1,12 @@
 buildscript {
     repositories {
-        maven { url 'https://maven.ampthedev.club' }
+        maven { url 'https://jitpack.io' }
         maven { url 'https://files.minecraftforge.net/maven' }
         mavenCentral()
     }
     dependencies {
-        classpath 'club.ampthedev.mcgradle:MCGradle:2.0.10'
+        // MCGradle 2.0.10
+        classpath 'com.github.asbyth:MCGradle:09f84c1c42906c19e0f7902512a9215481279b4e'
     }
 }
 
