@@ -100,17 +100,37 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 - If you've made any changes to Minecraft, make sure you run `generatePatches` as mentioned in 'Changing Minecraft source code'
 - When you pull anything, make sure you rerun the `setup` task as mentioned in 'Step 3 - Decompiling'.
 
-##### Setting up hot reload with Intellij
-<!-- so nobody ever has to go through my pain again -sirnapkin -->
-**This requires JDKu181 or lower!**
-- Download the DCEVM jar installer from https://github.com/dcevm/dcevm/releases/.
-- Run the jar as administrator by opening up a terminal as admin, and change your working directory to the folder where you downloaded the file.
+#### Setting up hot reload with IntelliJ  
+<!-- rewritten to explain more stuff, also to talk about trava dcevm -->
+<!-- i call it "DCEVM fork" to differentiate it from the original, old DCEVM fork. since trava is also a fork of the fork, i don't want to to get confusing, so i'm just calling it the trava dcevm -->
+**Preresquisites:**  
+- The appropriate (Open)JDK version installed. This will likely be either 8u181 or 8u232.
+- The correct DCEVM installer. For Windows users, this will be the [DCEVM fork](https://github.com/dcevm/dcevm/releases), and for Mac or Linux Users this can be either the aforementioned fork or the [Trava DCEVM](https://github.com/TravaOpenJDK/trava-jdk-8-dcevm/releases). 
+
+**Windows Installation**
+- Download the [latest DCEVM fork installer](https://github.com/dcevm/dcevm/releases/latest).
+- Run the jar as administrator by opening up Command Prompt as admin, and change your working directory to the folder where you downloaded the file.
 - Type `java -jar <jar name>` and replace `<jar name>` with the file name that you downloaded.
-- When the installer opens up, choose your java installation directory and click, `Install DCEVM as altjvm`.
-- After it finishes installing, open up Intellij and go to your run configuration.
+- When the installer opens up, choose the Java version that you installed (most likely 8u181) and click, `Install DCEVM as altjvm`.
+	- If it says "Yes (Could not get dceversion of \<path\>.)" then that means you likely have the wrong JDK version. Start over, making sure to get JDK 181 or lower. 
+
+**Linux / OSX Installation**
+- Download the [latest Trava DCEVM release](https://github.com/TravaOpenJDK/trava-jdk-8-dcevm/releases/latest). Make sure to download the .tar.gz file corresponding to your OS.
+- Extract the tar.gz file (the tar command is `tar -xzf java8-openjdk-dcevm-<os>.tar.gz`).
+- Locate your JVM path. Not the executable, but the libraries and code. For example, on Arch Linux it is `/usr/lib/jvm/java-8-openjdk/`. Note for the following steps you will need superuser privileges.
+- Create a new folder in `<JVM Path>/jre/lib/amd64` named `dcevm`.
+- Copy from the extracted tar.gz the file at `<extracted TGZ>/jre/lib/amd64/server/libjvm.so` into the `dcevm` folder you created. For example, on Arch Linux the file would be located at `/usr/lib/jvm/java-8-openjdk/jre/lib/amd64/dcevm/libjvm.so`. 
+
+**Usage**
+- After you finish the installation, open up IntelliJ and go to your run configuration.
 - Add `-XXaltjvm=dcevm` to your VM options.
 - Make sure the JRE matches the java version that you installed DCEVM on. then click Apply and Ok.
-- Run the client in debug mode, and to reload any changes, press `CTRL + SHIFT + F9` if using the default keymap. If using another keymap, run Build -> Rebuild Project in the Main Menu to hot reload.
+- Run the client in debug mode, and to reload any changes, go to the top menu, and run Build -> Rebuild Project. It is recommended that you move the keybinding for Recompile File (also called just Rebuild, default keybinding `CTRL + SHIFT + F9`) to Rebuild Project, as it is quite rare that you would only want to recompile one file. 
+
+**Notes**
+- It may be possible to use the Trava DCEVM on Windows by compiling it manually for Windows. However, this is beyond the scope of the guide.
+- Additionally, it may be possible to use the DCEVM fork installer on Mac or Linux. One would have to follow the Windows instructions but with the Linux Terminal & superuser. 
+
 
 ### Addon Development ###
 To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
