@@ -100,7 +100,7 @@ Hyperium is licensed under the GNU Lesser General Public License. You can view i
 - If you've made any changes to Minecraft, make sure you run `generatePatches` as mentioned in 'Changing Minecraft source code'
 - When you pull anything, make sure you rerun the `setup` task as mentioned in 'Step 3 - Decompiling'.
 
-#### Setting up hot reload with IntelliJ  
+### Setting up hot reload with IntelliJ  
 <!-- rewritten to explain more stuff, also to talk about trava dcevm -->
 <!-- i call it "DCEVM fork" to differentiate it from the original, old DCEVM fork. since trava is also a fork of the fork, i don't want to to get confusing, so i'm just calling it the trava dcevm -->
 **Preresquisites:**  
