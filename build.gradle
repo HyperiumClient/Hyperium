@@ -135,6 +135,10 @@ jar {
         }
     }
     exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    // Exclude kotlin metadata files that break the ability to use Kotlin for Addon-Workspace addons. See https://youtrack.jetbrains.com/issue/KT-25709#focus=Comments-27-3752033.0-0
+    exclude '**/*.kotlin_metadata'
+    exclude '**/*.kotlin_module'
+    exclude '**/*.kotlin_builtins'
 }
 
 jar {
