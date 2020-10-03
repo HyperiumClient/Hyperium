@@ -19,7 +19,6 @@ package cc.hyperium.mixins.client.entity;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.entity.FovUpdateEvent;
-import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
 import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.nickhider.config.NickHiderConfig;
 import com.mojang.authlib.GameProfile;
@@ -36,32 +35,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractClientPlayer.class)
 public abstract class MixinAbstractClientPlayer extends EntityPlayer {
 
-    private HyperiumCapeHandler hook;
 
     public MixinAbstractClientPlayer(World worldIn, GameProfile gameProfileIn) {
         super(worldIn, gameProfileIn);
-    }
-
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void init(World worldIn, GameProfile playerProfile, CallbackInfo callbackInfo) {
-        hook = new HyperiumCapeHandler(playerProfile);
-    }
-
-    /**
-     * @author - Kevin & Sk1er
-     * @reason - Custom Cape Support
-     */
-    @Inject(method = "getLocationCape", at = @At("HEAD"), cancellable = true)
-    private void getHyperiumCape(CallbackInfoReturnable<ResourceLocation> cir) {
-        if (hook.getLocationCape() != null) {
-            cir.setReturnValue(hook.getLocationCape());
-        }
     }
 
     /**

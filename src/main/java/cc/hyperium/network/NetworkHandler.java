@@ -22,7 +22,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.PostConfigHandler;
 import cc.hyperium.config.PreSaveHandler;
-import cc.hyperium.gui.CapesGui;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.levelhead.guis.CustomLevelheadConfigurer;
 import cc.hyperium.netty.INetty;
@@ -118,12 +117,6 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
                 Hyperium.INSTANCE.getHandlers().getFlipHandler().state(uuid, jsonHolder.optInt("flip_state"));
             } else {
                 Hyperium.INSTANCE.getHandlers().getFlipHandler().state(uuid, 0);
-            }
-        } else if (type.equalsIgnoreCase("refresh_cosmetics")) {
-            if (Minecraft.getMinecraft().currentScreen instanceof CapesGui) {
-                ((CapesGui) Minecraft.getMinecraft().currentScreen).updatePurchases();
-            } else {
-                PurchaseApi.getInstance().refreshSelf();
             }
         } else if (type.equalsIgnoreCase("custom_levelhead_success")) {
             if (Minecraft.getMinecraft().currentScreen instanceof CustomLevelheadConfigurer)

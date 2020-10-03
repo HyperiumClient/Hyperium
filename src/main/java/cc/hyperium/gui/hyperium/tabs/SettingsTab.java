@@ -21,7 +21,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditCrosshair;
 import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSettings;
 import cc.hyperium.config.*;
-import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.hyperium.RGBFieldSet;
 import cc.hyperium.gui.hyperium.components.*;
@@ -79,9 +78,6 @@ public class SettingsTab extends AbstractTab {
                 }
             }
         }
-
-        // Link to capes GUI.
-        apply(new LinkComponent(this, Collections.emptyList(), "Youtuber Capes", new CapesGui()), false, Category.COSMETICS, items);
 
         // Link to sidebar mod's gui
         apply(new LinkComponent(this, Collections.emptyList(), "Sidebar Mod",

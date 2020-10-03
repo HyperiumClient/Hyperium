@@ -22,7 +22,6 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.network.PurchaseLoadEvent;
 import cc.hyperium.event.world.SpawnpointChangeEvent;
-import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.packages.EarsCosmetic;
 import cc.hyperium.utils.JsonHolder;
@@ -40,7 +39,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -64,16 +62,11 @@ public class PurchaseApi {
         }
 
         getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> Hyperium.LOGGER.info("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
-        Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));
         getSelf();
     }
 
     public static PurchaseApi getInstance() {
         return instance;
-    }
-
-    public JsonHolder getCapeAtlas() {
-        return capeAtlas;
     }
 
     @InvokeEvent
@@ -200,6 +193,5 @@ public class PurchaseApi {
         HyperiumPurchase value = new HyperiumPurchase(uuid, get(url + uuid.toString()));
         EventBus.INSTANCE.post(new PurchaseLoadEvent(uuid, value, true));
         purchasePlayers.put(uuid, value);
-        HyperiumCapeHandler.LOCATION_CACHE.clear();
     }
 }

@@ -18,7 +18,6 @@
 package cc.hyperium.gui.hyperium.tabs;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.ParticleGui;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.hyperium.components.AbstractTab;
@@ -71,8 +70,6 @@ public class ShopTab extends AbstractTab {
             "Total Credits: " + personData.optInt("total_credits")));
         infoTab.addChild(new LabelComponent(this, new ArrayList<>(),
             "Remaining Credits: " + personData.optInt("remaining_credits")));
-        infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Capes",
-            () -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new CapesGui())));
         infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Particles",
             () -> new ParticleGui().show()));
         infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Open in browser",
@@ -104,7 +101,7 @@ public class ShopTab extends AbstractTab {
 
         cosmeticCallback.getKeys().forEach(key -> {
             JsonHolder cosmetic = cosmeticCallback.optJSONObject(key);
-            if (cosmetic.optBoolean("cape") || key.toLowerCase().startsWith("particle") || cosmetic
+            if (key.toLowerCase().startsWith("particle") || cosmetic
                 .optString("name").toLowerCase().endsWith("animation")) {
                 return;
             }
